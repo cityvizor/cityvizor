@@ -3,7 +3,9 @@
 /aot
 /tmp
 /app/**/*.js
-/app/**/*.map
+/app/**/*.js.map
+/index.js
+/index.js.map
 
 # dependencies
 /node_modules
