@@ -13,12 +13,12 @@ export class MoneyPipe implements PipeTransform {
 			if(value > 950){value = value / 1000;add = " mld.";}
 		}
 		
-		if(decimal) value = Math.round(value * Math.pow(10,decimal)) / Math.pow(10,decimal);
+		if(decimal !== false) value = Math.round(value * Math.pow(10,decimal)) / Math.pow(10,decimal);
 		
 		var parts = value.toString().split(".");
 		parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 		
-		if(decimal && parts[1] && parts[1].length < decimal) parts[1] = String(parts[1] + "0".repeat(decimal)).slice(0,decimal);
+		if(decimal !== false && parts[1] && parts[1].length < decimal) parts[1] = String(parts[1] + "0".repeat(decimal)).slice(0,decimal);
 		
 		return parts.join(",") + add;
 	}

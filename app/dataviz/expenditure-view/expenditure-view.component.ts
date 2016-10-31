@@ -21,8 +21,6 @@ export class ExpenditureViewComponent implements OnInit {
 	
 	year: number;
 
-	groups: Array<{id: string,title:string, color:string}> = [];
-	
 	data = {
 		groups: [],
 		groupIndex: {},
@@ -48,8 +46,7 @@ export class ExpenditureViewComponent implements OnInit {
 		this.route.parent.params.forEach((params: Params) => {
 			this._ds.getBudget(params["id"],this.year).then(data => this.loadBudget(data));
 			this._ds.getExpenditures(params["id"],this.year).then(data => this.loadExpenditures(data));
-		});		
-		this._ds.getBudgetGroups().then(groups => this.groups = groups);
+		});
 	}
 	
 	getGroup(paragraphId){
@@ -142,8 +139,6 @@ export class ExpenditureViewComponent implements OnInit {
 			if(paragraph.budgetAmount > group.maxBudgetAmount) group.maxBudgetAmount = paragraph.budgetAmount;
 
 		});
-
-		console.log(data);
 	}
 	
 	loadExpenditures(expenditureData){
@@ -192,8 +187,6 @@ export class ExpenditureViewComponent implements OnInit {
 		});
 		
 		this.sortData('expenditureAmount');
-
-		console.log(data);
 	};
 
 }

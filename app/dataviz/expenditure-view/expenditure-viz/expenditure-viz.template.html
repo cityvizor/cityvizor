@@ -2,12 +2,27 @@
 	<svg [attr.width]="drawingSize" [attr.height]="drawingSize">
 		
 		<g *ngFor="let group of groups; let i = index">
-			<path [attr.d]="getGroupStripe(group, i)" stroke="#fff" stroke-width="2" [attr.fill]="group.color" />
-			<path [attr.d]="getBgStripe(i)" stroke-width="0" [attr.fill]="group.color" class="bgstripe" (mouseover)="hoverGroup=group" (mouseout)="hoverGroup=null" (click)="selectedGroup=group" />
+			<path [attr.d]="getEStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#f00' : '#09f'" />
+			<path [attr.d]="getBStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#f00' : '#f90'" />
+			
+			<path [attr.d]="getStripePath(i,0,1)" stroke-width="0" fill="#09f" class="bgstripe" (mouseover)="hoverGroup=group" (mouseout)="hoverGroup=null" (click)="selectGroup(group)" />
 		</g>
 	</svg>
 </div>
 
 <div *ngIf="selectedGroup">
-	<h2>{{selectedGroup.title}}</h2>
+	<h4>{{selectedGroup.title}}</h4>
+	
+	<div *ngIf="data.groupIndex[selectedGroup.id]">
+		<div *ngFor="let paragraph of data.groupIndex[selectedGroup.id].paragraphs">
+			<h5>{{paragraph.name}}</h5>
+			
+			<table class="viztable">
+				<tr *ngFor="let event of paragraph.expenditureEvents">
+					<th>{{event.name}}</th>
+					<td>{{event.expenditureAmount | money:0:true}} Kč</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </div>
