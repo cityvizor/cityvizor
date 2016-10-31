@@ -1,0 +1,132 @@
+body {
+	background-color: rgba(0, 0, 0, .1);
+}
+
+h1,
+h2,
+h3 {
+	margin-top: 0;
+}
+
+#loading {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 300px;
+	height: 300px;
+	margin: -150px 0 0 -150px;
+	background-color: #fff;
+	border-radius: 150px;
+	/*-webkit-animation: loading-bounce 4.0s infinite ease-in-out;
+  animation: loading-bounce 4.0s infinite ease-in-out;*/
+	-webkit-animation-name: example;
+	/* Chrome, Safari, Opera */
+	-webkit-animation-duration: 4s;
+	/* Chrome, Safari, Opera */
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-name: example;
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+}
+
+
+/* Chrome, Safari, Opera */
+
+@-webkit-keyframes example {
+	0% {
+		box-shadow: 20px 0px 0px rgba(255, 255, 255, .5), -20px 0px 0px rgba(255, 255, 255, .5), 0px 20px 0px rgba(255, 255, 255, .5), 0px -20px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5);
+	}
+	50% {
+		box-shadow: 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 15px 15px 0px rgba(255, 255, 255, .5), -15px -15px 0px rgba(255, 255, 255, .5), -15px 15px 0px rgba(255, 255, 255, .5), 15px -15px 0px rgba(255, 255, 255, .5);
+	}
+	100% {
+		box-shadow: 20px 0px 0px rgba(255, 255, 255, .5), -20px 0px 0px rgba(255, 255, 255, .5), 0px 20px 0px rgba(255, 255, 255, .5), 0px -20px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5all);
+	}
+}
+
+
+/* standard */
+
+@keyframes example {
+	0% {
+		box-shadow: 20px 0px 0px rgba(255, 255, 255, .5), -20px 0px 0px rgba(255, 255, 255, .5), 0px 20px 0px rgba(255, 255, 255, .5), 0px -20px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5);
+	}
+	50% {
+		box-shadow: 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 15px 15px 0px rgba(255, 255, 255, .5), -15px -15px 0px rgba(255, 255, 255, .5), -15px 15px 0px rgba(255, 255, 255, .5), 15px -15px 0px rgba(255, 255, 255, .5);
+	}
+	100% {
+		box-shadow: 20px 0px 0px rgba(255, 255, 255, .5), -20px 0px 0px rgba(255, 255, 255, .5), 0px 20px 0px rgba(255, 255, 255, .5), 0px -20px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5);
+	}
+}
+
+#loading img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -30px 0 0 -110px;
+}
+
+.page {
+	position: relative;
+	background-color: #fff;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+	padding-top: 2em;
+}
+
+.padding {
+	padding: 30px;
+}
+
+form {
+	margin: 0;
+}
+
+.editable edit-toolbar {
+	display: none;
+}
+
+.editable:hover edit-toolbar,
+.editable.editmode edit-toolbar {
+	display: block;
+}
+
+@media (max-width: 978px) {
+	.container {
+		padding: 0;
+		margin: 0;
+	}
+	.page {
+		margin: 0;
+	}
+}
+
+.panel-body.no-padding {
+	padding: 0px;
+}
+
+.progress-md {
+	height: 15px;
+}
+.progress-sm {
+	height: 10px;
+}
+.progress-xs {
+	height: 5px;
+}
+
+.div-table-head {
+	font-weight: bold;
+	border-bottom: 2px solid #eee;
+	margin: 1em 0em;
+}
+
+.clickable {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.clickable-grey-bg:hover {
+	background: rgb(0,0,0,.2);
+}

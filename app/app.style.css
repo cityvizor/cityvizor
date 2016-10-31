@@ -1,0 +1,21 @@
+header{
+	background-color:#fff;
+	padding:20px 0;
+	box-shadow:0 0 5px rgba(0,0,0,.2);
+}
+#menu{
+	background-color:#0A77BD;
+}
+
+#menu nav a{
+		color:#fff;
+	font-size: 1.2em;
+	display: inline-block;
+	padding: 10px 20px;
+	text-decoration:none;
+}
+
+#menu nav a:hover{
+	background-color:rgba(0,0,0,.3);
+	text-decoration:none;
+}

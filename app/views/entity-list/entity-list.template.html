@@ -1,0 +1,18 @@
+<div class="ministerstva container" *ngIf="type=='ministry'">
+	<div *ngFor="let entity of entities" class="ministerstvo">
+		<div class="logo">
+			<img [src]="entity.logo">
+		</div>
+		<h2>{{entity.name}}</h2>
+		<p>{{entity.desc}}</p>
+		<a [routerLink]="['/ico',entity.ico]">otevřít</a>
+	</div>
+</div>
+
+<div class="entities container" *ngIf="type!='ministry'">
+	<ul class="column" *ngFor="let column of list" [style.width]="(100/this.listColumns) + '%'">
+		<li *ngFor="let entity of column">
+			<a [routerLink]="['/ico',entity.ico]">{{entity.name}}</a>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,13 @@
+# compiled output
+/dist
+/aot
+/tmp
+/app/**/*.js
+/app/**/*.map
+
+# dependencies
+/node_modules
+/typings
+
+# misc
+npm-debug.log

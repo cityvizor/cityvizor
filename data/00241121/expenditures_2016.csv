@@ -1,0 +1,610 @@
+﻿ID Akce;Název akce;Paragraf;Položka;Popis výdaje;Výdaj v CZK
+6112000000001;Zastupitelé - provozní výdaje;6112;5021;odměny nečlenům zastupitelstva;214000
+6112000000001;Zastupitelé - provozní výdaje;6112;5023;odměny členům zastupitelstva;1147000
+6112000000001;Zastupitelé - provozní výdaje;6112;5031;pojistné na soc. zabezpečení;150000
+6112000000001;Zastupitelé - provozní výdaje;6112;5032;pojistné na zdrav. pojištění;103000
+6112000000001;Zastupitelé - provozní výdaje;6112;5136;knihy, tisk;1000
+6112000000001;Zastupitelé - provozní výdaje;6112;5137;DDHM;5000
+6112000000001;Zastupitelé - provozní výdaje;6112;5139;materiál;3000
+6112000000001;Zastupitelé - provozní výdaje;6112;5162;telekomunikace;20000
+6112000000001;Zastupitelé - provozní výdaje;6112;5175;pohoštění;12000
+6112000000001;Zastupitelé - provozní výdaje;6112;5176;poplatky za konference;6000
+6112000000001;Zastupitelé - provozní výdaje;6112;5194;věcné dary;5000
+6112000000001;Zastupitelé - provozní výdaje;6112;5222;neinvestiční dotace občanským sdružením;20000
+6112000000001;Zastupitelé - provozní výdaje;6112;5492;Fond starosty;30000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5041;poplatky OSA (Podskalská);23000
+6171000000101;Místní správa ostatní - provozní výdaje;6171;5137;DDHM OVV;150000
+6171000000103;Místní správa ostatní - provozní výdaje;6171;5137;DDHM OSVZ;0
+6171000000104;Místní správa ostatní - provozní výdaje;6171;5137;DDHM OÚP;0
+6171000000105;Místní správa ostatní - provozní výdaje;6171;5137;DDHM OŽÚ;58000
+6171000000106;Místní správa ostatní - provozní výdaje;6171;5137;DDHM OŽP;70000
+6171000000107;Místní správa ostatní - provozní výdaje;6171;5137;DDHM SO;40000
+6171000000108;Místní správa ostatní - provozní výdaje;6171;5137;DDHM OŠKCR;5000
+6171000000109;Místní správa ostatní - provozní výdaje;6171;5137;DDHM FO;25000
+6171000000111;Místní správa ostatní - provozní výdaje;6171;5137;DDHM OISM;5000
+6171000000113;Místní správa ostatní - provozní výdaje;6171;5137;DDHM IA;0
+6171000000115;Místní správa ostatní - provozní výdaje;6171;5137;DDHM OSÚ;0
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5139;materiál (kancelářské a hygienické potřeby);1000000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5151;voda Podskalská;100000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5151;voda Černošice;20000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5153;plyn Podskalská;520000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5153;plyn Černošice;200000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5154;elektrická energie Podskalská;540000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5154;elektrická energie Černošice;300000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5156;PHM (nerozdělené);58000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5156;PHM (samospráva);24000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5156;PHM (státní správa);148000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5161;poštovné;1000000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5162;telekomunikace (pevné linky, mobily, bez OSPOD, PP a OSPOD projektu);555000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5162;telekomunikace - mobily (nerozdělené);97000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5162;telekomunikace - mobily (samospráva);12000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5162;telekomunikace - mobily (státní správa);100000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5166;revize;20000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5169;Karlštejnská - dočasné umístění úředníků;360000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5169;ostatní služby (malování, koberce, TV, rozhlas...);900000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5169;služby MPSV (budova Podskalská);1400000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5171;opravy a udržování;120000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5175;pohoštění (školení měkkých dovedností);35000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5194;věcné dary - státoobčanské sliby;10000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5195;odvod za porušení povinnosti zaměstanávat zdravotně postižené;89000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5229;členské příspěvky (sdružení tajemníků);2000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5362;dálniční známky;30000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5499;sociální fond;1400000
+6171000000001;Místní správa ostatní - provozní výdaje;6171;5901;rezerva úřadu;500000
+776;Radnice;6171;6121;přestavba vily Tišnovských;20000000
+6171010000001;OVV - provozní výdaje;6171;5011;platy;7421000
+6171010000001;OVV - provozní výdaje;6171;5021;OON - dohody;136000
+6171010000003;OVV - vstupní vzdělávání úředníků;6171;5021;OON dohody - školitelé;64000
+6171010000001;OVV - provozní výdaje;6171;5031;pojistné za soc. zabezpečení;1855300
+6171010000001;OVV - provozní výdaje;6171;5032;pojistné na zdrav. pojištění;667900
+6171010000001;OVV - provozní výdaje;6171;5136;knihy, tisk;15000
+6171010000001;OVV - provozní výdaje;6171;5139;materiál;15000
+6171010000001;OVV - provozní výdaje;6171;5166;konz. a právní služby;250000
+6171010000001;OVV - provozní výdaje;6171;5167;školení - průběžné;153000
+6171010000001;OVV - provozní výdaje;6171;5168;profil zadavatele;15000
+6171010000001;OVV - provozní výdaje;6171;5169;ostatní služby - BOZP, inzerce, skartace, lékařské prohlídky;210000
+6171010000001;OVV - provozní výdaje;6171;5171;opravy a udržování;80000
+6171010000001;OVV - provozní výdaje;6171;5173;cestovné;90000
+6171010000001;OVV - provozní výdaje;6171;5175;pohoštění;10000
+6171010000003;OVV - vstupní vzdělávání úředníků;6171;5175;pohoštění - vstupní vzdělávání;10000
+6171010000001;OVV - provozní výdaje;6171;5176;poplatky za konference;9000
+6171030000001;OSVZ - provozní výdaje;6171;5011;platy;1626000
+6171030000001;OSVZ - provozní výdaje;6171;5021;OON - dohody;0
+6171030000001;OSVZ - provozní výdaje;6171;5031;pojistné na soc. zabezpečení;407000
+6171030000001;OSVZ - provozní výdaje;6171;5032;zdravotní pojištění;146000
+6171030000001;OSVZ - provozní výdaje;6171;5132;ochranné pomůcky;2000
+6171030000001;OSVZ - provozní výdaje;6171;5136;knihy, tisk;5000
+6171030000001;OSVZ - provozní výdaje;6171;5139;recepty na opiáty;5000
+6171030000001;OSVZ - provozní výdaje;6171;5167;školení;61200
+6171030000001;OSVZ - provozní výdaje;6171;5169;ostatní služby;5000
+6171030000001;OSVZ - provozní výdaje;6171;5173;cestovné;21000
+6171030000001;OSVZ - provozní výdaje;6171;5175;pohoštění;2000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5011;platy;1363000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5021;OON - dohody;15000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5031;pojistné na soc. zabezpečení;341000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5032;pojistné na zdrav. pojištění;123000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5132;ochranné pomůcky;1000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5136;knihy, tisk;2000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5137;DDHM;3000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5139;materiál;7000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5151;voda;4000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5152;teplo;37000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5154;el. energie;32000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5156;PHM;18000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5161;poštovné;15000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5162;telekomunikace;37000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5164;nájemné;576000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5167;školení - průběžné;44000
+4339000000009;Pěstounská péče - provozní výdaje - ZOZ a VVÚ;4339;5167;školení - ZOZ a VVÚ;90000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5168;datové služby (YAMACO);2000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5169;ostatní služby;31000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5171;opravy a údržba;5000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5172;programové vybavení;2000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5173;cestovné;15000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5175;pohoštění;2000
+4339000000001;Pěstounská péče - provozní výdaje;4339;5499;služby pěstounům (školení, kurzy, tábory...);751000
+6171032000001;OSPOD - provozní výdaje;6171;5011;platy;10673000
+6171032000001;OSPOD - provozní výdaje;6171;5021;OON - dohody;170000
+6171032000001;OSPOD - provozní výdaje;6171;5031;sociální zabezpečení;2668000
+6171032000001;OSPOD - provozní výdaje;6171;5032;zdravotní pojištění;961000
+6171032000001;OSPOD - provozní výdaje;6171;5132;ochranné pomůcky;8000
+6171032000001;OSPOD - provozní výdaje;6171;5136;knihy, tisk;20000
+6171032000001;OSPOD - provozní výdaje;6171;5137;DDHM;20000
+6171032000001;OSPOD - provozní výdaje;6171;5139;materiál;68000
+6171032000001;OSPOD - provozní výdaje;6171;5151;voda (Václavská);35000
+6171032000001;OSPOD - provozní výdaje;6171;5152;teplo (Václavská);327000
+6171032000001;OSPOD - provozní výdaje;6171;5154;el. energie (Václavská);285000
+6171032000001;OSPOD - provozní výdaje;6171;5156;PHM;120000
+6171032000001;OSPOD - provozní výdaje;6171;5161;poštovné;132000
+6171032000001;OSPOD - provozní výdaje;6171;5162;telekomunikace;347000
+6171032000001;OSPOD - provozní výdaje;6171;5163;služby peněžních ústavů;16000
+6171032000001;OSPOD - provozní výdaje;6171;5164;nájemné (Václavská);5176500
+6171032000001;OSPOD - provozní výdaje;6171;5167;školení;439200
+6171032000009;OSPOD - provozní výdaje - ZOZ a VVÚ;6171;5167;OSPOD - ZOZ a VVÚ;297800
+6171032000001;OSPOD - provozní výdaje;6171;5168;datové služby (YAMACO);13000
+6171032000001;OSPOD - provozní výdaje;6171;5169;ostatní služby;269000
+6171032000001;OSPOD - provozní výdaje;6171;5169;úklid Václavská;180000
+6171032000001;OSPOD - provozní výdaje;6171;5171;opravy a udržování;20000
+6171032000001;OSPOD - provozní výdaje;6171;5173;cestovné;242000
+6171032000001;OSPOD - provozní výdaje;6171;5175;pohoštění;10000
+6171032000001;OSPOD - provozní výdaje;6171;5178;finanční leasing;150000
+6171032000001;OSPOD - provozní výdaje;6171;5194;věcné dary;5000
+6171032000001;OSPOD - provozní výdaje;6171;5361;kolky;1000
+6171032000001;OSPOD - provozní výdaje;6171;5362;dálniční známky;3000
+3635000000001;Územní plán - provozní výdaje;3635;5169;změna územního plánu;200000
+3635000000002;Územní plán - investiční výdaje;3635;6119;ÚS Centrum, ÚS ORP, RP Javorová, RP dráha;560000
+6171040000001;OÚP - provozní výdaje;6171;5011;Platy;1680000
+6171040000001;OÚP - provozní výdaje;6171;5031;soc. zabezpečení;420000
+6171040000001;OÚP - provozní výdaje;6171;5032;zdrav. pojištění;151200
+6171040000001;OÚP - provozní výdaje;6171;5136;knihy, tisk;7000
+6171040000001;OÚP - provozní výdaje;6171;5139;materiál (tisk plánů);3000
+6171040000001;OÚP - provozní výdaje;6171;5166;konz. a právní služby;12000
+6171040000001;OÚP - provozní výdaje;6171;5167;školení;51000
+6171040000001;OÚP - provozní výdaje;6171;5169;ostatní služby;4000
+6171040000001;OÚP - provozní výdaje;6171;5171;opravy a údržba;2000
+6171040000001;OÚP - provozní výdaje;6171;5173;cestovné;10000
+6171040000001;OÚP - provozní výdaje;6171;5175;pohoštění;3000
+6171040000001;OÚP - provozní výdaje;6171;5176;poplatky za konference;4000
+6171050000001;OŽÚ - provozní výdaje;6171;5011;platy;6413000
+6171050000001;OŽÚ - provozní výdaje;6171;5031;soc. zabezpečení;1603000
+6171050000001;OŽÚ - provozní výdaje;6171;5032;zdrav. pojištění;577000
+6171050000001;OŽÚ - provozní výdaje;6171;5136;knihy, tisk;5000
+6171050000001;OŽÚ - provozní výdaje;6171;5139;materiál;3000
+6171050000001;OŽÚ - provozní výdaje;6171;5167;školení;173400
+6171050000001;OŽÚ - provozní výdaje;6171;5171;opravy a údržba;8000
+6171050000001;OŽÚ - provozní výdaje;6171;5173;cestovné;46000
+6171050000001;OŽÚ - provozní výdaje;6171;5175;pohoštění;500
+6171060000001;OŽP - provozní výdaje;6171;5011;platy (vč. 3% na pohotovost);7234000
+6171060000001;OŽP - provozní výdaje;6171;5031;soc. pojištění;1809000
+6171060000001;OŽP - provozní výdaje;6171;5032;zdrav. pojištění;651000
+6171060000001;OŽP - provozní výdaje;6171;5132;unifomy pro SSL a myslivost;20000
+6171060000001;OŽP - provozní výdaje;6171;5136;knihy, tisk;5000
+6171060000001;OŽP - provozní výdaje;6171;5139;materiál - rybářské a lovecké lístky, plomby;30000
+6171060000001;OŽP - provozní výdaje;6171;5167;školení;234600
+6171060000001;OŽP - provozní výdaje;6171;5169;ostatní služby;4000
+6171060000001;OŽP - provozní výdaje;6171;5171;opravy a údržba;10000
+6171060000001;OŽP - provozní výdaje;6171;5173;cestovné;50000
+6171060000001;OŽP - provozní výdaje;6171;5901;ekologická rezerva;300000
+6171070000001;SO - provozní výdaje;6171;5011;platy;12267000
+6171070000001;SO - provozní výdaje;6171;5021;OON - dohody;120000
+6171070000001;SO - provozní výdaje;6171;5031;soc. zabezpečení;3067000
+6171070000001;SO - provozní výdaje;6171;5032;zdrav. pojištění;1104000
+6171070000001;SO - provozní výdaje;6171;5132;ochranné pomůcky;6000
+6171070000001;SO - provozní výdaje;6171;5134;potřeby pro zkušební komisaře - motorkáře;5000
+6171070000001;SO - provozní výdaje;6171;5136;knihy, tisk;4000
+6171070000001;SO - provozní výdaje;6171;5139;materiál;32000
+6171070000001;SO - provozní výdaje;6171;5167;školení;400000
+6171070000001;SO - provozní výdaje;6171;5171;opravy a udržování;12000
+6171070000001;SO - provozní výdaje;6171;5173;cestovné;55000
+6171070000001;SO - provozní výdaje;6171;5175;pohoštění;10000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5011;platy;480000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5021;OON - dohody mimo prac. poměr;20000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5031;pojistné na soc. zabezpečení;120000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5032;pojistné na zdrav. pojištění;43200
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5041;honoráře;10000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5137;DDHM - ostatní vybavení;38000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5137;DDHM - sportovní vybavení;662000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5139;materiál;8000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5151;vodné;200000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5153;plyn;261000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5154;el. energie;1092000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5169;ostatní služby;140000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5171;opravy a údržba;225000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;5901;rezerva;200000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;6122;elektronická informační tabule;105000
+919;Sportovní hala ZŠ Mokropsy - provozní výdaje;3113;6122;zvuk;476000
+3314000000001;Knihovna - provozní výdaje;3314;5021;Ostatní osobní výdaje - dohody;18000
+3314000000001;Knihovna - provozní výdaje;3314;5136;Knihy, tisk;90000
+3314000000001;Knihovna - provozní výdaje;3314;5137;DDHM - nábytek;15000
+3314000000001;Knihovna - provozní výdaje;3314;5138;Nákup zboží k prodeji;5000
+3314000000001;Knihovna - provozní výdaje;3314;5139;Nákup materiálu;5000
+3314000000001;Knihovna - provozní výdaje;3314;5151;Voda;5000
+3314000000001;Knihovna - provozní výdaje;3314;5154;Elektrická energie;59000
+3314000000001;Knihovna - provozní výdaje;3314;5161;meziknihovní výpůjčky;1000
+3314000000001;Knihovna - provozní výdaje;3314;5169;Nákup ostatních služeb;10000
+3314000000001;Knihovna - provozní výdaje;3314;5171;Opravy a udržování;25000
+3314000000001;Knihovna - provozní výdaje;3314;5173;Cestovné;2000
+3314000000001;Knihovna - provozní výdaje;3314;5175;Pohoštění;3000
+3314000000001;Knihovna - provozní výdaje;3314;5494;odměny v soutěžích;3000
+3319000000001;Kronika - provozní výdaje;3319;5021;dohody - kronikářka;12000
+3326000000001;Kulturní památky - provozní výdaje;3326;5171;oprava kapličky;0
+3326000000001;Kulturní památky - provozní výdaje;3326;5909;alarm kostela;0
+3349000000001;IL - provozní výdaje;3349;5021;jazyková korektura IL;0
+3349000000001;IL - provozní výdaje;3349;5021;korektorka;18000
+3349000000001;IL - provozní výdaje;3349;5139;tisk IL;325000
+3349000000001;IL - provozní výdaje;3349;5162;telekomunikace (redaktorka);3000
+3349000000001;IL - provozní výdaje;3349;5169;Nákup ostatních služeb - redaktorka, roznos, grafika;417000
+3392000000001;Kultura - provozní výdaje;3392;5021;Ostatní osobní výdaje - dohody;40000
+3392000000001;Kultura - provozní výdaje;3392;5041;honoráře (vč. Bukifestu), OSA;400000
+3392000000001;Kultura - provozní výdaje;3392;5137;Drobný hmotný majetek;25000
+3392000000001;Kultura - provozní výdaje;3392;5138;zboží - trička Bukifest;25000
+3392000000001;Kultura - provozní výdaje;3392;5139;Nákup materiálu;20000
+3392000000001;Kultura - provozní výdaje;3392;5154;elektřina;1000
+3392000000001;Kultura - provozní výdaje;3392;5164;Nájemné;15000
+3392000000001;Kultura - provozní výdaje;3392;5169;Nákup ostatních služeb;15000
+3392000000001;Kultura - provozní výdaje;3392;5171;opravy a údržba;10000
+3392000000001;Kultura - provozní výdaje;3392;5173;cestovné;2000
+3392000000001;Kultura - provozní výdaje;3392;5175;Pohoštění;20000
+3392000000001;Kultura - provozní výdaje;3392;5901;rezerva - opravy a udržování;10000
+889;Kuturní sál Vráž - povozní výdaje;3392;5137;DDHM - technika, mobiliář;15000
+889;Kuturní sál Vráž - povozní výdaje;3392;5139;materiál;20000
+889;Sál Vráž - provozní výdaje;3392;5151;voda;28000
+889;Sál Vráž - provozní výdaje;3392;5152;teplo;40000
+889;Kuturní sál Vráž - povozní výdaje;3392;5154;el. energie;40000
+889;Kuturní sál Vráž - povozní výdaje;3392;5169;nákup ostatních služeb (správce);130000
+889;Kuturní sál Vráž - povozní výdaje;3392;5171;opravy a udržování;13000
+889;Sál Vráž - provozní výdaje;3392;5199;fond oprav;14000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5021;Ostatní osobní výdaje - dohody (lepič plakátů);45000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5041;hororáře, OSA;290000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5132;ochranné pomůcky;2000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5137;DDHM;30000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5138;Nákup zboží k prodeji;0
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5139;materiál (mapy, cetky...);50000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5153;plyn (hasičárna Černošice);30000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5154;Elektrická energie (hasičárna Černošice);25000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5164;Nájemné - Club kino, další nájmy;80000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5169;městské akce (pouť, máje, masopust...);130000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5171;Opravy a udržování;25000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5173;Cestovné;15000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5175;Pohoštění;80000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5194;Věcné dary (vítání občánků);35000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5222;granty v kultuře;360000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5492;Zájmový fond rady;60000
+3399000000001;Ostatní záležitosti kultury - provozní výdaje;3399;5901;rezerva - pohoštění;0
+3421000000001;Mládež - provozní výdaje - granty;3421;5222;SK Černošice - příspěvek na stadion;100000
+3421000000001;Mládež - provozní výdaje - granty;3421;5222;Sokol - příspěvek;200000
+3421000000001;Mládež - provozní výdaje - granty;3421;5222;granty po mládež;590000
+3421000000001;Mládež - provozní výdaje - granty;3421;5222;veřejné bruslení;200000
+6171080000001;OŠKCR - provozní výdaje - platy;6171;5011;platy;1961000
+6171080000001;OŠKCR - provozní výdaje - platy;6171;5031;platy+běžné výdaje;0
+6171080000001;OŠKCR - provozní výdaje - sociální zabezpečení;6171;5031;pojistné na sociální zabezpečení;490300
+6171080000001;OŠKCR - provozní výdaje - zdravotní pojištění;6171;5032;zdravotní pojištění;176500
+6171080000001;OŠKCR - provozní výdaje - knihy, tisk;6171;5136;tisk;2000
+6171080000001;OŠKCR - provozní výdaje - školení;6171;5167;školení;61200
+6171080000001;OŠKCR - provozní výdaje - ostatní služby;6171;5169;nákup ostatních služeb;5000
+6171080000001;OŠKCR - provozní výdaje - opravy a udržování;6171;5171;opravy a udržování;25000
+6171080000001;OŠKCR - provozní výdaje - cestovné;6171;5173;cestovné;8000
+6171080000001;OŠKCR - provozní výdaje - pohoštění;6171;5175;pohoštění;2000
+3111300000001;MŠ Vápenice - provozní příspěvek;3111;5331;MŠ Vápenice - provozní příspěvek;961270
+3111300000001;MŠ Vápenice - provozní příspěvek;3111;5331;"MŠ Vápenice - provozní příspěvek ""na odpisy""";633920
+3111300000001;MŠ Vápenice - provozní příspěvek;3111;5331;MŠ Vápenice - provozní příspěvek - dovybavení;0
+3111301000001;MŠ Karlická - provozní příspěvek;3111;5331;MŠ Karlická - provozní příspěvek;970000
+3111301000001;MŠ Karlická - provozní příspěvek;3111;5331;"MŠ Karlická - provozní příspěvek ""na odpisy""";520060
+3111302000001;MŠ Topolská - provozní příspěvek;3111;5331;MŠ Topolská - provozní příspěvek;543000
+3111302000001;MŠ Topolská - provozní příspěvek;3111;5331;"MŠ Topolská - provozní příspěvek ""na odpisy""";70450
+3111302000001;MŠ Topolská - provozní příspěvek;3111;5331;MŠ Topolská - rezerva na platy;300000
+3111300000001;MŠ Vápenice - provozní příspěvek;3111;5361;MŠ Vápenice - kolky pro zápis nového názvu;0
+3111302000001;MŠ Topolská - provozní příspěvek;3111;5901;MŠ Topolská - rezerva na platy;0
+3113000000001;ZŠ - provozní příspěvek;3113;5331;ZŠ - provozní příspěvek;5929070
+3113000000001;ZŠ - provozní příspěvek;3113;5331;"ZŠ - provozní příspěvek ""na odpisy""";1704000
+3231000000001;ZUŠ - provozní příspěvek;3231;5331;"ZUŠ - provozní příspěvek ""na odpisy""";185110
+3231000000001;ZUŠ - provozní příspěvek;3231;5331;ZUŠ - provozní příspěvek;140000
+6171090000001;FO - provozní výdaje;6171;5011;platy;4028000
+6171090000001;FO - provozní výdaje;6171;5021;OON - dohody;60000
+6171090000001;FO - provozní výdaje;6171;5031;soc. zabezpečení;1007000
+6171090000001;FO - provozní výdaje;6171;5032;zdrav. pojištění;362500
+6171090000001;FO - provozní výdaje;6171;5136;knihy, tisk;5000
+6171090000001;FO - provozní výdaje;6171;5139;materiál;8000
+6171090000001;FO - provozní výdaje;6171;5167;školení;112200
+6171090000009;FO - provozní výdaje - ZOZ a VVÚ;6171;5167;FO - provozní výdaje - ZOZ a VVÚ;35000
+6171090000001;FO - provozní výdaje;6171;5169;ostatní služby - daň. poradce;38000
+6171090000001;FO - provozní výdaje;6171;5171;opravy a údržba;5000
+6171090000001;FO - provozní výdaje;6171;5173;cestovné;20000
+6171090000001;FO - provozní výdaje;6171;5175;pohoštění;3000
+6171090000001;FO - provozní výdaje;6171;5176;poplatky za konference;2000
+102;Úroky z úvěru - Husova, Slunečná;6310;5141;Úroky z úvěru - Husova, Slunečná;53000
+786;Úroky z úvěru - Kladenská;6310;5141;Úroky z úvěru - Kladenská;44000
+851;Úroky z úvěru - MŠ Vápenice;6310;5141;Úroky z úvěru - MŠ Vápenice;70000
+866;Úroky z úvěru - hasičárna;6310;5141;Úroky z úvěru - hasičárna;55000
+918;Úroky z úvěru - VT I. etapa;6310;5141;Úroky z úvěru - VT I. etapa;132000
+919;Úroky z úvěru - sportovní hala;6310;5141;Úroky z úvěru - sportovní hala;150000
+930;Úroky z úvěru - VT II. etapa;6310;5141;Úroky z úvěru - VT II. etapa;372000
+6310000000001;Příjmy a výdaje z fin. operací - provozní výdaje;6310;5163;bankovní poplatky;200000
+6399000000001;Příjmy a výdaje z fin. operací - provozní výdaje;6399;5362;odvod DPH finančnímu úřadu;4000000
+6409000000001;Ostatní činnosti jinde nezařazené - provozní výdaj;6409;5492;Kompenzační příspěvek;100000
+6409000000001;Rezerva všeobecná;6409;5901;Rezerva všeobecná;1500000
+6409000000002;Rezerva rady;6409;5909;Rezerva rady;1000000
+6409000000005;Rezerva investiční;6409;6901;Rezerva investiční;2000000
+6171100000001;OI - provozní výdaje;6171;5011;Platy;3193000
+6171100000001;OI - provozní výdaje;6171;5031;Pojistné na sociální zabezpečení;798300
+6171100000001;OI - provozní výdaje;6171;5032;Pojistné na zdravotní pojištění;287400
+6171100000001;OI - provozní výdaje;6171;5137;Drobný hmotný majetek;680000
+6171100000001;OI - provozní výdaje;6171;5139;Nákup materiálu;630000
+6171100000001;OI - provozní výdaje;6171;5162;Telekomunikace;370000
+6171100000001;OI - provozní výdaje;6171;5167;Školení;71400
+6171100000001;OI - provozní výdaje;6171;5168;služby zpracování dat;3543000
+6171100000001;OI - provozní výdaje;6171;5169;Nákup ostatních služeb;300000
+6171100000001;OI - provozní výdaje;6171;5171;Opravy a udržování;70000
+6171100000001;OI - provozní výdaje;6171;5172;Programové vybavení;220000
+6171100000001;OI - provozní výdaje;6171;5173;Cestovné;16000
+6171100000002;OI - investiční výdaje;6171;6111;konsolidace zákl. SW;500000
+6171100000001;OI - investiční výdaje;6171;6125;zálohovací zařízení;750000
+2212000000001;Silnice - provozní výdaje;2212;5139;materiál (cedulky);40000
+2212000000001;Silnice - provozní výdaje;2212;5166;konz. a právní služby;10000
+2212000000001;Silnice - provozní výdaje;2212;5169;nákup ostatních služeb;10000
+2212000000001;Silnice - provozní výdaje;2212;5171;Opravy a udržování;90000
+2212000000001;Silnice - provozní výdaje;2212;5171;Opravy a udržování - výtluky;510000
+2212000000001;Silnice - provozní výdaje;2212;5901;Opravy a udržování (dokumentace pro opravy komunikací);0
+2212000000001;Silnice - provozní výdaje;2212;5901;Opravy a udržování (pojistné události, mobiliář komunikací);0
+2212000000002;Silnice - investiční výdaje;2212;6121;Velký třesk IV;25000000
+2212000000002;Silnice - investiční výdaje;2212;6121;dešťová kanalizace Vrážská;200000
+2212000000002;Silnice - investiční výdaje;2212;6121;drobné stavby silnic;100000
+2212000000002;Silnice - investiční výdaje;2212;6121;infrastruktura Na Pískách;0
+2219000000001;Chodníky - provozní výdaje;2219;5164;nájemné;85000
+2219000000001;Chodníky - provozní výdaje;2219;5909;Janečková - vratná jistina;0
+2219000000002;Chodníky - investiční výdaje;2219;6121;Chodník Dobřichovická (Jitřní - Slunečná);80000
+2219000000002;Chodníky - investiční výdaje;2219;6121;Chodník v ul. Zd. Lhoty (Říční - Šeříková);250000
+2219000000002;Chodníky - investiční výdaje;2219;6121;PD, GP;70000
+2221000000001;Dopravní obslužnost - provozní výdaje;2221;5171;údržba zastávek;20000
+2221000000001;Dopravní obslužnost - provozní výdaje;2221;5193;autobusové linky;700000
+2310000000001;VaK - provozní výdaje;2310;5011;Platy;590000
+2310000000001;Voda - provozní výdaje;2310;5021;OON - dohody (dohoda + oprávněná osoba);131880
+2310000000001;VaK - provozní výdaje;2310;5031;Pojistné na sociální zabezpečení;147500
+2310000000001;VaK - provozní výdaje;2310;5032;Pojistné na zdravotní pojištění;53100
+2310000000001;VaK - provozní výdaje;2310;5132;Ochranné pomůcky;8000
+2310000000001;VaK - provozní výdaje;2310;5134;prádo, oděv, obuv;20000
+2310000000001;VaK - provozní výdaje;2310;5137;Drobný hmotný majetek;20000
+2310000000001;VaK - provozní výdaje;2310;5139;Nákup materiálu;600000
+2310000000001;VaK - provozní výdaje;2310;5151;Voda (PVK);2500000
+2310000000001;VaK - provozní výdaje;2310;5154;Elektrická energie;540000
+2310000000001;VaK - provozní výdaje;2310;5156;PHM;30000
+2310000000001;Voda - provozní výdaje;2310;5161;poštovné Aquaconsult;70000
+2310000000001;VaK - provozní výdaje;2310;5162;Telekomunikace (telemetrie);25000
+2310000000001;Voda - provozní výdaje;2310;5166;kontroly tlakových nádob a zařízení na ČOV;20000
+2310000000001;VaK - provozní výdaje;2310;5169;Nákup ostatních služeb (Aquaconsult);1300000
+2310000000001;VaK - provozní výdaje;2310;5171;Opravy a udržování;1460000
+2310000000001;VaK - provozní výdaje;2310;5362;Platby daní a poplatků - odběr podzemních vod;1000000
+2310000000001;VaK - provozní výdaje;2310;5901;Elektrická energie (navýšení pro rok 2014);0
+2310000000001;VaK - provozní výdaje;2310;5901;Nákup ostatních služeb;0
+2310000000002;Voda - investiční výdaje;2310;6121;PD a rozpočty na nové stavby;100000
+2310000000002;Voda - investiční výdaje;2310;6121;vodovod Libušina;1000000
+2321000000001;ČOV - provozní výdaje;2321;5011;Platy;617000
+2321000000001;ČOV - provozní výdaje;2321;5031;Pojistné na sociální zabezpečení;154300
+2321000000001;ČOV - provozní výdaje;2321;5032;Pojistné na zdravotní pojištění;55500
+2321000000001;ČOV - provozní výdaje;2321;5132;Ochranné pomůcky;5000
+2321000000001;ČOV - provozní výdaje;2321;5139;Nákup materiálu;150000
+2321000000001;ČOV - provozní výdaje;2321;5154;Elektrická energie;2200000
+2321000000001;ČOV- provozní výdaje;2321;5156;PHM do dieselagregátu;164000
+2321000000001;ČOV - provozní výdaje;2321;5162;Telekomunikace;10000
+2321000000001;ČOV - provozní výdaje;2321;5169;Nákup ostatních služeb (Aquaconsult, odvoz kalů);2060000
+2321000000001;ČOV - provozní výdaje;2321;5171;Opravy a udržování;965000
+2321000000001;ČOV - provozní výdaje;2321;5362;Platby daní a poplatků - poplatky za vypouštění odpadních vod;42000
+2321000000001;ČOV - provozní výdaje;2321;5901;Opravy a udržování (nahodilé v průběhu roku);0
+875;Intenzifikace ČOV;2321;6121;rekonstrukce ČOV - Provod (smlouva);55000
+2321000000002;ČOV - investiční výdaje;2321;6121;drobné stavby - TDI, rozpočty, PD, výstavba;100000
+919;ZŠ - sportovní hala;3113;6121;dostavba sportovní haly;14000000
+919;ZŠ - sportovní hala;3113;6121;úprava zeminy po stavbě;200000
+942;ZŠ - přístavba kuchyně a veřejná WC;3113;6121;ZŠ - přístavba kuchyně a veřejná WC;500000
+953;ZŠ - Centrální vchod a šatny;3113;6121;ZŠ - Centrální vchod a šatny;4500000
+3113000000002;ZŠ - přístřešek na kola;3113;6121;ZŠ - přístřešek na kola;600000
+959;ZŠ - atletický ovál;3113;6901;ZŠ - atletický ovál;0
+3113000000002;Základní škola - investiční výdaje;3113;6901;"Zateplení ZŠ Mokropsy - budova ""D""";0
+3612000000001;Byty - provozní výdaje;3612;5021;Ostatní osobní výdaje - dohody;15000
+3612000000001;Byty - provozní výdaje;3612;5132;Ochranné pomůcky;2000
+3612000000001;Byty - provozní výdaje;3612;5134;Prádlo, oděv, obuv;1000
+3612000000001;Byty - provozní výdaje;3612;5139;Nákup materiálu;2000
+3612000000001;Byty - provozní výdaje;3612;5151;Voda;70000
+3612000000001;Byty - provozní výdaje;3612;5154;Elektrická energie;15000
+3612000000001;Byty - provozní výdaje;3612;5166;Konzultační a právní služby;5000
+3612000000001;Byty - provozní výdaje;3612;5169;Nákup ostatních služeb;26000
+3612000000001;Byty - provozní výdaje;3612;5171;Opravy a udržování;80000
+3612000000001;Byty - provozní výdaje;3612;5909;vratky přeplatků z vyúčtování služeb;5000
+3613000000001;Nebyty - provozní výdaje;3613;5153;Plyn;37000
+3613000000001;Nebyty - provozní výdaje;3613;5154;Elektrická energie;30000
+3613000000001;Nebyty - provozní výdaje;3613;5166;Konzultační a právní služby;5000
+3613000000001;Nebyty - provozní výdaje;3613;5169;Nákup ostatních služeb;20000
+3613000000001;Nebyty - provozní výdaje;3613;5171;Opravy a udržování;15000
+3613000000001;Nebyty - provozní výdaje;3613;5901;rezerva - el. energie;25000
+3631000000001;VO - provozní výdaje;3631;5139;materiál;150000
+3631000000001;VO - provozní výdaje;3631;5139;nákup materiálu;0
+3631000000001;VO - provozní výdaje;3631;5154;el. energie;700000
+3631000000001;VO - provozní výdaje;3631;5169;Nákup ostatních služeb (správa VO);700000
+3631000000001;VO - provozní výdaje;3631;5171;opravy a údržba;150000
+3631000000002;VO - investiční výdaje;3631;6121;Rekonstrukce VO Riegrova;150000
+3631000000002;VO - investiční výdaje;3631;6121;VO Chebská (Táborská - Kladenská);380000
+3631000000002;VO Libušina II. etapa;3631;6121;VO Libušina II. etapa;380000
+3631000000002;VO Sadová;3631;6121;VO Sadová;120000
+3631000000002;VO Střední II. etapa;3631;6121;VO Střední II. etapa;230000
+3631000000002;VO - investiční výdaje;3631;6121;VO při přeložkách, TDI, PD;420000
+3631000000002;VO - investiční výdaje;3631;6121;VO v ul. Dr. Janského;420000
+3633000000001;Trafostanice - provozní výdaje;3633;5171;opravy a údržba;30000
+3636000000001;Územní rozvoj - provozní výdaje;3636;5164;Nájemné (Frost Flower, Schytilová, Chaloupková a další);143040
+3636000000001;Územní rozvoj - provozní výdaje;3636;5166;Konz. a právní služby - burzovní a aukční poplatky;150000
+3636000000001;Územní rozvoj - provozní výdaje;3636;5169;Nákup ostatních služeb;1241590
+3636000000001;Územní rozvoj - provozní výdaje;3636;5229;členské příspěvky - SMO, SMS;25500
+3636000000001;Územní rozvoj - provozní výdaje;3636;5329;členské příspěvky - RDB;75000
+3636000000001;Územní rozvoj - provozní výdaje;3636;5361;kolky;50000
+3636000000001;Územní rozvoj - provozní výdaje;3636;5362;Platby daní a poplatků - daň z převodu nemovitostí;1714300
+3636000000001;Územní rozvoj - provozní výdaje;3636;5901;Nájemné (Schytilová, Chaloupková - navýšení 2,5x);0
+3636000000002;Územní rozvoj - investiční výdaje;3636;6130;nákup pozemnků pod komunikacemi;300000
+3636000000002;Územní rozvoj - investiční výdaje;3636;6130;pozemky pod školou - doplatek;15000000
+6171110000001;OISM - provozní výdaje;6171;5011;platy;2629000
+6171110000001;OISM - provozní výdaje;6171;5021;OON - dohody;51000
+6171110000001;OISM - provozní výdaje;6171;5031;soc. zabezpečení;657300
+6171110000001;OISM - provozní výdaje;6171;5032;zdrav. pojištění;236600
+6171110000001;OISM - provozní výdaje;6171;5132;ochranné pomůcky;5000
+6171110000001;OISM - provozní výdaje;6171;5139;materiál;5000
+6171110000001;OISM - provozní výdaje;6171;5167;školení;91800
+6171110000001;OISM - provozní výdaje;6171;5169;ostatní služby;5000
+6171110000001;OISM - provozní výdaje;6171;5171;opravy a údržba;10000
+6171110000001;OISM - provozní výdaje;6171;5173;cestovné;10000
+6171110000001;OISM - provozní výdaje;6171;5175;pohoštění;5000
+6320000000001;Pojištění - provozní výdaje;6320;5038;Povinné pojistné placené zaměstnavatelem - Kooperativa;320000
+6320000000001;Pojištění - provozní výdaje;6320;5163;Pojištění majetku města;850000
+6320000000001;Pojištění - provozní výdaje;6320;5192;Vyplacená pojistná plnění (3. osobám);10000
+2212000000003;Silnice - provozní výdaje OTS;2212;5139;materiál;450000
+2212000000003;Silnice - provozní výdaje OTS;2212;5178;leasing - přívěs Fliegl;0
+2219000000003;Chodníky - provozní výdaje OTS;2219;5139;materiál;160000
+2219000000003;Chodníky - provozní výdaje OTS;2219;5139;materiál - chodník Střední;200000
+2219000000003;Chodníky - provozní výdaje OTS;2219;5171;opravy a udržování;20000
+2229000000001;Značky - provozní výdaje;2229;5139;Nákup materiálu (vč. uličních cedulí);150000
+2229000000001;Značky - provozní výdaje;2229;5169;Nákup ostatních služeb;20000
+3412000000001;Hřiště - provozní výdaje;3412;5139;Nákup materiálu;110000
+3412000000001;Hřiště - provozní výdaje;3412;5151;Voda;6000
+3412000000001;Hřiště - provozní výdaje;3412;5154;Elektrická energie;25000
+3412000000001;Hřiště - provozní výdaje;3412;5169;Nákup ostatních služeb;40000
+3412000000001;Hřiště - provozní výdaje;3412;5171;Opravy a udržování;30000
+3632000000001;Pohřebnictví - provozní výdaje;3632;5021;OON - dohody (hrobníci);72000
+3632000000001;Pohřebnictví - provozní výdaje;3632;5031;pojistné na soc. zabezpečení;0
+3632000000001;Pohřebnictví - provozní výdaje;3632;5032;pojistné na zdrav. pojištění;0
+3632000000001;Pohřebnictví - provozní výdaje;3632;5139;materiál;2000
+3632000000001;Pohřebnictví - provozní výdaje;3632;5164;nájem pozemku (hřbitov Černošice);0
+3632000000001;Pohřebnictví - provozní výdaje;3632;5164;nájemné pozemku (hřbitov Černošice);100
+3632000000001;Pohřebnictví - provozní výdaje;3632;5169;nákup ostatních služeb (revitelizace hřbitova);0
+3632000000001;Pohřebnictví - provozní výdaje;3632;5171;oprava skleněného kolumbária;30000
+3639000000001;OTS - provozní výdaje;3639;5011;platy;4590000
+3639000000001;OTS - provozní výdaje;3639;5021;OON - dohody (úklid);36000
+3639000000001;OTS - provozní výdaje;3639;5031;soc. zabezpečení;1147500
+3639000000001;OTS - provozní výdaje;3639;5032;zdrav. pojištění;413100
+3639000000001;OTS - provozní výdaje;3639;5131;ochranné nápoje;7000
+3639000000001;OTS - provozní výdaje;3639;5132;ochranné pomůcky;15000
+3639000000001;OTS - provozní výdaje;3639;5134;prádlo, oděv, obuv;75000
+3639000000001;OTS - provozní výdaje;3639;5137;DDHM;60000
+3639000000001;OTS - provozní výdaje;3639;5139;materiál;270000
+3639000000001;OTS - provozní výdaje;3639;5151;voda;5000
+3639000000001;OTS - provozní výdaje;3639;5154;el. energie;220000
+3639000000001;OTS - provozní výdaje;3639;5156;PHM;900000
+3639000000001;OTS - provozní výdaje;3639;5162;telekomunikace;72000
+3639000000001;OTS - provozní výdaje;3639;5167;školení;50000
+3639000000001;OTS - provozní výdaje;3639;5169;ostatní služby;100000
+3639000000001;OTS - provozní výdaje;3639;5171;opravy a udržování;400000
+3639000000001;OTS - provozní výdaje;3639;5173;cestovné;4000
+3639000000001;OTS - provozní výdaje;3639;5175;pohoštění;3000
+3722000000001;Sběr a svoz KO - provozní výdaje;3722;5136;knihy, tisk - časopis Odpady;0
+3722000000001;Sběr a svoz KO - provozní výdaje;3722;5169;svoz KO - Rumpold, AVE, ATEA;7100000
+3723000000001;Odpady (kontejnery SKO a BIO) - provozní výdaje;3723;5136;knihy, tisk - zákon o odpadech;2000
+3723000000001;Odpady (kontejnery SKO a BIO) - provozní výdaje;3723;5139;Nákup materiálu (koše, sáčky na psí exkrementy);128000
+3729000000001;Rekultivace skládky U Dubu - provozní výdaje;3729;5169;PD pro rekultivaci skládky U Dubu;80000
+3729000000001;Rekultivace skládky U Dubu - provozní výdaje;3729;5901;analýza rizik - rekultivace skládky U Dubu;600000
+3745000000001;Zeleň - provozní výdaje;3745;5132;ochranné pomůcky;7000
+3745000000001;Zeleň - provozní výdaje;3745;5134;prádlo, oděv, obuv;15000
+3745000000001;Zeleň - provozní výdaje;3745;5136;knihy, tisk;3000
+3745000000001;Zeleň - provozní výdaje;3745;5137;DDHM - sekačka, křovinořez;70000
+3745000000001;Zeleň - provozní výdaje;3745;5139;Nákup materiálu - vč. výsadby u mokropeského nádraží;300000
+3745000000001;Zeleň - provozní výdaje;3745;5169;nákup ostatních služeb;70000
+3745000000001;Zeleň - provozní výdaje;3745;5171;Opravy a udržování;100000
+3745000000002;Zeleň - investiční výdaje;3745;6122;traktůrek;360000
+5299000000001;Krizové řízení - provozní výdaje;5299;5132;Ochranné pomůcky;3000
+5299000000001;Krizové řízení - provozní výdaje;5299;5139;Nákup materiálu;15000
+5299000000001;Krizové řízení - provozní výdaje;5299;5175;Pohoštění;22000
+5299000000001;Krizové řízení - rezerva;5299;5901;Krizová rezerva;500000
+5512000000001;Hasiči - provozní výdaje;5512;5011;plat;249000
+5512000000001;Hasiči - provozní výdaje;5512;5031;Pojistné na soc. zabezpečení;62300
+5512000000001;Hasiči - provozní výdaje;5512;5032;pojistné na zdrav. pojištění;22400
+5512000000001;Hasiči - provozní výdaje;5512;5132;ochranné pomůcky;70000
+5512000000001;Hasiči - provozní výdaje;5512;5134;prádlo, oděv, obuv (výstroj);100000
+5512000000001;Hasiči - provozní výdaje;5512;5137;DDHM;162000
+5512000000001;Hasiči - provozní výdaje;5512;5139;nákup materiálu;276000
+5512000000001;Hasiči - provozní výdaje;5512;5151;voda;5000
+5512000000001;Hasiči - provozní výdaje;5512;5153;plyn;70000
+5512000000001;Hasiči - provozní výdaje;5512;5154;elektřina;50000
+5512000000001;Hasiči - provozní výdaje;5512;5156;PHM;120000
+5512000000001;Hasiči - provozní výdaje;5512;5162;telekomunikace;33000
+5512000000001;Hasiči - provozní výdaje;5512;5163;pojištění;8000
+5512000000001;Hasiči - provozní výdaje;5512;5166;konzul. a právní služby, revize;10000
+5512000000001;Hasiči - provozní výdaje;5512;5167;školení;30000
+5512000000001;Hasiči - provozní výdaje;5512;5168;údržba a aktualizace systému Fireport;20000
+5512000000001;Hasiči - provozní výdaje;5512;5169;nákup ostatních služeb;100000
+5512000000001;Hasiči - provozní výdaje;5512;5171;opravy a udržování;430000
+5512000000001;Hasiči - provozní výdaje;5512;5175;pohoštění;20000
+5512000000002;Hasiči - investiční výdaje;5512;6121;budovy, haly, stavby;0
+5512000000002;Hasiči - investiční výdaje;5512;6122;spoluúčast k dotaci na cisternu CAS 20;5000000
+6171130000001;ÚIA - provozní výdaje;6171;5011;platy;877000
+6171130000001;ÚIA - provozní výdaje;6171;5031;soc. zabezpečení;219300
+6171130000001;ÚIA - provozní výdaje;6171;5032;zdrav. pojištění;78900
+6171130000001;ÚIA - provozní výdaje;6171;5136;knihy, tisk;5000
+6171130000001;ÚIA - provozní výdaje;6171;5167;školení;25400
+6171130000001;ÚIA - provozní výdaje;6171;5169;ostatní služby - BI;120000
+6171130000001;ÚIA - provozní výdaje;6171;5173;cestovné;21000
+6171130000001;ÚIA - provozní výdaje;6171;5229;členský příspěvek ČIIA;3000
+4350000000001;DPS - provozní výdaje;4350;5021;Ostatní osobní výdaje - dohody;42000
+4350000000001;DPS - provozní výdaje;4350;5031;Pojistní na sociální zabezpečení;11000
+4350000000001;DPS - provozní výdaje;4350;5032;Pojistné na zdravotní pojištění;4000
+4350000000001;DPS - provozní výdaje;4350;5137;Drobný hmotný majetek;30000
+4350000000001;DPS - provozní výdaje;4350;5139;Nákup materiálu;25000
+4350000000001;DPS - provozní výdaje;4350;5151;Voda;110000
+4350000000001;DPS - provozní výdaje;4350;5153;Plyn;280000
+4350000000001;DPS - provozní výdaje;4350;5154;Elektřina;200000
+4350000000001;DPS - provozní výdaje;4350;5162;Telekomunikace;75000
+4350000000001;DPS - provozní výdaje;4350;5169;Nákup ostatních služeb;125000
+4350000000001;DPS - provozní výdaje;4350;5171;Opravy a udržování;115000
+4350000000001;DPS - provozní výdaje;4350;5901;Drobný hmotný majetek (pračka);0
+4350000000001;DPS - provozní výdaje;4350;5909;vratky přeplatků z vyúčtování služeb;20000
+4350000000002;DPS - investiční výdaje;4350;6901;nová klubovna, výměna vodoměrů;40000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5011;Platy;1058000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5021;dohody - podávání obědů;100000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5031;Pojistné na sociální zabezpečení;289500
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5032;Pojistné na zdravotní pojištění;104200
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5137;Drobný hmotný majetek;5000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5138;Nákup zboží k prodeji - obědy;480000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5139;Nákup materiálu;30000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5151;Voda;15000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5153;Plyn;25000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5154;Elektřina;20000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5156;PHM;70000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5162;Telekomunikace;15000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5167;Školení;25500
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5169;Nákup ostatních služeb;25000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5171;Opravy a udržování;15000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5173;Cestovné;6000
+4351000000001;Pečovatelská služba - provozní výdaje;4351;5362;Dálniční známky (3x);4500
+4379000000001;Péče o seniory - provozní výdaje;4379;5041;honoráře;18000
+4379000000001;Péče o seniory - provozní výdaje;4379;5169;aktivity pro seniory;86000
+4379000000003;Péče o seniory - provozní výdaje;4379;5169;Handicap transport;13000
+4379000000001;Péče o seniory - provozní výdaje;4379;5175;Pohoštění na akce pro seniory;15000
+4379000000001;Péče o seniory - provozní výdaje;4379;5194;Věcné dary;20000
+4379000000001;Péče o seniory - provozní výdaje;4379;5222;sociální granty - neinv. dotace očanským sdružením;45000
+4379000000001;Péče o seniory - provozní výdaje;4379;5223;sociální granty - neinv. dotace církvím;5000
+4379000000001;Péče o seniory - provozní výdaje;4379;5901;rezerva na spoluúčast pro krajskou dotaci;50000
+6171150000001;OSÚ - povozní výdaje;6171;5011;platy;4026000
+6171150000001;OSÚ - provzní výdaje;6171;5021;OON - dohody;20000
+6171150000001;OSÚ - povozní výdaje;6171;5031;pojistné na soc. zabezpečení;1007000
+6171150000001;OSÚ - povozní výdaje;6171;5032;pojistné na zdrav. pojištění;362000
+6171150000001;OSÚ - povozní výdaje;6171;5136;knihy, tisk;5000
+6171150000001;OSÚ - povozní výdaje;6171;5167;školení - průběžné;122400
+6171150000001;OSÚ - povozní výdaje;6171;5169;nákup ostatních služeb;6000
+6171150000001;OSÚ - povozní výdaje;6171;5171;opravy a udržování;15000
+6171150000001;OSÚ - povozní výdaje;6171;5173;cestovné;5000
+6171150000002;OSÚ - investiční výdaje;6171;6901;auto;0
+6171160000001;OP - provozní výdaje;6171;5011;platy;4399000
+6171160000001;OP - provozní výdaje;6171;5021;OON - dohody mimo prac. poměr;20000
+6171160000001;OP - provozní výdaje;6171;5031;pojistné na soc. zabezpečení;1100000
+6171160000001;OP - provozní výdaje;6171;5032;pojistné na zdrav. pojištění;396000
+6171160000001;OP - provozní výdaje;6171;5136;knihy, tisk;10000
+6171160000001;OP - provozní výdaje;6171;5139;materiál (pokutové bloky);8000
+6171160000001;OP - provozní výdaje;6171;5166;odborné posudky;55000
+6171160000001;OP - provozní výdaje;6171;5167;školení;132600
+6171160000009;OP - provozní výdaje;6171;5167;školení - ZOZ a VVÚ;60000
+6171160000001;OP - provozní výdaje;6171;5173;cestovné;5000
+5311000000001;MP - provozní výdaje;5311;5011;platy zaměstnanců;6600000
+5311000000001;MP - provozní výdaje;5311;5031;pojistné na sociální zabezpečení;1650000
+5311000000001;MP - provozní výdaje;5311;5032;pojistné na zdravotní pojištění;594000
+5311000000001;MP - provozní výdaje;5311;5132;ochranné pomůcky;40000
+5311000000001;MP - provozní výdaje;5311;5134;prádlo, oděv, obuv (výstroj);220000
+5311000000001;MP - provozní výdaje;5311;5136;knihy, tisk;5000
+5311000000001;MP - provozní výdaje;5311;5137;2x odkup aut po leasingu;0
+5311000000001;MP - provozní výdaje;5311;5137;Drobný hmotný majetek;80000
+5311000000001;MP - provozní výdaje;5311;5139;materiál;100000
+5311000000001;MP - provozní výdaje;5311;5151;Voda;25000
+5311000000001;MP - provozní výdaje;5311;5153;Plyn;60000
+5311000000001;MP - provozní výdaje;5311;5154;elektrická enegrie (včetně kamer);75000
+5311000000001;MP - provozní výdaje;5311;5156;PHM;280000
+5311000000001;MP - provozní výdaje;5311;5161;poštovné;40000
+5311000000001;MP - provozní výdaje;5311;5162;služby telekomunikací;100000
+5311000000001;MP - provozní výdaje;5311;5166;konzult. a právní služby;8000
+5311000000001;MP - provozní výdaje;5311;5167;služby školení;90000
+5311000000001;MP - provozní výdaje;5311;5169;nákup ostatních služeb - atesty radarů, lék. prohlídky, očkování, průkazy;100000
+5311000000003;MP - útulky pro zvířata;5311;5169;útulky pro zvířata;15000
+5311000000001;MP - provozní výdaje;5311;5171;opravy a údržba;150000
+5311000000001;MP - provozní výdaje;5311;5173;cestovné;20000
+5311000000001;MP - provozní výdaje;5311;5175;pohoštění;5000
+5311000000001;MP - provozní výdaje;5311;5361;kolky;5000
+5311000000001;MP - provozní výdaje;5311;5362;dálniční známky;0
+5311000000002;MP - investiční výdaje;5311;6901;rezerva - auto;400000
+102;Splácení úvěru - Husova, Slunečná (refinancovaný);0;8124;Splácení úvěru - Husova, Slunečná;1524000
+786;Splácení úvěru - Kladenská;0;8124;Splácení úvěru - Kladenská;1242000
+851;Splácení úvěru - MŠ Vápenice;0;8124;Splácení úvěru - MŠ Vápenice;1872000
+866;Splácení úvěru - hasičárna;0;8124;Splácení úvěru - hasičárna;1074000
+918;Splácení úvěru - Velký třesk I. etapa;0;8124;Splácení úvěru - Velký třesk I. etapa;5388000
+919;Splácení úvěru - sportovní hala;0;8124;splácení úvěru - sportovní hala;1695000
+930;Splácení úvěru - Velký třesk II. etapa;0;8124;Splácení úvěru - Velký třesk II. etapa;3504000

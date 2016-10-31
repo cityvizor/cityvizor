@@ -1,0 +1,23 @@
+[
+	{
+		"name": "Ministerstvo financí",
+		"logo": "http://data.mfcr.cz/sites/default/files/opendata_1_0.png",
+		"ico":"00006947",
+		"type":"ministry",
+		"coords": {
+			"x": "14.4071911",
+			"y": "50.0891494"
+		}
+	},
+	{
+		"name": "Ministerstvo kultury",
+		"logo": "https://www.mkcr.cz/custom/img/logo-mkcr.jpg",
+		"ico":"00023671",
+		"type":"ministry"
+	},
+	{
+		"name": "Černošice",
+		"ico":"00241121",
+		"type":"municipality"
+	}
+]

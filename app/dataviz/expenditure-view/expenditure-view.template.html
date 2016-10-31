@@ -1,0 +1,20 @@
+<h3>
+	<i class="fa fa-tasks"></i>
+	<span>Výdaje</span>
+	<span *ngIf="openedGroup" class="hidden"> &raquo; {{openedGroup.name}}</span>
+	<div class="btn-group pull-right">
+		<button type="button" class="btn btn-sm btn-default" [class.active]="show=='viz'" (click)="show='viz'">Vizualizace</button>
+		<button type="button" class="btn btn-sm btn-default" [class.active]="show=='map'" (click)="show='map'">Mapa</button>
+		<button type="button" class="btn btn-sm btn-default" [class.active]="show=='tbl'" (click)="show='tbl'">Tabulka</button>
+	</div>
+</h3>
+<hr>
+
+<!-- VIZUALIZACE -->
+<expenditure-viz *ngIf="show=='viz'" [data]="data" [groups]="groups"></expenditure-viz>
+
+<!-- VIZUALIZACE -->
+
+
+<!-- SEZNAM -->
+<expenditure-list *ngIf="show=='tbl'" [data]="data"></expenditure-list>
