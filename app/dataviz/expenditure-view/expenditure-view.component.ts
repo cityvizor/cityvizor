@@ -12,15 +12,19 @@ import { Group, Paragraph, BudgetItem, ExpenditureEvent } from './expenditure-vi
 	moduleId: module.id,
 	selector: 'expenditure-view',
 	templateUrl: 'expenditure-view.template.html',
-	styleUrls: ['expenditure-view.style.css']
+	styles: [`
+		hr{margin-bottom:0;}
+	`]
 })
 export class ExpenditureViewComponent implements OnInit {
 
-
+	// decides which part (vizualization, map or table) will be shown
 	show: string = 'viz';
 	
+	// decides which year's data should be loaded
 	year: number;
 
+	// the data loaded, parsed and restructured from the CSV file
 	data = {
 		groups: [],
 		groupIndex: {},
@@ -36,37 +40,41 @@ export class ExpenditureViewComponent implements OnInit {
 		this.year = (new Date()).getFullYear();
 	}
 	
+	// numbers are parsed from CSV as text
 	string2number(string){
-		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1);
-		string.replace(",",".");
+		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1); //sometimes minus is at the end, put it to first character
+		string.replace(",","."); // function Number accepts only dot as decimal point
 		return Number(string);																									
 	}
 
 	ngOnInit(){
+		// data on budget (originally from Monitor) and on expenditures (from the organization accounting software) are loaded and parsed in parallel. 
 		this.route.parent.params.forEach((params: Params) => {
 			this._ds.getBudget(params["id"],this.year).then(data => this.loadBudget(data));
 			this._ds.getExpenditures(params["id"],this.year).then(data => this.loadExpenditures(data));
 		});
 	}
 	
+	 // TODO: OPTIMIZE to include data only on desired level
 	getGroup(paragraphId){
 		
-		var groupLevel = 2;
+		var groupLevel = 2; // the level used to set groups; 3=Skupina, 2=Oddíl, 1= Pododdíl, 0= Paragraf
 		var groupId = paragraphId.substring(0,4 - groupLevel);
 		
-		if(this.data.groupIndex[groupId]) return this.data.groupIndex[groupId];
+		if(this.data.groupIndex[groupId]) return this.data.groupIndex[groupId]; // if group object already created, no need to create new
 		
 		var groupName = BudgetParagraphs[paragraphId].parents[3 - groupLevel];
 		
-		this.data.groups.push(new Group(groupId,groupName));
-
-		return this.data.groupIndex[groupId] = this.data.groups[this.data.groups.length - 1];
+		this.data.groups.push(new Group(groupId,groupName)); // create new group in the groups array
+		this.data.groupIndex[groupId] = this.data.groups[this.data.groups.length - 1]; // add the reference to the group also to groupIndex object, to access group by its ID
+		
+		return this.data.groupIndex[groupId];
 
 	}
 	
 	getParagraph(parent,paragraphId){
 		
-		if(parent.paragraphIndex[paragraphId]) return parent.paragraphIndex[paragraphId];
+		if(parent.paragraphIndex[paragraphId]) return parent.paragraphIndex[paragraphId]; // if paragraph object already created, no need to create new
 		
 		var paragraphName = BudgetParagraphs[paragraphId].name;
 		
