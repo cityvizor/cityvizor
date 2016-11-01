@@ -35,16 +35,18 @@
 	</div>
 	<div class=" small">
 		<div class="row  div-table-head">
-			<div class="col-md-6">Rozpočtový paragraf</div>
-			<div class="col-md-3 ">Částka</div>
+			<div class="col-md-5">Rozpočtový paragraf</div>
+			<div class="col-md-2 ">Výdaje</div>
+			<div class="col-md-2 ">Rozpočet</div>
 			<div class="col-md-3 ">&nbsp;</div>
 		</div>
 		<div *ngFor="let paragraph of openedGroup.paragraphs">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-5">
 					<span title="Rozpočtový paragraf {{paragraph.id}} - {{paragraph.name}}">{{paragraph.name}}</span>
 				</div>
-				<div class="col-md-3">{{paragraph.budgetAmount | money:1:true}} Kč</div>
+				<div class="col-md-2">{{paragraph.expenditureAmount | money:1:true}} Kč</div>
+				<div class="col-md-2">{{paragraph.budgetAmount | money:1:true}} Kč</div>
 				<div class="col-md-3">
 					<div class="progress progress-md">
 						<div class="progress-bar progress-bar-success" role="progressbar"
@@ -63,20 +65,11 @@
 				<div  class="col-md-1 text-right">
 					<i class="fa fa-caret-right"></i> 
 				</div>
-				<div class="col-md-5 ">
+				<div class="col-md-4 ">
 					<span title="{{expenditureEvent.name}}">{{expenditureEvent.name}} ({{expenditureEvent.id}})</span>									
 				</div>
-				<div class="col-md-3">{{expenditureEvent.expenditureAmount | money:1:true}} Kč</div>
-			</div>
-
-			<div class="row">
-				<div  class="col-md-1 text-right">
-					<i class="fa fa-caret-right"></i> 
-				</div>
-				<div class="col-md-5 ">
-					<span title="">Nezařazené</span>									
-				</div>
-				<div class="col-md-3">{{(paragraph.budgetAmount - paragraph.expenditureAmount) | money:1:true}} Kč</div>
+				<div class="col-md-2">{{expenditureEvent.expenditureAmount | money:1:true}} Kč</div>
+				<div class="col-md-2">{{expenditureEvent.budgetAmount | money:1:true}} Kč</div>
 			</div>
 
 		</div>

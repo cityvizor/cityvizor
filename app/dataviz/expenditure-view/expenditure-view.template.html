@@ -10,6 +10,8 @@
 </h3>
 <hr>
 
+<div *ngIf="loading">Načítám data...</div>
+
 <!-- VIZUALIZACE -->
 <expenditure-viz *ngIf="show=='viz'" [data]="data"></expenditure-viz>
 

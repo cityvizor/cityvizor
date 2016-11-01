@@ -20,6 +20,7 @@ export class ExpenditureViewComponent implements OnInit {
 
 	// decides which part (vizualization, map or table) will be shown
 	show: string = 'viz';
+	loading: boolean = true;
 	
 	// decides which year's data should be loaded
 	year: number;
@@ -53,9 +54,23 @@ export class ExpenditureViewComponent implements OnInit {
 			var i = 0;
 			// we get an Observable
 			this._ds.getExpenditures(params["id"],this.year).subscribe(
-				data => data.forEach(row => {if(i > 0) this.loadRow(row); i++;}), // we want to skip the first row (heading)
-				error => {}, // error
-				() => this.sortData() // finished
+				// one or more rows
+				data => {
+					data.forEach(row => {
+						if(i > 0) this.loadRow(row); // we want to skip the first row (heading)
+						i++;
+					}); 
+				},
+				
+				// error
+				error => {
+				}, 
+				
+				// finished
+				() => {
+					this.loading = false;
+					this.sortData();
+				}
 			);
 		});
 	}

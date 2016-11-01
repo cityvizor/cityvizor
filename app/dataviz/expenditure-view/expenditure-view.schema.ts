@@ -47,6 +47,7 @@ export class ExpenditureEvent {
 	id: string;
 	name: string;
 	expenditureAmount: number = 0;
+	budgetAmount: number = 0;
 	paragraphs: Paragraph[] = [];
 	paragraphIndex: {} = {};
 	
