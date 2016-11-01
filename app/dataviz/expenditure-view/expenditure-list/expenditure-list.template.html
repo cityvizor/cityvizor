@@ -53,8 +53,7 @@
 								 aria-valuemin="0" aria-valuemax="100" [style.width]="(paragraph.expenditureAmount/openedGroup.budgetAmount*100) + '%'">
 							<span class="sr-only">{{(paragraph.budgetAmount/openedGroup.maxBudgetAmount*100)}}% Complete</span>
 						</div>
-						<div class="progress-bar progress-bar-warning" role="progressbar"
-								 aria-valuemin="0" aria-valuemax="100" [style.width]="(paragraph.budgetAmount/openedGroup.budgetAmount*100 - paragraph.expenditureAmount/openedGroup.budgetAmount*100) + '%'">
+						<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style.width]="toAbsolute(paragraph.budgetAmount - paragraph.expenditureAmount)/openedGroup.budgetAmount*100 + '%'" [class.progress-bar-danger]="paragraph.budgetAmount < paragraph.expenditureAmount">
 							<span class="sr-only">{{(paragraph.budgetAmount/openedGroup.maxBudgetAmount*100)}}% Complete</span>
 						</div>
 					</div>

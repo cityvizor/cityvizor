@@ -28,6 +28,7 @@
 				<tr *ngFor="let event of paragraph.expenditureEvents">
 					<th>{{event.name}}</th>
 					<td>{{event.expenditureAmount | money:0:true}} Kč</td>
+					<td>{{event.budgetAmount | money:0:true}} Kč</td>
 				</tr>
 			</table>
 			

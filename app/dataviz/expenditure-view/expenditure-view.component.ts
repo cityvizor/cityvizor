@@ -55,7 +55,7 @@ export class ExpenditureViewComponent implements OnInit {
 			// we get an Observable
 			this._ds.getExpenditures(params["id"],this.year).subscribe(
 				// one or more rows
-				data => {
+				(data: Array<any>) => {
 					data.forEach(row => {
 						if(i > 0) this.loadRow(row); // we want to skip the first row (heading)
 						i++;

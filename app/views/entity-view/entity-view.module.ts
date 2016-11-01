@@ -8,13 +8,11 @@ import { ExpenditureVizComponent } from '../../dataviz/expenditure-view/expendit
 import { ManagementReviewComponent } from "../../dataviz/management-review/management-review.component";
 import { DataSourcesComponent } from "../../dataviz/data-sources/data-sources.component";
 
-import { ChartsModule } from 'ng2-charts/ng2-charts';
-
 import { entityViewRouting } from './entity-view.routing';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  imports: [ entityViewRouting, SharedModule, ChartsModule ],
+  imports: [ entityViewRouting, SharedModule ],
   declarations: [ EntityViewComponent, ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, EntityInfoComponent, DataSourcesComponent ]
 })
 export class EntityViewModule { }

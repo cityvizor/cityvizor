@@ -6,7 +6,7 @@ import { Group, Paragraph, BudgetItem, ExpenditureEvent } from '../expenditure-v
 @Component({
 	moduleId: module.id,
 	selector: 'expenditure-list',
-	templateUrl: 'expenditure-list.template.html'
+	templateUrl: 'expenditure-list.template.html'		
 })
 export class ExpenditureListComponent{
 
@@ -18,5 +18,9 @@ export class ExpenditureListComponent{
 	openGroup(group: Group){
 		this.openedGroup = group;
 	}
+	 
+	 toAbsolute(number: number){
+		 return Math.abs(number);
+	 }
 	
 }
