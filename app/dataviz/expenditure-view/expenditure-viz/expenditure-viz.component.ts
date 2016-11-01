@@ -31,16 +31,6 @@ const ChartGroups = [
 	{"id":"64", "title": "Ostatní činnosti"}
 ];
 
-const ChartGroups2 = [
-	{"id": "1", "title": "Zemědělství, lesní hospodářství a rybářství"},
-	{"id": "2", "title": "Průmyslová a ostatní odvětví hospodářství"},
-	{"id": "3", "title": "Služby pro obyvatelstvo"},
-	{"id": "4", "title": "Sociální věci a politika zaměstnanosti"},
-	{"id": "5", "title": "Bezpečnost státu a právní ochrana"},
-	{"id": "6", "title": "Všeobecná veřejná správa a služby"}
-];
-
-
 /*
 
 Component for graphical vizualization of expenditures
@@ -51,7 +41,6 @@ Component for graphical vizualization of expenditures
 	selector: 'expenditure-viz',
 	templateUrl: 'expenditure-viz.template.html',
 	styles: [`
-
 		div.drawing{background-color:rgba(0,0,0,0.02);}
 
 		svg{margin:0 auto;display:block;}
@@ -75,7 +64,7 @@ export class ExpenditureVizComponent{
  	cx: number = 500;
  	cy: number = 500;
 	innerSize: number = 0.003;
-	minSize: number = 0.003;
+	minSize: number = 0;
 
 	// array with groups that vizualization is made of (fixed, does not vary with data)
 	groups: Array<{id: string, title: string}> = [];
@@ -94,7 +83,7 @@ export class ExpenditureVizComponent{
 	}
 	
 	constructor(){
-		this.groups	= ChartGroups; // set groups
+		this.groups = ChartGroups; // set groups
 	}
  
 	// select group (e.g. after clicking a stripe)
@@ -109,7 +98,7 @@ export class ExpenditureVizComponent{
 
 	// generate path for group expenditures
 	getEStripePath(i,group){
-		var inner = 0
+		var inner = 0;
 		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.groupIndex[group.id] && this.data.maxBudgetAmount ? this.data.groupIndex[group.id].expenditureAmount / this.data.maxBudgetAmount : 0);
 		return this.getStripePath(i,inner,outer);
 	}

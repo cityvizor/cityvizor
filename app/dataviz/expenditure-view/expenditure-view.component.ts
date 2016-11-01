@@ -48,10 +48,15 @@ export class ExpenditureViewComponent implements OnInit {
 	}
 
 	ngOnInit(){
-		// data on budget (originally from Monitor) and on expenditures (from the organization accounting software) are loaded and parsed in parallel. 
+		// data on expenditures (from the organization accounting software) are loaded and parsed in parallel. 
 		this.route.parent.params.forEach((params: Params) => {
-			this._ds.getBudget(params["id"],this.year).then(data => this.loadBudget(data));
-			this._ds.getExpenditures(params["id"],this.year).then(data => this.loadExpenditures(data));
+			var i = 0;
+			// we get an Observable
+			this._ds.getExpenditures(params["id"],this.year).subscribe(
+				data => data.forEach(row => {if(i > 0) this.loadRow(row); i++;}), // we want to skip the first row (heading)
+				error => {}, // error
+				() => this.sortData() // finished
+			);
 		});
 	}
 	
@@ -104,7 +109,7 @@ export class ExpenditureViewComponent implements OnInit {
 		return this.data.expenditureEventIndex[id] = this.data.expenditureEvents[this.data.expenditureEvents.length - 1];
 	}
 	
-	sortData(field: string){
+	sortData(){
 
 		var field1 = "expenditureAmount";
 		var field2 = "budgetAmount";
@@ -115,86 +120,58 @@ export class ExpenditureViewComponent implements OnInit {
 			group.paragraphs.forEach(paragraph => paragraph.expenditureEvents.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]));
 		});
 	}
-
-	loadBudget(budgetData){
-
-		if(!(budgetData instanceof Array)) return;
-
-		var data = this.data;
-		var _this = this;
-
-		budgetData.forEach(function(item,i){
-			if(i === 0) return; // header row
-			if(item.length < 3) return; // invalid row
-			
-			var amount = _this.string2number(item[2]);
-			
-			if(amount === 0) return;
-
-			var paragraphId = item[0];
-			var budgetItemId = item[1];
-
-			var group = _this.getGroup(paragraphId);
-			var paragraph = _this.getParagraph(group,paragraphId);
-			var budgetItem = _this.getBudgetItem(paragraph,budgetItemId);
-
-			data.budgetAmount += amount;
-			group.budgetAmount += amount;
-			paragraph.budgetAmount += amount;
-			budgetItem.budgetAmount += amount;
-
-			if(group.budgetAmount > data.maxBudgetAmount) data.maxBudgetAmount = group.budgetAmount;
-			if(paragraph.budgetAmount > group.maxBudgetAmount) group.maxBudgetAmount = paragraph.budgetAmount;
-
-		});
-	}
 	
-	loadExpenditures(expenditureData){
-
-		if(!(expenditureData instanceof Array)) return;
+	loadRow(item){
+		
+		if(item.length < 9) return; // invalid row
 
 		var data = this.data;
-		var _this = this;
 
-		expenditureData.forEach(function(item,i){
-			if(i === 0) return; // header row
-			if(item.length < 3) return; // invalid row
-			
-			var amount = _this.string2number(item[5]);
-			
-			if(amount === 0) return;
+		var paragraphId = item[0];
+		var budgetItemId = item[4];
 
-			var paragraphId = item[2];
-			var budgetItemId = item[3];
-			
-			var group = _this.getGroup(paragraphId);
-			var paragraph = _this.getParagraph(group,paragraphId);
-			var budgetItem = _this.getBudgetItem(paragraph,budgetItemId);
-			
-			var expenditureEvent = _this.getExpenditureEvent(item[0],item[1]);
-			var expenditureEventParagraph = _this.getParagraph(expenditureEvent,paragraphId);
-			var expenditureEventBudgetItem = _this.getBudgetItem(expenditureEventParagraph,budgetItemId);
-				
-			if(!paragraph.expenditureEventIndex[expenditureEvent.id]){
-				paragraph.expenditureEvents.push(expenditureEvent);
-				paragraph.expenditureEventIndex[expenditureEvent.id] = paragraph.expenditureEvents[paragraph.expenditureEvents.length - 1];
-			}
-			
-			data.expenditureAmount += amount;
-			group.expenditureAmount += amount;
-			paragraph.expenditureAmount += amount;			
-			budgetItem.expenditureAmount += amount;
-			expenditureEventParagraph.expenditureAmount += amount;
-			expenditureEventBudgetItem.expenditureAmount += amount;
-			
-			expenditureEvent.expenditureAmount += amount;
+		var group = this.getGroup(paragraphId);
+		var paragraph = this.getParagraph(group,paragraphId);
+		var budgetItem = this.getBudgetItem(paragraph,budgetItemId);
 
-			if(group.expenditureAmount > data.maxExpenditureAmount) data.maxExpenditureAmount = group.expenditureAmount;
-			if(paragraph.expenditureAmount > group.maxExpenditureAmount) group.maxExpenditureAmount = paragraph.expenditureAmount;
+		var expenditureEvent = this.getExpenditureEvent(item[1],item[2]);
+		var expenditureEventParagraph = this.getParagraph(expenditureEvent,paragraphId);
+		var expenditureEventBudgetItem = this.getBudgetItem(expenditureEventParagraph,budgetItemId);
 
-		});
+		if(!paragraph.expenditureEventIndex[expenditureEvent.id]){
+			paragraph.expenditureEvents.push(expenditureEvent);
+			paragraph.expenditureEventIndex[expenditureEvent.id] = paragraph.expenditureEvents[paragraph.expenditureEvents.length - 1];
+		}
+
+		var amount = this.string2number(item[6]);
 		
-		this.sortData('expenditureAmount');
-	};
+		data.expenditureAmount += amount;
+		group.expenditureAmount += amount;
+		paragraph.expenditureAmount += amount;
+		budgetItem.expenditureAmount += amount;
+		expenditureEventParagraph.expenditureAmount += amount;
+		expenditureEventBudgetItem.expenditureAmount += amount;
+
+		expenditureEvent.expenditureAmount += amount;
+
+		if(group.expenditureAmount > data.maxExpenditureAmount) data.maxExpenditureAmount = group.expenditureAmount;
+		if(paragraph.expenditureAmount > group.maxExpenditureAmount) group.maxExpenditureAmount = paragraph.expenditureAmount;
+
+		
+		var amount = this.string2number(item[8]);
+		
+		data.budgetAmount += amount;
+		group.budgetAmount += amount;
+		paragraph.budgetAmount += amount;			
+		budgetItem.budgetAmount += amount;
+		expenditureEventParagraph.budgetAmount += amount;
+		expenditureEventBudgetItem.budgetAmount += amount;
+
+		expenditureEvent.budgetAmount += amount;
+
+		if(group.budgetAmount > data.maxBudgetAmount) data.maxBudgetAmount = group.budgetAmount;
+		if(paragraph.budgetAmount > group.maxBudgetAmount) group.maxBudgetAmount = paragraph.budgetAmount;
+
+	}
 
 }

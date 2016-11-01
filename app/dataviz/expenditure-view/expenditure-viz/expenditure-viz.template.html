@@ -1,5 +1,5 @@
 <div class="drawing" #drawing>
-	<svg [attr.width]="scale * 100 + '%'" viewBox="0 0 1000 1000">
+	<svg [attr.height]="scale * 750 + 'px'" width="100%" viewBox="0 0 1000 1000">
 		
 		<g *ngFor="let group of groups; let i = index">
 			<path [attr.d]="getEStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#f00' : '#09f'" />
