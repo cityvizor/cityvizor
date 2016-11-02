@@ -12,11 +12,13 @@
 
 <div *ngIf="loading">Načítám data...</div>
 
-<!-- VIZUALIZACE -->
-<expenditure-viz *ngIf="show=='viz'" [data]="data"></expenditure-viz>
+<div *ngIf="!loading">
+	<!-- VIZUALIZACE -->
+	<expenditure-viz *ngIf="show=='viz'" [data]="data"></expenditure-viz>
 
-<!-- VIZUALIZACE -->
+	<!-- MAPA -->
 
 
-<!-- SEZNAM -->
-<expenditure-list *ngIf="show=='tbl'" [data]="data"></expenditure-list>
+	<!-- SEZNAM -->
+	<expenditure-list *ngIf="show=='tbl'" [data]="data"></expenditure-list>
+</div>

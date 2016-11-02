@@ -41,19 +41,23 @@ Component for graphical vizualization of expenditures
 	selector: 'expenditure-viz',
 	templateUrl: 'expenditure-viz.template.html',
 	styles: [`
-		div.drawing{background-color:rgba(0,0,0,0.02);}
+		div.drawing{}
 
 		svg{margin:0 auto;display:block;}
 		.stripe{cursor:pointer;border:2px solid #fff;}
 		.stripe.active{background-color:#f00;}
 		.bgstripe{opacity:0;cursor:pointer;}
 		.bgstripe:hover, .bgstripe.active{opacity:0.2;}
-
+		
 		.circle{cursor:pointer;}
 
 		.viztable{width:100%;}
 		.viztable th{font-weight:normal;}
 		.viztable td{font-weight:normal;width:150px;text-align:right;}
+
+		#selectedGroup .paragraph hr{clear:both;}
+		#selectedGroup .paragraph .graph{float:left;width:150px;height:150px;overflow:hidden;font-size:.8em;}
+		#selectedGroup .paragraph .content{margin-left:150px;}
 	`]
 })
 export class ExpenditureVizComponent{
@@ -106,7 +110,7 @@ export class ExpenditureVizComponent{
 	// generate path for group total budget minus expenditures
 	getBStripePath(i,group){
 		var inner = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.groupIndex[group.id] && this.data.maxBudgetAmount ? this.data.groupIndex[group.id].expenditureAmount / this.data.maxBudgetAmount : 0);
-		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.groupIndex[group.id] && this.data.maxBudgetAmount ? (this.data.groupIndex[group.id].budgetAmount - this.data.groupIndex[group.id].expenditureAmount) / this.data.maxBudgetAmount : 0);
+		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.groupIndex[group.id] && this.data.maxBudgetAmount ? this.data.groupIndex[group.id].budgetAmount / this.data.maxBudgetAmount : 0);
 		return this.getStripePath(i,inner,outer);
 	}
 
@@ -114,8 +118,6 @@ export class ExpenditureVizComponent{
 	getStripePath(i,inner,outer){
 
 		i = Math.min(Math.max(i,0),this.groups.length); // i ranges from 0 to number of groups
-		inner = Math.max(inner,0); // inner size must be greater than 0
-		outer = Math.max(outer,inner); // outer size must be greater than inner
 
 		var innerRadius = Math.sqrt(inner) * this.r; // we want the size to grow with area of the stripe, therefore square root (inner and outer are stil 0~1, but square root shape)
 		var outerRadius = Math.sqrt(outer) * this.r;
@@ -127,6 +129,10 @@ export class ExpenditureVizComponent{
 	// generate SVG path attribute string for a donut stripe; start and size are percentage of whole
 	generateStripePath(x,y,innerRadius,outerRadius,start,size){
 		if(size >= 1) size = 0.9999; // if a stripe would be 100%, then it's circle, this is a hack to do it using this function instead of another
+		
+		innerRadius = Math.max(innerRadius,0); // inner size must be greater than 0
+		outerRadius = Math.max(outerRadius,innerRadius); // outer size must be greater than inner
+		size = Math.max(size,0);
 		
 		var startAngle = 2 * Math.PI * start;
 		var angle =  2 * Math.PI * size;

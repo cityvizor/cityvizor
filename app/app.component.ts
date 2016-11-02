@@ -12,7 +12,12 @@ import { DataService } from './services/data.service';
 export class AppComponent {
 	
 	menuState: string;
+
+	year: string;
 	
-	constructor() {}
+	constructor() {
+		var today = new Date();
+		this.year = today.getFullYear() > 2016 ? "2016 ~ " + today.getFullYear() : "2016";
+	}
 
 }

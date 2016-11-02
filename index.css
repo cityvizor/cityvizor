@@ -1,5 +1,5 @@
 body {
-	background-color: rgba(0, 0, 0, .1);
+	background-color:#eee;
 }
 
 h1,
@@ -71,7 +71,6 @@ h3 {
 .page {
 	position: relative;
 	background-color: #fff;
-	box-shadow: 0 0 5px rgba(0, 0, 0, .2);
 	padding-top: 2em;
 }
 

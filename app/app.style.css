@@ -1,17 +1,22 @@
 header{
+	font-size:3em;
 	background-color:#fff;
-	padding:20px 0;
+	padding: 20px 0 15px 0;
 	box-shadow:0 0 5px rgba(0,0,0,.2);
 }
+header a{text-decoration:none;}
+header .supervizor{ color: rgb(231,52,49);}
+header .plus{ color: rgb(37,129,196);}
+
 #menu{
-	background-color:#0A77BD;
+	background-color: rgb(37,129,196);
 }
 
 #menu nav a{
 		color:#fff;
 	font-size: 1.2em;
 	display: inline-block;
-	padding: 10px 20px;
+	padding: 4px 20px;
 	text-decoration:none;
 }
 
@@ -19,3 +24,17 @@ header{
 	background-color:rgba(0,0,0,.3);
 	text-decoration:none;
 }
+
+#content{
+	background-color:#fff;
+	padding:0 0 50px 0;
+}
+
+footer{
+	padding: 5px 0 20px 0;
+	text-align:center;
+	font-size:.8em;
+	color:#666;
+}
+
+footer .fa-heart{color:rgb(231,52,49);}

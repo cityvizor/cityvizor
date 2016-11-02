@@ -41,8 +41,11 @@ export class DataService {
 		return new Observable(observer => {
 			PapaParse.parse(path, {
 				download: true,
-				step: row => observer.next(row.data),
-				complete: () => observer.complete()
+				//step: result => observer.next(result.data),
+				complete: (result) => {
+					observer.next(result.data);
+					observer.complete();
+				}
 			});
 		});
 	}
