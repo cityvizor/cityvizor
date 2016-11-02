@@ -24,8 +24,8 @@
 
 			<div class="graph">
 				<svg height="100px" width="100px" viewBox="0 0 1000 1000">
-					<path *ngIf="paragraph.expenditureAmount" [attr.d]="generateStripePath(500,500,0,500,0,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="20" stroke="#fff" fill="#09f" />
-					<path [attr.d]="generateStripePath(500,500,0,500,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0,paragraph.budgetAmount ? 1 - paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="20" stroke="#fff" fill="#f90" />
+					<path *ngIf="paragraph.expenditureAmount" [attr.d]="generateStripePath(500,500,0,500,0,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="20" stroke="#fff" fill="#2581C4" />
+					<path [attr.d]="generateStripePath(500,500,0,500,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0,paragraph.budgetAmount ? 1 - paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="20" stroke="#fff" fill="#FFC000" />
 				</svg>
 				
 				<br>

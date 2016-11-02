@@ -7,12 +7,13 @@ import { ExpenditureListComponent } from '../../dataviz/expenditure-view/expendi
 import { ExpenditureVizComponent } from '../../dataviz/expenditure-view/expenditure-viz/expenditure-viz.component';
 import { ManagementReviewComponent } from "../../dataviz/management-review/management-review.component";
 import { DataSourcesComponent } from "../../dataviz/data-sources/data-sources.component";
+import { NoticeBoardComponent } from "../../dataviz/notice-board/notice-board.component";
 
 import { entityViewRouting } from './entity-view.routing';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [ entityViewRouting, SharedModule ],
-  declarations: [ EntityViewComponent, ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, EntityInfoComponent, DataSourcesComponent ]
+  declarations: [ EntityViewComponent, ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, EntityInfoComponent, DataSourcesComponent, NoticeBoardComponent ]
 })
 export class EntityViewModule { }

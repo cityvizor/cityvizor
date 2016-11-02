@@ -28,6 +28,7 @@ header .plus{ color: rgb(37,129,196);}
 #content{
 	background-color:#fff;
 	padding:0 0 50px 0;
+	min-height:800px;
 }
 
 footer{
