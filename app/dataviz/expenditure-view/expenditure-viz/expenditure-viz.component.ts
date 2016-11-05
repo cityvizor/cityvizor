@@ -46,14 +46,16 @@ Component for graphical vizualization of expenditures
 		svg{margin:0 auto;display:block;}
 		.stripe{cursor:pointer;border:2px solid #fff;}
 		.stripe.active{background-color:#f00;}
-		.bgstripe{opacity:0;cursor:pointer;}
+		.bgstripe{opacity:0;cursor:pointer; transition-duration: .2s;}
 		.bgstripe:hover, .bgstripe.active{opacity:0.2;}
 		
 		.circle{cursor:pointer;}
 
-		.viztable{width:100%;}
-		.viztable th{font-weight:normal;}
-		.viztable td{font-weight:normal;width:150px;text-align:right;}
+		.viztable {margin-top: 1em;}
+		.viztable tbody td {padding: 2px;}
+		.viztable th:nth-child(1), td:nth-child(1) {width:50%;text-align:left;}
+		.viztable th:nth-child(2), td:nth-child(2) {width:25%;text-align:right;}
+		.viztable th:nth-child(3), td:nth-child(3) {width:25%;text-align:right;}
 
 		#selectedGroup .paragraph hr{clear:both;}
 		#selectedGroup .paragraph .graph{float:left;width:150px;height:150px;overflow:hidden;font-size:.8em;}
@@ -67,8 +69,9 @@ export class ExpenditureVizComponent{
 	r: number = 500;	// set according to drawingElSize
  	cx: number = 500;
  	cy: number = 500;
-	innerSize: number = 0.003;
-	minSize: number = 0;
+	innerSize: number = 0.04;
+	minSize: number = 0.008;
+	showAmounts: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
 
 	// array with groups that vizualization is made of (fixed, does not vary with data)
 	groups: Array<{id: string, title: string}> = [];
@@ -94,6 +97,8 @@ export class ExpenditureVizComponent{
 	selectGroup(group){
 		this.selectedGroup = group;
 		this.scale = this.selectedGroup !== null ?  0.5 : 1;
+		
+		this.showAmounts = this.selectedGroup !== null ?  false : true;
 	}
 
 	getCircleR(){
@@ -102,7 +107,7 @@ export class ExpenditureVizComponent{
 
 	// generate path for group expenditures
 	getEStripePath(i,group){
-		var inner = 0;
+		var inner = this.innerSize;
 		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.groupIndex[group.id] && this.data.maxBudgetAmount ? this.data.groupIndex[group.id].expenditureAmount / this.data.maxBudgetAmount : 0);
 		return this.getStripePath(i,inner,outer);
 	}
@@ -133,6 +138,7 @@ export class ExpenditureVizComponent{
 		innerRadius = Math.max(innerRadius,0); // inner size must be greater than 0
 		outerRadius = Math.max(outerRadius,innerRadius); // outer size must be greater than inner
 		size = Math.max(size,0);
+		if(size == 0 || size == 1) start = 0; // if a stripe is 0% or 100%, means it has to start at 0 angle 
 		
 		var startAngle = 2 * Math.PI * start;
 		var angle =  2 * Math.PI * size;

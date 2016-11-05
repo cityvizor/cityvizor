@@ -1,5 +1,5 @@
 <h3>
-	<i class="fa fa-tasks"></i>
+	<i class="fa fa-money"></i>
 	<span>Výdaje</span>
 	<span *ngIf="openedGroup" class="hidden"> &raquo; {{openedGroup.name}}</span>
 	<div class="btn-group pull-right">
@@ -10,7 +10,7 @@
 </h3>
 <hr>
 
-<div *ngIf="loading">Načítám data...</div>
+<div *ngIf="loading" class="text-center"><i class="fa fa-circle-o-notch fa-spinner"></i> Načítám data...</div>
 
 <div *ngIf="!loading">
 	<!-- VIZUALIZACE -->

@@ -5,15 +5,22 @@ header{
 	box-shadow:0 0 5px rgba(0,0,0,.2);
 }
 header a{text-decoration:none;}
-header .supervizor{ color: rgb(231,52,49);}
-header .plus{ color: rgb(37,129,196);}
+header .supervizor{ 
+	color: rgb(231,52,49);
+	font-weight: bold;
+}
+header .plus{ 
+	color: rgb(37,129,196);
+	font-family: 'Roboto Slab',serif;
+}
 
 #menu{
 	background-color: rgb(37,129,196);
 }
 
 #menu nav a{
-		color:#fff;
+	line-height: 3em;
+	color:#fff;
 	font-size: 1.2em;
 	display: inline-block;
 	padding: 4px 20px;

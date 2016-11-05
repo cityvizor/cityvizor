@@ -34,7 +34,9 @@ export class ExpenditureViewComponent implements OnInit {
 		maxBudgetAmount: 0,
 		maxExpenditureAmount: 0,
 		budgetAmount:0,
-		expenditureAmount:0
+		expenditureAmount:0,
+		budgetExpenditureDiffAmount:0,
+		budgetExpenditureDiffAbsAmount:0
 	};
 
 	constructor(private route: ActivatedRoute,private _ds: DataService) {
@@ -187,6 +189,15 @@ export class ExpenditureViewComponent implements OnInit {
 		if(group.budgetAmount > data.maxBudgetAmount) data.maxBudgetAmount = group.budgetAmount;
 		if(paragraph.budgetAmount > group.maxBudgetAmount) group.maxBudgetAmount = paragraph.budgetAmount;
 
+		data.budgetExpenditureDiffAmount=data.expenditureAmount-data.budgetAmount;
+		data.budgetExpenditureDiffAbsAmount=Math.abs(data.budgetExpenditureDiffAmount);
+		group.budgetExpenditureDiffAmount=group.expenditureAmount-group.budgetAmount;
+		group.budgetExpenditureDiffAbsAmount=Math.abs(group.budgetExpenditureDiffAmount);
+		paragraph.budgetExpenditureDiffAmount=paragraph.expenditureAmount-paragraph.budgetAmount;
+		paragraph.budgetExpenditureDiffAbsAmount=Math.abs(paragraph.budgetExpenditureDiffAmount);
+		budgetItem.budgetExpenditureDiffAmount=budgetItem.expenditureAmount-budgetItem.budgetAmount;
+		budgetItem.budgetExpenditureDiffAbsAmount=Math.abs(budgetItem.budgetExpenditureDiffAmount);
+		
 	}
 
 }

@@ -1,2 +1,8 @@
 .bar{display:block;height:24px;width:200px;}
 .bar .budget{display:block;height:24px;width:0%;background-color:#eee;}
+
+hr {
+	margin-top: 5px;
+}
+
+.label-primary {background-color:#ff9491;}

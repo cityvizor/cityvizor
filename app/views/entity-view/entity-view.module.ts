@@ -9,11 +9,14 @@ import { ManagementReviewComponent } from "../../dataviz/management-review/manag
 import { DataSourcesComponent } from "../../dataviz/data-sources/data-sources.component";
 import { NoticeBoardComponent } from "../../dataviz/notice-board/notice-board.component";
 
+import { NoticeBoardService } 		from '../../services/notice-board.service';
+
 import { entityViewRouting } from './entity-view.routing';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [ entityViewRouting, SharedModule ],
-  declarations: [ EntityViewComponent, ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, EntityInfoComponent, DataSourcesComponent, NoticeBoardComponent ]
+  declarations: [ EntityViewComponent, ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, EntityInfoComponent, DataSourcesComponent, NoticeBoardComponent ],
+	providers: [ NoticeBoardService ]
 })
 export class EntityViewModule { }
