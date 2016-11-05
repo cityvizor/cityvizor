@@ -51,7 +51,7 @@ export class DataService {
 		
 		if(!year) year = (new Date()).getFullYear();
 		
-		var path = "/data/" + ico + "/expenditures_" + year + ".csv";
+		var path = "/api/vydaje/" + ico + "/" + year;
 		
 		return this.getCSV(path);
 		

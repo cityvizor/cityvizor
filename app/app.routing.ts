@@ -9,7 +9,9 @@ const appRoutes: Routes = [
   {path: '',component: FrontPageComponent},
 	{path: 'stranka/:id',component: PageViewComponent},
 	{path: 'seznam/ministerstva',component: EntityListComponent, data: {type:"ministry"}},
-	{path: 'seznam/obce',component: EntityListComponent, data: {type:"municipality"}}
+	{path: 'seznam/obce',component: EntityListComponent, data: {type:"municipality"}},
+	{path: 'ico/:ico/:view',component: EntityViewComponent},
+	{path: 'ico/:ico', redirectTo: 'ico/:ico/vydaje'}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

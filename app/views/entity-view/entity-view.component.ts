@@ -12,26 +12,35 @@ import { DataService } 		from '../../services/data.service';
 })
 export class EntityViewComponent implements OnInit {
 
+	ico: string;
+	view: string;
+	
 	entity = {
 		"name": "",
 		"ico": ""
 	};
 	
+	
+	
 	year = 2016;
 
-	expenditureData;
-	budgetData;
-
 	constructor(private _route: ActivatedRoute, private _ds: DataService) {
-
+		this._route.params.forEach((params: Params) => {
+			this.ico = params["ico"];
+			this.view = params["view"];
+		});
 	}
 
 
 	ngOnInit(){
 		this._route.params.forEach((params: Params) => {
-			this._ds.getEntity(params['id']).then(entity => {
+			this._ds.getEntity(params["ico"]).then(entity => {
 				this.entity = entity;
 			});
 		});		
+	}
+	
+	getMenuLink(view){
+		return ['/ico/' + this.ico + '/' + view];
 	}
 }

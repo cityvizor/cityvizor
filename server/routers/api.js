@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/supervizor-plus');
 
 
-router.use("/entities",require("../api/entities.js"));
+router.use("/entities",require("../api/entities"));
 
 router.use("/vydaje",require("../api/vydaje"));
 

@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input } from '@angular/core';
 
 import { DataService } from '../../services/data.service';
 
 import { BudgetParagraphs } from './budget-paragraph.data';
 import { BudgetItems } from './budget-items.data';
 import { Group, Paragraph, BudgetItem, ExpenditureEvent } from './expenditure-view.schema';
-
 
 @Component({
 	moduleId: module.id,
@@ -16,11 +14,16 @@ import { Group, Paragraph, BudgetItem, ExpenditureEvent } from './expenditure-vi
 		hr{margin-bottom:0;}
 	`]
 })
-export class ExpenditureViewComponent implements OnInit {
+export class ExpenditureViewComponent {
 
 	// decides which part (vizualization, map or table) will be shown
 	show: string = 'viz';
 	loading: boolean = true;
+	
+	@Input()
+	set ico(ico: string){
+		this.loadData(ico,this.year);
+	}
 	
 	// decides which year's data should be loaded
 	year: number;
@@ -39,7 +42,7 @@ export class ExpenditureViewComponent implements OnInit {
 		budgetExpenditureDiffAbsAmount:0
 	};
 
-	constructor(private route: ActivatedRoute,private _ds: DataService) {
+	constructor(private _ds: DataService) {
 		this.year = (new Date()).getFullYear();
 	}
 	
@@ -50,33 +53,34 @@ export class ExpenditureViewComponent implements OnInit {
 		return Number(string);																									
 	}
 
-	ngOnInit(){
-		// data on expenditures (from the organization accounting software) are loaded and parsed in parallel. 
-		this.route.parent.params.forEach((params: Params) => {
-			var i = 0;
-			// we get an Observable
-			this._ds.getExpenditures(params["id"],this.year).subscribe(
-				// one or more rows
-				(data: Array<any>) => {
-					data.forEach(row => {
-						if(i > 0) this.loadRow(row); // we want to skip the first row (heading)
-						i++;
-					}); 
-				},
-				
-				// error
-				error => {
-				}, 
-				
-				// finished
-				() => {
-					this.loading = false;
-					this.sortData();
-				}
-			);
-		});
+	loadData(ico,year){
+		
+		if(!ico || !year) return;
+		
+		// data on expenditures (from the organization accounting software) are loaded and parsed.
+		var i = 0;
+		// we get an Observable
+		this._ds.getExpenditures(ico,year).subscribe(
+			// one or more rows
+			(data: Array<any>) => {
+				data.forEach(row => {
+					if(i > 0) this.loadRow(row); // we want to skip the first row (heading)
+					i++;
+				}); 
+			},
+
+			// error
+			error => {
+			}, 
+
+			// finished
+			() => {
+				this.loading = false;
+				this.sortData();
+			}
+		);
 	}
-	
+
 	 // TODO: OPTIMIZE to include data only on desired level
 	getGroup(paragraphId){
 		

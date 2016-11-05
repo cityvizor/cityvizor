@@ -11,11 +11,11 @@ import { NoticeBoardComponent } from "../../dataviz/notice-board/notice-board.co
 
 import { NoticeBoardService } 		from '../../services/notice-board.service';
 
-import { entityViewRouting } from './entity-view.routing';
+//import { entityViewRouting } from './entity-view.routing';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  imports: [ entityViewRouting, SharedModule ],
+  imports: [ /*entityViewRouting,*/ SharedModule ],
   declarations: [ EntityViewComponent, ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, EntityInfoComponent, DataSourcesComponent, NoticeBoardComponent ],
 	providers: [ NoticeBoardService ]
 })

@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input } from '@angular/core';
 import { DomSanitizer } from "@angular/platform-browser";
-
-import { DataService } 		from '../../services/data.service';
 
 @Component({
 	moduleId: module.id,
@@ -10,26 +7,13 @@ import { DataService } 		from '../../services/data.service';
 	templateUrl: 'entity-info.template.html',
 	styleUrls: [],
 })
-export class EntityInfoComponent implements OnInit {
+export class EntityInfoComponent {
 
-	entity = {
-		"name": "",
-		"logo": "",
-		"ico":"",
-		"type":"",
-		"coords": null
-	};
+	@Input()
+	entity: any;
 	
-	constructor(private route: ActivatedRoute, private _ds: DataService, private sanitizer: DomSanitizer) {
+	constructor(private sanitizer: DomSanitizer) {
 
-	}
-
-	ngOnInit(){
-		this.route.parent.params.forEach((params: Params) => {
-			this._ds.getEntity(params['ico']).then(entity => {
-				this.entity = entity;
-			});
-		});
 	}
 	
 	getMapAddress(){
