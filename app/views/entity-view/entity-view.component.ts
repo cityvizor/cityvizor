@@ -15,10 +15,7 @@ export class EntityViewComponent implements OnInit {
 	ico: string;
 	view: string;
 	
-	entity = {
-		"name": "",
-		"ico": ""
-	};
+	entity: any;
 	
 	
 	
