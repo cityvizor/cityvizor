@@ -3,6 +3,13 @@ var app = express();
 
 var router = express.Router();
 
+var bodyParser = require("body-parser");
+router.use(bodyParser.urlencoded({extended: true}))
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/supervizor-plus');
+
+
 router.use("/entities",require("../api/entities.js"));
 
 router.use("/vydaje",require("../api/vydaje"));

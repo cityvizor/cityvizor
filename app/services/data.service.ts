@@ -27,14 +27,11 @@ export class DataService {
 	}
 
 	getEntities(filter) {
-		return new Promise<any[]>((resolve, reject) => {
-			if (this.cache.entities !== null) return resolve(this.filterEntities(filter));
-			this._http.get("/data/entities.json").toPromise().then(response => {this.cache.entities = response.json(); resolve(this.filterEntities(filter));});
-		});
+			return this._http.get("/api/entities").toPromise().then(response => response.json());
 	}
 
 	getEntity(ico) { 
-		return this.getEntities({ico:ico}).then(entities => entities[0]);
+		return this._http.get("/api/entities/" + ico).toPromise().then(response => response.json());
 	}
 	
 	getCSV(path){
