@@ -8,6 +8,7 @@
       <ul class="nav nav-stacked">
         <li class="nav-item" *ngIf="entity.views['informace']"><a [routerLink]="getMenuLink('informace')" class="nav-link" routerLinkActive="active"><i class="fa fa-tasks"></i> Informace</a></li>
 				<li class="nav-item" *ngIf="entity.views['vydaje']"><a [routerLink]="getMenuLink('vydaje')" class="nav-link" routerLinkActive="active" class="highlight"><i class="fa fa-money"></i> Výdaje</a></li>
+				<li class="nav-item" *ngIf="entity.views['prijmy']"><a [routerLink]="getMenuLink('prijmy')" class="nav-link" routerLinkActive="active" class="highlight"><i class="fa fa-money"></i> Příjmy</a></li>
 				<li class="nav-item" *ngIf="entity.views['uredni-deska']"><a [routerLink]="getMenuLink('uredni-deska')" class="nav-link" routerLinkActive="active"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Úřední deska</a></li>
         <li class="nav-item" *ngIf="entity.views['prezkum-hospodareni']"><a [routerLink]="getMenuLink('prezkum-hospodareni')" class="nav-link" routerLinkActive="active"><i class="glyphicon glyphicon-scale"></i> Přezkum hospodaření</a></li>
         <li class="nav-item" *ngIf="entity.views['datove-zdroje']"><a [routerLink]="getMenuLink('datove-zdroje')" class="nav-link" routerLinkActive="active"><i class="glyphicon glyphicon-download-alt"></i> Datové zdroje</a></li>
@@ -27,6 +28,8 @@
 			<expenditure-view *ngSwitchCase="'vydaje'" [ico]="entity.ico"></expenditure-view>
 			
 			<notice-board *ngSwitchCase="'uredni-deska'" [nbId]="entity.data['uredni-deska']"></notice-board>
+			
+			<management-review *ngSwitchCase="'prezkum-hospodareni'" [ico]="entity.ico"></management-review>
 		</div>
 	</div>
 </div>

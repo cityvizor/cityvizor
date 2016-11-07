@@ -19,10 +19,6 @@ import { ManagementReviewComponent } from "./dataviz/management-review/managemen
 import { DataSourcesComponent } from "./dataviz/data-sources/data-sources.component";
 import { NoticeBoardComponent } from "./dataviz/notice-board/notice-board.component";
 
-// Child modules
-//import { CoreModule } from './shared/core.module';
-//import { EntityViewModule } from './views/entity-view/entity-view.module';
-
 // Services
 import { DataService } 		from './services/data.service';
 import { NoticeBoardService } 		from './services/notice-board.service';
@@ -36,9 +32,7 @@ import { routing } from './app.routing';
 @NgModule({
   imports: [
 		BrowserModule,
-		//CoreModule,
 		HttpModule,
-		//EntityViewModule,
 		routing
 	],
   declarations: [

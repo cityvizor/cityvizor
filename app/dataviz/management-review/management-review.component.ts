@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { DataService } 		from '../../services/data.service';
@@ -9,14 +9,13 @@ import { DataService } 		from '../../services/data.service';
 	templateUrl: 'management-review.template.html',
 	styleUrls: ['management-review.style.css'],
 })
-export class ManagementReviewComponent implements OnInit {
+export class ManagementReviewComponent {
 
-	constructor(private route: ActivatedRoute, private _ds: DataService) {
+	@Input()
+	ico: string;
+	
+	constructor() {
 
 	}
 
-
-	ngOnInit(){
-		
-	}
 }

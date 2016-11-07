@@ -26,7 +26,9 @@ header .plus{
 	padding: 4px 20px;
 	text-decoration:none;
 }
-
+#menu i.fa {
+	font-size: 14px;
+}
 #menu nav a:hover{
 	background-color:rgba(0,0,0,.3);
 	text-decoration:none;

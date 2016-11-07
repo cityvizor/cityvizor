@@ -9,6 +9,8 @@ import { DataService} from '../../services/data.service';
 	styleUrls: ['entity-list.style.css']
 })
 export class EntityListComponent{
+	
+	show: string = 'abc';
 
 	entities = [];
 	list = [];
@@ -46,5 +48,44 @@ export class EntityListComponent{
 		});
 		
 	}
+
+	/*
+	var mapEntities = angular.module('mapEntities', ['uiGmapgoogle-maps']);
+
+	mapEntities.factory("Markers", function(){
+		var Markers = [
+			{
+				"id": "0",
+				"coords": {
+					"latitude": "45.5200",
+					"longitude": "-122.6819"
+				},
+				"window": {
+					"title": "Portland, OR"
+				}
+			},
+			{
+				"id": "1",
+				"coords": {
+					"latitude": "40.7903",
+					"longitude": "-73.9597"
+				},
+				"window" : {
+					"title": "Manhattan New York, NY"
+				}
+			}
+		];
+		return Markers;
+	});
+
+	mapEntities.controller("gMap",function($scope,Markers){
+		$scope.map = { 
+			center: { latitude: 39.8282, longitude: -98.5795 }, 
+			zoom: 4 
+		};
+		$scope.markers = Markers;
+	});
+
+	*/
 
 }

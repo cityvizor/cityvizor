@@ -3,4 +3,11 @@
 	<span>Úřední deska</span>
 </h3>
 <hr>
-ID úřední desky: {{id}}
+<p *ngIf="loading">Načítám data z eDesky.cz...</p>
+
+<div *ngFor="let document of list" class="document">
+	<h4>{{document.title}}</h4>
+	<ul>
+		<li *ngFor="let attachment of document.attachments">{{attachment.url}}</li>
+	</ul>
+</div>

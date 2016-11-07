@@ -7,11 +7,15 @@ var entitySchema = mongoose.Schema({
 	"views": {
 		"informace": Boolean,
 		"vydaje": Boolean,
+		"prijmy": Boolean,
 		"uredni-deska": Boolean,
 		"prezkum-hospodareni": Boolean
 	},
 	"data": {
-		"uredni-deska": Number
+		"uredni-deska": Number,
+		"vydaje":{
+			"mapa": Boolean
+		}
 	}
 });
 
@@ -25,11 +29,15 @@ Entity.remove({}, (err) => {
 		"views": {
 			"informace": true,
 			"vydaje": true,
+			"prijmy": true,
 			"uredni-deska": true,
-			"prezkum-hospodareni": false
+			"prezkum-hospodareni": true
 		},
 		"data": {
-			"uredni-deska": 227
+			"uredni-deska": 227,
+			"vydaje":{
+				"mapa": true
+			}
 		}
 	});
 

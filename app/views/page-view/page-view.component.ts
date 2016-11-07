@@ -27,8 +27,9 @@ export class PageViewComponent implements OnInit {
 	ngOnInit(){
 		this.route.params.forEach((params: Params) => {
 			this.pageId = params["id"];
-			this.getPageContent(this.pageId)
-				.then(res => this.pageContent = res.text(),err => console.log(err));
+			this.getPageContent(this.pageId).then(res => {
+				this.pageContent = res.text().replace(/\n/g,"<br>");
+			});
 		});
 	}
 
