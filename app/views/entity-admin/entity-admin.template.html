@@ -1,0 +1,55 @@
+<h3>
+	<i class="fa fa-cog"></i>
+	<span>Správa profilu</span>
+</h3>
+
+<hr>
+
+<h4>
+	<span>Nastavení údajů</span>
+</h4>
+
+<form class="form-horizontal">
+	
+  <div class="form-group">
+    <div class="col-sm-12">
+      <input name="name" type="text" class="form-control" id="input_nazev" placeholder="Název obce" [(ngModel)]="entity.name">
+    </div>
+  </div>
+	
+	<div class="form-group">
+    <div class="col-sm-12">
+      <input name="ico" type="text" class="form-control" id="input_ico" placeholder="Identifikační číslo organizace" [(ngModel)]="entity.ico">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-default">Uložit</button>
+    </div>
+  </div>
+	
+</form>
+
+<h4>
+	<span>Nastavení modulů</span>
+</h4>
+
+<table class="table table-responsive">
+	<tr *ngFor="let module of modules">
+		<th>{{module.title}}</th>
+		<td>
+			<div class="btn-group pull-right">
+				<button type="button" class="btn btn-sm btn-default" [class.active]="entity.views[module.id]" (click)="setViewState(module.id,true)">Zapnuto</button>
+				<button type="button" class="btn btn-sm btn-default" [class.active]="!entity.views[module.id]" (click)="setViewState(module.id,false)">Vypnuto</button>
+			</div>
+		</td>
+		<td>
+			<button type="button" class="btn btn-sm btn-default"><i class="fa fa-cog"></i></button>
+		</td>
+	</tr>
+</table>
+
+<h4>Data:</h4>
+
+<pre>{{dataString}}</pre>

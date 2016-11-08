@@ -13,9 +13,16 @@ router.get("/",(req,res) => {
 });
 
 router.get("/:ico",(req,res) => {
-	Entity.find({ico:req.params.ico}, (err, entities) => {
+	Entity.findOne({ico:req.params.ico}, (err, entity) => {
 		if (err) return res.next(err);
-		res.json(entities[0]); // TODO: co kdyz neexistuje
+		res.json(entity); // TODO: co kdyz neexistuje
+	});
+});
+
+router.post("/:ico",(req,res) => {
+	Entity.findOneAndUpdate({ico:req.params.ico}, req.body, {new:true, upsert:true, runValidators: true}, (err, entity) => {
+		if(err) req.next(err);
+		else res.json(entity);
 	});
 });
 

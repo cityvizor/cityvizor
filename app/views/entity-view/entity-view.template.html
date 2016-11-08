@@ -16,7 +16,7 @@
       
       <hr>
 			<ul class="nav nav-stacked">
-        <li class="nav-item"><a [routerLink]="['/admin',entity.ico]" class="nav-link" routerLinkActive="active"><i class="fa fa-cog"></i> Spravovat</a></li>
+        <li class="nav-item"><a [routerLink]="getMenuLink('admin')" class="nav-link" routerLinkActive="active"><i class="fa fa-cog"></i> Spravovat</a></li>
 			</ul>
       
   	</div>
@@ -30,6 +30,9 @@
 			<notice-board *ngSwitchCase="'uredni-deska'" [nbId]="entity.data['uredni-deska']"></notice-board>
 			
 			<management-review *ngSwitchCase="'prezkum-hospodareni'" [ico]="entity.ico"></management-review>
+			
+			<entity-admin *ngSwitchCase="'admin'" [entity]="entity"></entity-admin>
 		</div>
 	</div>
+
 </div>

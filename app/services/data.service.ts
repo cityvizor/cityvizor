@@ -33,6 +33,11 @@ export class DataService {
 	getEntity(ico) { 
 		return this._http.get("/api/entities/" + ico).toPromise().then(response => response.json());
 	}
+
+	saveEntity(ico,data){
+		data.test = "ahoj";
+		return this._http.post("/api/entities/" + ico,data).toPromise().then(response => response.json());
+	}
 	
 	getCSV(path){
 		return new Observable(observer => {

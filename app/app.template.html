@@ -24,6 +24,11 @@
 		</nav>
 	</div>
 </div>
+<div id="toasts">
+	<ul>
+		<li *ngFor="let toast of toasts" [class]="toast.status" (click)="toast.hide()"><span *ngIf="toast.opacity" [style.opacity]="toast.opacity">{{toast.text}}</span></li>
+	</ul>
+</div>
 <div id="content">
 	<router-outlet></router-outlet>
 </div>

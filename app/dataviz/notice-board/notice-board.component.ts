@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { NoticeBoardService } from '../../services/notice-board.service';
+import { ToastService } 		from '../../services/toast.service';
 
 @Component({
 	moduleId: module.id,
@@ -18,19 +19,19 @@ export class NoticeBoardComponent {
 	
 	 id: number;
 	 list: Array<any>;
-	 loading: boolean = true;
 
-	 constructor(private _nbs: NoticeBoardService) {
+	 constructor(private _nbs: NoticeBoardService, private _toastService: ToastService) {
 
 	 }
 
 	 loadList(filter,page){		
 		 if(!this.id) return;
+		 
+		 var loadingToast = this._toastService.toast("Načítám data z eDesky.cz...", "loading", false); 
 
 		 this._nbs.getList(this.id,filter,page).then(data => {
-			 this.list = data;
-			 console.log(data)
-			 this.loading = false;
+			 this.list = data;			 
+			 loadingToast.hide();
 		 });
 	 }
 

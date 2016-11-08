@@ -3,11 +3,15 @@
 	<span>Úřední deska</span>
 </h3>
 <hr>
-<p *ngIf="loading">Načítám data z eDesky.cz...</p>
 
-<div *ngFor="let document of list" class="document">
-	<h4>{{document.title}}</h4>
-	<ul>
-		<li *ngFor="let attachment of document.attachments">{{attachment.url}}</li>
-	</ul>
-</div>
+<table class="table table-responsive">
+	<tr *ngFor="let document of list">
+		<th>{{document.title}} (počet dokumentů: {{document.attachments.length}})</th>
+		<td>
+			<div class="btn-group pull-right">
+				<button type="button" class="btn btn-sm btn-default">Náhled</button>
+				<button type="button" class="btn btn-sm btn-default">Dokument</button>
+			</div>
+		</td>
+	</tr>
+</table>

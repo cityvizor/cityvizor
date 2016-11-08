@@ -6,6 +6,8 @@ import { BudgetParagraphs } from './budget-paragraph.data';
 import { BudgetItems } from './budget-items.data';
 import { Group, Paragraph, BudgetItem, ExpenditureEvent } from './expenditure-view.schema';
 
+import { ToastService } 		from '../../services/toast.service';
+
 @Component({
 	moduleId: module.id,
 	selector: 'expenditure-view',
@@ -18,7 +20,6 @@ export class ExpenditureViewComponent {
 
 	// decides which part (vizualization, map or table) will be shown
 	show: string = 'viz';
-	loading: boolean = true;
 	
 	@Input()
 	set ico(ico: string){
@@ -42,7 +43,7 @@ export class ExpenditureViewComponent {
 		budgetExpenditureDiffAbsAmount:0
 	};
 
-	constructor(private _ds: DataService) {
+	constructor(private _ds: DataService, private _toastService: ToastService) {
 		this.year = (new Date()).getFullYear();
 	}
 	
@@ -56,6 +57,8 @@ export class ExpenditureViewComponent {
 	loadData(ico,year){
 		
 		if(!ico || !year) return;
+		
+		var loadingToast = this._toastService.toast("Načítám data o výdajích...", "loading", true);
 		
 		// data on expenditures (from the organization accounting software) are loaded and parsed.
 		var i = 0;
@@ -75,7 +78,7 @@ export class ExpenditureViewComponent {
 
 			// finished
 			() => {
-				this.loading = false;
+				loadingToast.hide();
 				this.sortData();
 			}
 		);
