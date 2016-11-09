@@ -1,0 +1,18 @@
+<h4>
+	<i class="fa fa-cog"></i>
+	<span>Správa modulů</span>
+</h4>
+
+<hr>
+
+<table class="table table-responsive">
+	<tr *ngFor="let module of modules">
+		<th>{{module.name}}</th>
+		<td>
+			<div *ngIf="module.optional" class="btn-group pull-right">
+				<button type="button" class="btn btn-sm btn-default" [class.active]="entity.modules[module.id]" (click)="setViewState(module.id,true)">Zapnuto</button>
+				<button type="button" class="btn btn-sm btn-default" [class.active]="!entity.modules[module.id]" (click)="setViewState(module.id,false)">Vypnuto</button>
+			</div>
+		</td>
+	</tr>
+</table>

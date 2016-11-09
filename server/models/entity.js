@@ -4,17 +4,22 @@ var entitySchema = mongoose.Schema({
 	"name": String,
 	"ico": String,
 	"typ": String,
-	"views": {
+	"modules": {
 		"informace": Boolean,
 		"vydaje": Boolean,
 		"prijmy": Boolean,
 		"uredni-deska": Boolean,
-		"prezkum-hospodareni": Boolean
+		"prezkum-hospodareni": Boolean,
+		"datove-zdroje": Boolean
 	},
 	"data": {
-		"uredni-deska": Number,
-		"vydaje":{
-			"mapa": Boolean
+		"modules": {
+			"uredni-deska": {
+				id: Number
+			},
+			"vydaje":{
+				"mapa": Boolean
+			}
 		}
 	}
 });
@@ -26,7 +31,7 @@ Entity.remove({}, (err) => {
 		"name": "Nové Město na Moravě",
 		"ico": "00294900",
 		"typ": "obec",
-		"views": {
+		"modules": {
 			"informace": true,
 			"vydaje": true,
 			"prijmy": true,
@@ -34,9 +39,13 @@ Entity.remove({}, (err) => {
 			"prezkum-hospodareni": true
 		},
 		"data": {
-			"uredni-deska": 227,
-			"vydaje":{
-				"mapa": true
+			"modules": {
+				"uredni-deska": {
+					id: 227
+				},
+				"vydaje":{
+					"mapa": true
+				}
 			}
 		}
 	});

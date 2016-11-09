@@ -21,7 +21,7 @@ export class PageViewComponent implements OnInit {
 	}
 
 	getPageContent(id){
-		return this.http.get("/app/infopages/" + this.pageId + ".html").toPromise();
+		return this.http.get("/app/pages/" + this.pageId + ".html").toPromise();
 	}
 	
 	ngOnInit(){

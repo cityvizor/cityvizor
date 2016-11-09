@@ -12,9 +12,11 @@ import { ToastService } 		from '../../services/toast.service';
 export class NoticeBoardComponent {
 
 	@Input()
-	set nbId(value: number) {
-		this.id = value;
-		this.loadList({},1);
+	set data(data) {
+		if(data && data.id !== this.id){
+			this.id = data.id;
+			this.loadList({},1);
+		}
 	};
 	
 	 id: number;
@@ -26,6 +28,7 @@ export class NoticeBoardComponent {
 
 	 loadList(filter,page){		
 		 if(!this.id) return;
+		 
 		 
 		 var loadingToast = this._toastService.toast("Načítám data z eDesky.cz...", "loading", false); 
 

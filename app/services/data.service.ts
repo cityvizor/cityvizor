@@ -35,8 +35,13 @@ export class DataService {
 	}
 
 	saveEntity(ico,data){
-		data.test = "ahoj";
 		return this._http.post("/api/entities/" + ico,data).toPromise().then(response => response.json());
+	}
+
+	saveEntityData(ico: string, view: string, viewData: any){
+		var entity = {data: {}};
+		entity.data[view] = viewData;
+		return this._http.post("/api/entities/" + ico,entity).toPromise().then(response => response.json());
 	}
 	
 	getCSV(path){

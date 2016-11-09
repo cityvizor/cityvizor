@@ -1,55 +1,43 @@
-<h3>
-	<i class="fa fa-cog"></i>
-	<span>Správa profilu</span>
-</h3>
+<div class="page container" *ngIf="entity">
+	<div class="row">
+		<div class="col-sm-4">
+			<!-- left -->
+			<h3>Správa profilu</h3>
+			<hr>
 
-<hr>
+			<ul class="nav nav-stacked">
+				<li class="nav-item" *ngFor="let module of modules"><a *ngIf="entity.modules[module.id] || !module.optional" [routerLink]="getModuleLink(module)" class="nav-link" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a></li>
+			</ul>
 
-<h4>
-	<span>Nastavení údajů</span>
-</h4>
+			<hr>
+			<ul class="nav nav-stacked">
+				<li class="nav-item"><a [routerLink]="['../sprava-modulu']" class="nav-link"><i class="fa fa-cog"></i> Správa modulů</a></li>
+				<li class="nav-item"><a [routerLink]="getCloseLink()" class="nav-link"><i class="fa fa-cog"></i> Zavřít správu</a></li>
+			</ul>
 
-<form class="form-horizontal">
-	
-  <div class="form-group">
-    <div class="col-sm-12">
-      <input name="name" type="text" class="form-control" id="input_nazev" placeholder="Název obce" [(ngModel)]="entity.name">
-    </div>
-  </div>
-	
-	<div class="form-group">
-    <div class="col-sm-12">
-      <input name="ico" type="text" class="form-control" id="input_ico" placeholder="Identifikační číslo organizace" [(ngModel)]="entity.ico">
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <div class="col-sm-12">
-      <button type="submit" class="btn btn-default">Uložit</button>
-    </div>
-  </div>
-	
-</form>
+		</div>
 
-<h4>
-	<span>Nastavení modulů</span>
-</h4>
+		<div class="col-sm-8" [ngSwitch]="view">
+			<div [ngSwitch]="view">
 
-<table class="table table-responsive">
-	<tr *ngFor="let module of modules">
-		<th>{{module.title}}</th>
-		<td>
-			<div class="btn-group pull-right">
-				<button type="button" class="btn btn-sm btn-default" [class.active]="entity.views[module.id]" (click)="setViewState(module.id,true)">Zapnuto</button>
-				<button type="button" class="btn btn-sm btn-default" [class.active]="!entity.views[module.id]" (click)="setViewState(module.id,false)">Vypnuto</button>
+				<entity-info-admin *ngSwitchCase="'informace'" [entity]="entity"></entity-info-admin>
+				
+				<notice-board-admin *ngSwitchCase="'uredni-deska'" [data]="getModuleData('uredni-deska')"></notice-board-admin>
+
+				<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [entity]="entity"></entity-admin-modules>
+
+				<div *ngSwitchDefault>
+					<p>Tento modul nemá žádná nastavení.</p>
+				</div>
+
 			</div>
-		</td>
-		<td>
-			<button type="button" class="btn btn-sm btn-default"><i class="fa fa-cog"></i></button>
-		</td>
-	</tr>
-</table>
+			
+			<div>
+				<pre>{{dataString}}</pre>
+			</div>
 
-<h4>Data:</h4>
+		</div>
 
-<pre>{{dataString}}</pre>
+		
+	</div>
+</div>

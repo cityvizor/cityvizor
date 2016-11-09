@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { DataService } 		from '../../services/data.service';
+import { Module } from "../../shared/schema";
+import { MODULES } from "../../shared/modules";
 
 //00006947
 @Component({
@@ -17,11 +19,14 @@ export class EntityViewComponent implements OnInit {
 	
 	entity: any;
 	
-	
+	modules: Module[];
 	
 	year = 2016;
 
 	constructor(private _route: ActivatedRoute, private _ds: DataService) {
+		
+		this.modules = MODULES;
+		
 		this._route.params.forEach((params: Params) => {
 			this.ico = params["ico"];
 			this.view = params["view"];
@@ -37,7 +42,11 @@ export class EntityViewComponent implements OnInit {
 		});		
 	}
 	
-	getMenuLink(view){
-		return ['/ico/' + this.ico + '/' + view];
+	getVizLink(viz){
+		return ['/ico/' + this.ico + '/' + viz];
+	}
+	
+	getAdminLink(){
+		return ['/ico/' + this.ico + '/admin'];
 	}
 }

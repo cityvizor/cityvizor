@@ -1,0 +1,25 @@
+<h4><i class="fa fa-tasks"></i> Informace</h4>
+
+<hr>
+
+<form class="form-horizontal">
+	
+  <div class="form-group">
+    <div class="col-sm-12">
+      <input name="name" type="text" class="form-control" id="input_nazev" placeholder="Název obce" [(ngModel)]="entity.name">
+    </div>
+  </div>
+	
+	<div class="form-group">
+    <div class="col-sm-12">
+      <input name="ico" type="text" class="form-control" id="input_ico" placeholder="Identifikační číslo organizace" [(ngModel)]="entity.ico">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-default">Uložit</button>
+    </div>
+  </div>
+	
+</form>
