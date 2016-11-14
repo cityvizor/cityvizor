@@ -13,7 +13,7 @@ import { EntityViewComponent } from './views/entity-view/entity-view.component';
 import { EntityAdminComponent } from "./views/entity-admin/entity-admin.component";
 
 // Data viz components
-import { EntityInfoComponent } from "./viz/entity-info/entity-info.component";
+import { DashboardComponent } from "./viz/dash-board/dash-board.component";
 import { ExpenditureViewComponent } from './viz/expenditure-view/expenditure-view.component';
 import { ExpenditureListComponent } from './viz/expenditure-view/expenditure-list/expenditure-list.component';
 import { ExpenditureVizComponent } from './viz/expenditure-view/expenditure-viz/expenditure-viz.component';
@@ -22,7 +22,7 @@ import { DataSourcesComponent } from "./viz/data-sources/data-sources.component"
 import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component";
 
 // Data viz components for data administration
-import { EntityInfoAdminComponent } from "./viz/entity-info/entity-info-admin.component";
+import { DashboardAdminComponent } from "./viz/dash-board/dash-board-admin.component";
 import { NoticeBoardAdminComponent } from "./viz/notice-board/notice-board-admin.component";
 import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules.component";
 
@@ -31,6 +31,11 @@ import { DataService } 		from './services/data.service';
 import { NoticeBoardService } 		from './services/notice-board.service';
 import { ToastService } 		from './services/toast.service';
 
+//Bootstrap
+import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+
+// Directives
+import { ng2MapyCZ } from './directives/ng2mapy/mapy-cz.directive';
 // Pipes
 import { MoneyPipe } from './pipes/money.pipe';
 
@@ -42,13 +47,15 @@ import { routing } from './app.routing';
 		BrowserModule,
 		HttpModule,
 		FormsModule,
-		routing
+		routing,
+		/*bs*/ ModalModule
 	],
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityViewComponent, PageViewComponent, EntityAdminComponent,
-		/* VIZ */ ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, EntityInfoComponent, DataSourcesComponent, NoticeBoardComponent,
-		/* VIZ ADMIN */ EntityInfoAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
+		/* VIZ */ ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
+		/* VIZ ADMIN */ DashboardAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
+		/* DIRECTIVES */ ng2MapyCZ,
 		/* PIPES */ MoneyPipe
 	],
 	providers: [ DataService, NoticeBoardService, ToastService ],

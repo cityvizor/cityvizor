@@ -1,7 +1,12 @@
 <div class="drawing" #drawing>
-	
-	<div><span *ngIf="hoverGroup">{{hoverGroup.title}}</span>&nbsp;</div>
-	
+
+	<div class="skupina-label text-center lead">
+		<span *ngIf="hoverGroup" class="label label-primary">{{hoverGroup.title}}</span>
+		<span *ngIf="!hoverGroup && selectedGroup" class="label label-primary">{{selectedGroup.title}}</span>
+		<span *ngIf="!hoverGroup && !selectedGroup" class="label label-default">Kliknutím zobrazte vybranou skupinu...</span>
+		&nbsp;
+	</div>
+
 	<svg [attr.height]="scale * 750 + 'px'" width="100%" viewBox="0 0 1000 1000">
 		
 		<g *ngFor="let group of groups; let i = index">
@@ -18,6 +23,18 @@
 		<text  [style.display]="showAmounts?'inherit':'none'" [attr.x]="cx" [attr.y]="cy + 15" text-anchor="middle" style="font-family:Roboto;font-size:50px;" fill="#E73431">{{data.budgetAmount | money:0:true}}</text>
 		<text  [style.display]="showAmounts?'inherit':'none'" [attr.x]="cx" [attr.y]="cy + 35" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">Čerpání: {{data.expenditureAmount | money:0:true}}</text>
 		
+		<g *ngFor="let group of groups; let i = index">
+			<g >
+				<circle *ngIf="selectedGroup==group || (!selectedGroup && hoverGroup==group)"  r="10" [attr.cx]="getLineCircleCoordinates(i,'x')" [attr.cy]="getLineCircleCoordinates(i,'y')" stroke="#FFF" stroke-width="3"  fill="#E73431" />
+				<path *ngIf="!selectedGroup && hoverGroup==group" [attr.d]="getLinePath(i)" stroke="#E73431" stroke-width="2" fill="none"/>
+			</g>
+		</g>
+		
+		<g *ngIf="!hoverGroup && !selectedGroup">
+				<circle r="10" [attr.cx]="cx" [attr.cy]="50" fill="#777" stroke="#FFF" stroke-width="2" />
+				<path d="M 500,0 L 500,50" stroke="#777" stroke-width="2" fill="none"/>
+		</g>
+		
 	</svg>
 </div>
 
@@ -26,15 +43,28 @@
 	<hr>
 
 	<div *ngIf="data.groupIndex[selectedGroup.id]">
-
+		
+		<!-- HA!
+		Tak přeci jen jsi se sem dostal!
+		Ta podmínka je opačně - tam kde je něco narozpočtováno to hlásí že není a naopak.
+		Jenže jenom vykřičník nepomůže a já musel zrovna odejít, každopádně ta hláška tam asi být nějaká musí, tak to nechám na tobě Martine.
+		
+		Oukej, tak zdar!
+		-->
+		<div *ngIf="!data.groupIndex[selectedGroup.id].paragraphs.length" class="text-center lead">
+			<span class="label label-warning"><i class="fa fa-warning"></i> Tato skupina nemá žádnou rozpočtovanou položku!</span>		
+		</div>
+		
 		<div *ngFor="let paragraph of data.groupIndex[selectedGroup.id].paragraphs" class="paragraph">
 
 			<div class="graph">
 				<svg height="100px" width="100px" viewBox="0 0 1000 1000">
-					<path *ngIf="paragraph.expenditureAmount" [attr.d]="generateStripePath(500,500,250,500,0,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="10" stroke="#fff" fill="#E73431" />
 					<path [attr.d]="generateStripePath(500,500,250,400,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0,paragraph.budgetAmount ? 1 - paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="10" stroke="#fff" fill="#ff9491" />
+					
+					<path *ngIf="paragraph.expenditureAmount" [attr.d]="generateStripePath(500,500,250,500,0,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="10" stroke="#E73431" fill="#E73431" />
+					<path *ngIf="paragraph.budgetAmount && paragraph.expenditureAmount === 0" [attr.d]="generateStripePath(500,500,250,500,0,0.001)" stroke-width="10" stroke="#E73431" fill="#E73431" />
 				</svg>
-				
+
 				<br>
 
 				<span style="color:#E73431;">&#9632;</span> Čerpáno: {{paragraph.expenditureAmount | money:0:true}} Kč
@@ -42,8 +72,7 @@
 				<span *ngIf="paragraph.expenditureAmount <= paragraph.budgetAmount">
 					<span style="color:#ff9491;">&#9632;</span> Zbývá:
 				</span>
-				<span *ngIf="paragraph.expenditureAmount > paragraph.budgetAmount">Překročeno o </span>
-				{{paragraph.budgetExpenditureDiffAbsAmount | money:0:true}} Kč
+				<span *ngIf="paragraph.expenditureAmount > paragraph.budgetAmount">Překročeno o </span> {{paragraph.budgetExpenditureDiffAbsAmount | money:0:true}} Kč
 
 			</div>
 
@@ -54,14 +83,14 @@
 				<table class="viztable table table-responsive small">
 					<thead>
 						<tr>
-							<th>Položka</th>
+							<th>Investiční akce</th>
 							<th>Realizované výdaje</th>
 							<th>Rozpočet</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr *ngFor="let event of paragraph.expenditureEvents">
-							<td>{{event.name}}</td>
+							<td><a (click)="eventReceiptsModal.show()">{{event.name}}</a></td>
 							<td>{{event.expenditureAmount | money:0:true}} Kč</td>
 							<td>{{event.budgetAmount | money:0:true}} Kč</td>
 						</tr>
@@ -72,3 +101,39 @@
 		</div>
 	</div>
 </div>
+
+				<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" (click)="eventReceiptsModal.hide()" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">Investiční akce - Volby 2016</h4>
+							</div>
+							<div class="modal-body">
+								<table class="table table-responsive small">
+									<thead>
+										<tr>
+											<th>Datum</th>
+											<th>Dodavatel</th>
+											<th class="text-right">Částka</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let receipt of loremIpsumReceipts">
+											<td>{{receipt.date}}</td>
+											<td class="text-left">{{receipt.supplier}}</td>
+											<td class="text-right">{{receipt.amount | money:0:true}} Kč</td>
+											<td>
+												<a class="btn btn-xs btn-primary"><i class="fa fa-link"></i> ARES</a>
+												<a class="btn btn-xs btn-warning"><i class="fa fa-file-text"></i> Dodavatel</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>

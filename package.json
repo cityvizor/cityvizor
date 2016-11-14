@@ -28,6 +28,7 @@
     "express": "^4.14.0",
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.6",
+    "ng2-bootstrap": "^1.1.16",
     "nodemon": "^1.11.0",
     "papaparse": "^4.1.2",
     "path": "^0.12.7",

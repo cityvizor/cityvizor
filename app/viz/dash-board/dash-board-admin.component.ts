@@ -5,11 +5,11 @@ import { DataService } 		from '../../services/data.service';
 
 @Component({
 	moduleId: module.id,
-  selector: 'entity-info-admin',
-	templateUrl: 'entity-info-admin.template.html',
-	styleUrls: ['entity-info-admin.style.css'],
+  selector: 'dash-board-admin',
+	templateUrl: 'dash-board-admin.template.html',
+	styleUrls: ['dash-board-admin.style.css'],
 })
-export class EntityInfoAdminComponent {
+export class DashboardAdminComponent {
 	
 	@Input()
 	entity: any;

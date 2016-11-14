@@ -21,11 +21,16 @@ export class NoticeBoardService {
 		var document,attachments;
 
 		for(var i = 0; i < documents.length; i++){
+			var dS = documents[i].getAttribute("created_at");
+			dS = dS.slice(0, 10) + "T" + dS.slice(11, 19) + dS.slice(20,27);
+			var d = new Date(Date.parse(dS));
 			document = {
+				"id": documents[i].getAttribute("edesky_id"),
 				"title": documents[i].getAttribute("name"),
-				"date": new Date(documents[i].getAttribute("created_at")),
-				"attachments": []
+				"date": d.toLocaleString(),
+				"url": documents[i].getAttribute("orig_url")
 			};
+			/*
 			attachments = documents[i].getElementsByTagName("attachment");
 			for(var j = 0; j < attachments.length; j++){
 				document.attachments.push({
@@ -34,6 +39,7 @@ export class NoticeBoardService {
 					"url": attachments[j].getAttribute("orig_url")
 				});
 			}
+			*/
 			output.push(document);
 		}
 		
@@ -41,17 +47,21 @@ export class NoticeBoardService {
 	}
 
 
-	getList(id, filter, page){
+getList(id, filter, page){
+	var url = "/api/uredni-desky/" + id;
 
-		return new Promise<any[]>((resolve,reject) => {
-			var url = "/api/uredni-desky/" + id;
-			
-			this._http.get(url).toPromise()
-				.then(response => response.text())
-				.then(response => this.parseXML(response))
-				.then(data => resolve(data));
-		});
-	}
+	return this._http.get(url).toPromise()
+		.then(response => response.text())
+		.then(response => this.parseXML(response));
+}
+
+getPreview(documentId){
+	var url = "/api/uredni-desky/preview/" + documentId;
+
+	return this._http.get(url).toPromise()
+		.then(response => response.text());
+};
+
 
 	
 

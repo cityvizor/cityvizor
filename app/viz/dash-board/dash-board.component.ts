@@ -3,11 +3,11 @@ import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
 	moduleId: module.id,
-	selector: 'entity-info',
-	templateUrl: 'entity-info.template.html',
+	selector: 'dash-board',
+	templateUrl: 'dash-board.template.html',
 	styleUrls: [],
 })
-export class EntityInfoComponent {
+export class DashboardComponent {
 
 	@Input()
 	entity: any;

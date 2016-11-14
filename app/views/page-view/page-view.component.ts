@@ -28,7 +28,7 @@ export class PageViewComponent implements OnInit {
 		this.route.params.forEach((params: Params) => {
 			this.pageId = params["id"];
 			this.getPageContent(this.pageId).then(res => {
-				this.pageContent = res.text().replace(/\n/g,"<br>");
+				this.pageContent = res.text();
 			});
 		});
 	}

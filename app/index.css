@@ -148,3 +148,22 @@ form {
 .clickable-grey-bg:hover {
 	background: rgb(0,0,0,.2);
 }
+
+.well {
+	border: none;
+	border-left: 3px solid rgb(37,129,196);
+	margin-left: 1em;
+	margin-right: 1em;
+	border-radius: 0px;
+	background-color: #fafafa;
+	box-shadow: none;
+}
+
+.margin-bottom-xs {margin-bottom: 5px; }  
+.margin-bottom-sm {margin-bottom: 10px; } 
+.margin-bottom-md {margin-bottom: 15px; }
+.margin-bottom-lg {margin-bottom: 20px; }  
+
+.skupina-label .label {
+	margin: 1em 0em 0em 0em;
+}

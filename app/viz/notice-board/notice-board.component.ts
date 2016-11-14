@@ -3,11 +3,13 @@ import { Component, Input } from '@angular/core';
 import { NoticeBoardService } from '../../services/notice-board.service';
 import { ToastService } 		from '../../services/toast.service';
 
+import {Http} from '@angular/http';
+
 @Component({
 	moduleId: module.id,
 	selector: 'notice-board',
 	templateUrl: 'notice-board.template.html',
-	styles: [``]
+	styleUrls: ['notice-board.style.css']
 })
 export class NoticeBoardComponent {
 
@@ -22,7 +24,7 @@ export class NoticeBoardComponent {
 	 id: number;
 	 list: Array<any>;
 
-	 constructor(private _nbs: NoticeBoardService, private _toastService: ToastService) {
+	 constructor(private _nbs: NoticeBoardService, private _toastService: ToastService, private _http: Http) {
 
 	 }
 
@@ -33,9 +35,29 @@ export class NoticeBoardComponent {
 		 var loadingToast = this._toastService.toast("Načítám data z eDesky.cz...", "loading", false); 
 
 		 this._nbs.getList(this.id,filter,page).then(data => {
-			 this.list = data;			 
+			 
+			 data.forEach(document => {
+				 document.preview = null;
+				 document.showPreview = false;
+			 });
+			 
+			 this.list = data;			
+			 
 			 loadingToast.hide();
 		 });
+	 }
+	 
+	 openPreview(document){
+		 document.showPreview = true;
+		 document.preview = "Načítám...";
+		 this._nbs.getPreview(document.id)
+			 .then(preview => document.preview = preview)
+			 .catch(err => document.preview = "Nastala chyba při načítání.");
+	 }
+	 
+	 linkEDesky(document){
+	 }
+	 linkdDocument(document){
 	 }
 
 	}

@@ -1,5 +1,44 @@
-a.highlight{color:#E73431;}
-
-hr {
-	margin-top: 5px;
+header{
+	font-size:3em;
+	background-color:#fff;
+	padding: 20px 0 15px 0;
+	box-shadow:0 0 5px rgba(0,0,0,.2);
 }
+header a{text-decoration:none;color: rgb(231,52,49);font-weight: bold;}
+header .supervizor{ 
+	color: rgb(231,52,49);
+	font-weight: bold;
+}
+header .plus{ 
+	color: rgb(37,129,196);
+	font-family: 'Roboto Slab',serif;
+}
+
+#menu{
+	background-color: rgb(37,129,196);
+}
+
+#menu nav a{
+	line-height: 3em;
+	color:#fff;
+	font-size: 1.2em;
+	display: inline-block;
+	padding: 4px 20px;
+	text-decoration:none;
+}
+#menu i.fa {
+	font-size: 14px;
+}
+#menu nav a:hover{
+	background-color:rgba(0,0,0,.3);
+	text-decoration:none;
+}
+
+
+#content{
+	background-color:#fff;
+	padding:0 0 50px 0;
+	min-height:800px;
+}
+
+a.highlight{color:#E73431;}

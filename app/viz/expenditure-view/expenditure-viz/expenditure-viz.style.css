@@ -1,0 +1,25 @@
+div.drawing{}
+
+svg{margin:0 auto;display:block;}
+.stripe{cursor:pointer;border:2px solid #fff;}
+.stripe.active{background-color:#f00;}
+
+.bgstripe{opacity:0;cursor:pointer; transition-duration: .2s;}
+.bgstripe:hover, .bgstripe.active{opacity:0.2;}
+
+
+.circle{cursor:pointer;}
+
+.viztable {margin-top: 1em;}
+.viztable tbody td {padding: 2px;}
+.viztable th:nth-child(1), .viztable td:nth-child(1) {width:50%;text-align:left;}
+.viztable th:nth-child(2), .viztable td:nth-child(2) {width:25%;text-align:right;}
+.viztable th:nth-child(3), .viztable td:nth-child(3) {width:25%;text-align:right;}
+
+#selectedGroup .paragraph hr{clear:both;}
+#selectedGroup .paragraph .graph{float:left;width:150px;height:150px;overflow:hidden;font-size:.8em;}
+#selectedGroup .paragraph .content{margin-left:150px;}
+
+.skupina-label .label {
+	margin: 1em 0em 0em 0em;
+}

@@ -41,3 +41,33 @@ router.get("/:id",(req,res) => {
 
 	edesky_req.end();
 });
+
+router.get("/preview/:document",(req,res) => {
+	var options = {
+		host: 'edesky.cz',
+		port: 443,
+		path: '/dokument/' + req.params.document + '.txt',
+		method: 'GET'
+	}
+	
+	
+	var edesky_req = https.request(options, edesky_res => {
+		var output = '';
+		edesky_res.setEncoding('utf8');
+
+		edesky_res.on('data', function (chunk) {
+			output += chunk;
+		});
+		
+		edesky_res.on('end', () => {
+			res.type("text/plain");
+			res.send(output);
+		});
+	});
+
+	edesky_req.on('error', function(err) {
+		res.next(err);
+	});
+
+	edesky_req.end();
+});

@@ -14,5 +14,8 @@
 				<button type="button" class="btn btn-sm btn-default" [class.active]="!entity.modules[module.id]" (click)="setViewState(module.id,false)">Vypnuto</button>
 			</div>
 		</td>
+		<td>
+			<a [routerLink]="['../' + module.id]">Nastavení</a>
+		</td>
 	</tr>
 </table>

@@ -4,14 +4,24 @@
 </h3>
 <hr>
 
-<table class="table table-responsive">
-	<tr *ngFor="let document of list">
-		<th>{{document.title}} (počet dokumentů: {{document.attachments.length}})</th>
-		<td>
-			<div class="btn-group pull-right">
-				<button type="button" class="btn btn-sm btn-default">Náhled</button>
-				<button type="button" class="btn btn-sm btn-default">Dokument</button>
+<div class="notice-board">
+	<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of list">
+		<div class="row">
+			<div class="col-lg-10">
+				<strong>{{document.title}}</strong>
+				<br>
+				<div class="small text-muted margin-top-md">
+					<i class="fa fa-clock-o"></i> Datum zveřejnění: {{document.date}}
+				</div>
 			</div>
-		</td>
-	</tr>
-</table>
+			<div class="col-lg-2 buttons">
+				<a class="btn btn-xs btn-primary" (click)="openPreview(document)"><i class="fa fa-search"></i> Náhled</a>
+				<a *ngIf="document.url" class="btn btn-xs btn-primary" (click)="linkEDesky(document)"><i class="fa fa-file-text-o"></i> eDesky</a>
+				<a *ngIf="document.url" class="btn btn-xs btn-primary" (click)="linkDocument(document)"><i class="fa fa-file-text-o"></i> Dokument</a>
+			</div>
+		</div>
+		<div *ngIf="document.showPreview" class="row preview">
+			<pre>{{document.preview}}</pre>
+		</div>
+	</div>
+</div>

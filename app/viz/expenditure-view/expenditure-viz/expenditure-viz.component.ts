@@ -31,6 +31,13 @@ const ChartGroups = [
 	{"id":"64", "title": "Ostatní činnosti"}
 ];
 
+const LoremIpsumReceipts = [
+	{"id":"10", "date":"12.8.2016", "supplier": "IBM software GBMH", "amount": "150000"},
+	{"id":"21", "date":"15.8.2016", "supplier": "Agrofert a.s.", "amount": "23500"},
+	{"id":"22", "date":"1.9.2016", "supplier": "Nadace Agrofert s.r.o.", "amount": "50000"},
+	{"id":"23", "date":"12.10.2016", "supplier": "Gordic s.r.o.", "amount": "18154"}
+];
+
 /*
 
 Component for graphical vizualization of expenditures
@@ -40,27 +47,7 @@ Component for graphical vizualization of expenditures
 	moduleId: module.id,
 	selector: 'expenditure-viz',
 	templateUrl: 'expenditure-viz.template.html',
-	styles: [`
-		div.drawing{}
-
-		svg{margin:0 auto;display:block;}
-		.stripe{cursor:pointer;border:2px solid #fff;}
-		.stripe.active{background-color:#f00;}
-		.bgstripe{opacity:0;cursor:pointer; transition-duration: .2s;}
-		.bgstripe:hover, .bgstripe.active{opacity:0.2;}
-		
-		.circle{cursor:pointer;}
-
-		.viztable {margin-top: 1em;}
-		.viztable tbody td {padding: 2px;}
-		.viztable th:nth-child(1), td:nth-child(1) {width:50%;text-align:left;}
-		.viztable th:nth-child(2), td:nth-child(2) {width:25%;text-align:right;}
-		.viztable th:nth-child(3), td:nth-child(3) {width:25%;text-align:right;}
-
-		#selectedGroup .paragraph hr{clear:both;}
-		#selectedGroup .paragraph .graph{float:left;width:150px;height:150px;overflow:hidden;font-size:.8em;}
-		#selectedGroup .paragraph .content{margin-left:150px;}
-	`]
+	styleUrls: ['expenditure-viz.style.css']
 })
 export class ExpenditureVizComponent{
 	
@@ -72,7 +59,9 @@ export class ExpenditureVizComponent{
 	innerSize: number = 0.04;
 	minSize: number = 0.008;
 	showAmounts: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
+	showGroupTitles: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
 
+	loremIpsumReceipts: Array<{id: string, date:string, supplier: string, amount: string}> = [];
 	// array with groups that vizualization is made of (fixed, does not vary with data)
 	groups: Array<{id: string, title: string}> = [];
   // which group (drawing stripe) is hovered at the moment
@@ -91,6 +80,34 @@ export class ExpenditureVizComponent{
 	
 	constructor(){
 		this.groups = ChartGroups; // set groups
+		this.loremIpsumReceipts = LoremIpsumReceipts; // set groups
+	}
+
+	getLineCircleCoordinates (i,c) {
+		var tR = this.r*4/5;
+		var arcRad = (2*Math.PI/this.groups.length)*(i+0.5);
+		
+		var x = Math.round(this.cx+tR*Math.sin(arcRad));
+		var y = Math.round(this.cy-tR*Math.cos(arcRad));
+		
+		if (c=='x') return x; else return y;
+	}
+
+	getLinePath (i) {
+		var tR = this.r*4/5;
+		
+		var arcRad = (2*Math.PI/this.groups.length)*(i+0.5);
+		
+		var x = Math.round(this.cx+tR*Math.sin(arcRad));
+		var y = Math.round(this.cy-tR*Math.cos(arcRad));
+		
+		var p = [];
+		p.push("M" + x + "," + y);
+		p.push("L" + this.cx + "," + 20);
+		p.push("L" + this.cx + "," + 0);
+		//p.push("Z");
+
+		return p.join(" ");	
 	}
  
 	// select group (e.g. after clicking a stripe)
@@ -99,6 +116,7 @@ export class ExpenditureVizComponent{
 		this.scale = this.selectedGroup !== null ?  0.5 : 1;
 		
 		this.showAmounts = this.selectedGroup !== null ?  false : true;
+		this.showGroupTitles = this.selectedGroup !== null ?  false : true;
 	}
 
 	getCircleR(){

@@ -9,13 +9,16 @@
     '@angular':                   'node_modules/@angular',
     'rxjs':                       'node_modules/rxjs',
 		'papaparse': 									'node_modules/papaparse',
-		'ng2-charts': 								'node_modules/ng2-charts'
+		'ng2-bootstrap': 							'node_modules/ng2-bootstrap',
+		'moment': 										'node_modules/moment'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'app':                        { main: 'index.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
-		'papaparse':									{ main: 'papaparse.min.js'}
+		'papaparse':									{ main: 'papaparse.min.js'},
+		'ng2-bootstrap': 							{ defaultExtension: 'js', main: 'ng2-bootstrap.js' },
+		'moment': 										{ defaultExtension: 'js', main: 'moment.js'}
   };
   var ngPackageNames = [
     'common',
