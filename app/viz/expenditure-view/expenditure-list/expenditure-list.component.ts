@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 
 import { Group, Paragraph, BudgetItem, ExpenditureEvent } from '../expenditure-view.schema';
 
+
 @Component({
 	moduleId: module.id,
 	selector: 'expenditure-list',

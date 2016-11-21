@@ -4,6 +4,10 @@ var entitySchema = mongoose.Schema({
 	"name": String,
 	"ico": String,
 	"typ": String,
+	"gps":{
+		"lat": Number,
+		"lng": Number
+	},
 	"modules": {
 		"informace": Boolean,
 		"vydaje": Boolean,
@@ -31,6 +35,10 @@ Entity.remove({}, (err) => {
 		"name": "Nové Město na Moravě",
 		"ico": "00294900",
 		"typ": "obec",
+		"gps": {
+			"lat":49.561482,
+			"lng":16.074221
+		},
 		"modules": {
 			"informace": true,
 			"vydaje": true,

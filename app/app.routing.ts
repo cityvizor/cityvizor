@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FrontPageComponent } from './views/front-page/front-page.component';
 import { PageViewComponent } from './views/page-view/page-view.component';
 import { EntityListComponent } from './views/entity-list/entity-list.component';
-import { EntityViewComponent } from './views/entity-view/entity-view.component';
+import { EntityProfileComponent } from './views/entity-profile/entity-profile.component';
 import { EntityAdminComponent } from './views/entity-admin/entity-admin.component';
 
 const appRoutes: Routes = [
@@ -15,8 +15,8 @@ const appRoutes: Routes = [
 	{path: 'ico/:ico/admin/:view',component: EntityAdminComponent},
 	{path: 'ico/:ico/admin', redirectTo: 'ico/:ico/admin/informace'},
 	
-	{path: 'ico/:ico/:view',component: EntityViewComponent},
-	{path: 'ico/:ico', redirectTo: 'ico/:ico/vydaje'}
+	{path: 'ico/:ico/:view',component: EntityProfileComponent},
+	{path: 'ico/:ico', redirectTo: 'ico/:ico/dashboard'}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

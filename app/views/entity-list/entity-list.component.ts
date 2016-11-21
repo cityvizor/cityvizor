@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataService} from '../../services/data.service';
 
 @Component({
@@ -10,43 +10,98 @@ import { DataService} from '../../services/data.service';
 })
 export class EntityListComponent{
 	
-	show: string = 'abc';
-
+	show: string = "abc";
+	
+	letters = [];
 	entities = [];
-	list = [];
 	
 	type: string;
 
+	mapSize = {"width": 1170, "height":665};
+
+	/*
+	50.251944, 12.091389 Z
+	49.550278, 18.858889 V
+	51.055556, 14.316111 S
+	48.5525, 14.333056 J
+	*/
+	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.055556}, "lng":{"min":12.091389,"max":18.858889}};
+	cities =	[
+		{"ico": 215456, "name":"Nové Město na Moravě","gps":{"lat":49.561482,"lng":16.074221}}
+	];
+	
+	@Input()
+	set search(value: string){
+		this._search = this.cleanString(value);	
+	}
+
+	_search: string;
+
 	listColumns: number = 3;
 
-	constructor(private _route: ActivatedRoute, private _router: Router, private _ds: DataService) {
-	}
+	constructor(private _ds: DataService, private _router: Router) { }
 
 	ngOnInit(){
-		this._route.data.forEach(data => {
-			this.type = data['type'];
-			this._ds.getEntities({type:this.type}).then(entities => {
-				this.entities = entities;
-				this.makeList();
-			});
+		this._ds.getEntities({type:this.type}).then(entities => {
+			this.entities = entities;
+			this.makeList();
 		});
 	}
-	
+
+	gps2map (c, l) {
+		var pos;
+		if (l=="lat")	pos=this.mapSize.height*(this.czechRepublicGPSBounds.lat.max-c)/(this.czechRepublicGPSBounds.lat.max-this.czechRepublicGPSBounds.lat.min);
+		else	pos=this.mapSize.width*(c-this.czechRepublicGPSBounds.lng.min)/(this.czechRepublicGPSBounds.lng.max-this.czechRepublicGPSBounds.lng.min);
+		return pos;
+	}
+
 	makeList(){
 		
-		this.list = [];
-		for(var i = 0; i < this.listColumns; i++) this.list.push([]);
-		
-		if(!this.entities.length) return;
-		
-		var columnCount = Math.ceil(this.entities.length / this.listColumns);
+		this.letters = [];
 		
 		this.entities.forEach((entity,i) => {
-			var column = Math.floor(i / columnCount);
+			var letter = entity.name.substring(0,1).toUpperCase();
+			if(entity.name.substring(0,2).toUpperCase() === "CH") letter = "CH";
+			if(!letter.match(/^\w+$/)) letter = "#";
 			
-			this.list[column].push(entity);
+			entity.searchString = this.cleanString(entity.name);
+			
+			var pushEntity = this.letters.some(item => {
+				if(item.letter === letter) {
+					item.entities.push(entity);
+					return true;
+				}
+			});
+			
+			if(!pushEntity) this.letters.push({
+				"letter": letter,
+				entities: [entity]
+			});
+				
 		});
+	}
+
+	cleanString(value: string){
 		
+		if(!value) return "";
+		
+		var sdiak="áäčďéěíĺľňóôőöŕšťúůűüýřžÁÄČĎÉĚÍĹĽŇÓÔŐÖŔŠŤÚŮŰÜÝŘŽ";
+		var bdiak="aacdeeillnoooorstuuuuyrzAACDEEILLNOOOORSTUUUUYRZ";
+
+		var output = "";
+
+		for(var p = 0; p < value.length; p++){ 
+			if(sdiak.indexOf(value.charAt(p)) !== -1) output += bdiak.charAt(sdiak.indexOf(value.charAt(p)));
+			else output += value.charAt(p);
+		}
+
+		output = output.toLowerCase();
+
+		return output;
+	}
+
+	openEntity(entity){
+		this._router.navigate(['/ico',entity.ico]);
 	}
 
 	/*

@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Slab:400,700&subset=latin-ext');
 
 body {
-	background-color:#eee;
+	background-color:#fff;
   font-family: 'Roboto Slab', serif;
+}
+body.loading {
+	background-color:#eee;
 }
 
 h1,
@@ -44,13 +47,13 @@ header, nav, .btn, h1, h2, h3, h4, h5, h6 {
 
 @-webkit-keyframes example {
 	0% {
-		box-shadow: 20px 0px 0px rgba(255, 255, 255, .5), -20px 0px 0px rgba(255, 255, 255, .5), 0px 20px 0px rgba(255, 255, 255, .5), 0px -20px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5);
+		box-shadow: 20px 0px 0px rgba(240, 240, 240, .5), -20px 0px 0px rgba(240, 240, 240, .5), 0px 20px 0px rgba(240, 240, 240, .5), 0px -20px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5);
 	}
 	50% {
-		box-shadow: 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 15px 15px 0px rgba(255, 255, 255, .5), -15px -15px 0px rgba(255, 255, 255, .5), -15px 15px 0px rgba(255, 255, 255, .5), 15px -15px 0px rgba(255, 255, 255, .5);
+		box-shadow: 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 15px 15px 0px rgba(240, 240, 240, .5), -15px -15px 0px rgba(240, 240, 240, .5), -15px 15px 0px rgba(240, 240, 240, .5), 15px -15px 0px rgba(240, 240, 240, .5);
 	}
 	100% {
-		box-shadow: 20px 0px 0px rgba(255, 255, 255, .5), -20px 0px 0px rgba(255, 255, 255, .5), 0px 20px 0px rgba(255, 255, 255, .5), 0px -20px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5all);
+		box-shadow: 20px 0px 0px rgba(240, 240, 240, .5), -20px 0px 0px rgba(240, 240, 240, .5), 0px 20px 0px rgba(240, 240, 240, .5), 0px -20px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5all);
 	}
 }
 
@@ -59,13 +62,13 @@ header, nav, .btn, h1, h2, h3, h4, h5, h6 {
 
 @keyframes example {
 	0% {
-		box-shadow: 20px 0px 0px rgba(255, 255, 255, .5), -20px 0px 0px rgba(255, 255, 255, .5), 0px 20px 0px rgba(255, 255, 255, .5), 0px -20px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5);
+		box-shadow: 20px 0px 0px rgba(240, 240, 240, .5), -20px 0px 0px rgba(240, 240, 240, .5), 0px 20px 0px rgba(240, 240, 240, .5), 0px -20px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5);
 	}
 	50% {
-		box-shadow: 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 15px 15px 0px rgba(255, 255, 255, .5), -15px -15px 0px rgba(255, 255, 255, .5), -15px 15px 0px rgba(255, 255, 255, .5), 15px -15px 0px rgba(255, 255, 255, .5);
+		box-shadow: 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 15px 15px 0px rgba(240, 240, 240, .5), -15px -15px 0px rgba(240, 240, 240, .5), -15px 15px 0px rgba(240, 240, 240, .5), 15px -15px 0px rgba(240, 240, 240, .5);
 	}
 	100% {
-		box-shadow: 20px 0px 0px rgba(255, 255, 255, .5), -20px 0px 0px rgba(255, 255, 255, .5), 0px 20px 0px rgba(255, 255, 255, .5), 0px -20px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5), 0px 0px 0px rgba(255, 255, 255, .5);
+		box-shadow: 20px 0px 0px rgba(240, 240, 240, .5), -20px 0px 0px rgba(240, 240, 240, .5), 0px 20px 0px rgba(240, 240, 240, .5), 0px -20px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5);
 	}
 }
 

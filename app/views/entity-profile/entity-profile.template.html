@@ -1,0 +1,50 @@
+<div id="entity" *ngIf="entity">
+
+	<header>
+		<h1 class="container">
+			<a routerLink="/" routerLinkActive="active">{{entity ? entity.name : ""}}</a>
+		</h1>
+	</header>
+
+	<div id="menu">
+		<div class="container">
+			<nav role="navigation">
+
+				<a routerLink="/seznam/obce" routerLinkActive="active" class="right">
+					<i class="fa fa-map-signs"></i> Vyber obec
+				</a>
+			</nav>
+		</div>
+	</div>
+
+	<div id="content">
+
+		<div class="page container">
+			<div class="row">
+				<div class="col-sm-4">
+
+					<ul class="nav nav-stacked">
+						<li class="nav-item" *ngFor="let module of modules"><a *ngIf="entity.modules[module.id] || !module.optional" [routerLink]="getVizLink(module.id)" class="nav-link" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a></li>
+					</ul>
+
+					<hr>
+					<ul class="nav nav-stacked">
+						<li class="nav-item"><a [routerLink]="getAdminLink()" class="nav-link" routerLinkActive="active"><i class="fa fa-cog"></i> Spravovat</a></li>
+					</ul>
+
+				</div>
+				<div class="col-sm-8" [ngSwitch]="view">
+
+					<dash-board *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board>
+
+					<expenditure-view *ngSwitchCase="'vydaje'" [ico]="entity.ico"></expenditure-view>
+
+					<notice-board *ngSwitchCase="'uredni-deska'" [data]="entity.data.modules['uredni-deska']"></notice-board>
+
+					<management-review *ngSwitchCase="'prezkum-hospodareni'" [ico]="entity.ico"></management-review>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

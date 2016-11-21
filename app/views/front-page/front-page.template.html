@@ -1,1 +1,11 @@
-<entity-list></entity-list>
+<header style="">
+	<i class="fa fa-5x fa-map-signs" style="font-size: 100px; color: white;"></i><br>
+	<input type="text" placeholder="Aš, Brno, Cvikov..." style="font-size: 80px; border: none; background: none;
+border-bottom: 3px dotted rgba(255,255,255,.75);
+color: rgba(255, 255, 255, 1);
+text-align: center;
+margin-bottom: 20px;
+max-width: 800px; padding: 0px 10px;
+margin: 0 auto;" contenteditable="true" [(ngModel)]="search">
+</header>
+<entity-list [search]="search"></entity-list>

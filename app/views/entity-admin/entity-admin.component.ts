@@ -12,7 +12,7 @@ import { MODULES } from "../../shared/modules";
 	moduleId: module.id,
 	selector: 'entity-admin',
 	templateUrl: 'entity-admin.template.html',
-	styles: [],
+	styleUrls: ['entity-admin.style.css'],
 })
 export class EntityAdminComponent implements OnInit {
 

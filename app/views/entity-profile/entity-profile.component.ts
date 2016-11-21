@@ -8,11 +8,11 @@ import { MODULES } from "../../shared/modules";
 //00006947
 @Component({
 	moduleId: module.id,
-	selector: 'entity-view',
-	templateUrl: 'entity-view.template.html',
-	styleUrls: ['entity-view.style.css'],
+	selector: 'entity-profile',
+	templateUrl: 'entity-profile.template.html',
+	styleUrls: ['entity-profile.style.css'],
 })
-export class EntityViewComponent implements OnInit {
+export class EntityProfileComponent implements OnInit {
 
 	ico: string;
 	view: string;

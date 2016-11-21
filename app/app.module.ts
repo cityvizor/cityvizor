@@ -9,7 +9,7 @@ import { AppComponent }  from './app.component';
 import { FrontPageComponent }  from './views/front-page/front-page.component';
 import { PageViewComponent }  from './views/page-view/page-view.component';
 import { EntityListComponent } from './views/entity-list/entity-list.component';
-import { EntityViewComponent } from './views/entity-view/entity-view.component';
+import { EntityProfileComponent } from './views/entity-profile/entity-profile.component';
 import { EntityAdminComponent } from "./views/entity-admin/entity-admin.component";
 
 // Data viz components
@@ -52,7 +52,7 @@ import { routing } from './app.routing';
 	],
   declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityViewComponent, PageViewComponent, EntityAdminComponent,
+		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
 		/* VIZ */ ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
 		/* VIZ ADMIN */ DashboardAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
 		/* DIRECTIVES */ ng2MapyCZ,

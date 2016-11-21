@@ -1,43 +1,73 @@
-<div class="page container" *ngIf="entity">
-	<div class="row">
-		<div class="col-sm-4">
-			<!-- left -->
-			<h3>Správa profilu</h3>
-			<hr>
+<header>
+	<h1 class="container">
+		<a routerLink="/" routerLinkActive="active">{{entity ? entity.name : ""}}</a>
+	</h1>
+</header>
 
-			<ul class="nav nav-stacked">
-				<li class="nav-item" *ngFor="let module of modules"><a *ngIf="entity.modules[module.id] || !module.optional" [routerLink]="getModuleLink(module)" class="nav-link" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a></li>
-			</ul>
+<div id="menu">
+	<div class="container">
+		<nav>
+			<a routerLink="/" routerLinkActive="active" >
+				<i class="fa fa-home"></i> Úvod
+			</a>
+			<a routerLink="/seznam/ministerstva" routerLinkActive="active"  class="hidden">
+				<i class="fa fa-institution"></i> Ministerstva
+			</a>
+			<a routerLink="/seznam/obce" routerLinkActive="active" >
+				<i class="fa fa-map-signs"></i> Obce
+			</a>
+			<a routerLink="/data" routerLinkActive="active">
+				<i class="fa fa-database"></i> Data
+			</a>
+			<a routerLink="/stranka/o-aplikaci" routerLinkActive="active" class="right">
+				<i class="fa fa-info-circle"></i> O aplikaci
+			</a>
+		</nav>
+	</div>
+</div>
 
-			<hr>
-			<ul class="nav nav-stacked">
-				<li class="nav-item"><a [routerLink]="['../sprava-modulu']" class="nav-link"><i class="fa fa-cog"></i> Správa modulů</a></li>
-				<li class="nav-item"><a [routerLink]="getCloseLink()" class="nav-link"><i class="fa fa-cog"></i> Zavřít správu</a></li>
-			</ul>
+<div id="content">
+	
+	<div class="page container" *ngIf="entity">
+		<div class="row">
+			<div class="col-sm-4">
+				<!-- left -->
+				<h3>Správa profilu</h3>
+				<hr>
 
-		</div>
+				<ul class="nav nav-stacked">
+					<li class="nav-item" *ngFor="let module of modules"><a *ngIf="entity.modules[module.id] || !module.optional" [routerLink]="getModuleLink(module)" class="nav-link" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a></li>
+				</ul>
 
-		<div class="col-sm-8" [ngSwitch]="view">
-			<div [ngSwitch]="view">
+				<hr>
+				<ul class="nav nav-stacked">
+					<li class="nav-item"><a [routerLink]="['../sprava-modulu']" class="nav-link"><i class="fa fa-cog"></i> Správa modulů</a></li>
+					<li class="nav-item"><a [routerLink]="getCloseLink()" class="nav-link"><i class="fa fa-cog"></i> Zavřít správu</a></li>
+				</ul>
 
-				<dash-board-admin *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board-admin>
-				
-				<notice-board-admin *ngSwitchCase="'uredni-deska'" [data]="getModuleData('uredni-deska')"></notice-board-admin>
+			</div>
 
-				<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [entity]="entity"></entity-admin-modules>
+			<div class="col-sm-8" [ngSwitch]="view">
+				<div [ngSwitch]="view">
 
-				<div *ngSwitchDefault>
-					<p>Tento modul nemá žádná nastavení.</p>
+					<dash-board-admin *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board-admin>
+
+					<notice-board-admin *ngSwitchCase="'uredni-deska'" [data]="getModuleData('uredni-deska')"></notice-board-admin>
+
+					<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [entity]="entity"></entity-admin-modules>
+
+					<div *ngSwitchDefault>
+						<p>Tento modul nemá žádná nastavení.</p>
+					</div>
+
+				</div>
+
+				<div>
+					<pre>{{dataString}}</pre>
 				</div>
 
 			</div>
-			
-			<div>
-				<pre>{{dataString}}</pre>
-			</div>
+
 
 		</div>
-
-		
 	</div>
-</div>
