@@ -5,11 +5,17 @@ Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalš�
 - rozpočet (celkový přehled, projekty)
 - plnění rozpočtu (výdaje po dodavatelích, výdaje po projektech, jednotlivé faktury)
 - úřední deska (za pomoci [MapaSamosprávy.cz](http://www.mapasamospravy.cz/)
-- [Otevřená Města(http://www.otevrenamesta.cz/) vám poskytují tuto aplikaci jako službu
+- [Otevřená Města](http://www.otevrenamesta.cz/) vám poskytují tuto aplikaci jako službu
 
-Data jsou čerpána z opendat dané obce.
+Data jsou čerpána z otevřených dat (opendat) dané obce či samosprávy.
+
+## Ukázka
+
+Celkový pohled na výdaje samosprávy:
 
 ![Celkový pohled na výdaje samosprávy](example-1.png)
+
+Podrobný pohled na ...:
 
 ![Podrobný pohled na ...](example-2.png)
 
