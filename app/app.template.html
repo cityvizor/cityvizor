@@ -1,6 +1,10 @@
 <div id="toasts">
 	<ul>
-		<li *ngFor="let toast of toasts" [class]="toast.status" (click)="toast.hide()"><span *ngIf="toast.opacity" [style.opacity]="toast.opacity">{{toast.text}}</span></li>
+		<li *ngFor="let toast of toasts" [class]="toast.status" (click)="toast.hide()">
+			<span *ngIf="toast.opacity" [style.opacity]="toast.opacity">
+					<i class="fa fa-circle-o-notch fa-spin"></i> {{toast.text}}
+			</span>
+		</li>
 	</ul>
 </div>
 

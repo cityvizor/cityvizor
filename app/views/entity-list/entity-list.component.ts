@@ -10,7 +10,7 @@ import { DataService} from '../../services/data.service';
 })
 export class EntityListComponent{
 	
-	show: string = "abc";
+	show: string = "map";
 	
 	letters = [];
 	entities = [];

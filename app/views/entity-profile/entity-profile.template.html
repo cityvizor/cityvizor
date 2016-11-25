@@ -1,39 +1,37 @@
 <div id="entity" *ngIf="entity">
 
-	<header>
-		<h1 class="container">
-			<a routerLink="/" routerLinkActive="active">{{entity ? entity.name : ""}}</a>
-		</h1>
-	</header>
-
-	<div id="menu">
+	<header id="headerObec">
 		<div class="container">
+			<h1>
+				<i class="fa fa-map-signs"></i>
+				<a routerLink="/" routerLinkActive="active">{{entity ? entity.name : ""}}</a>
+			</h1>
 			<nav role="navigation">
-
-				<a routerLink="/seznam/obce" routerLinkActive="active" class="right">
-					<i class="fa fa-map-signs"></i> Vyber obec
+				<a routerLink="/" routerLinkActive="active" class="btn">
+					<i class="fa fa-chevron-circle-right"></i> 
+					<span>Vybrat jinou obec</span>
 				</a>
 			</nav>
 		</div>
-	</div>
+	</header>
 
 	<div id="content">
 
 		<div class="page container">
 			<div class="row">
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 
+					<div class="list-group">
+						<a  *ngFor="let module of modules" [style.display]="(entity.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module.id)" class="list-group-item" routerLinkActive="active">
+							<i class="fa" [class]="module.icon"></i> {{module.name}}
+						</a>
+					</div>
 					<ul class="nav nav-stacked">
-						<li class="nav-item" *ngFor="let module of modules"><a *ngIf="entity.modules[module.id] || !module.optional" [routerLink]="getVizLink(module.id)" class="nav-link" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a></li>
-					</ul>
-
-					<hr>
-					<ul class="nav nav-stacked">
-						<li class="nav-item"><a [routerLink]="getAdminLink()" class="nav-link" routerLinkActive="active"><i class="fa fa-cog"></i> Spravovat</a></li>
+						<li class="nav-item"><a [routerLink]="getAdminLink()" class="nav-link text-muted" routerLinkActive="active"><i class="fa fa-cog"></i> Spravovat</a></li>
 					</ul>
 
 				</div>
-				<div class="col-sm-8" [ngSwitch]="view">
+				<div class="col-sm-9" [ngSwitch]="view">
 
 					<dash-board *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board>
 

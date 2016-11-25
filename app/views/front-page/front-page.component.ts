@@ -24,17 +24,28 @@ import { Component, OnInit} from '@angular/core';
 				outline: none;
 		}
 
-		header {
-			display: block;  padding: 50px 0px 50px 0px;
+		#headerVyberObce {
+			display: block;  padding: 50px 0px 20px 0px;
 			background: url('http://janvlasaty.name/polepozadi.jpg') no-repeat; 
-			background-size: 100% auto; background-position: center -200px; 
+			background-size: 100% auto; background-position: center -115px; 
 			text-align: center;
-			border-bottom: 5px solid #eee; 
+			border-bottom: 5px solid #eee;
+			min-height: 330px;
 		}
 		@media (max-width: 1200px) {
-				header {
+				#headerVyberObce {
 						background-size: 1200px auto; /* Force the image to its minimum width */
 				}
+		}
+		#inputVyberObce {
+			font-size: 80px; border: none; background: none;
+			border-bottom: 3px dotted rgba(255,255,255,.75);
+			color: rgba(255, 255, 255, 1);
+			text-align: center;
+			margin-bottom: 20px;
+			max-width: 800px; padding: 0px 10px;
+			margin: 0 auto;
+		}
 	`]
 })
 export class FrontPageComponent implements OnInit {

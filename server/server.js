@@ -1,10 +1,13 @@
 var express = require('express');
 var app = express();
 
-var bodyParser = require('body-parser');
-
+var bodyParser = require("body-parser");
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/supervizor-plus');
+mongoose.plugin(require('mongoose-write-stream'));
 
 app.use("/api",require("./routers/api.js"));
 

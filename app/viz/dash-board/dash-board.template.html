@@ -1,11 +1,7 @@
 <h3>
 	<i class="fa fa-tasks"></i>
-	<span>Informace</span>
+	<span>Přehled</span>
 </h3>
-<hr>
-
-<h3><i class="fa fa-map-marker"></i> Mapa</h3>
-<hr>
 <div>
 	<iframe *ngIf="entity.coords" [src]="getMapAddress()" width="500" height="333" style="border:none" frameBorder="0"></iframe>
 </div>
