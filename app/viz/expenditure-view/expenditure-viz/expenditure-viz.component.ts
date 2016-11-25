@@ -71,12 +71,7 @@ export class ExpenditureVizComponent{
 
 	// the data used in vizualization, imputted by data attribute of its DOM element
 	@Input()
-	data = {
-		groups: [],
-		budgetAmount: 0,
-		groupIndex: {},
-		maxBudgetAmount: 0
-	}
+	data: any;
 	
 	constructor(){
 		this.groups = ChartGroups; // set groups
@@ -126,14 +121,14 @@ export class ExpenditureVizComponent{
 	// generate path for group expenditures
 	getEStripePath(i,group){
 		var inner = this.innerSize;
-		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.groupIndex[group.id] && this.data.maxBudgetAmount ? this.data.groupIndex[group.id].expenditureAmount / this.data.maxBudgetAmount : 0);
+		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.budget.groupIndex[group.id] && this.data.budget.maxBudgetAmount ? this.data.budget.groupIndex[group.id].expenditureAmount / this.data.budget.maxBudgetAmount : 0);
 		return this.getStripePath(i,inner,outer);
 	}
 
 	// generate path for group total budget minus expenditures
 	getBStripePath(i,group){
-		var inner = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.groupIndex[group.id] && this.data.maxBudgetAmount ? this.data.groupIndex[group.id].expenditureAmount / this.data.maxBudgetAmount : 0);
-		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.groupIndex[group.id] && this.data.maxBudgetAmount ? this.data.groupIndex[group.id].budgetAmount / this.data.maxBudgetAmount : 0);
+		var inner = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.budget.groupIndex[group.id] && this.data.budget.maxBudgetAmount ? this.data.budget.groupIndex[group.id].expenditureAmount / this.data.budget.maxBudgetAmount : 0);
+		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this.data.budget.groupIndex[group.id] && this.data.budget.maxBudgetAmount ? this.data.budget.groupIndex[group.id].budgetAmount / this.data.budget.maxBudgetAmount : 0);
 		return this.getStripePath(i,inner,outer);
 	}
 

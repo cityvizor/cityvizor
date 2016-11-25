@@ -31,16 +31,18 @@ export class ExpenditureViewComponent {
 
 	// the data loaded, parsed and restructured from the CSV file
 	data = {
-		groups: [],
-		groupIndex: {},
-		expenditureEvents: [],
-		expenditureEventIndex: {},
-		maxBudgetAmount: 0,
-		maxExpenditureAmount: 0,
-		budgetAmount:0,
-		expenditureAmount:0,
-		budgetExpenditureDiffAmount:0,
-		budgetExpenditureDiffAbsAmount:0
+		ico: this.ico,
+		year: this.year,
+		events: [],
+		budget: {
+			expenditureAmount: 0,
+			maxExpenditureAmount: 0,
+			budgetAmount: 0,
+			maxBudgetAmount: 0,
+			paragraphs: [],
+			groups:[],
+			groupIndex: {}
+		}
 	};
 
 	constructor(private _ds: DataService, private _toastService: ToastService) {
@@ -63,148 +65,67 @@ export class ExpenditureViewComponent {
 		// data on expenditures (from the organization accounting software) are loaded and parsed.
 		var i = 0;
 		// we get an Observable
-		this._ds.getExpenditures(ico,year).subscribe(
-			// one or more rows
-			(data: Array<any>) => {
-				data.forEach(row => {
-					if(i > 0) this.loadRow(row); // we want to skip the first row (heading)
-					i++;
-				}); 
-			},
+		this._ds.getExpenditures(ico,year).then((data) => {
+			
+			this.linkData(data);
+			this.sortData(data);
+			console.log(data);
+			this.data = data;
+			loadingToast.hide();
+		});
+	}
 
-			// error
-			error => {
-			}, 
-
-			// finished
-			() => {
-				loadingToast.hide();
-				this.sortData();
+	findItem(array,id){
+		var found;
+		array.some(item => {
+			if(item.id === id) {
+				found = item;
+				return true;
 			}
-		);
+			return false;
+		});			
+		return found;
 	}
 
-	 // TODO: OPTIMIZE to include data only on desired level
-	getGroup(paragraphId){
+	linkData(data){
 		
-		var groupLevel = 2; // the level used to set groups; 3=Skupina, 2=Oddíl, 1= Pododdíl, 0= Paragraf
-		var groupId = paragraphId.substring(0,4 - groupLevel);
+		data.budget.paragraphIndex = {};
+		data.budget.groupIndex = {};
 		
-		if(this.data.groupIndex[groupId]) return this.data.groupIndex[groupId]; // if group object already created, no need to create new
+		data.budget.maxBudgetAmount = 0;
+		data.budget.maxExpenditureAmount = 0;
 		
-		var groupName = BudgetParagraphs[paragraphId].parents[3 - groupLevel];
+		data.budget.groups.forEach(group => {
+			data.budget.maxBudgetAmount = Math.max(data.budget.maxBudgetAmount,group.budgetAmount);
+			data.budget.maxExpenditureAmount = Math.max(data.budget.maxExpenditureAmount,group.expenditureAmount);
+			data.budget.groupIndex[group.id] = group;
+			group.paragraphs = [];
+		});
 		
-		this.data.groups.push(new Group(groupId,groupName)); // create new group in the groups array
-		this.data.groupIndex[groupId] = this.data.groups[this.data.groups.length - 1]; // add the reference to the group also to groupIndex object, to access group by its ID
+		data.budget.paragraphs.forEach((paragraph) => {
+			var groupId = paragraph.id.substring(0, 2);	
+			var group = data.budget.groupIndex[groupId];
+			group.paragraphs.push(paragraph);
+			data.budget.paragraphIndex[paragraph.id] = paragraph;
+			paragraph.events = [];
+		});
 		
-		return this.data.groupIndex[groupId];
-
+		data.events.forEach(event => {
+			event.paragraphIndex = {};
+			event.paragraphs.forEach(eventParagraph => {
+				var paragraph = data.budget.paragraphIndex[eventParagraph.id];
+				paragraph.events.push(event);
+				event.paragraphIndex[eventParagraph.id] = eventParagraph;
+			});
+		});
+		
 	}
 	
-	getParagraph(parent,paragraphId){
-		
-		if(parent.paragraphIndex[paragraphId]) return parent.paragraphIndex[paragraphId]; // if paragraph object already created, no need to create new
-		
-		var paragraphName = BudgetParagraphs[paragraphId].name;
-		
-		parent.paragraphs.push(new Paragraph(paragraphId,paragraphName));
-		
-		return parent.paragraphIndex[paragraphId] = parent.paragraphs[parent.paragraphs.length - 1];
-
-	}
-	
-	getBudgetItem(parent,budgetItemId){
-		
-		if(parent.budgetItemsIndex[budgetItemId]) return parent.budgetItemsIndex[budgetItemId];
-		
-		var budgetItemName = BudgetItems[budgetItemId];
-		
-		parent.budgetItems.push(new BudgetItem(budgetItemId,budgetItemName));
-		
-		return parent.budgetItemsIndex[budgetItemId] = parent.budgetItems[parent.budgetItems.length - 1];
-	}
-	
-	getExpenditureEvent(id,name){
-		
-		if(this.data.expenditureEventIndex[id]) return this.data.expenditureEventIndex[id];
-		
-		this.data.expenditureEvents.push(new ExpenditureEvent(id,name));
-		
-		return this.data.expenditureEventIndex[id] = this.data.expenditureEvents[this.data.expenditureEvents.length - 1];
-	}
-	
-	sortData(){
+	sortData(data){
 
 		var field1 = "expenditureAmount";
 		var field2 = "budgetAmount";
 		
-		this.data.groups.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
-		this.data.groups.forEach(group => {
-			group.paragraphs.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
-			group.paragraphs.forEach(paragraph => paragraph.expenditureEvents.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]));
-		});
+		data.budget.groups.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
 	}
-	
-	loadRow(item){
-		
-		if(item.length < 9) return; // invalid row
-
-		var data = this.data;
-
-		var paragraphId = item[0];
-		var budgetItemId = item[4];
-
-		var group = this.getGroup(paragraphId);
-		var paragraph = this.getParagraph(group,paragraphId);
-		var budgetItem = this.getBudgetItem(paragraph,budgetItemId);
-
-		var expenditureEvent = this.getExpenditureEvent(item[1],item[2]);
-		var expenditureEventParagraph = this.getParagraph(expenditureEvent,paragraphId);
-		var expenditureEventBudgetItem = this.getBudgetItem(expenditureEventParagraph,budgetItemId);
-
-		if(!paragraph.expenditureEventIndex[expenditureEvent.id]){
-			paragraph.expenditureEvents.push(expenditureEvent);
-			paragraph.expenditureEventIndex[expenditureEvent.id] = paragraph.expenditureEvents[paragraph.expenditureEvents.length - 1];
-		}
-
-		var amount = this.string2number(item[6]);
-		
-		data.expenditureAmount += amount;
-		group.expenditureAmount += amount;
-		paragraph.expenditureAmount += amount;
-		budgetItem.expenditureAmount += amount;
-		expenditureEventParagraph.expenditureAmount += amount;
-		expenditureEventBudgetItem.expenditureAmount += amount;
-
-		expenditureEvent.expenditureAmount += amount;
-
-		if(group.expenditureAmount > data.maxExpenditureAmount) data.maxExpenditureAmount = group.expenditureAmount;
-		if(paragraph.expenditureAmount > group.maxExpenditureAmount) group.maxExpenditureAmount = paragraph.expenditureAmount;
-
-		
-		var amount = this.string2number(item[8]);
-		
-		data.budgetAmount += amount;
-		group.budgetAmount += amount;
-		paragraph.budgetAmount += amount;			
-		budgetItem.budgetAmount += amount;
-		expenditureEventParagraph.budgetAmount += amount;
-		expenditureEventBudgetItem.budgetAmount += amount;
-
-		expenditureEvent.budgetAmount += amount;
-
-		if(group.budgetAmount > data.maxBudgetAmount) data.maxBudgetAmount = group.budgetAmount;
-		if(paragraph.budgetAmount > group.maxBudgetAmount) group.maxBudgetAmount = paragraph.budgetAmount;
-
-		data.budgetExpenditureDiffAmount=data.expenditureAmount-data.budgetAmount;
-		data.budgetExpenditureDiffAbsAmount=Math.abs(data.budgetExpenditureDiffAmount);
-		group.budgetExpenditureDiffAmount=group.expenditureAmount-group.budgetAmount;
-		group.budgetExpenditureDiffAbsAmount=Math.abs(group.budgetExpenditureDiffAmount);
-		paragraph.budgetExpenditureDiffAmount=paragraph.expenditureAmount-paragraph.budgetAmount;
-		paragraph.budgetExpenditureDiffAbsAmount=Math.abs(paragraph.budgetExpenditureDiffAmount);
-		budgetItem.budgetExpenditureDiffAmount=budgetItem.expenditureAmount-budgetItem.budgetAmount;
-		budgetItem.budgetExpenditureDiffAbsAmount=Math.abs(budgetItem.budgetExpenditureDiffAmount);
-		
-	}
-
 }

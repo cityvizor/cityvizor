@@ -12,6 +12,8 @@ import {Http} from '@angular/http';
 	styleUrls: ['notice-board.style.css']
 })
 export class NoticeBoardComponent {
+	// decides which part (vizualization, map or list) will be shown
+	show: string = 'seznam';
 
 	@Input()
 	set data(data) {

@@ -61,9 +61,7 @@ export class DataService {
 		
 		if(!year) year = (new Date()).getFullYear();
 		
-		var path = "/api/vydaje/" + ico + "/" + year;
-		
-		return this.getCSV(path);
+		return this._http.get("/api/vydaje/" + ico + "/" + year).toPromise().then(response => response.json());
 		
 	}	
 	
