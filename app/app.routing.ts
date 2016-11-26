@@ -8,15 +8,14 @@ import { EntityAdminComponent } from './views/entity-admin/entity-admin.componen
 
 const appRoutes: Routes = [
   {path: '',component: FrontPageComponent},
+	
 	{path: 'stranka/:id',component: PageViewComponent},
-	{path: 'seznam/ministerstva',component: EntityListComponent, data: {type:"ministerstvo"}},
-	{path: 'seznam/obce',component: EntityListComponent, data: {type:"obec"}},
 	
 	{path: 'ico/:ico/admin/:view',component: EntityAdminComponent},
 	{path: 'ico/:ico/admin', redirectTo: 'ico/:ico/admin/informace'},
 	
 	{path: 'ico/:ico/:view',component: EntityProfileComponent},
-	{path: 'ico/:ico', redirectTo: 'ico/:ico/dashboard'}
+	{path: 'ico/:ico', redirectTo: 'ico/:ico/prehled'}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

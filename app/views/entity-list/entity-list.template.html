@@ -41,8 +41,10 @@
 				<!-- MĚSTA -->
 
 				<g *ngFor="let entity of entities" class="entityMapMarker">
-					<circle r="5" [attr.cx]="gps2map(entity.gps.lng,'lng')" [attr.cy]="gps2map(entity.gps.lat,'lat')" fill="#ff0000" (click)="openEntity(entity)" />
-					<text [attr.x]="gps2map(entity.gps.lng,'lng')" [attr.y]="(gps2map(entity.gps.lat,'lat')-15)" text-anchor="middle" style="font-family:Roboto;font-size:16px;" fill="#E73431" (click)="openEntity(entity)">{{entity.name}}</text>
+					<g *ngIf="!_search || entity.searchString.match(_search)">
+						<circle r="5" [attr.cx]="gps2map(entity.gps.lng,'lng')" [attr.cy]="gps2map(entity.gps.lat,'lat')" fill="#ff0000" (click)="openEntity(entity)" />
+						<text [attr.x]="gps2map(entity.gps.lng,'lng')" [attr.y]="(gps2map(entity.gps.lat,'lat')-15)" text-anchor="middle" style="font-family:Roboto;font-size:16px;" fill="#E73431" (click)="openEntity(entity)">{{entity.name}}</text>
+					</g>
 				</g>
 			</svg>
 		</div>
