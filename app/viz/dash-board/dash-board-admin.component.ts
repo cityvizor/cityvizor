@@ -7,7 +7,7 @@ import { DataService } 		from '../../services/data.service';
 	moduleId: module.id,
   selector: 'dash-board-admin',
 	templateUrl: 'dash-board-admin.template.html',
-	styleUrls: ['dash-board-admin.style.css'],
+	styles: [],
 })
 export class DashboardAdminComponent {
 	

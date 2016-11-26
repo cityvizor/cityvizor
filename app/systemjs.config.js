@@ -16,7 +16,6 @@
   var packages = {
     'app':                        { main: 'index.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
-		'papaparse':									{ main: 'papaparse.min.js'},
 		'ng2-bootstrap': 							{ defaultExtension: 'js', main: 'ng2-bootstrap.js' },
 		'moment': 										{ defaultExtension: 'js', main: 'moment.js'}
   };

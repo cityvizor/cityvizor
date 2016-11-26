@@ -32,7 +32,7 @@ import { NoticeBoardService } 		from './services/notice-board.service';
 import { ToastService } 		from './services/toast.service';
 
 //Bootstrap
-import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+//import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 // Directives
 import { ng2MapyCZ } from './directives/ng2mapy/mapy-cz.directive';
@@ -48,7 +48,7 @@ import { routing } from './app.routing';
 		HttpModule,
 		FormsModule,
 		routing,
-		/*bs*/ ModalModule
+		/*bs*/ //ModalModule
 	],
   declarations: [
 		AppComponent,

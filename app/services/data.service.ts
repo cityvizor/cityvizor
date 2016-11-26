@@ -42,19 +42,6 @@ export class DataService {
 		entity.data[view] = viewData;
 		return this._http.post("/api/entities/" + ico,entity).toPromise().then(response => response.json());
 	}
-	
-	getCSV(path){
-		return new Observable(observer => {
-			PapaParse.parse(path, {
-				download: true,
-				//step: result => observer.next(result.data),
-				complete: (result) => {
-					observer.next(result.data);
-					observer.complete();
-				}
-			});
-		});
-	}
 
 	getExpenditures(ico,year){
 		

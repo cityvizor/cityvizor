@@ -5,6 +5,7 @@
 /app/**/*.js
 /app/**/*.js.map
 !systemjs.config.js
+!/aot/index.html
 
 # dependencies
 /node_modules

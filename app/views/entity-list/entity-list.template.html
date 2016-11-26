@@ -1,16 +1,5 @@
 <div class="page container">
-	<div class="ministerstva container" *ngIf="typ=='ministerstvo'">
-		<div *ngFor="let entity of entities" class="ministerstvo">
-			<div class="logo">
-				<img [src]="entity.logo">
-			</div>
-			<h2>{{entity.name}}</h2>
-			<p>{{entity.desc}}</p>
-			<a [routerLink]="['/ico',entity.ico]">otevřít</a>
-		</div>
-	</div>
-
-	<div class="entities" *ngIf="typ!='ministerstvo'">
+	<div class="entities">
 		<div class="text-center">
 			<div class="btn-group">
 				<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='map'" (click)="show='map'"><i class="fa fa-map"></i> Mapa</button>

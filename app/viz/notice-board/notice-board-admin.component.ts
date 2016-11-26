@@ -11,6 +11,8 @@ import { NoticeBoardService } from '../../services/notice-board.service';
 })
 export class NoticeBoardAdminComponent {
 
+	_data:any;
+
 	@Input()
 	set data(data){
 		this._data = data;
@@ -69,16 +71,14 @@ export class NoticeBoardAdminComponent {
 	 findDashboard(){
 		 
 		 if(!this.dashboards) return;
+
+		 var dashboard:any;
 		 
-		 var dashboard;
 		 this.dashboards.dashboards.some(item => {
 			 if(item.id === this._data.id){
-				 dashboard = item;
 				 return true;
 			 }
 		 });
-		 
-		 if(!dashboard) return;
 		 
 		 this.nuts3Select(dashboard.nuts3);
 		 this.nuts4Select(dashboard.nuts4);

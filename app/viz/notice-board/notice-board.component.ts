@@ -36,7 +36,7 @@ export class NoticeBoardComponent {
 		 
 		 var loadingToast = this._toastService.toast("Načítám data z eDesky.cz...", "loading", false); 
 
-		 this._nbs.getList(this.id,filter,page).then(data => {
+		 this._nbs.getList(this.id,filter,page).then((data:any) => {
 			 
 			 data.forEach(document => {
 				 document.preview = null;

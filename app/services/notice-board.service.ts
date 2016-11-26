@@ -29,29 +29,29 @@ export class NoticeBoardService {
 
 		for(var i = 0; i < dashboards.length; i++){
 			
-			var nuts3 = dashboards[i].getAttribute("nuts3_id");
-			var nuts4 = dashboards[i].getAttribute("nuts4_id");
+			var nuts3 = parseInt(dashboards[i].getAttribute("nuts3_id"));
+			var nuts4 = parseInt(dashboards[i].getAttribute("nuts4_id"));
 			
 			output.dashboards.push({
-				"id": dashboards[i].getAttribute("edesky_id") * 1,
+				"id": parseInt(dashboards[i].getAttribute("edesky_id")),
 				"name": dashboards[i].getAttribute("name"),
-				"nuts3": dashboards[i].getAttribute("nuts3_id") * 1,
-				"nuts4": dashboards[i].getAttribute("nuts4_id") * 1
+				"nuts3": parseInt(dashboards[i].getAttribute("nuts3_id")),
+				"nuts4": parseInt(dashboards[i].getAttribute("nuts4_id"))
 			});
 			
 			if(!nuts3_index[nuts3]){
 				nuts3_index[nuts3] = {
 					"id": nuts3 * 1,
-					"name": dashboards[i].getAttribute("nuts3_name")
+					"name": parseInt(dashboards[i].getAttribute("nuts3_name"))
 				};
 				output.nuts3.push(nuts3_index[nuts3]);
 			}
 			
 			if(!nuts4_index[nuts4]){
 				nuts4_index[nuts4] = {
-					"id": nuts4 * 1,
-					"nuts3": nuts3 * 1,
-					"name": dashboards[i].getAttribute("nuts4_name")
+					"id": nuts4,
+					"nuts3": nuts3,
+					"name": parseInt(dashboards[i].getAttribute("nuts4_name"))
 				};
 				output.nuts4.push(nuts4_index[nuts4]);
 			}

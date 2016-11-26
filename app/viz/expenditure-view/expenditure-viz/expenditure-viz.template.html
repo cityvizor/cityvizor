@@ -90,7 +90,7 @@ Oukej, tak zdar!
 					</thead>
 					<tbody>
 						<tr *ngFor="let event of paragraph.events">
-							<td><a (click)="eventReceiptsModal.show()">{{event.name}}</a></td>
+							<td><a>{{event.name}}</a></td>
 							<td>{{event.paragraphIndex[paragraph.id].expenditureAmount | money:0:true}} Kč</td>
 							<td>{{event.paragraphIndex[paragraph.id].budgetAmount | money:0:true}} Kč</td>
 						</tr>
@@ -102,7 +102,7 @@ Oukej, tak zdar!
 	</div>
 </div>
 
-<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<!--<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -136,4 +136,4 @@ Oukej, tak zdar!
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->

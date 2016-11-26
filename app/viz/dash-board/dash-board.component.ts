@@ -5,7 +5,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 	moduleId: module.id,
 	selector: 'dash-board',
 	templateUrl: 'dash-board.template.html',
-	styleUrls: [],
+	styles: [],
 })
 export class DashboardComponent {
 

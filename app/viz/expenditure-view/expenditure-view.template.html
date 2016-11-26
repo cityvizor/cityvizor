@@ -1,7 +1,7 @@
 <h3>
 	<i class="fa fa-plus-circle"></i>
 	<span>Výdaje</span>
-	<span *ngIf="openedGroup" class="hidden"> &raquo; {{openedGroup.name}}</span>
+	
 	<div class="btn-group pull-right">
 		<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='viz'" (click)="show='viz'">Vizualizace</button>
 		<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='map'" (click)="show='map'">Mapa</button>
@@ -12,14 +12,11 @@
 	
 </div>
 
-<div *ngIf="loading" class="text-center"><i class="fa fa-circle-o-notch fa-spinner"></i> Načítám data...</div>
-
-<div *ngIf="!loading">
+<div>
 	<!-- VIZUALIZACE -->
 	<expenditure-viz *ngIf="show=='viz'" [data]="data"></expenditure-viz>
 
 	<!-- MAPA -->
-
 
 	<!-- SEZNAM -->
 	<expenditure-list *ngIf="show=='tbl'" [data]="data"></expenditure-list>
