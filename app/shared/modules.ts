@@ -1,7 +1,7 @@
 import { Module } from "./schema";
 
 export const MODULES: Module[] = [
-	{"id": "dashboard", "name": "Dashboard", "optional": false, "icon": "fa fa-tasks"},
+	{"id": "prehled", "name": "Přehled", "optional": false, "icon": "fa fa-tasks"},
 	{"id": "vydaje", "name": "Výdaje", "optional": true, "icon": "fa fa-money"},
 	{"id": "prijmy", "name": "Příjmy", "optional": true, "icon": "fa fa-money"},
 	{"id": "uredni-deska", "name": "Úřední deska", "optional": true, "icon": "fa fa-newspaper-o"},

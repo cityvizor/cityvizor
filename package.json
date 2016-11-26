@@ -5,7 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "concurrently \"tsc -w\" \"nodemon server/server.js\""
+    "dev": "concurrently \"tsc -w\" \"nodemon server/server.js\"",
+		"postinstall": "tsc"
   },
   "keywords": [
     "opendata",

@@ -33,7 +33,7 @@
 				</div>
 				<div class="col-sm-9" [ngSwitch]="view">
 
-					<dash-board *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board>
+					<dash-board *ngSwitchCase="'prehled'" [entity]="entity"></dash-board>
 
 					<expenditure-view *ngSwitchCase="'vydaje'" [ico]="entity.ico"></expenditure-view>
 

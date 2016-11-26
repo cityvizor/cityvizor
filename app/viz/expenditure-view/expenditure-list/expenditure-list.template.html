@@ -8,18 +8,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let group of data.budget.groups" (click)="openGroup(group)" class="clickable clickable-grey-bg">
+			<tr *ngFor="let group of data.groups" (click)="openGroup(group)" class="clickable clickable-grey-bg">
 				<td><span title="Rozpočtový oddíl {{group.id}} - {{group.name}}">{{group.name}}</span></td>
 				<td>{{group.budgetAmount | money:1:true}} Kč</td>
 				<td>
 					<div class="progress">
 						<div class="progress-bar progress-bar-success" role="progressbar"
-								 aria-valuemin="0" aria-valuemax="100" [style.width]="(group.expenditureAmount/data.budget.maxBudgetAmount*100) + '%'">
-							<span class="sr-only">{{(group.budgetAmount/data.budget.maxBudgetAmount*100)}}% Complete</span>
+								 aria-valuemin="0" aria-valuemax="100" [style.width]="(group.expenditureAmount/data.maxBudgetAmount*100) + '%'">
+							<span class="sr-only">{{(group.budgetAmount/data.maxBudgetAmount*100)}}% Complete</span>
 						</div>
 						<div class="progress-bar progress-bar-warning" role="progressbar"
-								 aria-valuemin="0" aria-valuemax="100" [style.width]="(group.budgetAmount/data.budget.maxBudgetAmount*100 - group.expenditureAmount/data.budget.maxBudgetAmount*100) + '%'">
-							<span class="sr-only">{{(group.budgetAmount/data.budget.maxBudgetAmount*100)}}% Complete</span>
+								 aria-valuemin="0" aria-valuemax="100" [style.width]="(group.budgetAmount/data.maxBudgetAmount*100 - group.expenditureAmount/data.maxBudgetAmount*100) + '%'">
+							<span class="sr-only">{{(group.budgetAmount/data.maxBudgetAmount*100)}}% Complete</span>
 						</div>
 					</div>
 				</td>

@@ -35,8 +35,8 @@ export class NoticeBoardService {
 			output.dashboards.push({
 				"id": dashboards[i].getAttribute("edesky_id") * 1,
 				"name": dashboards[i].getAttribute("name"),
-				"nuts3": dashboards[i].getAttribute("nuts3_id"),
-				"nuts4": dashboards[i].getAttribute("nuts4_id")
+				"nuts3": dashboards[i].getAttribute("nuts3_id") * 1,
+				"nuts4": dashboards[i].getAttribute("nuts4_id") * 1
 			});
 			
 			if(!nuts3_index[nuts3]){
@@ -50,7 +50,7 @@ export class NoticeBoardService {
 			if(!nuts4_index[nuts4]){
 				nuts4_index[nuts4] = {
 					"id": nuts4 * 1,
-					"nuts3": nuts3,
+					"nuts3": nuts3 * 1,
 					"name": dashboards[i].getAttribute("nuts4_name")
 				};
 				output.nuts4.push(nuts4_index[nuts4]);

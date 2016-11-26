@@ -23,8 +23,8 @@ export class NoticeBoardAdminComponent {
 
 	 lists = {
 		 "nuts3":[],
-		 "nuts4":[]
-		 "dashboards":[],
+		 "nuts4":[],
+		 "dashboards":[]
 	 }
 	 
 	 nuts3;
@@ -51,14 +51,15 @@ export class NoticeBoardAdminComponent {
 	 }
 	 
 	 nuts3Select(nuts3){
-		 this.nuts3 = nuts3;
+		 this.nuts3 = nuts3 * 1;
 		 this.lists.nuts4 = this.dashboards.nuts4.filter(item => item.nuts3 === this.nuts3);
-		 this.nuts4Select(this.lists.nuts4[0] ? this.lists.nuts4[0].id : null);
+		 this.nuts4Select(this.lists.nuts4[0] ? this.lists.nuts4[0].id : 0);
 	 }
 
 	 nuts4Select(nuts4){
-		 this.nuts4 = nuts4;
+		 this.nuts4 = nuts4 * 1;
 		 this.lists.dashboards = this.dashboards.dashboards.filter(item => this.nuts4 ? item.nuts4 === this.nuts4 : item.nuts3 === this.nuts3);	 
+		 console.log(this.lists.dashboards, this.nuts4 ? this.nuts4 : this.nuts3);
 	 }
 
 	dashboardSelect(id){
