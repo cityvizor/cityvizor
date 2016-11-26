@@ -1,2 +1,5 @@
 .buttons a{width:100%;margin:1px 0;}
 .preview pre{max-height:200px;overflow:auto;border:none;background-color:#fff;margin:10px;padding:10px;}
+
+.notice-board-map,.notice-board-list{display:none;}
+.notice-board-map.active,.notice-board-list.active{display:block;}

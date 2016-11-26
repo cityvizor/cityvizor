@@ -43,6 +43,17 @@ export class EntityAdminComponent implements OnInit {
 		});		
 	}
 	
+	saveEntity(){
+		var oldEntity = JSON.parse(JSON.stringify(this.entity));
+
+		this._ds.saveEntity(this.entity.ico,this.entity)
+			.then((entity) => this._toastService.toast("Uloženo.", "notice"))
+			.catch((err) => {
+			this.entity = oldEntity;
+			this._toastService.toast("Nastala chyba při ukládání","error");
+		});
+	}
+	
 	getModuleData(moduleId){
 		if(!this.entity.data.modules[moduleId]) this.entity.data.modules[moduleId] = {};
 		return this.entity.data.modules[moduleId];

@@ -33,16 +33,19 @@ export class ExpenditureViewComponent {
 	data = {
 		ico: this.ico,
 		year: this.year,
+		
 		events: [],
-		budget: {
-			expenditureAmount: 0,
-			maxExpenditureAmount: 0,
-			budgetAmount: 0,
-			maxBudgetAmount: 0,
-			paragraphs: [],
-			groups:[],
-			groupIndex: {}
-		}
+		groups:[],
+		paragraphs: [],
+		
+		expenditureAmount: 0,
+		maxExpenditureAmount: 0,
+		budgetAmount: 0,
+		maxBudgetAmount: 0,
+		
+		groupIndex: {},
+		paragraphIndex: {},
+		eventIndex: {}
 	};
 
 	constructor(private _ds: DataService, private _toastService: ToastService) {
@@ -87,33 +90,50 @@ export class ExpenditureViewComponent {
 		return found;
 	}
 
+	getGroupByParagraph(data,paragraph){
+		var groupId = paragraph.id.substring(0, 2);	
+		if(!data.groupIndex[groupId]){
+			var group = {
+				id: groupId,
+				budgetAmount:0,
+				expenditureAmount:0,
+				paragraphs: []
+			}
+			data.groupIndex[groupId] = group;
+			data.groups.push(group);
+		}		
+		return data.groupIndex[groupId];
+	}
+
 	linkData(data){
 		
-		data.budget.paragraphIndex = {};
-		data.budget.groupIndex = {};
+		data.groups = [];
 		
-		data.budget.maxBudgetAmount = 0;
-		data.budget.maxExpenditureAmount = 0;
+		data.paragraphIndex = {};
+		data.groupIndex = {};
 		
-		data.budget.groups.forEach(group => {
-			data.budget.maxBudgetAmount = Math.max(data.budget.maxBudgetAmount,group.budgetAmount);
-			data.budget.maxExpenditureAmount = Math.max(data.budget.maxExpenditureAmount,group.expenditureAmount);
-			data.budget.groupIndex[group.id] = group;
-			group.paragraphs = [];
+		data.maxBudgetAmount = 0;
+		data.maxExpenditureAmount = 0;
+		
+		data.paragraphs.forEach(paragraph => {
+			var group = this.getGroupByParagraph(data,paragraph);		
+			group.budgetAmount += paragraph.budgetAmount;
+			group.expenditureAmount += paragraph.expenditureAmount;
+			group.paragraphs.push(paragraph);
+			
+			data.paragraphIndex[paragraph.id] = paragraph;
+			paragraph.events = [];
 		});
 		
-		data.budget.paragraphs.forEach((paragraph) => {
-			var groupId = paragraph.id.substring(0, 2);	
-			var group = data.budget.groupIndex[groupId];
-			group.paragraphs.push(paragraph);
-			data.budget.paragraphIndex[paragraph.id] = paragraph;
-			paragraph.events = [];
+		data.groups.forEach(group => {
+			data.maxBudgetAmount = Math.max(data.maxBudgetAmount,group.budgetAmount);
+			data.maxExpenditureAmount = Math.max(data.maxExpenditureAmount,group.expenditureAmount);
 		});
 		
 		data.events.forEach(event => {
 			event.paragraphIndex = {};
 			event.paragraphs.forEach(eventParagraph => {
-				var paragraph = data.budget.paragraphIndex[eventParagraph.id];
+				var paragraph = data.paragraphIndex[eventParagraph.id];
 				paragraph.events.push(event);
 				event.paragraphIndex[eventParagraph.id] = eventParagraph;
 			});
@@ -126,6 +146,6 @@ export class ExpenditureViewComponent {
 		var field1 = "expenditureAmount";
 		var field2 = "budgetAmount";
 		
-		data.budget.groups.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
+		data.groups.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
 	}
 }

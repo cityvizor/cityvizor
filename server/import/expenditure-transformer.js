@@ -14,37 +14,16 @@ module.exports = class ExpenditureTransformer extends Transform {
 			ico: this.ico,
 			year: this.year,
 			events: [],
-			budget: {
-				expenditureAmount: 0,
-				budgetAmount: 0,
-				paragraphs: [],
-				groups:[]
-			}
+			expenditureAmount: 0,
+			budgetAmount: 0,
+			paragraphs: []
 		}
 		
 		this.i = 0;
 
 		this.paragraphIndex = {};
-		this.groupIndex = {};
 		this.eventIndex = {};
 		this.eventParagraphIndex = {};
-	}
-
-	getGroup(paragraphId) {
-
-		var groupId = paragraphId.substring(0, 2);
-
-		if (!this.groupIndex[groupId]) {
-			var group = {
-				id: groupId,
-				name: "nazev skupiny",
-				expenditureAmount: 0,
-				budgetAmount: 0
-			};
-			this.data.budget.groups.push(group);
-			this.groupIndex[groupId] = group;
-		}
-		return this.groupIndex[groupId];
 	}
 
 	getParagraph(paragraphId) {
@@ -55,7 +34,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 				expenditureAmount: 0,
 				budgetAmount: 0
 			};
-			this.data.budget.paragraphs.push(paragraph);
+			this.data.paragraphs.push(paragraph);
 			this.paragraphIndex[paragraphId] = paragraph;
 		}
 		return this.paragraphIndex[paragraphId];
@@ -110,13 +89,12 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		if(item.length < 9){next();return;} // invalid row
 		if(this.i === 1){next();return;}
-		
-		var budget = this.data.budget;
 
 		var paragraphId = item[0];
 		var budgetItemId = item[4];
+		
+		var data = this.data;
 
-		var group = this.getGroup(paragraphId);
 		var paragraph = this.getParagraph(paragraphId);
 
 		var expenditureEvent = this.getEvent(item[1], item[2]);
@@ -127,18 +105,12 @@ module.exports = class ExpenditureTransformer extends Transform {
 		/* Expenditure amount */
 		amount = this.string2number(item[6]);
 
-		[budget, group, paragraph, expenditureEvent, expenditureEventParagraph].map(item => item.expenditureAmount += amount);
-
-		//if (group.expenditureAmount > data.maxExpenditureAmount) data.maxExpenditureAmount = group.expenditureAmount;
-		//if (paragraph.expenditureAmount > group.maxExpenditureAmount) group.maxExpenditureAmount = paragraph.expenditureAmount;
+		[data, paragraph, expenditureEvent, expenditureEventParagraph].map(item => item.expenditureAmount += amount);
 
 		/* Budget amount */
 		amount = this.string2number(item[8]);
 
-		[budget, group, paragraph, expenditureEvent, expenditureEventParagraph].map(item => item.budgetAmount += amount);
-
-		//if (group.budgetAmount > data.maxBudgetAmount) data.maxBudgetAmount = group.budgetAmount;
-		//if (paragraph.budgetAmount > group.maxBudgetAmount) group.maxBudgetAmount = paragraph.budgetAmount;
+		[data, paragraph, expenditureEvent, expenditureEventParagraph].map(item => item.budgetAmount += amount);
 
 		next();
 	}

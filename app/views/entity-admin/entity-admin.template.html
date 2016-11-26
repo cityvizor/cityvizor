@@ -52,7 +52,7 @@
 
 					<dash-board-admin *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board-admin>
 
-					<notice-board-admin *ngSwitchCase="'uredni-deska'" [data]="getModuleData('uredni-deska')"></notice-board-admin>
+					<notice-board-admin *ngSwitchCase="'uredni-deska'" [data]="getModuleData('uredni-deska')" (save)="saveEntity()"></notice-board-admin>
 
 					<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [entity]="entity"></entity-admin-modules>
 

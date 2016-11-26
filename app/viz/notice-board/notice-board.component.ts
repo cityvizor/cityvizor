@@ -13,7 +13,7 @@ import {Http} from '@angular/http';
 })
 export class NoticeBoardComponent {
 	// decides which part (vizualization, map or list) will be shown
-	show: string = 'seznam';
+	show: string = 'map';
 
 	@Input()
 	set data(data) {

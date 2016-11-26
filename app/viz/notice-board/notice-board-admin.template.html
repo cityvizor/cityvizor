@@ -2,11 +2,33 @@
 
 <hr>
 
-<form class="form-horizontal">
+<form class="form-horizontal" (submit)="save.emit()">
 
 	<div class="form-group">
     <div class="col-sm-12">
-      <input name="id" type="number" class="form-control" placeholder="ID úřední desky" [(ngModel)]="data.id">
+      Úřední deska z eDesky.cz
+			
+			<div class="form-group">
+				Kraj:
+				<select name="nuts3" [ngModel]="nuts3" (ngModelChange)="nuts3Select($event)">
+					<option *ngFor="let nuts3 of lists.nuts3" [value]="nuts3.id">{{nuts3.name || "ostatní"}}</option>
+				</select>
+			</div>
+			
+			<div class="form-group">
+				Okres:
+				<select name="nuts4" [ngModel]="nuts4" (ngModelChange)="nuts4Select($event)">
+					<option *ngFor="let nuts4 of lists.nuts4" [value]="nuts4.id">{{nuts4.name || "ostatní"}}</option>
+				</select>
+			</div>
+			
+			<div class="form-group">
+				Úřední deska:
+				<select name="dashboard" [ngModel]="_data.id" (ngModelChange)="dashboardSelect($event)">
+					<option value="0">--nevybráno--</option>
+					<option *ngFor="let dashboard of lists.dashboards" [value]="dashboard.id">{{dashboard.name}}</option>
+				</select>
+			</div>
     </div>
   </div>
   

@@ -2,14 +2,17 @@
 	<i class="fa fa-newspaper-o"></i>
 	<span>Úřední deska</span>
 	<div class="btn-group pull-right">
-		<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='seznam'" (click)="show='seznam'">Seznam</button>
+		<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='list'" (click)="show='list'">Seznam</button>
 		<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='map'" (click)="show='map'">Mapa</button>
 	</div>
 </h3>
 <hr>
 
-<div class="notice-board" *ngIf="show=='seznam'">
+<div class="notice-board-list" [class.active]="show=='list'">
 	<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of list">
+		<div class="row">
+			<strong class="pull-right text-muted">Zdroj: eDesky.cz</strong>
+		</div>
 		<div class="row">
 			<div class="col-lg-10">
 				<strong>{{document.title}}</strong>
@@ -30,7 +33,7 @@
 	</div>
 </div>
 
-<div class="notice-board-map" *ngIf="show=='map'">
+<div class="notice-board-map" [class.active]="show=='map'">
 	<div class="notice-board-item well">
 		<div class="row">
 			<div class="col-lg-12">

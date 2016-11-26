@@ -15,24 +15,15 @@ var expendituresSchema = mongoose.Schema({
 		expenditureAmount: Number,
 		gps: [Number,Number]
 	}],
-	
-	budget: {
+	budgetAmount: Number,
+	expenditureAmount: Number,
+	paragraphs: [{
+		id: String,
+		group: Number,
+		name: String,
 		budgetAmount: Number,
-		expenditureAmount: Number,
-		groups: [{
-			id: String,
-			name: String,
-			budgetAmount: Number,
-			expenditureAmount: Number
-		}],
-		paragraphs: [{
-			id: String,
-			group: Number,
-			name: String,
-			budgetAmount: Number,
-			expenditureAmount: Number
-		}]
-	}
+		expenditureAmount: Number
+	}]
 });
 
 module.exports = mongoose.model('Expenditures', expendituresSchema);
