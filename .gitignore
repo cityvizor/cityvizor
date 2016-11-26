@@ -1,7 +1,5 @@
 # compiled output
-/dist
-/aot
-/tmp
+/aot/*
 /app/**/*.js
 /app/**/*.js.map
 !systemjs.config.js
@@ -10,6 +8,9 @@
 # dependencies
 /node_modules
 /typings
+
+# uploads
+/uploads
 
 # misc
 npm-debug.log
