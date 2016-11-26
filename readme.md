@@ -29,21 +29,23 @@ Ubuntu: `sudo apt-get install mongodb`
 Fedora 24: `sudo dnf install mongodb mongodb-server-3.2.8-2`
 
 **Instalace**
+
+Instalace `node_modules` a následná kompilace komponent pomocí `ahead-of-time compiler`, kompilace Typescriptu a `rollup` pro zmenšení kódu a spojení do jednoho balíčku.
 ```
 npm install
 npm run build
 ```
 
 **Spuštění**
+
+Start node serveru na portu 80 pro AoT zkompilovaný kód
 ```
 npm start
 ```
 
 **Vývoj**
 
-Spustí testovací server, který se zrestartuje a překompiluje při každé změně kódu (po zmáčkuní F5 v prohlížeči se projeví změny v kódu)
+Start Typescript kompilátoru s volbou `--watch` a node serveru na portu 80 pro `just-in-time` compiler (kompilace komponent na klientu). Server se zrestartuje a Typescript překompiluje při jakékoliv změně kódu.
 ```
 npm run dev
 ```
-
-Následně aplikace běží na adrese: `http://localhost/`
