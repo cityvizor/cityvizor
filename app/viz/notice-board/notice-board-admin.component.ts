@@ -47,8 +47,7 @@ export class NoticeBoardAdminComponent {
 			 this.lists.nuts3 = this.dashboards.nuts3;
 			 
 			 this.findDashboard();
-			 
-			 console.log(dashboards);
+			
 		 });
 	 }
 	 
@@ -76,6 +75,7 @@ export class NoticeBoardAdminComponent {
 		 
 		 this.dashboards.dashboards.some(item => {
 			 if(item.id === this._data.id){
+				 dashboard = item;
 				 return true;
 			 }
 		 });
