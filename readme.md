@@ -28,11 +28,22 @@ Ubuntu: `sudo apt-get install mongodb`
 
 Fedora 24: `sudo dnf install mongodb mongodb-server-3.2.8-2`
 
-Společné:
+**Instalace**
 ```
 npm install
-./node_modules/typescript/bin/ts
+npm run build
+```
+
+**Spuštění**
+```
 npm start
 ```
 
-Následně aplikace běží na adrese: `http://localhost:3000/`
+**Vývoj**
+
+Spustí testovací server, který se zrestartuje a překompiluje při každé změně kódu (po zmáčkuní F5 v prohlížeči se projeví změny v kódu)
+```
+npm run dev
+```
+
+Následně aplikace běží na adrese: `http://localhost/`

@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "concurrently \"tsc -w\" \"nodemon server/server.js\"",
+    "dev": "concurrently \"tsc -w\" \"nodemon server/server-dev.js\"",
 		"build": "ngc -p tsconfig-aot.json && rollup -c rollup-config.js"
   },
   "keywords": [
