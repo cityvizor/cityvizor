@@ -32,11 +32,14 @@ export class NoticeBoardAdminComponent {
 	 nuts3;
 	 nuts4;
 
+	loading: boolean = true;
+
 	 constructor(private _nbs: NoticeBoardService){
 		 this.loadBoards();
 	 }
 
 	 loadBoards(){
+		 this.loading = true;
 		 this._nbs.getBoards().then(dashboards => {
 			 this.dashboards = dashboards;
 			 
@@ -47,6 +50,8 @@ export class NoticeBoardAdminComponent {
 			 this.lists.nuts3 = this.dashboards.nuts3;
 			 
 			 this.findDashboard();
+			 
+			 this.loading = false;
 			
 		 });
 	 }
@@ -60,7 +65,6 @@ export class NoticeBoardAdminComponent {
 	 nuts4Select(nuts4){
 		 this.nuts4 = nuts4 * 1;
 		 this.lists.dashboards = this.dashboards.dashboards.filter(item => this.nuts4 ? item.nuts4 === this.nuts4 : item.nuts3 === this.nuts3);	 
-		 console.log(this.lists.dashboards, this.nuts4 ? this.nuts4 : this.nuts3);
 	 }
 
 	dashboardSelect(id){

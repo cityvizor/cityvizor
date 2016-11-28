@@ -30,12 +30,14 @@ import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-m
 import { DataService } 		from './services/data.service';
 import { NoticeBoardService } 		from './services/notice-board.service';
 import { ToastService } 		from './services/toast.service';
+import { UserService } 		from './services/user.service';
 
 //Bootstrap
-//import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 // Directives
-import { ng2MapyCZ } from './directives/ng2mapy/mapy-cz.directive';
+
 // Pipes
 import { MoneyPipe } from './pipes/money.pipe';
 
@@ -48,17 +50,18 @@ import { routing } from './app.routing';
 		HttpModule,
 		FormsModule,
 		routing,
-		/*bs*/ //ModalModule
+		Ng2BootstrapModule,	
+		NgbModule.forRoot()
 	],
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
 		/* VIZ */ ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
 		/* VIZ ADMIN */ DashboardAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
-		/* DIRECTIVES */ ng2MapyCZ,
+		/* DIRECTIVES */
 		/* PIPES */ MoneyPipe
 	],
-	providers: [ DataService, NoticeBoardService, ToastService ],
+	providers: [ DataService, NoticeBoardService, ToastService, UserService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

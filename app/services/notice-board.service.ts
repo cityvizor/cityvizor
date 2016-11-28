@@ -8,7 +8,7 @@ export class NoticeBoardService {
 	cache = {
 		entities: null
 	};
-	
+
 	constructor(private _http: Http) {
 	}
 
@@ -21,7 +21,7 @@ export class NoticeBoardService {
 			"nuts4":[]
 		};
 		
-		var nuts3_index = {};
+		var nuts3_index = {};		
 		var nuts4_index = {};
 		
 		var dashboards = DOM.documentElement.getElementsByTagName("dashboard");
@@ -29,8 +29,8 @@ export class NoticeBoardService {
 
 		for(var i = 0; i < dashboards.length; i++){
 			
-			var nuts3 = parseInt(dashboards[i].getAttribute("nuts3_id"));
-			var nuts4 = parseInt(dashboards[i].getAttribute("nuts4_id"));
+			var nuts3 = dashboards[i].getAttribute("nuts3_id");
+			var nuts4 = dashboards[i].getAttribute("nuts4_id");
 			
 			output.dashboards.push({
 				"id": parseInt(dashboards[i].getAttribute("edesky_id")),
@@ -41,17 +41,17 @@ export class NoticeBoardService {
 			
 			if(!nuts3_index[nuts3]){
 				nuts3_index[nuts3] = {
-					"id": nuts3 * 1,
-					"name": parseInt(dashboards[i].getAttribute("nuts3_name"))
+					"id": parseInt(nuts3),
+					"name": dashboards[i].getAttribute("nuts3_name")
 				};
 				output.nuts3.push(nuts3_index[nuts3]);
 			}
 			
 			if(!nuts4_index[nuts4]){
 				nuts4_index[nuts4] = {
-					"id": nuts4,
-					"nuts3": nuts3,
-					"name": parseInt(dashboards[i].getAttribute("nuts4_name"))
+					"id": parseInt(nuts4),
+					"nuts3": parseInt(nuts3),
+					"name": dashboards[i].getAttribute("nuts4_name")
 				};
 				output.nuts4.push(nuts4_index[nuts4]);
 			}

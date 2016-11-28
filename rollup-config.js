@@ -17,7 +17,8 @@ export default {
 		}),
 		commonjs({
 			include: [
-				'node_modules/rxjs/**'
+				'node_modules/rxjs/**',
+				'node_modules/ng2-bootstrap/**'
 			]
 		}),
 		uglify()

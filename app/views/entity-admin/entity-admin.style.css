@@ -1,42 +1,45 @@
-header{
-	font-size:3em;
-	background-color:#fff;
-	padding: 20px 0 15px 0;
-	box-shadow:0 0 5px rgba(0,0,0,.2);
-}
-header a{text-decoration:none;color: rgb(231,52,49);font-weight: bold;}
-header .supervizor{ 
-	color: rgb(231,52,49);
+#headerObec {
+	display: block;  
+	padding: 50px 0px 10px 0px;
+	background: url('/assets/img/polepozadi.jpg') no-repeat; 
+	background-size: 100% auto; background-position: center -212px; 
+	text-align: left;
+	color: white;
 	font-weight: bold;
+	border-bottom: 5px solid #eee; 
+	text-shadow: 0px 0px 6px rgba(0,0,0,.3);
 }
-header .plus{ 
-	color: rgb(37,129,196);
-	font-family: 'Roboto Slab',serif;
+#headerObec .btn {    
+  color: white;
+  border: none;
+	font-size: 1.5em;
+	box-shadow: none;
+}
+#headerObec .btn:hover span {
+	color: white;
+	text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+	text-decoration: underline;
 }
 
-#menu{
-	background-color: rgb(37,129,196);
-}
-
-#menu nav a{
-	line-height: 3em;
-	color:#fff;
-	font-size: 1.2em;
+#headerObec h1 {
+	font-size: 3em;
 	display: inline-block;
-	padding: 4px 20px;
-	text-decoration:none;
+	width: 79%;
 }
-#menu i.fa {
-	font-size: 14px;
-}
-#menu nav a:hover{
-	background-color:rgba(0,0,0,.3);
-	text-decoration:none;
+#headerObec nav {
+	display: inline-block;
+	width: 20%;
 }
 
-
+#headerObec a, #headerObec a:hover {color:white;text-decoration: none;}
+@media (max-width: 1400px) {
+		#headerObec {
+				background-size: 1400px auto; /* Force the image to its minimum width */
+		}
+}
 #content{
 	background-color:#fff;
 	padding:0 0 50px 0;
 	min-height:800px;
 }
+

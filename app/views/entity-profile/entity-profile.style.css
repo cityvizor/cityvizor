@@ -1,7 +1,7 @@
 #headerObec {
 	display: block;  
 	padding: 50px 0px 10px 0px;
-	background: url('http://janvlasaty.name/polepozadi.jpg') no-repeat; 
+	background: url('/assets/img/polepozadi.jpg') no-repeat;
 	background-size: 100% auto; background-position: center -212px; 
 	text-align: left;
 	color: white;

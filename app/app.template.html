@@ -36,7 +36,37 @@
 			</a>
 		</div>
 		<div class="col-sm-4 col-xs-12 text-right">
-			<a> Data</a> | <a routerLink="/stranka/o-aplikaci"> O aplikaci</a> | <a routerLink="/stranka/licence">Licence</a> | <a>Kontakt</a>
+			<a (click)="open(loginModal)" *ngIf="!user.logged">Přihlásit se</a>
+			<span *ngIf="user.logged">
+				<a>Přihlášen: {{user.login}}</a>
+				| <a (click)="logout()">Přihlásit se</a>
+			</span>
+			| <a>Data</a>
+			| <a routerLink="/stranka/o-aplikaci">O aplikaci</a>
+			| <a routerLink="/stranka/licence">Licence</a>
+			| <a>Kontakt</a>
 		</div>
 	</div>
 </footer>
+
+
+<template #loginModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Zavřít" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Přihlášení pro správu obce</h4>
+  </div>
+  <div class="modal-body">
+   	<form *ngIf="openLogin==true" (ngSubmit)="login()">
+			Přihlašovací jméno: <input type="text" name="login" [(ngModel)]="loginData.login">
+			<br>
+			Heslo: <input type="password" name="password" [(ngModel)]="loginData.password">
+			<br>
+			<button type="submit">Přihlásit se</button>
+		</form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Zavřít</button>
+  </div>
+</template>
