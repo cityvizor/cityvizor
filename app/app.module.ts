@@ -33,8 +33,7 @@ import { ToastService } 		from './services/toast.service';
 import { UserService } 		from './services/user.service';
 
 //Bootstrap
-import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { Ng2BootstrapModule, ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
 
 // Directives
 
@@ -50,8 +49,7 @@ import { routing } from './app.routing';
 		HttpModule,
 		FormsModule,
 		routing,
-		Ng2BootstrapModule,	
-		NgbModule.forRoot()
+		Ng2BootstrapModule
 	],
   declarations: [
 		AppComponent,
@@ -61,7 +59,7 @@ import { routing } from './app.routing';
 		/* DIRECTIVES */
 		/* PIPES */ MoneyPipe
 	],
-	providers: [ DataService, NoticeBoardService, ToastService, UserService ],
+	providers: [ DataService, NoticeBoardService, ToastService, UserService, {provide: ComponentsHelper, useClass: ComponentsHelper} ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
