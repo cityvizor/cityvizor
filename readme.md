@@ -24,10 +24,8 @@ Podrobný pohled na ...:
 
 **Potřebné balíčky pro instalaci a běh**
 
-```
-MongoDB
-NodeJS
-```
+- MongoDB
+- NodeJS
 
 **Instalace**
 
