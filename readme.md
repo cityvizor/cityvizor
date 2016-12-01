@@ -22,11 +22,12 @@ Podrobný pohled na ...:
 
 ## Instalace
 
-**Potřebné balíčky**
+**Potřebné balíčky pro instalaci a běh**
 
-Ubuntu: `sudo apt-get install mongodb`
-
-Fedora 24: `sudo dnf install mongodb mongodb-server-3.2.8-2`
+```
+MongoDB
+NodeJS
+```
 
 **Instalace**
 
