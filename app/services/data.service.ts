@@ -4,15 +4,19 @@ import {Observable} from 'rxjs/Observable';
 
 import { FileUploader } from 'ng2-file-upload/file-upload/file-uploader.class';
 
+/**
+	* Service to communicate with server database
+	* getEntities - returns Promise with the list of entities, possibly filtered by filter:object parameter
+	* getEntity - returns Promise with single entity
+	* saveEntity - updates entity and returns Promise with updated data on entity
+	* getDashboard - returns Promise with dashboard data
+	* getExpenditures - returns Promise with expenditures data for entity and year
+	* getExpendituresUploader - returns ng2-file-uploader FileUploader class ready to be attached to input or dropzone
+	**/
 @Injectable()
 export class DataService {
-
-	cache = {
-		entities: null
-	};
 	
-	constructor(private _http: Http) {
-	}
+	constructor(private _http: Http) {}
 
 	/* ENTITIES */
 	getEntities(filter) {
@@ -25,12 +29,6 @@ export class DataService {
 
 	saveEntity(ico,data){
 		return this._http.post("/api/entities/" + ico,data).toPromise().then(response => response.json());
-	}
-
-	saveEntityData(ico: string, view: string, viewData: any){
-		var entity = {data: {}};
-		entity.data[view] = viewData;
-		return this._http.post("/api/entities/" + ico,entity).toPromise().then(response => response.json());
 	}
 
 	/* DASHBOARD */

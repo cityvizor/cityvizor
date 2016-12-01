@@ -2,17 +2,44 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 
+/**
+	* Service to communicate with eDesky.cz API
+	*
+	* getBoards() - returns Promise with list of notice boards
+	* getList() - returns Promise with list of notice board doacuments
+	* getPreview() - returns Promise with document preview in plain text
+	**/
 @Injectable()
 export class NoticeBoardService {
 
-	cache = {
-		entities: null
-	};
-
 	constructor(private _http: Http) {
 	}
+	
+	getBoards(){
+		var url = "/api/uredni-desky";
 
-	parseXMLBoards(string){
+		return this._http.get(url).toPromise()
+			.then(response => response.text())
+			.then(response => this.parseXMLBoards(response));
+	}
+
+
+	getList(id, filter, page){
+		var url = "/api/uredni-desky/" + id;
+
+		return this._http.get(url).toPromise()
+			.then(response => response.text())
+			.then(response => this.parseXMLList(response));
+	}
+
+	getPreview(documentId){
+		var url = "/api/uredni-desky/preview/" + documentId;
+
+		return this._http.get(url).toPromise()
+			.then(response => response.text());
+	};
+
+	private parseXMLBoards(string){
 		var parser = new DOMParser();
 		var DOM = parser.parseFromString(string, "text/xml");
 		var output = {
@@ -61,7 +88,7 @@ export class NoticeBoardService {
 		return output;
 	}
 
-	parseXMLList(string){
+	private parseXMLList(string){
 		var parser = new DOMParser();
 		var DOM = parser.parseFromString(string, "text/xml");
 		var output = [];
@@ -85,32 +112,5 @@ export class NoticeBoardService {
 		
 		return output;
 	}
-
-	getBoards(){
-		var url = "/api/uredni-desky";
-
-		return this._http.get(url).toPromise()
-			.then(response => response.text())
-			.then(response => this.parseXMLBoards(response));
-	}
-
-
-	getList(id, filter, page){
-		var url = "/api/uredni-desky/" + id;
-
-		return this._http.get(url).toPromise()
-			.then(response => response.text())
-			.then(response => this.parseXMLList(response));
-	}
-
-	getPreview(documentId){
-		var url = "/api/uredni-desky/preview/" + documentId;
-
-		return this._http.get(url).toPromise()
-			.then(response => response.text());
-	};
-
-
-	
 
 }
