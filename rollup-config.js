@@ -18,7 +18,8 @@ export default {
 		commonjs({
 			include: [
 				'node_modules/rxjs/**',
-				'node_modules/ng2-bootstrap/**'
+				'node_modules/ng2-bootstrap/**',
+				'node_modules/ng2-file-upload/**'
 			]
 		}),
 		uglify()

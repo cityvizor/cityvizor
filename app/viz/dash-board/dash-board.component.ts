@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { DomSanitizer } from "@angular/platform-browser";
+
+import { DataService } from '../../services/data.service';
 
 @Component({
 	moduleId: module.id,
@@ -9,13 +10,34 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class DashboardComponent {
 
-	@Input()
-	entity: any;
-	
-	constructor(private sanitizer: DomSanitizer) {
+	_entity:any;
 
+	dashboard = {
+		expenditures:[],
+		income:[]
+	};
+
+	@Input()
+	set entity(entity: any){
+		if(!entity) return;
+		this._entity = entity;
+		this._ds.getDashboard(entity.ico).then((dashboard) => this.dashboard = dashboard);
 	}
 	
+	constructor(private _ds: DataService){
+		
+	}
+
+	getIncBarWidth(){
+		var n = this.dashboard.income.length;
+		return (800 - (n - 1) * 50) / n;
+	}
+
+	getExpBarWidth(){
+		var n = this.dashboard.expenditures.length;
+		return (800 - (n - 1) * 50) / n;
+	}
+	/*
 	getMapAddress(){
 	
 		var params = {
@@ -34,4 +56,6 @@ export class DashboardComponent {
 		
 		return this.sanitizer.bypassSecurityTrustResourceUrl("//api.mapy.cz/frame?width=500&height=333&params=" + encodeURIComponent(JSON.stringify(params)));
 	}
+*/
+
 }

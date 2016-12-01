@@ -9,3 +9,8 @@
 .entityMapMarker, .entityMapMarker > * {
   cursor: pointer;
 }
+
+.switchListView {
+  position: absolute;
+  width: 100%;
+}

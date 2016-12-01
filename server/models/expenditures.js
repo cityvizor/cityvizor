@@ -26,4 +26,4 @@ var expendituresSchema = mongoose.Schema({
 	}]
 });
 
-module.exports = mongoose.model('Expenditures', expendituresSchema);
+var Expenditures = module.exports = mongoose.model('Expenditures', expendituresSchema);

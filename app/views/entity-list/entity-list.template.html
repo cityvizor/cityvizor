@@ -1,9 +1,13 @@
 <div class="page container">
 	<div class="entities">
-		<div class="text-center">
-			<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='map'" (click)="show='map'"><i class="fa fa-map"></i> Mapa</button>
-				<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='abc'" (click)="show='abc'"><i class="fa fa-sort-alpha-asc"></i> Abecedně</button>
+		<div class="switchListView">
+			<div class="pull-right">
+				<a class="lead text-center" type="button" [style.display]="(show=='map')?'none':'inherit'" (click)="show='map'">
+					<i _ngcontent-rgt-22="" class="fa fa-map fa-2x"></i><br>Zobrazit<br>na mapě
+				</a>
+				<a class="lead text-center" type="button" [style.display]="(show=='abc')?'none':'inherit'" (click)="show='abc'">
+					<i _ngcontent-rgt-22="" class="fa fa-sort-alpha-asc fa-2x"></i><br>Abecední<br>seznam
+				</a>
 			</div>
 		</div>	
 		

@@ -11,9 +11,10 @@ var ExpenditureImport = require("../import/expenditures");
 
 router.get("/:ico/:rok",(req,res) => {
 	
-	Expenditures.findOne({ico:req.params.ico,year:req.params.rok}, (err,item) => res.json(item));
-	/*var path = "data/" + req.params.ico + "/expenditures_" + req.params.rok + ".csv";
-	res.sendFile(path, { root: __dirname + "/../.." });*/
+	Expenditures.findOne({ico:req.params.ico,year:req.params.rok}, (err,item) => {
+		if(item) res.json(item);
+		else res.status(404).send('Not found');
+	});
 });
 
 router.get("/:ico",(req,res) => {
@@ -25,6 +26,9 @@ router.get("/",(req,res) => {
 });
 
 router.post("/:ico/:rok", upload.single('file'), (req,res) => {
+	
+	console.log(req.file);
+	
 	if(req.file.path){
 		ExpenditureImport(req.file.path,req.params.ico,req.params.rok);
 		res.sendStatus(200);

@@ -2,6 +2,64 @@
 	<i class="fa fa-tasks"></i>
 	<span>Přehled</span>
 </h3>
-<div>
-	<iframe *ngIf="entity.coords" [src]="getMapAddress()" width="500" height="333" style="border:none" frameBorder="0"></iframe>
+
+<hr>
+
+<div class="row">
+	<div class="col-sm-6 text-center">
+		<h4>Příjmy</h4>
+		<br>
+		<svg height="200px" width="200px" viewBox="0 0 1000 1000">
+			<g>
+				<g *ngIf="dashboard.income">
+					<g *ngFor="let bar of dashboard.income;let i = index">
+						
+						<text [attr.x]="100 + getIncBarWidth()/2 + i * (getIncBarWidth() + 50)" y="120" style="fill:#2581C4;font-size:80px;text-anchor:middle;">{{bar.budgetAmount | money:0:true}}</text>
+
+						<rect [attr.x]="100 + i * (getIncBarWidth() + 50)" [attr.width]="getIncBarWidth()" [attr.y]="100" [attr.height]="700 * (bar.budgetAmount - bar.expenditureAmount)/bar.budgetAmount" fill="#ADF" stroke="#fff" stroke-width="5" />
+						<text [attr.x]="100 + getIncBarWidth()/2 + i * (getIncBarWidth() + 50)" y="285" style="fill:#fff;font-size:80px;text-anchor:middle;">{{bar.budgetAmount - bar.expenditureAmount | money:0:true}}</text>
+
+						<rect [attr.x]="100 + i * (getIncBarWidth() + 50)" [attr.width]="getIncBarWidth()" [attr.y]="100 + 700 * (bar.budgetAmount - bar.expenditureAmount)/bar.budgetAmount"  [attr.height]="700 * bar.expenditureAmount/bar.budgetAmount" fill="#2581C4" stroke="#fff" stroke-width="5" />
+						<text [attr.x]="100 + getIncBarWidth()/2 + i * (getIncBarWidth() + 50)" [attr.y]="285 + 700 * (bar.budgetAmount - bar.expenditureAmount)/bar.budgetAmount" style="fill:#fff;font-size:80px;text-anchor:middle;">{{bar.expenditureAmount | money:0:true}}</text>
+
+						<text [attr.x]="100 + getIncBarWidth()/2 + i * (getIncBarWidth() + 50)" y="990" style="fill:#333;font-size:80px;text-anchor:middle;">{{bar.year}}</text>
+					</g>
+				</g>
+
+				<line x1="0" y1="900" x2="1000" y2="900" style="stroke:#999;stroke-width:2;font-size:40px;text-anchor:middle;" />
+			</g>
+		</svg>
+	</div>
+	
+	<div class="col-sm-6 text-center">
+		<h4>Výdaje</h4>
+		<br>
+		<svg height="200px" width="200px" viewBox="0 0 1000 1000">
+			<g>
+				<g *ngIf="dashboard.expenditures">
+					<g *ngFor="let bar of dashboard.expenditures;let i = index">
+						
+						<text [attr.x]="100 + getExpBarWidth()/2 + i * (getExpBarWidth() + 50)" y="120" style="fill:#2581C4;font-size:80px;text-anchor:middle;">{{bar.budgetAmount | money:0:true}}</text>
+						
+						<rect [attr.x]="100 + i * (getExpBarWidth() + 50)" [attr.width]="getExpBarWidth()" [attr.y]="200" [attr.height]="700 * (bar.budgetAmount - bar.expenditureAmount)/bar.budgetAmount" fill="#ADF" stroke="#fff" stroke-width="5" />
+						<text [attr.x]="100 + getExpBarWidth()/2 + i * (getExpBarWidth() + 50)" y="285" style="fill:#fff;font-size:50px;text-anchor:middle;">{{bar.budgetAmount - bar.expenditureAmount | money:0:true}}</text>
+
+						<rect [attr.x]="100 + i * (getExpBarWidth() + 50)" [attr.width]="getExpBarWidth()" [attr.y]="200 + 700 * (bar.budgetAmount - bar.expenditureAmount)/bar.budgetAmount"  [attr.height]="700 * bar.expenditureAmount/bar.budgetAmount" fill="#2581C4" stroke="#fff" stroke-width="5" />
+						<text [attr.x]="100 + getExpBarWidth()/2 + i * (getExpBarWidth() + 50)" [attr.y]="285 + 700 * (bar.budgetAmount - bar.expenditureAmount)/bar.budgetAmount" style="fill:#fff;font-size:50px;text-anchor:middle;">{{bar.expenditureAmount | money:0:true}}</text>
+
+						<text [attr.x]="100 + getExpBarWidth()/2 + i * (getExpBarWidth() + 50)" y="990" style="fill:#333;font-size:80px;text-anchor:middle;">{{bar.year}}</text>
+					</g>
+				</g>
+
+				<line x1="0" y1="900" x2="1000" y2="900" style="stroke:#999;stroke-width:2;" />
+			</g>
+		</svg>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 text-center">
+		<i class="fa fa-square" aria-hidden="true" style="color:#2581C4;"></i> Čerpáno
+			&nbsp;&nbsp;&nbsp;
+		<i class="fa fa-square" aria-hidden="true" style="color:#ADF;"></i> Zbývá vyčerpat
+	</div>
 </div>

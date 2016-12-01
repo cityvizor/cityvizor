@@ -1,11 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 import { DataService } from '../../services/data.service';
-
-import { BudgetParagraphs } from './budget-paragraph.data';
-import { BudgetItems } from './budget-items.data';
-import { Group, Paragraph, BudgetItem, ExpenditureEvent } from './expenditure-view.schema';
-
 import { ToastService } 		from '../../services/toast.service';
 
 @Component({
@@ -68,14 +63,19 @@ export class ExpenditureViewComponent {
 		// data on expenditures (from the organization accounting software) are loaded and parsed.
 		var i = 0;
 		// we get an Observable
-		this._ds.getExpenditures(ico,year).then((data) => {
-			
-			this.linkData(data);
-			this.sortData(data);
-			console.log(data);
-			this.data = data;
-			loadingToast.hide();
-		});
+		this._ds.getExpenditures(ico,year)
+			.then((data) => {
+				this.linkData(data);
+				this.sortData(data);
+				console.log(data);
+				this.data = data;
+				loadingToast.hide();
+			})
+			.catch((err) => {
+				loadingToast.hide();
+				if(err.status === 404) this._toastService.toast("Data nejsou k dispozici", "warning", false);
+				else this._toastService.toast("Nastala neočekávaná chyba","error");
+			});
 	}
 
 	findItem(array,id){

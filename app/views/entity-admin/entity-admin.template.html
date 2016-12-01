@@ -1,5 +1,5 @@
 <div id="entity" *ngIf="entity">
-	
+
 	<header id="headerObec">
 		<div class="container">
 			<h1>
@@ -15,48 +15,50 @@
 		</div>
 	</header>
 
-<div id="content">
-	
-	<div class="page container">
-		<div class="row">
-			<div class="col-sm-4">
-				<!-- left -->
-				<h2>Správa profilu</h2>
-				<hr>
+	<div id="content">
 
-				<div class="list-group">
-					<a  *ngFor="let module of modules"[style.display]="(entity.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getModuleLink(module)" class="list-group-item" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a>
+		<div class="page container">
+			<div class="row">
+				<div class="col-sm-4">
+					<!-- left -->
+					<h2>Správa profilu</h2>
+					<hr>
+
+					<div class="list-group">
+						<a  *ngFor="let module of modules"[style.display]="(entity.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getModuleLink(module)" class="list-group-item" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a>
+					</div>
+
+					<hr>
+					<ul class="nav nav-stacked">
+						<li class="nav-item"><a [routerLink]="['../sprava-modulu']" class="nav-link"><i class="fa fa-cog"></i> Správa modulů</a></li>
+						<li class="nav-item"><a [routerLink]="getCloseLink()" class="nav-link"><i class="fa fa-cog"></i> Zavřít správu</a></li>
+					</ul>
+
 				</div>
 
-				<hr>
-				<ul class="nav nav-stacked">
-					<li class="nav-item"><a [routerLink]="['../sprava-modulu']" class="nav-link"><i class="fa fa-cog"></i> Správa modulů</a></li>
-					<li class="nav-item"><a [routerLink]="getCloseLink()" class="nav-link"><i class="fa fa-cog"></i> Zavřít správu</a></li>
-				</ul>
+				<div class="col-sm-8" [ngSwitch]="view">
+					<div [ngSwitch]="view">
 
-			</div>
+						<dash-board-admin *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board-admin>
 
-			<div class="col-sm-8" [ngSwitch]="view">
-				<div [ngSwitch]="view">
+						<expenditure-view-admin *ngSwitchCase="'vydaje'" [ico]="entity.ico"></expenditure-view-admin>
+						
+						<notice-board-admin *ngSwitchCase="'uredni-deska'" [data]="getModuleData('uredni-deska')" (save)="saveEntity()"></notice-board-admin>
 
-					<dash-board-admin *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board-admin>
+						<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [entity]="entity"></entity-admin-modules>
 
-					<notice-board-admin *ngSwitchCase="'uredni-deska'" [data]="getModuleData('uredni-deska')" (save)="saveEntity()"></notice-board-admin>
+						<div *ngSwitchDefault>
+							<p>Tento modul nemá žádná nastavení.</p>
+						</div>
 
-					<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [entity]="entity"></entity-admin-modules>
+					</div>
 
-					<div *ngSwitchDefault>
-						<p>Tento modul nemá žádná nastavení.</p>
+					<div>
+						<pre>{{dataString}}</pre>
 					</div>
 
 				</div>
 
-				<div>
-					<pre>{{dataString}}</pre>
-				</div>
 
 			</div>
-
-
 		</div>
-	</div>

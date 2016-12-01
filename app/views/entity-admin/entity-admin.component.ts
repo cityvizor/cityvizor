@@ -23,6 +23,8 @@ export class EntityAdminComponent implements OnInit {
 	dataString: string = "";
 
 	modules: Array<Module>;
+	
+	year = 2016;
 
 	constructor(private _route: ActivatedRoute, private _router: Router, private _ds: DataService, private _toastService: ToastService) {
 

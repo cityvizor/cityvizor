@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { paragraphNames } from '../paragraph-names.data';
+
 // array with groups that vizualization is made of (fixed, does not vary with data) 
 const ChartGroups = [
 	{"id":"10", "title": "Zemědělství, lesní hospodářství a rybářství"},
@@ -68,6 +70,8 @@ export class ExpenditureVizComponent{
 	hoverGroup: any = null;
 	// which group (drawign stripe) has been clicked and is open at the moment
 	selectedGroup: any = null;
+
+	paragraphNames = paragraphNames;
 
 	// the data used in vizualization, imputted by data attribute of its DOM element
 	@Input()

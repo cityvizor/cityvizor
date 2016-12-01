@@ -23,8 +23,11 @@ import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component"
 
 // Data viz components for data administration
 import { DashboardAdminComponent } from "./viz/dash-board/dash-board-admin.component";
+import { ExpenditureViewAdminComponent } from "./viz/expenditure-view/expenditure-view-admin.component";
 import { NoticeBoardAdminComponent } from "./viz/notice-board/notice-board-admin.component";
 import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules.component";
+
+
 
 // Services
 import { DataService } 		from './services/data.service';
@@ -32,9 +35,9 @@ import { NoticeBoardService } 		from './services/notice-board.service';
 import { ToastService } 		from './services/toast.service';
 import { UserService } 		from './services/user.service';
 
-//Bootstrap
+// Import Modules
 import { Ng2BootstrapModule, ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
-
+import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 // Directives
 
 // Pipes
@@ -49,13 +52,14 @@ import { routing } from './app.routing';
 		HttpModule,
 		FormsModule,
 		routing,
-		Ng2BootstrapModule
+		Ng2BootstrapModule,
+		FileUploadModule
 	],
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
 		/* VIZ */ ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
-		/* VIZ ADMIN */ DashboardAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
+		/* VIZ ADMIN */ DashboardAdminComponent, ExpenditureViewAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
 		/* DIRECTIVES */
 		/* PIPES */ MoneyPipe
 	],
