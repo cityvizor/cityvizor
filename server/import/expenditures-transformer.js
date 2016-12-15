@@ -9,11 +9,13 @@ module.exports = class ExpenditureTransformer extends Transform {
 		this.reset();
 	}
 
-	reset() {
-		this.data = {
+	reset(){
+		
+		this.events = [];
+		
+		this.budget = {
 			ico: this.ico,
 			year: this.year,
-			events: [],
 			expenditureAmount: 0,
 			budgetAmount: 0,
 			paragraphs: []
@@ -24,6 +26,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		this.paragraphIndex = {};
 		this.eventIndex = {};
 		this.eventParagraphIndex = {};
+		this.paragraphEventIndex = {};
 	}
 
 	getParagraph(paragraphId) {
@@ -32,9 +35,10 @@ module.exports = class ExpenditureTransformer extends Transform {
 				id: paragraphId,
 				name: "nazev paragrafu",
 				expenditureAmount: 0,
-				budgetAmount: 0
+				budgetAmount: 0,
+				events: []
 			};
-			this.data.paragraphs.push(paragraph);
+			this.budget.paragraphs.push(paragraph);
 			this.paragraphIndex[paragraphId] = paragraph;
 		}
 		return this.paragraphIndex[paragraphId];
@@ -45,12 +49,15 @@ module.exports = class ExpenditureTransformer extends Transform {
 			var event = {
 				id: eventId,
 				name: eventName,
-				paragraphs: [],
-				expenditureAmount: 0,
-				budgetAmount: 0,
+				yearData:[{
+					year: this.year,
+					paragraphs: [],
+					expenditureAmount: 0,
+					budgetAmount: 0
+				}],
 				gps: null
 			};
-			this.data.events.push(event);
+			this.events.push(event);
 			this.eventIndex[eventId] = event;
 		}
 		return this.eventIndex[eventId];
@@ -65,25 +72,43 @@ module.exports = class ExpenditureTransformer extends Transform {
 				expenditureAmount: 0,
 				budgetAmount: 0
 			};
-			event.paragraphs.push(paragraph);
+			event.yearData[0].paragraphs.push(paragraph);
 			this.eventParagraphIndex[epId] = paragraph;
 		}
 		return this.eventParagraphIndex[epId];
 	}
 	
+	getParagraphEvent(paragraph,event){
+		var epId = paragraph.id + "-" + event.id;
+		if (!this.paragraphEventIndex[epId]) {
+			var eventData = {
+				id: event.id,
+				name: event.name,
+				expenditureAmount: 0,
+				budgetAmount: 0
+			};
+			paragraph.events.push(eventData);
+			this.paragraphEventIndex[epId] = eventData;
+		}
+		return this.paragraphEventIndex[epId];
+	}
+	
 	string2number(string){
 		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1); //sometimes minus is at the end, put it to first character
 		string.replace(",","."); // function Number accepts only dot as decimal point
-		return Number(string);																									
+		return Number(string);
 	}
 
 	_flush(next) {
-		this.push(this.data);
+		
+		console.log("FLUSH Events: " + this.events.length);
+		
+		this.push({budget:this.budget,events:this.events});
 		this.reset();
 		next();
 	}
 
-	_write(item, enc, next) {
+	_write(item, enc, next) {		
 		
 		this.i++;
 		
@@ -93,24 +118,26 @@ module.exports = class ExpenditureTransformer extends Transform {
 		var paragraphId = item[0];
 		var budgetItemId = item[4];
 		
-		var data = this.data;
+		var budget = this.budget;
 
 		var paragraph = this.getParagraph(paragraphId);
 
-		var expenditureEvent = this.getEvent(item[1], item[2]);
-		var expenditureEventParagraph = this.getEventParagraph(expenditureEvent, paragraphId);
+		var event = this.getEvent(item[1], item[2]);
+		var eventParagraph = this.getEventParagraph(event, paragraphId);
+		
+		var paragraphEvent = this.getParagraphEvent(paragraph,event);
 		
 		var amount;
 
 		/* Expenditure amount */
 		amount = this.string2number(item[6]);
 
-		[data, paragraph, expenditureEvent, expenditureEventParagraph].map(item => item.expenditureAmount += amount);
+		[budget, paragraph, event.yearData[0], eventParagraph, paragraphEvent].map(item => item.expenditureAmount += amount);
 
 		/* Budget amount */
 		amount = this.string2number(item[8]);
 
-		[data, paragraph, expenditureEvent, expenditureEventParagraph].map(item => item.budgetAmount += amount);
+		[budget, paragraph, event.yearData[0], eventParagraph, paragraphEvent].map(item => item.budgetAmount += amount);
 
 		next();
 	}

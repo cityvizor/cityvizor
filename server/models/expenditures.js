@@ -1,29 +1,48 @@
 var mongoose = require('mongoose');
 
-var expendituresSchema = mongoose.Schema({
+var budgetSchema = mongoose.Schema({
 	ico: String,
 	year: String,
-	events: [{
-		id: String,
-		name: String,
-		paragraphs: [{
-			id: String,
-			budgetAmount: Number,
-			expenditureAmount: Number
-		}],
-		budgetAmount: Number,
-		expenditureAmount: Number,
-		gps: [Number,Number]
-	}],
 	budgetAmount: Number,
 	expenditureAmount: Number,
 	paragraphs: [{
 		id: String,
-		group: Number,
 		name: String,
+		events: [{
+			id: String,
+			name: String,
+			event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+			budgetAmount: Number,
+			expenditureAmount: Number
+		}],
 		budgetAmount: Number,
 		expenditureAmount: Number
 	}]
 });
 
-var Expenditures = module.exports = mongoose.model('Expenditures', expendituresSchema);
+var eventSchema = mongoose.Schema({
+	ico: String,
+	id: String,
+	name: String,
+	yearData: [{
+		year: Number,
+		paragraphs: [{
+			id: String,
+			budgetAmount: Number,
+			expenditureAmount: Number
+		}],
+		/*invoices: [{
+			amount: Number
+		}],*/
+		budgetAmount: Number,
+		expenditureAmount: Number
+	}],
+	budgetAmount: Number,
+	expenditureAmount: Number,
+	gps: [Number,Number]
+});
+
+module.exports = {
+	"Budget": mongoose.model('Budget', budgetSchema),
+	"Event": mongoose.model('Event', eventSchema)
+};

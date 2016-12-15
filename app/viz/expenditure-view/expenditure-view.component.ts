@@ -73,8 +73,14 @@ export class ExpenditureViewComponent {
 			})
 			.catch((err) => {
 				loadingToast.hide();
-				if(err.status === 404) this._toastService.toast("Data nejsou k dispozici", "warning", false);
-				else this._toastService.toast("Nastala neočekávaná chyba","error");
+				switch(err.status){
+					case 404:
+						this._toastService.toast("Data nejsou k dispozici", "warning");
+					case 503:
+						this._toastService.toast("Služba je momentálně nedostupná", "warning");
+					default:
+						this._toastService.toast("Nastala neočekávaná chyba","error");
+				}
 			});
 	}
 
@@ -122,21 +128,11 @@ export class ExpenditureViewComponent {
 			group.paragraphs.push(paragraph);
 			
 			data.paragraphIndex[paragraph.id] = paragraph;
-			paragraph.events = [];
 		});
 		
 		data.groups.forEach(group => {
 			data.maxBudgetAmount = Math.max(data.maxBudgetAmount,group.budgetAmount);
 			data.maxExpenditureAmount = Math.max(data.maxExpenditureAmount,group.expenditureAmount);
-		});
-		
-		data.events.forEach(event => {
-			event.paragraphIndex = {};
-			event.paragraphs.forEach(eventParagraph => {
-				var paragraph = data.paragraphIndex[eventParagraph.id];
-				paragraph.events.push(event);
-				event.paragraphIndex[eventParagraph.id] = eventParagraph;
-			});
 		});
 		
 	}
@@ -147,5 +143,8 @@ export class ExpenditureViewComponent {
 		var field2 = "budgetAmount";
 		
 		data.groups.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
+		data.paragraphs.forEach(paragraph => {
+			paragraph.events.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
+		});
 	}
 }

@@ -110,16 +110,41 @@ export class ExpenditureVizComponent{
 	}
  
 	// select group (e.g. after clicking a stripe)
-	selectGroup(group){
+	selectGroup(group,scroll){
 		this.selectedGroup = group;
 		this.scale = this.selectedGroup !== null ?  0.5 : 1;
 		
 		this.showAmounts = this.selectedGroup !== null ?  false : true;
 		this.showGroupTitles = this.selectedGroup !== null ?  false : true;
+		
+		/*
+		if(scroll) {
+			var e = document.getElementsByClassName('tr-focus');
+			var tE = document.getElementById('groupListTableBody');
+
+			if (e != null && tE != null) {
+				var rE = e[0];
+
+				console.log(tE.scrollTop);
+				console.log(tE.offsetHeight);
+				console.log(rE.offsetTop);
+
+				tE.scrollTop=Math.max(0,Math.round(rE.offsetTop-tE.offsetHeight/2));
+			} 
+		}*/
 	}
 
 	getCircleR(){
 		return Math.sqrt(this.innerSize) * this.r;	
+	}
+
+	getBarBudgetPercentage(group) {
+		if(!this.data.groupIndex[group.id]) return 0;
+		return Math.round(this.data.groupIndex[group.id].budgetAmount / this.data.maxBudgetAmount * 100);
+	}
+	getBarExpenditurePercentage(group) {
+		if(!this.data.groupIndex[group.id]) return 0;
+		return Math.round(this.data.groupIndex[group.id].expenditureAmount / this.data.groupIndex[group.id].budgetAmount * 100);
 	}
 
 	// generate path for group expenditures

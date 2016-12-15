@@ -6,12 +6,11 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 
-var Expenditures = require("../models/expenditures");
+var Budget = require("../models/expenditures").Budget;
 var ExpenditureImport = require("../import/expenditures");
 
 router.get("/:ico/:rok",(req,res) => {
-	
-	Expenditures.findOne({ico:req.params.ico,year:req.params.rok}, (err,item) => {
+	Budget.findOne({ico:req.params.ico,year:req.params.rok}, (err,item) => {
 		if(item) res.json(item);
 		else res.status(404).send('Not found');
 	});

@@ -13,10 +13,10 @@
 					<path [attr.d]="getEStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#E73431' : '#2581C4'" />
 					<path [attr.d]="getBStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#ff9491' : '#ADF'" />
 
-					<path [attr.d]="getStripePath(i,innerSize,1)" stroke-width="0" fill="#aaa" class="bgstripe" (mouseover)="hoverGroup=group" (mouseout)="hoverGroup=null" (click)="selectGroup(group)" />
+					<path [attr.d]="getStripePath(i,innerSize,1)" stroke-width="0" fill="#aaa" [attr.class]="(hoverGroup==group?'active':'')+' bgstripe'" (mouseover)="hoverGroup=group" (mouseout)="hoverGroup=null" (click)="selectGroup(group,true)" />
 				</g>
 
-				<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" [attr.fill]="selectedGroup==null ? '#F3F3F3' : '#F3F3F3'" stroke-width="10" stroke="#fff" (click)="selectGroup(null)" class="circle" />
+				<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" [attr.fill]="selectedGroup==null ? '#F3F3F3' : '#F3F3F3'" stroke-width="10" stroke="#fff" (click)="selectGroup(null,false)" class="circle" />
 
 				<path [attr.d]="generateStripePath(cx,cy,0,75,0,data.expenditureAmount/data.budgetAmount)" stroke-width="0" fill="#fff" opacity="0.8"/>
 
@@ -37,21 +37,24 @@
 			</svg>
 		</div>	
 		<div [attr.class]="!selectedGroup?'col-sm-4':'col-sm-6 groupListShort'">
-			<table class="table tale-responsive table-groupList">
+			<table class="table table-responsive table-groupList">
 				<thead>
 					<tr>
-						<th></th>
+						<td></td>
 						<th class="small">Rozpočtová skupina</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr *ngFor="let group of groups; let i = index">
-						<td [attr.class]="(hoverGroup==group || selectedGroup==group)?'active':''" >
+				<tbody id="groupListTableBody">
+					<tr *ngFor="let group of groups" (mouseover)="hoverGroup=group" (mouseout)="hoverGroup=null" [attr.class]="(hoverGroup==group || selectedGroup==group)?'tr-focus':''" (click)="selectGroup(group,false)">
+						<td>
 							<div class="bar">
-								<div class="bar-active" [style.width]="(group.expenditureAmount/data.maxExpenditureAmount*100)+'%'"></div>
+								<div class="bar-budget" [style.width]="getBarBudgetPercentage(group)+'%'">
+									<div class="bar-expenditure" [style.width]="getBarExpenditurePercentage(group)+'%'">
+									</div>
+								</div>
 							</div>
 						</td>
-						<td [attr.class]="(hoverGroup==group || selectedGroup==group)?'active':''" (click)="selectGroup(group)">{{group.title}}</td>
+						<td>{{group.title}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -61,7 +64,10 @@
 
 <div *ngIf="selectedGroup" id="selectedGroup">
 	<hr>
-	<h3>{{selectedGroup.title}}</h3>
+	<h3>
+		<i class="fa fa-chevron-circle-right"></i> {{selectedGroup.title}}
+		<span class="pull-right text-muted small" (click)="selectGroup(null,false)"><i class="fa fa-times"></i> zavřít</span>
+	</h3>
 	<div style="clear:both;">
 		<br>
 	</div>
@@ -108,8 +114,8 @@
 					<tbody>
 						<tr *ngFor="let event of paragraph.events">
 							<td><a (click)="eventReceiptsModal.show()">{{event.name}}</a></td>
-							<td>{{event.paragraphIndex[paragraph.id].expenditureAmount | money:0:true}} Kč</td>
-							<td>{{event.paragraphIndex[paragraph.id].budgetAmount | money:0:true}} Kč</td>
+							<td>{{event.expenditureAmount | money:0:true}} Kč</td>
+							<td>{{event.budgetAmount | money:0:true}} Kč</td>
 						</tr>
 					</tbody>
 				</table>

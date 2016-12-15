@@ -1,6 +1,7 @@
 var parse = require("csv-parse");
 var fs = require("fs");
-var ExpenditureTransformer = require ("./expenditure-transformer.js")
+var ExpenditureTransformer = require ("./expenditures-transformer.js");
+var ExpenditureDBWriter = require ("./expenditures-dbwriter.js");
 var transform = require('stream-transform');
 
 module.exports = function(filePath, ico, year){
@@ -8,13 +9,11 @@ module.exports = function(filePath, ico, year){
 	var file = fs.createReadStream(filePath);
 	file.on("close",() => fs.unlink(filePath));
 	
-	var parser = parse({delimiter: ';'});
+	var parser = parse({delimiter: ';',columns:true});
 
 	var transformer = new ExpenditureTransformer(ico, year);
-
-	var Expenditures = require("../models/expenditures.js");
 	
-	Expenditures.remove({ico:ico,year:year},(err) => {
-		file.pipe(parser).pipe(transformer).pipe(Expenditures.writeStream());
-	});
+	var dbwriter = new ExpenditureDBWriter(ico,year);
+
+	file.pipe(parser).pipe(transformer).pipe(dbwriter);
 }
