@@ -16,9 +16,9 @@ export class NoticeBoardComponent {
 	show: string = 'map';
 
 	@Input()
-	set data(data) {
-		if(data && data.id !== this.id){
-			this.id = data.id;
+	set entity(entity) {
+		if(entity && entity.data && entity.data.noticeBoard && entity.data.noticeBoard.id !== this.id){
+			this.id = entity.data.noticeBoard.id;
 			this.loadList({},1);
 		}
 	};
@@ -30,12 +30,11 @@ export class NoticeBoardComponent {
 
 	 }
 
-	 loadList(filter,page){		
+	 loadList(filter,page){
 		 if(!this.id) return;
 		 
-		 
 		 var loadingToast = this._toastService.toast("Načítám data z eDesky.cz...", "loading", false); 
-
+		 
 		 this._nbs.getList(this.id,filter,page).then((data:any) => {
 			 
 			 data.forEach(document => {
@@ -48,7 +47,7 @@ export class NoticeBoardComponent {
 			 loadingToast.hide();
 		 });
 	 }
-	 
+
 	 openPreview(document){
 		 document.showPreview = true;
 		 document.preview = "Načítám...";

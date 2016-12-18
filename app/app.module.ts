@@ -38,7 +38,9 @@ import { UserService } 		from './services/user.service';
 // Import Modules
 import { Ng2BootstrapModule, ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
-// Directives
+
+// Shared coremponents
+import { OverviewMapComponent } 		from './components/overview-map.component';
 
 // Pipes
 import { MoneyPipe } from './pipes/money.pipe';
@@ -60,7 +62,7 @@ import { routing } from './app.routing';
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
 		/* VIZ */ ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
 		/* VIZ ADMIN */ DashboardAdminComponent, ExpenditureViewAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
-		/* DIRECTIVES */
+		/* Components */ OverviewMapComponent,
 		/* PIPES */ MoneyPipe
 	],
 	providers: [ DataService, NoticeBoardService, ToastService, UserService, {provide: ComponentsHelper, useClass: ComponentsHelper} ],

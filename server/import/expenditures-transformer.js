@@ -2,9 +2,9 @@ var Transform = require('stream').Transform;
 
 module.exports = class ExpenditureTransformer extends Transform {
 
-	constructor(ico,year) {
+	constructor(entityId,year) {
 		super({objectMode:true});
-		this.ico = ico;
+		this.entityId = entityId;
 		this.year = year;
 		this.reset();
 	}
@@ -14,7 +14,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		this.events = [];
 		
 		this.budget = {
-			ico: this.ico,
+			entityId: this.entityId,
 			year: this.year,
 			expenditureAmount: 0,
 			budgetAmount: 0,
@@ -94,6 +94,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 	}
 	
 	string2number(string){
+		if(!string) return null;
 		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1); //sometimes minus is at the end, put it to first character
 		string.replace(",","."); // function Number accepts only dot as decimal point
 		return Number(string);
@@ -110,10 +111,12 @@ module.exports = class ExpenditureTransformer extends Transform {
 
 	_write(item, enc, next) {		
 		
+
+		
 		this.i++;
 		
 		if(item.length < 9){next();return;} // invalid row
-		if(this.i === 1){next();return;}
+		if(this.i === 1){next();return;} // first row = header
 
 		var paragraphId = item[0];
 		var budgetItemId = item[4];

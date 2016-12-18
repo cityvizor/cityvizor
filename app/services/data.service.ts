@@ -19,32 +19,41 @@ export class DataService {
 	constructor(private _http: Http) {}
 
 	/* ENTITIES */
-	getEntities(filter) {
+	getEntities() {
 			return this._http.get("/api/entities").toPromise().then(response => response.json());
 	}
 
-	getEntity(ico) { 
-		return this._http.get("/api/entities/" + ico).toPromise().then(response => response.json());
+	getEntity(id) { 
+		return this._http.get("/api/entities/" + id).toPromise().then(response => response.json());
+	}
+	
+	/* PROFILES */
+	getProfiles() {
+			return this._http.get("/api/profiles").toPromise().then(response => response.json());
 	}
 
-	saveEntity(ico,data){
-		return this._http.post("/api/entities/" + ico,data).toPromise().then(response => response.json());
+	getProfile(id) { 
+		return this._http.get("/api/profiles/" + id).toPromise().then(response => response.json());
+	}
+	
+	saveProfile(id,data){
+		return this._http.post("/api/profiles/" + id,data).toPromise().then(response => response.json());
 	}
 
 	/* DASHBOARD */
-	getDashboard(ico){
-		return this._http.get("/api/prehled/" + ico).toPromise().then(response => response.json());
+	getDashboard(id){
+		return this._http.get("/api/prehled/" + id).toPromise().then(response => response.json());
 	}
 
 	/* EXPENDITURES */
-	getExpenditures(ico,year){
+	getExpenditures(id,year){
 		if(!year) year = (new Date()).getFullYear();
-		return this._http.get("/api/vydaje/" + ico + "/" + year).toPromise().then(response => response.json());
+		return this._http.get("/api/vydaje/" + id + "/" + year).toPromise().then(response => response.json());
 	}	
 
-	getExpendituresUploader(ico,year){
-		if(!ico || !year) return null;
-		var url = "/api/vydaje/" + ico + "/" + year;
+	getExpendituresUploader(id,year){
+		if(!id || !year) return null;
+		var url = "/api/vydaje/" + id + "/" + year;
 		return new FileUploader({url: url});
 	}
 	

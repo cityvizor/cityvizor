@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var budgetSchema = mongoose.Schema({
-	ico: String,
+	entityId: String,
 	year: String,
 	budgetAmount: Number,
 	expenditureAmount: Number,
@@ -21,7 +21,7 @@ var budgetSchema = mongoose.Schema({
 });
 
 var eventSchema = mongoose.Schema({
-	ico: String,
+	entityId: String,
 	id: String,
 	name: String,
 	yearData: [{

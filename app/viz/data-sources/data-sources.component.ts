@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -8,19 +8,12 @@ import { ActivatedRoute, Params } from '@angular/router';
 	templateUrl: 'data-sources.template.html',
 	styleUrls: [],
 })
-export class DataSourcesComponent implements OnInit {
+export class DataSourcesComponent {
 
 	dataSources = [];
 	
 	constructor(private route: ActivatedRoute) {
 
-	}
-
-	ngOnInit(){
-		this.route.parent.params.forEach((params: Params) => {
-			this.dataSources.push({name:"Přezkum hospodaření","url":"#"});
-			this.dataSources.push({name:"Výdaje","url":"#"});
-		});
 	}
 
 }

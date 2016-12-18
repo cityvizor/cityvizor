@@ -1,10 +1,10 @@
-<div id="entity" *ngIf="entity">
+<div id="entity" *ngIf="profile">
 
 	<header id="headerObec">
 		<div class="container">
 			<h1>
 				<i class="fa fa-map-signs"></i>
-				<a routerLink="/" routerLinkActive="active">{{entity ? entity.name : ""}}</a>
+				<a routerLink="/" routerLinkActive="active">{{profile.name}}</a>
 			</h1>
 			<nav role="navigation">
 				<a routerLink="/" routerLinkActive="active" class="btn">
@@ -22,7 +22,7 @@
 				<div class="col-sm-3">
 
 					<div class="list-group">
-						<a  *ngFor="let module of modules" [style.display]="(entity.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module.id)" class="list-group-item" routerLinkActive="active">
+						<a  *ngFor="let module of modules" [style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module.id)" class="list-group-item" routerLinkActive="active">
 							<i class="fa" [class]="module.icon"></i> {{module.name}}
 						</a>
 					</div>
@@ -33,13 +33,13 @@
 				</div>
 				<div class="col-sm-9" [ngSwitch]="view">
 
-					<dash-board *ngSwitchCase="'prehled'" [entity]="entity"></dash-board>
+					<dash-board *ngSwitchCase="'prehled'" [profile]="profile"></dash-board>
 
-					<expenditure-view *ngSwitchCase="'vydaje'" [ico]="entity.ico"></expenditure-view>
+					<expenditure-view *ngSwitchCase="'vydaje'" [profile]="profile"></expenditure-view>
 
-					<notice-board *ngSwitchCase="'uredni-deska'" [data]="entity.data.modules['uredni-deska']"></notice-board>
+					<notice-board *ngSwitchCase="'uredni-deska'" [entity]="profile"></notice-board>
 
-					<management-review *ngSwitchCase="'prezkum-hospodareni'" [ico]="entity.ico"></management-review>
+					<management-review *ngSwitchCase="'prezkum-hospodareni'" [entity]="profile"></management-review>
 
 				</div>
 			</div>

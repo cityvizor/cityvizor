@@ -12,7 +12,7 @@ import { DataService } 		from '../../services/data.service';
 export class ManagementReviewComponent {
 
 	@Input()
-	ico: string;
+	entity;
 	
 	constructor() {
 

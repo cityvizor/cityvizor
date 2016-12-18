@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { ToastService } 		from '../../services/toast.service';
@@ -14,9 +14,10 @@ import { MODULES } from "../../shared/modules";
 	templateUrl: 'entity-admin.template.html',
 	styleUrls: ['entity-admin.style.css'],
 })
-export class EntityAdminComponent implements OnInit {
+export class EntityAdminComponent {
 
-	entity: any;	 
+	profile: any;	 
+entity: any;
 
 	view: string; 
 	
@@ -32,23 +33,20 @@ export class EntityAdminComponent implements OnInit {
 
 		this._route.params.forEach((params: Params) => {
 			this.view = params["view"];
+			if(!this.entity || (this.entity && this.entity.id !== params["id"])){
+				this._ds.getEntity(params["id"]).then(entity => {
+					this.entity = entity;
+				});
+			}
 		});
 		
 		setInterval(() => this.refreshDataString(),100);
 	}
-
-	ngOnInit(){
-		this._route.params.forEach((params: Params) => {
-			this._ds.getEntity(params["ico"]).then(entity => {
-				this.entity = entity;
-			});
-		});		
-	}
 	
-	saveEntity(){
+	saveProfile(){
 		var oldEntity = JSON.parse(JSON.stringify(this.entity));
 
-		this._ds.saveEntity(this.entity.ico,this.entity)
+		this._ds.saveProfile(this.entity.id,this.entity)
 			.then((entity) => this._toastService.toast("Uloženo.", "notice"))
 			.catch((err) => {
 			this.entity = oldEntity;
@@ -70,7 +68,7 @@ export class EntityAdminComponent implements OnInit {
 	}
 	
 	getCloseLink(openModule){
-		return ['/ico/' + this.entity.ico];
+		return ['/profil/' + this.entity.id];
 	}
 
 	openConfig(adminModule){

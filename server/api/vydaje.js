@@ -9,14 +9,14 @@ var upload = multer({ dest: 'uploads/' });
 var Budget = require("../models/expenditures").Budget;
 var ExpenditureImport = require("../import/expenditures");
 
-router.get("/:ico/:rok",(req,res) => {
-	Budget.findOne({ico:req.params.ico,year:req.params.rok}, (err,item) => {
+router.get("/:id/:rok",(req,res) => {
+	Budget.findOne({entityId:req.params.id,year:req.params.rok}, (err,item) => {
 		if(item) res.json(item);
 		else res.status(404).send('Not found');
 	});
 });
 
-router.get("/:ico",(req,res) => {
+router.get("/:id",(req,res) => {
 	res.json([]);
 });
 
@@ -24,12 +24,12 @@ router.get("/",(req,res) => {
 	res.json([]);
 });
 
-router.post("/:ico/:rok", upload.single('file'), (req,res) => {
+router.post("/:id/:rok", upload.single('file'), (req,res) => {
 	
 	console.log(req.file);
 	
 	if(req.file.path){
-		ExpenditureImport(req.file.path,req.params.ico,req.params.rok);
+		ExpenditureImport(req.file.path,req.params.id,req.params.rok);
 		res.sendStatus(200);
 	}
 	else {

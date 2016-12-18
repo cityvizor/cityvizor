@@ -6,11 +6,21 @@ import { DataService } from '../../services/data.service';
 	moduleId: module.id,
 	selector: 'dash-board',
 	templateUrl: 'dash-board.template.html',
-	styles: [],
+	styles: [`
+		.barHoursOpened {
+			height: 10px; background: red none repeat scroll 0% 0%; border-radius: 10px; margin: 0px 20%; position: relative;
+		}	
+		.titleHoursStart {
+			position: absolute; left: -15px;
+		}	
+		.titleHoursEnd { 
+			right: -15px; position: absolute;
+		}
+	`],
 })
 export class DashboardComponent {
-
-	_entity:any;
+	
+	mapSize = {"width": 973, "height":553};
 
 	dashboard = {
 		expenditures:[],
@@ -18,14 +28,9 @@ export class DashboardComponent {
 	};
 
 	@Input()
-	set entity(entity: any){
-		if(!entity) return;
-		this._entity = entity;
-		this._ds.getDashboard(entity.ico).then((dashboard) => this.dashboard = dashboard);
-	}
+	profile:any;
 	
 	constructor(private _ds: DataService){
-		
 	}
 
 	getIncBarWidth(){
@@ -37,25 +42,5 @@ export class DashboardComponent {
 		var n = this.dashboard.expenditures.length;
 		return (800 - (n - 1) * 50) / n;
 	}
-	/*
-	getMapAddress(){
-	
-		var params = {
-			"x":this.entity.coords.x * 1,
-			"y":this.entity.coords.y * 1,
-			"base":"1",
-			"layers":[],
-			"zoom":17,	
-			"mark":{
-				"x":this.entity.coords.x,
-				"y":this.entity.coords.y,
-				"title":this.entity.name
-			},
-			"overview":true
-		};
-		
-		return this.sanitizer.bypassSecurityTrustResourceUrl("//api.mapy.cz/frame?width=500&height=333&params=" + encodeURIComponent(JSON.stringify(params)));
-	}
-*/
 
 }

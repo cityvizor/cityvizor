@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { DataService } 		from '../../services/data.service';
@@ -12,12 +12,11 @@ import { MODULES } from "../../shared/modules";
 	templateUrl: 'entity-profile.template.html',
 	styleUrls: ['entity-profile.style.css'],
 })
-export class EntityProfileComponent implements OnInit {
+export class EntityProfileComponent {
 
-	ico: string;
 	view: string;
 	
-	entity: any;
+	profile: any;
 	
 	modules: Module[];
 	
@@ -28,25 +27,18 @@ export class EntityProfileComponent implements OnInit {
 		this.modules = MODULES;
 		
 		this._route.params.forEach((params: Params) => {
-			this.ico = params["ico"];
+			this._ds.getProfile(params["id"]).then(profile => {
+				this.profile = profile;
+			});
 			this.view = params["view"];
 		});
 	}
-
-
-	ngOnInit(){
-		this._route.params.forEach((params: Params) => {
-			this._ds.getEntity(params["ico"]).then(entity => {
-				this.entity = entity;
-			});
-		});		
-	}
 	
 	getVizLink(viz){
-		return ['/ico/' + this.ico + '/' + viz];
+		return ['/profil/' + this.profile._id + '/' + viz];
 	}
 	
 	getAdminLink(){
-		return ['/ico/' + this.ico + '/admin'];
+		return ['/profil/' + this.profile._id + '/admin'];
 	}
 }

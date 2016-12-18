@@ -17,8 +17,8 @@ export class ExpenditureViewComponent {
 	show: string = 'viz';
 	
 	@Input()
-	set ico(ico: string){
-		this.loadData(ico,this.year);
+	set profile(profile: string){
+		if(profile && profile.entity && profile.entity._id) this.loadData(profile.entity._id,this.year);
 	}
 	
 	// decides which year's data should be loaded
@@ -26,7 +26,6 @@ export class ExpenditureViewComponent {
 
 	// the data loaded, parsed and restructured from the CSV file
 	data = {
-		ico: this.ico,
 		year: this.year,
 		
 		events: [],
@@ -54,16 +53,17 @@ export class ExpenditureViewComponent {
 		return Number(string);																									
 	}
 
-	loadData(ico,year){
+	loadData(id,year){
 		
-		if(!ico || !year) return;
+		if(!id || !year) return;
 		
 		var loadingToast = this._toastService.toast("Načítám data o výdajích...", "loading", true);
 		
 		// data on expenditures (from the organization accounting software) are loaded and parsed.
 		var i = 0;
-		// we get an Observable
-		this._ds.getExpenditures(ico,year)
+		
+		// we get a Promise
+		this._ds.getExpenditures(id,year)
 			.then((data) => {
 				this.linkData(data);
 				this.sortData(data);

@@ -15,7 +15,7 @@ import { MODULES } from "../../shared/modules";
 export class EntityAdminModulesComponent {
 
 	@Input()
-	entity: any;
+	profile: any;
 
 	 modules: Module[];
 
@@ -25,14 +25,14 @@ export class EntityAdminModulesComponent {
 	 
 	 setViewState(view: string,value: boolean){
 
-		 var oldValue = this.entity.modules[view];
+		 var oldValue = this.profile.modules[view];
 
-		 this.entity.modules[view] = value;
+		 this.profile.modules[view] = value;
 
-		 this._ds.saveEntity(this.entity.ico,this.entity)
-			 .then((entity) =>  this._toastService.toast("Uloženo.", "notice"))
+		 this._ds.saveProfile(this.profile)
+			 .then((profile) =>  this._toastService.toast("Uloženo.", "notice"))
 			 .catch((err) => {
-				 this.entity.modules[view] = oldValue;
+				 this.profile.modules[view] = oldValue;
 				 this._toastService.toast("Nastala chyba při ukládání","error");
 			 });
 	 }

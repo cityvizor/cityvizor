@@ -6,6 +6,8 @@ router.use("/prehled",require("../api/prehled"));
 
 router.use("/entities",require("../api/entities"));
 
+router.use("/profiles",require("../api/profiles"));
+
 router.use("/vydaje",require("../api/vydaje"));
 
 router.use("/prezkum-hospodareni",require("../api/prezkum-hospodareni"));

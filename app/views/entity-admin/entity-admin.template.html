@@ -41,11 +41,11 @@
 
 						<dash-board-admin *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board-admin>
 
-						<expenditure-view-admin *ngSwitchCase="'vydaje'" [ico]="entity.ico"></expenditure-view-admin>
-						
-						<notice-board-admin *ngSwitchCase="'uredni-deska'" [data]="getModuleData('uredni-deska')" (save)="saveEntity()"></notice-board-admin>
+						<expenditure-view-admin *ngSwitchCase="'vydaje'" [entity]="entity"></expenditure-view-admin>
 
-						<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [entity]="entity"></entity-admin-modules>
+						<notice-board-admin *ngSwitchCase="'uredni-deska'" [entity]="entity" (save)="saveEntity()"></notice-board-admin>
+
+						<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [profile]="profile"></entity-admin-modules>
 
 						<div *ngSwitchDefault>
 							<p>Tento modul nemá žádná nastavení.</p>

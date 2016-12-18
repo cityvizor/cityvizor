@@ -1,9 +1,53 @@
-<h3>
+<h2>
 	<i class="fa fa-tasks"></i>
 	<span>Přehled</span>
-</h3>
+</h2>
 
-<hr>
+<div class="row">
+	<div class="col-sm-4">
+		
+	</div>
+	<div class="col-sm-4 text-center">
+		<!-- MAPA -->
+		<div>
+			<overview-map width="400" height="227" [profiles]="[profile]"></overview-map>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<h4>
+			<i class="fa fa-clock-o"></i>
+			Otevírací doba
+		</h4>
+		<div class="row">
+			<div class="col-xs-2 dayTitle">Po</div>
+			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 dayTitle">Út</div>
+			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 dayTitle">St</div>
+			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 dayTitle">Čt</div>
+			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 dayTitle">Pá</div>
+			<div class="col-xs-10 dayTitle"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 dayTitle">So</div>
+			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 dayTitle">Ne</div>
+			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
+		</div>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-sm-6 text-center">

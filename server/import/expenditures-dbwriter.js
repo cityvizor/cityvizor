@@ -6,9 +6,9 @@ var Event = ExpendituresSchema.Event;
 
 module.exports = class ExpenditureDBWriter extends Writable {
 	
-	constructor(ico,year) {
+	constructor(entityId,year){
 		super({objectMode:true});
-		this.ico = ico;
+		this.entityId = entityId;
 		this.year = year;
 		this.events = [];
 		this.budget = {};
@@ -21,7 +21,7 @@ module.exports = class ExpenditureDBWriter extends Writable {
 		this.events = item.events;
 		
 		this.writeEvents(() => {
-			Budget.findOneAndUpdate({ico:this.ico,year:this.year},this.budget,{upsert:true},(err,budget) => {
+			Budget.findOneAndUpdate({entityId:this.entityId,year:this.year},this.budget,{upsert:true},(err,budget) => {
 				console.log("Budget");
 			});
 		});
@@ -35,10 +35,10 @@ module.exports = class ExpenditureDBWriter extends Writable {
 			return;
 		}
 			
-		Event.findOne({ico:this.ico,id:event.id},(err,eventDB) => {
+		Event.findOne({entityId:this.entityId,id:event.id},(err,eventDB) => {
 			if(!eventDB){
 				eventDB = new Event({
-					ico: this.ico,
+					entityId: this.entityId,
 					id: event.id,
 					name: event.name,
 					yearData: [],

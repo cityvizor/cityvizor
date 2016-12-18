@@ -11,11 +11,11 @@ const appRoutes: Routes = [
 	
 	{path: 'stranka/:id',component: PageViewComponent},
 	
-	{path: 'ico/:ico/admin/:view',component: EntityAdminComponent},
-	{path: 'ico/:ico/admin', redirectTo: 'ico/:ico/admin/informace'},
+	{path: 'profil/:id/admin/:view',component: EntityAdminComponent},
+	{path: 'profil/:id/admin', redirectTo: 'profil/:id/admin/informace'},
 	
-	{path: 'ico/:ico/:view',component: EntityProfileComponent},
-	{path: 'ico/:ico', redirectTo: 'ico/:ico/prehled'}
+	{path: 'profil/:id/:view',component: EntityProfileComponent},
+	{path: 'profil/:id', redirectTo: 'profil/:id/prehled'}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/supervizor-plus');
 mongoose.plugin(require('mongoose-write-stream'));
+mongoose.Promise = global.Promise;
 
 app.use("/api",require("./routers/api.js"));
 

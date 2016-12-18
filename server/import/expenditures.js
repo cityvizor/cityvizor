@@ -9,7 +9,7 @@ module.exports = function(filePath, ico, year){
 	var file = fs.createReadStream(filePath);
 	file.on("close",() => fs.unlink(filePath));
 	
-	var parser = parse({delimiter: ';',columns:true});
+	var parser = parse({delimiter: ';'/*,columns:true*/});
 
 	var transformer = new ExpenditureTransformer(ico, year);
 	

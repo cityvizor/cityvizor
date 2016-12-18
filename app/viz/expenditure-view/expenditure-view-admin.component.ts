@@ -14,19 +14,17 @@ import { FileUploader} from 'ng2-file-upload/ng2-file-upload';
 export class ExpenditureViewAdminComponent {
 
 	@Input()
-	set ico(ico:string){
-		if(ico)	this.uploader = this._ds.getExpendituresUploader(ico,this.year);
+	set entity(entity){
+		if(entity && entity.id) this.uploader = this._ds.getExpendituresUploader(entity.id,this.year);
 		else this.uploader = null;
-		console.log(ico);
 	}
 	 
-	year=2016;
+	year = 2016;
 
 	public uploader:FileUploader;
 	public upload:any;
 
-	constructor(private _ds: DataService, private _toastService: ToastService) {
-	}
+	constructor(private _ds: DataService, private _toastService: ToastService){}
 
 	startUpload(){
 		

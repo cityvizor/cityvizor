@@ -14,9 +14,11 @@ export class NoticeBoardAdminComponent {
 	_data:any;
 
 	@Input()
-	set data(data){
-		this._data = data;
-		this.findDashboard();
+	set entity(entity){
+		if(entity && entity.data && entity.data.noticeBoard){
+			this._data = entity.data.noticeBoard;
+			this.findDashboard();
+		}
 	}
 	 
 	 @Output() save = new EventEmitter();

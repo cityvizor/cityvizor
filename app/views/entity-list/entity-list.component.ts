@@ -17,7 +17,7 @@ export class EntityListComponent{
 	
 	type: string;
 
-	mapSize = {"width": 1170, "height":665};
+	mapSize = {"width": 973.53, "height":553.6};
 
 	/*
 	50.251944, 12.091389 Z
@@ -25,10 +25,7 @@ export class EntityListComponent{
 	51.055556, 14.316111 S
 	48.5525, 14.333056 J
 	*/
-	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.055556}, "lng":{"min":12.091389,"max":18.858889}};
-	cities =	[
-		{"ico": 215456, "name":"Nové Město na Moravě","gps":{"lat":49.561482,"lng":16.074221}}
-	];
+	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.055556}, "lng":{"min":12.1008364,"max":18.8268292}};
 	
 	@Input()
 	set search(value: string){
@@ -42,40 +39,41 @@ export class EntityListComponent{
 	constructor(private _ds: DataService, private _router: Router) { }
 
 	ngOnInit(){
-		this._ds.getEntities({type:this.type}).then(entities => {
-			this.entities = entities;
-			this.makeList();
+		this._ds.getProfiles().then(profiles => {
+			this.profiles = profiles;
+			this.makeList(profiles);
 		});
 	}
 
-	gps2map (c, l) {
-		var pos;
-		if (l=="lat")	pos=this.mapSize.height*(this.czechRepublicGPSBounds.lat.max-c)/(this.czechRepublicGPSBounds.lat.max-this.czechRepublicGPSBounds.lat.min);
-		else	pos=this.mapSize.width*(c-this.czechRepublicGPSBounds.lng.min)/(this.czechRepublicGPSBounds.lng.max-this.czechRepublicGPSBounds.lng.min);
-		return pos;
+	gps2mapLat (c) {
+		return this.mapSize.height*(this.czechRepublicGPSBounds.lat.max-c)/(this.czechRepublicGPSBounds.lat.max-this.czechRepublicGPSBounds.lat.min);
+	}
+	gps2mapLng (c) {
+		return this.mapSize.width*(c-this.czechRepublicGPSBounds.lng.min)/(this.czechRepublicGPSBounds.lng.max-this.czechRepublicGPSBounds.lng.min);
 	}
 
-	makeList(){
+	makeList(profiles){
 		
 		this.letters = [];
 		
-		this.entities.forEach((entity,i) => {
-			var letter = entity.name.substring(0,1).toUpperCase();
-			if(entity.name.substring(0,2).toUpperCase() === "CH") letter = "CH";
+		profiles.forEach((profile,i) => {
+			
+			var letter = profile.name.substring(0,1).toUpperCase();
+			if(profile.name.substring(0,2).toUpperCase() === "CH") letter = "CH";
 			if(!letter.match(/^\w+$/)) letter = "#";
 			
-			entity.searchString = this.cleanString(entity.name);
+			profile.searchString = this.cleanString(profile.name);
 			
 			var pushEntity = this.letters.some(item => {
 				if(item.letter === letter) {
-					item.entities.push(entity);
+					item.profiles.push(profile);
 					return true;
 				}
 			});
 			
 			if(!pushEntity) this.letters.push({
 				"letter": letter,
-				entities: [entity]
+				profiles: [profile]
 			});
 				
 		});
@@ -90,7 +88,7 @@ export class EntityListComponent{
 
 		var output = "";
 
-		for(var p = 0; p < value.length; p++){ 
+		for(var p = 0; p < value.length; p++){
 			if(sdiak.indexOf(value.charAt(p)) !== -1) output += bdiak.charAt(sdiak.indexOf(value.charAt(p)));
 			else output += value.charAt(p);
 		}
@@ -100,47 +98,8 @@ export class EntityListComponent{
 		return output;
 	}
 
-	openEntity(entity){
-		this._router.navigate(['/ico',entity.ico]);
+	openProfile(profile){
+		this._router.navigate(['/profil',profile._id]);
 	}
-
-	/*
-	var mapEntities = angular.module('mapEntities', ['uiGmapgoogle-maps']);
-
-	mapEntities.factory("Markers", function(){
-		var Markers = [
-			{
-				"id": "0",
-				"coords": {
-					"latitude": "45.5200",
-					"longitude": "-122.6819"
-				},
-				"window": {
-					"title": "Portland, OR"
-				}
-			},
-			{
-				"id": "1",
-				"coords": {
-					"latitude": "40.7903",
-					"longitude": "-73.9597"
-				},
-				"window" : {
-					"title": "Manhattan New York, NY"
-				}
-			}
-		];
-		return Markers;
-	});
-
-	mapEntities.controller("gMap",function($scope,Markers){
-		$scope.map = { 
-			center: { latitude: 39.8282, longitude: -98.5795 }, 
-			zoom: 4 
-		};
-		$scope.markers = Markers;
-	});
-
-	*/
 
 }
