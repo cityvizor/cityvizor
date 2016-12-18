@@ -17,7 +17,7 @@ export class ExpenditureViewComponent {
 	show: string = 'viz';
 	
 	@Input()
-	set profile(profile: string){
+	set profile(profile: any ){
 		if(profile && profile.entity && profile.entity._id) this.loadData(profile.entity._id,this.year);
 	}
 	

@@ -12,6 +12,6 @@ import { DataService } 		from '../../services/data.service';
 export class DashboardAdminComponent {
 	
 	@Input()
-	entity: any;
+	profile: any;
 
 }

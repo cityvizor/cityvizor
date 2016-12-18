@@ -14,9 +14,9 @@ export class NoticeBoardAdminComponent {
 	_data:any;
 
 	@Input()
-	set entity(entity){
-		if(entity && entity.data && entity.data.noticeBoard){
-			this._data = entity.data.noticeBoard;
+	set profile(profile){
+		if(profile && profile.data && profile.data.noticeBoard){
+			this._data = profile.data.noticeBoard;
 			this.findDashboard();
 		}
 	}

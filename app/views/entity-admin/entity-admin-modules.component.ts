@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ToastService } 		from '../../services/toast.service';
 import { DataService } 		from '../../services/data.service';
@@ -16,25 +16,18 @@ export class EntityAdminModulesComponent {
 
 	@Input()
 	profile: any;
-
-	 modules: Module[];
-
-	 constructor(private _ds: DataService, private _toastService: ToastService) {
-		 this.modules = MODULES;
-	 }
 	 
-	 setViewState(view: string,value: boolean){
+	@Output() save = new EventEmitter();
 
-		 var oldValue = this.profile.modules[view];
+	modules: Module[];
 
-		 this.profile.modules[view] = value;
-
-		 this._ds.saveProfile(this.profile)
-			 .then((profile) =>  this._toastService.toast("Uloženo.", "notice"))
-			 .catch((err) => {
-				 this.profile.modules[view] = oldValue;
-				 this._toastService.toast("Nastala chyba při ukládání","error");
-			 });
-	 }
-
+	constructor(private _ds: DataService, private _toastService: ToastService) {
+		this.modules = MODULES;
 	}
+
+	setViewState(view: string,value: boolean){
+		this.profile.modules[view] = value;
+		this.save.emit();
+	}
+
+}

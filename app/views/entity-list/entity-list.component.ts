@@ -13,7 +13,7 @@ export class EntityListComponent{
 	show: string = "map";
 	
 	letters = [];
-	entities = [];
+	profiles = [];
 	
 	type: string;
 

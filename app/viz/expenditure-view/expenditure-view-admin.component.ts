@@ -11,14 +11,14 @@ import { FileUploader} from 'ng2-file-upload/ng2-file-upload';
 	templateUrl: 'expenditure-view-admin.template.html',
 	styles: []
 })
-export class ExpenditureViewAdminComponent {
-
+export class ExpenditureViewAdminComponent{
+	
 	@Input()
-	set entity(entity){
-		if(entity && entity.id) this.uploader = this._ds.getExpendituresUploader(entity.id,this.year);
+	set profile(profile){
+		if(profile && profile._id) this.uploader = this._ds.getExpendituresUploader(profile._id,this.year);
 		else this.uploader = null;
 	}
-	 
+
 	year = 2016;
 
 	public uploader:FileUploader;

@@ -17,7 +17,6 @@ import { MODULES } from "../../shared/modules";
 export class EntityAdminComponent {
 
 	profile: any;	 
-entity: any;
 
 	view: string; 
 	
@@ -33,9 +32,9 @@ entity: any;
 
 		this._route.params.forEach((params: Params) => {
 			this.view = params["view"];
-			if(!this.entity || (this.entity && this.entity.id !== params["id"])){
-				this._ds.getEntity(params["id"]).then(entity => {
-					this.entity = entity;
+			if(!this.profile || (this.profile && this.profile._id !== params["id"])){
+				this._ds.getProfile(params["id"]).then(profile => {
+					this.profile = profile;
 				});
 			}
 		});
@@ -44,23 +43,23 @@ entity: any;
 	}
 	
 	saveProfile(){
-		var oldEntity = JSON.parse(JSON.stringify(this.entity));
+		var oldProfile = JSON.parse(JSON.stringify(this.profile));
 
-		this._ds.saveProfile(this.entity.id,this.entity)
+		this._ds.saveProfile(this.profile)
 			.then((entity) => this._toastService.toast("Uloženo.", "notice"))
 			.catch((err) => {
-			this.entity = oldEntity;
+			this.profile = oldProfile;
 			this._toastService.toast("Nastala chyba při ukládání","error");
 		});
 	}
 	
 	getModuleData(moduleId){
-		if(!this.entity.data.modules[moduleId]) this.entity.data.modules[moduleId] = {};
-		return this.entity.data.modules[moduleId];
+		if(!this.profile.data.modules[moduleId]) this.profile.data.modules[moduleId] = {};
+		return this.profile.data.modules[moduleId];
 	}
 
 	refreshDataString(){
-		this.dataString = JSON.stringify(this.entity,null,2);
+		this.dataString = JSON.stringify(this.profile,null,2);
 	}
 	
 	getModuleLink(openModule){
@@ -68,7 +67,7 @@ entity: any;
 	}
 	
 	getCloseLink(openModule){
-		return ['/profil/' + this.entity.id];
+		return ['/profil/' + this.profile._id];
 	}
 
 	openConfig(adminModule){

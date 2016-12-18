@@ -1,10 +1,10 @@
-<div id="entity" *ngIf="entity">
+<div id="entity" *ngIf="profile">
 
 	<header id="headerObec">
 		<div class="container">
 			<h1>
 				<i class="fa fa-map-signs"></i>
-				<a routerLink="/" routerLinkActive="active">{{entity ? entity.name : ""}}</a>
+				<a routerLink="/" routerLinkActive="active">{{profile.name}}</a>
 			</h1>
 			<nav role="navigation">
 				<a routerLink="/" routerLinkActive="active" class="btn">
@@ -25,7 +25,7 @@
 					<hr>
 
 					<div class="list-group">
-						<a  *ngFor="let module of modules"[style.display]="(entity.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getModuleLink(module)" class="list-group-item" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a>
+						<a  *ngFor="let module of modules"[style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getModuleLink(module)" class="list-group-item" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a>
 					</div>
 
 					<hr>
@@ -39,11 +39,11 @@
 				<div class="col-sm-8" [ngSwitch]="view">
 					<div [ngSwitch]="view">
 
-						<dash-board-admin *ngSwitchCase="'dashboard'" [entity]="entity"></dash-board-admin>
+						<dash-board-admin *ngSwitchCase="'dashboard'" [profile]="profile"></dash-board-admin>
 
-						<expenditure-view-admin *ngSwitchCase="'vydaje'" [entity]="entity"></expenditure-view-admin>
+						<expenditure-view-admin *ngSwitchCase="'vydaje'" [profile]="profile"></expenditure-view-admin>
 
-						<notice-board-admin *ngSwitchCase="'uredni-deska'" [entity]="entity" (save)="saveEntity()"></notice-board-admin>
+						<notice-board-admin *ngSwitchCase="'uredni-deska'" [profile]="profile" (save)="saveProfile()"></notice-board-admin>
 
 						<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [profile]="profile"></entity-admin-modules>
 

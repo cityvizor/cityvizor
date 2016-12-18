@@ -23,6 +23,10 @@ router.get("/:id", acl("profile","get"), (req,res) => {
 });
 
 router.post("/:id", acl("profile","update"), (req,res) => {
+	
+	// entity is mean to be saved by reference to Entity collection and we dont want this reference to be overwritten by the actual entity data
+	if(req.body.entity && req.body.entity._id) req.body.entity = req.body.entity._id;
+	
 	Profile.findOneAndUpdate({_id:req.params.id}, req.body, {new:true, upsert:true, runValidators: true}, (err, profile) => {
 		if(err) req.next(err);
 		else res.json(profile);
