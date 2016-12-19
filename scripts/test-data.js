@@ -4,8 +4,6 @@ mongoose.connect('mongodb://localhost/supervizor-plus');
 var Profile = require("../server/models/profile");
 var Entity = require("../server/models/entity");
 
-var queries = [];
-
 Entity.remove({}).then((err) => {
 	var testEntity = new Entity({
 		"_id": "596230",
@@ -15,7 +13,7 @@ Entity.remove({}).then((err) => {
 
 	testEntity.save((err) => {
 		
-		if(err) console.log(err);
+		console.log("Entity saved",err);
 		
 		Profile.remove({},(err) => {
 			var testProfile = new Profile({
@@ -42,8 +40,7 @@ Entity.remove({}).then((err) => {
 			});
 
 			testProfile.save((err) => {
-				console.log("Test data saved",err);
-				process.exit(0)
+				console.log("Profile saved",err);
 			});
 
 		});
@@ -52,3 +49,18 @@ Entity.remove({}).then((err) => {
 
 });
 
+var User = require("../server/models/user");
+var bcrypt = require("bcrypt");
+
+bcrypt.hash("heslo", 10).then(hash => {
+	User.remove({}).then((err) => {
+		var testUser = new User({
+			"_id": "user@example.com",
+			"password": hash,
+			"managedProfiles": ["nmnm"],
+			"roles": []
+		});
+
+		testUser.save((err) => console.log("User saved",err))
+	});
+});

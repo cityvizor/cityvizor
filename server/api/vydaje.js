@@ -6,25 +6,19 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 
+var acl = require("../acl/index");
+
 var Budget = require("../models/expenditures").Budget;
 var ExpenditureImport = require("../import/expenditures");
 
-router.get("/:id/:rok",(req,res) => {
+router.get("/:id/:rok", acl("budget", "read"), (req,res) => {
 	Budget.findOne({entityId:req.params.id,year:req.params.rok}, (err,item) => {
 		if(item) res.json(item);
 		else res.status(404).send('Not found');
 	});
 });
 
-router.get("/:id",(req,res) => {
-	res.json([]);
-});
-
-router.get("/",(req,res) => {
-	res.json([]);
-});
-
-router.post("/:id/:rok", upload.single('file'), (req,res) => {
+router.post("/:id/:rok", acl("expenditures", "write"), upload.single('file'), (req,res) => {
 	
 	console.log(req.file);
 	

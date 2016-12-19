@@ -4,6 +4,8 @@ var app = express();
 var router = express.Router();
 module.exports = router;
 
+var acl = require("../acl/index");
+
 var https = require("https");
 
 function sendGET(path,params,success,error){
@@ -32,7 +34,7 @@ function sendGET(path,params,success,error){
 	edesky_req.end();
 }
 
-router.get("/",(req,res) => {
+router.get("/", acl("edesky","read"), (req,res) => {
 	
 	sendGET('/api/v1/dashboards',null,(data) => {
 		res.type("application/xml");
@@ -41,7 +43,7 @@ router.get("/",(req,res) => {
 	
 });
 					 
-router.get("/:id",(req,res) => {
+router.get("/:id", acl("edesky","read"), (req,res) => {
 	
 	var params = [
 		["created_from", "2016-06-01"],
@@ -57,7 +59,7 @@ router.get("/:id",(req,res) => {
 	}, (err) => res.next(err));
 });
 
-router.get("/preview/:document",(req,res) => {
+router.get("/preview/:document", acl("edesky","read"), (req,res) => {
 
 	sendGET('/dokument/' + req.params.document + '.txt',null,(data) => {
 		res.type("text/plain");

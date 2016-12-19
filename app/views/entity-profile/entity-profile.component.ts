@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { DataService } 		from '../../services/data.service';
+import { UserService } 		from '../../services/user.service';
 import { Module } from "../../shared/schema";
 import { MODULES } from "../../shared/modules";
 
@@ -22,7 +23,7 @@ export class EntityProfileComponent {
 	
 	year = 2016;
 
-	constructor(private _route: ActivatedRoute, private _ds: DataService) {
+	constructor(private _route: ActivatedRoute, private _ds: DataService, public userService:UserService) {
 		
 		this.modules = MODULES;
 		
@@ -32,6 +33,10 @@ export class EntityProfileComponent {
 			});
 			this.view = params["view"];
 		});
+	}
+
+	isManagedProfile(profile){
+		return (profile && this.userService.user.managedProfiles.indexOf(profile._id) >= 0)
 	}
 	
 	getVizLink(viz){

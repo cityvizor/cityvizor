@@ -2,11 +2,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
 	moduleId: module.id,
-	selector: 'overview-map',
-	templateUrl: 'overview-map.template.html',
-	styles: [``]
+	selector: 'profile-map',
+	templateUrl: 'profile-map.template.html'
 })
-export class OverviewMapComponent{
+export class ProfileMapComponent{
 
 	@Input()
 	labels: boolean;
@@ -28,12 +27,6 @@ export class OverviewMapComponent{
 	@Output()
 	openProfile = new EventEmitter<any>();
 
-	/*
-	50.251944, 12.091389 Z
-	49.550278, 18.858889 V
-	51.055556, 14.316111 S
-	48.5525, 14.333056 J
-	*/
 	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.055556}, "lng":{"min":12.1008364,"max":18.8268292}};
 
 	gps2mapLat (c) {

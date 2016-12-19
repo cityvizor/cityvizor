@@ -17,6 +17,7 @@ import { MODULES } from "../../shared/modules";
 export class EntityAdminComponent {
 
 	profile: any;	 
+	oldProfile: any;
 
 	view: string; 
 	
@@ -35,6 +36,7 @@ export class EntityAdminComponent {
 			if(!this.profile || (this.profile && this.profile._id !== params["id"])){
 				this._ds.getProfile(params["id"]).then(profile => {
 					this.profile = profile;
+					this.oldProfile = JSON.parse(JSON.stringify(this.profile));
 				});
 			}
 		});
@@ -43,14 +45,18 @@ export class EntityAdminComponent {
 	}
 	
 	saveProfile(){
-		var oldProfile = JSON.parse(JSON.stringify(this.profile));
-
+		var toast = this._toastService.toast("Ukládám...", "notice");
 		this._ds.saveProfile(this.profile)
-			.then((entity) => this._toastService.toast("Uloženo.", "notice"))
+			.then((entity) =>{
+				toast.hide();
+				this._toastService.toast("Uloženo.", "notice");
+				this.oldProfile = JSON.parse(JSON.stringify(this.profile));
+			})
 			.catch((err) => {
-			this.profile = oldProfile;
-			this._toastService.toast("Nastala chyba při ukládání","error");
-		});
+				toast.hide();
+				this.profile = JSON.parse(JSON.stringify(this.oldProfile));
+				this._toastService.toast("Nastala chyba při ukládání","error");
+			});
 	}
 	
 	getModuleData(moduleId){

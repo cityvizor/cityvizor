@@ -7,10 +7,12 @@ module.exports = router;
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 
+var acl = require("../acl/index");
+
 var Entity = require("../models/entity");
 var EntityImport = require("../import/entities");
 
-router.get("/",(req,res) => {
+router.get("/", acl("entity","read"), (req,res) => {
 	var query = Entity.find({}).select("id name").limit(100);
 	
 	if(req.params.skip) query.skip(req.params.skip);
@@ -21,7 +23,7 @@ router.get("/",(req,res) => {
 	});
 });
 
-router.post("/", upload.single('file'), (req,res) => {
+router.post("/", acl("entity","write"), upload.single('file'), (req,res) => {
 
 	if(req.file.path){
 		console.log(req.file);
@@ -34,10 +36,12 @@ router.post("/", upload.single('file'), (req,res) => {
 	
 });
 
-router.get("/:id",(req,res) => {
-	Entity.findOne({_id:req.params.id}, (err, entity) => {
-		if (err) return res.next(err);
-		res.json(entity); // TODO: co kdyz neexistuje
-	});
+router.get("/:id", acl("entity","read"), (req,res) => {
+	Entity.findOne({_id:req.params.id})
+		.then((entity) => {
+			if(entity) res.json(entity);
+			else res.sendStatus(404);
+		})
+		.catch(err => res.next(err));
 });
 

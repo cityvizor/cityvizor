@@ -1,6 +1,6 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule }     from '@angular/http';
+import { HttpModule, Http }     from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent }  from './app.component';
@@ -27,8 +27,6 @@ import { ExpenditureViewAdminComponent } from "./viz/expenditure-view/expenditur
 import { NoticeBoardAdminComponent } from "./viz/notice-board/notice-board-admin.component";
 import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules.component";
 
-
-
 // Services
 import { DataService } 		from './services/data.service';
 import { NoticeBoardService } 		from './services/notice-board.service';
@@ -40,13 +38,19 @@ import { Ng2BootstrapModule, ComponentsHelper } from 'ng2-bootstrap/ng2-bootstra
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 
 // Shared coremponents
-import { OverviewMapComponent } 		from './components/overview-map.component';
+import { ProfileMapComponent } 		from './components/profile-map/profile-map.component';
 
 // Pipes
 import { MoneyPipe } from './pipes/money.pipe';
 
 // Routes
 import { routing } from './app.routing';
+
+// Providers
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+export function getAuthHttp(http) {
+  return new AuthHttp(new AuthConfig({}), http);
+}
 
 @NgModule({
   imports: [
@@ -62,10 +66,16 @@ import { routing } from './app.routing';
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
 		/* VIZ */ ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
 		/* VIZ ADMIN */ DashboardAdminComponent, ExpenditureViewAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
-		/* Components */ OverviewMapComponent,
+		/* Components */ ProfileMapComponent,
 		/* PIPES */ MoneyPipe
 	],
-	providers: [ DataService, NoticeBoardService, ToastService, UserService, {provide: ComponentsHelper, useClass: ComponentsHelper} ],
+	providers: [
+		DataService, NoticeBoardService, ToastService, UserService, {provide: ComponentsHelper, useClass: ComponentsHelper},
+		{
+			provide: AuthHttp,
+			useFactory: getAuthHttp,
+			deps: [Http]
+		}],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

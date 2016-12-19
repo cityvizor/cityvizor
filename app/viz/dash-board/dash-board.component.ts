@@ -7,8 +7,16 @@ import { DataService } from '../../services/data.service';
 	selector: 'dash-board',
 	templateUrl: 'dash-board.template.html',
 	styles: [`
+		.rowHours {
+	    font-size: 0.8em;
+    	line-height: 1em;
+    	margin-bottom: .5em;
+		}
+		.barHours {
+			height: 1em; background: #f3f3f3; border-radius: 10px; margin: 0px 0%;
+		}	
 		.barHoursOpened {
-			height: 10px; background: red none repeat scroll 0% 0%; border-radius: 10px; margin: 0px 20%; position: relative;
+			background: #2581C4; border-radius: 1.5em; margin: 0px 20%; position: relative;height: 100%;
 		}	
 		.titleHoursStart {
 			position: absolute; left: -15px;
@@ -16,11 +24,39 @@ import { DataService } from '../../services/data.service';
 		.titleHoursEnd { 
 			right: -15px; position: absolute;
 		}
+		.dayTitle {
+			font-weight: bold;
+		}
+		profile-map {
+			width: 100%; height: auto;
+		}
 	`],
 })
 export class DashboardComponent {
 	
-	mapSize = {"width": 973, "height":553};
+	hoursOpeningNMNM = [
+		{"dayTitle":"Po", "start":8, "end":17},
+		{"dayTitle":"Út", "start":0, "end":0},
+		{"dayTitle":"St", "start":8, "end":17},
+		{"dayTitle":"Čt", "start":8, "end":14},
+		{"dayTitle":"Pá", "start":0, "end":0},
+		{"dayTitle":"So", "start":0, "end":0},
+		{"dayTitle":"Ne", "start":0, "end":0}
+	];
+	hoursOpeningOptions = {
+		"dayStart" : 7,
+		"dayEnd" : 20,
+		"padding" : 10
+	};
+
+	getBarMarginLeft (h) {
+		var o=this.hoursOpeningOptions;
+		return o.padding + Math.round((100-2*o.padding)*(h.start-o.dayStart)/(o.dayEnd-o.dayStart));
+	}
+	getBarMarginRight (h) {
+		var o=this.hoursOpeningOptions;
+		return o.padding + Math.round((100-2*o.padding)*(o.dayEnd-h.end)/(o.dayEnd-o.dayStart));
+	}
 
 	dashboard = {
 		expenditures:[],

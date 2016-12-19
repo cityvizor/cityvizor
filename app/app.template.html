@@ -36,7 +36,8 @@
 			</a>
 		</div>
 		<div class="col-sm-4 col-xs-12 text-right">
-			<a  (click)="loginModal.show()" *ngIf="!user.logged">Přihlásit se</a>
+			<a (click)="loginModal.show()" *ngIf="!userService.logged">Přihlásit se</a>
+			<a (click)="logout()" *ngIf="userService.logged">Odhlásit: {{userService.user._id}}</a>
 			| <a>Data</a>
 			| <a routerLink="/stranka/o-aplikaci">O aplikaci</a>
 			| <a routerLink="/stranka/licence">Licence</a>
@@ -56,19 +57,43 @@
 				<h4 class="modal-title">Přihlášení správce obce</h4>
 			</div>
 			<div class="modal-body">
-				<form class="form-signin" (ngSubmit)="login()">
-					<h2 class="form-signin-heading">Piřhlášení</h2>
-					<label for="inputEmail" class="sr-only">Emailová adresa</label>
-					<input type="text" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" [(ngModel)]="loginData.login">
-					<label for="inputPassword" class="sr-only">Password</label>
-					<input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" value="remember-me"> Zapamatovat si
-						</label>
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2">
+						<form class="form-signin" (ngSubmit)="login()">
+							<div class="form-group">
+								<label for="inputEmail" class="cols-sm-2 control-label">Emailová adresa</label>
+								<div class="cols-sm-10">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+										<input type="text" name="inputEmail" id="inputEmail" class="form-control" placeholder="Emailová adresa" required="" autofocus="" [(ngModel)]="loginData.login">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="inputPassword" class="cols-sm-2 control-label">Heslo</label>
+								<div class="cols-sm-10">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
+										<input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Heslo" required="" [(ngModel)]="loginData.password">
+									</div>
+								</div>
+							</div>
+							<div class="form-group checkbox">
+								<div class="cols-sm-12 text-center">
+									<label>
+										<input type="checkbox" value="remember-me">
+										<strong>Zapamatovat si přihlášení</strong>
+									</label>
+								</div>
+							</div>
+
+							<div class="form-group ">
+								<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Přihlásit se</button>
+							</div>
+
+						</form>
 					</div>
-					<button class="btn btn-lg btn-primary btn-block" type="submit">Přihlásit se</button>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -1,10 +1,29 @@
+function getACL(subject,operation,req){
+	
+	switch(subject){
 
-module.exports = function(subject,operation,parameters){
+		case "profile": 
+			return require("./profile.js")(operation,req);
+
+		default: 
+			return true;
+			
+	}
+	
+}
+
+
+module.exports = function(subject,operation){
 	
 	return function(req,res,next){
 		
-		console.log("ACL: " + subject + "/" + operation + (parameters ? "(" + JSON.stringify(paarameters) + ")" : ""));
-		next();
-	};
+		var result = getACL(subject,operation,req);
+		
+		console.log("ACL " + (result ? "OK" : "XX") + ": " + subject + "/" + operation);
+		
+		if(result) next();
+		else res.sendStatus(401);
+												
+	}
 
 };

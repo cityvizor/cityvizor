@@ -3,9 +3,11 @@ var app = express();
 
 var router = express.Router();
 
+var acl = require("../acl/index");
+
 var Budget = require("../models/expenditures").Budget;
 
-router.get("/:ico",function(req,res){
+router.get("/:id", acl("budget","read"), function(req,res){
 	var dashboard = {
 		expenditures: null,
 		income: null

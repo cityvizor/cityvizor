@@ -13,7 +13,7 @@
 		
 		<!-- MAPA -->
 		<div class="text-center" *ngIf="show=='map'">
-			<overview-map width="800" height="455" labels="true" [search]="_search" [profiles]="profiles" (openProfile)="openProfile($event)"></overview-map>
+			<profile-map width="800" height="455" labels="true" [search]="_search" [profiles]="profiles" (openProfile)="openProfile($event)"></profile-map>
 		</div>
 
 		<!-- ABECEDNE -->

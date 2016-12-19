@@ -11,6 +11,7 @@
 		'papaparse': 									'node_modules/papaparse',
 		'ng2-bootstrap': 							'node_modules/ng2-bootstrap',
 		'ng2-file-upload':						'node_modules/ng2-file-upload',
+		'angular2-jwt':								'node_modules/angular2-jwt',
 		'moment': 										'node_modules/moment'
   };
   // packages tells the System loader how to load when no filename and/or no extension
@@ -19,6 +20,7 @@
     'rxjs':                       { defaultExtension: 'js' },
 		'ng2-bootstrap':              { defaultExtension: 'js' },
 		'ng2-file-upload':            { defaultExtension: 'js' },
+		'angular2-jwt':     	        { defaultExtension: 'js', main: "angular2-jwt.js"},
 		'moment': 										{ defaultExtension: 'js', main: 'moment.js'}
   };
   var ngPackageNames = [

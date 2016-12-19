@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild } from '@angular/core';
 
 import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
@@ -15,32 +15,40 @@ export class AppComponent {
 
 	private viewContainerRef: ViewContainerRef; //ng2-bootstrap requirement
 
+	@ViewChild('loginModal')
+	public loginModal;
+
 	toasts: Array<any>;
 
 	year: string;
-
-	openLogin:boolean = false;
 
 	loginData = {
 		login:"",
 		password:""
 	};
 
-	user: User;	
-
-	constructor(private _toastService: ToastService, private _userService: UserService, viewContainerRef:ViewContainerRef, componentsHelper:ComponentsHelper) {
+	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef, componentsHelper:ComponentsHelper) {
 		var today = new Date();
 		this.year = today.getFullYear() == 2016 ? "2016" : "2016 ~ " + today.getFullYear();
 
-		this.toasts = this._toastService.toasts;
-		
-		this.user = this._userService.user;
+		this.toasts = this.toastService.toasts;		
 		
 		componentsHelper.setRootViewContainerRef(viewContainerRef); //ng2-bootstrap requirement
 	}
 
 	login(){
-		this._userService.login(this.loginData);
+		this.userService.login(this.loginData)
+			.then(user => {
+				this.loginModal.hide();
+			})
+			.catch(err => {
+				this.toastService.toast("Chyba při přihlášení.","error");
+				this.loginModal.hide();
+			});
+	}
+
+	logout(){
+		this.userService.logout();
 	}
 
 }

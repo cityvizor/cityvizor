@@ -45,7 +45,7 @@
 
 						<notice-board-admin *ngSwitchCase="'uredni-deska'" [profile]="profile" (save)="saveProfile()"></notice-board-admin>
 
-						<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [profile]="profile"></entity-admin-modules>
+						<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [profile]="profile" (save)="saveProfile()"></entity-admin-modules>
 
 						<div *ngSwitchDefault>
 							<p>Tento modul nemá žádná nastavení.</p>

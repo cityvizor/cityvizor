@@ -1,50 +1,62 @@
 <h2>
-	<i class="fa fa-tasks"></i>
 	<span>Přehled</span>
 </h2>
 
 <div class="row">
 	<div class="col-sm-4">
-		
+		<h4>
+			<i class="fa fa-info-circle"></i>
+			Základní údaje
+		</h4>
+		<div class="small">
+			<div class="row">
+				<div class="col-xs-4"><strong><i class="fa fa-map-signs"></i> Adresa</strong></div>
+				<div class="col-xs-8">Vratislavovo nám.	103, 59231</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4"><strong><i class="fa fa-hashtag"></i> ZÚJ</strong></div>
+				<div class="col-xs-8">596230</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4"><strong><i class="fa fa-hashtag"></i> IČO</strong></div>
+				<div class="col-xs-8">00294900</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4"><strong><i class="fa fa-envelope"></i> Email</strong></div>
+				<div class="col-xs-8">posta@nmnm.cz</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4"><strong><i class="fa fa-globe"></i> Datová s.</strong></div>
+				<div class="col-xs-8">y67bvir</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4"><strong><i class="fa fa-external-link"></i> Web</strong></div>
+				<div class="col-xs-8"><a href="http://www.nmnm.cz" target="_blank">www.nmnm.cz</a></div>
+			</div>
+		</div>
+		<!--
+			596230	00294900	Městský úřad	Nové Město na Moravě	Vratislavovo nám.	103	59231	Nové Město na Moravě	Nové Město na Moravě	566 598 300	566598305	posta@nmnm.cz	y67bvir	http://www.nmnm.cz	Po.,Stř.,8:00-17:00, Čt.,8:00-14:00	Městský úřad	Starosta:Michal Šmarda	566 650 201	starosta@nmnm.cz	Místost.:Stanislav Marek		mistostarosta@nmnm.cz	CZ0635596230	3577836,99	5492763,74	3577732	5492675
+		-->
 	</div>
 	<div class="col-sm-4 text-center">
 		<!-- MAPA -->
 		<div>
-			<overview-map width="400" height="227" [profiles]="[profile]"></overview-map>
+			<profile-map [profiles]="[profile]"></profile-map>
 		</div>
 	</div>
 	<div class="col-sm-4">
 		<h4>
 			<i class="fa fa-clock-o"></i>
-			Otevírací doba
+			Provoz obecního úřadu
 		</h4>
-		<div class="row">
-			<div class="col-xs-2 dayTitle">Po</div>
-			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
-		</div>
-		<div class="row">
-			<div class="col-xs-2 dayTitle">Út</div>
-			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
-		</div>
-		<div class="row">
-			<div class="col-xs-2 dayTitle">St</div>
-			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
-		</div>
-		<div class="row">
-			<div class="col-xs-2 dayTitle">Čt</div>
-			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
-		</div>
-		<div class="row">
-			<div class="col-xs-2 dayTitle">Pá</div>
-			<div class="col-xs-10 dayTitle"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
-		</div>
-		<div class="row">
-			<div class="col-xs-2 dayTitle">So</div>
-			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
-		</div>
-		<div class="row">
-			<div class="col-xs-2 dayTitle">Ne</div>
-			<div class="col-xs-10 barHours"><div class="barHoursOpened"><div class="titleHoursStart">10</div><div class="titleHoursEnd">15</div></div></div>
+		<div class="row rowHours" *ngFor="let hoursOpeningDay of hoursOpeningNMNM">
+			<div class="col-xs-2 dayTitle">{{hoursOpeningDay.dayTitle}}</div>
+			<div class="col-xs-10 barHours">
+				<div class="barHoursOpened" *ngIf="hoursOpeningDay.start!=0" [style.margin-left]="getBarMarginLeft(hoursOpeningDay)+'%'"  [style.margin-right]="getBarMarginRight(hoursOpeningDay)+'%'">
+					<div class="titleHoursStart">{{hoursOpeningDay.start}}</div>
+					<div class="titleHoursEnd">{{hoursOpeningDay.end}}</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

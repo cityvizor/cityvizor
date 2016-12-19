@@ -26,7 +26,7 @@
 							<i class="fa" [class]="module.icon"></i> {{module.name}}
 						</a>
 					</div>
-					<ul class="nav nav-stacked">
+					<ul class="nav nav-stacked" *ngIf="isManagedProfile(profile)">
 						<li class="nav-item"><a [routerLink]="getAdminLink()" class="nav-link text-muted" routerLinkActive="active"><i class="fa fa-cog"></i> Spravovat</a></li>
 					</ul>
 

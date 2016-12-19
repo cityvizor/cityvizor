@@ -23,3 +23,5 @@ footer .fa-heart{color:rgb(231,52,49);}
 footer .container{
 	line-height: 80px;
 }
+
+.input-group-addon { min-width: 2em; }
