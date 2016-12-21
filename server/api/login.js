@@ -20,7 +20,8 @@ router.post("/", acl("user","login"), (req,res) => {
 				// we want to send only some values
 				var tokenData = {
 					_id: user._id	,
-					managedProfiles: user.managedProfiles
+					managedProfiles: user.managedProfiles,
+					roles: user.roles
 				};
 				
 				// generate token with 1 day validity

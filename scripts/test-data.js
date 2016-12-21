@@ -58,7 +58,7 @@ bcrypt.hash("heslo", 10).then(hash => {
 			"_id": "user@example.com",
 			"password": hash,
 			"managedProfiles": ["nmnm"],
-			"roles": []
+			"roles": ["profile-manager"]
 		});
 
 		testUser.save((err) => console.log("User saved",err))
