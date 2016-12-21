@@ -17,4 +17,6 @@ router.get("/assets", (req,res) => res.sendStatus(404));
 router.use('/node_modules', express.static("node_modules"));
 router.get("/node_modules", (req,res) => res.sendStatus(404));
 
+router.get("/favicon.ico", (req,res) => res.sendStatus(404));
+
 module.exports = router;
