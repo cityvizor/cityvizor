@@ -19,10 +19,10 @@ import { DataService } from '../../services/data.service';
 			background: #2581C4; border-radius: 1.5em; margin: 0px 20%; position: relative;height: 100%;
 		}	
 		.titleHoursStart {
-			position: absolute; left: -15px;
+			position: absolute; left: 5px; color:#fff; opacity:.8;
 		}	
 		.titleHoursEnd { 
-			right: -15px; position: absolute;
+			right: 5px; position: absolute; color:#fff;opacity:.8;
 		}
 		.dayTitle {
 			font-weight: bold;
@@ -34,28 +34,36 @@ import { DataService } from '../../services/data.service';
 })
 export class DashboardComponent {
 	
-	hoursOpeningNMNM = [
-		{"dayTitle":"Po", "start":8, "end":17},
-		{"dayTitle":"Út", "start":0, "end":0},
-		{"dayTitle":"St", "start":8, "end":17},
-		{"dayTitle":"Čt", "start":8, "end":14},
-		{"dayTitle":"Pá", "start":0, "end":0},
-		{"dayTitle":"So", "start":0, "end":0},
-		{"dayTitle":"Ne", "start":0, "end":0}
-	];
+	days = ["mo","tu","we","th","fr","sa","su"];
+	daysCZ = ["Po","Út","St","Čt","Pá","So","Ne"];
+	
 	hoursOpeningOptions = {
 		"dayStart" : 7,
 		"dayEnd" : 20,
 		"padding" : 10
 	};
 
+	hour2string(hour){
+		var parts = hour.split(":");
+		if(parts[1] == "00") return parts[0];
+		return hour;
+	}
+
+	hour2number(hour){
+		var parts = hour.split(":");
+		var number = Number(parts[0] + (parts[1] ? "." + (Number(parts[1]) / 60) : ""));
+		return number;
+	}
+
 	getBarMarginLeft (h) {
+		h = this.hour2number(h);
 		var o=this.hoursOpeningOptions;
-		return o.padding + Math.round((100-2*o.padding)*(h.start-o.dayStart)/(o.dayEnd-o.dayStart));
+		return o.padding + Math.round((100-2*o.padding)*(h-o.dayStart)/(o.dayEnd-o.dayStart));
 	}
 	getBarMarginRight (h) {
-		var o=this.hoursOpeningOptions;
-		return o.padding + Math.round((100-2*o.padding)*(o.dayEnd-h.end)/(o.dayEnd-o.dayStart));
+		h = this.hour2number(h);
+		var o = this.hoursOpeningOptions;
+		return o.padding + Math.round((100-2*o.padding)*(o.dayEnd-h)/(o.dayEnd-o.dayStart));
 	}
 
 	dashboard = {

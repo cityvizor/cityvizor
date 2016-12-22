@@ -11,23 +11,29 @@
 		<div class="small">
 			<div class="row">
 				<div class="col-xs-4"><strong><i class="fa fa-map-signs"></i> Adresa</strong></div>
-				<div class="col-xs-8">Vratislavovo nám.	103, 59231</div>
+				<div class="col-xs-8">
+					{{profile.entity.address?.street}} {{profile.entity?.address?.streetNo}}
+					<br>
+					{{profile.entity.address?.city}}
+					{{profile.entity.address?.psc}}
+					
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-4"><strong><i class="fa fa-hashtag"></i> ZÚJ</strong></div>
-				<div class="col-xs-8">596230</div>
+				<div class="col-xs-8">{{profile.entity._id}}</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-4"><strong><i class="fa fa-hashtag"></i> IČO</strong></div>
-				<div class="col-xs-8">00294900</div>
+				<div class="col-xs-8">{{profile.entity.ico}}</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-4"><strong><i class="fa fa-envelope"></i> Email</strong></div>
-				<div class="col-xs-8">posta@nmnm.cz</div>
+				<div class="col-xs-8">{{profile.entity.email}}</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-4"><strong><i class="fa fa-globe"></i> Datová s.</strong></div>
-				<div class="col-xs-8">y67bvir</div>
+				<div class="col-xs-4"><strong><i class="fa fa-globe"></i> Datová schránka</strong></div>
+				<div class="col-xs-8">{{profile.entity.dataBox}}</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-4"><strong><i class="fa fa-external-link"></i> Web</strong></div>
@@ -49,12 +55,12 @@
 			<i class="fa fa-clock-o"></i>
 			Provoz obecního úřadu
 		</h4>
-		<div class="row rowHours" *ngFor="let hoursOpeningDay of hoursOpeningNMNM">
-			<div class="col-xs-2 dayTitle">{{hoursOpeningDay.dayTitle}}</div>
+		<div class="row rowHours" *ngFor="let day of days;let i = index">
+			<div class="col-xs-2 dayTitle">{{daysCZ[i]}}</div>
 			<div class="col-xs-10 barHours">
-				<div class="barHoursOpened" *ngIf="hoursOpeningDay.start!=0" [style.margin-left]="getBarMarginLeft(hoursOpeningDay)+'%'"  [style.margin-right]="getBarMarginRight(hoursOpeningDay)+'%'">
-					<div class="titleHoursStart">{{hoursOpeningDay.start}}</div>
-					<div class="titleHoursEnd">{{hoursOpeningDay.end}}</div>
+				<div *ngFor="let openHours of profile.entity.openHours[day]" class="barHoursOpened" [style.margin-left]="getBarMarginLeft(openHours.from)+'%'"  [style.margin-right]="getBarMarginRight(openHours.to)+'%'">
+					<div class="titleHoursStart">{{hour2string(openHours.from)}}</div>
+					<div class="titleHoursEnd">{{hour2string(openHours.to)}}</div>
 				</div>
 			</div>
 		</div>

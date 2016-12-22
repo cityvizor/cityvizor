@@ -32,6 +32,7 @@ export class EntityProfileComponent {
 			if(!this.profile || this.profile._id !== params["id"]) {
 				this._ds.getProfile(params["id"]).then(profile => {
 					this.profile = profile;
+					console.log(profile);
 				});
 			}
 			this.view = params["view"];
