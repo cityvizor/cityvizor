@@ -1,4 +1,4 @@
-import { Module } from "./schema";
+import { Module } from "../schema/module";
 
 export const MODULES: Module[] = [
 	{"id": "prehled", "name": "Přehled", "optional": false, "icon": "fa fa-tasks"},

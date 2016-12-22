@@ -4,6 +4,7 @@
 /app/**/*.js.map
 !systemjs.config.js
 !index.html
+!index.ts
 
 # dependencies
 /node_modules

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { paragraphNames } from '../paragraph-names.data';
+import { paragraphNames } from '../../../shared/data/paragraph-names.data';
 
 // array with groups that vizualization is made of (fixed, does not vary with data) 
 const ChartGroups = [

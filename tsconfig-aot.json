@@ -13,7 +13,8 @@
 		]
 	},
 	"include": [
-		"app/**/*"
+		"app/**/*",
+		"aot/index.ts"
 	],
 	"angularCompilerOptions": {
 		"genDir": "./aot",

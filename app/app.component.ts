@@ -13,7 +13,7 @@ import { ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
 })
 export class AppComponent {
 
-	private viewContainerRef: ViewContainerRef; //ng2-bootstrap requirement
+	private viewContainerRef: ViewContainerRef; // ng2-bootstrap requirement
 
 	@ViewChild('loginModal')
 	public loginModal;
@@ -33,7 +33,7 @@ export class AppComponent {
 
 		this.toasts = this.toastService.toasts;		
 		
-		componentsHelper.setRootViewContainerRef(viewContainerRef); //ng2-bootstrap requirement
+		componentsHelper.setRootViewContainerRef(viewContainerRef); // ng2-bootstrap requirement
 	}
 
 	login(){

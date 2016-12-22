@@ -38,10 +38,10 @@ import { Ng2BootstrapModule, ComponentsHelper } from 'ng2-bootstrap/ng2-bootstra
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 
 // Shared coremponents
-import { ProfileMapComponent } 		from './components/profile-map/profile-map.component';
+import { ProfileMapComponent } 		from './shared/components/profile-map/profile-map.component';
 
 // Pipes
-import { MoneyPipe } from './pipes/money.pipe';
+import { MoneyPipe } from './shared/pipes/money.pipe';
 
 // Routes
 import { routing } from './app.routing';

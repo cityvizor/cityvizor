@@ -13,9 +13,7 @@
 		]
 	},
 	"include": [
-		"app/**/*"
-	],
-	"exclude": [
-		"aot/**/*"
+		"app/**/*",
+		"aot/index.ts"
 	]
 }

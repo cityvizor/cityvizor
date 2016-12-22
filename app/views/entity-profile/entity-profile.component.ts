@@ -3,8 +3,9 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { DataService } 		from '../../services/data.service';
 import { UserService } 		from '../../services/user.service';
-import { Module } from "../../shared/schema";
-import { MODULES } from "../../shared/modules";
+
+import { Module } from "../../shared/schema/module";
+import { MODULES } from "../../shared/data/modules";
 
 //00006947
 @Component({

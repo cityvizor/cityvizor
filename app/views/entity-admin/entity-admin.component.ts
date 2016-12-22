@@ -4,8 +4,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ToastService } 		from '../../services/toast.service';
 import { DataService } 		from '../../services/data.service';
 
-import { Module } from "../../shared/schema";
-import { MODULES } from "../../shared/modules";
+import { Module } from "../../shared/schema/module";
+import { MODULES } from "../../shared/data/modules";
 
 
 @Component({
