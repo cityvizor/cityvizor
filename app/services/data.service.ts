@@ -47,15 +47,26 @@ export class DataService {
 	}
 
 	/* EXPENDITURES */
-	getExpenditures(id,year){
+	getBudget(id,year){
 		if(!year) year = (new Date()).getFullYear();
-		return this.http.get("/api/vydaje/" + id + "/" + year).toPromise().then(response => response.json());
+		return this.http.get("/api/expenditures/" + id + "/budget/" + year).toPromise().then(response => response.json());
 	}	
 
-	getExpendituresUploader(id,year){
-		if(!id || !year) return null;
-		var url = "/api/vydaje/" + id + "/" + year;
-		return new FileUploader({url: url});
+	getExpendituresUploader(profileId,year){
+		if(!profileId || !year) return null;
+		var url = "/api/expenditures/" + profileId + "/import/" + year;
+		return new FileUploader({
+			url: url,
+			authToken: "Bearer " + window.localStorage.getItem("id_token")
+		});
+	}
+	
+	getExpenditureEvents(profileId){
+		return this.http.get("/api/expenditures/" + profileId + "/events").toPromise().then(response => response.json());
+	}
+	
+	getNoticeBoardIds(profileId){
+		return this.http.get("/api/uredni-desky/" + profileId + "/ids").toPromise().then(response => response.json());
 	}
 	
 }

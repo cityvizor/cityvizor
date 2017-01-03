@@ -6,64 +6,76 @@ module.exports = router;
 
 var acl = require("../acl/index");
 
-var https = require("https");
+var sget = require("simple-get");
 
-function sendGET(path,params,success,error){
-	
-	if(params) path = path + "?" + params.map(item => item[0] + "=" + item[1]).join("&");
-	var options = {
-		host: 'edesky.cz',
-		port: 443,
-		path: path,
-		method: 'GET'
-	}
-	
-	var edesky_req = https.request(options, edesky_res => {
-		var output = '';
-		edesky_res.setEncoding('utf8');
+var Profile = require("../models/profile");
+var Entity = require("../models/entity");
 
-		edesky_res.on('data', function (chunk) {
-			output += chunk;
-		});
-		
-		edesky_res.on('end', () => success(output));
+function getIDs(profileId){
+	return new Promise((resolve,reject) => {
+
+		Profile
+			.findOne({_id:profileId})
+			.select("entity")
+			.populate("entity","_id edesky mapasamospravy")
+			.exec((err,profile) => {
+				if(profile) resolve(profile.entity);
+				else reject(err);
+			});
 	});
-
-	edesky_req.on('error', (err) => error(err));
-
-	edesky_req.end();
 }
 
-router.get("/", acl("edesky","read"), (req,res) => {
-	
-	sendGET('/api/v1/dashboards',null,(data) => {
-		res.type("application/xml");
-		res.send(data);
-	}, (err) => res.next(err));
-	
-});
-					 
-router.get("/:id", acl("edesky","read"), (req,res) => {
-	
-	var params = [
-		["created_from", "2016-06-01"],
-		["dashboard_id", req.params.id],
-		["order", "date"],
-		["search_with", "sql"],
-		["page", "1"],
-	];
-	
-	sendGET('/api/v1/documents',params,(data) => {
-		res.type("application/xml");
-		res.send(data);
-	}, (err) => res.next(err));
+router.get("/", acl("edesky","list"), (req,res) => {
+	Entity.find({}).select("_id name edesky mapasamospravy")
+		.then(list => res.json(list))
+		.catch(err => res.sendStatus(500));	
 });
 
-router.get("/preview/:document", acl("edesky","read"), (req,res) => {
+router.get("/:id/ids", acl("edesky","read"), (req,res) => {
+	getIDs(req.params.id).then(ids => res.json(ids)).catch(err => {
+		res.sendStatus(404);
+	});
+});
 
-	sendGET('/dokument/' + req.params.document + '.txt',null,(data) => {
-		res.type("text/plain");
-		res.send(data);
-	}, (err) => res.next(err));
+router.get("/:id/list", acl("edesky","read"), (req,res) => {
+	
+	getIDs(req.params.id)
+		.then((ids) => {
+
+			var params = [
+				["created_from", "2016-06-01"],
+				["dashboard_id", ids.edesky],
+				["order", "date"],
+				["search_with", "sql"],
+				["page", "1"],
+			];
+		
+			var path = 'https://edesky.cz/api/v1/documents' + "?" + params.map(item => item[0] + "=" + item[1]).join("&");
+
+			sget(path, (err,sres) => {
+				if(err) res.sendStatus(sres.statusCode);
+				else {
+					res.type("application/xml");
+					sres.pipe(res);
+				}
+			});
+		})
+		.catch(err => res.sendStatus(404));
+
+});
+
+router.get("/:id/preview/:document", acl("edesky","read"), (req,res) => {
+
+	var path = 'https://edesky.cz/dokument/' + req.params.document + '.txt';
+	
+	sget(path, (err,sres) => {
+		if(err) res.sendStatus(sres.statusCode);
+		else {
+			res.type("text/plain");
+			sres.pipe(res);
+		}
+	});
 	
 });
+
+

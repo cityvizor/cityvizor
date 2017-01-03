@@ -4,8 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ToastService } 		from '../../services/toast.service';
 import { DataService } 		from '../../services/data.service';
 
-import { Module } from "../../shared/schema/module";
-import { MODULES } from "../../shared/data/modules";
+import { Module, MODULES } from "../../shared/data/modules";
 
 
 @Component({
@@ -25,6 +24,8 @@ export class EntityAdminComponent {
 
 	modules: Array<Module>;
 	
+	activeModule: Module;
+	
 	year = 2016;
 
 	constructor(private _route: ActivatedRoute, private _router: Router, private _ds: DataService, private _toastService: ToastService) {
@@ -32,18 +33,31 @@ export class EntityAdminComponent {
 		this.modules = MODULES;
 
 		this._route.params.forEach((params: Params) => {
-			this.view = params["view"];
-			if(!this.profile || (this.profile && this.profile._id !== params["id"])){
-				this._ds.getProfile(params["id"]).then(profile => {
-					this.profile = profile;
-					this.oldProfile = JSON.parse(JSON.stringify(this.profile));
-				});
-			}
+			
+			this.loadProfile(params["id"])
+			
+			this.activeModule = null;
+			
+			this.modules.some(item => {
+				if(item.url === params["view"]) {
+					this.activeModule = item;
+					return true;
+				}
+			});
 		});
 		
 		setInterval(() => this.refreshDataString(),100);
 	}
-	
+
+	loadProfile(id){
+		if(!this.profile || (this.profile && this.profile._id !== id)){
+			this._ds.getProfile(id).then(profile => {
+				this.profile = profile;
+				this.oldProfile = JSON.parse(JSON.stringify(this.profile));
+			});
+		}
+	}
+
 	saveProfile(){
 		var toast = this._toastService.toast("Ukládám...", "notice");
 		this._ds.saveProfile(this.profile)
@@ -59,9 +73,9 @@ export class EntityAdminComponent {
 			});
 	}
 	
-	getModuleData(moduleId){
-		if(!this.profile.data.modules[moduleId]) this.profile.data.modules[moduleId] = {};
-		return this.profile.data.modules[moduleId];
+	getModuleData(viz){
+		if(!this.profile.data.modules[viz.id]) this.profile.data.modules[viz.id] = {};
+		return this.profile.data.modules[viz.id];
 	}
 
 	refreshDataString(){
@@ -69,7 +83,7 @@ export class EntityAdminComponent {
 	}
 	
 	getModuleLink(openModule){
-		return ['../' + openModule.id];
+		return ['../' + openModule.url];
 	}
 	
 	getCloseLink(openModule){

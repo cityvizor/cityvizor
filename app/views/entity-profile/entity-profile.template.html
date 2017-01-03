@@ -22,7 +22,7 @@
 				<div class="col-sm-3">
 
 					<div class="list-group">
-						<a  *ngFor="let module of modules" [style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module.id)" class="list-group-item" routerLinkActive="active">
+						<a  *ngFor="let module of modules" [style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module)" class="list-group-item" routerLinkActive="active">
 							<i class="fa" [class]="module.icon"></i> {{module.name}}
 						</a>
 					</div>
@@ -31,15 +31,17 @@
 					</ul>
 
 				</div>
-				<div class="col-sm-9" [ngSwitch]="view">
+				<div class="col-sm-9" [ngSwitch]="activeModule.id">
 
-					<dash-board *ngSwitchCase="'prehled'" [profile]="profile"></dash-board>
+					<dash-board *ngSwitchCase="'dash-board'" [profile]="profile"></dash-board>
 
-					<expenditure-view *ngSwitchCase="'vydaje'" [profile]="profile"></expenditure-view>
+					<expenditure-viz *ngSwitchCase="'expenditure-viz'" [profile]="profile"></expenditure-viz>
+					
+					<expenditure-events *ngSwitchCase="'expenditure-events'" [profile]="profile"></expenditure-events>
 
-					<notice-board *ngSwitchCase="'uredni-deska'" [entity]="profile"></notice-board>
+					<notice-board *ngSwitchCase="'notice-board'" [profile]="profile"></notice-board>
 
-					<management-review *ngSwitchCase="'prezkum-hospodareni'" [entity]="profile"></management-review>
+					<management-review *ngSwitchCase="'management-overview'" [entity]="profile"></management-review>
 
 				</div>
 			</div>

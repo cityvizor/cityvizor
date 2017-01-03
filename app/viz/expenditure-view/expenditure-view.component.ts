@@ -18,7 +18,7 @@ export class ExpenditureViewComponent {
 	
 	@Input()
 	set profile(profile: any ){
-		if(profile && profile.entity && profile.entity._id) this.loadData(profile.entity._id,this.year);
+		if(profile && profile.entity && profile.entity._id) this.loadData(profile.entity._id,2016);
 	}
 	
 	// decides which year's data should be loaded

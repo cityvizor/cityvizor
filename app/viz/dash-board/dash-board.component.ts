@@ -51,7 +51,7 @@ export class DashboardComponent {
 
 	hour2number(hour){
 		var parts = hour.split(":");
-		var number = Number(parts[0] + (parts[1] ? "." + (Number(parts[1]) / 60) : ""));
+		var number = Number(parts[0]) + (parts[1] ? Number(parts[1]) / 60 : 0);
 		return number;
 	}
 

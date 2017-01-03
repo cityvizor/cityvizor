@@ -22,7 +22,9 @@ var entitySchema = mongoose.Schema({
 		"streetNo": String,
 		"city": String,
 		"postalCode": String
-	}
+	},
+	"edesky": Number,
+	"mapasamospravy": Number	
 });
 
 var Entity = module.exports = mongoose.model('Entity', entitySchema);

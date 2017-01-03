@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "concurrently \"tsc -w\" \"nodemon server/server-dev.js\"",
-    "build": "ngc -p tsconfig-aot.json && rollup -c rollup-config.js"
+    "build": "ngc -p tsconfig-aot.json && rollup -c rollup-config.js",
+    "db": "cd ./node_modules/mongo-express/ && node app.js"
   },
   "keywords": [
     "opendata",
@@ -46,6 +47,7 @@
     "proj4": "^2.3.15",
     "reflect-metadata": "^0.1.3",
     "rxjs": "5.0.0-beta.12",
+    "simple-get": "^2.3.0",
     "stream-transform": "^0.1.1",
     "systemjs": "0.19.40",
     "zone.js": "^0.6.26"
@@ -53,6 +55,7 @@
   "devDependencies": {
     "@types/core-js": "^0.9.34",
     "concurrently": "^3.0.0",
+    "mongo-express": "^0.34.0",
     "nodemon": "^1.11.0",
     "rollup": "^0.36.4",
     "rollup-plugin-commonjs": "^5.0.5",

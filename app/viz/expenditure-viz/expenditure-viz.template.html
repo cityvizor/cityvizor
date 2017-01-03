@@ -1,0 +1,171 @@
+<h2>
+	<i class="fa fa-plus-circle"></i>
+	<span>Výdaje</span>
+</h2>
+<hr>
+
+<div>
+	<!-- VIZUALIZACE -->
+	<div class="drawing" #drawing>
+		<div class="row">
+			<div [attr.class]="!selectedGroup?'col-sm-8':'col-sm-6'">
+				<div class="skupina-label text-center" *ngIf="!selectedGroup">
+					<span *ngIf="hoverGroup" class="label label-primary">{{hoverGroup.title}}</span>
+					<span *ngIf="!hoverGroup && selectedGroup" class="label label-primary">{{selectedGroup.title}}</span>
+					<span *ngIf="!hoverGroup && !selectedGroup" class="label label-default">Kliknutím zobrazte vybranou skupinu...</span>
+					&nbsp;
+				</div>
+				<svg width="100%" viewBox="0 0 1000 1000">
+
+					<g *ngFor="let group of groups; let i = index">
+						<path [attr.d]="getEStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#E73431' : '#2581C4'" />
+						<path [attr.d]="getBStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#ff9491' : '#ADF'" />
+
+						<path [attr.d]="getStripePath(i,innerSize,1)" stroke-width="0" fill="#aaa" [attr.class]="(hoverGroup==group?'active':'')+' bgstripe'" (mouseover)="hoverGroup=group" (mouseout)="hoverGroup=null" (click)="selectGroup(group,true)" />
+					</g>
+
+					<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" [attr.fill]="selectedGroup==null ? '#F3F3F3' : '#F3F3F3'" stroke-width="10" stroke="#fff" (click)="selectGroup(null,false)" class="circle" />
+
+					<path [attr.d]="generateStripePath(cx,cy,0,75,0,data.expenditureAmount/data.budgetAmount)" stroke-width="0" fill="#fff" opacity="0.8"/>
+
+					<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 15" text-anchor="middle" style="font-family:Roboto;font-size:50px;" fill="#E73431">{{data.budgetAmount | money:0:true}}</text>
+					<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 35" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">Čerpání: {{data.expenditureAmount | money:0:true}}</text>
+
+					<g *ngFor="let group of groups; let i = index">
+						<g >
+							<circle *ngIf="selectedGroup==group || (!selectedGroup && hoverGroup==group)"  r="10" [attr.cx]="getLineCircleCoordinates(i,'x')" [attr.cy]="getLineCircleCoordinates(i,'y')" stroke="#FFF" stroke-width="3"  fill="#E73431" />
+							<path *ngIf="!selectedGroup && hoverGroup==group" [attr.d]="getLinePath(i)" stroke="#E73431" stroke-width="2" fill="none"/>
+						</g>
+					</g>
+
+					<g *ngIf="!hoverGroup && !selectedGroup">
+						<circle r="10" [attr.cx]="cx" [attr.cy]="50" fill="#777" stroke="#FFF" stroke-width="2" />
+						<path d="M 500,0 L 500,50" stroke="#777" stroke-width="2" fill="none"/>
+					</g>
+				</svg>
+			</div>	
+			<div [attr.class]="!selectedGroup?'col-sm-4':'col-sm-6 groupListShort'">
+				<table class="table table-responsive table-groupList">
+					<thead>
+						<tr>
+							<td></td>
+							<th class="small">Rozpočtová skupina</th>
+						</tr>
+					</thead>
+					<tbody id="groupListTableBody">
+						<tr *ngFor="let group of groups" (mouseover)="hoverGroup=group" (mouseout)="hoverGroup=null" [attr.class]="(hoverGroup==group || selectedGroup==group)?'tr-focus':''" (click)="selectGroup(group,false)">
+							<td>
+								<div class="bar">
+									<div class="bar-budget" [style.width]="getBarBudgetPercentage(group)+'%'">
+										<div class="bar-expenditure" [style.width]="getBarExpenditurePercentage(group)+'%'">
+										</div>
+									</div>
+								</div>
+							</td>
+							<td>{{group.title}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="selectedGroup" id="selectedGroup">
+		<hr>
+		<h3>
+			<i class="fa fa-chevron-circle-right"></i> {{selectedGroup.title}}
+			<span class="pull-right text-muted small" (click)="selectGroup(null,false)"><i class="fa fa-times"></i> zavřít</span>
+		</h3>
+		<div style="clear:both;">
+			<br>
+		</div>
+
+		<div *ngIf="!data.groupIndex[selectedGroup.id]" class="text-center">
+			<span class="label label-warning"><i class="fa fa-warning"></i> Tato skupina nemá žádnou rozpočtovanou položku!</span>		
+		</div>
+
+		<div *ngIf="data.groupIndex[selectedGroup.id]">
+
+			<div *ngFor="let paragraph of data.groupIndex[selectedGroup.id].paragraphs" class="paragraph">
+
+				<div class="graph">
+					<svg height="100px" width="100px" viewBox="0 0 1000 1000">
+						<path [attr.d]="generateStripePath(500,500,250,400,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0,paragraph.budgetAmount ? 1 - paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="10" stroke="#fff" fill="#ff9491" />
+
+						<path *ngIf="paragraph.expenditureAmount" [attr.d]="generateStripePath(500,500,250,500,0,paragraph.budgetAmount ? paragraph.expenditureAmount / paragraph.budgetAmount : 0)" stroke-width="10" stroke="#E73431" fill="#E73431" />
+						<path *ngIf="paragraph.budgetAmount && paragraph.expenditureAmount === 0" [attr.d]="generateStripePath(500,500,250,500,0,0.001)" stroke-width="10" stroke="#E73431" fill="#E73431" />
+					</svg>
+
+					<br>
+
+					<span style="color:#E73431;">&#9632;</span> Čerpáno: {{paragraph.expenditureAmount | money:0:true}} Kč
+					<br>
+					<span *ngIf="paragraph.expenditureAmount <= paragraph.budgetAmount">
+						<span style="color:#ff9491;">&#9632;</span> Zbývá: {{paragraph.budgetAmount - paragraph.expenditureAmount | money:0:true}} Kč
+					</span>
+					<span *ngIf="paragraph.expenditureAmount > paragraph.budgetAmount">Překročeno o {{paragraph.expenditureAmount - paragraph.budgetAmount | money:0:true}} Kč</span> 
+
+				</div>
+
+				<div class="content">
+					<span class="label label-primary">{{paragraph.id}} - {{paragraphNames[paragraph.id]}}</span>
+					<span *ngIf="paragraph.expenditureAmount > paragraph.budgetAmount" class="label label-warning"><i class="fa fa-warning"></i> Překročen rozpočet!</span>
+
+					<table class="viztable table table-responsive small">
+						<thead>
+							<tr>
+								<th>Investiční akce</th>
+								<th>Realizované výdaje</th>
+								<th>Rozpočet</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let event of paragraph.events">
+								<td><a (click)="eventReceiptsModal.show()">{{event.name}}</a></td>
+								<td>{{event.expenditureAmount | money:0:true}} Kč</td>
+								<td>{{event.budgetAmount | money:0:true}} Kč</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<hr>
+			</div>
+		</div>
+	</div>
+
+	<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" (click)="eventReceiptsModal.hide()" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Investiční akce - Volby 2016</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-responsive small">
+						<thead>
+							<tr>
+								<th>Datum</th>
+								<th>Dodavatel</th>
+								<th class="text-right">Částka</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let receipt of loremIpsumReceipts">
+								<td>{{receipt.date}}</td>
+								<td class="text-left">{{receipt.supplier}}</td>
+								<td class="text-right">{{receipt.amount | money:0:true}} Kč</td>
+								<td>
+									<a class="btn btn-xs btn-primary"><i class="fa fa-link"></i> ARES</a>
+									<a class="btn btn-xs btn-warning"><i class="fa fa-file-text"></i> Dodavatel</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

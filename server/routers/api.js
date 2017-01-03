@@ -9,6 +9,13 @@ var jwtOptions = {
 	credentialsRequired: false
 };
 router.use(jwt(jwtOptions));
+
+router.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(err.status);
+		res.send("Unauthorized" + (err.message ? ": " + err.message : ""));
+  }
+});
 	
 router.use("/prehled",require("../api/prehled"));
 
@@ -16,7 +23,7 @@ router.use("/entities",require("../api/entities"));
 
 router.use("/profiles",require("../api/profiles"));
 
-router.use("/vydaje",require("../api/vydaje"));
+router.use("/expenditures",require("../api/expenditures"));
 
 router.use("/prezkum-hospodareni",require("../api/prezkum-hospodareni"));
 

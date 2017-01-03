@@ -7,11 +7,11 @@ import { FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
 @Component({
 	moduleId: module.id,
-	selector: 'expenditure-view-admin',
-	templateUrl: 'expenditure-view-admin.template.html',
+	selector: 'expenditure-viz-admin',
+	templateUrl: 'expenditure-viz-admin.template.html',
 	styles: []
 })
-export class ExpenditureViewAdminComponent{
+export class ExpenditureVizAdminComponent{
 	
 	@Input()
 	set profile(profile){

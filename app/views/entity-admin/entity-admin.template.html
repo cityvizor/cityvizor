@@ -36,29 +36,32 @@
 
 				</div>
 
-				<div class="col-sm-8" [ngSwitch]="view">
-					<div [ngSwitch]="view">
+				<div class="col-sm-8">
+					
+					<!-- IF MODULE SELECTED THEN OPEN MODULE ADMIN -->
+					<div *ngIf="activeModule" [ngSwitch]="activeModule.id">
 
-						<dash-board-admin *ngSwitchCase="'dashboard'" [profile]="profile"></dash-board-admin>
+						<dash-board-admin *ngSwitchCase="'dash-board'" [profile]="profile"></dash-board-admin>
 
-						<expenditure-view-admin *ngSwitchCase="'vydaje'" [profile]="profile"></expenditure-view-admin>
+						<expenditure-viz-admin *ngSwitchCase="'expenditure-viz'" [profile]="profile"></expenditure-viz-admin>
 
-						<notice-board-admin *ngSwitchCase="'uredni-deska'" [profile]="profile" (save)="saveProfile()"></notice-board-admin>
-
-						<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [profile]="profile" (save)="saveProfile()"></entity-admin-modules>
+						<notice-board-admin *ngSwitchCase="'notice-board'" [profile]="profile" (save)="saveProfile()"></notice-board-admin>
 
 						<div *ngSwitchDefault>
 							<p>Tento modul nemá žádná nastavení.</p>
 						</div>
-
 					</div>
 
+					<!-- ELSE OPEN MAIN ADMIN -->
+					<entity-admin-modules *ngIf="!activeModule" [profile]="profile" (save)="saveProfile()"></entity-admin-modules>				
+
+					<!-- SHOW CURRENT DATA -->
 					<div>
 						<pre>{{dataString}}</pre>
 					</div>
-
+					
 				</div>
-
-
+				
 			</div>
 		</div>
+	</div>

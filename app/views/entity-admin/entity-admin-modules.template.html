@@ -10,8 +10,8 @@
 		<th>{{module.name}}</th>
 		<td>
 			<div *ngIf="module.optional" class="btn-group pull-right">
-				<button type="button" class="btn btn-sm btn-default" [class.active]="profile.modules[module.id]" (click)="setViewState(module.id,true)">Zapnuto</button>
-				<button type="button" class="btn btn-sm btn-default" [class.active]="!profile.modules[module.id]" (click)="setViewState(module.id,false)">Vypnuto</button>
+				<button type="button" class="btn btn-sm btn-default" [class.active]="profile.modules[module.id]" (click)="setViewState(module,true)">Zapnuto</button>
+				<button type="button" class="btn btn-sm btn-default" [class.active]="!profile.modules[module.id]" (click)="setViewState(module,false)">Vypnuto</button>
 			</div>
 		</td>
 		<td>

@@ -9,16 +9,25 @@ var upload = multer({ dest: 'uploads/' });
 var acl = require("../acl/index");
 
 var Budget = require("../models/expenditures").Budget;
+var Event = require("../models/expenditures").Event;
+
 var ExpenditureImport = require("../import/expenditures");
 
-router.get("/:id/:rok", acl("budget", "read"), (req,res) => {
-	Budget.findOne({entityId:req.params.id,year:req.params.rok}, (err,item) => {
+router.get("/:id/budget/:rok", acl("budget", "read"), (req,res) => {
+	Budget.findOne({profileId:req.params.id,year:req.params.rok}, (err,item) => {
 		if(item) res.json(item);
 		else res.status(404).send('Not found');
 	});
 });
 
-router.post("/:id/:rok", acl("expenditures", "write"), upload.single('file'), (req,res) => {
+router.get("/:id/events", acl("expenditures", "read"), (req,res) => {
+	Event.findOne({profileId:req.params.id}, (err,item) => {
+		if(item) res.json(item);
+		else res.status(404).send('Not found');
+	});
+});
+
+router.post("/:id/import/:rok", acl("expenditures", "write"), acl("budget", "write"), upload.single('file'), (req,res) => {
 	
 	console.log(req.file);
 	

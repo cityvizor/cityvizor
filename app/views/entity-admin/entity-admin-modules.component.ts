@@ -3,8 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ToastService } 		from '../../services/toast.service';
 import { DataService } 		from '../../services/data.service';
 
-import { Module } from "../../shared/schema/module";
-import { MODULES } from "../../shared/data/modules";
+import { Module, MODULES } from "../../shared/data/modules";
 
 @Component({
 	moduleId: module.id,
@@ -25,8 +24,8 @@ export class EntityAdminModulesComponent {
 		this.modules = MODULES;
 	}
 
-	setViewState(view: string,value: boolean){
-		this.profile.modules[view] = value;
+	setViewState(viz: Module,value: boolean){
+		this.profile.modules[viz.id] = value;
 		this.save.emit();
 	}
 

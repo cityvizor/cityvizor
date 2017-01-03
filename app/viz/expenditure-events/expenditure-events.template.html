@@ -1,0 +1,43 @@
+<h3>
+	<i class="fa fa-tasks"></i>
+	<span>Investiční akce</span>
+</h3>
+<hr>
+
+<div class="row">
+	<div class="col-sm-4">
+		<button class="btn btn-default btn-sm">
+			<i class="fa fa-chevron-left"></i> 2015
+		</button>
+	</div>
+	<div class="col-sm-4 text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-sm btn-default active">ROK</button>
+			<button type="button" class="btn btn-sm btn-default">POLOLETÍ</button>
+			<button type="button" class="btn btn-sm btn-default">ČTVRTLETÍ</button>
+		</div>
+	</div>
+	<div class="col-sm-4 text-right">
+		<button class="btn btn-default btn-sm">
+			2017 <i class="fa fa-chevron-right"></i>
+		</button>
+	</div>
+</div>
+
+<div class="row eETimeline">
+	<p class="text-center text-muted small">2016</p>
+	<div class="rulerBars">
+		<label *ngFor="let mesic of nazvyMesice">{{mesic}}</label>
+	</div>
+
+	<div class="eEBars">
+		<div class="eEBarBounds" *ngFor="let ee of LoremEE" [style.margin-left]="(getDateRangeFrac(ee.dateOfFirst)*100)+'%'" [style.margin-right]="(100*(1-getDateRangeFrac(ee.dateOfLast)))+'%'">
+			<div class="barArrow leftArrow" *ngIf="isOverlapToPast(ee.dateOfFirst)"></div>
+			<div class="amountBubble" [style.width]="getAmountBubbleSize(ee.sumAmount)+'px'" [style.height]="getAmountBubbleSize(ee.sumAmount)+'px'" ></div>
+			<div class="eEBar">
+				<div class="title">{{ee.title}}</div>
+			</div>
+			<div class="barArrow rightArrow" *ngIf="isOverlapToFuture(ee.dateOfLast)"></div>
+		</div>
+	</div>
+</div>

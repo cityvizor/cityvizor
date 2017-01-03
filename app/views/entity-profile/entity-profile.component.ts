@@ -4,8 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { DataService } 		from '../../services/data.service';
 import { UserService } 		from '../../services/user.service';
 
-import { Module } from "../../shared/schema/module";
-import { MODULES } from "../../shared/data/modules";
+import { Module, MODULES } from "../../shared/data/modules";
 
 //00006947
 @Component({
@@ -21,6 +20,8 @@ export class EntityProfileComponent {
 	profile: any;
 	
 	modules: Module[];
+
+	activeModule: Module;
 	
 	year = 2016;
 
@@ -35,7 +36,14 @@ export class EntityProfileComponent {
 					console.log(profile);
 				});
 			}
-			this.view = params["view"];
+			
+			this.modules.some(item => {
+				if(item.url === params["view"]){
+					this.activeModule = item;
+					return true;
+				}
+			});
+			
 		});
 	}
 
@@ -44,7 +52,7 @@ export class EntityProfileComponent {
 	}
 	
 	getVizLink(viz){
-		return ['/profil/' + this.profile._id + '/' + viz];
+		return ['/profil/' + this.profile._id + '/' + viz.url];
 	}
 	
 	getAdminLink(){

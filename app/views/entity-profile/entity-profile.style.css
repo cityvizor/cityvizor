@@ -43,3 +43,7 @@
 	min-height:800px;
 }
 
+.list-group {
+	position: relative;
+	z-index: 1;
+}

@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 
-import { paragraphNames } from '../../../shared/data/paragraph-names.data';
+import { DataService } from '../../services/data.service';
+import { ToastService } 		from '../../services/toast.service';
+
+import { paragraphNames } from '../../shared/data/paragraph-names.data';
 
 // array with groups that vizualization is made of (fixed, does not vary with data) 
 const ChartGroups = [
@@ -53,6 +56,35 @@ Component for graphical vizualization of expenditures
 })
 export class ExpenditureVizComponent{
 	
+	/* DATA */
+	@Input()
+	set profile(profile: any ){
+		if(profile) this.loadData(profile._id,this.year);
+	}
+	
+	// decides which year's data should be loaded
+	year: number = 2016;
+
+	// the data loaded
+	data = {
+		year: this.year,
+		
+		events: [],
+		groups:[],
+		paragraphs: [],
+		
+		expenditureAmount: 0,
+		maxExpenditureAmount: 0,
+		budgetAmount: 0,
+		maxBudgetAmount: 0,
+		
+		groupIndex: {},
+		paragraphIndex: {},
+		eventIndex: {}
+	};
+	
+	/* VIZ */
+
 	// the dimensions of the drawing	
 	scale: number = 1;
 	r: number = 500;	// set according to drawingElSize
@@ -72,14 +104,112 @@ export class ExpenditureVizComponent{
 	selectedGroup: any = null;
 
 	paragraphNames = paragraphNames;
-
-	// the data used in vizualization, imputted by data attribute of its DOM element
-	@Input()
-	data: any;
 	
-	constructor(){
+	constructor(private _ds: DataService, private _toastService: ToastService){
 		this.groups = ChartGroups; // set groups
 		this.loremIpsumReceipts = LoremIpsumReceipts; // set groups
+	}
+	 
+	 // numbers are parsed from CSV as text
+	string2number(string){
+		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1); //sometimes minus is at the end, put it to first character
+		string.replace(",","."); // function Number accepts only dot as decimal point
+		return Number(string);																									
+	}
+
+	loadData(id,year){
+		
+		if(!id || !year) return;
+		
+		var loadingToast = this._toastService.toast("Načítám data o výdajích...", "loading", true);
+		
+		// data on expenditures (from the organization accounting software) are loaded and parsed.
+		var i = 0;
+		
+		// we get a Promise
+		this._ds.getBudget(id,year)
+			.then((data) => {
+				this.linkData(data);
+				this.sortData(data);
+				console.log(data);
+				this.data = data;
+				loadingToast.hide();
+			})
+			.catch((err) => {
+				loadingToast.hide();
+				switch(err.status){
+					case 404:
+						this._toastService.toast("Data nejsou k dispozici", "warning");
+					case 503:
+						this._toastService.toast("Služba je momentálně nedostupná", "warning");
+					default:
+						this._toastService.toast("Nastala neočekávaná chyba","error");
+				}
+			});
+	}
+
+	findItem(array,id){
+		var found;
+		array.some(item => {
+			if(item.id === id) {
+				found = item;
+				return true;
+			}
+			return false;
+		});			
+		return found;
+	}
+
+	getGroupByParagraph(data,paragraph){
+		var groupId = paragraph.id.substring(0, 2);	
+		if(!data.groupIndex[groupId]){
+			var group = {
+				id: groupId,
+				budgetAmount:0,
+				expenditureAmount:0,
+				paragraphs: []
+			}
+			data.groupIndex[groupId] = group;
+			data.groups.push(group);
+		}		
+		return data.groupIndex[groupId];
+	}
+
+	linkData(data){
+		
+		data.groups = [];
+		
+		data.paragraphIndex = {};
+		data.groupIndex = {};
+		
+		data.maxBudgetAmount = 0;
+		data.maxExpenditureAmount = 0;
+		
+		data.paragraphs.forEach(paragraph => {
+			var group = this.getGroupByParagraph(data,paragraph);		
+			group.budgetAmount += paragraph.budgetAmount;
+			group.expenditureAmount += paragraph.expenditureAmount;
+			group.paragraphs.push(paragraph);
+			
+			data.paragraphIndex[paragraph.id] = paragraph;
+		});
+		
+		data.groups.forEach(group => {
+			data.maxBudgetAmount = Math.max(data.maxBudgetAmount,group.budgetAmount);
+			data.maxExpenditureAmount = Math.max(data.maxExpenditureAmount,group.expenditureAmount);
+		});
+		
+	}
+	
+	sortData(data){
+
+		var field1 = "expenditureAmount";
+		var field2 = "budgetAmount";
+		
+		data.groups.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
+		data.paragraphs.forEach(paragraph => {
+			paragraph.events.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
+		});
 	}
 
 	getLineCircleCoordinates (i,c) {

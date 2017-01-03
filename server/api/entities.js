@@ -23,7 +23,7 @@ router.get("/", acl("entity","read"), (req,res) => {
 	});
 });
 
-router.post("/", /*acl("entity","write"),*/ upload.single('file'), (req,res) => {
+router.post("/", acl("entity","write"), upload.single('file'), (req,res) => {
 
 	if(req.file.path){
 		console.log(req.file);

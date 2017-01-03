@@ -13,8 +13,17 @@ module.exports = {
 		"read": true
 	},
 	
+	"expenditures": {
+		"read": true
+	},
+	
 	"user": {
 		"login": true
+	},
+	
+	"edesky": {
+		"read": true,
+		"list": false
 	}
 	
 };

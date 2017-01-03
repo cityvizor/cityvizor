@@ -5,12 +5,12 @@ var profileSchema = mongoose.Schema({
 	"name": String,
 	"entity": { type: mongoose.Schema.Types.String, ref: 'Entity' },
 	"modules": {
-		"informace": Boolean,
-		"vydaje": Boolean,
-		"prijmy": Boolean,
-		"uredni-deska": Boolean,
-		"prezkum-hospodareni": Boolean,
-		"datove-zdroje": Boolean
+		"dash-board": Boolean,
+		"expenditure-viz": Boolean,
+		"expenditure-events": Boolean,
+		"notice-board": Boolean,
+		"management-review": Boolean,
+		"data-sources": Boolean
 	},
 	"data": {
 		"modules": {

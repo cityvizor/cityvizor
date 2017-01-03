@@ -14,16 +14,15 @@ import { EntityAdminComponent } from "./views/entity-admin/entity-admin.componen
 
 // Data viz components
 import { DashboardComponent } from "./viz/dash-board/dash-board.component";
-import { ExpenditureViewComponent } from './viz/expenditure-view/expenditure-view.component';
-import { ExpenditureListComponent } from './viz/expenditure-view/expenditure-list/expenditure-list.component';
-import { ExpenditureVizComponent } from './viz/expenditure-view/expenditure-viz/expenditure-viz.component';
+import { ExpenditureVizComponent } from './viz/expenditure-viz/expenditure-viz.component';
+import { ExpenditureEventsComponent } from './viz/expenditure-events/expenditure-events.component';
 import { ManagementReviewComponent } from "./viz/management-review/management-review.component";
 import { DataSourcesComponent } from "./viz/data-sources/data-sources.component";
 import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component";
 
 // Data viz components for data administration
 import { DashboardAdminComponent } from "./viz/dash-board/dash-board-admin.component";
-import { ExpenditureViewAdminComponent } from "./viz/expenditure-view/expenditure-view-admin.component";
+import { ExpenditureVizAdminComponent } from "./viz/expenditure-viz/expenditure-viz-admin.component";
 import { NoticeBoardAdminComponent } from "./viz/notice-board/notice-board-admin.component";
 import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules.component";
 
@@ -64,8 +63,8 @@ export function getAuthHttp(http) {
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
-		/* VIZ */ ExpenditureViewComponent, ExpenditureListComponent, ExpenditureVizComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
-		/* VIZ ADMIN */ DashboardAdminComponent, ExpenditureViewAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
+		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
+		/* VIZ ADMIN */ DashboardAdminComponent, ExpenditureVizAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
 		/* Components */ ProfileMapComponent,
 		/* PIPES */ MoneyPipe
 	],

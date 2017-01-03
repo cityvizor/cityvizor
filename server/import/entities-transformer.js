@@ -2,6 +2,57 @@ const Transform = require('stream').Transform;
 
 var proj4 = require("proj4");
 
+function parseOpenHours(string){
+	var openHours = {};
+
+	var regexp = /([a-zA-ZÚřČá,\.]+)\:? ?([0-9\.\:]+)\-([0-9\.\:]+)(, ?([0-9\.\:]+)\-([0-9\.\:]+))?/g;
+
+	var match;
+	while(match = regexp.exec(string)){
+
+
+		var days = match[1].split(",");
+		var from = match[2].replace(".",":");
+		var to = match[3].replace(".",":");
+
+		days.forEach(day => {
+
+			day = day.replace(".","");
+
+			var replaceSrc = ["Po","Út","St","Čt","Pá","So","Ne","Stř"];
+			var replaceDst = ["mo","tu","we","th","fr","sa","su","we"];
+
+			var i = replaceSrc.indexOf(day);
+			if(i < 0) return;
+
+			day = replaceDst[i];
+
+			replaceSrc.forEach((srcName,i) => {
+				day = day.replace(srcName,replaceDst[i]);
+			});
+
+			openHours[day] = [];
+			openHours[day].push({
+				"from": from,
+				"to": to
+			});
+
+			if(match[4] && match[5] && match[5]){
+				var from2 = match[5].replace(".",":");
+				var to2 = match[6].replace(".",":");
+				openHours[day].push({
+					"from": from2,
+					"to": to2
+				});
+			}
+
+		});
+
+	}
+	
+	return openHours;
+}
+
 module.exports = new Transform({
 		objectMode: true,
 		transform: function(entity, encoding, callback) {
@@ -11,52 +62,7 @@ module.exports = new Transform({
 				return;
 			}
 			
-			var openHours = {};
-			
-			var regexp = /([a-zA-ZÚřČá,\.]+)\:? ?([0-9\.\:]+)\-([0-9\.\:]+)(, ?([0-9\.\:]+)\-([0-9\.\:]+))?/g;
-
-			var match;
-			while(match = regexp.exec(entity["UREDNI_HODINY"])){
-
-				
-				var days = match[1].split(",");
-				var from = match[2].replace(".",":");
-				var to = match[3].replace(".",":");
-
-				days.forEach(day => {
-					
-					day = day.replace(".","");
-					
-					var replaceSrc = ["Po","Út","St","Čt","Pá","So","Ne","Stř"];
-					var replaceDst = ["mo","tu","we","th","fr","sa","su","we"];
-					
-					var i = replaceSrc.indexOf(day);
-					if(i < 0) return;
-					
-					day = replaceDst[i];
-					
-					replaceSrc.forEach((srcName,i) => {
-						day = day.replace(srcName,replaceDst[i]);
-					});
-					
-					openHours[day] = [];
-					openHours[day].push({
-						"from": from,
-						"to": to
-					});
-					
-					if(match[4] && match[5] && match[5]){
-						var from2 = match[5].replace(".",":");
-						var to2 = match[6].replace(".",":");
-						openHours[day].push({
-							"from": from2,
-							"to": to2
-						});
-					}
-					
-				});
-				
-			}
+			var openHours = parseOpenHours(entity["UREDNI_HODINY"]);
 			
 			var gps = [
 				entity["SX"] ? entity["SX"].replace(",",".") : null,
@@ -82,7 +88,9 @@ module.exports = new Transform({
 					"streetNo": entity["CISLO_POPISNE"],
 					"city": entity["MISTO"],
 					"postalCode": entity["PSC"]
-				}
+				},
+				"edesky": entity["EDESKY"],
+				"mapasamospravy": entity["MAPASAMOSPRAVY"]
 			};
 			
 			

@@ -1,5 +1,10 @@
 var Transform = require('stream').Transform;
 
+var ExpendituresSchema = require("../models/expenditures");
+var Budget = ExpendituresSchema.Budget;
+var Event = ExpendituresSchema.Event;
+var EventBudget = ExpendituresSchema.EventBudget;
+
 module.exports = class ExpenditureTransformer extends Transform {
 
 	constructor(entityId,year) {
@@ -21,6 +26,8 @@ module.exports = class ExpenditureTransformer extends Transform {
 			paragraphs: []
 		}
 		
+		this.eventBudget = {};
+		
 		this.i = 0;
 
 		this.paragraphIndex = {};
@@ -33,7 +40,6 @@ module.exports = class ExpenditureTransformer extends Transform {
 		if (!this.paragraphIndex[paragraphId]) {
 			var paragraph = {
 				id: paragraphId,
-				name: "nazev paragrafu",
 				expenditureAmount: 0,
 				budgetAmount: 0,
 				events: []
@@ -49,12 +55,12 @@ module.exports = class ExpenditureTransformer extends Transform {
 			var event = {
 				id: eventId,
 				name: eventName,
-				yearData:[{
+				budgetData:{
 					year: this.year,
 					paragraphs: [],
 					expenditureAmount: 0,
 					budgetAmount: 0
-				}],
+				},
 				gps: null
 			};
 			this.events.push(event);
@@ -68,11 +74,10 @@ module.exports = class ExpenditureTransformer extends Transform {
 		if (!this.eventParagraphIndex[epId]) {
 			var paragraph = {
 				id: paragraphId,
-				name: "nazev paragrafu",
 				expenditureAmount: 0,
 				budgetAmount: 0
 			};
-			event.yearData[0].paragraphs.push(paragraph);
+			event.budgetData.paragraphs.push(paragraph);
 			this.eventParagraphIndex[epId] = paragraph;
 		}
 		return this.eventParagraphIndex[epId];
@@ -104,14 +109,14 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		console.log("FLUSH Events: " + this.events.length);
 		
-		this.push({budget:this.budget,events:this.events});
+		this.push({type:"events",data:this.events});
+		this.push({type:"budget",data:this.budget});
+		
 		this.reset();
 		next();
 	}
 
-	_write(item, enc, next) {		
-		
-
+	_write(item, enc, next) {
 		
 		this.i++;
 		
@@ -135,12 +140,12 @@ module.exports = class ExpenditureTransformer extends Transform {
 		/* Expenditure amount */
 		amount = this.string2number(item[6]);
 
-		[budget, paragraph, event.yearData[0], eventParagraph, paragraphEvent].map(item => item.expenditureAmount += amount);
+		[budget, paragraph, event.budgetData, eventParagraph, paragraphEvent].map(item => item.expenditureAmount += amount);
 
 		/* Budget amount */
 		amount = this.string2number(item[8]);
 
-		[budget, paragraph, event.yearData[0], eventParagraph, paragraphEvent].map(item => item.budgetAmount += amount);
+		[budget, paragraph, event.budgetData, eventParagraph, paragraphEvent].map(item => item.budgetAmount += amount);
 
 		next();
 	}

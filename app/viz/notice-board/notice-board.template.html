@@ -9,7 +9,7 @@
 <hr>
 
 <div class="notice-board-list" [class.active]="show=='list'">
-	<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of list">
+	<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of documents">
 		<div class="row">
 			<div class="col-lg-10">
 				<strong>{{document.title}}</strong>
@@ -38,7 +38,7 @@
 				<strong class="pull-right text-muted">Zdroj: MapaSamospravy.cz</strong>
 				<br>
 				<div class="embed-responsive embed-responsive-4by3">
-					<iframe class="embed-responsive-item" src="http://mapasamospravy.cz/embed?q[lau_id_eq]=223#14/49.5614818775918/16.0742205422611"></iframe>
+					<iframe *ngIf="mapURL" class="embed-responsive-item" [src]="mapURL"></iframe>
 				</div>	
 			</div>
 		</div>
