@@ -24,11 +24,9 @@
 #headerObec h1 {
 	font-size: 3em;
 	display: inline-block;
-	width: 79%;
 }
 #headerObec nav {
 	display: inline-block;
-	width: 20%;
 }
 
 #headerObec a, #headerObec a:hover {color:white;text-decoration: none;}

@@ -19,6 +19,7 @@ import { ExpenditureEventsComponent } from './viz/expenditure-events/expenditure
 import { ManagementReviewComponent } from "./viz/management-review/management-review.component";
 import { DataSourcesComponent } from "./viz/data-sources/data-sources.component";
 import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component";
+import { EventDetailComponent } from "./viz/event-detail/event-detail.component";
 
 // Data viz components for data administration
 import { DashboardAdminComponent } from "./viz/dash-board/dash-board-admin.component";
@@ -38,6 +39,8 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 
 // Shared coremponents
 import { ProfileMapComponent } 		from './shared/components/profile-map/profile-map.component';
+import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart-bigbang.component';
+import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
 
 // Pipes
 import { MoneyPipe } from './shared/pipes/money.pipe';
@@ -63,9 +66,9 @@ export function getAuthHttp(http) {
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
-		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent,
+		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent, EventDetailComponent, 
 		/* VIZ ADMIN */ DashboardAdminComponent, ExpenditureVizAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
-		/* Components */ ProfileMapComponent,
+		/* Shared Components */ ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe
 	],
 	providers: [

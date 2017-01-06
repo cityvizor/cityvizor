@@ -58,11 +58,11 @@ export class EntityListComponent{
 		
 		profiles.forEach((profile,i) => {
 			
-			var letter = profile.name.substring(0,1).toUpperCase();
-			if(profile.name.substring(0,2).toUpperCase() === "CH") letter = "CH";
+			var letter = profile.entity.name.substring(0,1).toUpperCase();
+			if(profile.entity.name.substring(0,2).toUpperCase() === "CH") letter = "CH";
 			if(!letter.match(/^\w+$/)) letter = "#";
 			
-			profile.searchString = this.cleanString(profile.name);
+			profile.searchString = this.cleanString(profile.entity.name);
 			
 			var pushEntity = this.letters.some(item => {
 				if(item.letter === letter) {
@@ -99,7 +99,7 @@ export class EntityListComponent{
 	}
 
 	openProfile(profile){
-		this._router.navigate(['/profil',profile._id]);
+		this._router.navigate(['/profil',profile.url]);
 	}
 
 }

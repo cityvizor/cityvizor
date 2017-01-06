@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express');	
 var app = express();
 
 var router = express.Router();
@@ -10,24 +10,44 @@ var acl = require("../acl/index");
 
 var Budget = require("../models/expenditures").Budget;
 var Event = require("../models/expenditures").Event;
+var EventBudget = require("../models/expenditures").EventBudget;
 
 var ExpenditureImport = require("../import/expenditures");
 
-router.get("/:id/budget/:rok", acl("budget", "read"), (req,res) => {
-	Budget.findOne({profileId:req.params.id,year:req.params.rok}, (err,item) => {
+router.get("/budget/:id/:rok", acl("budget", "read"), (req,res) => {
+	Budget.findOne({profile:req.params.id,year:req.params.rok}, (err,item) => {
 		if(item) res.json(item);
 		else res.status(404).send('Not found');
 	});
 });
 
-router.get("/:id/events", acl("expenditures", "read"), (req,res) => {
-	Event.findOne({profileId:req.params.id}, (err,item) => {
+router.get("/events/:id", acl("expenditures", "read"), (req,res) => {
+	Event.findOne({_id:req.params.id}).lean().exec((err,event) => {
+		
+		if(!event) {
+			res.status(404).send('Not found');
+			return;
+		}
+		
+		EventBudget.find({event:event._id}, (err,eventBudgets) => {
+			
+			event.budgets = eventBudgets ? eventBudgets: [];
+			
+			res.json(event);
+			
+		});
+		
+	});
+});
+
+router.get("/events", acl("expenditures", "read"), (req,res) => {
+	Event.findOne({profile:req.params.id}, (err,item) => {
 		if(item) res.json(item);
 		else res.status(404).send('Not found');
 	});
 });
 
-router.post("/:id/import/:rok", acl("expenditures", "write"), acl("budget", "write"), upload.single('file'), (req,res) => {
+router.post("/import/:id/:rok", acl("expenditures", "write"), acl("budget", "write"), upload.single('file'), (req,res) => {
 	
 	console.log(req.file);
 	

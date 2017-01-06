@@ -6,7 +6,8 @@ var Entity = require("../server/models/entity");
 
 Profile.remove({},(err) => {
 	var testProfile = new Profile({
-		"_id": "nmnm",
+		"_id": "586c306447d31f11fdda05cb",
+		"url": "nmnm",
 		"name": "Nové Město na Moravě",
 		"entity": "596230",
 		"modules": {
@@ -43,7 +44,7 @@ bcrypt.hash("heslo", 10).then(hash => {
 		var testUser = new User({
 			"_id": "user@example.com",
 			"password": hash,
-			"managedProfiles": ["nmnm"],
+			"managedProfiles": ["586c306447d31f11fdda05cb"],
 			"roles": ["profile-manager"]
 		});
 

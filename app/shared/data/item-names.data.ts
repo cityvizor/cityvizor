@@ -1,4 +1,4 @@
-export const BudgetItems = {
+export const itemNames = {
 	"5011":"Platy zaměstnanců v pracovním poměru vyjma zaměstnanců na služebních místech",
 	"5012":"Platy zaměstnanců bezpečnostních sborů a ozbrojených sil ve služebním poměru",
 	"5013":"Platy zaměstnanců na služebních místech podle zákona o státní službě",

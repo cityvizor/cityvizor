@@ -52,10 +52,10 @@ export class EntityProfileComponent {
 	}
 	
 	getVizLink(viz){
-		return ['/profil/' + this.profile._id + '/' + viz.url];
+		return ['/profil/' + this.profile.url + '/' + viz.url];
 	}
 	
 	getAdminLink(){
-		return ['/profil/' + this.profile._id + '/admin'];
+		return ['/profil/' + this.profile.url + '/admin'];
 	}
 }

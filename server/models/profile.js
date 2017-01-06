@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var profileSchema = mongoose.Schema({
-	"_id": String,
+	"url": {type: String, index: true },
 	"name": String,
 	"entity": { type: mongoose.Schema.Types.String, ref: 'Entity' },
 	"modules": {

@@ -21,7 +21,7 @@
 				<g *ngFor="let profile of profiles" class="entityMapMarker">
 					<g *ngIf="!search || profile.searchString.match(search)">
 						<circle [attr.r]="(labels)?5:20" [attr.cx]="gps2mapLng(profile.entity.gps[0])" [attr.cy]="gps2mapLat(profile.entity.gps[1])" fill="#ff0000" (click)="openProfile.emit(profile)" />
-						<text *ngIf="labels" [attr.x]="gps2mapLng(profile.entity.gps[0])" [attr.y]="gps2mapLat(profile.entity.gps[1])-15" text-anchor="middle" style="font-family:Roboto;font-size:16px;" fill="#E73431" (click)="openProfile.emit(profile)">{{profile.name}}</text>
+						<text *ngIf="labels" [attr.x]="gps2mapLng(profile.entity.gps[0])" [attr.y]="gps2mapLat(profile.entity.gps[1])-15" text-anchor="middle" style="font-family:Roboto;font-size:16px;" fill="#E73431" (click)="openProfile.emit(profile)">{{profile.entity?.name}}</text>
 					</g>
 				</g>
 			</svg>

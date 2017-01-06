@@ -1,0 +1,50 @@
+<div *ngIf="event">
+	<div *ngFor="let budget of event.budgets">
+		
+		
+		<h3>{{budget.year}}</h3>
+		
+		<p>
+			Celkový rozpočet za rok {{budget.year}}: {{budget.budgetAmount | money:0:true}}<br>
+			Celkové výdaje za rok {{budget.year}}: {{budget.expenditureAmount | money:0:true}}
+		</p>
+		
+		<table class="table table-responsive small">
+			<thead>
+				<tr>
+					<th>Paragraf</th>
+					<th class="text-right">Rozpočet</th>
+					<th class="text-right">Skutečné výdaje</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let paragraph of budget.paragraphs">
+					<td>{{paragraphNames[paragraph.id]}}</td>
+					<td class="text-right">{{paragraph.budgetAmount | money:0:true}} Kč</td>
+					<td class="text-right">{{paragraph.expenditureAmount | money:0:true}} Kč</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<table class="table table-responsive small">
+			<thead>
+				<tr>
+					<th>Rozpočtová položka</th>
+					<th class="text-right">Rozpočet</th>
+					<th class="text-right">Skutečné výdaje</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of budget.items">
+					<td>{{itemNames[item.id]}}</td>
+					<td class="text-right">{{item.budgetAmount | money:0:true}} Kč</td>
+					<td class="text-right">{{item.expenditureAmount | money:0:true}} Kč</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

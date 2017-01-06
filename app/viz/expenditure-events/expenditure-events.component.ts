@@ -47,7 +47,7 @@ export class ExpenditureEventsComponent {
 				{"title":"nový nábytek","amount":100000,"date":"21-12-2016","supplier":"IKEA"}
 			]
 		},
-		{"title":"Stavba kulutrního centra","dateOfFirst":"11-01-2016","dateOfLast":"21-09-2017","sumAmount":5000000,"ORJ":44857,
+		{"title":"Stavba kulturního centra","dateOfFirst":"11-01-2016","dateOfLast":"21-09-2017","sumAmount":5000000,"ORJ":44857,
 			"expeditures":[
 				{"title":"nová okna","amount":300000,"date":"11-08-2016","supplier":"VEKRA"},
 				{"title":"pokládka podlahy","amount":500000,"date":"05-04-2016","supplier":"STRABAG"},
@@ -100,7 +100,7 @@ export class ExpenditureEventsComponent {
 	}
 	 
 	getDateRangeFrac (date) {
-		var frac = (this.parseCZDate(date) - this.viewOptions.dateOfFirst) / ( this.viewOptions.dateOfLast - this.viewOptions.dateOfFirst );
+		var frac = (this.parseCZDate(date).getTime() - this.viewOptions.dateOfFirst.getTime()) / ( this.viewOptions.dateOfLast.getTime() - this.viewOptions.dateOfFirst.getTime() );
 		frac = Math.min(1,Math.max(0,frac));
 		return frac;
 	}

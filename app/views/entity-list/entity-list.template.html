@@ -25,7 +25,7 @@
 							<h4>{{letter.letter}}</h4>
 							<div class="column">
 								<span *ngFor="let profile of letter.profiles">
-									<a *ngIf="!_search || profile.searchString.match(_search)" (click)="openProfile(profile)">{{profile.name}}</a>
+									<a *ngIf="!_search || profile.searchString.match(_search)" (click)="openProfile(profile)">{{profile.entity?.name}}</a>
 								</span>
 							</div>						
 						</div>

@@ -178,6 +178,7 @@ form {
 	display: block;
 }
 
+/*
 @media (max-width: 978px) {
 	.container {
 		padding: 0;
@@ -186,7 +187,7 @@ form {
 	.page {
 		margin: 0;
 	}
-}
+}*/
 
 .panel-body.no-padding {
 	padding: 0px;

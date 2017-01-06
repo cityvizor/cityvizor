@@ -3,6 +3,7 @@ var Writable = require('stream').Writable;
 var ExpendituresSchema = require("../models/expenditures");
 var Budget = ExpendituresSchema.Budget;
 var Event = ExpendituresSchema.Event;
+var EventBudget = ExpendituresSchema.EventBudget;
 
 /**
 	* Writable stream to save data to database
@@ -18,21 +19,11 @@ module.exports = class ExpenditureDBWriter extends Writable {
 		this.profileId = profileId;
 		this.year = year;
 		
-		// We need event index to fill in the eventId field of EventDetails
-		
-		// firstly we cork the stream so no data comes before we have the event index
-		this.cork();
-		
-		// Get the event ids from MongoDB
-		Event.find({profileId:this.profile_id}, "_id id", (err,eventList) => {
-			
-			// Create the event index
-			this.eventIndex = {};
-			eventList.forEach(item => this.eventIndex[item.id] = item._id);
-			
-			// Uncork the stream so that it is writable
-			this.uncork();
-		});
+		this.counter = {
+			events: 0,
+			eventsBudgets: 0,
+			budgets: 0
+		};
 		
 	}
 
@@ -46,21 +37,57 @@ module.exports = class ExpenditureDBWriter extends Writable {
 				
 			case "events": 
 				return this.writeEvents(item.data, enc, next);
+				//console.log("write events");next();return;
 				
 			case "budget":
 				return this.writeBudget(item.data, enc, next);
+				//console.log("write budget");next();return;
 				
 			default:
 				throw new Error("item.type is not recognized. Valid options: events, budget");
 		}
+	}
+	
+	_flush(item, enc, next){
+		console.log("FINISHED: " + JSON.stringify(this.counter));	
 	}
 
 	/**
 		* method to write many events to database
 		**/
 	writeEvents(events, enc, next){
-		console.log("EVENTS: " + events.length);		
-		next();
+		
+		// we take one event from the stack
+		var event = events.pop();
+		
+		// we want to save event budget data in another table
+		var eventBudget = event.budget;
+		delete event.budget;
+		
+		// search for existing event and update it. if does not exist, create a new one
+		Event.findOneAndUpdate({profileId:this.profileId, id:event.id}, event, {upsert:true,new:true})
+			
+			.then((event) => {
+				this.counter.events++;
+				// assign event id to the eventBudget
+				eventBudget.eventId = event._id;
+				// create eventbudget document
+				EventBudget.create(eventBudget)
+					.then(() => {
+						this.counter.eventsBudgets++;
+						console.log(this.counter);	
+						//if there are more events, start this method from beggining, else call next
+						if(events.length) this.writeEvents(events, enc, next);
+						else next();
+					})
+					.catch(err => {
+						throw new Error("Failed to write event budget to database. Error: " + err)
+					});
+			})
+		
+			.catch(err => {
+				throw new Error("Failed to write event to database. Error: " + err)
+			});
 	}
 	
 	/**
@@ -68,10 +95,12 @@ module.exports = class ExpenditureDBWriter extends Writable {
 		**/
 	writeBudget(budget, enc, next){
 		
-		console.log("BUDGET");
-		
 		Budget.findOneAndUpdate({profileId:this.profileId,year:this.year},budget,{upsert:true})
-			.then(budget => next())
+			.then(budget => {
+				this.counter.budgets++;
+				console.log(this.counter);	
+				next();
+			})
 			.catch(err => {throw new Error("Failed to write budget to database. Error: " + err)});
 	}
 		

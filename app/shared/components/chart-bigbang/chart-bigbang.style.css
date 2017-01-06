@@ -1,0 +1,10 @@
+
+svg{margin:0 auto;display:block;}
+.stripe{cursor:pointer;border:2px solid #fff;}
+.stripe.active{background-color:#f00;}
+
+.bgstripe{opacity:0;cursor:pointer; transition-duration: .2s;}
+.bgstripe:hover, .bgstripe.active{opacity:0.2;}
+
+
+.circle{cursor:pointer;}

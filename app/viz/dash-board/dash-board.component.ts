@@ -18,11 +18,23 @@ import { DataService } from '../../services/data.service';
 		.barHoursOpened {
 			background: #2581C4; border-radius: 1.5em; margin: 0px 20%; position: relative;height: 100%;
 		}	
+		.titleHours {
+			position: absolute;
+			color: #FFF;
+			background: rgb(37, 129, 196) none repeat scroll 0% 0%;
+			width: 18px;
+			height: 18px;
+			top: -4px;
+			line-height: 18px;
+			border-radius: 9px;
+			text-align: center;
+			font-weight: bold;
+		}	
 		.titleHoursStart {
-			position: absolute; left: 5px; color:#fff; opacity:.8;
+			left: 0px;
 		}	
 		.titleHoursEnd { 
-			right: 5px; position: absolute; color:#fff;opacity:.8;
+			right: 0px;
 		}
 		.dayTitle {
 			font-weight: bold;

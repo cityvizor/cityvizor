@@ -1,20 +1,25 @@
 var mongoose = require('mongoose');
 
 var budgetSchema = mongoose.Schema({
-	profileId: String,
+	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	year: String,
 	budgetAmount: Number,
 	expenditureAmount: Number,
 	paragraphs: [{
 		id: String,
-		events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
+		events: [{
+			event: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
+			name: String,
+			budgetAmount: Number,
+			expenditureAmount: Number,
+		}],
 		budgetAmount: Number,
 		expenditureAmount: Number
 	}]
 });
 
 var eventSchema = mongoose.Schema({
-	profileId: String,
+	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	id: String,
 	name: String,
 	budgetAmount: Number,
@@ -22,11 +27,16 @@ var eventSchema = mongoose.Schema({
 	gps: [Number,Number]
 });
 
-var eventBudgetSchema = mongoose.Schema({
-	profileId: String,
-	eventId: String,
+var eventBudgetSchema = mongoose.Schema({	
+	event: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
+	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	year: Number,
 	paragraphs: [{
+		id: String,
+		budgetAmount: Number,
+		expenditureAmount: Number
+	}],
+	items: [{
 		id: String,
 		budgetAmount: Number,
 		expenditureAmount: Number

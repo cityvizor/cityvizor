@@ -33,7 +33,7 @@ export class DataService {
 			return this.http.get("/api/profiles").toPromise().then(response => response.json());
 	}
 
-	getProfile(id) { 
+	getProfile(id) {
 		return this.http.get("/api/profiles/" + id).toPromise().then(response => response.json());
 	}
 	
@@ -49,20 +49,24 @@ export class DataService {
 	/* EXPENDITURES */
 	getBudget(id,year){
 		if(!year) year = (new Date()).getFullYear();
-		return this.http.get("/api/expenditures/" + id + "/budget/" + year).toPromise().then(response => response.json());
+		return this.http.get("/api/expenditures/budget/" + id + "/" + year).toPromise().then(response => response.json());
 	}	
 
 	getExpendituresUploader(profileId,year){
 		if(!profileId || !year) return null;
-		var url = "/api/expenditures/" + profileId + "/import/" + year;
+		var url = "/api/expenditures/import/" + profileId + "/" + year;
 		return new FileUploader({
 			url: url,
 			authToken: "Bearer " + window.localStorage.getItem("id_token")
 		});
 	}
+
+	getExpenditureEvent(profileId,eventId){
+		return this.http.get("/api/expenditures/events/" + eventId).toPromise().then(response => response.json());
+	}
 	
 	getExpenditureEvents(profileId){
-		return this.http.get("/api/expenditures/" + profileId + "/events").toPromise().then(response => response.json());
+		return this.http.get("/api/expenditures/events" + profileId).toPromise().then(response => response.json());
 	}
 	
 	getNoticeBoardIds(profileId){

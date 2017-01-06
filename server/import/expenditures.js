@@ -30,8 +30,8 @@ module.exports = function(filePath, profileId, year){
 	
 	// Clear old data. We always replace entire year block of data. Data is intentionally partitioned in DB to make this easy.
 	var clearOld = [];
-	clearOld.push(Budget.remove({profileId:profileId,year:year}));
-	clearOld.push(EventBudget.remove({profileId:profileId,year:year}));
+	clearOld.push(Budget.remove({profile:profileId,year:year}));
+	clearOld.push(EventBudget.remove({profile:profileId,year:year}));
 	// TODO: clearOld.push(EventInvoices.remove({profileId:profileId,year:year}));
 	
 	// After all clearing finished, launch the import
@@ -41,7 +41,7 @@ module.exports = function(filePath, profileId, year){
 		// TODO: if(errs.some(item => item)) { }
 
 		// Launch the import by piping all the streams together
-		file.pipe(parser).pipe(transformer).pipe(dbwriter);
+		file.pipe(parser).pipe(transformer);//.pipe(dbwriter);
 
 	});
 	
