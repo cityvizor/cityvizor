@@ -29,7 +29,7 @@ export class AppComponent {
 
 	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef, componentsHelper:ComponentsHelper) {
 		var today = new Date();
-		this.year = today.getFullYear() == 2016 ? "2016" : "2016 ~ " + today.getFullYear();
+		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
 
 		this.toasts = this.toastService.toasts;		
 		

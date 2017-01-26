@@ -14,14 +14,21 @@ footer {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 80px;
+  min-height: 80px;
   background-color: #f5f5f5;
 }
 
 footer .fa-heart{color:rgb(231,52,49);}
 
 footer .container{
-	line-height: 80px;
+	line-height: 32px;
+	padding: 24px 0px;
+}
+
+ @media (max-width: 768px) {
+	.col-xs-12 {
+		text-align: center;
+	 } 
 }
 
 .input-group-addon { min-width: 2em; }

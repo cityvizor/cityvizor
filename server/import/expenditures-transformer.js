@@ -9,27 +9,37 @@ var EventBudget = ExpendituresSchema.EventBudget;
 module.exports = class ExpenditureTransformer extends Transform {
 
 	constructor(profileId,year) {
+		
+		// call parent constructor; objectMode:true sets that Transform stream can accept other input than string
 		super({objectMode:true});
+		
+		// save variables to identify import
 		this.profileId = profileId;
 		this.year = year;
 		
+		// reset index objects and other variables to their initial values
 		this.reset();
 		this.loadEventList();
 	}
 	
 	log(msg){
+		// TODO: make some very great loggin mechanism, probably together with ETL table to store import metadata
 		console.log(msg);	
 	}
 
 	reset(){
 		
+		// counter of input rows
 		this.i = 0;
+		
+		// couter of written documents to DB
 		this.counter = {
 			events: 0,
 			eventBudgets: 0,
 			budgets: 0
 		};
 		
+		// object to store budget data and array-indexes through the transform
 		this.budget = {
 			profile: this.profileId,
 			year: this.year,
@@ -37,32 +47,49 @@ module.exports = class ExpenditureTransformer extends Transform {
 			expenditureAmount: 0,
 			paragraphs: []
 		};
+		this.paragraphIndex = {};
+		this.paragraphEventIndex = {};
 		
+		// variables to store events
 		this.events = [];
 		this.eventIndex = {};
 		this.eventParagraphIndex = {};
 		
+		
+		// variables to store event budgets
 		this.eventBudgets = [];
 		this.eventBudgetIndex = {};
 		this.eventBudgetParagraphIndex = {};
 		this.eventBudgetItemIndex = {};
-
-		this.paragraphIndex = {};
-		this.paragraphEventIndex = {};
 		
 	}
 	
+	/**
+		* load events' IDs to pair imported events with those already in database
+		**/
 	loadEventList(){
+		
+		// we don't want to receive stream input until event IDs are loaded
 		this.cork();				
+		
+		// load the events
 		Event.find({profile:this.profileId},"id _id", (err,eventIds) => {
+			
+			// convert received array to event index object
 			eventIds.forEach(item => {
 				this.events.push(item);
 				this.eventIndex[item.id] = item;
 			});
+			
+			// now we can receive stream input
 			this.uncork();			
 		});
+		
 	}
 
+	/**
+		* get budget paragraph object. in case it doesnt exist, create it and make a record in paragraph index
+		**/
 	getParagraph(paragraphId) {
 		if (!this.paragraphIndex[paragraphId]) {
 			var paragraph = {
@@ -77,6 +104,9 @@ module.exports = class ExpenditureTransformer extends Transform {
 		return this.paragraphIndex[paragraphId];
 	}
 	
+	/**
+		* get event object. in case it doesnt exist, create it and make a record in event index
+		**/
 	getEvent(eventId){
 		
 		var event = this.eventIndex[eventId];
@@ -97,6 +127,9 @@ module.exports = class ExpenditureTransformer extends Transform {
 		return event;
 	}
 	
+	/**
+		* get event budget object. in case it doesnt exist, create it and make a record in event budget index
+		**/
 	getEventBudget(event){
 		var budget = this.eventBudgetIndex[event.id];		
 		
@@ -189,18 +222,20 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		this.i++;
 		
-		if(item.length < 9){next();return;} // invalid row
+		if(Object.keys(item).length < 9){next();return;} // invalid row
 		if(this.i === 1){next();return;} // first row = header
+		
+		var type = item["DOKLAD_AGENDA"];
 
-		var paragraphId = item[0];
-		var itemId = item[4];
+		var paragraphId = item["PARAGRAF"];
+		var itemId = item["POLOZKA"];
 		
 		var budget = this.budget;
 
 		var paragraph = this.getParagraph(paragraphId);
 
-		var event = this.getEvent(item[1]);
-		event.name = item[2]; // name
+		var event = this.getEvent(item["ORJ"]);
+		event.name = item["ORJ_NAZEV"]; // name
 		
 		var eventBudget = this.getEventBudget(event);
 

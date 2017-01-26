@@ -12,36 +12,38 @@
 
 <footer>
 	<div class="container text-muted small">
-		<div class="col-sm-4 col-xs-12">
-			Vyvinuto s <i class="fa fa-heart" aria-hidden="true"></i> <a>členy komunity otevřených dat</a> {{year}}
-		</div>
-		<div class="col-sm-4 col-xs-12 text-center">
-			<a>
-				<span class="fa-stack fa-lg">
-					<i class="fa fa-circle fa-stack-2x"></i>
-					<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-				</span>
-			</a>
-			<a>
-				<span class="fa-stack fa-lg">
-					<i class="fa fa-circle fa-stack-2x"></i>
-					<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-				</span>
-			</a>
-			<a href="https://github.com/SmallhillCZ/Supervizor-Plus">
-				<span class="fa-stack fa-lg">
-					<i class="fa fa-circle fa-stack-2x"></i>
-					<i class="fa fa-github fa-stack-1x fa-inverse"></i>
-				</span>
-			</a>
-		</div>
-		<div class="col-sm-4 col-xs-12 text-right">
-			<a (click)="loginModal.show()" *ngIf="!userService.logged">Přihlásit se</a>
-			<a (click)="logout()" *ngIf="userService.logged">Odhlásit: {{userService.user._id}}</a>
-			| <a>Data</a>
-			| <a routerLink="/stranka/o-aplikaci">O aplikaci</a>
-			| <a routerLink="/stranka/licence">Licence</a>
-			| <a>Kontakt</a>
+		<div class="row">
+			<div class="col-sm-5 col-xs-12">
+				Vyvinuto s <i class="fa fa-heart" aria-hidden="true"></i> <a>členy komunity otevřených dat</a>
+			</div>
+			<div class="col-sm-2 col-xs-12 text-center">
+				<a>
+					<span class="fa-stack fa-md">
+						<i class="fa fa-circle fa-stack-2x"></i>
+						<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+				<a>
+					<span class="fa-stack fa-md">
+						<i class="fa fa-circle fa-stack-2x"></i>
+						<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+				<a href="https://github.com/SmallhillCZ/Supervizor-Plus">
+					<span class="fa-stack fa-md">
+						<i class="fa fa-circle fa-stack-2x"></i>
+						<i class="fa fa-github fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+			</div>
+			<div class="col-sm-5 col-xs-12 text-right">
+				<a (click)="loginModal.show()" *ngIf="!userService.logged">Přihlásit se</a>
+				<a (click)="logout()" *ngIf="userService.logged">Odhlásit: {{userService.user._id}}</a>
+				| <a>Data</a>
+				| <a routerLink="/stranka/o-aplikaci">O aplikaci</a>
+				| <a routerLink="/stranka/licence">Licence</a>
+				| <a>Kontakt</a>
+			</div>
 		</div>
 	</div>
 </footer>

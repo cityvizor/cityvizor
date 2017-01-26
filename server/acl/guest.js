@@ -13,8 +13,14 @@ module.exports = {
 		"read": true
 	},
 	
-	"expenditures": {
-		"read": true
+	"events": {
+		"read": true,
+		"list": true
+	},
+	
+	"budgets": {
+		"read": true,
+		"list": true
 	},
 	
 	"user": {

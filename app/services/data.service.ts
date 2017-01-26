@@ -24,8 +24,8 @@ export class DataService {
 			return this.http.get("/api/entities").toPromise().then(response => response.json());
 	}
 
-	getEntity(id) { 
-		return this.http.get("/api/entities/" + id).toPromise().then(response => response.json());
+	getEntity(entityId) { 
+		return this.http.get("/api/entities/" + entityId).toPromise().then(response => response.json());
 	}
 	
 	/* PROFILES */
@@ -33,8 +33,8 @@ export class DataService {
 			return this.http.get("/api/profiles").toPromise().then(response => response.json());
 	}
 
-	getProfile(id) {
-		return this.http.get("/api/profiles/" + id).toPromise().then(response => response.json());
+	getProfile(profileId) {
+		return this.http.get("/api/profiles/" + profileId).toPromise().then(response => response.json());
 	}
 	
 	saveProfile(profile){
@@ -42,35 +42,33 @@ export class DataService {
 	}
 
 	/* DASHBOARD */
-	getDashboard(id){
-		return this.http.get("/api/prehled/" + id).toPromise().then(response => response.json());
+	getDashboard(profileId){
+		return this.http.get("/api/profiles/" + profileId + "/dashboard").toPromise().then(response => response.json());
 	}
 
 	/* EXPENDITURES */
-	getBudget(id,year){
+	getBudget(profileId,year){
 		if(!year) year = (new Date()).getFullYear();
-		return this.http.get("/api/expenditures/budget/" + id + "/" + year).toPromise().then(response => response.json());
-	}	
+		return this.http.get("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
+	}
 
+	getEvent(eventId){
+		return this.http.get("/api/events/" + eventId).toPromise().then(response => response.json());
+	}
+	
+	getEvents(profileId?){
+		if(profileId) return this.http.get("/api/profiles/" + profileId + "/events").toPromise().then(response => response.json());
+		else return this.http.get("/api/events/").toPromise().then(response => response.json());
+	}
+	
+	/* IMPORT */
 	getExpendituresUploader(profileId,year){
 		if(!profileId || !year) return null;
-		var url = "/api/expenditures/import/" + profileId + "/" + year;
+		var url = "/api/import/expenditures/" + profileId + "/" + year;
 		return new FileUploader({
 			url: url,
 			authToken: "Bearer " + window.localStorage.getItem("id_token")
 		});
-	}
-
-	getExpenditureEvent(profileId,eventId){
-		return this.http.get("/api/expenditures/events/" + eventId).toPromise().then(response => response.json());
-	}
-	
-	getExpenditureEvents(profileId){
-		return this.http.get("/api/expenditures/events" + profileId).toPromise().then(response => response.json());
-	}
-	
-	getNoticeBoardIds(profileId){
-		return this.http.get("/api/uredni-desky/" + profileId + "/ids").toPromise().then(response => response.json());
 	}
 	
 }

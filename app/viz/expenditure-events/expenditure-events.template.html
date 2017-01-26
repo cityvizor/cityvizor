@@ -31,16 +31,53 @@
 	</div>
 
 	<div class="eEBars">
-		<div class="eEBarBounds" *ngFor="let ee of LoremEE" [style.margin-left]="(getDateRangeFrac(ee.dateOfFirst)*100)+'%'" [style.margin-right]="(100*(1-getDateRangeFrac(ee.dateOfLast)))+'%'">
-			<div class="barArrow leftArrow" *ngIf="isOverlapToPast(ee.dateOfFirst)">
+		<div class="eEBarBounds" *ngFor="let event of events" [style.margin-left]="getDateRangeFrac(event.from)+'%'" [style.margin-right]="(100*(1-getDateRangeFrac(event.till)))+'%'" (click)="openEvent(event)">
+			<div class="barArrow leftArrow" *ngIf="isOverlapToPast(event.from)">
 				<i class="fa fa-angle-double-right"></i>
 			</div>
-			<div class="amountBubble" [style.width]="getAmountBubbleSize(ee.sumAmount)+'px'" [style.height]="getAmountBubbleSize(ee.sumAmount)+'px'" ></div>
+			<div class="amountBubble" [style.width]="getAmountBubbleSize(event.budgetAmount)+'px'" [style.height]="getAmountBubbleSize(event.budgetAmount)+'px'" ></div>
 			<div class="eEBar">
-				<div class="title">{{ee.title}}</div>
+				<div class="title">{{event.name}}</div>
 			</div>
-			<div class="barArrow rightArrow" *ngIf="isOverlapToFuture(ee.dateOfLast)">
+			<div class="barArrow rightArrow" *ngIf="isOverlapToFuture(event.till)">
 				<i class="fa fa-angle-double-right"></i>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modals">
+	<div bsModal #expendituresEventModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" (click)="expendituresEventModal.hide()" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">{{LoremEE[tempModalEEIndex].title}}</h4>
+				</div>
+				<div class="modal-body">
+					<div class="rulerBars">
+						<label *ngFor="let mesic of nazvyMesice">{{mesic}}</label>
+					</div>
+					<div class="eEBars">
+						<div class="eEBarBounds">
+							<div *ngFor="let e of LoremEE[tempModalEEIndex].expenditures" 
+									 class="amountBubble" 
+									 [style.left]="" 
+									 [style.width]="getExpenditureAmountBubbleSize(LoremEE[tempModalEEIndex],e.amount)+'px'" 
+									 [style.height]="getExpenditureAmountBubbleSize(LoremEE[tempModalEEIndex],e.amount)+'px'" ></div>
+						</div>
+					</div>
+					<table>
+						<tbody>
+							<tr *ngFor="let e of LoremEE[tempModalEEIndex].expenditures">
+								<td>{{e.title}}</td>
+								<td>{{e.title}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

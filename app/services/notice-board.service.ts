@@ -24,16 +24,16 @@ export class NoticeBoardService {
 	}
 
 
-	getList(id, filter, page){
-		var url = "/api/uredni-desky/" + id + "/list";
+	getList(boardId){
+		var url = "/api/notice-boards/boards/" + boardId + "/list";
 
 		return this._http.get(url).toPromise()
 			.then(response => response.text())
 			.then(response => this.parseXMLList(response));
 	}
 
-	getPreview(profileId,documentId){
-		var url = "/api/uredni-desky/" + profileId + "/preview/" + documentId;
+	getPreview(documentId){
+		var url = "/api/uredni-desky/preview/" + documentId;
 
 		return this._http.get(url).toPromise()
 			.then(response => response.text());

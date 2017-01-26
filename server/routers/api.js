@@ -16,22 +16,39 @@ router.use(function (err, req, res, next) {
 		res.send("Unauthorized" + (err.message ? ": " + err.message : ""));
   }
 });
-	
-router.use("/prehled",require("../api/prehled"));
 
+
+/* GENERAL API */
 router.use("/entities",require("../api/entities"));
 
 router.use("/profiles",require("../api/profiles"));
 
-router.use("/expenditures",require("../api/expenditures"));
-
-router.use("/prezkum-hospodareni",require("../api/prezkum-hospodareni"));
-
-router.use("/uredni-desky",require("../api/uredni-desky"));
+router.use("/events",require("../api/events"));
 
 router.use("/login",require("../api/login"));
 
 router.use("/users",require("../api/users"));
+
+router.use("/profiles",require("../api/profiles"));
+
+router.use("/notice-boards",require("../api/notice-boards"));
+
+
+/* PROFILE DATA */
+router.use("/profiles/:profile/dashboard",require("../api/profiles-dashboard"));
+
+router.use("/profiles/:profile/budgets",require("../api/profiles-budgets"));
+
+router.use("/profiles/:profile/events",require("../api/profiles-events"));
+
+router.use("/profiles/:profile/audit",require("../api/profiles-audit"));
+
+
+/* IMPORT APIs */
+router.use("/import",require("../api/import"));
+
+
+/* ROOT */
 					 
 router.get("/", (req,res) => res.sendFile("index.html", { root: __dirname + "/../api" }));
 

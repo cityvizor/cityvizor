@@ -1,18 +1,18 @@
 var express = require('express');
 var app = express();
 
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 
 var acl = require("../acl/index");
 
 var Budget = require("../models/expenditures").Budget;
 
-router.get("/:id", acl("budget","read"), function(req,res){
+router.get("/", acl("budget","read"), function(req,res){
 	var dashboard = {
 		expenditures: null,
 		income: null
 	};
-	Budget.find({ico:req.params.ico}, "ico year budgetAmount expenditureAmount", (err,items) => {
+	Budget.find({profile:req.params.profile}, "ico year budgetAmount expenditureAmount", (err,items) => {
 		if(items) dashboard.expenditures = err ? [] : items;
 		res.json(dashboard);
 	});

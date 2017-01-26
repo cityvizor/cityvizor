@@ -30,7 +30,7 @@ export class EntityProfileComponent {
 		this.modules = MODULES;
 		
 		this._route.params.forEach((params: Params) => {
-			if(!this.profile || this.profile._id !== params["id"]) {
+			if(!this.profile || this.profile.url !== params["id"]) {
 				this._ds.getProfile(params["id"]).then(profile => {
 					this.profile = profile;
 					console.log(profile);

@@ -9,8 +9,6 @@ var bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 
 router.post("/", acl("user","login"), (req,res) => {
-	
-	console.log(req.body);
 
 	User.findOne({_id:req.body.login}).then((user) => {
 

@@ -20,7 +20,7 @@ module.exports = function(filePath, profileId, year){
 	file.on("close",() => fs.unlink(filePath));
 	
 	// Parser to parse CSV file
-	var parser = parse({delimiter: ';'/*,columns:true*/});
+	var parser = parse({delimiter: ';', columns:true});
 
 	// Transformer to convert 2D CSV structure to JSON tree. Takes CSV source row by row and returns the whole data bundle at end.
 	var transformer = new ExpenditureTransformer(profileId, year);

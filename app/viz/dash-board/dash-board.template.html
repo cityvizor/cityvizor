@@ -67,7 +67,7 @@
 	</div>
 </div>
 
-<div class="row">
+<div class="row hidden">
 	<div class="col-sm-6 text-center">
 		<h4>Příjmy</h4>
 		<br>
@@ -118,10 +118,66 @@
 		</svg>
 	</div>
 </div>
-<div class="row">
+<div class="row hidden">
 	<div class="col-sm-12 text-center">
 		<i class="fa fa-square" aria-hidden="true" style="color:#2581C4;"></i> Čerpáno
 			&nbsp;&nbsp;&nbsp;
 		<i class="fa fa-square" aria-hidden="true" style="color:#ADF;"></i> Zbývá vyčerpat
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-sm-12 text-center">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" xml:space="preserve">
+			<g>
+				<text *ngFor="let c of [2012,2013,2014,2015]; let i = index;" [attr.x]="(i+1/2)*1000/4" [attr.y]="50" style="fill:#aaa;font-size:20px;text-anchor:middle;">{{c}}</text>
+			</g>
+			<g>
+				<g *ngFor="let c of [[0,0],[2000000,1800000],[2500000,2600000],[1500000,1800000]]; let i = index;">
+					<g *ngIf="c[0]>0 && c[1]>0">
+						<g>
+							<circle	[attr.cx]="(i+1/2)*1000/4" 
+											[attr.cy]="(c[0]>=c[1]?150+70*(1-c[0]/2500000):150+70*(1-c[1]/2500000))" 
+											[attr.fill]="c[0]>=c[1]?'#E73431':'#2581C4'" 
+											[attr.r]="(c[0]>=c[1]?70*(c[0]/2500000):70*(c[1]/2500000))" />
+							<circle	[attr.cx]="(i+1/2)*1000/4" 
+											[attr.cy]="(c[0]<c[1]?150+70*(1-c[0]/2500000)-1:150+70*(1-c[1]/2500000))-1" 
+											style="fill:#ffffff;" 
+											[attr.r]="(c[0]<c[1]?70*(c[0]/2500000):70*(c[1]/2500000))" />
+							<text	[attr.x]="(i+1/2)*1000/4" 
+											[attr.y]="(c[0]<c[1]?155+70*(1-c[0]/2500000):155+70*(1-c[1]/2500000))" 
+											[attr.fill]="c[0]>=c[1]?'#E73431':'#2581C4'" 
+											 style="font-weight: bold;font-size:20px;text-anchor:middle;">{{(c[0]>=c[1]?'':'+')+(c[1]-c[0])/1000+'mil.'}}</text>
+						</g>
+						<g>
+							<g *ngFor="let d of c; let j = index;">
+								<rect *ngFor="let e of [1,2,3,4,5]; let k = index;"
+												[attr.x]="(i+1/2)*1000/4+(j-1)*31" 
+												[attr.y]="250+d/2600000*200/5*k+k"
+												width="30"
+												[attr.height]="d/2600000*200/5"
+												[attr.fill]="j==0?'#E7'+(34+k*10)+''+(31+k*10):'#'+(25+k*10)+''+(81+k*3)+'C4'"
+												stroke-width="0"
+												stroke="#ffffff"/>
+							</g>
+						</g>
+					</g> 
+					<g *ngIf="c[0]<=0 || c[1]<=0">
+						<circle	[attr.cx]="(i+1/2)*1000/4" 
+										[attr.cy]="170" 
+										[attr.fill]="'#aaa'" 
+										[attr.r]="50" />	
+						<circle	[attr.cx]="(i+1/2)*1000/4" 
+										[attr.cy]="174" 
+										style="fill:#ffffff;" 
+										[attr.r]="45" />		
+						<text	[attr.x]="(i+1/2)*1000/4" 
+										[attr.y]="180" 
+										 style="fill:#aaa;font-weight: bold;font-size:20px;text-anchor:middle;">?</text>
+					</g> 
+				</g>
+			</g>
+		</svg>
 	</div>
 </div>

@@ -45,8 +45,17 @@ var eventBudgetSchema = mongoose.Schema({
 	expenditureAmount: Number
 });
 
+var eventDocumentSchema = mongoose.Schema({
+	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
+	amount: Number,
+	counterpartyId: String,
+	counterpartyName: String,
+	description: String
+});
+
 module.exports = {
 	"Budget": mongoose.model('Budget', budgetSchema),
 	"Event": mongoose.model('Event', eventSchema),
-	"EventBudget": mongoose.model('EventBudget', eventBudgetSchema)
+	"EventBudget": mongoose.model('EventBudget', eventBudgetSchema),
+	"EventDocument": mongoose.model('EventDocument', eventBudgetSchema)
 };

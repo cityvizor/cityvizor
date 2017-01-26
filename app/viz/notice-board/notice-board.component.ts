@@ -21,19 +21,12 @@ export class NoticeBoardComponent {
 	set profile(profile) {
 		if(profile && this.profileId !== profile._id){
 			this.profileId = profile._id;
-			this._ds.getNoticeBoardIds(profile._id).then((ids) => {
-				this.ids = ids;
-				this.mapURL = this.sanitizer.bypassSecurityTrustResourceUrl("http://mapasamospravy.cz/embed?q[lau_id_eq]=" + ids.mapasamospravy);
-			});
-			this._nbs.getList(this.profileId,{},1).then(documents => this.documents = documents);
+			this.mapURL = this.sanitizer.bypassSecurityTrustResourceUrl("http://mapasamospravy.cz/embed?q[lau_id_eq]=" + profile.entity.mapasamospravy + "#14/" + profile.entity.gps[1] + "/" + profile.entity.gps[0]);
+			this._nbs.getList(profile.entity.edesky).then(documents => this.documents = documents);
 		}
 	}
-	
-	ids: {
-		"mapasamospravy": number,
-		"edesky": number
-	};
-	profileId: string;	
+
+	profileId;
 
 	mapURL: SafeResourceUrl;
 
@@ -45,7 +38,7 @@ export class NoticeBoardComponent {
 	openPreview(document){
 		document.showPreview = true;
 		document.preview = "Načítám...";
-		this._nbs.getPreview(this.profileId,document.id)
+		this._nbs.getPreview(document.id)
 			.then(preview => document.preview = preview)
 			.catch(err => document.preview = "Nastala chyba při načítání.");
 	}

@@ -11,8 +11,7 @@
 		<path [attr.d]="getEStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#E73431' : '#2581C4'" />
 		<path [attr.d]="getBStripePath(i, group)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#ff9491' : '#ADF'" />
 
-		<path [attr.d]="getStripePath(i,innerSize,1)" stroke-width="0" fill="#aaa" [attr.class]="(hoveredGroup==group?'active':'')+' bgstripe'" (click)="selectGroup.emit(group)" />
-		<!-- (mouseover)="hoverGroup(group)" (mouseout)="hoverGroup(null)"  -->
+		<path [attr.d]="getStripePath(i,innerSize,1)" stroke-width="0" fill="#aaa" [attr.class]="(hoveredGroup==group?'active':'')+' bgstripe'" (click)="selectGroup.emit(group)" (mouseover)="hoverGroup.emit(group)" (mouseout)="hoverGroup.emit(null)" />
 	</g>
 
 	<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" [attr.fill]="selectedGroup==null ? '#F3F3F3' : '#F3F3F3'" stroke-width="10" stroke="#fff" (click)="selectGroup.emit(null)" class="circle" />
