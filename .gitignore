@@ -6,6 +6,9 @@
 !index.html
 !index.ts
 
+# sensitive data
+mongo-config.js
+
 # dependencies
 /node_modules
 /typings

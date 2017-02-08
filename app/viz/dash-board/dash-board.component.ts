@@ -6,45 +6,12 @@ import { DataService } from '../../services/data.service';
 	moduleId: module.id,
 	selector: 'dash-board',
 	templateUrl: 'dash-board.template.html',
-	styles: [`
-		.rowHours {
-	    font-size: 0.8em;
-    	line-height: 1em;
-    	margin-bottom: .5em;
-		}
-		.barHours {
-			height: 1em; background: #f3f3f3; border-radius: 10px; margin: 0px 0%;
-		}	
-		.barHoursOpened {
-			background: #2581C4; border-radius: 1.5em; margin: 0px 20%; position: relative;height: 100%;
-		}	
-		.titleHours {
-			position: absolute;
-			color: #FFF;
-			background: rgb(37, 129, 196) none repeat scroll 0% 0%;
-			width: 18px;
-			height: 18px;
-			top: -4px;
-			line-height: 18px;
-			border-radius: 9px;
-			text-align: center;
-			font-weight: bold;
-		}	
-		.titleHoursStart {
-			left: 0px;
-		}	
-		.titleHoursEnd { 
-			right: 0px;
-		}
-		.dayTitle {
-			font-weight: bold;
-		}
-		profile-map {
-			width: 100%; height: auto;
-		}
-	`],
+	styleUrls: ["dash-board.style.css"],
 })
 export class DashboardComponent {
+	
+	@Input()
+	profile:any;
 	
 	days = ["mo","tu","we","th","fr","sa","su"];
 	daysCZ = ["Po","Út","St","Čt","Pá","So","Ne"];
@@ -77,15 +44,67 @@ export class DashboardComponent {
 		var o = this.hoursOpeningOptions;
 		return o.padding + Math.round((100-2*o.padding)*(o.dayEnd-h)/(o.dayEnd-o.dayStart));
 	}
+	 
+	dashboardData = {
+		"Years" : [2013, 2014, 2015, 2016],
+		"Inc" : {
+			"YearAmounts" : [2000000,3000000,2700000,3200000],
+			"MaxYearAmount" : 3000000,
+			"YearParts" : [
+				[1000000,500000,200000,300000],
+				[1200000,1300000,220000,280000],
+				[1300000,1000000,200000,200000],
+				[1500000,1200000,200000,300000]
+			]
+		},
+		"Exp" : {
+			"YearAmounts" : [1800000,2800000,2200000,3500000],
+			"MaxYearAmount" : 3000000,
+			"YearParts" : [
+				[300000,1000000,500000],
+				[600000,1200000,1000000],
+				[400000,1000000,800000],
+				[900000,1500000,1100000]
+			]
+		}
+	}; 
+	getMaxIncYearAmount () { return Math.max.apply(null, this.dashboardData.Inc.YearAmounts); }
+	getMaxExpYearAmount () { return Math.max.apply(null, this.dashboardData.Exp.YearAmounts); }
+
+	svgPointString (x,y) {
+			return x + ' ' + y;
+	}
+
+	getExpSemicirclePath (sx,sy,r) {
+		var Cx = [];
+		var RBD=0.552284749831; //radiusBezierDistance
+		Cx.push(this.svgPointString(sx-RBD*r,	sy));
+		Cx.push(this.svgPointString(sx-r,			sy-r+RBD*r));
+		Cx.push(this.svgPointString(sx-r,			sy-r));
+		Cx.push(this.svgPointString(sx-r,			sy-r-RBD*r));
+		Cx.push(this.svgPointString(sx-RBD*r,	sy-2*r));
+		Cx.push(this.svgPointString(sx,				sy-2*r));
+		
+		return "M"+sx+" "+sy+" C "+Cx.join(", ");
+	}
+	getIncSemicirclePath (sx,sy,r) {
+		var Cx = [];
+		var RBD=0.552284749831; //radiusBezierDistance
+		Cx.push(this.svgPointString(sx+RBD*r,	sy));
+		Cx.push(this.svgPointString(sx+r,			sy-r+RBD*r));
+		Cx.push(this.svgPointString(sx+r,			sy-r));
+		Cx.push(this.svgPointString(sx+r,			sy-r-RBD*r));
+		Cx.push(this.svgPointString(sx+RBD*r,	sy-2*r));
+		Cx.push(this.svgPointString(sx,				sy-2*r));
+		
+		return "M"+sx+" "+sy+" C "+Cx.join(", ");
+	}
 
 	dashboard = {
 		expenditures:[],
 		income:[]
 	};
 
-	@Input()
-	profile:any;
-	
 	constructor(private _ds: DataService){
 	}
 

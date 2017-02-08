@@ -6,9 +6,13 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/supervizor-plus');
-mongoose.plugin(require('mongoose-write-stream'));
 mongoose.Promise = global.Promise;
+mongoose.plugin(require('mongoose-write-stream'));
+mongoose.connect('mongodb://localhost/supervizor-plus');
+
+var mongo_express = require('mongo-express/lib/middleware');
+var mongo_express_config = require('./mongo-config.js');
+app.use('/db', mongo_express(mongo_express_config))
 
 app.use("/api",require("./routers/api.js"));
 
