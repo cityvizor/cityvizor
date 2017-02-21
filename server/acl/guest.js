@@ -30,6 +30,10 @@ module.exports = {
 	"edesky": {
 		"read": true,
 		"list": false
+	},
+	
+	"exports": {
+		"read": true
 	}
 	
 };

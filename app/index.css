@@ -13,14 +13,16 @@ body.modal-open {
 	overflow-y: scroll;
 }
 
+
 h1,
 h2,
-h3 {
-	margin: 3px 0px 0px 0px;
+h3,
+h4 {
+	margin: 1.2em 0px .5em 0px;
 	font-weight: 700;
 }
 
-.page h1 { margin-bottom: 15px;}
+h1, h2 { margin: 0em 0 .2em 0;}
 
 header, nav, .btn, h1, h2, h3, h4, h5, h6 {
   font-family: 'Raleway', sans-serif;

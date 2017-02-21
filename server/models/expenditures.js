@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
 
+require("./profile");
+require("./entity");
+
 var budgetSchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	year: String,

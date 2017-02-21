@@ -11,14 +11,14 @@
 <div class="notice-board-list" [class.active]="show=='list'">
 	<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of documents">
 		<div class="row">
-			<div class="col-lg-10">
+			<div class="col-sm-10">
 				<strong>{{document.title}}</strong>
 				<br>
 				<div class="small text-muted margin-top-md">
 					<i class="fa fa-clock-o"></i> Datum zveřejnění: {{document.date}}
 				</div>
 			</div>
-			<div class="col-lg-2 buttons">
+			<div class="col-sm-2 buttons">
 				<a class="btn btn-xs btn-primary" (click)="openPreview(document)"><i class="fa fa-search"></i> Náhled</a>
 				<a *ngIf="document.url" class="btn btn-xs btn-primary" (click)="linkEDesky(document)"><i class="fa fa-file-text-o"></i> eDesky</a>
 				<a *ngIf="document.url" class="btn btn-xs btn-primary" (click)="linkDocument(document)"><i class="fa fa-file-text-o"></i> Dokument</a>

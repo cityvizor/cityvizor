@@ -76,28 +76,26 @@ export class DashboardComponent {
 	}
 
 	getExpSemicirclePath (sx,sy,r) {
-		var Cx = [];
-		var RBD=0.552284749831; //radiusBezierDistance
-		Cx.push(this.svgPointString(sx-RBD*r,	sy));
-		Cx.push(this.svgPointString(sx-r,			sy-r+RBD*r));
-		Cx.push(this.svgPointString(sx-r,			sy-r));
-		Cx.push(this.svgPointString(sx-r,			sy-r-RBD*r));
-		Cx.push(this.svgPointString(sx-RBD*r,	sy-2*r));
-		Cx.push(this.svgPointString(sx,				sy-2*r));
-		
-		return "M"+sx+" "+sy+" C "+Cx.join(", ");
+		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,0,"+(sx+r)+" "+sy+" Z";
 	}
 	getIncSemicirclePath (sx,sy,r) {
+		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,1,"+(sx+r)+" "+sy+" Z";
+	}
+	 
+	 
+	getExpTrianglePath (sx,sy,a2) {
 		var Cx = [];
-		var RBD=0.552284749831; //radiusBezierDistance
-		Cx.push(this.svgPointString(sx+RBD*r,	sy));
-		Cx.push(this.svgPointString(sx+r,			sy-r+RBD*r));
-		Cx.push(this.svgPointString(sx+r,			sy-r));
-		Cx.push(this.svgPointString(sx+r,			sy-r-RBD*r));
-		Cx.push(this.svgPointString(sx+RBD*r,	sy-2*r));
-		Cx.push(this.svgPointString(sx,				sy-2*r));
+		Cx.push(this.svgPointString(sx,			sy+a2));
+		Cx.push(this.svgPointString(sx+a2,	sy));
 		
-		return "M"+sx+" "+sy+" C "+Cx.join(", ");
+		return "M"+(sx-a2)+" "+sy+" L "+Cx.join(" L");
+	}
+	getIncTrianglePath (sx,sy,a2) {
+		var Cx = [];
+		Cx.push(this.svgPointString(sx,			sy-a2));
+		Cx.push(this.svgPointString(sx+a2,	sy));
+		
+		return "M"+(sx-a2)+" "+sy+" L "+Cx.join(" L");
 	}
 
 	dashboard = {

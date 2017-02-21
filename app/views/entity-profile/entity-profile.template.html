@@ -12,12 +12,38 @@
 			</a>
 		</div>
 	</header>
+	
+	<div class="entity-menu">
+		<div class="container">
+			<nav class="navbar">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div id="navbar" class="navbar-collapse collapse">
+							<ul class="nav navbar-nav">
+								<li *ngFor="let module of modules">
+									<a [style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module)" class="" routerLinkActive="active">
+										<i class="fa" [class]="module.icon"></i> {{module.name}}
+									</a>
+								</li>
+							</ul>
+						</div><!--/.nav-collapse -->
+					</div><!--/.container-fluid -->
+				</nav>
+		</div>
+	</div>
 
 	<div id="content">
 
 		<div class="page container">
 			<div class="row">
-				<div class="col-sm-3">
+				<div class="col-sm-3 hidden">
 
 					<div class="list-group">
 						<a  *ngFor="let module of modules" [style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module)" class="list-group-item" routerLinkActive="active">
@@ -29,7 +55,7 @@
 					</ul>
 
 				</div>
-				<div class="col-sm-9" [ngSwitch]="activeModule.id">
+				<div class="col-sm-12" [ngSwitch]="activeModule.id">
 
 					<dash-board *ngSwitchCase="'dash-board'" [profile]="profile"></dash-board>
 
@@ -39,7 +65,7 @@
 
 					<notice-board *ngSwitchCase="'notice-board'" [profile]="profile"></notice-board>
 
-					<management-review *ngSwitchCase="'management-overview'" [entity]="profile"></management-review>
+					<contract-list *ngSwitchCase="'contract-list'" [profile]="profile"></contract-list>
 
 				</div>
 			</div>

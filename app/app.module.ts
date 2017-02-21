@@ -16,7 +16,7 @@ import { EntityAdminComponent } from "./views/entity-admin/entity-admin.componen
 import { DashboardComponent } from "./viz/dash-board/dash-board.component";
 import { ExpenditureVizComponent } from './viz/expenditure-viz/expenditure-viz.component';
 import { ExpenditureEventsComponent } from './viz/expenditure-events/expenditure-events.component';
-import { ManagementReviewComponent } from "./viz/management-review/management-review.component";
+import { ContractListComponent } from "./viz/contract-list/contract-list.component";
 import { DataSourcesComponent } from "./viz/data-sources/data-sources.component";
 import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component";
 import { EventDetailComponent } from "./viz/event-detail/event-detail.component";
@@ -29,6 +29,7 @@ import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-m
 
 // Services
 import { DataService } 		from './services/data.service';
+import { YQLService } 		from './services/yql.service';
 import { NoticeBoardService } 		from './services/notice-board.service';
 import { ToastService } 		from './services/toast.service';
 import { UserService } 		from './services/user.service';
@@ -66,13 +67,13 @@ export function getAuthHttp(http) {
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
-		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ManagementReviewComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent, EventDetailComponent, 
+		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent, EventDetailComponent, 
 		/* VIZ ADMIN */ DashboardAdminComponent, ExpenditureVizAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
 		/* Shared Components */ ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe
 	],
 	providers: [
-		DataService, NoticeBoardService, ToastService, UserService, {provide: ComponentsHelper, useClass: ComponentsHelper},
+		DataService, YQLService, NoticeBoardService, ToastService, UserService, {provide: ComponentsHelper, useClass: ComponentsHelper},
 		{
 			provide: AuthHttp,
 			useFactory: getAuthHttp,

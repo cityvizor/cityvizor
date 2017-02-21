@@ -2,71 +2,6 @@
 	<span>Přehled</span>
 </h2>
 
-<div class="row">
-	<div class="col-sm-4">
-		<h4>
-			<i class="fa fa-info-circle"></i>
-			Základní údaje
-		</h4>
-		<div class="small">
-			<div class="row">
-				<div class="col-xs-4"><strong><i class="fa fa-map-signs"></i> Adresa</strong></div>
-				<div class="col-xs-8">
-					{{profile.entity.address?.street}} {{profile.entity?.address?.streetNo}}
-					<br>
-					{{profile.entity.address?.city}}
-					{{profile.entity.address?.psc}}
-					
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-4"><strong><i class="fa fa-hashtag"></i> ZÚJ</strong></div>
-				<div class="col-xs-8">{{profile.entity._id}}</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-4"><strong><i class="fa fa-hashtag"></i> IČO</strong></div>
-				<div class="col-xs-8">{{profile.entity.ico}}</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-4"><strong><i class="fa fa-envelope"></i> Email</strong></div>
-				<div class="col-xs-8">{{profile.entity.email}}</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-4"><strong><i class="fa fa-globe"></i> Datová schránka</strong></div>
-				<div class="col-xs-8">{{profile.entity.dataBox}}</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-4"><strong><i class="fa fa-external-link"></i> Web</strong></div>
-				<div class="col-xs-8"><a href="http://www.nmnm.cz" target="_blank">www.nmnm.cz</a></div>
-			</div>
-		</div>
-		<!--
-			596230	00294900	Městský úřad	Nové Město na Moravě	Vratislavovo nám.	103	59231	Nové Město na Moravě	Nové Město na Moravě	566 598 300	566598305	posta@nmnm.cz	y67bvir	http://www.nmnm.cz	Po.,Stř.,8:00-17:00, Čt.,8:00-14:00	Městský úřad	Starosta:Michal Šmarda	566 650 201	starosta@nmnm.cz	Místost.:Stanislav Marek		mistostarosta@nmnm.cz	CZ0635596230	3577836,99	5492763,74	3577732	5492675
-		-->
-	</div>
-	<div class="col-sm-4 text-center">
-		<!-- MAPA -->
-		<div>
-			<profile-map [profiles]="[profile]"></profile-map>
-		</div>
-	</div>
-	<div class="col-sm-4">
-		<h4>
-			<i class="fa fa-clock-o"></i>
-			Provoz obecního úřadu
-		</h4>
-		<div class="row rowHours" *ngFor="let day of days;let i = index">
-			<div class="col-xs-2 dayTitle">{{daysCZ[i]}}</div>
-			<div class="col-xs-10 barHours">
-				<div *ngFor="let openHours of profile.entity.openHours[day]" class="barHoursOpened" [style.margin-left]="getBarMarginLeft(openHours.from)+'%'"  [style.margin-right]="getBarMarginRight(openHours.to)+'%'">
-					<div class="titleHours titleHoursStart">{{hour2string(openHours.from)}}</div>
-					<div class="titleHours titleHoursEnd">{{hour2string(openHours.to)}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="row hidden">
 	<div class="col-sm-6 text-center">
 		<h4>Příjmy</h4>
@@ -128,44 +63,44 @@
 
 
 <div class="row">
-	<div class="col-sm-12 text-center">
+	<div class="col-sm-12">
 		
-		<svg viewBox="0 0 1000 700" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<h4 class="text-center">
+			<i class="fa fa-balance-scale"></i>
+			Saldo rozpočtů
+		</h4>
+		
+		<svg viewBox="0 0 1000 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			
 			
 			<g>
-				<text *ngFor="let c of dashboardData.Years; let i = index;" [attr.x]="(i+1/2)*1000/4" [attr.y]="50" style="fill:#aaa;font-size:20px;text-anchor:middle;">{{c}}</text>
+				<text *ngFor="let c of dashboardData.Years; let i = index;" [attr.x]="(i+1/2)*1000/4" [attr.y]="25" style="fill:#aaa;font-size:20px;text-anchor:middle;">{{c}}</text>
 			</g>
 			<g>
 				<g *ngFor="let c of dashboardData.Years; let i = index;">
+					
+					<path [attr.d]="'M '+((i+1/2)*1000/4-100)+',150 L '+((i+1/2)*1000/4+100)+',150'" stroke="#e0e0e0" stroke-width="1"/>
 					<g *ngIf="dashboardData.Inc.YearAmounts[i]>0 && dashboardData.Exp.YearAmounts[i]>0">
 						<g>
-							<path [attr.d]="getExpSemicirclePath((i+1/2)*1000/4,220,70*(dashboardData.Inc.YearAmounts[i]/getMaxIncYearAmount()))" fill="#E73431" stroke="#ffffff" stroke-width="1" />
-							<path [attr.d]="getIncSemicirclePath((i+1/2)*1000/4,220,70*(dashboardData.Exp.YearAmounts[i]/getMaxExpYearAmount()))" fill="#2581C4" stroke="#ffffff" stroke-width="1" />
+							<path [attr.d]="getIncSemicirclePath((i+1/2)*1000/4,150,90*(dashboardData.Inc.YearAmounts[i]/getMaxIncYearAmount()))" fill="#f0f0f0" stroke="#ffffff" stroke-width="1" />
+							<path [attr.d]="getExpSemicirclePath((i+1/2)*1000/4,150,90*(dashboardData.Exp.YearAmounts[i]/getMaxExpYearAmount()))" fill="#e0e0e0" stroke="#ffffff" stroke-width="1" />
+							
+							<path *ngIf="dashboardData.Inc.YearAmounts[i] < dashboardData.Exp.YearAmounts[i]" 
+										[attr.d]="getExpTrianglePath((i+1/2)*1000/4,150,20+70*(dashboardData.Exp.YearAmounts[i]-dashboardData.Inc.YearAmounts[i])/dashboardData.Exp.YearAmounts[i])" 
+										fill="#E73431" 
+										stroke="#ffffff" 
+										stroke-width="3" />
+							<path *ngIf="dashboardData.Inc.YearAmounts[i] > dashboardData.Exp.YearAmounts[i]" 
+										[attr.d]="getIncTrianglePath((i+1/2)*1000/4,150,20+70*(dashboardData.Inc.YearAmounts[i]-dashboardData.Exp.YearAmounts[i])/dashboardData.Inc.YearAmounts[i])" 
+										fill="#2581C4" 
+										stroke="#ffffff" 
+										stroke-width="3" />
 							
 							<text	[attr.x]="(i+1/2)*1000/4" 
-											[attr.y]="220" 
-											fill="#ffffff"
+											[attr.y]="((dashboardData.Exp.YearAmounts[i] > dashboardData.Inc.YearAmounts[i])?145:165)" 
+											[attr.fill]="((dashboardData.Exp.YearAmounts[i] > dashboardData.Inc.YearAmounts[i])?'#E73431':'#2581C4')"
 											 style="font-weight: bold;font-size:20px;text-anchor:middle;">
-								{{(dashboardData.Inc.YearAmounts[i]>dashboardData.Exp.YearAmounts[i]?'':'+')+(dashboardData.Inc.YearAmounts[i]-dashboardData.Exp.YearAmounts[i])/1000+'mil.'}}</text>
-						</g>
-						<g>
-								<rect *ngFor="let e of dashboardData.Inc.YearParts; let k = index;"
-												[attr.x]="(i+1/2)*1000/4-10" 
-												[attr.y]="250+d/2600000*200/5*k+k"
-												width="10"
-												[attr.height]="e/2600000*200/5"
-												attr.fill="#E73431"
-												stroke-width="0"
-												stroke="#ffffff"/>
-								<rect *ngFor="let e of dashboardData.Exp.YearParts; let k = index;"
-												[attr.x]="(i+1/2)*1000/4+10" 
-												[attr.y]="250+d/2600000*200/5*k+k"
-												width="10"
-												[attr.height]="e/2600000*200/5"
-												attr.fill="#E73431"
-												stroke-width="0"
-												stroke="#ffffff"/>
+								{{(dashboardData.Inc.YearAmounts[i] < dashboardData.Exp.YearAmounts[i]?'':'+')+(dashboardData.Inc.YearAmounts[i]-dashboardData.Exp.YearAmounts[i])/1000+'mil.'}}</text>
 						</g>
 					</g> 
 				</g>
@@ -173,3 +108,81 @@
 		</svg>
 	</div>
 </div>
+	
+<div class="row">
+	<div class="col-sm-6">
+		<h4>
+			<i class="fa fa-info-circle"></i>
+			Výdaje
+		</h4>
+	</div>	
+	<div class="col-sm-6">
+		<h4>
+			<i class="fa fa-info-circle"></i>
+			Investiční akce
+		</h4>
+	</div>	
+</div>
+	
+<div class="row">
+	<div class="col-sm-6">
+		<h4>
+			<i class="fa fa-info-circle"></i>
+			Základní údaje
+		</h4>
+		<div class="small">
+			<div class="row">
+				<div class="col-xs-6"><strong><i class="fa fa-map-signs"></i> Adresa</strong></div>
+				<div class="col-xs-6">
+					{{profile.entity.address?.street}} {{profile.entity?.address?.streetNo}}
+					<br>
+					{{profile.entity.address?.city}}
+					{{profile.entity.address?.psc}}
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6"><strong><i class="fa fa-hashtag"></i> ZÚJ</strong></div>
+				<div class="col-xs-6">{{profile.entity._id}}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6"><strong><i class="fa fa-hashtag"></i> IČO</strong></div>
+				<div class="col-xs-6">{{profile.entity.ico}}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6"><strong><i class="fa fa-envelope"></i> Email</strong></div>
+				<div class="col-xs-6">{{profile.entity.email}}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6"><strong><i class="fa fa-globe"></i> Datová schránka</strong></div>
+				<div class="col-xs-6">{{profile.entity.dataBox}}</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6"><strong><i class="fa fa-external-link"></i> Web</strong></div>
+				<div class="col-xs-6"><a href="http://www.nmnm.cz" target="_blank">www.nmnm.cz</a></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4 text-center hidden">
+		<!-- MAPA -->
+		<div>
+			<profile-map [profiles]="[profile]"></profile-map>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<h4>
+			<i class="fa fa-clock-o"></i>
+			Provoz obecního úřadu
+		</h4>
+		<div class="row rowHours" *ngFor="let day of days;let i = index">
+			<div class="col-xs-2 dayTitle">{{daysCZ[i]}}</div>
+			<div class="col-xs-10 barHours">
+				<div *ngFor="let openHours of profile.entity.openHours[day]" class="barHoursOpened" [style.margin-left]="getBarMarginLeft(openHours.from)+'%'"  [style.margin-right]="getBarMarginRight(openHours.to)+'%'">
+					<div class="titleHours titleHoursStart">{{hour2string(openHours.from)}}</div>
+					<div class="titleHours titleHoursEnd">{{hour2string(openHours.to)}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,26 @@
+<table class="table table-condensed table-hover">
+	<thead>
+		<tr>
+			<th>Datum publikace</th>
+			<th>Název smlouvy</th>
+			<th>Dodavatel</th>
+			<th>Částka</th>
+			<th>Měna</th>
+			<th>Detail</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let contract of contracts">
+			<td>{{contract.published | date:"d. M. y"}}</td>
+			<td>{{contract.name}}</td>
+			<td>{{contract.counterparty}}</td>
+			<td>{{contract.amount | money:0:true}}</td>
+			<td>{{contract.currency}}</td>
+			<td><a [href]="contract.url">Detail</a></td>
+		</tr>
+	</tbody>
+</table>
+<div class="text-center">
+	<a [href]="getRegisterUrl()" class="button">Zobrazit všechny smlouvy</a>
+</div>
+		
