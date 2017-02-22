@@ -1,3 +1,5 @@
+<h2 class="hidden">Registr smluv</h2>
+
 <table class="table table-condensed table-hover">
 	<thead>
 		<tr>
@@ -14,13 +16,14 @@
 			<td>{{contract.published | date:"d. M. y"}}</td>
 			<td>{{contract.name}}</td>
 			<td>{{contract.counterparty}}</td>
-			<td>{{contract.amount | money:0:true}}</td>
+			<td class="amount">{{contract.amount | money:0:false}}</td>
 			<td>{{contract.currency}}</td>
-			<td><a [href]="contract.url">Detail</a></td>
+			<td><a [href]="contract.url" target="_blank">Detail</a></td>
 		</tr>
 	</tbody>
 </table>
 <div class="text-center">
-	<a [href]="getRegisterUrl()" class="button">Zobrazit všechny smlouvy</a>
+	<span *ngIf="loading">Načítám smlouvy&#8230;</span>
+	<a *ngIf="!loading" [href]="getRegisterUrl()" target="_blank">Zobrazit všechny smlouvy</a>
 </div>
 		

@@ -1,12 +1,10 @@
-<h3>
-	<i class="fa fa-newspaper-o"></i>
-	<span>Úřední deska</span>
-	<div class="btn-group pull-right">
-		<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='list'" (click)="show='list'">Seznam (eDesky.cz)</button>
-		<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='map'" (click)="show='map'">Mapa (MapaSamospravy.cz)</button>
-	</div>
-</h3>
-<hr>
+<h2 class="hidden">Úřední deska</h2>
+
+<div class="btn-group pull-right">
+	<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='list'" (click)="show='list'">Seznam (eDesky.cz)</button>
+	<button type="button" class="btn btn-sm btn-primary" [class.active]="show=='map'" (click)="show='map'">Mapa (MapaSamospravy.cz)</button>
+</div>
+
 
 <div class="notice-board-list" [class.active]="show=='list'">
 	<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of documents">

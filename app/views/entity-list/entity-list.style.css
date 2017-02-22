@@ -6,7 +6,7 @@
 .ministerstvo h2{margin:20px 0;padding:0;font-size:18px;}
 .ministerstvo p{font-size:12px;}
 
-.entityMapMarker, .entityMapMarker > * {
+.entityMapMarker, .entityListItem {
   cursor: pointer;
 }
 

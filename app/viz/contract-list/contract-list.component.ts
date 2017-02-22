@@ -24,6 +24,8 @@ export class ContractListComponent {
 	ico:string;
 
 	limit = 25;
+
+	loading = false;
 	
 	contracts:any[] = [];
 
@@ -32,6 +34,8 @@ export class ContractListComponent {
 	loadData(){
 		
 		var query = "select * from html where url='https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=" + this.limit + "%26do=searchResultList-setLimit%26subject_idnum=" + this.ico + "%26all_versions=0' and xpath='//*[@id=\"snippet-searchResultList-list\"]/table/tbody/tr'";
+		
+		this.loading = true;
 		
 		this.yql.query(query)
 			.then(data => {
@@ -48,10 +52,9 @@ export class ContractListComponent {
 					};
 					this.contracts.push(contract);
 				});
-				console.log(this.contracts);
+				this.loading = false;
 			})
 			.catch(err => {
-				console.log(err);
 				this.toastService.toast("Nastala chyba při stahování akcí.","error");
 			});
 		 
@@ -69,6 +72,6 @@ export class ContractListComponent {
 	}
 
 	getRegisterUrl(){
-		return "https://smlouvy.gov.cz/vyhledavani?publication_date%5Bfrom%5D=&publication_date%5Bto%5D=&subject_name=&subject_box=&subject_idnum=" + this.ico + "&subject_address=&value_foreign%5Bfrom%5D=&value_foreign%5Bto%5D=&foreign_currency=&contract_id=&party_name=&party_box=&party_idnum=&party_address=&value_no_vat%5Bfrom%5D=&value_no_vat%5Bto%5D=&file_text=&version_id=&contr_num=&sign_date%5Bfrom%5D=&sign_date%5Bto%5D=&contract_descr=&sign_person_name=&value_vat%5Bfrom%5D=&value_vat%5Bto%5D=&all_versions=0&search=Vyhledat&do=detailedSearchForm-submit";
+		return "https://smlouvy.gov.cz/vyhledavani?publication_date%5Bfrom%5D=&publication_date%5Bto%5D=&subject_name=&subject_box=&subject_idnum=" + this.ico + "&subject_address=&value_foreign%5Bfrom%5D=&value_foreign%5Bto%5D=&foreign_currency=&contract_id=&party_name=&party_box=&party_idnum=&party_address=&value_no_vat%5Bfrom%5D=&value_no_vat%5Bto%5D=&file_text=&version_id=&contr_num=&sign_date%5Bfrom%5D=&sign_date%5Bto%5D=&contract_descr=&sign_person_name=&value_vat%5Bfrom%5D=&value_vat%5Bto%5D=&all_versions=0&search=Vyhledat&do=detailedSearchForm-submit#snippet-searchResultList-list";
 	}
 }

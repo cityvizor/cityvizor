@@ -19,6 +19,8 @@ export class EntityListComponent{
 
 	mapSize = {"width": 973.53, "height":553.6};
 
+	hoverProfile:any;
+
 	/*
 	50.251944, 12.091389 Z
 	49.550278, 18.858889 V
@@ -58,11 +60,11 @@ export class EntityListComponent{
 		
 		profiles.forEach((profile,i) => {
 			
-			var letter = profile.entity.name.substring(0,1).toUpperCase();
-			if(profile.entity.name.substring(0,2).toUpperCase() === "CH") letter = "CH";
-			if(!letter.match(/^\w+$/)) letter = "#";
-			
 			profile.searchString = this.cleanString(profile.entity.name);
+			
+			var letter = profile.searchString.substring(0,1).toUpperCase();
+			if(profile.searchString.substring(0,2).toUpperCase() === "CH") letter = "CH";
+			if(!letter.match(/^\w+$/)) letter = "#";
 			
 			var pushEntity = this.letters.some(item => {
 				if(item.letter === letter) {
@@ -77,6 +79,9 @@ export class EntityListComponent{
 			});
 				
 		});
+		
+		this.letters.sort((a,b) => a.letter < b.letter ? -1 : (a.letter > b.letter ? 1 : 0));
+		
 	}
 
 	cleanString(value: string){

@@ -28,6 +28,8 @@ header, nav, .btn, h1, h2, h3, h4, h5, h6 {
   font-family: 'Raleway', sans-serif;
 }
 
+td.amount,th.amount{text-align:right;white-space:nowrap;}
+
 #loading {
 	display: none;
 	position: absolute;
