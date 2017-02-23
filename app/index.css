@@ -1,197 +1,66 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,500,700&subset=latin-ext');
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Slab:400,700&subset=latin-ext');
 
+/**
+	* GENERAL STYLES
+	* 
+	* These styles apply to the whole website
+	* 
+	**/
+
+/* Main structure styles */
 body {
 	background-color:#fff;
   font-family: 'Roboto Slab', serif;
 }
-body.loading {
-	background-color:#eee;
+
+body, supervizor-plus {
+	position: absolute;
+	min-height: 100%;
+	min-width: 100%;
 }
 
-body.modal-open {
-	overflow-y: scroll;
+body.modal-open {overflow-y: scroll;}
+
+supervizor-plus {
+  /* Margin bottom by footer height */
+	padding-bottom: 100px;
 }
 
+/* Generic tag styles */
+a {outline: 0;}
 
-h1,
-h2,
-h3,
-h4 {
-	margin: 1.2em 0px .5em 0px;
-	font-weight: 700;
-}
+h1,h2,h3,h4 {margin: 1.2em 0px .5em 0px;font-weight: 700;}
 
 h1, h2 { margin: 0em 0 .2em 0;}
 
-header, nav, .btn, h1, h2, h3, h4, h5, h6 {
-  font-family: 'Raleway', sans-serif;
-}
+header, nav, .btn, h1, h2, h3, h4, h5, h6 {font-family: 'Raleway', sans-serif;}
 
+form {margin: 0;}
+
+/* Content specific classes */
 td.amount,th.amount{text-align:right;white-space:nowrap;}
 
-#loading {
-	display: none;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 300px;
-	height: 300px;
-	margin: -150px 0 0 -150px;
-	background-color: #fff;
-	border-radius: 150px;
-	/*-webkit-animation: loading-bounce 4.0s infinite ease-in-out;
-  animation: loading-bounce 4.0s infinite ease-in-out;*/
-	-webkit-animation-name: example;
-	/* Chrome, Safari, Opera */
-	-webkit-animation-duration: 4s;
-	/* Chrome, Safari, Opera */
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: ease-in-out;
-	animation-name: example;
-	animation-duration: 4s;
-	animation-iteration-count: infinite;
-	animation-timing-function: ease-in-out;
+.padding {padding: 30px;}
+
+.clickable {
+	cursor: pointer;
+	cursor: hand;
 }
 
+/**
+	* BOOTSTRAP TWEAKS
+	* 
+	* Some things we didn't like in Bootstrap
+	* 
+	**/
 
-
-/* Chrome, Safari, Opera */
-
-@-webkit-keyframes example {
-	0% {
-		box-shadow: 20px 0px 0px rgba(240, 240, 240, .5), -20px 0px 0px rgba(240, 240, 240, .5), 0px 20px 0px rgba(240, 240, 240, .5), 0px -20px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5);
-	}
-	50% {
-		box-shadow: 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 15px 15px 0px rgba(240, 240, 240, .5), -15px -15px 0px rgba(240, 240, 240, .5), -15px 15px 0px rgba(240, 240, 240, .5), 15px -15px 0px rgba(240, 240, 240, .5);
-	}
-	100% {
-		box-shadow: 20px 0px 0px rgba(240, 240, 240, .5), -20px 0px 0px rgba(240, 240, 240, .5), 0px 20px 0px rgba(240, 240, 240, .5), 0px -20px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5all);
-	}
+@media print {
+	
+	/* disables links in parenthesis when printing */
+  a[href]:after {content: none; /* default: content:" (" attr(href) ")" */;}
+	
 }
-
-
-/* standard */
-
-@keyframes example {
-	0% {
-		box-shadow: 20px 0px 0px rgba(240, 240, 240, .5), -20px 0px 0px rgba(240, 240, 240, .5), 0px 20px 0px rgba(240, 240, 240, .5), 0px -20px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5);
-	}
-	50% {
-		box-shadow: 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 15px 15px 0px rgba(240, 240, 240, .5), -15px -15px 0px rgba(240, 240, 240, .5), -15px 15px 0px rgba(240, 240, 240, .5), 15px -15px 0px rgba(240, 240, 240, .5);
-	}
-	100% {
-		box-shadow: 20px 0px 0px rgba(240, 240, 240, .5), -20px 0px 0px rgba(240, 240, 240, .5), 0px 20px 0px rgba(240, 240, 240, .5), 0px -20px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5), 0px 0px 0px rgba(240, 240, 240, .5);
-	}
-}
-
-#headerLoading {
-	display: block;  
-	padding: 50px 0px 0px 0px;
-	background: url('http://janvlasaty.name/polepozadi.jpg') no-repeat; 
-	background-size: 100% auto; background-position: center -115px; 
-	text-align: center;
-	color: white;
-	font-weight: bold;
-	min-height: 330px;
-	border-bottom: 5px solid #eee; 
-	text-shadow: 0px 0px 6px rgba(0,0,0,.3);
-}
-@media (max-width: 1200px) {
-		#headerLoading {
-				background-size: 1200px auto; /* Force the image to its minimum width */
-		}
-}
-#headerLoading .fa-flipping {
-	-webkit-animation-name: flipping;
-	/* Chrome, Safari, Opera */
-	-webkit-animation-duration: 5s;
-	/* Chrome, Safari, Opera */
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: ease-in-out;
-	animation-name: flipping;
-	animation-duration: 5s;
-	animation-iteration-count: infinite;
-	animation-timing-function: ease-in-out;
-}
-@-webkit-keyframes flipping {
-	0% {
-		transform: scale(-1,1);
-	}
-	50% {
-		transform: scale(1,1);
-	}
-	100% {
-		transform: scale(-1,1);
-	}
-}
-
-
-/* standard */
-
-@keyframes flipping {
-	0% {
-		transform: scale(-1,1);
-	}
-	50% {
-		transform: scale(1,1);
-	}
-	100% {
-		transform: scale(-1,1);
-	}
-}
-
-#loading p {
-	position: absolute;
-	z-index: 2000;
-	color: #888;
-	top: 60%;
-	left: 0px;
-	padding: 0px 30px;
-	font-size: 12px;
-	text-align: center;
-}
-
-#loading img {
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	margin: -30px 0 0 -110px;
-}
-
-.page {
-	position: relative;
-	background-color: #fff;
-	padding-top: 2em;
-}
-
-.padding {
-	padding: 30px;
-}
-
-form {
-	margin: 0;
-}
-
-.editable edit-toolbar {
-	display: none;
-}
-
-.editable:hover edit-toolbar,
-.editable.editmode edit-toolbar {
-	display: block;
-}
-
-/*
-@media (max-width: 978px) {
-	.container {
-		padding: 0;
-		margin: 0;
-	}
-	.page {
-		margin: 0;
-	}
-}*/
 
 .panel-body.no-padding {
 	padding: 0px;
@@ -205,21 +74,6 @@ form {
 }
 .progress-xs {
 	height: 5px;
-}
-
-.div-table-head {
-	font-weight: bold;
-	border-bottom: 2px solid #eee;
-	margin: 1em 0em;
-}
-
-.clickable {
-    cursor: pointer;
-    cursor: hand;
-}
-
-.clickable-grey-bg:hover {
-	background: rgb(0,0,0,.2);
 }
 
 .well {
@@ -237,23 +91,50 @@ form {
 .margin-bottom-md {margin-bottom: 15px; }
 .margin-bottom-lg {margin-bottom: 20px; }  
 
+
+
+.div-table-head {
+	font-weight: bold;
+	border-bottom: 2px solid #eee;
+	margin: 1em 0em;
+}
+
+
+
+.clickable-grey-bg:hover {
+	background: rgb(0,0,0,.2);
+}
+
+
+
 .skupina-label .label {
 	margin: 1em 0em 0em 0em;
 }
 
-body, supervizor-plus {
-	position: absolute;
-min-height: 100%;
-min-width: 100%;
-}
 
-supervizor-plus {
-  /* Margin bottom by footer height */
-	padding-bottom: 100px;
-}
+/**
+	* LOADING ANIMATION - TODO: DELETE
+	* 
+	* This is the animation to be used before the app loads. This is used when using Angular2 just in time compiler, when loading takes few seconds
+	* 
+	**/
 
-a {
-   outline: 0;
+#headerLoading {
+	display: block;  
+	padding: 50px 0px 0px 0px;
+	background: url('/assets/img/polepozadi.jpg') no-repeat; 
+	background-size: 100% auto; background-position: center -115px; 
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	min-height: 330px;
+	border-bottom: 5px solid #eee; 
+	text-shadow: 0px 0px 6px rgba(0,0,0,.3);
+}
+@media (max-width: 1200px) {
+		#headerLoading {
+				background-size: 1200px auto; /* Force the image to its minimum width */
+		}
 }
 
 #polyline {
@@ -261,40 +142,6 @@ a {
   stroke-dashoffset: 2000;
   animation: dash 3s ease-out forwards;
 }
-/*
-.cls-1 {
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  animation: dash 3s ease-out forwards;
-}
-.cls-2 {
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  animation: dash 3s ease-out forwards;
-	-webkit-animation-delay: 2s; 
-  animation-delay: 2s;
-}
-.cls-3 {
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  animation: dash 3s ease-out forwards;
-	-webkit-animation-delay: 3s; 
-  animation-delay: 3s;
-}
-.cls-4 {
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  animation: dash 3s ease-out forwards;
-	-webkit-animation-delay: 4s; 
-  animation-delay: 4s;
-}
-.cls-5 {
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  animation: dash 3s ease-out forwards;
-	-webkit-animation-delay: 5s; 
-  animation-delay: 5s;
-}*/
 
 .cls-1 {
   stroke-dasharray: 400;
@@ -338,15 +185,3 @@ a {
     stroke-dashoffset: 0;
   }
 }
-
-/*
-.btn-primary {
-	background: white;
-	color: #2581C4;
-	border-color: #2581C4;
-}
-.btn-primary:hover, .btn-primary.active, .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary.focus:active, .btn-primary:active:focus, .btn-primary:active:hover, .open > .dropdown-toggle.btn-primary.focus, .open > .dropdown-toggle.btn-primary:focus, .open > .dropdown-toggle.btn-primary:hover {
-	color: white;
-	background: #2581C4;
-	box-shadow: none;
-}*/
