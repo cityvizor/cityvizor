@@ -41,6 +41,13 @@
 	min-height:800px;
 }
 
+#vizmodules{position:relative;}
+#vizmodules > * {
+	position:absolute;
+	top:0;left:0;right:0;
+}
+	
+
 .list-group {
 	position: relative;
 	z-index: 1;

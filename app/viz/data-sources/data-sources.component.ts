@@ -6,7 +6,9 @@ import { ActivatedRoute, Params } from '@angular/router';
 	moduleId: module.id,
 	selector: 'data-sources',
 	templateUrl: 'data-sources.template.html',
-	styleUrls: [],
+	styles: [`
+		* {opacity:inherit;}
+	`],
 })
 export class DataSourcesComponent {
 

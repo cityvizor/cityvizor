@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { NoticeBoardService } from '../../services/notice-board.service';
-import { DataService } from '../../services/data.service';
+import { YQLService } from '../../services/yql.service';
 import { ToastService } 		from '../../services/toast.service';
 
 import {Http} from '@angular/http';
@@ -21,8 +20,12 @@ export class NoticeBoardComponent {
 	set profile(profile) {
 		if(profile && this.profileId !== profile._id){
 			this.profileId = profile._id;
+			
 			this.mapURL = this.sanitizer.bypassSecurityTrustResourceUrl("http://mapasamospravy.cz/embed?q[lau_id_eq]=" + profile.entity.mapasamospravy + "#14/" + profile.entity.gps[1] + "/" + profile.entity.gps[0]);
-			this._nbs.getList(profile.entity.edesky).then(documents => this.documents = documents);
+			
+			this.yql.query("select documents from xml where url = 'https://edesky.cz/api/v1/documents?dashboard_id=" + profile.entity.edesky + "&order=date&search_with=sql&page=1'")
+				.then(data => data.query.results.edesky_search_api.documents.document)
+				.then(documents => this.documents = documents);
 		}
 	}
 
@@ -32,20 +35,7 @@ export class NoticeBoardComponent {
 
 	documents: Array<any>;
 
-	constructor(private _nbs: NoticeBoardService, private _ds: DataService, private sanitizer: DomSanitizer) {
-	}
-
-	openPreview(document){
-		document.showPreview = true;
-		document.preview = "Načítám...";
-		this._nbs.getPreview(document.id)
-			.then(preview => document.preview = preview)
-			.catch(err => document.preview = "Nastala chyba při načítání.");
-	}
-
-	linkEDesky(document){
-	}
-	linkdDocument(document){
+	constructor(private yql:YQLService, private sanitizer:DomSanitizer) {
 	}
 
 }

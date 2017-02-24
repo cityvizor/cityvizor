@@ -33,12 +33,15 @@ export class ContractListComponent {
 
 	loadData(){
 		
-		var query = "select * from html where url='https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=" + this.limit + "%26do=searchResultList-setLimit%26subject_idnum=" + this.ico + "%26all_versions=0' and xpath='//*[@id=\"snippet-searchResultList-list\"]/table/tbody/tr'";
+		var query = "select * from html where url='https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=" + this.limit + "&do=searchResultList-setLimit&subject_idnum=" + this.ico + "&all_versions=0' and xpath='//*[@id=\"snippet-searchResultList-list\"]/table/tbody/tr'";
 		
 		this.loading = true;
 		
 		this.yql.query(query)
 			.then(data => {
+			
+				this.loading = false;
+			
 				data.query.results.tr.forEach(row => {
 					let amount = this.parseAmount(row.td[4].content);
 					let contract = {
@@ -55,7 +58,7 @@ export class ContractListComponent {
 				this.loading = false;
 			})
 			.catch(err => {
-				this.toastService.toast("Nastala chyba při stahování akcí.","error");
+				this.toastService.toast("Nastala chyba při stahování dat z registru smluv","error");
 			});
 		 
 	 }

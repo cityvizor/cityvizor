@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, trigger, state, style, transition, animate } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { DataService } 		from '../../services/data.service';
@@ -12,6 +12,17 @@ import { Module, MODULES } from "../../shared/data/modules";
 	selector: 'entity-profile',
 	templateUrl: 'entity-profile.template.html',
 	styleUrls: ['entity-profile.style.css'],
+	animations: [
+		trigger('switchAnimation', [
+			transition(':enter', [
+				style({opacity: 0}),
+				animate("200ms", style({opacity: 1}))
+			]),
+			transition(':leave', [
+				animate("200ms", style({opacity: 0}))
+			])
+		])
+	]
 })
 export class EntityProfileComponent {
 

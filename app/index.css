@@ -48,6 +48,10 @@ td.amount,th.amount{text-align:right;white-space:nowrap;}
 	cursor: hand;
 }
 
+@media print {
+	a{text-decoration:underline;}
+}
+
 /**
 	* BOOTSTRAP TWEAKS
 	* 
