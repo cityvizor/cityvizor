@@ -19,7 +19,7 @@ console.log("Exporting...");
 /* BUDGETS */
 
 exports.push(new Promise(function(resolve,reject){
-	var file = fs.createWriteStream(exportsDir + '/budgets.zip');
+	var file = fs.createWriteStream(exportsDir + '/budgets.json.zip');
 	file.on("close",() => {
 		console.log("Budgets exported.");
 		resolve();
@@ -38,7 +38,7 @@ exports.push(new Promise(function(resolve,reject){
 
 /* ENTITIES */
 exports.push(new Promise(function(resolve,reject){
-	var file = fs.createWriteStream(exportsDir + '/entities.zip');
+	var file = fs.createWriteStream(exportsDir + '/entities.json.zip');
 	file.on("close",() => {
 		console.log("Entities exported.");
 		resolve();

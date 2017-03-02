@@ -1,4 +1,33 @@
+
 <div *ngIf="event">
+	<table class="table table-responsive small">
+		<thead>
+			<tr>
+				<th>Datum</th>
+				
+				<th>Dodavatel</th>
+				<th>IČO</th>
+				<th>Položka</th>
+				<th>Paragraf</th>
+				<th>Popis</th>
+				<th>Částka</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let invoice of event.invoices">
+				<td>{{invoice.date | date:"d. M. y"}}</td>
+				<td>{{invoice.counterpartyName}}</td>
+				<td>{{invoice.counterpartyId}}</td>
+				<td>{{invoice.item}}</td>
+				<td>{{invoice.paragraph}}</td>
+				<td>{{invoice.description}}</td>
+				<td class="text-right">{{invoice.amount | money:0:false}} Kč</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+
 	<div *ngFor="let budget of event.budgets">
 		
 		

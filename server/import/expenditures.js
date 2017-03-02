@@ -1,11 +1,11 @@
 var fs = require("fs");
 var parse = require("csv-parse");
 var ExpenditureTransformer = require ("./expenditures-transformer.js");
-var ExpenditureDBWriter = require ("./expenditures-dbwriter.js");
 
 var ExpendituresSchema = require("../models/expenditures");
 var Budget = ExpendituresSchema.Budget;
 var EventBudget = ExpendituresSchema.EventBudget;
+var Invoice = ExpendituresSchema.Invoice;
 
 /**
 	* Expenditures and budget data importer
@@ -25,13 +25,11 @@ module.exports = function(filePath, profileId, year){
 	// Transformer to convert 2D CSV structure to JSON tree. Takes CSV source row by row and returns the whole data bundle at end.
 	var transformer = new ExpenditureTransformer(profileId, year);
 	
-	// Write JSON tree to MongoDB database
-	var dbwriter = new ExpenditureDBWriter(profileId,year);
-	
 	// Clear old data. We always replace entire year block of data. Data is intentionally partitioned in DB to make this easy.
 	var clearOld = [];
 	clearOld.push(Budget.remove({profile:profileId,year:year}));
 	clearOld.push(EventBudget.remove({profile:profileId,year:year}));
+	clearOld.push(Invoice.remove({profile:profileId,year:year}));
 	// TODO: clearOld.push(EventInvoices.remove({profileId:profileId,year:year}));
 	
 	// After all clearing finished, launch the import

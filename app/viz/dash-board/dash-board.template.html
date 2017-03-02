@@ -80,9 +80,10 @@
 					<path [attr.d]="'M '+((i+1/2)*1000/4-100)+',150 L '+((i+1/2)*1000/4+100)+',150'" stroke="#e0e0e0" stroke-width="1"/>
 					<g *ngIf="dashboardData.Inc.YearAmounts[i]>0 && dashboardData.Exp.YearAmounts[i]>0">
 						<g>
-							<path [attr.d]="getIncSemicirclePath((i+1/2)*1000/4,150,90*(dashboardData.Inc.YearAmounts[i]/getMaxIncYearAmount()))" fill="#f0f0f0" stroke="#ffffff" stroke-width="1" />
-							<path [attr.d]="getExpSemicirclePath((i+1/2)*1000/4,150,90*(dashboardData.Exp.YearAmounts[i]/getMaxExpYearAmount()))" fill="#e0e0e0" stroke="#ffffff" stroke-width="1" />
-							
+							<path [attr.d]="getIncSemicirclePath(i)" fill="#f0f0f0" stroke="#ffffff" stroke-width="1" />
+							<path [attr.d]="getExpSemicirclePath(i)" fill="#e0e0e0" stroke="#ffffff" stroke-width="1" />
+							<path [attr.d]="getDiffSemicirclePath(i)" [attr.fill]="getDiffSemicircleFill(i)" stroke="#ffffff" stroke-width="1" />
+							<!--
 							<path *ngIf="dashboardData.Inc.YearAmounts[i] < dashboardData.Exp.YearAmounts[i]" 
 										[attr.d]="getExpTrianglePath((i+1/2)*1000/4,150,20+70*(dashboardData.Exp.YearAmounts[i]-dashboardData.Inc.YearAmounts[i])/dashboardData.Exp.YearAmounts[i])" 
 										fill="#E73431" 
@@ -92,10 +93,10 @@
 										[attr.d]="getIncTrianglePath((i+1/2)*1000/4,150,20+70*(dashboardData.Inc.YearAmounts[i]-dashboardData.Exp.YearAmounts[i])/dashboardData.Inc.YearAmounts[i])" 
 										fill="#2581C4" 
 										stroke="#ffffff" 
-										stroke-width="3" />
+										stroke-width="3" />-->
 							
 							<text	[attr.x]="(i+1/2)*1000/4" 
-											[attr.y]="((dashboardData.Exp.YearAmounts[i] > dashboardData.Inc.YearAmounts[i])?145:165)" 
+											[attr.y]="((dashboardData.Exp.YearAmounts[i] > dashboardData.Inc.YearAmounts[i])?170:145)" 
 											[attr.fill]="((dashboardData.Exp.YearAmounts[i] > dashboardData.Inc.YearAmounts[i])?'#E73431':'#2581C4')"
 											 style="font-weight: bold;font-size:20px;text-anchor:middle;">
 								{{(dashboardData.Inc.YearAmounts[i] < dashboardData.Exp.YearAmounts[i]?'':'+')+(dashboardData.Inc.YearAmounts[i]-dashboardData.Exp.YearAmounts[i])/1000+'mil.'}}</text>

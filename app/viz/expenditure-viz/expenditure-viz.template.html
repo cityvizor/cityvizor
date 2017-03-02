@@ -7,7 +7,7 @@
 			
 			<div [attr.class]="!selectedGroup?'col-sm-8':'col-sm-6'">
 				
-				<chart-bigbang [data]="data" [selectedGroup]="selectedGroup" [hoveredGroup]="hoveredGroup" (selectGroup)="selectedGroup=$event" (hoverGroup)="hoveredGroup=$event" [scale]="vizScale"></chart-bigbang>
+				<chart-bigbang [data]="budget" [selectedGroup]="selectedGroup" [hoveredGroup]="hoveredGroup" (selectGroup)="selectedGroup=$event" (hoverGroup)="hoveredGroup=$event" [scale]="vizScale"></chart-bigbang>
 				
 			</div>	
 			
@@ -48,13 +48,13 @@
 		
 		<div style="clear:both;"><br></div>
 
-		<div *ngIf="!data.groupIndex[selectedGroup.id]" class="text-center">
+		<div *ngIf="!budget.groupIndex[selectedGroup.id]" class="text-center">
 			<span class="label label-warning"><i class="fa fa-warning"></i> Tato skupina nemá žádnou rozpočtovanou položku!</span>		
 		</div>
 
-		<div *ngIf="data.groupIndex[selectedGroup.id]">
+		<div *ngIf="budget.groupIndex[selectedGroup.id]">
 
-			<div *ngFor="let paragraph of data.groupIndex[selectedGroup.id].paragraphs" class="paragraph">
+			<div *ngFor="let paragraph of budget.groupIndex[selectedGroup.id].paragraphs" class="paragraph">
 
 				<div class="graph">
 					
@@ -79,15 +79,15 @@
 						<thead>
 							<tr>
 								<th>Investiční akce</th>
-								<th>Realizované výdaje</th>
 								<th>Rozpočet</th>
+								<th>Realizované výdaje</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr *ngFor="let event of paragraph.events">
-								<td><a (click)="openEvent(event)">{{event.name}}</a></td>
-								<td>{{event.expenditureAmount | money:0:true}} Kč</td>
+								<td><a (click)="openEvent(event.event)">{{getEventName(event.event)}}</a></td>
 								<td>{{event.budgetAmount | money:0:true}} Kč</td>
+								<td>{{event.expenditureAmount | money:0:true}} Kč</td>
 							</tr>
 						</tbody>
 					</table>

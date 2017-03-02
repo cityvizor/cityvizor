@@ -45,6 +45,7 @@
 #vizmodules > * {
 	position:absolute;
 	top:0;left:0;right:0;
+	padding-bottom:120px;
 }
 	
 

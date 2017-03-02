@@ -36,10 +36,10 @@ export class ExpenditureVizComponent{
 	public eventReceiptsModal:ModalDirective;
 	
 	// decides which year's data should be loaded
-	year: number = 2016;
+	year: number = 2017;
 
 	// the data loaded
-	data = {
+	budget = {
 		year: this.year,
 		
 		events: [],
@@ -55,6 +55,9 @@ export class ExpenditureVizComponent{
 		paragraphIndex: {},
 		eventIndex: {}
 	};
+
+	events = [];
+	eventIndex = {};
 
 	groups: Array<{"id": string, "title": string}>;
 	paragraphNames: {};
@@ -87,10 +90,16 @@ export class ExpenditureVizComponent{
 		
 		if(!id || !year) return;
 		
-		var loadingToast = this._toastService.toast("Načítám data o výdajích...", "loading", true);
-		
 		// data on expenditures (from the organization accounting software) are loaded and parsed.
 		var i = 0;
+		
+		// get event names
+		this._ds.getEvents(id)
+			.then(events => {
+				this.events = events;
+				this.eventIndex = {};
+				this.events.forEach(event => this.eventIndex[event.id] = event);
+			});
 		
 		// we get a Promise
 		this._ds.getBudget(id,year)
@@ -98,11 +107,9 @@ export class ExpenditureVizComponent{
 				this.linkData(data);
 				this.sortData(data);
 				console.log(data);
-				this.data = data;
-				loadingToast.hide();
+				this.budget = data;
 			})
 			.catch((err) => {
-				loadingToast.hide();
 				switch(err.status){
 					case 404:
 						this._toastService.toast("Data nejsou k dispozici", "warning");
@@ -116,6 +123,10 @@ export class ExpenditureVizComponent{
 						this._toastService.toast("Nastala neočekávaná chyba","error");
 				}
 			});
+	}
+
+	getEventName(eventId){
+		return this.eventIndex[eventId] ? this.eventIndex[eventId].name : "Akce " + eventId;
 	}
 
 	findItem(array,id){
@@ -188,10 +199,11 @@ export class ExpenditureVizComponent{
 		this.vizScale = this.selectedGroup !== null ?  0.5 : 1;
 	}
 
-	openEvent(event){
+	openEvent(eventId){
 		
 		this.eventReceiptsModal.show();
-		this._ds.getEvent(event.event)
+		console.log(eventId);
+		this._ds.getProfileEvent(this.profileId,eventId)
 			.then(eventData => this.openedEvent = eventData)
 			.catch(err => this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error"));
 			
@@ -200,12 +212,12 @@ export class ExpenditureVizComponent{
 
 	/* VIZ HELPER FUNCTIONS */
 	getBarBudgetPercentage(group) {
-		if(!this.data.groupIndex[group.id]) return 0;
-		return Math.round(this.data.groupIndex[group.id].budgetAmount / this.data.maxBudgetAmount * 100);
+		if(!this.budget.groupIndex[group.id]) return 0;
+		return Math.round(this.budget.groupIndex[group.id].budgetAmount / this.budget.maxBudgetAmount * 100);
 	}
 	getBarExpenditurePercentage(group) {
-		if(!this.data.groupIndex[group.id]) return 0;
-		return Math.round(this.data.groupIndex[group.id].expenditureAmount / this.data.groupIndex[group.id].budgetAmount * 100);
+		if(!this.budget.groupIndex[group.id]) return 0;
+		return Math.round(this.budget.groupIndex[group.id].expenditureAmount / this.budget.groupIndex[group.id].budgetAmount * 100);
 	}
 	
 

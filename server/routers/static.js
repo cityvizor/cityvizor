@@ -14,6 +14,9 @@ router.get("/aot", (req,res) => res.sendStatus(404));
 router.use('/assets', express.static("assets"));
 router.get("/assets", (req,res) => res.sendStatus(404));
 
+router.use('/exports', express.static("exports"));
+router.get("/exports", (req,res) => res.sendStatus(404));
+
 router.use('/node_modules', express.static("node_modules"));
 router.get("/node_modules", (req,res) => res.sendStatus(404));
 

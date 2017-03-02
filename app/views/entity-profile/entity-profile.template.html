@@ -33,8 +33,8 @@
 									</a>
 								</li>
 							</ul>
-						</div><!--/.nav-collapse -->
-					</div><!--/.container-fluid -->
+						</div>
+					</div>
 				</nav>
 		</div>
 	</div>
@@ -66,6 +66,8 @@
 					<notice-board *ngSwitchCase="'notice-board'" [profile]="profile" [@switchAnimation]></notice-board>
 
 					<contract-list *ngSwitchCase="'contract-list'" [profile]="profile" [@switchAnimation]></contract-list>
+					
+					<data-sources *ngSwitchCase="'data-sources'" [@switchAnimation]></data-sources>
 
 				</div>
 			</div>

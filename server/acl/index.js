@@ -63,6 +63,6 @@ module.exports = function(resource,operation){
 		if(result) next();
 		
 		// if permission not granted, then end request with 401 Unauthorized
-		else res.sendStatus(401);
+		else res.status(401).send("Unauthorized" + (req.user ? " (" + req.user._id + ")" : ""));
 	}
 };

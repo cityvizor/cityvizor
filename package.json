@@ -7,7 +7,8 @@
     "start": "node server/server.js",
     "dev": "concurrently \"tsc -w\" \"nodemon server/server-dev.js\"",
     "build": "ngc -p tsconfig-aot.json && rollup -c rollup-config.js",
-    "db": "cd ./node_modules/mongo-express/ && node app.js"
+    "db": "cd ./node_modules/mongo-express/ && node app.js",
+		"log": "tail -f /var/log/supervizor.log"
   },
   "keywords": [
     "opendata",

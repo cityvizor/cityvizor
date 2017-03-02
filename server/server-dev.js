@@ -22,6 +22,6 @@ app.get('*',(req,res) => {
 	res.sendFile("app/index.html", { root: __dirname + "/.." });	
 });
 
-app.listen(80, function () {
+app.listen(8080, function () {
 	console.log('Supervizor Plus Server listening!')
 })

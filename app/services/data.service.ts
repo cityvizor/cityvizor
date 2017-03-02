@@ -40,6 +40,10 @@ export class DataService {
 	saveProfile(profile){
 		return this.authHttp.post("/api/profiles/" + profile._id,profile).toPromise().then(response => response.json());
 	}
+	
+	getProfileEvent(profileId,eventId){
+		return this.http.get("/api/profiles/" + profileId + "/events/" + eventId).toPromise().then(response => response.json());
+	}
 
 	/* DASHBOARD */
 	getDashboard(profileId){
@@ -58,7 +62,7 @@ export class DataService {
 	
 	getEvents(profileId?){
 		if(profileId) return this.http.get("/api/profiles/" + profileId + "/events").toPromise().then(response => response.json());
-		else return this.http.get("/api/events/").toPromise().then(response => response.json());
+		else return this.http.get("/api/events").toPromise().then(response => response.json());
 	}
 	
 	/* IMPORT */

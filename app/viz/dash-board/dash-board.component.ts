@@ -75,11 +75,48 @@ export class DashboardComponent {
 			return x + ' ' + y;
 	}
 
-	getExpSemicirclePath (sx,sy,r) {
+	getExpSemicirclePath (i) {
+		var MAX_R = 90;
+		var sx = (i+1/2)*1000/4;
+		var sy = 150;
+		var r = MAX_R * (this.dashboardData.Exp.YearAmounts[i]/this.getMaxExpYearAmount());
 		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,0,"+(sx+r)+" "+sy+" Z";
 	}
-	getIncSemicirclePath (sx,sy,r) {
+	getIncSemicirclePath (i) {
+		var MAX_R = 90;
+		var sx = (i+1/2)*1000/4;
+		var sy = 150;
+		var r = MAX_R * (this.dashboardData.Inc.YearAmounts[i]/this.getMaxIncYearAmount());
 		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,1,"+(sx+r)+" "+sy+" Z";
+	}
+	getDiffSemicircleFill (i) {
+		if (this.dashboardData.Inc.YearAmounts[i]>this.dashboardData.Exp.YearAmounts[i])
+			return "#ADF";
+		if (this.dashboardData.Inc.YearAmounts[i]<this.dashboardData.Exp.YearAmounts[i])
+			return "#FF9491";
+	}
+	getDiffSemicirclePath (i) {
+		var MAX_R = 90;
+		var sx = (i+1/2)*1000/4;
+		var sy = 150;
+		var rInc = MAX_R * (this.dashboardData.Inc.YearAmounts[i]/this.getMaxIncYearAmount());
+		var rExp = MAX_R * (this.dashboardData.Exp.YearAmounts[i]/this.getMaxExpYearAmount());
+		
+		var r1, r2, orientation;
+		
+		if (rInc>rExp) {
+			r1 = rInc;
+			r2 = rExp;
+			orientation = 1;
+		}
+		else {
+			r1 = rExp;
+			r2 = rInc;
+			orientation = 0;
+		}
+		if ((r1-r2)<3) r1=r1+(3-(r1-r2));
+		
+		return "M"+(sx-r1)+" "+sy+" A "+r1+" "+r1+",0,0,"+orientation+","+(sx+r1)+" "+sy+" L"+(sx+r2)+" "+sy+" A "+r2+" "+r2+",0,0,"+(orientation>0?"0":"1")+","+(sx-r2)+" "+sy+" Z";
 	}
 	 
 	 

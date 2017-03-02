@@ -5,8 +5,10 @@ var ExpendituresSchema = require("../models/expenditures");
 var Budget = ExpendituresSchema.Budget;
 var Event = ExpendituresSchema.Event;
 var EventBudget = ExpendituresSchema.EventBudget;
+var Invoice = ExpendituresSchema.Invoice;
 
 module.exports = class ExpenditureTransformer extends Transform {
+
 
 	constructor(profileId,year) {
 		
@@ -19,7 +21,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		// reset index objects and other variables to their initial values
 		this.reset();
-		this.loadEventList();
+			
 	}
 	
 	log(msg){
@@ -34,10 +36,15 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		// couter of written documents to DB
 		this.counter = {
-			events: 0,
 			eventBudgets: 0,
-			budgets: 0
+			budgets: 0,
+			invoices: 0
 		};
+		
+		// array to store all the Promises with requests to DB so that we can track when everything resolves
+		this.requests = [];
+		
+		this.invoices = [];
 		
 		// object to store budget data and array-indexes through the transform
 		this.budget = {
@@ -48,42 +55,13 @@ module.exports = class ExpenditureTransformer extends Transform {
 			paragraphs: []
 		};
 		this.paragraphIndex = {};
-		this.paragraphEventIndex = {};
-		
-		// variables to store events
-		this.events = [];
-		this.eventIndex = {};
-		this.eventParagraphIndex = {};
-		
+		this.paragraphEventIndex = {};		
 		
 		// variables to store event budgets
 		this.eventBudgets = [];
 		this.eventBudgetIndex = {};
 		this.eventBudgetParagraphIndex = {};
 		this.eventBudgetItemIndex = {};
-		
-	}
-	
-	/**
-		* load events' IDs to pair imported events with those already in database
-		**/
-	loadEventList(){
-		
-		// we don't want to receive stream input until event IDs are loaded
-		this.cork();				
-		
-		// load the events
-		Event.find({profile:this.profileId},"id _id", (err,eventIds) => {
-			
-			// convert received array to event index object
-			eventIds.forEach(item => {
-				this.events.push(item);
-				this.eventIndex[item.id] = item;
-			});
-			
-			// now we can receive stream input
-			this.uncork();			
-		});
 		
 	}
 
@@ -104,39 +82,16 @@ module.exports = class ExpenditureTransformer extends Transform {
 		return this.paragraphIndex[paragraphId];
 	}
 	
-	/**
-		* get event object. in case it doesnt exist, create it and make a record in event index
-		**/
-	getEvent(eventId){
-		
-		var event = this.eventIndex[eventId];
-		
-		if (!event) {
-			
-			event = {
-				_id: mongoose.Types.ObjectId(),
-				id: eventId,
-				name: "",
-				gps: null
-			};			
-			
-			this.events.push(event);
-			this.eventIndex[eventId] = event;
-		}
-		
-		return event;
-	}
 	
 	/**
 		* get event budget object. in case it doesnt exist, create it and make a record in event budget index
 		**/
-	getEventBudget(event){
-		var budget = this.eventBudgetIndex[event.id];		
+	getEventBudget(eventId){
+		var budget = this.eventBudgetIndex[eventId];		
 		
 		if(!budget){
 			budget = {
-				event: event._id,
-				eventId: event.id,
+				event: eventId,
 				profile: this.profileId,
 				year: this.year,
 				paragraphs: [],
@@ -145,14 +100,14 @@ module.exports = class ExpenditureTransformer extends Transform {
 				budgetAmount: 0
 			};
 			this.eventBudgets.push(budget);
-			this.eventBudgetIndex[event.id] = budget;
+			this.eventBudgetIndex[eventId] = budget;
 		}
 		
 		return budget;
 	}
 
 	getEventBudgetParagraph(eventBudget, paragraphId) {
-		var epId = eventBudget.eventId + "-" + paragraphId;
+		var epId = eventBudget.event + "-" + paragraphId;
 		
 		var eventBudgetParagraph = this.eventBudgetParagraphIndex[epId];
 		
@@ -172,7 +127,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 	}
 	
 	getEventBudgetItem(eventBudget, itemId) {
-		var epId = eventBudget.eventId + "-" + itemId;
+		var epId = eventBudget.event + "-" + itemId;
 		
 		var eventBudgetItem = this.eventBudgetItemIndex[epId];
 		
@@ -191,16 +146,15 @@ module.exports = class ExpenditureTransformer extends Transform {
 		return eventBudgetItem;
 	}
 	
-	getParagraphEvent(paragraph,event){
-		var epId = paragraph.id + "-" + event.id;
+	getParagraphEvent(paragraph,eventId){
+		var epId = paragraph.id + "-" + eventId;
 		
 		var paragraphEvent = this.paragraphEventIndex[epId];
 		
 		if (!paragraphEvent) {
 			
 			paragraphEvent = {
-				event: event._id,
-				name: event.name,
+				event: eventId,
 				expenditureAmount: 0,
 				budgetAmount: 0
 			};
@@ -222,76 +176,81 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		this.i++;
 		
-		if(Object.keys(item).length < 9){next();return;} // invalid row
+		if(Object.keys(item).length < 11){next();return;} // invalid row
 		if(this.i === 1){next();return;} // first row = header
 		
 		var type = item["DOKLAD_AGENDA"];
 
 		var paragraphId = item["PARAGRAF"];
 		var itemId = item["POLOZKA"];
+		var eventId = item["ORJ"];
 		
 		var budget = this.budget;
 
 		var paragraph = this.getParagraph(paragraphId);
-
-		var event = this.getEvent(item["ORJ"]);
-		event.name = item["ORJ_NAZEV"]; // name
 		
-		var eventBudget = this.getEventBudget(event);
+		var eventBudget = this.getEventBudget(eventId);
 
 		var eventBudgetParagraph = this.getEventBudgetParagraph(eventBudget, paragraphId);
 		var eventBudgetItem = this.getEventBudgetItem(eventBudget, itemId);
 		
-		var paragraphEvent = this.getParagraphEvent(paragraph,event);
+		var paragraphEvent = this.getParagraphEvent(paragraph,eventId);
 		
-		/* Set amounts */
-		var amount;
+		var amount = this.string2number(item["CASTKA"]);
+		
+		if(isNaN(amount)) console.log(item);
 
-		/* Expenditure amount */
-		amount = this.string2number(item[6]);
+		if(type === "ROZ") {
+			/* Budget amount */
+			[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item.budgetAmount = item.budgetAmount + amount);
+		}
+		else {
+			/* Expenditure amount */
+			[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item.expenditureAmount = item.expenditureAmount + amount);
+		}
 
-		[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item.expenditureAmount = item.expenditureAmount + amount);
-
-		/* Budget amount */
-		amount = this.string2number(item[8]);
-
-		[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item.budgetAmount = item.budgetAmount + amount);
-
+		if(type === "KDF"){
+			
+			this.invoices.push({
+				profile: this.profileId,
+				event: eventId,
+				year: this.year,
+				item: itemId,
+				paragraph: paragraphId,
+				date: item["DOKLAD_DATUM"],
+				amount: amount,
+				counterpartyId: item["SUBJEKT_IC"],
+				counterpartyName: item["SUBJEKT_NAZEV"],
+				description: item["POZNAMKA"]
+			});
+			
+			if(this.invoices.length >= 1000) this.requests.push(this.writeInvoices());
+		}
+		
 		/* Let next row come */
 		next();
 	}
 	
-	writeEvents(events){
-		return new Promise((resolve,reject) => {
-			this.writeEventsLoop(events,resolve,reject);
-		});
-	}
-	
-	/**
-		* method to write many events to database
-		**/
-	writeEventsLoop(events, resolve, reject){
-
-		// we take one event from the stack
-		var event = events.pop();
-
-		// search for existing event and update it. if does not exist, create a new one
-		return Event.findOneAndUpdate({profile:this.profileId, id:event.id}, event, {upsert:true})
-
-			.then((event) => {
-				this.counter.events++;
-				if(events.length) this.writeEventsLoop(events, resolve, reject);
-				else resolve();
+	writeInvoices(){
+		
+		var invoices = this.invoices;
+		this.invoices = [];
+		
+		return Invoice.insertMany(invoices)
+			.then(budgets => {
+				this.counter.invoices += invoices.length;
 			})
-
-			.catch(err => reject(err));
+			.catch(err => {
+				throw new Error("Failed to write invoices to database. Error: " + err)
+			});
 	}
 	
-	writeEventBudgets(eventBudgets){
-		return EventBudget.insertMany(eventBudgets)
+	writeEventBudgets(){
+		
+		return EventBudget.insertMany(this.eventBudgets)
 			
 			.then(budgets => {
-				this.counter.eventBudgets += eventBudgets.length;
+				this.counter.eventBudgets += this.eventBudgets.length;
 			})
 		
 			.catch(err => {
@@ -302,21 +261,28 @@ module.exports = class ExpenditureTransformer extends Transform {
 	/**
 		* method to write one budget object to database (since there is one per profileId+year it doesnt make sense to write more)
 		**/
-	writeBudget(budget,cb){
-		return Budget.create(budget).then(() => this.counter.budgets++);
+	writeBudget(){
+		return Budget.create(this.budget)
+			.then(() => this.counter.budgets++)
+			.catch(err => {
+				throw new Error("Failed to write budget to database. Error: " + err)
+			});
 	}
 	
 	_flush(next) {		
 		
-		var requests = [];
+		var requests = this.requests;
 		
-		requests.push(this.writeEvents(this.events));
+		requests.push(this.writeInvoices());
 		
-		requests.push(this.writeEventBudgets(this.eventBudgets));
+		requests.push(this.writeEventBudgets());
 
-		requests.push(this.writeBudget(this.budget));
+		requests.push(this.writeBudget());
 
-		Promise.all(requests).then(() => console.log(this.counter));
+		Promise.all(requests).then(() => {
+			console.log(this.counter);
+			this.reset();
+		});
 		
 	}
 }
