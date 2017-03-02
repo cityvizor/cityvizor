@@ -3,7 +3,6 @@ import { Component, ViewContainerRef, ViewChild } from '@angular/core';
 import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
 import { UserService, User } 		from './services/user.service';
-import { ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
 	moduleId: module.id,
@@ -27,13 +26,13 @@ export class AppComponent {
 		password:""
 	};
 
-	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef, componentsHelper:ComponentsHelper) {
+	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef) {
 		var today = new Date();
 		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
 
 		this.toasts = this.toastService.toasts;		
 		
-		componentsHelper.setRootViewContainerRef(viewContainerRef); // ng2-bootstrap requirement
+		//componentsHelper.setRootViewContainerRef(viewContainerRef); // ng2-bootstrap requirement
 	}
 
 	login(){

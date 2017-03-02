@@ -1,5 +1,6 @@
 
-					<h2 class="hidden">Správa profilu</h2>
+<h2 class="hidden">Správa profilu</h2>
+
 <div class="row">
 	<div class="col-md-3">
 		<ul class="nav nav-stacked">
@@ -8,20 +9,10 @@
 		</ul>
 	</div>
 	<div class="col-md-9" [ngSwitch]="view">
-		<div *ngSwitchCase="'sprava-modulu'">
-
-			<table class="table table-responsive">
-				<tr *ngFor="let module of modules">
-					<th>{{module.name}}</th>
-					<td>
-						<div *ngIf="module.optional" class="btn-group pull-right">
-							<button type="button" class="btn btn-sm btn-default" [class.active]="profile.modules[module.id]" (click)="setModuleState(module,true)">Zapnuto</button>
-							<button type="button" class="btn btn-sm btn-default" [class.active]="!profile.modules[module.id]" (click)="setModuleState(module,false)">Vypnuto</button>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div *ngSwitchCase="'import'">import</div>
+		
+		<entity-admin-modules *ngSwitchCase="'sprava-modulu'" [profile]="profile"></entity-admin-modules>
+		
+		<entity-admin-import *ngSwitchCase="'import'" [profile]="profile"></entity-admin-import>
+		
 	</div>
 </div>

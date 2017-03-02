@@ -22,10 +22,8 @@ import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component"
 import { EventDetailComponent } from "./viz/event-detail/event-detail.component";
 
 // Data viz components for data administration
-import { DashboardAdminComponent } from "./viz/dash-board/dash-board-admin.component";
-import { ExpenditureVizAdminComponent } from "./viz/expenditure-viz/expenditure-viz-admin.component";
-import { NoticeBoardAdminComponent } from "./viz/notice-board/notice-board-admin.component";
-import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules.component";
+import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules/entity-admin-modules.component";
+import { EntityAdminImportComponent } from "./views/entity-admin/entity-admin-import/entity-admin-import.component";
 
 // Services
 import { DataService } 		from './services/data.service';
@@ -35,8 +33,8 @@ import { ToastService } 		from './services/toast.service';
 import { UserService } 		from './services/user.service';
 
 // Import Modules
-import { Ng2BootstrapModule, ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap';
-import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
 import { ProfileMapComponent } 		from './shared/components/profile-map/profile-map.component';
@@ -61,19 +59,19 @@ export function getAuthHttp(http) {
 		HttpModule,
 		FormsModule,
 		routing,
-		Ng2BootstrapModule,
+		ModalModule.forRoot(),
 		FileUploadModule
 	],
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent, EventDetailComponent, 
-		/* VIZ ADMIN */ DashboardAdminComponent, ExpenditureVizAdminComponent, NoticeBoardAdminComponent, EntityAdminModulesComponent,
+		/* VIZ ADMIN */ EntityAdminModulesComponent, EntityAdminImportComponent,
 		/* Shared Components */ ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe
 	],
 	providers: [
-		DataService, YQLService, NoticeBoardService, ToastService, UserService, {provide: ComponentsHelper, useClass: ComponentsHelper},
+		DataService, YQLService, NoticeBoardService, ToastService, UserService,
 		{
 			provide: AuthHttp,
 			useFactory: getAuthHttp,

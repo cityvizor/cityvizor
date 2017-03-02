@@ -1,9 +1,3 @@
-<h4>
-	<i class="fa fa-cog"></i>
-	<span>Správa modulů</span>
-</h4>
-
-<hr>
 
 <table class="table table-responsive">
 	<tr *ngFor="let module of modules">
@@ -13,9 +7,6 @@
 				<button type="button" class="btn btn-sm btn-default" [class.active]="profile.modules[module.id]" (click)="setModuleState(module,true)">Zapnuto</button>
 				<button type="button" class="btn btn-sm btn-default" [class.active]="!profile.modules[module.id]" (click)="setModuleState(module,false)">Vypnuto</button>
 			</div>
-		</td>
-		<td>
-			<a [routerLink]="['../' + module.id]">Nastavení</a>
 		</td>
 	</tr>
 </table>

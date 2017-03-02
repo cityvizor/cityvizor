@@ -1,0 +1,16 @@
+
+	<div class="form-group">
+		<div class="col-sm-12" *ngIf="uploader">
+			<div *ngIf="!upload">
+				CSV Import: <input name="file" type="file" ng2FileSelect [uploader]="expendituresUploader">
+				<button *ngIf="expendituresUploader.queue.length" type="button" (click)="startUpload()">Nahrát data</button>
+			</div>
+			<div *ngIf="upload">
+				<span *ngIf="upload.isUploading">
+					Nahrávám... {{upload.progress}} %
+				</span>
+				<span *ngIf="upload.isSuccess"><i class="glyphicon glyphicon-ok"></i> Nahráno</span>
+				<span *ngIf="upload.isError"><i class="glyphicon glyphicon-remove"></i> Nastala chyba</span>
+			</div>
+		</div>
+	</div>

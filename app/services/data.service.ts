@@ -68,10 +68,24 @@ export class DataService {
 	/* IMPORT */
 	getExpendituresUploader(profileId,year){
 		if(!profileId || !year) return null;
-		var url = "/api/import/expenditures/" + profileId + "/" + year;
 		return new FileUploader({
-			url: url,
-			authToken: "Bearer " + window.localStorage.getItem("id_token")
+			url: "/api/import/expenditures/",
+			authToken: "Bearer " + window.localStorage.getItem("id_token"),
+			additionalParameter: {
+				profile: profileId,
+				year: year
+			}
+		});
+	}
+	
+	getEventsUploader(profileId){
+		if(!profileId) return null;
+		return new FileUploader({
+			url: "/api/import/events/",
+			authToken: "Bearer " + window.localStorage.getItem("id_token"),
+			additionalParameter: {
+				profile: profileId
+			}
 		});
 	}
 	
