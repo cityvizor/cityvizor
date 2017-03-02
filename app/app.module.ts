@@ -33,7 +33,7 @@ import { ToastService } 		from './services/toast.service';
 import { UserService } 		from './services/user.service';
 
 // Import Modules
-import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { ModalModule } from 'ng2-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents

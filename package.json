@@ -45,7 +45,7 @@
     "mongoose": "^4.8.5",
     "mongoose-write-stream": "0.0.0",
     "multer": "^1.3.0",
-    "ng2-bootstrap": "https://github.com/jimmytheneutrino/ng2-bootstrap/releases/download/v1.3.0-fix.2/dist.tgz",
+    "ng2-bootstrap": "^1.3.3",
     "ng2-file-upload": "^1.2.0",
     "path": "^0.12.7",
     "proj4": "^2.4.1",
