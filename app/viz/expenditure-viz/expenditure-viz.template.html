@@ -104,7 +104,7 @@
 					<button type="button" class="close" (click)="eventReceiptsModal.hide()" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">{{openedEvent?.name}}</h4>
+					<h4 class="modal-title">{{openedEvent?.name || "Načítání..."}}</h4>
 				</div>
 				<div class="modal-body">
 					<event-detail [event]="openedEvent"></event-detail>

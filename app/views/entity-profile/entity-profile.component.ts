@@ -36,20 +36,20 @@ export class EntityProfileComponent {
 	
 	year = 2016;
 
-	constructor(private _route: ActivatedRoute, private _ds: DataService, public userService:UserService) {
+	constructor(private route: ActivatedRoute, private dataService: DataService, public userService:UserService) {
 		
 		this.modules = MODULES;
 		
-		this._route.params.forEach((params: Params) => {
+		this.route.params.forEach((params: Params) => {
 			if(!this.profile || this.profile.url !== params["id"]) {
-				this._ds.getProfile(params["id"]).then(profile => {
+				this.dataService.getProfile(params["id"]).then(profile => {
 					this.profile = profile;
 					console.log(profile);
 				});
 			}
 			
 			this.modules.some(item => {
-				if(item.url === params["view"]){
+				if(item.url === params["module"]){
 					this.activeModule = item;
 					return true;
 				}
@@ -58,8 +58,8 @@ export class EntityProfileComponent {
 		});
 	}
 
-	isManagedProfile(profile){
-		return (profile && this.userService.user.managedProfiles.indexOf(profile._id) >= 0)
+	isManagedProfile(){
+		return (this.profile && this.userService.user.managedProfiles.indexOf(this.profile._id) >= 0)
 	}
 	
 	getVizLink(viz){

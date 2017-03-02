@@ -5,12 +5,10 @@ var profileSchema = mongoose.Schema({
 	"name": String,
 	"entity": { type: mongoose.Schema.Types.String, ref: 'Entity' },
 	"modules": {
-		"dash-board": Boolean,
 		"expenditure-viz": Boolean,
 		"expenditure-events": Boolean,
 		"notice-board": Boolean,
-		"management-review": Boolean,
-		"data-sources": Boolean
+		"contract-list": Boolean
 	},
 	"data": {
 		"modules": {

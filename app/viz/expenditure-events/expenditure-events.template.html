@@ -43,36 +43,17 @@
 </div>
 
 <div class="modals">
-	<div bsModal #expendituresEventModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" (click)="expendituresEventModal.hide()" aria-label="Close">
+					<button type="button" class="close" (click)="eventReceiptsModal.hide()" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">{{LoremEE[tempModalEEIndex].title}}</h4>
+					<h4 class="modal-title">{{openedEvent?.name || "Načítání..."}}</h4>
 				</div>
 				<div class="modal-body">
-					<div class="rulerBars">
-						<label *ngFor="let mesic of nazvyMesice">{{mesic}}</label>
-					</div>
-					<div class="eEBars">
-						<div class="eEBarBounds">
-							<div *ngFor="let e of LoremEE[tempModalEEIndex].expenditures" 
-									 class="amountBubble" 
-									 [style.left]="" 
-									 [style.width]="getExpenditureAmountBubbleSize(LoremEE[tempModalEEIndex],e.amount)+'px'" 
-									 [style.height]="getExpenditureAmountBubbleSize(LoremEE[tempModalEEIndex],e.amount)+'px'" ></div>
-						</div>
-					</div>
-					<table>
-						<tbody>
-							<tr *ngFor="let e of LoremEE[tempModalEEIndex].expenditures">
-								<td>{{e.title}}</td>
-								<td>{{e.title}}</td>
-							</tr>
-						</tbody>
-					</table>
+					<event-detail [event]="openedEvent"></event-detail>
 				</div>
 			</div>
 		</div>

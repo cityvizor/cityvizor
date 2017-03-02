@@ -1,6 +1,5 @@
 function isManagedProfile(req){
-	return req.user && req.user.managedProfiles.indexOf(req.body.profile) >= 0;
-	
+	return req.user && (req.user.managedProfiles.indexOf(req.params.id) >= 0 || req.user.managedProfiles.indexOf(req.body.profile) >= 0);
 }
 
 module.exports = {
@@ -12,7 +11,7 @@ module.exports = {
 		
 		"write": function(req){
 			return isManagedProfile(req);
-		},
+		}
 
 	},
 	
@@ -21,7 +20,7 @@ module.exports = {
 		
 		"write": function(req){
 			return isManagedProfile(req);
-		},
+		}
 	},
 	
 	"events": {

@@ -15,14 +15,18 @@ export class ExpenditureEventsComponent {
 	/* DATA */
 	@Input()
 	set profile(profile: any ){
+		this.profileId = profile._id;
 		if(profile) this.loadData(profile._id);
 	}
+	
+	profileId;
 
-
-	@ViewChild('expendituresEventModal')
-	public expendituresEventModal:ModalDirective;
+	@ViewChild('eventReceiptsModal')
+	public eventReceiptsModal:ModalDirective;
 
 	events: any[];
+
+	openedEvent: any = null;
 		 
 	viewOptions = {
 		"dateOfFirst":new Date(2016,1,1),
@@ -33,20 +37,8 @@ export class ExpenditureEventsComponent {
 	}; 
 	 
 	nazvyMesice = ["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"];	 
-	maxLoremEESumAmount = 5000000;
-	LoremEE = [
-		{"title":"Oprava silnice","dateOfFirst":"18-06-2016","dateOfLast":"23-08-2016","sumAmount":350000,"ORJ":43857,
-			"expenditures":[
-				{"title":"položení asfaltu","amount":30000,"date":"18-06-2016","supplier":"METROSTAV"},
-				{"title":"terénní práce","amount":100000,"date":"11-07-2016","supplier":"STRABAG"},
-				{"title":"instalace osvětlení","amount":200000,"date":"30-07-2016","supplier":"ELTODO a.s."},
-				{"title":"kolaudace","amount":50000,"date":"23-08-2016","supplier":"OTP audit s.r.o."}
-			]
-		}];
-	 
-	tempModalEEIndex=0;
 
-	 constructor(private dataService:DataService, private toastService:ToastService) { }
+	constructor(private dataService:DataService, private toastService:ToastService) { }
 
 	loadData(profileId){
 		 
@@ -74,7 +66,7 @@ export class ExpenditureEventsComponent {
 	*/
 	 
 	getAmountBubbleSize(amount) {
-		return this.viewOptions.amountBubbleMinSize + (this.viewOptions.amountBubbleMaxSize - this.viewOptions.amountBubbleMinSize ) * amount / this.maxLoremEESumAmount;
+		return this.viewOptions.amountBubbleMinSize + (this.viewOptions.amountBubbleMaxSize - this.viewOptions.amountBubbleMinSize ) * amount / 100; //this.maxLoremEESumAmount;
 	}
 	getExpenditureAmountBubbleSize(ee,amount) {
 		return this.viewOptions.amountBubbleMinSize + (this.viewOptions.amountBubbleMaxSize - this.viewOptions.amountBubbleMinSize ) * amount / ee.sumAmount;
@@ -93,17 +85,15 @@ export class ExpenditureEventsComponent {
 	 
 	openEvent(event){
 		
-		this.expendituresEventModal.show();
-		/*
-		this._ds.getExpenditureEvent(this.profileId,event.event)
-			.then(eventData => {
-				console.log(eventData);
-				this.openedEvent = eventData;
-			})
-			.catch(err => this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error"));
-		*/	
+		this.openedEvent = null;
+		this.eventReceiptsModal.show();
+		
+		this.dataService.getProfileEvent(this.profileId,event.id)
+			.then(eventData => this.openedEvent = eventData)
+			.catch(err => {
+				this.eventReceiptsModal.hide();
+				this.toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error");
+			});
 	}
-	 
-	
 
 }

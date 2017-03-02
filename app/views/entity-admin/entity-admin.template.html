@@ -1,67 +1,27 @@
-<div id="entity" *ngIf="profile">
 
-	<header id="headerObec">
-		<div class="container">
-			<h1>
-				<i class="fa fa-map-signs"></i>
-				<a routerLink="/" routerLinkActive="active">{{profile.name}}</a>
-			</h1>
-			<nav role="navigation">
-				<a routerLink="/" routerLinkActive="active" class="btn">
-					<i class="fa fa-chevron-circle-right"></i> 
-					<span>Vybrat jinou obec</span>
-				</a>
-			</nav>
-		</div>
-	</header>
-
-	<div id="content">
-
-		<div class="page container">
-			<div class="row">
-				<div class="col-sm-4">
-					<!-- left -->
-					<h2>Správa profilu</h2>
-					<hr>
-
-					<div class="list-group">
-						<a  *ngFor="let module of modules"[style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getModuleLink(module)" class="list-group-item" routerLinkActive="active"><i class="fa" [class]="module.icon"></i> {{module.name}}</a>
-					</div>
-
-					<hr>
-					<ul class="nav nav-stacked">
-						<li class="nav-item"><a [routerLink]="['../sprava-modulu']" class="nav-link"><i class="fa fa-cog"></i> Správa modulů</a></li>
-						<li class="nav-item"><a [routerLink]="getCloseLink()" class="nav-link"><i class="fa fa-cog"></i> Zavřít správu</a></li>
-					</ul>
-
-				</div>
-
-				<div class="col-sm-8">
-					
-					<!-- IF MODULE SELECTED THEN OPEN MODULE ADMIN -->
-					<div *ngIf="activeModule" [ngSwitch]="activeModule.id">
-
-						<dash-board-admin *ngSwitchCase="'dash-board'" [profile]="profile"></dash-board-admin>
-
-						<expenditure-viz-admin *ngSwitchCase="'expenditure-viz'" [profile]="profile"></expenditure-viz-admin>
-
-						<notice-board-admin *ngSwitchCase="'notice-board'" [profile]="profile" (save)="saveProfile()"></notice-board-admin>
-
-						<div *ngSwitchDefault>
-							<p>Tento modul nemá žádná nastavení.</p>
-						</div>
-					</div>
-
-					<!-- ELSE OPEN MAIN ADMIN -->
-					<entity-admin-modules *ngIf="!activeModule" [profile]="profile" (save)="saveProfile()"></entity-admin-modules>				
-
-					<!-- SHOW CURRENT DATA -->
-					<div>
-						<pre>{{dataString}}</pre>
-					</div>
-					
-				</div>
-				
-			</div>
-		</div>
+					<h2 class="hidden">Správa profilu</h2>
+<div class="row">
+	<div class="col-md-3">
+		<ul class="nav nav-stacked">
+			<li [class.active]="view=='sprava-modulu'" class="nav-item"><a (click)="openView('sprava-modulu')" class="nav-link">Správa modulů</a></li>
+			<li [class.active]="view=='import'" class="nav-item"><a (click)="openView('import')" class="nav-link">Import dat</a></li>
+		</ul>
 	</div>
+	<div class="col-md-9" [ngSwitch]="view">
+		<div *ngSwitchCase="'sprava-modulu'">
+
+			<table class="table table-responsive">
+				<tr *ngFor="let module of modules">
+					<th>{{module.name}}</th>
+					<td>
+						<div *ngIf="module.optional" class="btn-group pull-right">
+							<button type="button" class="btn btn-sm btn-default" [class.active]="profile.modules[module.id]" (click)="setModuleState(module,true)">Zapnuto</button>
+							<button type="button" class="btn btn-sm btn-default" [class.active]="!profile.modules[module.id]" (click)="setModuleState(module,false)">Vypnuto</button>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div *ngSwitchCase="'import'">import</div>
+	</div>
+</div>

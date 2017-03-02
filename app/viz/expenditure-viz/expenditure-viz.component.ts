@@ -205,7 +205,10 @@ export class ExpenditureVizComponent{
 		console.log(eventId);
 		this._ds.getProfileEvent(this.profileId,eventId)
 			.then(eventData => this.openedEvent = eventData)
-			.catch(err => this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error"));
+			.catch(err => {
+				this.eventReceiptsModal.hide();
+				this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error");
+			});
 			
 	}
 
