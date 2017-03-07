@@ -24,13 +24,14 @@ body, supervizor-plus {
 body.modal-open {overflow-y: scroll;}
 
 /* Generic tag styles */
-a {outline: 0;}
+a {outline: 0; cursor: pointer;}
 
-h1,h2,h3,h4 {margin: 1.2em 0px .5em 0px;font-weight: 700;cursor:default;}
+h1,h2,h3,h4 {font-weight: 700;cursor:default;}
 
-h1, h2 { margin: 0em 0 .2em 0;}
+.content h1, .content h2, section h1, section h2 { margin: .5em 0 1em 0;}
+.content h3, .content h4, section h3, section h4 { margin: 0em 0px 1em 0;}
 
-header, nav, .btn, h1, h2, h3, h4, h5, h6 {font-family: 'Raleway', sans-serif;}
+header, nav, .btn {font-family: 'Raleway', sans-serif;}
 
 form {margin: 0;}
 
@@ -38,6 +39,13 @@ form {margin: 0;}
 td.amount,th.amount{text-align:right;white-space:nowrap;}
 
 .padding {padding: 30px;}
+
+section {
+	padding: 2em 0em;
+}
+section:nth-child(even) {
+	background: #f4faff;
+}
 
 .clickable {
 	cursor: pointer;
@@ -109,6 +117,7 @@ td.amount,th.amount{text-align:right;white-space:nowrap;}
 
 .skupina-label .label {
 	margin: 1em 0em 0em 0em;
+	font-size: 100%;
 }
 
 

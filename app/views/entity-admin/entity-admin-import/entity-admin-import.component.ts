@@ -17,6 +17,7 @@ export class EntityAdminImportComponent {
 
 	@Input()
 	set profile(profile){
+		
 		if(profile && profile._id){
 			this.expendituresUploader = this._ds.getExpendituresUploader(profile._id,this.year);
 			this.eventsUploader = this._ds.getEventsUploader(profile._id);
@@ -33,16 +34,14 @@ export class EntityAdminImportComponent {
 	 
 	expendituresUploader:FileUploader;
 	eventsUploader:FileUploader;
-	upload;
-	 
-	 uploader;
 
 	constructor(private _ds: DataService, private _toastService: ToastService) {
 		this.modules = MODULES;
+		this.year = (new Date()).getFullYear();
 	}
 
 	uploadExpenditures(){
-		this.expendituresUploader.uploadAll();
+		this.expendituresUploader.queue[this.expendituresUploader.queue.length - 1].upload();
 	}
 	 
 	uploadEvents(){

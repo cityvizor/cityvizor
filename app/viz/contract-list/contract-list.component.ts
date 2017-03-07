@@ -29,6 +29,8 @@ export class ContractListComponent {
 	
 	contracts:any[] = [];
 
+	infoWindowClosed:boolean;
+
 	constructor(private yql:YQLService, private toastService:ToastService) { }
 
 	loadData(){

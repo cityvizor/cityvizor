@@ -71,6 +71,7 @@ export class DataService {
 		return new FileUploader({
 			url: "/api/import/expenditures/",
 			authToken: "Bearer " + window.localStorage.getItem("id_token"),
+			autoUpload: true,
 			additionalParameter: {
 				profile: profileId,
 				year: year
@@ -83,6 +84,7 @@ export class DataService {
 		return new FileUploader({
 			url: "/api/import/events/",
 			authToken: "Bearer " + window.localStorage.getItem("id_token"),
+			autoUpload: true,
 			additionalParameter: {
 				profile: profileId
 			}

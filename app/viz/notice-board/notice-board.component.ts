@@ -31,6 +31,8 @@ export class NoticeBoardComponent {
 
 	profileId;
 
+	infoWindowClosed:boolean;
+
 	mapURL: SafeResourceUrl;
 
 	documents: Array<any>;

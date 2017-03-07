@@ -70,6 +70,8 @@ export class ExpenditureVizComponent{
 
 	openedEvent: any = null;
 
+	infoWindowClosed:boolean;
+
 	vizScale: number = 1;	
 	
 	constructor(private _ds: DataService, private _toastService: ToastService){

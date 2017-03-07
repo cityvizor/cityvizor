@@ -9,16 +9,16 @@ import { Component, OnInit} from '@angular/core';
 		.box{background-color:rgba(255,255,255,.7);border-radius:5px;font-size:10pt;}
 		.box.padding{padding:20px;}
 		::-webkit-input-placeholder {
-			 color: rgba(255,255,255,0.5);
+			 color: rgba(0,0,0,0.25);
 		}
 		:-moz-placeholder { /* Firefox 18- */
-			 color: rgba(255,255,255,0.5);  
+			 color: rgba(0,0,0,0.25);
 		}
 		::-moz-placeholder {  /* Firefox 19+ */
-			 color: rgba(255,255,255,0.5);  
+			 color: rgba(0,0,0,0.25);
 		}
 		:-ms-input-placeholder {  
-			 color: rgba(255,255,255,0.5);  
+			 color: rgba(0,0,0,0.25);
 		}
 		textarea:focus, input:focus{
 				outline: none;
@@ -29,22 +29,31 @@ import { Component, OnInit} from '@angular/core';
 			background: url('http://janvlasaty.name/polepozadi.jpg') no-repeat; 
 			background-size: 100% auto; background-position: center -115px; 
 			text-align: center;
-			border-bottom: 5px solid #eee;
-			min-height: 330px;
+			border-bottom: 10px solid #2581c4;
+			max-height: 300px;
 		}
 		@media (max-width: 1200px) {
 				#headerVyberObce {
 						background-size: 1200px auto; /* Force the image to its minimum width */
 				}
 		}
-		#inputVyberObce {
-			font-size: 80px; border: none; background: none;
-			border-bottom: 3px dotted rgba(255,255,255,.75);
-			color: rgba(255, 255, 255, 1);
-			text-align: center;
-			margin-bottom: 20px;
-			max-width: 800px; padding: 0px 10px;
-			margin: 0 auto;
+		#headerVyberObce svg {
+			min-width: 300px;
+			width: 67%;
+			max-width: 750px;
+			
+		}
+
+		section#ask {
+			background: #f4faff;
+			color: #2581c4;
+			border-bottom: 0px solid #ADF;
+		}
+		section#ask .btn {
+			border: none;
+			color: white;
+			background: #e73431;
+			font-weight: bold;
 		}
 	`]
 })

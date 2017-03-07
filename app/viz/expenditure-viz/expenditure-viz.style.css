@@ -9,9 +9,6 @@ div.drawing{}
 .viztable th:nth-child(2), .viztable td:nth-child(2) {width:25%;text-align:right;}
 .viztable th:nth-child(3), .viztable td:nth-child(3) {width:25%;text-align:right;}
 
-#selectedGroup .paragraph hr{clear:both;}
-#selectedGroup .paragraph .graph{float:left;width:150px;height:150px;overflow:hidden;font-size:.8em;}
-#selectedGroup .paragraph .content{margin-left:150px;}
 
 .skupina-label .label {
 	margin: 1em 0em 0em 0em;

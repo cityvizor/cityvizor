@@ -22,6 +22,13 @@ export class DashboardComponent {
 		"padding" : 10
 	};
 
+ 	news = [
+		 {"spec": "Faktura", "supplier":"STAREDO s.r.o.", "ICO": "28270495", "paragraph": "3612", "RP": "6121", "date": "6. 3. 2017", "desc": "41 - investice provedené práce KODUS", "amount": "179 585 Kč"},
+		 {"spec": "Smlouva", "supplier":"TJ Nové Město na Moravě z.s.", "ICO": "43378498", "paragraph": "", "RP": "", "date": "1. 3. 2017", "desc": "Veřejnopravní smlouva o poskytnutí neinvestiční dotace", "amount": "280 000 Kč"},
+		 {"spec": "Faktura", "supplier":"VODÁRENSKÁ AKCIOVÁ SPOLEČNOST", "ICO": "49455842", "paragraph": "2321", "RP": "5169", "date": "15. 2. 2017", "desc": "02 - Slavkovice - kamerová prohlídka kanalizace", "amount": "5 331 Kč"},
+		 {"spec": "Faktura", "supplier":"Novoměstská teplárenská a.s.", "ICO": "25335057", "paragraph": "3613", "RP": "5152", "date": "20. 1. 2017", "desc": "Byty - dodávka tepelné energie za 12/2016", "amount": "26 156 Kč"}
+	];
+
 	hour2string(hour){
 		var parts = hour.split(":");
 		if(parts[1] == "00") return parts[0];
@@ -152,5 +159,7 @@ export class DashboardComponent {
 		var n = this.dashboard.expenditures.length;
 		return (800 - (n - 1) * 50) / n;
 	}
+	 
+	 
 
 }

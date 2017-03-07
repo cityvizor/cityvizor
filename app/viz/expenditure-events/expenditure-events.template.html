@@ -1,9 +1,17 @@
-<h2 class="hidden">Investiční akce</h2>
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
+  		<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
+			<strong>Informace:</strong> Investice neboli investiční akce jsou v účetnictví analogií k projektu. Tedy když se rozhodne, že se například opraví chodník v ulici xxx, založí se investiční akce, která má začátek a konec, plánovaný objem prostředků. Potom se, pro účely rozpočtování, přiřadí rozpočtové položky a pragrafy. 
+Skrze investiční akce můžete velmi jednoduše získat přehled o tom, co se ve vašem městě děje a jaké jsou plány. 
+		</div>
+	</div>
+</div>
 
 <div class="row">
 	<div class="col-xs-3">
 		<button class="btn btn-default btn-sm">
-			<i class="fa fa-chevron-left"></i> 2015
+			<i class="fa fa-chevron-left"></i> 2016
 		</button>
 	</div>
 	<div class="col-xs-6 text-center">
@@ -14,20 +22,22 @@
 		</div>
 	</div>
 	<div class="col-xs-3 text-right">
-		<button class="btn btn-default btn-sm">
-			2017 <i class="fa fa-chevron-right"></i>
+		<button class="btn btn-default btn-sm disabled">
+			2018 <i class="fa fa-chevron-right"></i>
 		</button>
 	</div>
 </div>
 
 <div class="row eETimeline">
-	<p class="text-center text-muted small">2016</p>
+	<p class="text-center text-muted small">2017</p>
 	<div class="rulerBars">
 		<label *ngFor="let mesic of nazvyMesice">{{mesic}}</label>
 	</div>
+	
+
 
 	<div class="eEBars">
-		<div class="eEBarBounds" *ngFor="let event of events" [style.margin-left]="getDateRangeFrac(event.from)+'%'" [style.margin-right]="(100*(1-getDateRangeFrac(event.till)))+'%'" (click)="openEvent(event)">
+		<div class="eEBarBounds" *ngFor="let event of events" [style.margin-left]="100*getDateRangeFrac(event,'from')+'%'" [style.margin-right]="(100*(1-getDateRangeFrac(event,'till')))+'%'" (click)="openEvent(event)">
 			<div class="barArrow leftArrow" *ngIf="isOverlapToPast(event.from)">
 				<i class="fa fa-angle-double-right"></i>
 			</div>
@@ -42,8 +52,7 @@
 	</div>
 </div>
 
-<div class="modals">
-	<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -58,4 +67,3 @@
 			</div>
 		</div>
 	</div>
-</div>

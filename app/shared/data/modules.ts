@@ -6,9 +6,9 @@ export class Module {
 }
 
 export const MODULES: Module[] = [
-	{"id": "dash-board", "url": "prehled", "name": "Přehled", "optional": false},
-	{"id": "expenditure-viz", "url": "rozpocet", "name": "Klikací rozpočet", "optional": true},
-	{"id": "expenditure-events", "url": "investicni-akce", "name": "Investiční akce", "optional": true},	
+	{"id": "dash-board", "url": "prehled", "name": "Aktuálně", "optional": false},
+	{"id": "expenditure-viz", "url": "rozpocet", "name": "Rozpočet a výdaje", "optional": true},
+	{"id": "expenditure-events", "url": "investicni-akce", "name": "Investice", "optional": true},	
 	{"id": "notice-board", "url": "uredni-deska", "name": "Úřední deska", "optional": true},
 	{"id": "contract-list", "url": "registr-smluv", "name": "Registr smluv", "optional": true},
 	{"id": "data-sources", "url": "datove-zdroje", "name": "Datové zdroje", "optional": false},

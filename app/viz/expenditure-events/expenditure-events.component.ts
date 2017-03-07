@@ -27,6 +27,8 @@ export class ExpenditureEventsComponent {
 	events: any[];
 
 	openedEvent: any = null;
+
+	infoWindowClosed:boolean;
 		 
 	viewOptions = {
 		"dateOfFirst":new Date(2016,1,1),
@@ -43,27 +45,25 @@ export class ExpenditureEventsComponent {
 	loadData(profileId){
 		 
 		this.dataService.getEvents(profileId)
-			.then(events => this.events = events)
-			.catch(err => {
+			.then(events => { 
+				this.events = events;
+			}).catch(err => {
 				this.events = [];
 				this.toastService.toast("Nastala chyba při stahování akcí.","error");
 			});
 		 
 	 }
 	 
-	getDateRangeFrac (date) {
-		if(!date) return 0;
+	getDateRangeFrac (event,side) {
+		//random start and end
+			if (side=='from') return 0.5*event.id/400;
+			else return (0.5+0.5*event.name.length/50);
+		
+		/*
 		var frac = (date.getTime() - this.viewOptions.dateOfFirst.getTime()) / ( this.viewOptions.dateOfLast.getTime() - this.viewOptions.dateOfFirst.getTime() );
 		frac = Math.min(1,Math.max(0,frac));
-		return frac;
+		return frac;*/
 	}
-/*
-	getDateEventRangeFracPercent (event,date) {
-		var frac = (date.getTime() - event.from.getTime()) / event.till.getTime() - event.from.getTime();
-		frac = Math.min(1,Math.max(0,frac))*100;
-		return frac;
-	}
-	*/
 	 
 	getAmountBubbleSize(amount) {
 		return this.viewOptions.amountBubbleMinSize + (this.viewOptions.amountBubbleMaxSize - this.viewOptions.amountBubbleMinSize ) * amount / 100; //this.maxLoremEESumAmount;
@@ -82,10 +82,11 @@ export class ExpenditureEventsComponent {
 		if (now > this.viewOptions.dateOfLast) return true;
 		else return false;
 	}
+
 	 
 	openEvent(event){
 		
-		this.openedEvent = null;
+		//this.openedEvent = null;
 		this.eventReceiptsModal.show();
 		
 		this.dataService.getProfileEvent(this.profileId,event.id)

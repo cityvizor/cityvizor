@@ -35,3 +35,13 @@
 profile-map {
 	width: 100%; height: auto;
 }
+
+.text-specFaktura {
+	color: #ADF;
+}
+.text-specSmlouva {
+	color: #ff9491;
+}
+.text-specInvesticniAkce {
+	color: #7fff00;
+}

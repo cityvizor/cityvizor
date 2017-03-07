@@ -1,5 +1,28 @@
 
 <div *ngIf="event">
+	<div class="alert alert-info">
+		<strong>Popis investiční akce:</strong> Dům by měl zajistit komunitní bydlení pro starší, stále soběstačné lidi, s možností si přiobjednat různé služby od jejich poskytovatelů. Nájemníci musí splnit určitá kritéria, aby byl dodržen účel, za kterým byl dům postaven, což se týká například výše příjmu či absence vlastnictví jiného bydlení. Nájem má být srovnatelný s ostatními byty v majetku města.
+		Na stavbu komunitního domu s dvaadvaceti byty, který vyjde na zhruba pětadvacet milionů, získalo město příslib evropské dotace ve výši dvanáct a půl milionu korun.
+		<strong>Pouze ilustrativní popis investiční akce!</strong>
+	</div>
+	
+	<div class="btn-group pull-right">
+		<button type="button" class="btn btn-default">Všechno</button>
+		<div class="btn-group">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			Zvolit rok <span class="caret"></span></button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#">2017</a></li>
+				<li><a href="#">2016</a></li>
+				<li><a href="#">2015</a></li>
+			</ul>
+		</div>
+	</div>
+	<h2>
+		Faktury <span class="text-muted">(2015-2017)</span>
+	</h2>
+	
+	
 	<table class="table table-responsive small">
 		<thead>
 			<tr>
@@ -28,15 +51,29 @@
 		</tbody>
 	</table>
 
+	
+	<h2>
+		Rozpočty
+	</h2>
 	<div *ngFor="let budget of event.budgets">
 		
 		
-		<h3>{{budget.year}}</h3>
+		<h3>Rozpočet - {{budget.year}}</h3>
 		
-		<p>
-			Celkový rozpočet za rok {{budget.year}}: {{budget.budgetAmount | money:0:true}}<br>
-			Celkové výdaje za rok {{budget.year}}: {{budget.expenditureAmount | money:0:true}}
-		</p>
+		<table class="table table-responsive small">
+			<thead>
+				<tr>
+					<th>Celkový rozpočet za rok</th>
+					<th>Celkové výdaje za rok</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{budget.budgetAmount | money:0:true}}</td>
+					<td>{{budget.expenditureAmount | money:0:true}}</td>
+				</tr>
+			</tbody>
+		</table>
 		
 		<table class="table table-responsive small">
 			<thead>
