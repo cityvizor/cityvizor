@@ -1,15 +1,20 @@
-# compiled output
+# compiled test output
 /src/**/*.js
 /src/**/*.js.map
 !systemjs.config.js
 !index.html
 !index.ts
 
+# compilation byproducts
+/build/src
+/build/node_modules
+
 # sensitive data
 mongo-config.js
 
 # dependencies
 /node_modules
+/build/node_modules
 /typings
 
 # uploads
