@@ -29,18 +29,39 @@ Podrobný pohled na ...:
 
 **Instalace**
 
-Instalace node_modules a následná kompilace komponent pomocí ahead-of-time compileru, kompilace Typescriptu a rollup pro zmenšení kódu a spojení do jednoho balíčku.
+Instalace závislostí
+
 ```
 npm install
-npm run build
 ```
 
-**Spuštění**
+Spuštění serveru
 
-Start node serveru na portu 80 pro zkompilovaný kód
 ```
 npm start
 ```
+
+**Instalace serveru jako služby**
+
+Instalace:
+```
+npm install -g forever forever-service
+sudo forever-service install cityvizor -s server/server.js
+sudo service cityvizor start
+```
+
+Spuštění/vypnutí/restart
+```
+sudo service cityvizor start
+sudo service cityvizor stop
+sudo service cityvizor restart
+```
+
+Sledování logu
+```
+npm run logu
+```
+      
 
 **Vývoj**
 
