@@ -14,7 +14,7 @@
 	<div class="container text-muted small">
 		<div class="row">
 			<div class="col-sm-5 col-xs-12">
-				Vyvinuto s <i class="fa fa-heart" aria-hidden="true"></i> <a>členy komunity otevřených dat</a>
+				Vyvinuto s <i class="fa fa-heart" aria-hidden="true"></i> <a routerLink="/stranka/o-aplikaci" fragment="vyvojari">členy komunity otevřených dat</a>
 			</div>
 			<div class="col-sm-2 col-xs-12 text-center">
 				<a>
@@ -41,8 +41,8 @@
 				<a (click)="logout()" *ngIf="userService.logged">Odhlásit: {{userService.user._id}}</a>
 				| <a>Data</a>
 				| <a routerLink="/stranka/o-aplikaci">O aplikaci</a>
-				| <a routerLink="/stranka/licence">Licence</a>
-				| <a>Kontakt</a>
+				| <a routerLink="/stranka/o-aplikaci" fragment="licence">Licence</a>
+				| <a routerLink="/stranka/o-aplikaci" fragment="kontakt">Kontakt</a>
 			</div>
 		</div>
 	</div>
