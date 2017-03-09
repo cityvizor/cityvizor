@@ -1,7 +1,6 @@
 # compiled output
-/aot/*
-/app/**/*.js
-/app/**/*.js.map
+/src/**/*.js
+/src/**/*.js.map
 !systemjs.config.js
 !index.html
 !index.ts

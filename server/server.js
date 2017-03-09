@@ -18,7 +18,7 @@ app.use("/api",require("./routers/api.js"));
 app.use(require("./routers/static"));
 
 app.get('*',(req,res) => {
-	res.sendFile("aot/index.html", { root: __dirname + "/.." });	
+	res.sendFile("build/index.html", { root: __dirname + "/.." });	
 });
 
 app.listen(80, function () {

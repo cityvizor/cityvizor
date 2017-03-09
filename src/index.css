@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,500,700&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Slab:400,700&subset=latin-ext');
+
+#disclaimer{
+	padding:20px;
+	background-color:#f00;
+	color:#fff;
+	font-weight:bold;
+	text-align:center;
+}
+#disclaimer p{margin:0;padding:0;}
+/**
+	* GENERAL STYLES
+	* 
+	* These styles apply to the whole website
+	* 
+	**/
+
+/* Main structure styles */
+body {
+	background-color:#fff;
+  font-family: 'Roboto Slab', serif;
+}
+
+body, supervizor-plus {
+	position: absolute;
+	min-height: 100%;
+	min-width: 100%;
+	padding-bottom:120px;
+}
+
+body.modal-open {overflow-y: scroll;}
+
+/* Generic tag styles */
+a {outline: 0; cursor: pointer;}
+
+h1,h2,h3,h4 {font-weight: 700;cursor:default;}
+
+.content h1, .content h2, section h1, section h2 { margin: .5em 0 1em 0;}
+.content h3, .content h4, section h3, section h4 { margin: 0em 0px 1em 0;}
+
+header, nav, .btn {font-family: 'Raleway', sans-serif;}
+
+form {margin: 0;}
+
+/* Content specific classes */
+td.amount,th.amount{text-align:right;white-space:nowrap;}
+
+.padding {padding: 30px;}
+
+section {
+	padding: 2em 0em;
+}
+section:nth-child(even) {
+	background: #f4faff;
+}
+
+.clickable {
+	cursor: pointer;
+	cursor: hand;
+}
+
+@media print {
+	a{text-decoration:underline;}
+}
+
+/**
+	* BOOTSTRAP TWEAKS
+	* 
+	* Some things we didn't like in Bootstrap
+	* 
+	**/
+
+@media print {
+	
+	/* disables links in parenthesis when printing */
+  a[href]:after {content: none; /* default: content:" (" attr(href) ")" */;}
+	
+}
+
+.panel-body.no-padding {
+	padding: 0px;
+}
+
+.progress-md {
+	height: 15px;
+}
+.progress-sm {
+	height: 10px;
+}
+.progress-xs {
+	height: 5px;
+}
+
+.well {
+	border: none;
+	border-left: 3px solid rgb(37,129,196);
+	margin-left: 1em;
+	margin-right: 1em;
+	border-radius: 0px;
+	background-color: #fafafa;
+	box-shadow: none;
+}
+
+.margin-bottom-xs {margin-bottom: 5px; }  
+.margin-bottom-sm {margin-bottom: 10px; } 
+.margin-bottom-md {margin-bottom: 15px; }
+.margin-bottom-lg {margin-bottom: 20px; }  
+
+
+
+.div-table-head {
+	font-weight: bold;
+	border-bottom: 2px solid #eee;
+	margin: 1em 0em;
+}
+
+
+
+.clickable-grey-bg:hover {
+	background: rgb(0,0,0,.2);
+}
+
+
+
+.skupina-label .label {
+	margin: 1em 0em 0em 0em;
+	font-size: 100%;
+}
+
+
+/**
+	* LOADING ANIMATION - TODO: DELETE
+	* 
+	* This is the animation to be used before the app loads. This is used when using Angular2 just in time compiler, when loading takes few seconds
+	* 
+	**/
+
+#headerLoading {
+	display: block;  
+	padding: 50px 0px 0px 0px;
+	background: url('/assets/img/polepozadi.jpg') no-repeat; 
+	background-size: 100% auto; background-position: center -115px; 
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	min-height: 330px;
+	border-bottom: 5px solid #eee; 
+	text-shadow: 0px 0px 6px rgba(0,0,0,.3);
+}
+@media (max-width: 1200px) {
+		#headerLoading {
+				background-size: 1200px auto; /* Force the image to its minimum width */
+		}
+}
+
+#polyline {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: dash 3s ease-out forwards;
+}
+
+.cls-1 {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: dash 3s ease-out forwards;
+}
+.cls-2 {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: dash 3s ease-out forwards;
+	-webkit-animation-delay: 2s; 
+  animation-delay: 2s;
+}
+.cls-3 {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: dash 3s ease-out forwards;
+	-webkit-animation-delay: 4s; 
+  animation-delay: 4s;
+}
+.cls-4 {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: dash 3s ease-out forwards;
+	-webkit-animation-delay: 6s; 
+  animation-delay: 6s;
+}
+.cls-5 {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: dash 3s ease-out forwards;
+	-webkit-animation-delay: 8s; 
+  animation-delay: 8s;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

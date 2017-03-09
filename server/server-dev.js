@@ -19,7 +19,7 @@ app.use("/api",require("./routers/api.js"));
 app.use(require("./routers/static"));
 
 app.get('*',(req,res) => {
-	res.sendFile("app/index.html", { root: __dirname + "/.." });	
+	res.sendFile("src/index.html", { root: __dirname + "/.." });	
 });
 
 app.listen(8080, function () {

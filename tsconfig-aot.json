@@ -13,11 +13,11 @@
 		]
 	},
 	"include": [
-		"app/**/*",
-		"aot/index.ts"
+		"src/**/*",
+		"build/index.ts"
 	],
 	"angularCompilerOptions": {
-		"genDir": "./aot",
+		"genDir": "./build",
 		"skipMetadataEmit" : true
 	}
 }
