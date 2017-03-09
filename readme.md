@@ -13,11 +13,11 @@ Data jsou čerpána z otevřených dat (opendat) dané obce či samosprávy.
 
 Celkový pohled na výdaje samosprávy:
 
-![Celkový pohled na výdaje samosprávy](example-1.png)
+![Celkový pohled na výdaje samosprávy](doc/example-1.png)
 
 Podrobný pohled na ...:
 
-![Podrobný pohled na ...](example-2.png)
+![Podrobný pohled na ...](doc/example-2.png)
 
 
 ## Instalace
