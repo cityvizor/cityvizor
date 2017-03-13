@@ -47,7 +47,6 @@ Instalace:
 ```
 npm install -g forever forever-service
 sudo forever-service install cityvizor -s server/server.js
-sudo service cityvizor start
 ```
 
 Spuštění/vypnutí/restart
