@@ -22,6 +22,7 @@ import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component"
 import { EventDetailComponent } from "./viz/event-detail/event-detail.component";
 
 // Data viz components for data administration
+import { EntityAdminProfileComponent } from "./views/entity-admin/entity-admin-profile/entity-admin-profile.component";
 import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules/entity-admin-modules.component";
 import { EntityAdminImportComponent } from "./views/entity-admin/entity-admin-import/entity-admin-import.component";
 
@@ -37,6 +38,7 @@ import { ModalModule } from 'ng2-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
+import { ProfileHeaderComponent } 		from './shared/components/profile-header/profile-header.component';
 import { ProfileMapComponent } 		from './shared/components/profile-map/profile-map.component';
 import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart-bigbang.component';
 import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
@@ -66,8 +68,8 @@ export function getAuthHttp(http) {
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, DataSourcesComponent, NoticeBoardComponent, EventDetailComponent, 
-		/* VIZ ADMIN */ EntityAdminModulesComponent, EntityAdminImportComponent,
-		/* Shared Components */ ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
+		/* VIZ ADMIN */ EntityAdminProfileComponent, EntityAdminModulesComponent, EntityAdminImportComponent,
+		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe
 	],
 	providers: [

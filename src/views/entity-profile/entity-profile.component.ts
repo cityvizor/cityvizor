@@ -26,8 +26,6 @@ import { Module, MODULES } from "../../shared/data/modules";
 })
 export class EntityProfileComponent {
 
-	view: string;
-	
 	profile: any;
 	
 	modules: Module[];
@@ -40,33 +38,26 @@ export class EntityProfileComponent {
 		
 		this.modules = MODULES;
 		
+	}
+
+	ngOnInit(){
 		this.route.params.forEach((params: Params) => {
-			if(!this.profile || this.profile.url !== params["id"]) {
-				this.dataService.getProfile(params["id"]).then(profile => {
+			if(!this.profile || this.profile.url !== params["profile"]) {
+				this.dataService.getProfile(params["profile"]).then(profile => {
 					this.profile = profile;
-					console.log(profile);
 				});
 			}
-			
+
+			console.log(params);
+
 			this.modules.some(item => {
 				if(item.url === params["module"]){
 					this.activeModule = item;
 					return true;
 				}
 			});
-			
+
 		});
 	}
 
-	isManagedProfile(){
-		return (this.profile && this.userService.user.managedProfiles.indexOf(this.profile._id) >= 0)
-	}
-	
-	getVizLink(viz){
-		return ['/profil/' + this.profile.url + '/' + viz.url];
-	}
-	
-	getAdminLink(){
-		return ['/profil/' + this.profile.url + '/admin'];
-	}
 }

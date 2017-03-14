@@ -11,8 +11,11 @@ const appRoutes: Routes = [
 	
 	{path: 'stranka/:id',component: PageViewComponent},
 
-	{path: 'profil/:id/:module',component: EntityProfileComponent},
-	{path: 'profil/:id', redirectTo: 'profil/:id/prehled'}
+	{path: 'profil/:profile/admin/:module',component: EntityAdminComponent},
+	{path: 'profil/:profile/admin', redirectTo: 'profil/:profile/admin/sprava-profilu'},
+	
+	{path: 'profil/:profile/:module',component: EntityProfileComponent},
+	{path: 'profil/:profile', redirectTo: 'profil/:profile/prehled'}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

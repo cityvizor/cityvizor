@@ -1,81 +1,26 @@
 <div id="entity" *ngIf="profile">
 
-	<header id="headerObec">
-		<div class="container">
-			<h1>
-				<i class="fa fa-map-signs"></i>
-				<a routerLink="../prehled" routerLinkActive="active">{{profile.name}}</a>
-			</h1>
-			<a routerLink="/" routerLinkActive="active" class="btn pull-right hidden-print">
-				<i class="fa fa-chevron-circle-right"></i> 
-				<span>Vybrat obec</span>
-			</a>
-		</div>
-	</header>
+	<profile-header [profile]="profile"></profile-header>
 
-	<div class="entity-menu">
-		<div class="container">
-			<nav class="navbar">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</div>
-					<div id="navbar" class="navbar-collapse collapse">
-						<ul class="nav navbar-nav">
-							<li *ngFor="let module of modules">
-								<a *ngIf="module.id!='admin'" [style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module)" class="" routerLinkActive="active">
-									{{module.name}}
-								</a>
-							</li>
-						</ul>
-						<ul *ngIf="isManagedProfile()" class="nav navbar-nav navbar-right">
-							<li><a [routerLink]="getAdminLink()" class="nav-link" routerLinkActive="active"><i class="fa fa-cog"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</div>
-	</div>
+	<div id="content"  class="container">
+		<div class="row">
+			<div class="col-sm-12" [ngSwitch]="activeModule?.id" id="vizmodules">
 
-	<div id="content">
+				<dash-board *ngSwitchCase="'dash-board'" [profile]="profile" [@switchAnimation]></dash-board>
 
-		<div class="page container">
-			<div class="row">
-				<div class="col-sm-3 hidden">
+				<expenditure-viz *ngSwitchCase="'expenditure-viz'" [profile]="profile" [@switchAnimation]></expenditure-viz>
 
-					<div class="list-group">
-						<a  *ngFor="let module of modules" [style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module)" class="list-group-item" routerLinkActive="active">
-							<i class="fa" [class]="module.icon"></i> {{module.name}}
-						</a>
-					</div>
-					<ul class="nav nav-stacked" *ngIf="isManagedProfile(profile)">
-						<li class="nav-item"><a [routerLink]="getAdminLink()" class="nav-link text-muted" routerLinkActive="active"><i class="fa fa-cog"></i> Spravovat</a></li>
-					</ul>
+				<expenditure-events *ngSwitchCase="'expenditure-events'" [profile]="profile" [@switchAnimation]></expenditure-events>
 
-				</div>
-	
-				<div *ngIf="view!='admin'" class="col-sm-12" [ngSwitch]="activeModule?.id" id="vizmodules">
+				<notice-board *ngSwitchCase="'notice-board'" [profile]="profile" [@switchAnimation]></notice-board>
 
-					<dash-board *ngSwitchCase="'dash-board'" [profile]="profile" [@switchAnimation]></dash-board>
+				<contract-list *ngSwitchCase="'contract-list'" [profile]="profile" [@switchAnimation]></contract-list>
 
-					<expenditure-viz *ngSwitchCase="'expenditure-viz'" [profile]="profile" [@switchAnimation]></expenditure-viz>
+				<data-sources *ngSwitchCase="'data-sources'" [@switchAnimation]></data-sources>
 
-					<expenditure-events *ngSwitchCase="'expenditure-events'" [profile]="profile" [@switchAnimation]></expenditure-events>
-
-					<notice-board *ngSwitchCase="'notice-board'" [profile]="profile" [@switchAnimation]></notice-board>
-
-					<contract-list *ngSwitchCase="'contract-list'" [profile]="profile" [@switchAnimation]></contract-list>
-
-					<data-sources *ngSwitchCase="'data-sources'" [@switchAnimation]></data-sources>
-					
-					<entity-admin *ngSwitchCase="'admin'" [profile]="profile" [@switchAnimation]></entity-admin>
-				</div>
 			</div>
+
+			<entity-admin *ngIf="view=='admin'" [profile]="profile"></entity-admin>
 		</div>
 	</div>
 </div>

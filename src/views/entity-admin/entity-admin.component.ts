@@ -4,9 +4,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastService } 		from '../../services/toast.service';
 import { DataService } 		from '../../services/data.service';
 
-import { Module, MODULES } from "../../shared/data/modules";
-
-
 @Component({
 	moduleId: module.id,
 	selector: 'entity-admin',
@@ -21,25 +18,27 @@ export class EntityAdminComponent {
 	oldProfile: any;
 
 	view: string; 
-
-	modules: Array<Module>;
 	
-	activeModule: Module;
+	activeModule: string;
 
 	constructor( private dataService: DataService, private toastService: ToastService, private route: ActivatedRoute, private router:Router) {
-
-		this.modules = MODULES;
-		
 	}
 	 
 	ngOnInit(){
-		this.route.queryParams.forEach((params: Params) => this.view = params['view']);
+		this.route.params.forEach((params: Params) => {
+			if(!this.profile || this.profile.url !== params["profile"]) {
+				this.dataService.getProfile(params["profile"]).then(profile => {
+					this.profile = profile;
+				});
+			}
+			
+			this.activeModule = params["module"];
+			
+		});
 	}
 	 
-	
-	 
-	openView(view){		 
-    this.router.navigate(['/profil/' + this.profile.url + '/admin'], {queryParams:{view:view}});
+	getModuleLink(moduleId){
+		return ['/profil/' + this.profile.url + '/admin/' + moduleId];
 	}
 	 
 
