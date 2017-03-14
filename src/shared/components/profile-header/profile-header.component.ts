@@ -29,6 +29,10 @@ export class ProfileHeaderComponent {
 	getVizLink(viz){
 		return ['/profil/' + this.profile.url + '/' + viz.url];
 	}
+	 
+	getHomeLink(){
+		return ['/profil/' + this.profile.url];
+	}
 	
 	getAdminLink(){
 		return ['/profil/' + this.profile.url + '/admin'];
