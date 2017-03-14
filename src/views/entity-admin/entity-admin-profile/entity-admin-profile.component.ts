@@ -14,5 +14,10 @@ export class EntityAdminProfileComponent {
 
 	constructor() {
 	}
+	 
+	 getEntityString(){
+		 if(!this.profile.entity) return "N/A";
+		 return this.profile.entity.name + " (ZÚJ: " + this.profile.entity._id + ", IČO: " + this.profile.entity.ico + ")";
+	 }
 
 }

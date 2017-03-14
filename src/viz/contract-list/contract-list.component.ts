@@ -39,8 +39,6 @@ export class ContractListComponent {
 		
 		this.loading = true;
 		
-		console.log(query);
-		
 		this.yql.query(query)
 			.then(data => {
 			

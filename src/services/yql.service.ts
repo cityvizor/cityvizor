@@ -18,8 +18,6 @@ export class YQLService {
 		// construct path
 		var path = this.yql_path + "?format=json&q=" + encodeURIComponent(queryString);
 		
-		console.log("YQL",path);
-		
 		// create promie to download path
 		return this.http.get(path).toPromise().then(response => response.json());
 	}

@@ -48,8 +48,6 @@ export class EntityProfileComponent {
 				});
 			}
 
-			console.log(params);
-
 			this.modules.some(item => {
 				if(item.url === params["module"]){
 					this.activeModule = item;
