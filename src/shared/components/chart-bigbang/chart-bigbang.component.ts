@@ -152,15 +152,17 @@ export class ChartBigbangComponent implements OnInit {
 
 	// generate path for group expenditures
 	getEStripePath(i,group){
+		var maxAmount = Math.max(this._data.maxBudgetAmount,this._data.maxExpenditureAmount);
 		var inner = this.innerSize;
-		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this._data.maxBudgetAmount ? group.expenditureAmount / this._data.maxBudgetAmount : 0);
+		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (maxAmount ? group.expenditureAmount / maxAmount : 0);
 		return this.getStripePath(i,inner,outer);
 	}
 
 	// generate path for group total budget minus expenditures
 	getBStripePath(i,group){
-		var inner = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this._data.maxBudgetAmount ? group.expenditureAmount / this._data.maxBudgetAmount : 0);
-		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (this._data.maxBudgetAmount ? group.budgetAmount / this._data.maxBudgetAmount : 0);
+		var maxAmount = Math.max(this._data.maxBudgetAmount,this._data.maxExpenditureAmount);
+		var inner = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (maxAmount ? group.expenditureAmount / maxAmount : 0);
+		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (maxAmount ? group.budgetAmount / maxAmount : 0);
 		return this.getStripePath(i,inner,outer);
 	}
 

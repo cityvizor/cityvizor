@@ -1,8 +1,13 @@
 
 <h3>Výdaje</h3>
+
+<h4>Nahrát data</h4>
+
 <div class="form-group">
 	<div class="col-sm-12">
-
+		
+		<input name="year" type="number" [(ngModel)]="year" min="0" step="1">
+		
 		<input name="file" type="file" ng2FileSelect [uploader]="expendituresUploader">
 
 		<table class="table table-condensed">
@@ -22,13 +27,19 @@
 			</tbody>
 		</table>
 	</div>
-
-	
 </div>
 
+<h4>Nahraná data</h4>
+
+
 <h3>Investiční akce</h3>
+
+<h4>Nahrát data</h4>
+
 <div class="form-group">
 	<div class="col-sm-12">
+		
+		<input name="year" type="number" [(ngModel)]="year">
 
 		<input name="file" type="file" ng2FileSelect [uploader]="eventsUploader">
 
@@ -49,7 +60,7 @@
 			</tbody>
 		</table>
 	</div>
-
-	
 </div>
+
+<h4>Nahraná data</h4>
 

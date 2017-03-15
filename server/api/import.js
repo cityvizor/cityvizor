@@ -4,7 +4,7 @@ var app = express();
 var router = express.Router();
 
 var multer = require('multer');
-var upload = multer({ dest: 'server/uploads/tmp' });
+var upload = multer({ dest: 'uploads/tmp' });
 
 var acl = require("../acl/index");
 

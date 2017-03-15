@@ -171,6 +171,14 @@ module.exports = class ExpenditureTransformer extends Transform {
 		string.replace(",","."); // function Number accepts only dot as decimal point
 		return Number(string);
 	}
+	
+	string2date(string){
+		
+		// 29. 3. 1989, 29. 03. 1989, 29.3.1989, 29.03.1989 
+		string = string.replace(/^([0-3]?[0-9])\. ?([01]?[0-9])\. ?([0-9]{4})$/,"$3-$2-$1");
+
+		return new Date(string);		
+	}
 
 	_write(item, enc, next) {
 		
@@ -183,7 +191,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 
 		var paragraphId = item["PARAGRAF"];
 		var itemId = item["POLOZKA"];
-		var eventId = item["ORJ"];
+		var eventId = item["ORJ"].trim() ? item["ORJ"].trim() : null;
 		
 		var budget = this.budget;
 
@@ -209,15 +217,14 @@ module.exports = class ExpenditureTransformer extends Transform {
 			[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item.expenditureAmount = item.expenditureAmount + amount);
 		}
 
-		if(type === "KDF"){
-			
+		if(type === "KDF"){	
 			this.invoices.push({
 				profile: this.profileId,
 				event: eventId,
 				year: this.year,
 				item: itemId,
 				paragraph: paragraphId,
-				date: item["DOKLAD_DATUM"],
+				date: this.string2date(item["DOKLAD_DATUM"]),
 				amount: amount,
 				counterpartyId: item["SUBJEKT_IC"],
 				counterpartyName: item["SUBJEKT_NAZEV"],

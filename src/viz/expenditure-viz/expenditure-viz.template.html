@@ -85,7 +85,10 @@ V aplikaci Cityvizor jsou rozpočtová data spárována s informacemi o skutečn
 								</thead>
 								<tbody>
 									<tr *ngFor="let event of paragraph.events">
-										<td><a (click)="openEvent(event.event)">{{getEventName(event.event)}}</a></td>
+										<td>
+											<a *ngIf="event.event" (click)="openEvent(event.event)">{{getEventName(event.event)}}</a>
+											<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
+										</td>
 										<td>{{event.budgetAmount | money:0:true}} Kč</td>
 										<td>{{event.expenditureAmount | money:0:true}} Kč</td>
 									</tr>

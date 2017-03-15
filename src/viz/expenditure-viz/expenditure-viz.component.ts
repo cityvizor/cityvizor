@@ -128,7 +128,9 @@ export class ExpenditureVizComponent{
 	}
 
 	getEventName(eventId){
-		return this.eventIndex[eventId] ? this.eventIndex[eventId].name : "Akce " + eventId;
+		if(this.eventIndex[eventId]) return this.eventIndex[eventId].name;
+		if(eventId) return "Investiční akce č. " + eventId;
+		return "Ostatní";
 	}
 
 	findItem(array,id){

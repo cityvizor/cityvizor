@@ -18,7 +18,7 @@ mongo-config.js
 /typings
 
 # uploads
-/uploads
+/server/uploads
 
 # misc
 npm-debug.log
