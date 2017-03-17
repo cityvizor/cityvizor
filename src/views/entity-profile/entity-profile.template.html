@@ -16,8 +16,6 @@
 
 				<contract-list *ngSwitchCase="'contract-list'" [profile]="profile" [@switchAnimation]></contract-list>
 
-				<data-sources *ngSwitchCase="'data-sources'" [@switchAnimation]></data-sources>
-
 			</div>
 
 			<entity-admin *ngIf="view=='admin'" [profile]="profile"></entity-admin>

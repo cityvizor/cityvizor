@@ -10,6 +10,5 @@ export const MODULES: Module[] = [
 	{"id": "expenditure-viz", "url": "rozpocet", "name": "Rozpočet a výdaje", "optional": true},
 	{"id": "expenditure-events", "url": "investicni-akce", "name": "Investice", "optional": true},	
 	{"id": "notice-board", "url": "uredni-deska", "name": "Úřední deska", "optional": true},
-	{"id": "contract-list", "url": "registr-smluv", "name": "Registr smluv", "optional": true},
-	{"id": "data-sources", "url": "datove-zdroje", "name": "Datové zdroje", "optional": false}
+	{"id": "contract-list", "url": "registr-smluv", "name": "Registr smluv", "optional": true}
 ];

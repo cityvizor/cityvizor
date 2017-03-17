@@ -36,11 +36,14 @@ export class ChartBigbangComponent implements OnInit {
 	r: number = 500;
  	cx: number = 500;
  	cy: number = 500;
-	innerSize: number = 0.04;
-	minSize: number = 0.008;
+	innerR: number = 0.2; // relative to radius
+	minR: number = 0.02; // relative to radius
 	showAmounts: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
 	showGroupTitles: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
 	
+	// maximum absolute dimension = max of maximum budget and maximum expenditures
+	maxAmount:number = 0;
+	 
 	// animation settings
 	animationLength = 300; // length of the animation
 	animationStep = 30; // how often should the animation update (value for setInterval)
@@ -57,6 +60,12 @@ export class ChartBigbangComponent implements OnInit {
 		this.groups.forEach(group => {
 			group.expenditureAmount = 0;
 			group.budgetAmount = 0;
+			group.srcExpenditureR = this.innerR + this.minR;
+			group.srcBudgetR = this.innerR + this.minR;
+			group.targetExpenditureR = group.srcExpenditureR;
+			group.targetBudgetR = group.srcBudgetR;
+			group.expenditureR = group.srcExpenditureR;
+			group.budgetR = group.srcBudgetR;
 		});
 	}
 
@@ -68,6 +77,12 @@ export class ChartBigbangComponent implements OnInit {
 	// set groups data - this launches the animation to set the data
 	setGroupData(){
 		
+		var groupData = this._data.groupIndex;
+		
+		this.maxAmount = Math.max(this._data.maxBudgetAmount,this._data.maxExpenditureAmount);
+		
+		// this.groups.sort((a,b) => groupData[a.id] && groupData[b.id] ? groupData[a.id].budgetAmount - groupData[b.id].budgetAmount : 0);
+		
 		// animation start time, used to calculate animation states
 		this.animationStart = (new Date()).getTime();
 		
@@ -76,10 +91,17 @@ export class ChartBigbangComponent implements OnInit {
 			this.animationTimer = setInterval(() => this.animationUpdate(),this.animationStep);
 		}
 		
-		// we save previous amounts to determine the animation "path" 
+		// we save source and target amounts to determine the animation "path" 
 		this.groups.forEach(group => {
-			group.oldExpenditureAmount = group.expenditureAmount; 
-			group.oldBudgetAmount = group.budgetAmount;
+			
+			group.expenditureAmount = groupData[group.id] ? groupData[group.id].expenditureAmount : 0;
+			group.budgetAmount = groupData[group.id] ? groupData[group.id].budgetAmount : 0;
+			
+			group.sourceExpenditureR = group.expenditureR;
+			group.sourceBudgetR = group.budgetR;
+			
+			group.targetExpenditureR = this.maxAmount ? this.minR + Math.sqrt(group.expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2)) : 0;
+			group.targetBudgetR = this.maxAmount ? this.minR + Math.sqrt(group.budgetAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2)) : 0;
 		});
 	}
 	 
@@ -94,15 +116,17 @@ export class ChartBigbangComponent implements OnInit {
 		// percentage is computed as position in time between start and end of animation
 		var percentage = Math.min(1,((new Date()).getTime() - this.animationStart) / this.animationLength);
 		// we want the percentage not to be linear with time, so we make start and end go faster using arc cos function
-		percentage = Math.acos(1 - percentage * 2) / Math.PI;
+		percentage = (Math.sin((percentage - 0.5) * Math.PI) + 1) / 2;
 		
 		// if percentage reaches 1, we stop the animatin loop and set the destination values
 		if(percentage >= 1){
+			
 			clearInterval(this.animationTimer);
+			
 			this.groups.forEach(group => {
 				if(groupData[group.id]){
-					group.expenditureAmount = groupData[group.id].expenditureAmount;
-					group.budgetAmount = groupData[group.id].budgetAmount;
+					group.expenditureR = group.targetExpenditureR;
+					group.budgetR = group.targetBudgetR;
 				}
 			});
 			return;
@@ -111,11 +135,15 @@ export class ChartBigbangComponent implements OnInit {
 		// if percentage is less than 1, we assign the temporary animation values
 		this.groups.forEach(group => {
 			if(groupData[group.id]){
-				group.expenditureAmount = group.oldExpenditureAmount + (groupData[group.id].expenditureAmount - group.oldExpenditureAmount) * percentage;
-				group.budgetAmount = group.oldBudgetAmount + (groupData[group.id].budgetAmount - group.oldBudgetAmount) * percentage;
+				group.expenditureR = group.srcExpenditureR * (1 - percentage) + group.targetExpenditureR * percentage;
+				group.budgetR = group.srcBudgetR * (1 - percentage) + group.targetBudgetR * percentage;
 			}
 		});
 		
+	}
+	
+	getCircleR(){
+		return this.innerR * this.r;
 	}
 
 	getLineCircleCoordinates (i,c) {
@@ -145,34 +173,13 @@ export class ChartBigbangComponent implements OnInit {
 		return p.join(" ");	
 	}
 
-	 
-	getCircleR(){
-		return Math.sqrt(this.innerSize) * this.r;	 // area grows with square, so we use square root  (inner and outer are stil 0~1, but square root shape)
-	}
-
-	// generate path for group expenditures
-	getEStripePath(i,group){
-		var maxAmount = Math.max(this._data.maxBudgetAmount,this._data.maxExpenditureAmount);
-		var inner = this.innerSize;
-		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (maxAmount ? group.expenditureAmount / maxAmount : 0);
-		return this.getStripePath(i,inner,outer);
-	}
-
-	// generate path for group total budget minus expenditures
-	getBStripePath(i,group){
-		var maxAmount = Math.max(this._data.maxBudgetAmount,this._data.maxExpenditureAmount);
-		var inner = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (maxAmount ? group.expenditureAmount / maxAmount : 0);
-		var outer = this.innerSize + this.minSize + (1 - this.minSize - this.innerSize) * (maxAmount ? group.budgetAmount / maxAmount : 0);
-		return this.getStripePath(i,inner,outer);
-	}
-
 	// generate stripe by index, and inner and outer percentage size
 	getStripePath(i,inner,outer){
 
 		i = Math.min(Math.max(i,0),this.groups.length); // i ranges from 0 to number of groups
 
-		var innerRadius = Math.sqrt(inner) * this.r; // we want the size to grow with area of the stripe, therefore square root (inner and outer are stil 0~1, but square root shape)
-		var outerRadius = Math.sqrt(outer) * this.r;
+		var innerRadius = inner * this.r;
+		var outerRadius = outer * this.r;
 		var start = this.groups.length ? i / this.groups.length : 0;
 		var size = this.groups.length ? 1 / this.groups.length : 0;
 		return this.generateStripePath(this.cx,this.cy,innerRadius,outerRadius,start,size);	

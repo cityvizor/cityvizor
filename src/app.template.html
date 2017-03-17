@@ -45,7 +45,7 @@
 			<div class="col-sm-5 col-xs-12 text-right">
 				<a (click)="loginModal.show()" *ngIf="!userService.logged">Přihlásit se</a>
 				<a (click)="logout()" *ngIf="userService.logged">Odhlásit: {{userService.user._id}}</a>
-				| <a>Data</a>
+				| <a routerLink="/stranka/datove-zdroje">Data</a>
 				| <a routerLink="/stranka/o-aplikaci">O aplikaci</a>
 				| <a routerLink="/stranka/o-aplikaci" fragment="licence">Licence</a>
 				| <a routerLink="/stranka/o-aplikaci" fragment="kontakt">Kontakt</a>

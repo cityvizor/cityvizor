@@ -76,6 +76,7 @@ export class ExpenditureVizComponent{
 	
 	constructor(private _ds: DataService, private _toastService: ToastService){
 		this.groups = ChartGroups; // set groups
+		this.selectedGroup = this.groups[0];
 		this.paragraphNames = paragraphNames;
 	}
 	 
@@ -122,7 +123,7 @@ export class ExpenditureVizComponent{
 						return;
 						
 					default:
-						this._toastService.toast("Nastala neočekávaná chyba","error");
+						this._toastService.toast("Nastala neočekávaná chyba" + err,"error");
 				}
 			});
 	}
@@ -195,6 +196,8 @@ export class ExpenditureVizComponent{
 		data.paragraphs.forEach(paragraph => {
 			paragraph.events.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
 		});
+		
+		// this.groups.sort((a,b) => data.groupIndex[a.id] && data.groupIndex[b.id] ? data.groupIndex[a.id].budgetAmount - data.groupIndex[b.id].budgetAmount : 0);
 	}
 
 	// select group (e.g. after clicking a stripe)
@@ -219,12 +222,12 @@ export class ExpenditureVizComponent{
 
 	/* VIZ HELPER FUNCTIONS */
 	getBarBudgetPercentage(group) {
-		if(!this.budget.groupIndex[group.id]) return 0;
-		return Math.round(this.budget.groupIndex[group.id].budgetAmount / this.budget.maxBudgetAmount * 100);
+		var maxAmount = Math.max(this.budget.maxBudgetAmount,this.budget.maxExpenditureAmount);
+		return this.budget.groupIndex[group.id] && maxAmount ? Math.round(Math.max(this.budget.groupIndex[group.id].budgetAmount,this.budget.groupIndex[group.id].expenditureAmount) / maxAmount * 100) : 0;
 	}
 	getBarExpenditurePercentage(group) {
 		if(!this.budget.groupIndex[group.id]) return 0;
-		return Math.round(this.budget.groupIndex[group.id].expenditureAmount / this.budget.groupIndex[group.id].budgetAmount * 100);
+		return this.budget.groupIndex[group.id].budgetAmount > this.budget.groupIndex[group.id].expenditureAmount ? this.budget.groupIndex[group.id].expenditureAmount / this.budget.groupIndex[group.id].budgetAmount * 100 : 100;
 	}
 	
 
