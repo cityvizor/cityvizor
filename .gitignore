@@ -11,6 +11,7 @@
 
 # sensitive data
 mongo-config.js
+/cert/*.pem
 
 # dependencies
 /node_modules

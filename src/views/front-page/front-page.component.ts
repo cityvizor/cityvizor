@@ -26,7 +26,7 @@ import { Component, OnInit} from '@angular/core';
 
 		#headerVyberObce {
 			display: block;  padding: 50px 0px 20px 0px;
-			background: url('http://janvlasaty.name/polepozadi.jpg') no-repeat; 
+			background: url('/assets/img/polepozadi.jpg') no-repeat; 
 			background-size: 100% auto; background-position: center -115px; 
 			text-align: center;
 			border-bottom: 10px solid #2581c4;
