@@ -5,14 +5,11 @@ var acl = require("../acl/index");
 
 var User = require("../models/user");
 
-var bcrypt = require("bcrypt");
-
 router.get("/", acl("users","list"), (req,res) => {
 
 	var options = {};
-	if(req.query.profile) options.managedProfiles = req.query.profile;
 	
-	User.find(options).select("_id")
+	User.find({}).select("_id")
 		.then(users => users.map(user => user._id))
 		.then(users => res.json(users));
 
