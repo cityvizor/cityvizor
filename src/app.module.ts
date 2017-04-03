@@ -19,6 +19,7 @@ import { ExpenditureEventsComponent } from './viz/expenditure-events/expenditure
 import { ContractListComponent } from "./viz/contract-list/contract-list.component";
 import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component";
 import { EventDetailComponent } from "./viz/event-detail/event-detail.component";
+import { DataCatalogueComponent } from "./viz/data-catalogue/data-catalogue.component";
 
 // Data viz components for data administration
 import { EntityAdminProfileComponent } from "./views/entity-admin/entity-admin-profile/entity-admin-profile.component";
@@ -67,7 +68,7 @@ export function getAuthHttp(http) {
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
-		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, 
+		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ EntityAdminProfileComponent, EntityAdminModulesComponent, EntityAdminImportComponent, EntityAdminUsersComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe
