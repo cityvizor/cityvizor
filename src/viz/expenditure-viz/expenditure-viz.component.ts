@@ -89,15 +89,10 @@ export class ExpenditureVizComponent{
 
 	/* PROCESS DATA */
 
-	loadData(id,year){
-		
-		if(!id || !year) return;
-		
-		// data on expenditures (from the organization accounting software) are loaded and parsed.
-		var i = 0;
+	loadData(profileId,year){
 		
 		// get event names
-		this._ds.getProfileEvents(id)
+		this._ds.getProfileEvents(profileId)
 			.then(events => {
 				this.events = events;
 				this.eventIndex = {};
@@ -105,11 +100,10 @@ export class ExpenditureVizComponent{
 			});
 		
 		// we get a Promise
-		this._ds.getBudget(id,year)
+		this._ds.getProfileBudget(profileId,year)
 			.then((data) => {
 				this.linkData(data);
 				this.sortData(data);
-				console.log(data);
 				this.budget = data;
 			})
 			.catch((err) => {

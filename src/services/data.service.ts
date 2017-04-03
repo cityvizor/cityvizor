@@ -24,7 +24,7 @@ export class DataService {
 			return this.http.get("/api/entities").toPromise().then(response => response.json());
 	}
 
-	getEntity(entityId) { 
+	getEntity(entityId){
 		return this.http.get("/api/entities/" + entityId).toPromise().then(response => response.json());
 	}
 	
@@ -41,6 +41,19 @@ export class DataService {
 		return this.authHttp.post("/api/profiles/" + profile._id,profile).toPromise().then(response => response.json());
 	}
 	
+	getProfileBudget(profileId,year){
+		if(!year) year = (new Date()).getFullYear();
+		return this.http.get("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
+	}
+	
+	getProfileBudgets(profileId){
+		return this.http.get("/api/profiles/" + profileId + "/budgets").toPromise().then(response => response.json());
+	}
+	
+	getProfileDashboardDashboard(profileId){
+		return this.http.get("/api/profiles/" + profileId + "/dashboard").toPromise().then(response => response.json());
+	}
+	
 	getProfileEvent(profileId,eventId){
 		return this.http.get("/api/profiles/" + profileId + "/events/" + eventId).toPromise().then(response => response.json());
 	}
@@ -53,21 +66,17 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId + "/events/timeline/" + year).toPromise().then(response => response.json());
 	}
 	
-	/* DASHBOARD */
-	getDashboard(profileId){
-		return this.http.get("/api/profiles/" + profileId + "/dashboard").toPromise().then(response => response.json());
-	}
-
-	/* EXPENDITURES */
-	getBudgets(profileId){
-		return this.http.get("/api/profiles/" + profileId + "/budgets").toPromise().then(response => response.json());
+	getProfileLatestInvoices(profileId){
+		return this.http.get("/api/profiles/" + profileId + "/invoices/latest").toPromise().then(response => response.json());
 	}
 	
-	getBudget(profileId,year){
-		if(!year) year = (new Date()).getFullYear();
-		return this.http.get("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
+	getProfileManagers(profileId){
+		return this.authHttp.get("/api/profiles/" + profileId + "/managers").toPromise().then(response => response.json());
 	}
+	
 
+
+	/* EVENTS */
 	getEvent(eventId){
 		return this.http.get("/api/events/" + eventId).toPromise().then(response => response.json());
 	}
@@ -76,9 +85,7 @@ export class DataService {
 		return this.http.get("/api/events").toPromise().then(response => response.json());
 	}
 	
-	getLatestInvoices(profileId){
-		return this.http.get("/api/profiles/" + profileId + "/invoices/latest").toPromise().then(response => response.json());
-	}
+	
 	
 	/* IMPORT */
 	getExpendituresUploader(profileId,year){
@@ -106,6 +113,8 @@ export class DataService {
 		});
 	}
 	
+	
+	/* USERS */	
 	getUsers(options?){
 		let params: URLSearchParams = new URLSearchParams();
 		Object.keys(options).map(key => params.set(key, options[key]));

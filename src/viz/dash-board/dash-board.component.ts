@@ -148,7 +148,7 @@ export class DashboardComponent {
 	}
 	 
 	ngOnInit(){
-		this.dataService.getLatestInvoices(this.profile._id)
+		this.dataService.getProfileLatestInvoices(this.profile._id)
 			.then(invoices => {
 				invoices.forEach(i => {
 					this.news.push({
@@ -164,7 +164,7 @@ export class DashboardComponent {
 				});
 			});
 		
-		this.dataService.getBudgets(this.profile._id)
+		this.dataService.getProfileBudgets(this.profile._id)
 			.then(budgets => this.budgets = budgets)
 			.then(budgets => {
 				budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.budgetAmount));

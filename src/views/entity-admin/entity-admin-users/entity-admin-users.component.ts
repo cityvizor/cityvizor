@@ -15,14 +15,14 @@ export class EntityAdminUsersComponent {
 	@Input()
 	profile: any;	
 	 
-	users: any[];
+	managers: any[];
 
 	constructor( private dataService: DataService, private toastService: ToastService, private userService:UserService) {
 	}
 	 
 	ngOnInit(){
-    this.dataService.getUsers({profile:this.profile._id})
-			.then(users => this.users = users);
+    this.dataService.getProfileManagers(this.profile._id)
+			.then(userIds => this.managers = userIds);
 	}
 	 
 
