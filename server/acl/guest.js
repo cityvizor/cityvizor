@@ -18,6 +18,10 @@ module.exports = {
 		"list": true
 	},
 	
+	"invoices": {
+		"list": true
+	},
+	
 	"budgets": {
 		"read": true,
 		"list": true

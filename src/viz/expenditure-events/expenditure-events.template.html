@@ -1,52 +1,54 @@
-<div class="row">
-	<div class="col-md-10 col-md-offset-1">
-		<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
-  		<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
-			<strong>Informace:</strong> Investice neboli investiční akce jsou v účetnictví analogií k projektu. Tedy když se rozhodne, že se například opraví chodník v ulici xxx, založí se investiční akce, která má začátek a konec, plánovaný objem prostředků. Potom se, pro účely rozpočtování, přiřadí rozpočtové položky a pragrafy. 
-Skrze investiční akce můžete velmi jednoduše získat přehled o tom, co se ve vašem městě děje a jaké jsou plány. 
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
+				<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
+				<strong>Informace:</strong> Investice neboli investiční akce jsou v účetnictví analogií k projektu. Tedy když se rozhodne, že se například opraví chodník v ulici xxx, založí se investiční akce, která má začátek a konec, plánovaný objem prostředků. Potom se, pro účely rozpočtování, přiřadí rozpočtové položky a pragrafy. 
+	Skrze investiční akce můžete velmi jednoduše získat přehled o tom, co se ve vašem městě děje a jaké jsou plány. 
+			</div>
 		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="col-xs-3">
-		<button class="btn btn-default btn-sm">
-			<i class="fa fa-chevron-left"></i> 2016
-		</button>
-	</div>
-	<div class="col-xs-6 text-center">
-		<div class="btn-group">
-			<button type="button" class="btn btn-sm btn-default active">ROK</button>
-			<button type="button" class="btn btn-sm btn-default">PŮLROK</button>
-			<button type="button" class="btn btn-sm btn-default">KVARTÁL</button>
+	<div class="row">
+		<div class="col-xs-3">
+			<button class="btn btn-default btn-sm">
+				<i class="fa fa-chevron-left"></i> 2016
+			</button>
+		</div>
+		<div class="col-xs-6 text-center">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-default active">ROK</button>
+				<button type="button" class="btn btn-sm btn-default">PŮLROK</button>
+				<button type="button" class="btn btn-sm btn-default">KVARTÁL</button>
+			</div>
+		</div>
+		<div class="col-xs-3 text-right">
+			<button class="btn btn-default btn-sm disabled">
+				2018 <i class="fa fa-chevron-right"></i>
+			</button>
 		</div>
 	</div>
-	<div class="col-xs-3 text-right">
-		<button class="btn btn-default btn-sm disabled">
-			2018 <i class="fa fa-chevron-right"></i>
-		</button>
-	</div>
-</div>
 
-<div class="row eETimeline">
-	<p class="text-center text-muted small">2017</p>
-	<div class="rulerBars">
-		<label *ngFor="let mesic of nazvyMesice">{{mesic}}</label>
-	</div>
-	
+	<div class="row eETimeline">
+		<p class="text-center text-muted small">2017</p>
+		<div class="rulerBars">
+			<label *ngFor="let mesic of nazvyMesice">{{mesic}}</label>
+		</div>
 
 
-	<div class="eEBars">
-		<div class="eEBarBounds" *ngFor="let event of events" [style.margin-left]="100*getDateRangeFrac(event,'from')+'%'" [style.margin-right]="(100*(1-getDateRangeFrac(event,'till')))+'%'" (click)="openEvent(event)">
-			<div class="barArrow leftArrow" *ngIf="isOverlapToPast(event.from)">
-				<i class="fa fa-angle-double-right"></i>
-			</div>
-			<div class="amountBubble" [style.width]="getAmountBubbleSize(event.budgetAmount)+'px'" [style.height]="getAmountBubbleSize(event.budgetAmount)+'px'" ></div>
-			<div class="eEBar">
-				<div class="title">{{event.name}}</div>
-			</div>
-			<div class="barArrow rightArrow" *ngIf="isOverlapToFuture(event.till)">
-				<i class="fa fa-angle-double-right"></i>
+
+		<div class="eEBars">
+			<div class="eEBarBounds" *ngFor="let event of events" [style.margin-left]="100*getDateRangeFrac(event,'from')+'%'" [style.margin-right]="(100*(1-getDateRangeFrac(event,'till')))+'%'" (click)="openEvent(event)">
+				<div class="barArrow leftArrow" *ngIf="isOverlapToPast(event.from)">
+					<i class="fa fa-angle-double-right"></i>
+				</div>
+				<div class="amountBubble" [style.width]="getAmountBubbleSize(event.budgetAmount)+'px'" [style.height]="getAmountBubbleSize(event.budgetAmount)+'px'" ></div>
+				<div class="eEBar">
+					<div class="title">{{event.name}}</div>
+				</div>
+				<div class="barArrow rightArrow" *ngIf="isOverlapToFuture(event.till)">
+					<i class="fa fa-angle-double-right"></i>
+				</div>
 			</div>
 		</div>
 	</div>

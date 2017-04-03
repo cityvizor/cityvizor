@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, URLSearchParams } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 
@@ -45,12 +45,24 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId + "/events/" + eventId).toPromise().then(response => response.json());
 	}
 
+	getProfileEvents(profileId){
+		return this.http.get("/api/profiles/" + profileId + "/events").toPromise().then(response => response.json());
+	}
+	
+	getProfileEventsTimeline(profileId,year){
+		return this.http.get("/api/profiles/" + profileId + "/events/timeline/" + year).toPromise().then(response => response.json());
+	}
+	
 	/* DASHBOARD */
 	getDashboard(profileId){
 		return this.http.get("/api/profiles/" + profileId + "/dashboard").toPromise().then(response => response.json());
 	}
 
 	/* EXPENDITURES */
+	getBudgets(profileId){
+		return this.http.get("/api/profiles/" + profileId + "/budgets").toPromise().then(response => response.json());
+	}
+	
 	getBudget(profileId,year){
 		if(!year) year = (new Date()).getFullYear();
 		return this.http.get("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
@@ -60,9 +72,12 @@ export class DataService {
 		return this.http.get("/api/events/" + eventId).toPromise().then(response => response.json());
 	}
 	
-	getEvents(profileId?){
-		if(profileId) return this.http.get("/api/profiles/" + profileId + "/events").toPromise().then(response => response.json());
-		else return this.http.get("/api/events").toPromise().then(response => response.json());
+	getEvents(){
+		return this.http.get("/api/events").toPromise().then(response => response.json());
+	}
+	
+	getLatestInvoices(profileId){
+		return this.http.get("/api/profiles/" + profileId + "/invoices/latest").toPromise().then(response => response.json());
 	}
 	
 	/* IMPORT */
@@ -89,6 +104,12 @@ export class DataService {
 				profile: profileId
 			}
 		});
+	}
+	
+	getUsers(options?){
+		let params: URLSearchParams = new URLSearchParams();
+		Object.keys(options).map(key => params.set(key, options[key]));
+		return this.authHttp.get("/api/users",{search:params}).toPromise().then(response => response.json());
 	}
 	
 }

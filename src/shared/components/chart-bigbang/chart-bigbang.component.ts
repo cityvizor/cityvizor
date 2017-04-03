@@ -37,7 +37,7 @@ export class ChartBigbangComponent implements OnInit {
  	cx: number = 500;
  	cy: number = 500;
 	innerR: number = 0.2; // relative to radius
-	minR: number = 0.02; // relative to radius
+	minR: number = 0.22; // relative to radius
 	showAmounts: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
 	showGroupTitles: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
 	
@@ -60,8 +60,8 @@ export class ChartBigbangComponent implements OnInit {
 		this.groups.forEach(group => {
 			group.expenditureAmount = 0;
 			group.budgetAmount = 0;
-			group.srcExpenditureR = this.innerR + this.minR;
-			group.srcBudgetR = this.innerR + this.minR;
+			group.srcExpenditureR = this.minR;
+			group.srcBudgetR = this.minR;
 			group.targetExpenditureR = group.srcExpenditureR;
 			group.targetBudgetR = group.srcBudgetR;
 			group.expenditureR = group.srcExpenditureR;
@@ -100,9 +100,11 @@ export class ChartBigbangComponent implements OnInit {
 			group.sourceExpenditureR = group.expenditureR;
 			group.sourceBudgetR = group.budgetR;
 			
-			group.targetExpenditureR = this.maxAmount ? this.minR + Math.sqrt(group.expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2)) : 0;
-			group.targetBudgetR = this.maxAmount ? this.minR + Math.sqrt(group.budgetAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2)) : 0;
+			group.targetExpenditureR = this.maxAmount ? Math.max(this.minR, Math.sqrt(group.expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
+			group.targetBudgetR = this.maxAmount ? Math.max(this.minR, Math.sqrt(group.budgetAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
 		});
+		
+		console.log(this.groups);
 	}
 	 
 	 

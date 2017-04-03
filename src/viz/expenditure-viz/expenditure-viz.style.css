@@ -47,8 +47,8 @@ div.drawing{}
     display:block;
 }
 .groupListShort .table-groupList tbody {
-		max-height: 380px;
-		overflow-y: scroll;
+		/*max-height: 380px;
+		overflow-y: scroll;*/
 }
 
 .table-groupList thead, .table-groupList tbody tr {
@@ -57,7 +57,8 @@ div.drawing{}
     table-layout:fixed;/* even columns width , fix width of table too*/
 }
 .table-groupList thead {
-    width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+    width: calc(100% - 3px); 
+		margin-bottom: 3px;
 }
 
 .bar {
@@ -71,6 +72,8 @@ div.drawing{}
 	height: 6px;
 	min-width: 6px;
 	float:right;
+	transition-duration: 300ms;
+	transition-timing-function: ease-in-out;
 }
 .bar-budget {
 	background: #ADF;

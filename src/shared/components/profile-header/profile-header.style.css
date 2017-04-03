@@ -55,6 +55,7 @@
 	line-height: 45px;
 	font-size: 14pt;
 	color: #333;
+	transition-duration: 400ms;
 }
 .entity-menu .navbar li a:hover {
 	background-color: white;
@@ -63,4 +64,21 @@
 .entity-menu .navbar li a.active {
 	background-color: #2581C4;
 	color: white;
+}
+
+.navbar-toggle {
+	float:none;
+}
+.icon-bar {
+	margin-top: 5px;
+	height: 3px;
+	background: #2581C4;
+	float: left;
+	clear: left;
+}
+.toggle-title {
+	font-size: 14pt;
+	font-weight: bold;
+	color: #2581C4;
+	margin-left: 12px;
 }

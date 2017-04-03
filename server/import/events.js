@@ -24,7 +24,7 @@ module.exports = function(filePath, profileId){
 		transform: function(entity, encoding, callback) {
 			callback(null,{
 				"profile": profileId,
-				"id": entity["ORJ"],
+				"event": entity["ORJ"],
 				"name": entity["ORJ_NAZEV"]
 			});
 		}

@@ -23,5 +23,5 @@ app.get('*',(req,res) => {
 });
 
 app.listen(8080, function () {
-	console.log('Supervizor Plus Server listening!')
+	console.log('Supervizor Plus Server listening on port 8080!')
 })

@@ -20,6 +20,8 @@ export class ExpenditureEventsComponent {
 	}
 	
 	profileId;
+	
+	year: number = (new Date()).getFullYear();
 
 	@ViewChild('eventReceiptsModal')
 	public eventReceiptsModal:ModalDirective;
@@ -40,11 +42,13 @@ export class ExpenditureEventsComponent {
 	 
 	nazvyMesice = ["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"];	 
 
-	constructor(private dataService:DataService, private toastService:ToastService) { }
+	constructor(private dataService:DataService, private toastService:ToastService) {
+		
+	}
 
 	loadData(profileId){
 		 
-		this.dataService.getEvents(profileId)
+		this.dataService.getProfileEventsTimeline(this.profileId,this.year)
 			.then(events => { 
 				this.events = events;
 			}).catch(err => {
@@ -89,7 +93,7 @@ export class ExpenditureEventsComponent {
 		//this.openedEvent = null;
 		this.eventReceiptsModal.show();
 		
-		this.dataService.getProfileEvent(this.profileId,event.id)
+		this.dataService.getEvent(event._id)
 			.then(eventData => this.openedEvent = eventData)
 			.catch(err => {
 				this.eventReceiptsModal.hide();

@@ -1,133 +1,135 @@
-<div class="row">
-	<div class="col-md-10 col-md-offset-1">
-		<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
-  		<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
-			<strong>Informace:</strong> Rozpočet je obecně plán příjmů a výdajů. Sestavuje se na začátku rozpočtovacího období (roku) a posléze se vyhodnocuje. Skutečnost se od rozpočtu může lišit díky neplánovaným událostem (výpad v příjmu, neočekávané výdaje atd.). Rozpočet je členěn dle rozpočtové skladby, která pomáhá lepšímu plánování a výkaznictví. Obvykle se vyhodnocuje plnění rozpočtu, tedy srovnání plánu a skutečnosti z hlediska toku peněz.
-V aplikaci Cityvizor jsou rozpočtová data spárována s informacemi o skutečných výdajích, takže můžete vidět, za co přesně jsou veřejné peníze utraceny. 
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
+				<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
+				<strong>Informace:</strong> Rozpočet je obecně plán příjmů a výdajů. Sestavuje se na začátku rozpočtovacího období (roku) a posléze se vyhodnocuje. Skutečnost se od rozpočtu může lišit díky neplánovaným událostem (výpad v příjmu, neočekávané výdaje atd.). Rozpočet je členěn dle rozpočtové skladby, která pomáhá lepšímu plánování a výkaznictví. Obvykle se vyhodnocuje plnění rozpočtu, tedy srovnání plánu a skutečnosti z hlediska toku peněz.
+	V aplikaci Cityvizor jsou rozpočtová data spárována s informacemi o skutečných výdajích, takže můžete vidět, za co přesně jsou veřejné peníze utraceny. 
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		
+		<div class="col-lg-12">
+			<!-- VIZUALIZACE -->
+			<div class="drawing" #drawing>
+
+					<div [attr.class]="!selectedGroup?'col-sm-8':'col-sm-6'">
+						<chart-bigbang [data]="budget" [selectedGroup]="selectedGroup" [hoveredGroup]="hoveredGroup" (selectGroup)="selectedGroup=$event" (hoverGroup)="hoveredGroup=$event" [scale]="vizScale"></chart-bigbang>
+					</div>
+
+					<div [attr.class]="!selectedGroup?'col-sm-4':'col-sm-6 groupListShort'">
+						<table class="table table-responsive table-groupList">
+							<thead>
+								<tr>
+									<td></td>
+									<th>Rozpočtová skupina</th>
+								</tr>
+							</thead>
+							<tbody id="groupListTableBody">
+								<tr *ngFor="let group of groups" (mouseover)="hoveredGroup=group" (mouseout)="hoveredGroup=null" [attr.class]="(hoveredGroup==group || selectedGroup==group)?'tr-focus':''" (click)="selectGroup(group,false)">
+									<td>
+										<div class="bar">
+											<div class="bar-budget" [style.width]="getBarBudgetPercentage(group)+'%'">
+												<div class="bar-expenditure" [style.width]="getBarExpenditurePercentage(group)+'%'">
+												</div>
+											</div>
+										</div>
+									</td>
+									<td>{{group.id}} - {{group.title}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+			</div>
+
+			<div *ngIf="selectedGroup" id="selectedGroup">
+
+				<hr>
+
+				<h3>
+					<i class="fa fa-chevron-circle-right"></i> {{selectedGroup.title}}
+					<span class="pull-right text-muted small" (click)="selectGroup(null,false)"><i class="fa fa-times"></i> zavřít</span>
+				</h3>
+
+				<div style="clear:both;"><br></div>
+
+				<div *ngIf="!budget.groupIndex[selectedGroup.id]" class="text-center">
+					<span class="label label-warning"><i class="fa fa-warning"></i> Tato skupina nemá žádnou rozpočtovanou položku!</span>		
+				</div>
+
+				<div *ngIf="budget.groupIndex[selectedGroup.id]">
+
+					<div *ngFor="let paragraph of budget.groupIndex[selectedGroup.id].paragraphs" class="paragraph">
+
+						<div class="row">
+							<div class="col-md-12">
+								<h4>&sect; {{paragraph.id}} - {{paragraphNames[paragraph.id]}}</h4>
+								<span *ngIf="paragraph.expenditureAmount > paragraph.budgetAmount" class="label label-warning"><i class="fa fa-warning"></i> Překročen rozpočet!</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="content">
+
+									<table class="viztable table table-responsive small">
+										<thead>
+											<tr>
+												<th>Investiční akce</th>
+												<th>Rozpočet</th>
+												<th>Realizované výdaje</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let event of paragraph.events">
+												<td>
+													<a *ngIf="event.event" (click)="openEvent(event.event)">{{getEventName(event.event)}}</a>
+													<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
+												</td>
+												<td>{{event.budgetAmount | money:0:true}} Kč</td>
+												<td>{{event.expenditureAmount | money:0:true}} Kč</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
+								<div class="row">
+									<div class="col-xs-4">
+										<chart-donut [data]="paragraph"></chart-donut>
+									</div>
+									<div class="col-xs-8">
+										<span style="color:#E73431;">&#9632;</span> Čerpáno: {{paragraph.expenditureAmount | money:0:true}} Kč
+										<br>
+										<span *ngIf="paragraph.expenditureAmount <= paragraph.budgetAmount">
+											<span style="color:#ff9491;">&#9632;</span> Zbývá: {{paragraph.budgetAmount - paragraph.expenditureAmount | money:0:true}} Kč
+										</span>
+										<span *ngIf="paragraph.expenditureAmount > paragraph.budgetAmount">Překročeno o {{paragraph.expenditureAmount - paragraph.budgetAmount | money:0:true}} Kč</span> 
+									</div>
+								</div>
+							</div>
+						</div>					
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
-<div>
-	<!-- VIZUALIZACE -->
-	<div class="drawing" #drawing>
-		<div class="row">
-			
-			<div [attr.class]="!selectedGroup?'col-sm-8':'col-sm-6'">
-				
-				<chart-bigbang [data]="budget" [selectedGroup]="selectedGroup" [hoveredGroup]="hoveredGroup" (selectGroup)="selectedGroup=$event" (hoverGroup)="hoveredGroup=$event" [scale]="vizScale"></chart-bigbang>
-				
-			</div>	
-			
-			<div [attr.class]="!selectedGroup?'col-sm-4':'col-sm-6 groupListShort'">
-				<table class="table table-responsive table-groupList">
-					<thead>
-						<tr>
-							<td></td>
-							<th class="small">Rozpočtová skupina</th>
-						</tr>
-					</thead>
-					<tbody id="groupListTableBody">
-						<tr *ngFor="let group of groups" (mouseover)="hoveredGroup=group" (mouseout)="hoveredGroup=null" [attr.class]="(hoveredGroup==group || selectedGroup==group)?'tr-focus':''" (click)="selectGroup(group,false)">
-							<td>
-								<div class="bar">
-									<div class="bar-budget" [style.width]="getBarBudgetPercentage(group)+'%'">
-										<div class="bar-expenditure" [style.width]="getBarExpenditurePercentage(group)+'%'">
-										</div>
-									</div>
-								</div>
-							</td>
-							<td>{{group.id}} - {{group.title}}</td>
-						</tr>
-					</tbody>
-				</table>
+<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" (click)="eventReceiptsModal.hide()" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">{{openedEvent?.name || "Načítání..."}}</h4>
 			</div>
-		</div>
-	</div>
-
-	<div *ngIf="selectedGroup" id="selectedGroup">
-		
-		<hr>
-		
-		<h3>
-			<i class="fa fa-chevron-circle-right"></i> {{selectedGroup.title}}
-			<span class="pull-right text-muted small" (click)="selectGroup(null,false)"><i class="fa fa-times"></i> zavřít</span>
-		</h3>
-		
-		<div style="clear:both;"><br></div>
-
-		<div *ngIf="!budget.groupIndex[selectedGroup.id]" class="text-center">
-			<span class="label label-warning"><i class="fa fa-warning"></i> Tato skupina nemá žádnou rozpočtovanou položku!</span>		
-		</div>
-
-		<div *ngIf="budget.groupIndex[selectedGroup.id]">
-
-			<div *ngFor="let paragraph of budget.groupIndex[selectedGroup.id].paragraphs" class="paragraph">
-				
-				<div class="row">
-					<div class="col-md-12">
-						<h4>&sect; {{paragraph.id}} - {{paragraphNames[paragraph.id]}}</h4>
-						<span *ngIf="paragraph.expenditureAmount > paragraph.budgetAmount" class="label label-warning"><i class="fa fa-warning"></i> Překročen rozpočet!</span>
-					</div>
-				</div>
-					
-				<div class="row">
-					<div class="col-sm-9">
-						<div class="content">
-
-							<table class="viztable table table-responsive small">
-								<thead>
-									<tr>
-										<th>Investiční akce</th>
-										<th>Rozpočet</th>
-										<th>Realizované výdaje</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr *ngFor="let event of paragraph.events">
-										<td>
-											<a *ngIf="event.event" (click)="openEvent(event.event)">{{getEventName(event.event)}}</a>
-											<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
-										</td>
-										<td>{{event.budgetAmount | money:0:true}} Kč</td>
-										<td>{{event.expenditureAmount | money:0:true}} Kč</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
-						<div class="row">
-							<div class="col-xs-4">
-								<chart-donut [data]="paragraph"></chart-donut>
-							</div>
-							<div class="col-xs-8">
-								<span style="color:#E73431;">&#9632;</span> Čerpáno: {{paragraph.expenditureAmount | money:0:true}} Kč
-								<br>
-								<span *ngIf="paragraph.expenditureAmount <= paragraph.budgetAmount">
-									<span style="color:#ff9491;">&#9632;</span> Zbývá: {{paragraph.budgetAmount - paragraph.expenditureAmount | money:0:true}} Kč
-								</span>
-								<span *ngIf="paragraph.expenditureAmount > paragraph.budgetAmount">Překročeno o {{paragraph.expenditureAmount - paragraph.budgetAmount | money:0:true}} Kč</span> 
-							</div>
-						</div>
-					</div>
-				</div>					
-			</div>
-		</div>
-	</div>
-
-	<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" (click)="eventReceiptsModal.hide()" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">{{openedEvent?.name || "Načítání..."}}</h4>
-				</div>
-				<div class="modal-body">
-					<event-detail [event]="openedEvent"></event-detail>
-				</div>
+			<div class="modal-body">
+				<event-detail [event]="openedEvent"></event-detail>
 			</div>
 		</div>
 	</div>

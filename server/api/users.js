@@ -9,7 +9,10 @@ var bcrypt = require("bcrypt");
 
 router.get("/", acl("users","list"), (req,res) => {
 
-	User.find({}).select("_id")
+	var options = {};
+	if(req.query.profile) options.managedProfiles = req.query.profile;
+	
+	User.find(options).select("_id")
 		.then(users => users.map(user => user._id))
 		.then(users => res.json(users));
 

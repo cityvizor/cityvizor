@@ -13,9 +13,9 @@ export class MoneyPipe implements PipeTransform {
 		var add = "";
 		
 		if(autoDivide){
-			if(value > 950){value = value / 1000;add = " tis.";}
-			if(value > 950){value = value / 1000;add = " mil.";}
-			if(value > 950){value = value / 1000;add = " mld.";}
+			if(Math.abs(value) > 950){value = value / 1000;add = " tis.";}
+			if(Math.abs(value) > 950){value = value / 1000;add = " mil.";}
+			if(Math.abs(value) > 950){value = value / 1000;add = " mld.";}
 		}
 		
 		/* round number to the correct number of decimals if decimal parameter not null */

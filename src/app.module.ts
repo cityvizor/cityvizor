@@ -24,6 +24,7 @@ import { EventDetailComponent } from "./viz/event-detail/event-detail.component"
 import { EntityAdminProfileComponent } from "./views/entity-admin/entity-admin-profile/entity-admin-profile.component";
 import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules/entity-admin-modules.component";
 import { EntityAdminImportComponent } from "./views/entity-admin/entity-admin-import/entity-admin-import.component";
+import { EntityAdminUsersComponent } from "./views/entity-admin/entity-admin-users/entity-admin-users.component";
 
 // Services
 import { DataService } 		from './services/data.service';
@@ -33,7 +34,7 @@ import { ToastService } 		from './services/toast.service';
 import { UserService } 		from './services/user.service';
 
 // Import Modules
-import { ModalModule } from 'ng2-bootstrap';
+import { ModalModule, CollapseModule } from 'ng2-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
@@ -60,14 +61,14 @@ export function getAuthHttp(http) {
 		HttpModule,
 		FormsModule,
 		routing,
-		ModalModule.forRoot(),
+		ModalModule.forRoot(), CollapseModule.forRoot(),
 		FileUploadModule
 	],
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, 
-		/* VIZ ADMIN */ EntityAdminProfileComponent, EntityAdminModulesComponent, EntityAdminImportComponent,
+		/* VIZ ADMIN */ EntityAdminProfileComponent, EntityAdminModulesComponent, EntityAdminImportComponent, EntityAdminUsersComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe
 	],

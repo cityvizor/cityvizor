@@ -97,11 +97,11 @@ export class ExpenditureVizComponent{
 		var i = 0;
 		
 		// get event names
-		this._ds.getEvents(id)
+		this._ds.getProfileEvents(id)
 			.then(events => {
 				this.events = events;
 				this.eventIndex = {};
-				this.events.forEach(event => this.eventIndex[event.id] = event);
+				this.events.forEach(event => this.eventIndex[event.event] = event);
 			});
 		
 		// we get a Promise
@@ -123,7 +123,7 @@ export class ExpenditureVizComponent{
 						return;
 						
 					default:
-						this._toastService.toast("Nastala neočekávaná chyba" + err,"error");
+						this._toastService.toast("Nastala neočekávaná chyba " + err,"error");
 				}
 			});
 	}
@@ -209,7 +209,7 @@ export class ExpenditureVizComponent{
 	openEvent(eventId){
 		
 		this.eventReceiptsModal.show();
-		console.log(eventId);
+		
 		this._ds.getProfileEvent(this.profileId,eventId)
 			.then(eventData => this.openedEvent = eventData)
 			.catch(err => {

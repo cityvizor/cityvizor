@@ -1,14 +1,11 @@
 function isManagedProfile(req){
-	return req.user && (req.user.managedProfiles.indexOf(req.params.id) >= 0 || req.user.managedProfiles.indexOf(req.body.profile) >= 0);
+	let profile = req.body.profile || req.query.profile || req.params.profile || null;
+	return req.user && profile && req.user.managedProfiles.indexOf(profile) >= 0;
 }
 
 module.exports = {
 	
 	"profile": {
-		
-		"read": true,
-		"list": true,
-		
 		"write": function(req){
 			return isManagedProfile(req);
 		}
@@ -16,8 +13,6 @@ module.exports = {
 	},
 	
 	"budget": {
-		"read": true,
-		
 		"write": function(req){
 			return isManagedProfile(req);
 		}
@@ -30,10 +25,13 @@ module.exports = {
 	},
 	
 	"expenditures": {
-		"read": true,
-		
 		"write": function(req){
-			console.log(req.body);
+			return isManagedProfile(req);
+		}
+	},
+	
+	"users": {
+		"list": function(req){
 			return isManagedProfile(req);
 		}
 	}

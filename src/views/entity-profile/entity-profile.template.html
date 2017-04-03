@@ -2,9 +2,8 @@
 
 	<profile-header [profile]="profile"></profile-header>
 
-	<div id="content"  class="container">
-		<div class="row">
-			<div class="col-sm-12" [ngSwitch]="activeModule?.id" id="vizmodules">
+	<div id="content">
+			<div [ngSwitch]="activeModule?.id" id="vizmodules">
 
 				<dash-board *ngSwitchCase="'dash-board'" [profile]="profile" [@switchAnimation]></dash-board>
 
@@ -20,5 +19,4 @@
 
 			<entity-admin *ngIf="view=='admin'" [profile]="profile"></entity-admin>
 		</div>
-	</div>
 </div>

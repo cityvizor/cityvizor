@@ -22,12 +22,11 @@ export class DashboardComponent {
 		"padding" : 10
 	};
 
- 	news = [
-		 {"spec": "Faktura", "supplier":"STAREDO s.r.o.", "ICO": "28270495", "paragraph": "3612", "RP": "6121", "date": "6. 3. 2017", "desc": "41 - investice provedené práce KODUS", "amount": "179 585 Kč"},
-		 {"spec": "Smlouva", "supplier":"TJ Nové Město na Moravě z.s.", "ICO": "43378498", "paragraph": "", "RP": "", "date": "1. 3. 2017", "desc": "Veřejnopravní smlouva o poskytnutí neinvestiční dotace", "amount": "280 000 Kč"},
-		 {"spec": "Faktura", "supplier":"VODÁRENSKÁ AKCIOVÁ SPOLEČNOST", "ICO": "49455842", "paragraph": "2321", "RP": "5169", "date": "15. 2. 2017", "desc": "02 - Slavkovice - kamerová prohlídka kanalizace", "amount": "5 331 Kč"},
-		 {"spec": "Faktura", "supplier":"Novoměstská teplárenská a.s.", "ICO": "25335057", "paragraph": "3613", "RP": "5152", "date": "20. 1. 2017", "desc": "Byty - dodávka tepelné energie za 12/2016", "amount": "26 156 Kč"}
-	];
+ 	news = [];
+	budgets = [];
+	 
+	maxExpenditureAmount:number = 0;
+	maxIncomeAmount:number = 0;
 
 	hour2string(hour){
 		var parts = hour.split(":");
@@ -75,39 +74,37 @@ export class DashboardComponent {
 			]
 		}
 	}; 
-	getMaxIncYearAmount () { return Math.max.apply(null, this.dashboardData.Inc.YearAmounts); }
-	getMaxExpYearAmount () { return Math.max.apply(null, this.dashboardData.Exp.YearAmounts); }
-
+	 
 	svgPointString (x,y) {
 			return x + ' ' + y;
 	}
 
-	getExpSemicirclePath (i) {
+	getExpSemicirclePath (budget,i) {
 		var MAX_R = 90;
 		var sx = (i+1/2)*1000/4;
 		var sy = 150;
-		var r = MAX_R * (this.dashboardData.Exp.YearAmounts[i]/this.getMaxExpYearAmount());
+		var r = MAX_R * (budget.expenditureAmount/this.maxExpenditureAmount);
 		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,0,"+(sx+r)+" "+sy+" Z";
 	}
-	getIncSemicirclePath (i) {
+	getIncSemicirclePath (budget,i) {
 		var MAX_R = 90;
 		var sx = (i+1/2)*1000/4;
 		var sy = 150;
-		var r = MAX_R * (this.dashboardData.Inc.YearAmounts[i]/this.getMaxIncYearAmount());
+		var r = MAX_R * (budget.incomeAmount/this.maxIncomeAmount);
 		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,1,"+(sx+r)+" "+sy+" Z";
 	}
-	getDiffSemicircleFill (i) {
-		if (this.dashboardData.Inc.YearAmounts[i]>this.dashboardData.Exp.YearAmounts[i])
+	getDiffSemicircleFill (budget,i) {
+		if (budget.incomeAmount > budget.expenditureAmount)
 			return "#ADF";
-		if (this.dashboardData.Inc.YearAmounts[i]<this.dashboardData.Exp.YearAmounts[i])
+		if (budget.incomeAmount < budget.expenditureAmount)
 			return "#FF9491";
 	}
-	getDiffSemicirclePath (i) {
+	getDiffSemicirclePath (budget,i) {
 		var MAX_R = 90;
 		var sx = (i+1/2)*1000/4;
 		var sy = 150;
-		var rInc = MAX_R * (this.dashboardData.Inc.YearAmounts[i]/this.getMaxIncYearAmount());
-		var rExp = MAX_R * (this.dashboardData.Exp.YearAmounts[i]/this.getMaxExpYearAmount());
+		var rInc = MAX_R * (budget.incomeAmount / this.maxIncomeAmount);
+		var rExp = MAX_R * (budget.expenditureAmount / this.maxExpenditureAmount);
 		
 		var r1, r2, orientation;
 		
@@ -147,7 +144,32 @@ export class DashboardComponent {
 		income:[]
 	};
 
-	constructor(private _ds: DataService){
+	constructor(private dataService: DataService){
+	}
+	 
+	ngOnInit(){
+		this.dataService.getLatestInvoices(this.profile._id)
+			.then(invoices => {
+				invoices.forEach(i => {
+					this.news.push({
+						"type": "Faktura",
+						"counterpartyName":i.counterpartyName,
+						"counterpartyId": i.counterpartyId,
+						"paragraph": i.paragraph,
+						"item": i.item,
+						"date": new Date(i.date),
+						"description": i.description,
+						"amount": i.amount
+					});
+				});
+			});
+		
+		this.dataService.getBudgets(this.profile._id)
+			.then(budgets => this.budgets = budgets)
+			.then(budgets => {
+				budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.budgetAmount));
+				budgets.map(budget => this.maxIncomeAmount = Math.max(this.maxIncomeAmount,budget.incomeAmount));
+			});
 	}
 
 	getIncBarWidth(){

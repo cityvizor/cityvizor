@@ -11,22 +11,22 @@
   </div>
 </header>
 
+
 <div class="entity-menu">
-  <div class="container">
     <nav class="navbar">
-      <div class="container-fluid">
+      <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
+          <button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" (click)="isMenuCollapsed = !isMenuCollapsed" >
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
+            <span class="toggle-title">MENU</span>
           </button>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
           <ul class="nav navbar-nav">
-            <li *ngFor="let module of modules">
-              <a [style.display]="(profile.modules[module.id] || !module.optional)?'inherit':'none'" [routerLink]="getVizLink(module)" class="" routerLinkActive="active">
+            <li *ngFor="let module of getActiveModules()">
+              <a [routerLink]="getVizLink(module)" routerLinkActive="active">
                 {{module.name}}
               </a>
             </li>
@@ -37,5 +37,4 @@
         </div>
       </div>
     </nav>
-  </div>
 </div>

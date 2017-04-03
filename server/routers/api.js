@@ -46,6 +46,8 @@ router.use("/profiles/:profile/budgets",require("../api/profiles-budgets"));
 
 router.use("/profiles/:profile/events",require("../api/profiles-events"));
 
+router.use("/profiles/:profile/invoices",require("../api/profiles-invoices"));
+
 router.use("/profiles/:profile/audit",require("../api/profiles-audit"));
 
 

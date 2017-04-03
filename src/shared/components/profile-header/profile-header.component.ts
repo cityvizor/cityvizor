@@ -17,15 +17,23 @@ export class ProfileHeaderComponent {
 	profile: any;
 
 	modules:Module[];
+	 
+	 
+	public isMenuCollapsed: boolean = true;
 
 	constructor(private userService:UserService) {
 		this.modules = MODULES;
 	}
+	 
+	getActiveModules(){
+		if(!this.profile || !this.profile.hiddenModules) return this.modules;
+		return this.modules.filter(item => this.profile.hiddenModules.indexOf(item.id) < 0);
+	}
 
 	isManagedProfile(){
-		return (this.profile && this.userService.user.managedProfiles.indexOf(this.profile._id) >= 0)
+		return (this.profile && this.userService.user.managedProfiles.indexOf(this.profile._id) >= 0);
 	}
-	
+	 
 	getVizLink(viz){
 		return ['/profil/' + this.profile.url + '/' + viz.url];
 	}

@@ -4,8 +4,8 @@
 		<th>{{module.name}}</th>
 		<td>
 			<div *ngIf="module.optional" class="btn-group pull-right">
-				<button type="button" class="btn btn-sm btn-default" [class.active]="profile.modules[module.id]" (click)="setModuleState(module,true)">Zapnuto</button>
-				<button type="button" class="btn btn-sm btn-default" [class.active]="!profile.modules[module.id]" (click)="setModuleState(module,false)">Vypnuto</button>
+				<button type="button" class="btn btn-sm btn-default" [class.active]="!isHiddenModule(module)" (click)="unhideModule(module)">Zapnuto</button>
+				<button type="button" class="btn btn-sm btn-default" [class.active]="isHiddenModule(module)" (click)="hideModule(module)">Vypnuto</button>
 			</div>
 		</td>
 	</tr>

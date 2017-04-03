@@ -15,28 +15,39 @@ export class EntityAdminModulesComponent {
 
 	@Input()
 	profile: any;
-	 
-	@Output() save = new EventEmitter();
 
 	modules: Module[];
 
 	constructor(private dataService: DataService, private toastService: ToastService) {
 		this.modules = MODULES;
 	}
+	 
+	isHiddenModule(viz: Module):boolean{ 
+		return (viz.optional && this.profile && this.profile.hiddenModules && this.profile.hiddenModules.indexOf(viz.id) >= 0);
+	}
 
-	setModuleState(viz: Module,value: boolean){
-		var oldState = this.profile.modules[viz.id];
+	hideModule(viz: Module){
+		if(this.profile.hiddenModules.indexOf(viz.id) < 0) this.profile.hiddenModules.push(viz.id);
+		this.save();
+	}	
+	 
+	unhideModule(viz: Module){
+		if(this.profile.hiddenModules.indexOf(viz.id) <= 0) this.profile.hiddenModules.splice(this.profile.hiddenModules.indexOf(viz.id),1);
+		this.save();
+	}	
+	
+	save(){
 		
-		this.profile.modules[viz.id] = value;
+		var oldModules = this.profile.modules;
 		
 		this.dataService.saveProfile(this.profile)
 			.then(profile => {
 				this.toastService.toast("Uloženo.", "notice");
 			})
 			.catch((err) => {
-				this.profile.modules[viz.id] = oldState;
+				this.profile.module = oldModules;
 				this.toastService.toast("Nastala chyba při ukládání","error");
 			});
-	}	
+	}
 
 }

@@ -8,6 +8,7 @@ var budgetSchema = mongoose.Schema({
 	year: String,
 	budgetAmount: Number,
 	expenditureAmount: Number,
+	incomeAmount: Number,
 	paragraphs: [{
 		id: String,
 		events: [{
@@ -15,38 +16,47 @@ var budgetSchema = mongoose.Schema({
 			name: String,
 			budgetAmount: Number,
 			expenditureAmount: Number,
+			incomeAmount: Number
 		}],
 		budgetAmount: Number,
-		expenditureAmount: Number
+		expenditureAmount: Number,
+		incomeAmount: Number
 	}]
 });
 
 var eventSchema = mongoose.Schema({
-	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
-	id: String,
+	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile", index:true},
+	event: String,
 	name: String,
 	budgetAmount: Number,
 	expenditureAmount: Number,
-	gps: [Number,Number]
+	incomeAmount: Number,
+	gps: [Number,Number],
+	description: String
 });
+eventSchema.index({ profile: 1, event: 1 });
 
-var eventBudgetSchema = mongoose.Schema({	
-	event: String,
+var eventBudgetSchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
+	event: String,
 	year: Number,
 	paragraphs: [{
 		id: String,
 		budgetAmount: Number,
-		expenditureAmount: Number
+		expenditureAmount: Number,
+		incomeAmount: Number
 	}],
 	items: [{
 		id: String,
 		budgetAmount: Number,
-		expenditureAmount: Number
+		expenditureAmount: Number,
+		incomeAmount: Number
 	}],
 	budgetAmount: Number,
-	expenditureAmount: Number
+	expenditureAmount: Number,
+	incomeAmount: Number
 });
+eventBudgetSchema.index({ profile: 1, event: 1 });
 
 var invoiceSchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
@@ -56,10 +66,12 @@ var invoiceSchema = mongoose.Schema({
 	paragraph: String,
 	date: Date,
 	amount: Number,
-	counterpartyId: String,
+	counterpartyId: {type:String, index:true},
 	counterpartyName: String,
 	description: String
 });
+invoiceSchema.index({ profile: 1, event: 1 });
+invoiceSchema.index({ profile: 1, event: 1, year: 1 });
 
 module.exports = {
 	"Budget": mongoose.model('Budget', budgetSchema),

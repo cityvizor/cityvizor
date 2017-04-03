@@ -1,36 +1,37 @@
-<div class="row">
-	<div class="col-md-10 col-md-offset-1">
-		<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
-  		<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
-			<strong>Informace:</strong> Cityvizor kopíruje data z registru smluv, který je zřízen dle Zákona o registru smluv (předpis č. 340/2015 Sb.). Konkrétní znění smluv naleznete v samotném registru.
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
+				<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
+				<strong>Informace:</strong> Cityvizor kopíruje data z registru smluv, který je zřízen dle Zákona o registru smluv (předpis č. 340/2015 Sb.). Konkrétní znění smluv naleznete v samotném registru.
+			</div>
 		</div>
 	</div>
-</div>
 
-<table class="table table-condensed table-hover table-striped">
-	<thead>
-		<tr>
-			<th>Datum publikace</th>
-			<th>Název smlouvy</th>
-			<th>Dodavatel</th>
-			<th>Částka</th>
-			<th>Měna</th>
-			<th>Detail</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let contract of contracts">
-			<td>{{contract.published | date:"d. M. y"}}</td>
-			<td>{{contract.name}}</td>
-			<td>{{contract.counterparty}}</td>
-			<td class="amount">{{contract.amount | money:0:false}}</td>
-			<td>{{contract.currency}}</td>
-			<td><a [href]="contract.url" target="_blank">Detail</a></td>
-		</tr>
-	</tbody>
-</table>
-<div class="text-center">
-	<span *ngIf="loading">Načítám smlouvy&#8230;</span>
-	<a *ngIf="!loading" [href]="getRegisterUrl()" target="_blank">Zobrazit všechny smlouvy</a>
+	<table class="table table-condensed table-hover table-striped">
+		<thead>
+			<tr>
+				<th>Datum publikace</th>
+				<th>Název smlouvy</th>
+				<th>Dodavatel</th>
+				<th>Částka</th>
+				<th>Měna</th>
+				<th>Detail</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let contract of contracts">
+				<td>{{contract.published | date:"d. M. y"}}</td>
+				<td>{{contract.name}}</td>
+				<td>{{contract.counterparty}}</td>
+				<td class="amount">{{(contract.amount === null ? "-" : contract.amount | money:0:false)}}</td>
+				<td>{{contract.currency}}</td>
+				<td><a [href]="contract.url" target="_blank">Detail</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="text-center">
+		<span *ngIf="loading">Načítám smlouvy&#8230;</span>
+		<a *ngIf="!loading" [href]="getRegisterUrl()" target="_blank">Zobrazit všechny smlouvy</a>
+	</div>
 </div>
-		
