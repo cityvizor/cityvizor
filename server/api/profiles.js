@@ -4,11 +4,9 @@ var app = express();
 var router = express.Router();
 module.exports = router;
 
-var acl = require("../acl/index");
+var acl = require("express-dynacl");
 
 var Profile = require("../models/profile");
-
-var acl = require("../acl/index");
 
 router.get("/", acl("profiles","list"), (req,res) => {
 	Profile.find({}).select("id url entity").populate("entity","id name gps").exec((err, profiles) => {

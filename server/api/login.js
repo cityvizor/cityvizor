@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var acl = require("../acl/index");
+var acl = require("express-dynacl");
 
 var User = require("../models/user");
 

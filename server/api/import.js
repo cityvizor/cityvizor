@@ -6,7 +6,7 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/tmp' });
 
-var acl = require("../acl/index");
+var acl = require("express-dynacl");
 
 var ExpenditureImport = require("../import/expenditures");
 var EventsImport = require("../import/events");

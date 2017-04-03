@@ -7,7 +7,7 @@ module.exports = router;
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 
-var acl = require("../acl/index");
+var acl = require("express-dynacl");
 
 var Entity = require("../models/entity");
 var EntityImport = require("../import/entities");

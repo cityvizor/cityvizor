@@ -3,7 +3,7 @@ var app = express();
 
 var router = express.Router({mergeParams: true});
 
-var acl = require("../acl/index");
+var acl = require("express-dynacl");
 
 var Event = require("../models/expenditures").Event;
 var EventBudget = require("../models/expenditures").EventBudget;

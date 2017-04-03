@@ -28,6 +28,52 @@ export class DashboardComponent {
 	maxExpenditureAmount:number = 0;
 	maxIncomeAmount:number = 0;
 
+	
+
+	dashboard = {
+		expenditures:[],
+		income:[]
+	};
+
+	constructor(private dataService: DataService){
+	}
+	 
+	ngOnInit(){
+		this.dataService.getProfileLatestInvoices(this.profile._id)
+			.then(invoices => {
+				invoices.forEach(i => {
+					this.news.push({
+						"type": "Faktura",
+						"counterpartyName":i.counterpartyName,
+						"counterpartyId": i.counterpartyId,
+						"paragraph": i.paragraph,
+						"item": i.item,
+						"date": new Date(i.date),
+						"description": i.description,
+						"amount": i.amount
+					});
+				});
+			});
+		
+		this.dataService.getProfileBudgets(this.profile._id)
+			.then(budgets => this.budgets = budgets)
+			.then(budgets => {
+				budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.budgetAmount));
+				budgets.map(budget => this.maxIncomeAmount = Math.max(this.maxIncomeAmount,budget.incomeAmount));
+			});
+	}
+
+	getIncBarWidth(){
+		var n = this.dashboard.income.length;
+		return (800 - (n - 1) * 50) / n;
+	}
+
+	getExpBarWidth(){
+		var n = this.dashboard.expenditures.length;
+		return (800 - (n - 1) * 50) / n;
+	}
+	 
+	 
 	hour2string(hour){
 		var parts = hour.split(":");
 		if(parts[1] == "00") return parts[0];
@@ -138,50 +184,6 @@ export class DashboardComponent {
 		
 		return "M"+(sx-a2)+" "+sy+" L "+Cx.join(" L");
 	}
-
-	dashboard = {
-		expenditures:[],
-		income:[]
-	};
-
-	constructor(private dataService: DataService){
-	}
-	 
-	ngOnInit(){
-		this.dataService.getProfileLatestInvoices(this.profile._id)
-			.then(invoices => {
-				invoices.forEach(i => {
-					this.news.push({
-						"type": "Faktura",
-						"counterpartyName":i.counterpartyName,
-						"counterpartyId": i.counterpartyId,
-						"paragraph": i.paragraph,
-						"item": i.item,
-						"date": new Date(i.date),
-						"description": i.description,
-						"amount": i.amount
-					});
-				});
-			});
-		
-		this.dataService.getProfileBudgets(this.profile._id)
-			.then(budgets => this.budgets = budgets)
-			.then(budgets => {
-				budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.budgetAmount));
-				budgets.map(budget => this.maxIncomeAmount = Math.max(this.maxIncomeAmount,budget.incomeAmount));
-			});
-	}
-
-	getIncBarWidth(){
-		var n = this.dashboard.income.length;
-		return (800 - (n - 1) * 50) / n;
-	}
-
-	getExpBarWidth(){
-		var n = this.dashboard.expenditures.length;
-		return (800 - (n - 1) * 50) / n;
-	}
-	 
 	 
 
 }

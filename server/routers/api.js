@@ -1,6 +1,6 @@
 var express = require('express');
 
-var acl = require("../acl/index");
+var acl = require("express-dynacl");
 
 var jwt = require('express-jwt');
 
@@ -10,9 +10,9 @@ var router = module.exports = express.Router();
 // configure DynACL
 var aclOptions = {
 	roles: {
-		"guest": require("../acl/roles/guest"),
-		"profile-manager": require("../acl/roles/profile-manager"),
-		"admin": require("../acl/roles/admin")
+		"guest": require("../acl/guest"),
+		"profile-manager": require("../acl/profile-manager"),
+		"admin": require("../acl/admin")
 	},
 	defaultRoles: ["guest"],
 	logConsole: true

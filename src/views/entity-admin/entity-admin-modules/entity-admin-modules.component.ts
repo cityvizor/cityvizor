@@ -27,13 +27,17 @@ export class EntityAdminModulesComponent {
 	}
 
 	hideModule(viz: Module){
-		if(this.profile.hiddenModules.indexOf(viz.id) < 0) this.profile.hiddenModules.push(viz.id);
-		this.save();
+		 if(this.profile.hiddenModules.indexOf(viz.id) < 0){
+			 this.profile.hiddenModules.push(viz.id);
+			 this.save();
+		 }
 	}	
 	 
 	unhideModule(viz: Module){
-		if(this.profile.hiddenModules.indexOf(viz.id) <= 0) this.profile.hiddenModules.splice(this.profile.hiddenModules.indexOf(viz.id),1);
-		this.save();
+		if(this.profile.hiddenModules.indexOf(viz.id) >= 0){
+			this.profile.hiddenModules.splice(this.profile.hiddenModules.indexOf(viz.id),1);
+			this.save();
+		}
 	}	
 	
 	save(){
