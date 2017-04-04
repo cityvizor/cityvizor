@@ -1,0 +1,66 @@
+
+<h3>Výdaje</h3>
+
+<h4>Nahrát data</h4>
+
+<div class="form-group">
+	<div class="col-sm-12">
+		
+		<input name="year" type="number" [(ngModel)]="year" min="0" step="1">
+		
+		<input name="file" type="file" ng2FileSelect [uploader]="expendituresUploader">
+
+		<table class="table table-condensed">
+			<thead></thead>
+			<tbody>
+				<tr *ngFor="let file of expendituresUploader.queue">
+					<th>{{file?.file?.name}}</th>
+					<td>
+						<span *ngIf="file.isUploading">
+							Nahrávám... {{file.progress}} %
+						</span>
+						<span *ngIf="file.isSuccess">Nahráno</span>
+						<span *ngIf="file.isCancel">Zrušeno</span>
+						<span *ngIf="file.isError">Chyba</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<h4>Nahraná data</h4>
+
+
+<h3>Investiční akce</h3>
+
+<h4>Nahrát data</h4>
+
+<div class="form-group">
+	<div class="col-sm-12">
+		
+		<input name="year" type="number" [(ngModel)]="year">
+
+		<input name="file" type="file" ng2FileSelect [uploader]="eventsUploader">
+
+		<table class="table table-condensed">
+			<thead></thead>
+			<tbody>
+				<tr *ngFor="let file of eventsUploader.queue">
+					<th>{{file?.file?.name}}</th>
+					<td>
+						<span *ngIf="file.isUploading">
+							Nahrávám... {{file.progress}} %
+						</span>
+						<span *ngIf="file.isSuccess">Nahráno</span>
+						<span *ngIf="file.isCancel">Zrušeno</span>
+						<span *ngIf="file.isError">Chyba</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<h4>Nahraná data</h4>
+

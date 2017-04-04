@@ -8,9 +8,9 @@ import { AppComponent }  from './app.component';
 // Views components
 import { FrontPageComponent }  from './views/front-page/front-page.component';
 import { PageViewComponent }  from './views/page-view/page-view.component';
-import { EntityListComponent } from './views/entity-list/entity-list.component';
-import { EntityProfileComponent } from './views/entity-profile/entity-profile.component';
-import { EntityAdminComponent } from "./views/entity-admin/entity-admin.component";
+import { ProfileListComponent } from './views/profile-list/profile-list.component';
+import { ProfileViewComponent } from './views/profile-view/profile-view.component';
+import { ProfileAdminComponent } from "./views/profile-admin/profile-admin.component";
 
 // Data viz components
 import { DashboardComponent } from "./viz/dash-board/dash-board.component";
@@ -22,10 +22,10 @@ import { EventDetailComponent } from "./viz/event-detail/event-detail.component"
 import { DataCatalogueComponent } from "./viz/data-catalogue/data-catalogue.component";
 
 // Data viz components for data administration
-import { EntityAdminProfileComponent } from "./views/entity-admin/entity-admin-profile/entity-admin-profile.component";
-import { EntityAdminModulesComponent } from "./views/entity-admin/entity-admin-modules/entity-admin-modules.component";
-import { EntityAdminImportComponent } from "./views/entity-admin/entity-admin-import/entity-admin-import.component";
-import { EntityAdminUsersComponent } from "./views/entity-admin/entity-admin-users/entity-admin-users.component";
+import { ProfileAdminProfileComponent } from "./views/profile-admin/profile-admin-profile/profile-admin-profile.component";
+import { ProfileAdminModulesComponent } from "./views/profile-admin/profile-admin-modules/profile-admin-modules.component";
+import { ProfileAdminImportComponent } from "./views/profile-admin/profile-admin-import/profile-admin-import.component";
+import { ProfileAdminUsersComponent } from "./views/profile-admin/profile-admin-users/profile-admin-users.component";
 
 // Services
 import { DataService } 		from './services/data.service';
@@ -67,9 +67,9 @@ export function getAuthHttp(http) {
 	],
   declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, EntityListComponent, EntityProfileComponent, PageViewComponent, EntityAdminComponent,
+		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, 
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
-		/* VIZ ADMIN */ EntityAdminProfileComponent, EntityAdminModulesComponent, EntityAdminImportComponent, EntityAdminUsersComponent,
+		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe
 	],
