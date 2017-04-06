@@ -33,12 +33,16 @@ export class ExpenditureEventsComponent {
 	infoWindowClosed:boolean;
 		 
 	viewOptions = {
-		"dateOfFirst":new Date(2016,1,1),
-		"dateOfLast":new Date(2016,12,31),
+		"dateOfFirst":new Date(2017,1,1),
+		"dateOfLast":new Date(2017,12,31),
+		"dateFirst":null,
+		"dateLast":null,
 		"zoom":"year",
 		"amountBubbleMaxSize":200,
 		"amountBubbleMinSize":50
 	}; 
+
+	maxEEAmount = 0;
 	 
 	nazvyMesice = ["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"];	 
 
@@ -51,13 +55,25 @@ export class ExpenditureEventsComponent {
 		this.dataService.getProfileEventsTimeline(this.profileId,this.year)
 			.then(events => { 
 				this.events = events;
+				events.forEach(event => {
+					if (this.maxEEAmount<event.amount) this.maxEEAmount=event.amount;
+					if (this.viewOptions.dateFirst>event.dateFirst ||this.viewOptions.dateFirst===null) this.viewOptions.dateFirst=event.dateFirst;
+					if (this.viewOptions.dateLast<event.dateLast || this.viewOptions.dateLast===null) this.viewOptions.dateLast=event.dateLast;
+				});
+				console.log(new Date(this.viewOptions.dateFirst));
+				console.log(this.events);
 			}).catch(err => {
 				this.events = [];
 				this.toastService.toast("Nastala chyba při stahování akcí.","error");
 			});
 		 
 	 }
-	 
+	
+	EEVizEventBarFrac (event) {
+		var frac = 1-event.amount/this.maxEEAmount;
+		return 100*frac+"%";
+	}
+
 	getDateRangeFrac (event,side) {
 		//random start and end
 			if (side=='from') return 0.5*event.id/400;

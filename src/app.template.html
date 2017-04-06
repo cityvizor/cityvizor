@@ -49,6 +49,8 @@
 				| <a routerLink="/stranka/o-aplikaci">O aplikaci</a>
 				| <a routerLink="/stranka/o-aplikaci" fragment="licence">Licence</a>
 				| <a routerLink="/stranka/o-aplikaci" fragment="kontakt">Kontakt</a>
+				<br>
+				<a *ngIf="userService.acl('site-admin')" routerLink="/admin">Administrace</a>
 			</div>
 		</div>
 	</div>
@@ -67,6 +69,9 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
+						<div *ngIf="wrongPassword" class="alert alert-danger">
+							Chybná emailová adresa nebo heslo.
+						</div>
 						<form class="form-signin" (ngSubmit)="login()">
 							<div class="form-group">
 								<label for="inputEmail" class="cols-sm-2 control-label">Emailová adresa</label>

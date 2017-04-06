@@ -28,6 +28,19 @@
 			</button>
 		</div>
 	</div>
+	
+	<div class="EEViz">
+		<div class="row" *ngFor="let event of events">
+			<div class="col-xs-4 text-right">
+				{{event.name}}
+				<div class="EventBar" [style.margin-left]="EEVizEventBarFrac(event)"></div>
+			</div>
+			<div class="col-xs-8">
+				<span *ngFor="let invoice of event.invoices">{{invoice.amount}} + </span>
+				0 =	{{event.amount}}
+			</div>
+		</div>
+	</div>
 
 	<div class="row eETimeline">
 		<p class="text-center text-muted small">2017</p>

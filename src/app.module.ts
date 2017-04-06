@@ -11,6 +11,7 @@ import { PageViewComponent }  from './views/page-view/page-view.component';
 import { ProfileListComponent } from './views/profile-list/profile-list.component';
 import { ProfileViewComponent } from './views/profile-view/profile-view.component';
 import { ProfileAdminComponent } from "./views/profile-admin/profile-admin.component";
+import { SiteAdminComponent } from "./views/site-admin/site-admin.component";
 
 // Data viz components
 import { DashboardComponent } from "./viz/dash-board/dash-board.component";
@@ -26,6 +27,10 @@ import { ProfileAdminProfileComponent } from "./views/profile-admin/profile-admi
 import { ProfileAdminModulesComponent } from "./views/profile-admin/profile-admin-modules/profile-admin-modules.component";
 import { ProfileAdminImportComponent } from "./views/profile-admin/profile-admin-import/profile-admin-import.component";
 import { ProfileAdminUsersComponent } from "./views/profile-admin/profile-admin-users/profile-admin-users.component";
+
+// Site administration components
+import { SiteAdminProfilesComponent } from "./views/site-admin/site-admin-profiles/site-admin-profiles.component";
+import { SiteAdminUsersComponent } from "./views/site-admin/site-admin-users/site-admin-users.component";
 
 // Services
 import { DataService } 		from './services/data.service';
@@ -46,6 +51,7 @@ import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-don
 
 // Pipes
 import { MoneyPipe } from './shared/pipes/money.pipe';
+import { ConcatPipe, ArrayChildrenPipe } from './shared/pipes/utils.pipe';
 
 // Routes
 import { routing } from './app.routing';
@@ -67,11 +73,12 @@ export function getAuthHttp(http) {
 	],
   declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, 
+		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, SiteAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
+		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminUsersComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
-		/* PIPES */ MoneyPipe
+		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe
 	],
 	providers: [
 		DataService, YQLService, NoticeBoardService, ToastService, UserService,

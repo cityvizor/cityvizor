@@ -30,11 +30,21 @@ router.get("/timeline/:year", acl("profile-events", "list"), acl("profile-invoic
 			events.forEach(event => {
 				eventIndex[event.event] = event;
 				event.invoices = [];
+				event.amount = 0;
+				
+				event.dateFirst = null;
+				event.dateLast = null;
 			});		
 			
 			Invoice.find({profile: req.params.profile, event: {$in: events.map(event => event.event)}, year: Number(req.params.year)}).select("event date amount")
 				.then(invoices => {
-					invoices.forEach(invoice => eventIndex[invoice.event].invoices.push(invoice));
+					invoices.forEach(invoice => {
+						eventIndex[invoice.event].invoices.push(invoice);
+						eventIndex[invoice.event].amount += invoice.amount;
+						
+						if (eventIndex[invoice.event].dateFirst===null || eventIndex[invoice.event].dateFirst>invoice.date) eventIndex[invoice.event].dateFirst = invoice.date;
+						if (eventIndex[invoice.event].dateLast===null || eventIndex[invoice.event].dateLast<invoice.date) eventIndex[invoice.event].dateLast = invoice.date;
+					});
 					res.json(events);
 				});
 		})

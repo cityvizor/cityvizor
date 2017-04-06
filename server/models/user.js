@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var userSchema = mongoose.Schema({
 	"_id": String,
 	"password": String,
-	"managedProfiles": [String],
+	"managedProfiles": [{type: mongoose.Schema.Types.ObjectId, ref: "Profile"}],
 	"roles": [String]
 });
 

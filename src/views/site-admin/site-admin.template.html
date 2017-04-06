@@ -1,0 +1,43 @@
+<div>
+
+  <header id="headerObec">
+    <div class="container">
+      <h1><i class="fa fa-cog"></i> <a routerLink="/admin">Administrace</a></h1>
+    </div>
+  </header>
+
+
+  <div class="entity-menu">
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" (click)="isMenuCollapsed = !isMenuCollapsed" >
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="toggle-title">MENU</span>
+          </button>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
+          <ul class="nav navbar-nav">
+            <li><a routerLink="/admin/prehled" routerLinkActive="active">Přehled</a></li>
+            <li><a routerLink="/admin/profily" routerLinkActive="active">Profily</a></li>
+            <li><a routerLink="/admin/uzivatele" routerLinkActive="active">Uživatelé</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a routerLink="/">Zavřít</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div [ngSwitch]="cat" id="content"  class="container">
+    
+    <site-admin-profiles *ngSwitchCase="'profily'"></site-admin-profiles>
+    
+    <site-admin-users *ngSwitchCase="'uzivatele'"></site-admin-users>
+    
+  </div>
+  
+</div>

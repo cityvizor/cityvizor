@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { FileUploader } from 'ng2-file-upload/file-upload/file-uploader.class';
 
+import { UserService } from "./user.service";
+
 /**
 	* Service to communicate with server database
 	* getEntities - returns Promise with the list of entities, possibly filtered by filter:object parameter
@@ -17,7 +19,7 @@ import { FileUploader } from 'ng2-file-upload/file-upload/file-uploader.class';
 @Injectable()
 export class DataService {
 	
-	constructor(private http: Http, private authHttp: AuthHttp) {}
+	constructor(private http: Http, private authHttp: AuthHttp, private userService:UserService) { }
 
 	/* ENTITIES */
 	getEntities() {
@@ -92,7 +94,7 @@ export class DataService {
 		if(!profileId || !year) return null;
 		return new FileUploader({
 			url: "/api/import/expenditures/",
-			authToken: "Bearer " + window.localStorage.getItem("id_token"),
+			authToken: "Bearer " + this.userService.getToken(),
 			autoUpload: true,
 			additionalParameter: {
 				profile: profileId,
@@ -105,7 +107,7 @@ export class DataService {
 		if(!profileId) return null;
 		return new FileUploader({
 			url: "/api/import/events/",
-			authToken: "Bearer " + window.localStorage.getItem("id_token"),
+			authToken: "Bearer " + this.userService.getToken(),
 			autoUpload: true,
 			additionalParameter: {
 				profile: profileId
@@ -115,10 +117,8 @@ export class DataService {
 	
 	
 	/* USERS */	
-	getUsers(options?){
-		let params: URLSearchParams = new URLSearchParams();
-		Object.keys(options).map(key => params.set(key, options[key]));
-		return this.authHttp.get("/api/users",{search:params}).toPromise().then(response => response.json());
+	getUsers(){
+		return this.authHttp.get("/api/users").toPromise().then(response => response.json());
 	}
 	
 }

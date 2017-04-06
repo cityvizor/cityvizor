@@ -1,0 +1,17 @@
+<table class="table table-condensed table-hover table-striped">
+  
+  <thead>
+    <th>Jméno profilu</th>
+    <th>URL</th>
+    <th>Obec</th>
+  </thead>
+  
+  <tbody>
+    <tr *ngFor="let profile of profiles">
+      <td>{{profile.name}}</td>
+      <td>{{profile.url}}</td>
+      <td>{{profile.entity.name}}</td>
+      <td><a>detail</a></td>
+      <td><a [routerLink]="getProfileLink(profile)">otevřít</a></td>
+    </tr>
+</table>

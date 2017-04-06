@@ -1,0 +1,16 @@
+<table class="table table-condensed table-hover table-striped">
+  
+  <thead>
+    <th>ID/Email</th>
+    <th>Role</th>
+    <th>Spravované profily</th>
+  </thead>
+  
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user._id}}</td>
+      <td>{{user.roles | concat:', '}}</td>
+      <td>{{user.managedProfiles | arraychildren:'name' | concat:', '}}</td>
+      <td><a>detail</a></td>
+    </tr>
+</table>

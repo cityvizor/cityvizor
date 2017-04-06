@@ -4,6 +4,11 @@ import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
 import { UserService, User } 		from './services/user.service';
 
+class LoginData {
+	login:string = "";
+	password:string = "";
+}
+
 @Component({
 	moduleId: module.id,
 	selector: 'supervizor-plus',
@@ -21,29 +26,39 @@ export class AppComponent {
 
 	year: string;
 
-	loginData = {
-		login:"",
-		password:""
-	};
+	loginData:LoginData = new LoginData;
+
+	wrongPassword:boolean = false;
 
 	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef) {
 		var today = new Date();
 		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
 
-		this.toasts = this.toastService.toasts;		
-		
-		//componentsHelper.setRootViewContainerRef(viewContainerRef); // ng2-bootstrap requirement
+		this.toasts = this.toastService.toasts;
 	}
 
 	login(){
+		this.wrongPassword = false;
+		
 		this.userService.login(this.loginData)
 			.then(user => {
-				this.loginModal.hide();
+				this.closeLogin();				
 			})
 			.catch(err => {
-				this.toastService.toast("Chyba při přihlášení.","error");
-				this.loginModal.hide();
+				if(err.status === 401){
+					this.wrongPassword = true;
+				}
+				else {
+					this.closeLogin();
+					this.toastService.toast("Neznámá chyba při přihlášení, prosím kontaktujte správce.","error");
+				}
 			});
+	}
+
+	closeLogin(){
+		this.loginModal.hide();
+		this.wrongPassword = false;
+		this.loginData = new LoginData;
 	}
 
 	logout(){

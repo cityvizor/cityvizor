@@ -208,15 +208,19 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		if(isNaN(amount)) console.log(item);
 
-		if(type === "ROZ") {
-			/* Budget amount */
-			[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item.budgetAmount = item.budgetAmount + amount);
-		}
-		else {
-			/* Expenditure amount */
-			[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item.expenditureAmount = item.expenditureAmount + amount);
-		}
-
+		// determine which type is the amount and assign to the corrrect property
+		var amountTarget;
+		/* Budget amount */
+		if(type === "ROZ") amountTarget = "budgetAmount";
+		/* Income amount */
+		else if(Number(itemId) < 5000) amountTarget = "incomeAmount";
+		/* Expenditure amount */
+		else if(Number(itemId) >= 5000) amountTarget = "expenditureAmount < 5000";
+		
+		// assign for the following objects
+		[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item[amountTarget] = item[amountTarget] + amount);
+		
+		// if record is an invoice, then store it in invoices
 		if(type === "KDF"){	
 			this.invoices.push({
 				profile: this.profileId,
@@ -278,6 +282,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 	
 	_flush(next) {		
 		
+		// store requests, so that we can watch them for completion
 		var requests = this.requests;
 		
 		requests.push(this.writeInvoices());

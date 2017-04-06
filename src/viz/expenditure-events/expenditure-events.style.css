@@ -1,5 +1,24 @@
 * {opacity:inherit;}
 
+.EEViz .EventBar {
+	height: 6px;
+	border-radius: 3px;
+	background: #2581C4;	
+}
+.EEViz .TimelineBar {
+	height: 6px;
+	border-radius: 3px;
+	background: #444;	
+	position: relative;
+}
+.EEViz .InvoiceBar {
+	position:absolute;
+	height: 6px;
+	width: 6px;
+	border-radius: 3px;
+	background: #2581C4;	
+}
+
 .rulerBars {
   background-color: #ffffff;
   background-image: 
