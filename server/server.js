@@ -14,7 +14,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/supervizor-plus');
+mongoose.connect('mongodb://localhost/cityvizor');
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.Promise = global.Promise;
 
@@ -35,7 +35,7 @@ const options = {
 
 // start https server
 https.createServer(options, app).listen(443, function () {
-	console.log('Supervizor Plus Server listening on port 443!')
+	console.log('CityVizor Server listening on port 443!')
 });
 
 // Redirect from http port 80 to https
@@ -43,5 +43,5 @@ http.createServer(function (req, res) {
 	res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
 	res.end();
 }).listen(80, function () {
-	console.log('Supervizor Plus Server redirecting from port 80!')
+	console.log('CityVizor Server redirecting from port 80 to 443!')
 });

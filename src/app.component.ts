@@ -11,7 +11,7 @@ class LoginData {
 
 @Component({
 	moduleId: module.id,
-	selector: 'supervizor-plus',
+	selector: 'cityvizor-app',
 	templateUrl: 'app.template.html',
 	styleUrls: ['app.style.css']
 })

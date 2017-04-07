@@ -12,7 +12,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/supervizor-plus');
+mongoose.connect('mongodb://localhost/cityvizor');
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.Promise = global.Promise;
 
@@ -26,5 +26,5 @@ app.get('*',(req,res) => {
 
 // start https server
 app.listen(8000, function () {
-	console.log('Supervizor Plus Server listening on port 8000!')
+	console.log('CityVizor Server listening on port 8000!')
 });

@@ -22,7 +22,7 @@ body {
   font-family: 'Roboto Slab', serif;
 }
 
-body, supervizor-plus {
+body, cityvizor-app {
 	position: absolute;
 	min-height: 100%;
 	min-width: 100%;

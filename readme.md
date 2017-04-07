@@ -1,4 +1,4 @@
-# Supervizor Plus
+# CityVizor
 
 Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalšími funkcemi pro samosprávy:
 

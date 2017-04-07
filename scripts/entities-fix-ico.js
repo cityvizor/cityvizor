@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/supervizor-plus');
+mongoose.connect('mongodb://localhost/cityvizor');
 
 var Entity = require("../server/models/entity");
 

@@ -212,10 +212,10 @@ module.exports = class ExpenditureTransformer extends Transform {
 		var amountTarget;
 		/* Budget amount */
 		if(type === "ROZ") amountTarget = "budgetAmount";
-		/* Income amount */
+		/* Income amount - budget items 1 - 4999 are income */
 		else if(Number(itemId) < 5000) amountTarget = "incomeAmount";
 		/* Expenditure amount */
-		else if(Number(itemId) >= 5000) amountTarget = "expenditureAmount < 5000";
+		else if(Number(itemId) >= 5000) amountTarget = "expenditureAmount";
 		
 		// assign for the following objects
 		[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item[amountTarget] = item[amountTarget] + amount);
