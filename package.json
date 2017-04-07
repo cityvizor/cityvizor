@@ -2,6 +2,8 @@
   "name": "cityvizor",
   "version": "1.1.0",
   "description": "",
+  "homepage": "https://cityvizor.cz/",
+  "repository": "otevrena-data-mfcr/CityVizor",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
