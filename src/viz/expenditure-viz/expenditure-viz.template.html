@@ -16,7 +16,7 @@
 			<div class="drawing" #drawing>
 
 					<div [attr.class]="!selectedGroup?'col-sm-8':'col-sm-6'">
-						<chart-bigbang [data]="budget" [selectedGroup]="selectedGroup" [hoveredGroup]="hoveredGroup" (selectGroup)="selectedGroup=$event" (hoverGroup)="hoveredGroup=$event" [scale]="vizScale"></chart-bigbang>
+						<chart-bigbang [data]="budget.groupIndex" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectedGroup=$event" (hover)="hoveredGroup=$event"></chart-bigbang>
 					</div>
 
 					<div [attr.class]="!selectedGroup?'col-sm-4':'col-sm-6 groupListShort'">
@@ -28,7 +28,7 @@
 								</tr>
 							</thead>
 							<tbody id="groupListTableBody">
-								<tr *ngFor="let group of groups" (mouseover)="hoveredGroup=group" (mouseout)="hoveredGroup=null" [attr.class]="(hoveredGroup==group || selectedGroup==group)?'tr-focus':''" (click)="selectGroup(group,false)">
+								<tr *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'tr-focus' : ''" (click)="selectedGroup=group.id">
 									<td>
 										<div class="bar">
 											<div class="bar-budget" [style.width]="getBarBudgetPercentage(group)+'%'">

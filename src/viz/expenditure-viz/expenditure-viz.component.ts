@@ -63,10 +63,10 @@ export class ExpenditureVizComponent{
 	paragraphNames: {};
 
 	// which group (drawing stripe) is hovered at the moment
-	hoveredGroup: any = null;
+	hoveredGroup: string = null;
 
 	// which group (drawign stripe) has been clicked and is open at the moment
-	selectedGroup: any = null;
+	selectedGroup: string = null;
 
 	openedEvent: any = null;
 
@@ -76,7 +76,7 @@ export class ExpenditureVizComponent{
 	
 	constructor(private _ds: DataService, private _toastService: ToastService){
 		this.groups = ChartGroups; // set groups
-		this.selectedGroup = this.groups[0];
+		this.selectedGroup = this.groups[0].id;
 		this.paragraphNames = paragraphNames;
 	}
 	 
@@ -192,12 +192,6 @@ export class ExpenditureVizComponent{
 		});
 		
 		// this.groups.sort((a,b) => data.groupIndex[a.id] && data.groupIndex[b.id] ? data.groupIndex[a.id].budgetAmount - data.groupIndex[b.id].budgetAmount : 0);
-	}
-
-	// select group (e.g. after clicking a stripe)
-	selectGroup(group,scroll){
-		this.selectedGroup = group;
-		this.vizScale = this.selectedGroup !== null ?  0.5 : 1;
 	}
 
 	openEvent(eventId){

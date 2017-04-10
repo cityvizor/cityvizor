@@ -3,6 +3,7 @@ var express = require('express');
 
 /* SET UP ROUTING */
 var app = express();
+console.log("Express running in " + app.get('env') + " environment");
 
 var compression = require('compression');
 app.use(compression());

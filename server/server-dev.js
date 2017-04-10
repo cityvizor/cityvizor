@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+console.log("Express running in " + app.get('env') + " environment");
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.json()); // support json encoded bodies

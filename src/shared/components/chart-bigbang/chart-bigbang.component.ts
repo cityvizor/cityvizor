@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange, NgZone, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { ChartGroups }  from "../../data/chartGroups";
 
@@ -6,36 +6,25 @@ import { ChartGroups }  from "../../data/chartGroups";
 	moduleId: module.id,
 	selector: 'chart-bigbang',
 	templateUrl: 'chart-bigbang.template.html',
-	styleUrls: ['chart-bigbang.style.css']
+	styleUrls: ['chart-bigbang.style.css'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartBigbangComponent implements OnInit {
+export class ChartBigbangComponent implements OnInit, OnChanges {
 
-	@Input()
-	set data(data){
-		if(data){
-			this._data = data;  // save the data
-			if(this.initialized) this.setGroupData(); // if component is initialized, then run the animation
-		}
-	}
-	 
-	_data:any;
+	@Input() data:any;
+	@Input() rotation:any = 0;
 
-	@Input()
-	selectedGroup: any;
-	 
-	@Input()
-	hoveredGroup: any;
+	@Input() selected: string;
+	@Input() hovered: string;
 	
-	@Input()
-	scale: number = 1;
-	
-	@Output() selectGroup = new EventEmitter<any>();	 
-	@Output() hoverGroup = new EventEmitter<any>();
+	@Output() select = new EventEmitter<any>();	 
+	@Output() hover = new EventEmitter<any>();
 	 
 	// the dimensions of the drawing	
 	r: number = 500;
  	cx: number = 500;
  	cy: number = 500;
+	alpha: number = 1/6; // default rotation of the chart
 	innerR: number = 0.2; // relative to radius
 	minR: number = 0.22; // relative to radius
 	showAmounts: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
@@ -43,111 +32,130 @@ export class ChartBigbangComponent implements OnInit {
 	
 	// maximum absolute dimension = max of maximum budget and maximum expenditures
 	maxAmount:number = 0;
-	 
+	
+	// rotation due to selected group
+	selectedAlpha:number = 0
+	
 	// animation settings
-	animationLength = 300; // length of the animation
-	animationStep = 30; // how often should the animation update (value for setInterval)
+	animationLength = 500; // length of the animation
 	animationStart:number; // when did the animation started - used for computing the animation steps
-	animationTimer; // used to store setInterval reference
 	 
-	initialized:boolean = false; //  used to save state so that we can check if component has been already initialized when we get new data
-
-	// array with groups that vizualization is made of (fixed, does not vary with data)
-	groups:any[] = [];
+	stripes:any[] = [];
 	 
-	constructor(){
-		this.groups = ChartGroups; 
-		this.groups.forEach(group => {
-			group.expenditureAmount = 0;
-			group.budgetAmount = 0;
-			group.srcExpenditureR = this.minR;
-			group.srcBudgetR = this.minR;
-			group.targetExpenditureR = group.srcExpenditureR;
-			group.targetBudgetR = group.srcBudgetR;
-			group.expenditureR = group.srcExpenditureR;
-			group.budgetR = group.srcBudgetR;
+	constructor(private ngZone: NgZone, private changeDetector: ChangeDetectorRef){
+		
+		var stripes = [];
+		ChartGroups.forEach((group,i) => {
+			stripes.push({
+				id: group.id,
+				start: i / ChartGroups.length + this.alpha,
+				innerSize: 0,
+				outerSize: 0
+			});
 		});
+		this.stripes = stripes;
+		
 	}
 
 	ngOnInit(){
-		this.initialized = true; // save state so that we can check if component has been already initialized when we get new data
-		if(this._data && this._data.groups.length) this.setGroupData(); // if data is loaded at init time, launch the animation
+		
 	}
 	 
-	// set groups data - this launches the animation to set the data
-	setGroupData(){
+	ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+		console.log(changes);
 		
-		var groupData = this._data.groupIndex;
+		if(changes.data || changes.selected){
+			this.updateMaxAmount();
+			this.updateAlpha();
+			this.animateChanges();
+		}
+	}
+	 
+	updateMaxAmount(){
 		
-		this.maxAmount = Math.max(this._data.maxBudgetAmount,this._data.maxExpenditureAmount);
+		var maxAmount = 0;
 		
-		// this.groups.sort((a,b) => groupData[a.id] && groupData[b.id] ? groupData[a.id].budgetAmount - groupData[b.id].budgetAmount : 0);
+		Object.keys(this.data).forEach(id => maxAmount = Math.max(maxAmount,this.data[id].budgetAmount,this.data[id].expenditureAmount));
 		
-		// animation start time, used to calculate animation states
+		this.maxAmount = maxAmount;
+	}
+	
+	updateAlpha(){
+		var selectedAlpha = 0;
+		this.stripes.some((stripe,i) => {
+			if(stripe.id == this.selected) {selectedAlpha = i;return true;}
+			return false;
+		});
+		
+		// take the shorter turn:
+		while(selectedAlpha - this.selectedAlpha > this.stripes.length / 2) selectedAlpha -= this.stripes.length;
+		while(this.selectedAlpha - selectedAlpha > this.stripes.length / 2) selectedAlpha += this.stripes.length;
+		
+		//assign the value
+		this.selectedAlpha = selectedAlpha;
+	}
+
+	animateChanges(){
+
+		this.stripes.forEach((stripe,i) => {
+			// save values for animation
+			stripe.startSrc = stripe.start;
+			stripe.innerSizeSrc = stripe.innerSize;
+			stripe.outerSizeSrc = stripe.outerSize;
+
+			let id = stripe.id;
+
+			stripe.startTgt = (i - this.selectedAlpha) / ChartGroups.length;
+			
+			stripe.innerSizeTgt = this.data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(this.data[id].expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
+			stripe.outerSizeTgt = this.data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(this.data[id].budgetAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
+		});
+		
 		this.animationStart = (new Date()).getTime();
 		
-		// if animation timer is running, we dont have to do anything, just reset the start time, but if not, we have to start the animation loop
-		if(!this.animationTimer){
-			this.animationTimer = setInterval(() => this.animationUpdate(),this.animationStep);
-		}
-		
-		// we save source and target amounts to determine the animation "path" 
-		this.groups.forEach(group => {
-			
-			group.expenditureAmount = groupData[group.id] ? groupData[group.id].expenditureAmount : 0;
-			group.budgetAmount = groupData[group.id] ? groupData[group.id].budgetAmount : 0;
-			
-			group.sourceExpenditureR = group.expenditureR;
-			group.sourceBudgetR = group.budgetR;
-			
-			group.targetExpenditureR = this.maxAmount ? Math.max(this.minR, Math.sqrt(group.expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
-			group.targetBudgetR = this.maxAmount ? Math.max(this.minR, Math.sqrt(group.budgetAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
-		});
-		
-		console.log(this.groups);
+		this.animationLoop();
 	}
 	 
-	 
-	// update chart to reflect change in time in animation
-	animationUpdate(){
+	animationStepValue(percentage,src,tgt){
+		return (1 - percentage) * src + percentage * tgt;
+	}
+	
+	animationLoop(){
+
+		var percentage = ((new Date()).getTime() - this.animationStart) / this.animationLength;
 		
-		if(!this._data) return;
-		
-		var groupData = this._data.groupIndex;
-		
-		// percentage is computed as position in time between start and end of animation
-		var percentage = Math.min(1,((new Date()).getTime() - this.animationStart) / this.animationLength);
-		// we want the percentage not to be linear with time, so we make start and end go faster using arc cos function
-		percentage = (Math.sin((percentage - 0.5) * Math.PI) + 1) / 2;
-		
-		// if percentage reaches 1, we stop the animatin loop and set the destination values
-		if(percentage >= 1){
+		if(false && this.animationStart && percentage <= 1){
 			
-			clearInterval(this.animationTimer);
+			percentage = (Math.sin((percentage - 0.5) * Math.PI) + 1) / 2;
 			
-			this.groups.forEach(group => {
-				if(groupData[group.id]){
-					group.expenditureR = group.targetExpenditureR;
-					group.budgetR = group.targetBudgetR;
-				}
+			console.log(percentage);
+
+			this.stripes.forEach((stripe,i) => {
+				stripe.start = this.animationStepValue(percentage,stripe.startSrc,stripe.startTgt);
+				stripe.innerSize = this.animationStepValue(percentage,stripe.innerSizeSrc,stripe.innerSizeTgt);
+				stripe.outerSize = this.animationStepValue(percentage,stripe.outerSizeSrc,stripe.outerSizeTgt);
 			});
-			return;
+			
+			this.changeDetector.markForCheck();
+
+			// go to next animation window
+			requestAnimationFrame(this.animationLoop.bind(this));
 		}
-		
-		// if percentage is less than 1, we assign the temporary animation values
-		this.groups.forEach(group => {
-			if(groupData[group.id]){
-				group.expenditureR = group.srcExpenditureR * (1 - percentage) + group.targetExpenditureR * percentage;
-				group.budgetR = group.srcBudgetR * (1 - percentage) + group.targetBudgetR * percentage;
-			}
-		});
-		
+		else {
+			this.stripes.forEach((stripe,i) => {
+				stripe.start = stripe.startTgt;
+				stripe.innerSize = stripe.innerSizeTgt;
+				stripe.outerSize = stripe.outerSizeTgt;
+			});
+			this.changeDetector.markForCheck();
+		}
 	}
 	
 	getCircleR(){
 		return this.innerR * this.r;
 	}
-
+	 
+/*
 	getLineCircleCoordinates (i,c) {
 		var tR = this.r*4/5;
 		var arcRad = (2*Math.PI/this.groups.length)*(i+0.5);
@@ -174,27 +182,28 @@ export class ChartBigbangComponent implements OnInit {
 
 		return p.join(" ");	
 	}
-
+*/
+	 
 	// generate stripe by index, and inner and outer percentage size
-	getStripePath(i,inner,outer){
-
-		i = Math.min(Math.max(i,0),this.groups.length); // i ranges from 0 to number of groups
-
+	getStripePath(start,inner,outer){
 		var innerRadius = inner * this.r;
 		var outerRadius = outer * this.r;
-		var start = this.groups.length ? i / this.groups.length : 0;
-		var size = this.groups.length ? 1 / this.groups.length : 0;
-		return this.generateStripePath(this.cx,this.cy,innerRadius,outerRadius,start,size);	
+		var size = this.stripes.length ? 1 / this.stripes.length : 0;
+		return this.getDonutPath(this.cx,this.cy,innerRadius,outerRadius,start,size);	
 	}
 
 	// generate SVG path attribute string for a donut stripe; start and size are percentage of whole
-	generateStripePath(x,y,innerRadius,outerRadius,start,size){
+	getDonutPath(x,y,innerRadius,outerRadius,start,size){
+		
+		// rotate the chart by fixed angle
+		start = start + this.alpha;
+		
 		if(size >= 1) size = 0.9999; // if a stripe would be 100%, then it's circle, this is a hack to do it using this function instead of another
 		
 		innerRadius = Math.max(innerRadius,0); // inner size must be greater than 0
 		outerRadius = Math.max(outerRadius,innerRadius); // outer size must be greater than inner
 		size = Math.max(size,0); // size must be greater than 0
-		if(size == 0 || size == 1) start = 0; // if a stripe is 0% or 100%, means it has to start at 0 angle 
+		//if(size == 0 || size == 1) start = 0; // if a stripe is 0% or 100%, means it has to start at 0 angle 
 		
 		// the following fomulas come from analytic geometry and SVG path specification
 		var startAngle = 2 * Math.PI * start;

@@ -1,35 +1,37 @@
-<div class="skupina-label text-center" *ngIf="!selectedGroup">
-	<span *ngIf="hoveredGroup" class="label label-primary lead">{{hoveredGroup.title}}</span>
-	<span *ngIf="!hoveredGroup && selectedGroup" class="label label-primary lead">{{selectedGroup.title}}</span>
-	<span *ngIf="!hoveredGroup && !selectedGroup" class="label label-default lead">Kliknutím zobrazte vybranou skupinu...</span>
+<div class="skupina-label text-center" *ngIf="!selected">
+	<span *ngIf="hovered" class="label label-primary lead">{{hovered.title}}</span>
+	<span *ngIf="!hovered && selected" class="label label-primary lead">{{selected.title}}</span>
+	<span *ngIf="!hovered && !selected" class="label label-default lead">Kliknutím zobrazte vybranou skupinu...</span>
 	&nbsp;
 </div>
 
 <svg width="100%" viewBox="0 0 1000 1000">
 
-	<g *ngFor="let group of groups; let i = index">
-		<path [attr.d]="getStripePath(i, innerR, group.expenditureR)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#E73431' : '#2581C4'" />
-		<path [attr.d]="getStripePath(i, group.expenditureR, group.budgetR)"  stroke-width="2" stroke="#fff" [attr.fill]="selectedGroup==group ? '#ff9491' : '#ADF'" />
+	<g *ngFor="let stripe of stripes; let i = index">
+		<path [attr.d]="getStripePath(stripe.start,0,stripe.innerSize)" class="stripe innerStripe" [class.selected]="stripe.id==selected" />
+		<path [attr.d]="getStripePath(stripe.start,stripe.innerSize,stripe.outerSize)" class="stripe outerStripe" [class.selected]="stripe.id==selected" />
 
-		<path [attr.d]="getStripePath(i,innerR,1)" stroke-width="0" fill="#aaa" [attr.class]="(hoveredGroup==group?'active':'')+' bgstripe'" (click)="selectGroup.emit(group)" (mouseover)="hoverGroup.emit(group)" (mouseout)="hoverGroup.emit(null)" />
+		<path [attr.d]="getStripePath(stripe.start,0,1)" class="stripe bgstripe" [class.selected]="stripe.id==selected" [class.hovered]="stripe.id==hovered" (click)="select.emit(stripe.id)" (mouseover)="hover.emit(stripe.id)" (mouseout)="hover.emit(null)" />
 	</g>
 
-	<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" [attr.fill]="selectedGroup==null ? '#F3F3F3' : '#F3F3F3'" stroke-width="10" stroke="#fff" (click)="selectGroup.emit(null)" class="circle" />
+	<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" fill="#F3F3F3" stroke-width="10" stroke="#fff" (click)="select.emit(null)" class="circle" />
 
-	<path [attr.d]="generateStripePath(cx,cy,0,75,0,_data.expenditureAmount/_data.budgetAmount)" stroke-width="0" fill="#fff" opacity="0.8"/>
+	<!--<path [attr.d]="getDonutPath(cx,cy,0,75,0,data.expenditureAmount/data.budgetAmount)" stroke-width="0" fill="#fff" opacity="0.8" />
 
-	<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 15" text-anchor="middle" style="font-family:Roboto;font-size:50px;" fill="#E73431">{{_data.budgetAmount | money:0:true}}</text>
-	<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 35" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">Čerpání: {{_data.expenditureAmount | money:0:true}}</text>
-
+	<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 15" text-anchor="middle" style="font-family:Roboto;font-size:50px;" fill="#E73431">{{data.budgetAmount | money:0:true}}</text>
+	<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 35" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">Čerpání: {{data.expenditureAmount | money:0:true}}</text>
+	-->
+	
+	<!--
 	<g *ngFor="let group of groups; let i = index">
 		<g >
-			<circle *ngIf="selectedGroup==group || (!selectedGroup && hoveredGroup==group)"  r="10" [attr.cx]="getLineCircleCoordinates(i,'x')" [attr.cy]="getLineCircleCoordinates(i,'y')" stroke="#FFF" stroke-width="3"  fill="#E73431" />
-			<path *ngIf="!selectedGroup && hoveredGroup==group" [attr.d]="getLinePath(i)" stroke="#E73431" stroke-width="2" fill="none"/>
+			<circle *ngIf="selected==group || (!selected && hovered==group)"  r="10" [attr.cx]="getLineCircleCoordinates(i,'x')" [attr.cy]="getLineCircleCoordinates(i,'y')" stroke="#FFF" stroke-width="3"  fill="#E73431" />
+			<path *ngIf="!selected && hovered==group" [attr.d]="getLinePath(i)" stroke="#E73431" stroke-width="2" fill="none"/>
 		</g>
 	</g>
 
-	<g *ngIf="!hoveredGroup && !selectedGroup">
+	<g *ngIf="!hovered && !selected">
 		<circle r="10" [attr.cx]="cx" [attr.cy]="50" fill="#777" stroke="#FFF" stroke-width="2" />
 		<path d="M 500,0 L 500,50" stroke="#777" stroke-width="2" fill="none"/>
-	</g>
+	</g>-->
 </svg>
