@@ -60,6 +60,8 @@ export class ExpenditureVizComponent{
 	eventIndex = {};
 
 	groups: Array<{"id": string, "title": string}>;
+	groupIndex:any = {};
+
 	paragraphNames: {};
 
 	// which group (drawing stripe) is hovered at the moment
@@ -76,6 +78,7 @@ export class ExpenditureVizComponent{
 	
 	constructor(private _ds: DataService, private _toastService: ToastService){
 		this.groups = ChartGroups; // set groups
+		this.groups.forEach(group => this.groupIndex[group.id] = group);
 		this.selectedGroup = this.groups[0].id;
 		this.paragraphNames = paragraphNames;
 	}

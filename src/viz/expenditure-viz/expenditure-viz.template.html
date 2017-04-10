@@ -50,19 +50,19 @@
 				<hr>
 
 				<h3>
-					<i class="fa fa-chevron-circle-right"></i> {{selectedGroup.title}}
+					<i class="fa fa-chevron-circle-right"></i> {{groupIndex[selectedGroup].title}}
 					<span class="pull-right text-muted small" (click)="selectGroup(null,false)"><i class="fa fa-times"></i> zavřít</span>
 				</h3>
 
 				<div style="clear:both;"><br></div>
 
-				<div *ngIf="!budget.groupIndex[selectedGroup.id]" class="text-center">
+				<div *ngIf="!budget.groupIndex[selectedGroup]" class="text-center">
 					<span class="label label-warning"><i class="fa fa-warning"></i> Tato skupina nemá žádnou rozpočtovanou položku!</span>		
 				</div>
 
-				<div *ngIf="budget.groupIndex[selectedGroup.id]">
+				<div *ngIf="budget.groupIndex[selectedGroup]">
 
-					<div *ngFor="let paragraph of budget.groupIndex[selectedGroup.id].paragraphs" class="paragraph">
+					<div *ngFor="let paragraph of budget.groupIndex[selectedGroup].paragraphs" class="paragraph">
 
 						<div class="row">
 							<div class="col-md-12">

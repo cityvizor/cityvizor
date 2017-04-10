@@ -9,9 +9,14 @@ import { ChartGroups }  from "../../data/chartGroups";
 	styleUrls: ['chart-bigbang.style.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartBigbangComponent implements OnInit, OnChanges {
+export class ChartBigbangComponent {
 
-	@Input() data:any;
+	@Input()
+	set data(data:any){
+		this.updateMaxAmount(data);
+		this.updateStripes(data);
+	}
+	
 	@Input() rotation:any = 0;
 
 	@Input() selected: string;
@@ -24,7 +29,7 @@ export class ChartBigbangComponent implements OnInit, OnChanges {
 	r: number = 500;
  	cx: number = 500;
  	cy: number = 500;
-	alpha: number = 1/6; // default rotation of the chart
+	alpha: number = 1/10; // default rotation of the chart
 	innerR: number = 0.2; // relative to radius
 	minR: number = 0.22; // relative to radius
 	showAmounts: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
@@ -32,9 +37,6 @@ export class ChartBigbangComponent implements OnInit, OnChanges {
 	
 	// maximum absolute dimension = max of maximum budget and maximum expenditures
 	maxAmount:number = 0;
-	
-	// rotation due to selected group
-	selectedAlpha:number = 0
 	
 	// animation settings
 	animationLength = 500; // length of the animation
@@ -48,7 +50,6 @@ export class ChartBigbangComponent implements OnInit, OnChanges {
 		ChartGroups.forEach((group,i) => {
 			stripes.push({
 				id: group.id,
-				start: i / ChartGroups.length + this.alpha,
 				innerSize: 0,
 				outerSize: 0
 			});
@@ -56,103 +57,40 @@ export class ChartBigbangComponent implements OnInit, OnChanges {
 		this.stripes = stripes;
 		
 	}
-
-	ngOnInit(){
-		
-	}
 	 
-	ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-		console.log(changes);
-		
-		if(changes.data || changes.selected){
-			this.updateMaxAmount();
-			this.updateAlpha();
-			this.animateChanges();
-		}
-	}
-	 
-	updateMaxAmount(){
+	updateMaxAmount(data){
 		
 		var maxAmount = 0;
 		
-		Object.keys(this.data).forEach(id => maxAmount = Math.max(maxAmount,this.data[id].budgetAmount,this.data[id].expenditureAmount));
+		Object.keys(data).forEach(id => maxAmount = Math.max(maxAmount,data[id].budgetAmount,data[id].expenditureAmount));
 		
 		this.maxAmount = maxAmount;
 	}
 	
-	updateAlpha(){
-		var selectedAlpha = 0;
-		this.stripes.some((stripe,i) => {
-			if(stripe.id == this.selected) {selectedAlpha = i;return true;}
-			return false;
-		});
+	updateStripes(data){
 		
-		// take the shorter turn:
-		while(selectedAlpha - this.selectedAlpha > this.stripes.length / 2) selectedAlpha -= this.stripes.length;
-		while(this.selectedAlpha - selectedAlpha > this.stripes.length / 2) selectedAlpha += this.stripes.length;
-		
-		//assign the value
-		this.selectedAlpha = selectedAlpha;
-	}
-
-	animateChanges(){
-
 		this.stripes.forEach((stripe,i) => {
-			// save values for animation
-			stripe.startSrc = stripe.start;
-			stripe.innerSizeSrc = stripe.innerSize;
-			stripe.outerSizeSrc = stripe.outerSize;
 
 			let id = stripe.id;
 
-			stripe.startTgt = (i - this.selectedAlpha) / ChartGroups.length;
-			
-			stripe.innerSizeTgt = this.data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(this.data[id].expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
-			stripe.outerSizeTgt = this.data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(this.data[id].budgetAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
+			stripe.innerSize = data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(data[id].expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
+			stripe.outerSize = data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(data[id].budgetAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
 		});
-		
-		this.animationStart = (new Date()).getTime();
-		
-		this.animationLoop();
-	}
-	 
-	animationStepValue(percentage,src,tgt){
-		return (1 - percentage) * src + percentage * tgt;
-	}
-	
-	animationLoop(){
-
-		var percentage = ((new Date()).getTime() - this.animationStart) / this.animationLength;
-		
-		if(this.animationStart && percentage <= 1){
-			
-			percentage = (Math.sin((percentage - 0.5) * Math.PI) + 1) / 2;
-			
-			console.log(percentage);
-
-			this.stripes.forEach((stripe,i) => {
-				stripe.start = this.animationStepValue(percentage,stripe.startSrc,stripe.startTgt);
-				stripe.innerSize = this.animationStepValue(percentage,stripe.innerSizeSrc,stripe.innerSizeTgt);
-				stripe.outerSize = this.animationStepValue(percentage,stripe.outerSizeSrc,stripe.outerSizeTgt);
-			});
-			
-			this.changeDetector.markForCheck();
-
-			// go to next animation window
-			requestAnimationFrame(this.animationLoop.bind(this));
-		}
-		else {
-			this.stripes.forEach((stripe,i) => {
-				stripe.start = stripe.startTgt;
-				stripe.innerSize = stripe.innerSizeTgt;
-				stripe.outerSize = stripe.outerSizeTgt;
-			});
-			this.changeDetector.markForCheck();
-		}
 	}
 	
 	getCircleR(){
-		return this.innerR * this.r;
+		return this.innerR * this.r * 0.9;
+	}
+
+	getAlpha(){
+		var selectedAlpha = 0;
+		
+		this.stripes.some((stripe,i) => {
+			if(stripe.id == this.selected) {selectedAlpha = i / this.stripes.length;return true;}
+			return false;
+		});
+		
+		return this.alpha - selectedAlpha;
 	}
 	 
 /*
@@ -185,18 +123,17 @@ export class ChartBigbangComponent implements OnInit, OnChanges {
 */
 	 
 	// generate stripe by index, and inner and outer percentage size
-	getStripePath(start,inner,outer){
+	getStripePath(i,inner,outer){
+		
 		var innerRadius = inner * this.r;
 		var outerRadius = outer * this.r;
 		var size = this.stripes.length ? 1 / this.stripes.length : 0;
+		var start = i / this.stripes.length;
 		return this.getDonutPath(this.cx,this.cy,innerRadius,outerRadius,start,size);	
 	}
 
 	// generate SVG path attribute string for a donut stripe; start and size are percentage of whole
 	getDonutPath(x,y,innerRadius,outerRadius,start,size){
-		
-		// rotate the chart by fixed angle
-		start = start + this.alpha;
 		
 		if(size >= 1) size = 0.9999; // if a stripe would be 100%, then it's circle, this is a hack to do it using this function instead of another
 		
