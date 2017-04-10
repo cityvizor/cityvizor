@@ -124,7 +124,7 @@ export class ChartBigbangComponent implements OnInit, OnChanges {
 
 		var percentage = ((new Date()).getTime() - this.animationStart) / this.animationLength;
 		
-		if(false && this.animationStart && percentage <= 1){
+		if(this.animationStart && percentage <= 1){
 			
 			percentage = (Math.sin((percentage - 0.5) * Math.PI) + 1) / 2;
 			
