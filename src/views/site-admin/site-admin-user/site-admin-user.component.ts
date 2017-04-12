@@ -68,10 +68,7 @@ export class SiteAdminUserComponent {
 	setPassword(){
 		var password = window.prompt("Zadejte nové heslo:");
 		
-		if(password){
-			this.user.password = password;
-			this.saveUser({_id:this.user._id,password:password});
-		};
+		if(password) this.saveUser({_id:this.user._id,password:password});
 			
 	}
 	 
