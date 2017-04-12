@@ -16,7 +16,11 @@ router.get("/", acl("profiles","list"), (req,res) => {
 });
 
 router.get("/:profile", acl("profiles","read"), (req,res) => {
-	Profile.findOne({$or:[{url:req.params.profile},{_id:req.params.profile}]}).populate("entity").exec((err, profile) => {
+	
+	// if :profile could be ObjectId, then try to match _id too, otherwise match only url / it is not possible to try to match _id when :profile doesnt look like ObjectId
+	var where = req.params.profile.match(/^[0-9a-fA-F]{24}$/) ? {$or: [{url:req.params.profile},{_id:req.params.profile}]} : {url:req.params.profile};
+	
+	Profile.findOne(where).populate("entity").exec((err, profile) => {
 		if(err) return res.sendStatus(500);
 		if(!profile) return res.sendStatus(404);
 		res.json(profile);

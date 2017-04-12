@@ -31,7 +31,7 @@ export class ProfileHeaderComponent {
 	}
 
 	isManagedProfile(){
-		return (this.profile && this.userService.user.managedProfiles.indexOf(this.profile._id) >= 0);
+		return this.userService.acl("profile-admin",{profile:this.profile._id});
 	}
 	 
 	getVizLink(viz){

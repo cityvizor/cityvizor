@@ -1,39 +1,6 @@
-function isManagedProfile(req){
-	let profile = req.body.profile || req.query.profile || req.params.profile || null;
-	return req.user && profile && req.user.managedProfiles.indexOf(profile) >= 0;
-}
 
 export const ACL_ProfileManager = {
 	
-	"profiles": {
-		"write": function(req){
-			return isManagedProfile(req);
-		}
-
-	},
-	
-	"profile-budgets": {
-		"write": function(req){
-			return isManagedProfile(req);
-		}
-	},
-	
-	"profile-events": {
-		"write": function(req){
-			return isManagedProfile(req);
-		}
-	},
-	
-	"profile-expenditures": {
-		"write": function(req){
-			return isManagedProfile(req);
-		}
-	},
-	
-	"profile-managers": {
-		"list": function(req){			
-			return isManagedProfile(req);
-		}
-	}
+	"profile-admin": (user,params) => params.profile && user.managedProfiles.indexOf(params.profile) >= 0;
 	
 };

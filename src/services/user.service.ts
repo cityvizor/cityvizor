@@ -140,7 +140,7 @@ export class UserService {
 	evalPermission(permission,params?){
 
 		// if permission is a function, then evaluate its return value
-		if(typeof permission == 'function') return (permission(params) === true);
+		if(typeof permission == 'function') return (permission(this.user,params) === true);
 
 		// if permission is boolean true, then evaluate the value
 		else if (permission === true) return true;
