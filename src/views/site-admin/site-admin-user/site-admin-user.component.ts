@@ -70,19 +70,19 @@ export class SiteAdminUserComponent {
 		
 		if(password){
 			this.user.password = password;
-			this.saveUser();
+			this.saveUser({_id:this.user._id,password:password});
 		};
 			
 	}
 	 
-	saveUser(){
-		this.save.emit();
+	saveUser(data){
+		this.save.emit(data);
 	}
 	 
 	deleteUser(){
 		var confirmation = window.confirm("Opravdu chcete smazat uživatele " + this.user._id + "?");
 
-		if(confirmation) this.delete.emit();
+		if(confirmation) this.delete.emit(this.user._id);
 	}
 
 }

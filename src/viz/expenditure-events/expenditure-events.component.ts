@@ -33,6 +33,8 @@ export class ExpenditureEventsComponent {
 	infoWindowClosed:boolean;
 		 
 	viewOptions = {
+		"dateOfFirst":null,
+		"dateOfLast":null,
 		"dateFirst":null,
 		"dateLast":null,
 		"showingDays":0,

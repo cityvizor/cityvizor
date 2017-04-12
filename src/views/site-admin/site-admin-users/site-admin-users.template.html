@@ -5,7 +5,7 @@
   <p>Načítám...</p>  
 </div>
 
-<site-admin-user *ngIf="currentUser" [user]="currentUser" (save)="saveUser(currentUser)" (delete)="deleteUser(currentUser._id)" (close)="selectUser(null)"></site-admin-user>
+<site-admin-user *ngIf="currentUser" [user]="currentUser" (save)="saveUser($event)" (delete)="deleteUser($event)" (close)="selectUser(null)"></site-admin-user>
 
 <div class="users">
   <h3 class="hidden">Seznam uživatelů</h3>

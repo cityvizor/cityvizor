@@ -14,6 +14,11 @@ export class User {
 	public email:string;
 
 	/**
+		* password - used only to set password for sending to user save
+		*/
+	public password:string;
+
+	/**
 		* list of all the entities user has rights to manage
 		*/
 	public managedProfiles: any[] = [];
