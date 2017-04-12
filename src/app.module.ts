@@ -31,6 +31,7 @@ import { ProfileAdminUsersComponent } from "./views/profile-admin/profile-admin-
 // Site administration components
 import { SiteAdminProfilesComponent } from "./views/site-admin/site-admin-profiles/site-admin-profiles.component";
 import { SiteAdminUsersComponent } from "./views/site-admin/site-admin-users/site-admin-users.component";
+import { SiteAdminUserComponent } from "./views/site-admin/site-admin-user/site-admin-user.component";
 
 // Services
 import { DataService } 		from './services/data.service';
@@ -76,7 +77,7 @@ export function getAuthHttp(http) {
 		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, SiteAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
-		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminUsersComponent,
+		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe
 	],

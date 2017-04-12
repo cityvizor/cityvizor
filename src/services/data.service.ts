@@ -121,4 +121,16 @@ export class DataService {
 		return this.authHttp.get("/api/users").toPromise().then(response => response.json());
 	}
 	
+	getUser(userId){
+		return this.authHttp.get("/api/users/" + userId).toPromise().then(response => response.json());
+	}
+	
+	saveUser(user){
+		return this.authHttp.post("/api/users/" + user._id,user).toPromise().then(response => response.json());
+	}
+	
+	deleteUser(userId){
+		return this.authHttp.delete("/api/users/" + userId).toPromise();
+	}
+	
 }

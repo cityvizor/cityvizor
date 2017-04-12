@@ -1,0 +1,76 @@
+
+<div *ngIf="user" class="user">
+  
+  <a (click)="close.emit()" class="close"><i class="fa fa-times fa-lg" aria-hidden="true"></i></a>
+  
+  <h3>{{user._id}}</h3>
+
+  <div class="row">
+
+    <div class="col-sm-9 useredit">
+      <form>
+        <div class="row">
+
+          <div class="col-sm-5">
+
+            <h4>Role</h4>
+            <div class="roles">
+              <div class="checkbox" *ngFor="let role of roles">
+                <label>
+                  <input type="checkbox" name="roles" [checked]="hasRole(role)" (change)="setRole(role,$event.target.checked)">
+                  {{role}}
+                </label>
+              </div>
+
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" disabled checked>
+                  guest
+                </label>
+              </div>
+
+            </div>
+          </div>
+          
+          <div class="col-sm-6">
+
+            <h4>Spravované profily</h4>
+
+            <div class="profiles">
+              <span *ngFor="let profile of user.managedProfiles" class="label label-primary">
+                {{profile.name}}
+                <br>
+                <small>{{profile._id}}</small>
+                <a (click)="removeProfile(profile)" class="remove"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
+              </span>
+
+              <div class="form-group add">
+                <div class="input-group">
+                  <input #inputProfile type="text" placeholder="např. 586c306447d31f11fdda05cb" pattern="[a-hA-H0-9]{24}" class="form-control">
+                  <div class="input-group-addon"><button type="button" (click)="addProfile(inputProfile.value)">Přidat</button></div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="submit">
+            <button (click)="saveUser()" type="submit" class="btn btn-primary">Uložit změny</button>
+          </div>
+          
+        </div>
+      </form>
+    </div>
+
+    <div class="col-sm-3 actions">
+
+      <h4>Akce</h4>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" (click)="setPassword()">Nastavit heslo</button>
+        <button type="button" class="btn btn-danger" (click)="deleteUser()">Smazat uživatele</button>
+      </div>
+    </div>
+
+  </div>
+</div>

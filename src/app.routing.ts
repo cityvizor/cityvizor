@@ -17,6 +17,7 @@ const appRoutes: Routes = [
 	{path: 'profil/:profile/:module',component: ProfileViewComponent},
 	{path: 'profil/:profile', redirectTo: 'profil/:profile/prehled'},
 	
+	{path: 'admin/:cat/:subcat',component: SiteAdminComponent},
 	{path: 'admin/:cat',component: SiteAdminComponent},
 	{path: 'admin', redirectTo: 'admin/prehled'}
 ];

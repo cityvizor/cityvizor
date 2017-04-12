@@ -16,9 +16,10 @@ router.get("/", acl("profiles","list"), (req,res) => {
 });
 
 router.get("/:profile", acl("profiles","read"), (req,res) => {
-	Profile.findOne({url:req.params.profile}).populate("entity").exec((err, profile) => {
-		if (err) return res.next(err);
-		res.json(profile); // TODO: co kdyz neexistuje
+	Profile.findOne({$or:[{url:req.params.profile},{_id:req.params.profile}]}).populate("entity").exec((err, profile) => {
+		if(err) return res.sendStatus(500);
+		if(!profile) return res.sendStatus(404);
+		res.json(profile);
 	});
 });
 

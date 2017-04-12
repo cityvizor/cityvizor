@@ -32,6 +32,8 @@ router.get("/timeline/:year", acl("profile-events", "list"), acl("profile-invoic
 				event.invoices = [];
 				event.amount = 0;
 				
+				event.invoiceMaxAmount = 0;
+				
 				event.dateFirst = null;
 				event.dateLast = null;
 			});		
@@ -41,6 +43,8 @@ router.get("/timeline/:year", acl("profile-events", "list"), acl("profile-invoic
 					invoices.forEach(invoice => {
 						eventIndex[invoice.event].invoices.push(invoice);
 						eventIndex[invoice.event].amount += invoice.amount;
+						
+						if (eventIndex[invoice.event].invoiceMaxAmount < invoice.amount) eventIndex[invoice.event].invoiceMaxAmount = invoice.amount;
 						
 						if (eventIndex[invoice.event].dateFirst===null || eventIndex[invoice.event].dateFirst>invoice.date) eventIndex[invoice.event].dateFirst = invoice.date;
 						if (eventIndex[invoice.event].dateLast===null || eventIndex[invoice.event].dateLast<invoice.date) eventIndex[invoice.event].dateLast = invoice.date;

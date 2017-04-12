@@ -3,6 +3,7 @@
   <thead>
     <th>Jméno profilu</th>
     <th>URL</th>
+    <th>ID</th>
     <th>Obec</th>
   </thead>
   
@@ -10,8 +11,9 @@
     <tr *ngFor="let profile of profiles">
       <td>{{profile.name}}</td>
       <td>{{profile.url}}</td>
+      <td>{{profile._id}}</td>
       <td>{{profile.entity.name}}</td>
       <td><a>detail</a></td>
-      <td><a [routerLink]="getProfileLink(profile)">otevřít</a></td>
+      <td><a [routerLink]="getProfileLink(profile)">profil</a></td>
     </tr>
 </table>

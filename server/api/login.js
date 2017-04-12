@@ -10,7 +10,7 @@ var jwt = require('jsonwebtoken');
 
 router.post("/", acl("user","login"), (req,res) => {
 
-	User.findOne({_id:req.body.login}).then((user) => {
+	User.findOne({_id:req.body.login}).select("+password").then((user) => {
 
 		if(!user) return res.status(404).send("User not found");
 
