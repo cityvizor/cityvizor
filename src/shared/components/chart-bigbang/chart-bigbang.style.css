@@ -1,8 +1,8 @@
 
 svg{margin:0 auto;display:block;}
 
-.stripes{transition-duration: .2s;transform:rotate(0deg);transform-origin:500px 500px;}
-.stripe{cursor:pointer;border:2px solid #fff;transition-duration: .2s;}
+.stripes{transition-duration: .2s;transform:rotate(0deg);transform-origin:0px 0px;transition-timing-function:ease-in-out;}
+.stripe{cursor:pointer;border:2px solid #fff;transition-duration: .5s;}
 
 .innerStripe{fill:#2581C4;stroke:#fff;stroke-width:2;}
 .innerStripe.selected{fill:#E73431;}

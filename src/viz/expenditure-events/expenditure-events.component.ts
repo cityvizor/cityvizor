@@ -33,10 +33,12 @@ export class ExpenditureEventsComponent {
 	infoWindowClosed:boolean;
 		 
 	viewOptions = {
-		"dateOfFirst":new Date(2017,1,1),
-		"dateOfLast":new Date(2017,12,31),
 		"dateFirst":null,
 		"dateLast":null,
+		"showingDays":0,
+		"showingMonths":0,
+		"startingMonth":0,
+		"monthsArray":[],
 		"zoom":"year",
 		"amountBubbleMaxSize":200,
 		"amountBubbleMinSize":50
@@ -60,8 +62,21 @@ export class ExpenditureEventsComponent {
 					if (this.viewOptions.dateFirst>event.dateFirst ||this.viewOptions.dateFirst===null) this.viewOptions.dateFirst=event.dateFirst;
 					if (this.viewOptions.dateLast<event.dateLast || this.viewOptions.dateLast===null) this.viewOptions.dateLast=event.dateLast;
 				});
-				console.log(new Date(this.viewOptions.dateFirst));
-				console.log(this.events);
+			
+				this.viewOptions.dateFirst = new Date(this.viewOptions.dateFirst);
+				this.viewOptions.dateLast = new Date(this.viewOptions.dateLast);
+				
+			  this.viewOptions.showingDays = (this.viewOptions.dateLast.getTime()-this.viewOptions.dateFirst.getTime())/(1000*60*60*24);
+				this.viewOptions.showingMonths = Math.round(this.viewOptions.showingDays/30);
+				this.viewOptions.startingMonth = this.viewOptions.dateFirst.getMonth();
+			
+			  var i = this.viewOptions.startingMonth; 
+				for ( ; i < (this.viewOptions.startingMonth+this.viewOptions.showingMonths); i++) {
+					var ind = i % 12;
+					this.viewOptions.monthsArray.push(this.nazvyMesice[ind]);
+				}
+			
+				console.log(this.viewOptions);
 			}).catch(err => {
 				this.events = [];
 				this.toastService.toast("Nastala chyba při stahování akcí.","error");
@@ -69,8 +84,24 @@ export class ExpenditureEventsComponent {
 		 
 	 }
 	
-	EEVizEventBarFrac (event) {
-		var frac = 1-event.amount/this.maxEEAmount;
+	EventBarFrac (event) {
+		var frac =event.amount/this.maxEEAmount;
+		return 100*frac+"%";
+	}
+	InvoiceBarHeightFrac (event,invoice) {
+		var frac = 0;
+		if (event.invoiceMaxAmount>0) frac = invoice.amount/event.invoiceMaxAmount;
+		
+		return 100*frac+"%";
+	}
+	InvoiceBarPositionFrac (invoice) {
+		var dateFirst = this.viewOptions.dateFirst;
+		var dateLast = this.viewOptions.dateLast;
+		var dateInvoice = new Date(invoice.date);
+		
+		var frac = 0.95;
+		if (dateInvoice.getTime()<dateLast.getTime()) frac = (dateInvoice.getTime()-dateFirst.getTime())/(dateLast.getTime()-dateFirst.getTime()) * 0.9 + 0.05;
+		
 		return 100*frac+"%";
 	}
 

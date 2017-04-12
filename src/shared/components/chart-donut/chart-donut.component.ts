@@ -1,19 +1,52 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit, OnDestroy, trigger, state, style, transition, animate } from '@angular/core';
 
 @Component({
 	moduleId: module.id,
 	selector: 'chart-donut',
 	templateUrl: 'chart-donut.template.html',
-	styleUrls: []
+	styleUrls: [],
+	animations: [
+		trigger('scrollAnimation', [
+			state('hidden', style({
+				opacity: 0,
+				transform: 'scale(0.5)'
+			})),
+			state('visible',   style({
+				opacity: 1,
+				transform: 'scale(1)'
+			})),
+			transition('hidden => visible', animate('500ms ease-in-out'))
+		])
+	]
 })
-export class ChartDonutComponent{
+export class ChartDonutComponent implements AfterViewInit, OnDestroy {
 
-	@Input()
-	data:any;	
+	@Input() data:any;	
+	 
+	@ViewChild('donutchart') el;
+	 
+	visible:boolean;
 
 	constructor(){
-
+		window.addEventListener("scroll",this.updateVisible.bind(this))
 	}
+	 
+	ngOnDestroy(){
+		window.removeEventListener("scroll",this.updateVisible);
+	}
+	 
+	ngAfterViewInit(){
+		this.updateVisible();
+	}
+	 
+	isVisible(el){
+		return (el.getBoundingClientRect().top >= 0) && (el.getBoundingClientRect().bottom <= window.innerHeight);
+	}
+	 
+	updateVisible(){
+		this.visible = this.isVisible(this.el.nativeElement);
+	} 
+	
 
 	// generate SVG path attribute string for a donut stripe; start and size are percentage of whole
 	generateStripePath(x,y,innerRadius,outerRadius,start,size){

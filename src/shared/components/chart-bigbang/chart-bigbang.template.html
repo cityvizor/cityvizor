@@ -5,7 +5,7 @@
 	&nbsp;
 </div>
 
-<svg width="100%" viewBox="0 0 1000 1000">
+<svg width="100%" viewBox="-500 -500 1000 1000">
 	<g [style.transform]="'rotate(' + (360 * getAlpha()) + 'deg)'" class="stripes">
 		<g *ngFor="let stripe of stripes; let i = index">
 			<path [attr.d]="getStripePath(i,innerR,stripe.innerSize)" class="stripe innerStripe" [class.selected]="stripe.id==selected" />
@@ -16,11 +16,11 @@
 	</g>
 	<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" fill="#F3F3F3" stroke-width="10" stroke="#fff" (click)="select.emit(null)" class="circle" />
 	
-	<!--<path [attr.d]="getDonutPath(cx,cy,0,75,0,data.expenditureAmount/data.budgetAmount)" stroke-width="0" fill="#fff" opacity="0.8" />
+	<!--<path [attr.d]="getDonutPath(cx,cy,0,75,0,data.expenditureAmount/data.budgetAmount)" stroke-width="0" fill="#fff" opacity="0.8" />-->
 
-	<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 15" text-anchor="middle" style="font-family:Roboto;font-size:50px;" fill="#E73431">{{data.budgetAmount | money:0:true}}</text>
-	<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 35" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">Čerpání: {{data.expenditureAmount | money:0:true}}</text>
-	-->
+	<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 15" text-anchor="middle" style="font-family:Roboto;font-size:50px;" fill="#E73431">{{totalBudgetAmount | money:0:true}}</text>
+	<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 35" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">Čerpání: {{totalExpenditureAmount | money:0:true}}</text>
+	
 	
 	<!--
 	<g *ngFor="let group of groups; let i = index">

@@ -13,7 +13,7 @@ export class ChartBigbangComponent {
 
 	@Input()
 	set data(data:any){
-		this.updateMaxAmount(data);
+		this.updateAmounts(data);
 		this.updateStripes(data);
 	}
 	
@@ -27,8 +27,8 @@ export class ChartBigbangComponent {
 	 
 	// the dimensions of the drawing	
 	r: number = 500;
- 	cx: number = 500;
- 	cy: number = 500;
+ 	cx: number = 0;
+ 	cy: number = 0;
 	alpha: number = 1/10; // default rotation of the chart
 	innerR: number = 0.2; // relative to radius
 	minR: number = 0.22; // relative to radius
@@ -37,7 +37,9 @@ export class ChartBigbangComponent {
 	
 	// maximum absolute dimension = max of maximum budget and maximum expenditures
 	maxAmount:number = 0;
-	
+	totalBudgetAmount:number = 0;
+	totalExpenditureAmount:number = 0;
+	 
 	// animation settings
 	animationLength = 500; // length of the animation
 	animationStart:number; // when did the animation started - used for computing the animation steps
@@ -58,13 +60,22 @@ export class ChartBigbangComponent {
 		
 	}
 	 
-	updateMaxAmount(data){
+	updateAmounts(data){
 		
 		var maxAmount = 0;
+		var totalBudgetAmount = 0;
+		var totalExpenditureAmount = 0;
 		
-		Object.keys(data).forEach(id => maxAmount = Math.max(maxAmount,data[id].budgetAmount,data[id].expenditureAmount));
+		Object.keys(data).forEach(id => {
+			let item = data[id];
+			maxAmount = Math.max(maxAmount,item.budgetAmount,item.expenditureAmount);
+			totalBudgetAmount += item.budgetAmount;
+			totalExpenditureAmount += item.expenditureAmount;
+		});
 		
 		this.maxAmount = maxAmount;
+		this.totalBudgetAmount = totalBudgetAmount;
+		this.totalExpenditureAmount = totalExpenditureAmount;
 	}
 	
 	updateStripes(data){

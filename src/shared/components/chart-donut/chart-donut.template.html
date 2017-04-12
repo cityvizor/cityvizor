@@ -1,4 +1,4 @@
-<svg style="width: 100%;" viewBox="0 0 1000 1000">
+<svg style="width: 100%;" viewBox="0 0 1000 1000" #donutchart [@scrollAnimation]="visible ? 'visible' : 'hidden'">
 	<path [attr.d]="generateStripePath(500,500,250,400,data.budgetAmount ? data.expenditureAmount / data.budgetAmount : 0,data.budgetAmount ? 1 - data.expenditureAmount / data.budgetAmount : 0)" stroke-width="10" stroke="#fff" fill="#ff9491" />
 
 	<path *ngIf="data.expenditureAmount" [attr.d]="generateStripePath(500,500,250,500,0,data.budgetAmount ? data.expenditureAmount / data.budgetAmount : 0)" stroke-width="10" stroke="#E73431" fill="#E73431" />
