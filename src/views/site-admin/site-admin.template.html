@@ -21,8 +21,9 @@
         <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
           <ul class="nav navbar-nav">
             <li><a routerLink="/admin/prehled" routerLinkActive="active">Přehled</a></li>
-            <li><a routerLink="/admin/profily" routerLinkActive="active">Profily</a></li>
-            <li><a routerLink="/admin/uzivatele" routerLinkActive="active">Uživatelé</a></li>
+            <li><a *ngIf="userService.acl('profile-admin')" routerLink="/admin/profily" routerLinkActive="active">Profily</a></li>
+            <li><a *ngIf="userService.acl('user-admin')" routerLink="/admin/uzivatele" routerLinkActive="active">Uživatelé</a></li>
+            <li><a *ngIf="userService.acl('entities-admin')" routerLink="/admin/obce" routerLinkActive="active">Obce</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a routerLink="/">Zavřít</a></li>

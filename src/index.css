@@ -55,6 +55,13 @@ section:nth-child(even) {
 	background: #f4faff;
 }
 
+input:valid  {
+  border-left: 5px solid #42A948 !important; /* green */
+}
+input:invalid  {
+  border-left: 5px solid #a94442 !important; /* red */
+}
+
 .clickable {
 	cursor: pointer;
 	cursor: hand;

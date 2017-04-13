@@ -5,6 +5,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { ACL_Admin } from "../acl/admin";
 import { ACL_Guest } from "../acl/guest";
 import { ACL_ProfileManager } from "../acl/profile-manager";
+import { ACL_ProfileAdmin } from "../acl/profile-admin";
 
 import { User } from "../shared/schema/user";
 
@@ -21,7 +22,8 @@ export class UserService {
 	roles = {
 		"admin": ACL_Admin,
 		"guest": ACL_Guest,
-		"profile-manager": ACL_ProfileManager
+		"profile-manager": ACL_ProfileManager,
+		"profile-admin": ACL_ProfileAdmin
 	};
 
  	// current user roles

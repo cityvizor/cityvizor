@@ -1,5 +1,9 @@
 import { Component, ViewContainerRef, ViewChild } from '@angular/core';
 
+// SVATKY, TODO: SMAZAT :)
+import { Http } from "@angular/http";
+import { Observable } from 'rxjs/Observable';
+
 import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
 import { UserService, User } 		from './services/user.service';
@@ -30,11 +34,17 @@ export class AppComponent {
 
 	wrongPassword:boolean = false;
 
-	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef) {
+	// SVATKY, TODO: SMAZAT :)
+	nameday:string;
+
+	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef, http:Http) {
 		var today = new Date();
 		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
 
 		this.toasts = this.toastService.toasts;
+		
+		// SVATKY, TODO: SMAZAT :)
+		http.get("http://svatky.adresa.info/json").toPromise().then(response => response.json()).then(nameday => this.nameday = nameday[0].name);
 	}
 
 	login(){

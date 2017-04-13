@@ -9,7 +9,7 @@ var acl = require("express-dynacl");
 var Profile = require("../models/profile");
 
 router.get("/", acl("profiles","list"), (req,res) => {
-	Profile.find({}).select("id name url entity").populate("entity","id name gps").exec((err, profiles) => {
+	Profile.find({}).select("id name url entity active").populate("entity","id name gps").exec((err, profiles) => {
 		if (err) return res.next(err);
 		res.json(profiles);
 	});

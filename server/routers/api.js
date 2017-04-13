@@ -12,6 +12,7 @@ var aclOptions = {
 	roles: {
 		"guest": require("../acl/guest"),
 		"profile-manager": require("../acl/profile-manager"),
+		"profile-admin": require("../acl/profile-admin"),
 		"admin": require("../acl/admin")
 	},
 	defaultRoles: ["guest"],

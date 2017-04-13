@@ -11,7 +11,7 @@ export class Profile {
 	active: boolean;
 	url: string;
 	name: string;
-	entity: string|Object;
+	entity: any;
 	hiddenModules: string[];
 
 }

@@ -27,7 +27,7 @@ export class SiteAdminUserComponent {
 	@Output()
 	close:EventEmitter<any> = new EventEmitter;
 
-	roles:string[] = ["admin","profile-manager"];
+	roles:string[] = ["admin","profile-admin","profile-manager"];
 
 	constructor(private dataService: DataService, private toastService: ToastService) {
 	}

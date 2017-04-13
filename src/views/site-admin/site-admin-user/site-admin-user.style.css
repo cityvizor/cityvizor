@@ -1,3 +1,5 @@
+h3{margin-top:0;}
+
 .user{position:relative;min-height:250px;padding:20px;margin:20px 0;background-color:#eee;}
 .user form{padding:10px;}
 .user form .submit{clear:both;}

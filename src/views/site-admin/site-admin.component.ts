@@ -1,7 +1,6 @@
 import { Component, trigger, state, style, transition, animate } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { DataService } 		from '../../services/data.service';
 import { UserService } 		from '../../services/user.service';
 
 import { Module, MODULES } from "../../shared/data/modules";
@@ -21,7 +20,7 @@ export class SiteAdminComponent {
 
 	public isMenuCollapsed: boolean = true;
 
-	constructor(private route: ActivatedRoute, private dataService: DataService, public userService:UserService) {
+	constructor(private route: ActivatedRoute, public userService:UserService) {
 		
 	}
 

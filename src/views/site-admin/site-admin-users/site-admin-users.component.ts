@@ -46,7 +46,10 @@ export class SiteAdminUsersComponent {
       .then(users => {
         this.users = users;
         this.users.sort((a,b) => a._id > b._id ? 1 : (a._id < b._id ? -1 : 0));
-      });
+      })
+			.catch(err => {
+				this.toastService.toast("Nastala neznámá chyba při načítání uživatelů.","error");
+			});
 	}
 	
 	loadUser(userId){
@@ -61,7 +64,11 @@ export class SiteAdminUsersComponent {
         this.currentUser = user;
 				this.newUser = false;
 				this.userLoading = false;
-      });
+      })
+			.catch(err => {
+				this.userLoading = false;
+				this.toastService.toast("Nastala neznámá chyba při načítání uživatele.","error");
+			});
 	}
 
 	createUser(){
