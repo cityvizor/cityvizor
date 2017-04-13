@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/cityvizor');
 mongoose.plugin(require('mongoose-write-stream'));
+mongoose.plugin(require('mongoose-paginate'));
 mongoose.Promise = global.Promise;
 
 app.use("/api",require("./routers/api.js"));
