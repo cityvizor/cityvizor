@@ -55,10 +55,10 @@ section:nth-child(even) {
 	background: #f4faff;
 }
 
-input:valid  {
+input:valid:not(.novalidate)  {
   border-left: 5px solid #42A948 !important; /* green */
 }
-input:invalid  {
+input:invalid:not(.novalidate)  {
   border-left: 5px solid #a94442 !important; /* red */
 }
 

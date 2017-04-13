@@ -7,6 +7,19 @@ import { FileUploader } from 'ng2-file-upload/file-upload/file-uploader.class';
 
 import { UserService } from "./user.service";
 
+function toParams(options){
+	if(!options) return "";
+	
+	var params = Object.keys(options)
+		.map(key => {
+			if(typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
+			else return key + "=" + options[key];
+		})
+		.join("&");
+	
+	return "?" + params;
+}
+
 /**
 	* Service to communicate with server database
 	* getEntities - returns Promise with the list of entities, possibly filtered by filter:object parameter
@@ -22,12 +35,16 @@ export class DataService {
 	constructor(private http: Http, private authHttp: AuthHttp, private userService:UserService) { }
 
 	/* ENTITIES */
-	getEntities() {
-			return this.http.get("/api/entities").toPromise().then(response => response.json());
+	getEntities(options?) {
+			return this.http.get("/api/entities" + toParams(options)).toPromise().then(response => response.json());
 	}
 
 	getEntity(entityId){
 		return this.http.get("/api/entities/" + entityId).toPromise().then(response => response.json());
+	}
+	
+	saveEntity(entity){
+		return this.authHttp.post("/api/entities/" + entity._id,entity).toPromise().then(response => response.json());
 	}
 	
 	/* PROFILES */

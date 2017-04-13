@@ -13,14 +13,25 @@ var Entity = require("../models/entity");
 var EntityImport = require("../import/entities");
 
 router.get("/", acl("entity","read"), (req,res) => {
-	var query = Entity.find({}).select("id name").limit(100);
 	
-	if(req.params.skip) query.skip(req.params.skip);
+	var where = {};
+	if(req.query.search){
+		if(req.query.search.name) where.name = new RegExp(req.query.search.name,"i");
+		if(req.query.search["address.postalCode"]) where["address.postalCode"] = new RegExp(req.query.search["address.postalCode"],"i");
+		if(req.query.search.ico) where.ico = new RegExp(req.query.search.ico,"i");
+	}
 	
-	query.exec((err, entities) => {
-		if (err) return res.next(err);
-		res.json(entities);
-	});
+	var options = {
+		select: req.query.fields || "id name",
+		page: Number(req.query.page) || 1,
+		limit: Number(req.query.limit) || 100,
+		sort: req.query.sort,
+	};
+	
+	Entity.paginate(where,options)
+		.then(data => res.json(data))
+		.catch(err => res.status(500).send(err));
+	
 });
 
 router.post("/", acl("entity","write"), upload.single('file'), (req,res) => {
@@ -42,6 +53,16 @@ router.get("/:id", acl("entity","read"), (req,res) => {
 			if(entity) res.json(entity);
 			else res.sendStatus(404);
 		})
-		.catch(err => res.next(err));
+		.catch(err => res.sendStatus(500));
 });
+
+router.post("/:id", acl("entity","write"), (req,res) => {
+	
+	req.body.edited = true;
+	
+	Entity.findOneAndUpdate({_id:req.body._id},req.body,{upsert:true,new:true})
+		.then((entity) => res.json(entity))
+		.catch(err => res.sendStatus(500));
+});
+
 

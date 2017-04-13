@@ -4,7 +4,24 @@ var acl = require("express-dynacl");
 
 var jwt = require('express-jwt');
 
+
+// create router for api path
 var router = module.exports = express.Router();
+
+
+// Handle and romalize standard query fields
+router.use((req, res, next) => {
+  
+	//normalize field list for mongoose from comma delimited to space delimited
+	if(req.query.fields) req.query.fields = req.query.fields.split(",").join(" ");
+	
+	// normalize page and limit to numbers
+	if(req.query.page) req.query.page = Number(req.query.page);
+	if(req.query.page) req.query.page = Number(req.query.page);
+	
+	// continue
+  next();
+});
 
 
 // configure DynACL

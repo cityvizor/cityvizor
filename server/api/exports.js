@@ -1,7 +1,4 @@
-var express = require('express');	
-var app = express();
-
-var router = express.Router();
+var router = require('express').Router();
 
 var archiver = require("archiver");
 

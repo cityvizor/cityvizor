@@ -1,0 +1,9 @@
+.loading{min-height:250px;padding:20px;margin:20px 0;background-color:#eee;}
+
+.entities{margin:20px 0;}
+
+.entities .search td{padding:0 5px;background-color:#ccc;}
+.entities .search input{width:100%;border:none;background-color:#ccc;color:#fff;}
+
+.entities .pages{text-align:right;}
+.entities .pages .range{display:inline-block;margin-right:10px;}

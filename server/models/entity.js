@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var entitySchema = mongoose.Schema({
 	"_id": String,
-	"name": String,
+	"name": {type:String,index:true},
 	"gps":[Number,Number],
 	"phone": String,
 	"email": String,
@@ -24,7 +24,8 @@ var entitySchema = mongoose.Schema({
 		"postalCode": String
 	},
 	"edesky": Number,
-	"mapasamospravy": Number	
+	"mapasamospravy": Number,
+	"edited": Boolean
 });
 
 var Entity = module.exports = mongoose.model('Entity', entitySchema);

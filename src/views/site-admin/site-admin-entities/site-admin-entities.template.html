@@ -1,0 +1,52 @@
+<h2 class="hidden">Profily</h2>
+
+<div *ngIf="entityLoading" class="loading">
+  <p>Načítám...</p>  
+</div>
+
+<!--<site-admin-entity [entity]="currentEntity" (save)="saveEntity($event)" (delete)="deleteEntity($event)" (close)="selectEntity(null)"></site-admin-entity>-->
+
+
+
+<div class="entities">
+
+  <div *ngIf="entities" class="pages">
+
+    <span class="range">{{getNameRange()}}</span>
+
+    <div class="btn-group">
+      <a (click)="openPage(entities.page - 1)" [class.disabled]="entities.page==1" aria-label="Previous" class="btn btn-primary"><span aria-hidden="true">&laquo;</span></a>
+      <a (click)="openPage(entities.page + 1)" [class.disabled]="entities.page==entities.pages" aria-label="Next" class="btn btn-primary"><span aria-hidden="true">&raquo;</span></a>
+    </div>
+  </div>
+
+  <table class="table table-condensed table-hover table-striped">
+
+    <thead>
+      <tr>
+        <th>Jméno obce</th>
+        <th>PSČ</th>
+        <th>IČO</th>
+        <th></th>
+      </tr>
+
+      <tr class="search">
+        <td><input type="text" name="searchName" [(ngModel)]="search.name" (keyup.enter)="loadEntities(1)" class="novalidate" placeholder="hledat dle názvu"></td>
+        <td><input type="text" name="searchPSC" [(ngModel)]="search['address.postalCode']" (keyup.enter)="loadEntities(1)" class="novalidate" placeholder="hledat dle psč"></td>
+        <td><input type="text" name="searchICO" [(ngModel)]="search.ico" (keyup.enter)="loadEntities(1)" class="novalidate" placeholder="hledat dle ičo"></td>
+        <td></td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let entity of entities.docs" [class.info]="currentEntity?._id === entity._id">
+        <td>{{entity.name}}</td>
+        <td>{{entity.address.postalCode}}</td>
+        <td>{{entity.ico}}</td>
+        <td><a [routerLink]="getDetailLink(entity)">detail</a></td>
+      </tr>
+  </table>
+
+
+
+</div>
