@@ -38,6 +38,12 @@ module.exports = {
 		"list": function(req){			
 			return isManagedProfile(req);
 		}
+	},
+	
+	"etl": {
+		"list": function(req){			
+			return isManagedProfile(req);
+		}
 	}
 	
 };

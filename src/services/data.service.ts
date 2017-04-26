@@ -150,4 +150,8 @@ export class DataService {
 		return this.http.delete("/api/users/" + userId).toPromise();
 	}
 	
+	getETLs(options?){
+		return this.http.get("/api/etl" + toParams(options)).toPromise().then(response => response.json());	
+	}
+	
 }

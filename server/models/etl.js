@@ -1,21 +1,19 @@
 var mongoose = require('mongoose');
 
-var entitySchema = mongoose.Schema({
-	"_id": String,
+var etlSchema = mongoose.Schema({
+	"profile": {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	"date": Date,
-	"file": String,
-	"params": {
-		"year": Number,
-		"profile": {type: mongoose.Schema.Types.ObjectId, ref: "Profile"}
-	},
-	"imported": {
-		"entity": Number,
-		"budget": Number,
-		"event": Number,
-		"profile": number,
-		"user": Number
-	},
-	"user": {type: String, ref: "User"}
+	"status": String,
+	
+	"user": {type: String, ref: "User"},
+	
+	"target": String,
+	"file": String,	
+	
+	"result": String,
+	"warnings": [String],
+	"error": String
+		
 });
 
-var Entity = module.exports = mongoose.model('Entity', entitySchema);
+var ETL = module.exports = mongoose.model('ETL', etlSchema);

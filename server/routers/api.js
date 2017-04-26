@@ -64,7 +64,7 @@ router.use("/login",require("../api/login"));
 
 router.use("/users",require("../api/users"));
 
-router.use("/profiles",require("../api/profiles"));
+router.use("/etl",require("../api/etl"));
 
 
 /* DOWNLOAD DATASETS IN ZIP */

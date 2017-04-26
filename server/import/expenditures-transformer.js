@@ -9,6 +9,7 @@ var Invoice = ExpendituresSchema.Invoice;
 
 module.exports = class ExpenditureTransformer extends Transform {
 
+	
 
 	constructor(profileId,year) {
 		
@@ -21,25 +22,26 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		// reset index objects and other variables to their initial values
 		this.reset();
+		
+		this.headerNames = {
+			type: ["PRIJEM_VYDAJ"],
+			module: ["DOKLAD_AGENDA"],
+			paragraph: ["PARAGRAF"],
+			item: ["POLOZKA"],
+			event: ["ORJ"],
+			amount: ["CASTKA"],
+			date: ["DOKLAD_DATUM"],
+			counterpartyId: ["SUBJEKT_IC"],
+			counterpartyname: ["SUBJEKT_NAZEV"],
+			description: ["POZNAMKA"]
+		};
 			
-	}
-	
-	log(msg){
-		// TODO: make some very great loggin mechanism, probably together with ETL table to store import metadata
-		console.log(msg);	
 	}
 
 	reset(){
 		
 		// counter of input rows
 		this.i = 0;
-		
-		// couter of written documents to DB
-		this.counter = {
-			eventBudgets: 0,
-			budgets: 0,
-			invoices: 0
-		};
 		
 		// array to store all the Promises with requests to DB so that we can track when everything resolves
 		this.requests = [];
@@ -52,6 +54,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 			year: this.year,
 			budgetAmount: 0,
 			expenditureAmount: 0,
+			incomeAmount: 0,
 			paragraphs: []
 		};
 		this.paragraphIndex = {};
@@ -63,6 +66,31 @@ module.exports = class ExpenditureTransformer extends Transform {
 		this.eventBudgetParagraphIndex = {};
 		this.eventBudgetItemIndex = {};
 		
+		this.headerMap = {};
+	}
+	
+	parseHeader(header){
+		
+		console.log(header);
+								
+		header = header.map(item => item.toUpperCase());
+		
+		let headerOK = true;
+		
+		Object.keys(this.headerNames).forEach(key => {
+			
+			let names = this.headerNames[key];
+			
+			let search = names.some(name => {
+				this.headerMap[key] = header.indexOf(name);
+				if(this.headerMap[key] >= 0) return true;
+			});
+			
+			if(!search) this.emit("warning","Chybná hlavička: nenalezeno pole " + names.join("/") + ".");
+			
+		});
+		
+		console.log(this.headerMap);
 	}
 
 	/**
@@ -184,14 +212,21 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		this.i++;
 		
-		if(Object.keys(item).length < 11){next();return;} // invalid row
-		if(this.i === 1){next();return;} // first row = header
+		// first row = header
+		if(this.i === 1){
+			this.parseHeader(item);
+			return next();
+		}
 		
-		var type = item["DOKLAD_AGENDA"];
+		var h = this.headerMap;
+		
+		var module = item[h.module];
 
-		var paragraphId = item["PARAGRAF"];
-		var itemId = item["POLOZKA"];
-		var eventId = item["ORJ"].trim() ? item["ORJ"].trim() : null;
+		var paragraphId = item[h.paragraph];
+		var itemId = item[h.item];
+		var eventId = item[h.event];
+		
+		var isIncome = item[h.type] ? (item[h.type] === "P") : (Number(itemId) < 5000);
 		
 		var budget = this.budget;
 
@@ -204,35 +239,44 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		var paragraphEvent = this.getParagraphEvent(paragraph,eventId);
 		
-		var amount = this.string2number(item["CASTKA"]);
+		var amount = this.string2number(item[h.amount]);
+		
+		if(!amount) this.emit("warning","Nulová částka na řádku " + this.i +  ".");
+		if(!itemId) this.emit("warning","Neuvedena rozpočtová položka na řádku " + this.i +  ".");
 		
 		if(isNaN(amount)) console.log(item);
 
-		// determine which type is the amount and assign to the corrrect property
+		// determine which module is the amount and assign to the corrrect property
 		var amountTarget;
+		
 		/* Budget amount */
-		if(type === "ROZ") amountTarget = "budgetAmount";
+		if(module === "ROZ" && Number(itemId) >= 5000) amountTarget = "budgetAmount";
+		
 		/* Income amount - budget items 1 - 4999 are income */
-		else if(Number(itemId) < 5000) amountTarget = "incomeAmount";
+		else if(isIncome) amountTarget = "incomeAmount";
+		
 		/* Expenditure amount */
-		else if(Number(itemId) >= 5000) amountTarget = "expenditureAmount";
+		else if(!isIncome) amountTarget = "expenditureAmount";
+		
+		/* Emit warning if other data */
+		else this.emit("warning","Neidentifikovaný záznam na řádku " + this.i +  ".");
 		
 		// assign for the following objects
 		[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item[amountTarget] = item[amountTarget] + amount);
 		
 		// if record is an invoice, then store it in invoices
-		if(type === "KDF"){	
+		if(module === "KDF"){	
 			this.invoices.push({
 				profile: this.profileId,
 				event: eventId,
 				year: this.year,
 				item: itemId,
 				paragraph: paragraphId,
-				date: this.string2date(item["DOKLAD_DATUM"]),
+				date: this.string2date(item[h.date]),
 				amount: amount,
-				counterpartyId: item["SUBJEKT_IC"],
-				counterpartyName: item["SUBJEKT_NAZEV"],
-				description: item["POZNAMKA"]
+				counterpartyId: item[h.counterpartyId],
+				counterpartyName: item[h.counterpartyName],
+				description: item[h.description]
 			});
 			
 			if(this.invoices.length >= 1000) this.requests.push(this.writeInvoices());
@@ -249,7 +293,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		return Invoice.insertMany(invoices)
 			.then(budgets => {
-				this.counter.invoices += invoices.length;
+				this.emit("writeDB","invoices",invoices.length);
 			})
 			.catch(err => {
 				throw new Error("Failed to write invoices to database. Error: " + err)
@@ -261,7 +305,8 @@ module.exports = class ExpenditureTransformer extends Transform {
 		return EventBudget.insertMany(this.eventBudgets)
 			
 			.then(budgets => {
-				this.counter.eventBudgets += this.eventBudgets.length;
+			console.log(this.eventBudgets.length);
+				this.emit("writeDB","eventBudgets",this.eventBudgets.length);
 			})
 		
 			.catch(err => {
@@ -273,8 +318,13 @@ module.exports = class ExpenditureTransformer extends Transform {
 		* method to write one budget object to database (since there is one per profileId+year it doesnt make sense to write more)
 		**/
 	writeBudget(){
+		
+		if(!this.budget.budgetAmount) this.emit("warning","Nulový objem rozpočtu obce.");
+		if(!this.budget.expenditureAmount) this.emit("warning","Nulový objem výdajů obce.");
+		if(!this.budget.incomeAmount) this.emit("warning","Nulový objem příjmů obce.");
+		
 		return Budget.create(this.budget)
-			.then(() => this.counter.budgets++)
+			.then(() => this.emit("writeDB","budgets",1))
 			.catch(err => {
 				throw new Error("Failed to write budget to database. Error: " + err)
 			});
@@ -292,7 +342,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		requests.push(this.writeBudget());
 
 		Promise.all(requests).then(() => {
-			console.log(this.counter);
+			this.emit("closeDB");
 			this.reset();
 		});
 		

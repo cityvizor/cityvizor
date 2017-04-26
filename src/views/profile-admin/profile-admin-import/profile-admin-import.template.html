@@ -1,7 +1,7 @@
 
+<h2>Nahrát data</h2>
 <h3>Výdaje</h3>
 
-<h4>Nahrát data</h4>
 
 <div class="form-group">
 	<div class="col-sm-12">
@@ -29,12 +29,8 @@
 	</div>
 </div>
 
-<h4>Nahraná data</h4>
-
 
 <h3>Investiční akce</h3>
-
-<h4>Nahrát data</h4>
 
 <div class="form-group">
 	<div class="col-sm-12">
@@ -62,5 +58,46 @@
 	</div>
 </div>
 
-<h4>Nahraná data</h4>
+<h2>Nahraná data</h2>
+
+<button (click)="loadETLs()">Obnovit</button>
+<table class="table table-condensed table-hover table-striped etls">
+	<thead>
+		<tr>
+			<th>Datum</th>
+			<th>Cíl</th>
+			<th>Stav</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<ng-container *ngFor="let etl of etls">
+			<tr (click)="toggleETLVisible(etl)" class="header">
+				<td>{{etl.date}}</td>
+				<td>{{targets[etl.target]}}</td>
+				<td>{{statuses[etl.status]}}</td>
+				<td><span *ngIf="etl.warnings">{{etl.warnings.length}} varování!</span></td>
+			</tr>
+			<tr>
+				<td colspan="4" class="details">
+					<div [class.visible]="etlVisible === etl._id">
+						<dl>
+							<dt>Výsledek</dt>
+							<dd>{{etl.result}}</dd>
+
+							<ng-container *ngIf="etl.warnings">
+								<dt>Varování</dt>
+								<dd>
+									<ul>
+										<li *ngFor="let warning of etl.warnings">{{warning}}</li>
+									</ul>
+								</dd>
+							</ng-container>
+
+						</dl>
+					</div>
+				</td>
+			</tr>
+		</ng-container>
+</table>
 

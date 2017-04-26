@@ -1,0 +1,4 @@
+.etls .header{cursor:pointer;}
+.etls .details{padding:0;border-top:none;}
+.etls .details > div{display:none;padding:5px;}
+.etls .details > div.visible{display:block;}

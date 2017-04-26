@@ -18,21 +18,20 @@ router.post("/expenditures", upload.single("file"), acl("profile-events", "write
 		return;
 	}
 
-	ExpenditureImport(req.file.path,req.body.profile,req.body.year);
-	
-	res.sendStatus(200);
+	ExpenditureImport(req.file.path,req.body.profile,req.body.year)
+		.then(etlLog => res.json(etlLog));
+
 });
 
 router.post("/events", upload.single("file"), acl("profile-events", "write"), (req,res) => {
 	
 	if(!req.file || !req.body.profile){
-		res.status(400).send("Bad request. Missing file or profile parameters.");
+		res.status(400).send("Bad request (Missing file or profile parameters)");
 		return;
 	}
 
 	EventsImport(req.file.path,req.body.profile);
 	
-	res.sendStatus(200);
 });
 
 module.exports = router;
