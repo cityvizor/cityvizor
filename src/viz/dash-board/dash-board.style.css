@@ -1,5 +1,9 @@
 * {opacity:inherit;}
 
+.address{
+	white-space: pre-line;
+}
+
 .rowHours {
 	font-size: 0.8em;
 	line-height: 1em;

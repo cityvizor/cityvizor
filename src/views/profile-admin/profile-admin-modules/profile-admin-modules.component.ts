@@ -42,14 +42,16 @@ export class ProfileAdminModulesComponent {
 	
 	save(){
 		
-		var oldModules = this.profile.modules;
+		var oldModules = this.profile.hiddenModules;
 		
-		this.dataService.saveProfile(this.profile)
+		var profileData = {_id:this.profile._id,hiddenModules:this.profile.hiddenModules};
+		
+		this.dataService.saveProfile(profileData)
 			.then(profile => {
 				this.toastService.toast("Uloženo.", "notice");
 			})
 			.catch((err) => {
-				this.profile.module = oldModules;
+				this.profile.hiddenModules = oldModules;
 				this.toastService.toast("Nastala chyba při ukládání","error");
 			});
 	}

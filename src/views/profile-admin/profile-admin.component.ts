@@ -13,9 +13,7 @@ import { DataService } 		from '../../services/data.service';
 export class ProfileAdminComponent {
 
 	@Input()
-	profile: any;	
-
-	oldProfile: any;
+	profile: any;
 
 	view: string; 
 	
@@ -35,6 +33,17 @@ export class ProfileAdminComponent {
 			this.activeModule = params["module"];
 			
 		});
+	}
+	 
+	saveProfile(profileData){
+		 
+		 this.dataService.saveProfile(profileData)
+				.then(profile => {
+					this.toastService.toast("Uloženo.", "notice");
+					this.profile = profile;
+					this.router.navigate(this.getModuleLink(this.activeModule));
+				})
+				.catch(err => this.toastService.toast("Nastala neznámá chyba při ukládání profilu.", "error"));
 	}
 	 
 	getModuleLink(moduleId){

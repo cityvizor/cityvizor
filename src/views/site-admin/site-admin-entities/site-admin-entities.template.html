@@ -34,16 +34,14 @@
         <td><input type="text" name="searchName" [(ngModel)]="search.name" (keyup.enter)="loadEntities(1)" class="novalidate" placeholder="hledat dle názvu"></td>
         <td><input type="text" name="searchPSC" [(ngModel)]="search['address.postalCode']" (keyup.enter)="loadEntities(1)" class="novalidate" placeholder="hledat dle psč"></td>
         <td><input type="text" name="searchICO" [(ngModel)]="search.ico" (keyup.enter)="loadEntities(1)" class="novalidate" placeholder="hledat dle ičo"></td>
-        <td></td>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let entity of entities.docs" [class.info]="currentEntity?._id === entity._id">
+      <tr *ngFor="let entity of entities.docs" [class.info]="currentEntity?._id === entity._id" (click)="selectEntity(entity._id)">
         <td>{{entity.name}}</td>
-        <td>{{entity.address.postalCode}}</td>
+        <td>{{entity.address.postalCode | postalCode}}</td>
         <td>{{entity.ico}}</td>
-        <td><a [routerLink]="getDetailLink(entity)">detail</a></td>
       </tr>
   </table>
 

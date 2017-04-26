@@ -32,7 +32,7 @@ function toParams(options){
 @Injectable()
 export class DataService {
 	
-	constructor(private http: Http, private authHttp: AuthHttp, private userService:UserService) { }
+	constructor(private http: AuthHttp, private userService:UserService) { }
 
 	/* ENTITIES */
 	getEntities(options?) {
@@ -44,12 +44,12 @@ export class DataService {
 	}
 	
 	saveEntity(entity){
-		return this.authHttp.post("/api/entities/" + entity._id,entity).toPromise().then(response => response.json());
+		return this.http.post("/api/entities/" + entity._id,entity).toPromise().then(response => response.json());
 	}
 	
 	/* PROFILES */
-	getProfiles() {
-			return this.http.get("/api/profiles").toPromise().then(response => response.json());
+	getProfiles(options?) {
+			return this.http.get("/api/profiles" + toParams(options)).toPromise().then(response => response.json());
 	}
 
 	getProfile(profileId) {
@@ -57,7 +57,7 @@ export class DataService {
 	}
 	
 	saveProfile(profile){
-		return this.authHttp.post("/api/profiles/" + profile._id,profile).toPromise().then(response => response.json());
+		return this.http.post("/api/profiles/" + profile._id,profile).toPromise().then(response => response.json());
 	}
 	
 	getProfileBudget(profileId,year){
@@ -90,7 +90,7 @@ export class DataService {
 	}
 	
 	getProfileManagers(profileId){
-		return this.authHttp.get("/api/profiles/" + profileId + "/managers").toPromise().then(response => response.json());
+		return this.http.get("/api/profiles/" + profileId + "/managers").toPromise().then(response => response.json());
 	}
 	
 
@@ -135,19 +135,19 @@ export class DataService {
 	
 	/* USERS */	
 	getUsers(){
-		return this.authHttp.get("/api/users").toPromise().then(response => response.json());
+		return this.http.get("/api/users").toPromise().then(response => response.json());
 	}
 	
 	getUser(userId){
-		return this.authHttp.get("/api/users/" + userId).toPromise().then(response => response.json());
+		return this.http.get("/api/users/" + userId).toPromise().then(response => response.json());
 	}
 	
-	saveUser(user){
-		return this.authHttp.post("/api/users/" + user._id,user).toPromise().then(response => response.json());
+	saveUser(userData){
+		return this.http.post("/api/users/" + userData._id,userData).toPromise().then(response => response.json());
 	}
 	
 	deleteUser(userId){
-		return this.authHttp.delete("/api/users/" + userId).toPromise();
+		return this.http.delete("/api/users/" + userId).toPromise();
 	}
 	
 }

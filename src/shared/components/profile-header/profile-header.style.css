@@ -43,13 +43,14 @@
 }
 
 
-.entity-menu {
-	background: #eee;	
-}
 .entity-menu .container-fluid, .entity-menu .navbar, .entity-menu .navbar-collapse {
 	margin: 0px;
 	padding: 0px;
 	border: none;
+}
+.entity-menu {
+	background: #eee;
+	margin-bottom: 20px;
 }
 .entity-menu .navbar li a {
 	line-height: 45px;

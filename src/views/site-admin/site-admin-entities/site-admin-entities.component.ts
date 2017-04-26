@@ -111,8 +111,8 @@ export class SiteAdminEntitiesComponent {
 		
 	}
 
-	getDetailLink(entity){
-		return entity ? ["./",{entity:entity._id}] : ["./",{}];
+	getDetailLink(entityId){
+		return entityId ? ["./",{entity:entityId}] : ["./",{}];
 	}
 
 	selectEntity(entityId){

@@ -39,7 +39,7 @@ export class SiteAdminProfilesComponent {
 
 	loadProfiles(){
 	// load profiles and save to local variable
-			this.dataService.getProfiles()
+			this.dataService.getProfiles({hidden:1})
 				.then(profiles => {
 					this.profiles = profiles;
 					this.profiles.sort((a,b) => a.name > b.name ? 1 : (a.name < b.name ? -1 : 0));
@@ -82,8 +82,8 @@ export class SiteAdminProfilesComponent {
 		
 	}
 
-	getDetailLink(profile){
-		return profile ? ["./",{profile:profile._id}] : ["./",{}];
+	getDetailLink(profileId){
+		return profileId ? ["./",{profile:profileId}] : ["./",{}];
 	}
 
 	selectProfile(profileId){

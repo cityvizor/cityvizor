@@ -168,13 +168,7 @@ stroke-width="3" />-->
 			<div class="small">
 				<div class="row">
 					<div class="col-xs-6"><strong><i class="fa fa-map-signs"></i> Adresa</strong></div>
-					<div class="col-xs-6">
-						{{profile.entity.address?.street}} {{profile.entity?.address?.streetNo}}
-						<br>
-						{{profile.entity.address?.city}}
-						{{profile.entity.address?.psc}}
-
-					</div>
+					<div class="col-xs-6 address">{{profile.entity.address | address}}</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-6"><strong><i class="fa fa-hashtag"></i> ZÚJ</strong></div>

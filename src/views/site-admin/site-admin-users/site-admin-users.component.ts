@@ -99,8 +99,8 @@ export class SiteAdminUsersComponent {
 		}
 	}
 
-	saveUser(user){
-		this.dataService.saveUser(user)
+	saveUser(userData){
+		this.dataService.saveUser(userData)
 			.then(() => {
 			this.toastService.toast("Uloženo.","notice");
 			this.loadUsers();

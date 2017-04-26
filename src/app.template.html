@@ -1,16 +1,26 @@
-<div id="toasts">
-	<ul>
-		<li *ngFor="let toast of toasts" [class]="toast.status" (click)="toast.hide()">
-			<span *ngIf="toast.opacity" [style.opacity]="toast.opacity">
-					{{toast.text}}
-			</span>
-		</li>
-	</ul>
+<div id="wrap">
+	<div id="disclaimer">
+		<p>
+			Toto je testovací verze aplikace. Data jsou pouze vzorová a nemusí odpovídat reálným údajům.
+		</p>
+	</div>
+	
+	<div id="toasts">
+		<ul>
+			<li *ngFor="let toast of toasts" [class]="toast.status" (click)="toast.hide()">
+				<span *ngIf="toast.opacity" [style.opacity]="toast.opacity">
+						{{toast.text}}
+				</span>
+			</li>
+		</ul>
+	</div>
+
+	<router-outlet></router-outlet>
+
+	<div id="push"></div>
 </div>
 
-<router-outlet></router-outlet>
-
-<footer>
+<footer class="bs-docs-footer">
 	<div class="container text-muted small">
 		<div class="row">
 			<div class="col-sm-5 col-xs-12">
@@ -37,10 +47,10 @@
 				</a>
 			</div>
 			<div class="col-sm-5 col-xs-12 text-right">
-				<a routerLink="/stranka/datove-zdroje">Data</a>
-				| <a routerLink="/stranka/o-aplikaci">O aplikaci</a>
-				| <a routerLink="/stranka/o-aplikaci" fragment="licence">Licence</a>
-				| <a routerLink="/stranka/o-aplikaci" fragment="kontakt">Kontakt</a>
+				<a routerLink="/stranka/o-aplikaci">O aplikaci</a>
+				| <a routerLink="/stranka/data">Data</a>
+				| <a routerLink="/stranka/licence" fragment="licence">Licence</a>
+				| <a routerLink="/stranka/kontakt" fragment="kontakt">Kontakt</a>
 				<br>
 				<span *ngIf="!userService.logged">
 					<a (click)="loginModal.show()">Přihlásit se</a>

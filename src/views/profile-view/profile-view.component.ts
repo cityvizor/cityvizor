@@ -15,8 +15,9 @@ import { Module, MODULES } from "../../shared/data/modules";
 	animations: [
 		trigger('switchAnimation', [
 			transition(':enter', [
-				style({opacity: 0}),
-				animate("200ms", style({opacity: 1}))
+				style({opacity: 0, position:"absolute"}),
+				animate("200ms", style({opacity: 1})),
+				style({position:"static"})
 			]),
 			transition(':leave', [
 				animate("200ms", style({opacity: 0}))

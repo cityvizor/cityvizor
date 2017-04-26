@@ -9,10 +9,14 @@ var User = require("../models/user");
 
 router.get("/", acl("profile-managers","list"), (req,res) => {
 	
-  if(!req.params.profile) return res.status(400).send("Bad Request (missing profile parameter)");
-  
-	User.find({managedProfiles:req.params.profile}).select("_id")
-		.then(users => users.map(user => user._id))
+	var where = {
+		$or: [
+			{roles: "profile-manager", managedProfiles: req.params.profile},
+			{roles: "admin"}
+		]
+	};
+	
+	User.find(where).select("_id name organization")
 		.then(users => res.json(users));
 
 });

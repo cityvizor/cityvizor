@@ -30,7 +30,7 @@
 					<p>Pokud něčemu nebudete rozumět, můžete se podívat do sekce <a [routerLink]="getModuleLink('navody')">Návody</a>.</p>
 				</div>
 
-				<profile-admin-profile *ngSwitchCase="'nastaveni-profilu'" [profile]="profile"></profile-admin-profile>
+				<profile-admin-profile *ngSwitchCase="'nastaveni-profilu'" [profile]="profile" (save)="saveProfile($event)"></profile-admin-profile>
 
 				<profile-admin-modules *ngSwitchCase="'sprava-modulu'" [profile]="profile"></profile-admin-modules>
 

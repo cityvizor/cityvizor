@@ -2,7 +2,7 @@
   <div class="container">
     <h1>
       <i class="fa fa-map-signs"></i>
-      <a [routerLink]="getHomeLink()" routerLinkActive="active">{{profile.name}}</a>
+      <a [routerLink]="getHomeLink()" routerLinkActive="active">{{profile.name}}<span *ngIf="!profile.active"> (neveřejný)</span></a>
     </h1>
     <a routerLink="/" routerLinkActive="active" class="btn pull-right hidden-print">
       <i class="fa fa-chevron-circle-right"></i> 

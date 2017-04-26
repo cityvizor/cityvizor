@@ -6,6 +6,10 @@ function isManagedProfile(req){
 module.exports = {
 	
 	"profiles": {
+		"read": req => {
+			if(isManagedProfile(req)) req.query.hidden = true;
+			return true;
+		},
 		"write": function(req){
 			return isManagedProfile(req);
 		}

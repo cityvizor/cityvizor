@@ -17,13 +17,12 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let profile of profiles" [class.info]="currentProfile?._id === profile._id">
+      <tr *ngFor="let profile of profiles" class="profile" [class.info]="currentProfile?._id === profile._id" (click)="selectProfile(profile._id)">
         <td>{{profile.name}}</td>
         <td>{{profile.url}}</td>
         <td>{{profile._id}}</td>
         <td>{{profile.active ? 'Ano' : 'Ne'}}</td>
-        <td><a [routerLink]="getDetailLink(profile)">detail</a></td>
-        <td><a [routerLink]="getProfileLink(profile)">profil</a></td>
+        <td><a [routerLink]="getProfileLink(profile)">otevřít profil</a></td>
       </tr>
   </table>
 </div>

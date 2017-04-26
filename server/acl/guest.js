@@ -1,7 +1,8 @@
 module.exports = {
 	
 	"entity": {
-		"read": true
+		"read": true,
+		"list": true
 	},
 	
 	"events": {
@@ -10,8 +11,8 @@ module.exports = {
 	},
 	
 	"profiles": {
-		"read": true,
-		"list": true
+		"read": req => req.query.hidden ? false : true,
+		"list": req => req.query.hidden ? false : true
 	},
 	
 	"profile-budgets": {

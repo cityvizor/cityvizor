@@ -13,6 +13,8 @@ export class PageViewComponent implements OnInit {
 	
 	pageId;
 	pageContent;
+	
+	isMenuCollapsed:boolean = true;
 
 	constructor(private route: ActivatedRoute, private http: Http) {
 		

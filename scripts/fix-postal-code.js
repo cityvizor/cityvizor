@@ -3,17 +3,15 @@ mongoose.connect('mongodb://localhost/cityvizor');
 
 var Entity = require("../server/models/entity");
 
-Entity.find({})
+Entity.find({})//.limit(5)
 	.then(entities => {
 	
 		var queries = [];
 	
 		entities.forEach(entity => {
-			if(entity.address.postalCode.length === 5) {
-				var newPSC = entity.address.postalCode.substr(0,3) + " " +  entity.address.postalCode.substr(3);
-				entity.address.postalCode = newPSC;
-				queries.push(entity.save());
-			}
+			//console.log(entity.address.postalCode,entity.address.postalCode.replace(" ",""));
+			entity.address.postalCode = entity.address.postalCode.replace(" ","");
+			queries.push(entity.save());
 		});
 	
 		Promise.all(queries).then(() => {

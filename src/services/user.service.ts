@@ -41,7 +41,9 @@ export class UserService {
  
 	constructor(private http: Http){
 		// refresh user data to match token
-		this.refreshState();
+		this.refreshState()
+		// periodically check token validity
+		setInterval(() => this.refreshState(), 60000);
 	}
 
 	saveToken(token){

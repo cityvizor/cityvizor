@@ -12,13 +12,18 @@ var acl = require("express-dynacl");
 var Entity = require("../models/entity");
 var EntityImport = require("../import/entities");
 
-router.get("/", acl("entity","read"), (req,res) => {
+//http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+RegExp.escape= function(s) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+
+router.get("/", acl("entity","list"), (req,res) => {
 	
 	var where = {};
 	if(req.query.search){
-		if(req.query.search.name) where.name = new RegExp(req.query.search.name,"i");
-		if(req.query.search["address.postalCode"]) where["address.postalCode"] = new RegExp(req.query.search["address.postalCode"],"i");
-		if(req.query.search.ico) where.ico = new RegExp(req.query.search.ico,"i");
+		if(req.query.search.name) where.name = new RegExp(RegExp.escape(req.query.search.name),"i");
+		if(req.query.search["address.postalCode"]) where["address.postalCode"] = new RegExp(RegExp.escape(req.query.search["address.postalCode"].replace(/ /g,"")),"i");
+		if(req.query.search.ico) where.ico = new RegExp(RegExp.escape(req.query.search.ico),"i");
 	}
 	
 	var options = {

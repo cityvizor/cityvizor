@@ -54,6 +54,7 @@ import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-don
 
 // Pipes
 import { MoneyPipe } from './shared/pipes/money.pipe';
+import { AddressPipe, PostalCodePipe } from './shared/pipes/address.pipe';
 import { ConcatPipe, ArrayChildrenPipe } from './shared/pipes/utils.pipe';
 
 // Routes
@@ -62,7 +63,10 @@ import { routing } from './app.routing';
 // Providers
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 export function getAuthHttp(http) {
-  return new AuthHttp(new AuthConfig({}), http);
+	var options = {
+		noJwtError:true
+	};
+  return new AuthHttp(new AuthConfig(options), http);
 }
 
 @NgModule({
@@ -81,7 +85,7 @@ export function getAuthHttp(http) {
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
-		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe
+		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe
 	],
 	providers: [
 		DataService, YQLService, NoticeBoardService, ToastService, UserService,

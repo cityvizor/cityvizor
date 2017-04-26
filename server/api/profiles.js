@@ -9,16 +9,29 @@ var acl = require("express-dynacl");
 var Profile = require("../models/profile");
 
 router.get("/", acl("profiles","list"), (req,res) => {
-	Profile.find({}).select("id name url entity active").populate("entity","id name gps").exec((err, profiles) => {
+	
+	var where = {};
+	
+	if(!req.query.hidden) where.active = true;
+	
+	Profile.find(where).select("id name url entity active").populate("entity","id name gps").exec((err, profiles) => {
 		if (err) return res.next(err);
 		res.json(profiles);
 	});
+	
 });
 
 router.get("/:profile", acl("profiles","read"), (req,res) => {
 	
+	var where = {};
+	
 	// if :profile could be ObjectId, then try to match _id too, otherwise match only url / it is not possible to try to match _id when :profile doesnt look like ObjectId
-	var where = req.params.profile.match(/^[0-9a-fA-F]{24}$/) ? {$or: [{url:req.params.profile},{_id:req.params.profile}]} : {url:req.params.profile};
+	if(req.params.profile.match(/^[0-9a-fA-F]{24}$/)) where["$or"] = [{url:req.params.profile},{_id:req.params.profile}];
+	else where.url = req.params.profile;
+	
+	if(!req.query.hidden) where.active = true;
+	
+	console.log(where);
 	
 	Profile.findOne(where).populate("entity").exec((err, profile) => {
 		if(err) return res.sendStatus(500);
@@ -29,11 +42,8 @@ router.get("/:profile", acl("profiles","read"), (req,res) => {
 
 router.post("/:profile", acl("profiles","write"), (req,res) => {
 	
-	// entity is mean to be saved by reference to Entity collection and we dont want this reference to be overwritten by the actual entity data
-	if(req.body.entity && req.body.entity._id) req.body.entity = req.body.entity._id;
-	
-	Profile.findOneAndUpdate({_id:req.params.profile}, req.body, {new:true, runValidators: true}, (err, profile) => {
-		if(err) req.next(err);
-		else res.json(profile);
-	});
+	Profile.findOneAndUpdate({_id:req.params.profile}, req.body, {new:true, runValidators: true}).populate("entity")
+		.then(profile => res.json(profile))
+		.catch(err => res.sendStatus(500));
+
 });

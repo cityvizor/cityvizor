@@ -22,7 +22,7 @@ export class ProfileAdminUsersComponent {
 	 
 	ngOnInit(){
     this.dataService.getProfileManagers(this.profile._id)
-			.then(userIds => this.managers = userIds);
+			.then(managers => this.managers = managers);
 	}
 	 
 

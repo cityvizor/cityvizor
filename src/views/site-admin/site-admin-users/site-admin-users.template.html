@@ -13,16 +13,17 @@
 
     <thead>
       <th>ID/Email</th>
+      <th>Jméno</th>
+      <th>Organizace</th>
       <th>Role</th>
-      <th>Spravované profily</th>
     </thead>
 
     <tbody>
-      <tr *ngFor="let user of users" [class.info]="currentUser?._id === user._id">
+      <tr *ngFor="let user of users" class="user" [class.info]="currentUser?._id === user._id" (click)="selectUser(user._id)">
         <td>{{user._id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.organization}}</td>
         <td>{{user.roles | concat:', '}}</td>
-        <td>{{user.managedProfiles | arraychildren:'name' | concat:', '}}</td>
-        <td><a [routerLink]="getUserLink(user._id)">detail</a></td>
       </tr>
   </table>
 </div>

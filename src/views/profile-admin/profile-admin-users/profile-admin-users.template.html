@@ -3,5 +3,5 @@
 <h3>Správci tohoto profilu</h3>
 
 <ul>
-  <li *ngFor="let userId of managers">{{userId}}</li>
+  <li *ngFor="let manager of managers">{{manager.name}} ({{manager.organization}}, {{manager._id}})</li>
 </ul>

@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 import { DataService } 		from '../../../services/data.service';
 import { ToastService } 		from '../../../services/toast.service';
@@ -27,7 +28,9 @@ export class SiteAdminUserComponent {
 	@Output()
 	close:EventEmitter<any> = new EventEmitter;
 
-	roles:string[] = ["admin","profile-admin","profile-manager"];
+ 	@ViewChild('userForm') form: NgForm;
+
+	roles:string[] = ["admin","profile-admin","profile-manager"];;
 
 	constructor(private dataService: DataService, private toastService: ToastService) {
 	}
@@ -68,12 +71,16 @@ export class SiteAdminUserComponent {
 	setPassword(){
 		var password = window.prompt("Zadejte nové heslo:");
 		
-		if(password) this.saveUser({_id:this.user._id,password:password});
+		if(password) this.save.emit({_id:this.user._id,password:password});
 			
 	}
 	 
-	saveUser(data){
-		this.save.emit(data);
+	saveUser(){
+		var userData = this.form.value;
+		userData._id = this.user._id;
+		userData.managedProfiles = this.user.managedProfiles.map(profile => profile._id);
+		userData.roles = this.user.roles;
+		this.save.emit(userData);
 	}
 	 
 	deleteUser(){

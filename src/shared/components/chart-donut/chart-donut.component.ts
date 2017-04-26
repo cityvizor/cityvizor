@@ -32,11 +32,14 @@ export class ChartDonutComponent implements AfterViewInit, OnDestroy {
 	}
 	 
 	ngOnDestroy(){
-		window.removeEventListener("scroll",this.updateVisible);
+		window.removeEventListener("scroll",this.updateVisible.bind(this));
 	}
 	 
 	ngAfterViewInit(){
-		this.updateVisible();
+		// if we change value during ngAfterViewInit, we have to either tell Angular to run another
+		// round of change detection, or we can change the value after ngAfterViewInit (by using setTimeout)
+		// and Angular does change detection on its own.
+		setTimeout(() => this.updateVisible(),0);
 	}
 	 
 	isVisible(el){
@@ -48,7 +51,7 @@ export class ChartDonutComponent implements AfterViewInit, OnDestroy {
 	} 
 	
 
-	// generate SVG path attribute string for a donut stripe; start and size are percentage of whole
+	// generate SVG path attribute string for a donut stripe; start and size are percentage of whole, i.e. 1 is full circle
 	generateStripePath(x,y,innerRadius,outerRadius,start,size){
 		if(size >= 1) size = 0.9999; // if a stripe would be 100%, then it's circle, this is a hack to do it using this function instead of another
 
