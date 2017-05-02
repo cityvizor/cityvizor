@@ -23,16 +23,18 @@ module.exports = class ExpenditureTransformer extends Transform {
 		// reset index objects and other variables to their initial values
 		this.reset();
 		
+		this.mandatoryFields = ["module","paragraph","amount"];
+		
 		this.headerNames = {
 			type: ["PRIJEM_VYDAJ"],
-			module: ["DOKLAD_AGENDA"],
+			module: ["MODUL","DOKLAD_AGENDA"],
 			paragraph: ["PARAGRAF"],
 			item: ["POLOZKA"],
-			event: ["ORJ"],
+			event: ["AKCE","ORJ"],
 			amount: ["CASTKA"],
 			date: ["DOKLAD_DATUM"],
 			counterpartyId: ["SUBJEKT_IC"],
-			counterpartyname: ["SUBJEKT_NAZEV"],
+			counterpartyName: ["SUBJEKT_NAZEV"],
 			description: ["POZNAMKA"]
 		};
 			
@@ -70,12 +72,12 @@ module.exports = class ExpenditureTransformer extends Transform {
 	}
 	
 	parseHeader(header){
-		
-		console.log(header);
 								
 		header = header.map(item => item.toUpperCase());
 		
 		let headerOK = true;
+		
+		let missingMandatory = [];
 		
 		Object.keys(this.headerNames).forEach(key => {
 			
@@ -86,11 +88,16 @@ module.exports = class ExpenditureTransformer extends Transform {
 				if(this.headerMap[key] >= 0) return true;
 			});
 			
-			if(!search) this.emit("warning","Chybná hlavička: nenalezeno pole " + names.join("/") + ".");
+			// in case field not found, then either report error is some fmissing fields are mandatory or emit warning
+			if(!search){
+				if(this.mandatoryFields.indexOf(key) >= 0) missingMandatory.push(key);
+				else this.emit("warning","Hlavička CSV: nenalezeno volitelné pole " + names.join("/") + ".");
+			}
 			
 		});
 		
-		console.log(this.headerMap);
+		// if error is returned, error event will be emitted and this stream stopped
+		if(missingMandatory.length) return new Error("Hlavička CSV: nenalezena povinná pole " + missingMandatory.map(key => this.headerNames[key].join("/")).join(", ") + ".");
 	}
 
 	/**
@@ -102,6 +109,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 				id: paragraphId,
 				expenditureAmount: 0,
 				budgetAmount: 0,
+				incomeAmount: 0,
 				events: []
 			};
 			this.budget.paragraphs.push(paragraph);
@@ -125,7 +133,8 @@ module.exports = class ExpenditureTransformer extends Transform {
 				paragraphs: [],
 				items: [],
 				expenditureAmount: 0,
-				budgetAmount: 0
+				budgetAmount: 0,
+				incomeAmount: 0
 			};
 			this.eventBudgets.push(budget);
 			this.eventBudgetIndex[eventId] = budget;
@@ -144,7 +153,8 @@ module.exports = class ExpenditureTransformer extends Transform {
 			eventBudgetParagraph = {
 				id: paragraphId,
 				expenditureAmount: 0,
-				budgetAmount: 0
+				budgetAmount: 0,
+				incomeAmount: 0
 			};
 			
 			eventBudget.paragraphs.push(eventBudgetParagraph);
@@ -164,7 +174,8 @@ module.exports = class ExpenditureTransformer extends Transform {
 			eventBudgetItem = {
 				id: itemId,
 				expenditureAmount: 0,
-				budgetAmount: 0
+				budgetAmount: 0,
+				incomeAmount: 0
 			};
 			
 			eventBudget.items.push(eventBudgetItem);
@@ -184,7 +195,8 @@ module.exports = class ExpenditureTransformer extends Transform {
 			paragraphEvent = {
 				event: eventId,
 				expenditureAmount: 0,
-				budgetAmount: 0
+				budgetAmount: 0,
+				incomeAmount: 0
 			};
 			
 			paragraph.events.push(paragraphEvent);
@@ -214,8 +226,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		// first row = header
 		if(this.i === 1){
-			this.parseHeader(item);
-			return next();
+			return next(this.parseHeader(item));
 		}
 		
 		var h = this.headerMap;
@@ -241,11 +252,18 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		var amount = this.string2number(item[h.amount]);
 		
-		if(!amount) this.emit("warning","Nulová částka na řádku " + this.i +  ".");
-		if(!itemId) this.emit("warning","Neuvedena rozpočtová položka na řádku " + this.i +  ".");
+		// critical errors, skip item
+		if(isNaN(amount)) { this.emit("warning","Data: Nečitelná částka na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
+		if(!paragraphId && !isIncome) { this.emit("warning","Data: Neuveden paragraf na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
+		if(!module) { this.emit("warning","Data: Neuveden modul na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
+		if(!item[h.type] && !itemId) { this.emit("warning","Data: Neuvedeno zda se jedná o příjem či výdej ani rozpočtová položka na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
 		
-		if(isNaN(amount)) console.log(item);
-
+		// noncritical errors
+		if(!amount) this.emit("warning","Data: Nulová částka na řádku " + this.i +  ".");
+		if(!itemId) this.emit("warning","Data: Neuvedena rozpočtová položka na řádku " + this.i +  ".");
+		if(!item[h.date]) this.emit("warning","Data: Neuvedeno datum na řádku " + this.i +  ".");
+		if(item[h.counterpartyId] && !item[h.counterpartyName]) this.emit("warning","Data: Neuvedeno jméno dodavatele na řádku " + this.i +  ".");
+	
 		// determine which module is the amount and assign to the corrrect property
 		var amountTarget;
 		

@@ -18,8 +18,7 @@ router.post("/expenditures", upload.single("file"), acl("profile-events", "write
 		return;
 	}
 
-	ExpenditureImport(req.file.path,req.body.profile,req.body.year)
-		.then(etlLog => res.json(etlLog));
+	ExpenditureImport(req).then(etlLog => res.json(etlLog));
 
 });
 
@@ -30,7 +29,7 @@ router.post("/events", upload.single("file"), acl("profile-events", "write"), (r
 		return;
 	}
 
-	EventsImport(req.file.path,req.body.profile);
+	EventsImport(req).then(etlLog => res.json(etlLog));
 	
 });
 

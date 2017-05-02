@@ -15,7 +15,18 @@ var ETL = require("../models/etl");
 	* @param profileId The ID of profile into which the data should be imported
 	* @param year The year that the data apply to (it is not possible to import any other time range than entire year
 	**/
-module.exports = function(filePath, profileId, year){
+module.exports = function(req){
+	
+	
+	var filePath = req.file.path;
+	
+	var fileName = req.file.originalname;
+	
+	var profileId = req.body.profile;
+	
+	var year = req.body.year;
+	
+	var userId = req.user._id;
 	
 	return new Promise((resolve,reject) => {
 
@@ -23,7 +34,10 @@ module.exports = function(filePath, profileId, year){
 		etlLog.target = "expenditures";
 		etlLog.profile = profileId;
 		etlLog.status = "pending";
-		etlLog.date = new Date(),
+		etlLog.date = new Date();
+		etlLog.file = fileName;
+		etlLog.user = userId;
+		etlLog.year = year;
 		etlLog.save(() => resolve(etlLog));
 								
 		// couter of written documents to DB
@@ -32,6 +46,9 @@ module.exports = function(filePath, profileId, year){
 			budgets: 0,
 			invoices: 0
 		};
+		
+		// keep track of warnings. we dont want to store them directly to the etlLog, because we want to werite them at the end
+		let warnings = [];
 
 		// Open the file and set automatic delete on file close (we dont want to save the file)
 		var file = fs.createReadStream(filePath);
@@ -39,25 +56,44 @@ module.exports = function(filePath, profileId, year){
 		file.on("close",() => fs.unlink(filePath));
 
 		// Parser to parse CSV file
-		var parser = parse({delimiter: ';',trim:true});
+		var parser = parse({delimiter: ';', trim:true, relax_column_count:true});
+		
+		parser.on("error",err => {
+			// if there hasn't been already some error (error in other piped stream doesn't stop other streams in pipe), then write the error result
+			if(!etlLog.error){
+				etlLog.status = "error";
+				etlLog.error = "Chyba při čtení CSV: " + err.message;
+				etlLog.save();
+			}
+		});	
 
-		// Transformer to convert 2D CSV structure to JSON tree. Takes CSV source row by row and returns the whole data bundle at end.
+		// Transformer to convert 2D CSV structure to JSON tree. Takes CSV source row by row and writes the whole data bundle to DB at end, meanwhile it writes invoices as they go
 		var transformer = new ExpenditureTransformer(profileId, year);
 
+		// keep track of how many items have been written
 		transformer.on("writeDB",(type,count) => counter[type] += count);
 
-		transformer.on("warning", warning => etlLog.warnings.push(warning));
+		// save warnings to the ETL document
+		transformer.on("warning", warning => warnings.push(warning));
 
-		transformer.on("error", e => {
-			etlLog.status = "error";
-			etlLog.errors.push({name:e.name,message:e.message});
-			etlLog.save();
+		// listen for errors on the transformation stream
+		transformer.on("error", err => {
+			// if there hasn't been already some error (error in other piped stream doesn't stop other streams in pipe), then write the error result
+			if(!etlLog.error){
+				etlLog.status = "error";
+				etlLog.error = err.message;
+				etlLog.save();
+			}
 		});	
 
 		transformer.on("closeDB", () => {
-			etlLog.status = "success";
-			etlLog.result = "Úspěšně nahráno " + counter.invoices + " faktur, " + counter.eventBudgets + " rozpočtů investičních akcí a " + counter.budgets + " rozpočet obce";
-			etlLog.save();
+			// if there hasn't been already some error (error in other piped stream doesn't stop other streams in pipe), then write the error result
+			if(!etlLog.error){
+				etlLog.status = "success";
+				etlLog.result = "Úspěšně nahráno " + counter.invoices + " faktur, " + counter.eventBudgets + " rozpočtů investičních akcí a " + counter.budgets + " rozpočet obce";
+				etlLog.warnings = warnings;
+				etlLog.save();
+			}
 		});
 
 		// Clear old data. We always replace entire year block of data. Data is intentionally partitioned in DB to make this easy.
@@ -67,7 +103,7 @@ module.exports = function(filePath, profileId, year){
 		clearOld.push(Invoice.remove({profile:profileId,year:year}));
 
 		// After all clearing finished, launch the import
-		Promise.all(clearOld).then(errs => {
+		Promise.all(clearOld).then(values => {
 
 			// TODO: If clearing fails, cancel import (and possibly revert???)
 			// TODO: if(errs.some(item => item)) { }

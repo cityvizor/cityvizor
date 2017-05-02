@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var etlSchema = mongoose.Schema({
 	"profile": {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
+	"year": Number,
 	"date": Date,
 	"status": String,
 	

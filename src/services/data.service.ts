@@ -112,11 +112,12 @@ export class DataService {
 		return new FileUploader({
 			url: "/api/import/expenditures/",
 			authToken: "Bearer " + this.userService.getToken(),
-			autoUpload: true,
+			autoUpload: false,
 			additionalParameter: {
 				profile: profileId,
 				year: year
-			}
+			},
+			headers: [{name:"Accept",value:"application/json"}]
 		});
 	}
 	
@@ -125,10 +126,11 @@ export class DataService {
 		return new FileUploader({
 			url: "/api/import/events/",
 			authToken: "Bearer " + this.userService.getToken(),
-			autoUpload: true,
+			autoUpload: false,
 			additionalParameter: {
 				profile: profileId
-			}
+			},
+			headers: [{name:"Accept",value:"application/json"}]
 		});
 	}
 	
@@ -150,8 +152,13 @@ export class DataService {
 		return this.http.delete("/api/users/" + userId).toPromise();
 	}
 	
+	/* ETLs */
 	getETLs(options?){
 		return this.http.get("/api/etl" + toParams(options)).toPromise().then(response => response.json());	
+	}
+	
+	getLatestETLs(profileId,options?){
+		return this.http.get("/api/etl/latest/" + profileId + toParams(options)).toPromise().then(response => response.json());	
 	}
 	
 }

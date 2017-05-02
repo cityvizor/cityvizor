@@ -56,10 +56,10 @@ section:nth-child(even) {
 	background: #f4faff;
 }
 
-input:valid:not(.novalidate)  {
+input:valid:not(.novalidate):not([type="file"]) {
   border-left: 5px solid #42A948 !important; /* green */
 }
-input:invalid:not(.novalidate)  {
+input:invalid:not(.novalidate):not([type="file"])  {
   border-left: 5px solid #a94442 !important; /* red */
 }
 
