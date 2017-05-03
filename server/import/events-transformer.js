@@ -55,6 +55,8 @@ module.exports = class EventTransformer extends Transform {
 			});
 
 			if(missingMandatory.length) err = new Error("Hlavička CSV: nenalezena povinná pole " + missingMandatory.map(key => headerNames[key].join("/")).join(", ") + ".");
+			
+			return next();
 		}
 
 		// make input for database and send it to pipe
