@@ -29,6 +29,10 @@ module.exports = {
 		"list": true
 	},
 	
+	"profile-contracts": {
+		"list": true
+	},
+	
 	"user": {
 		"login": true
 	},

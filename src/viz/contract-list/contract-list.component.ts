@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { ToastService } 		from '../../services/toast.service';
-import { YQLService } 		from '../../services/yql.service';
+import { DataService } 		from '../../services/data.service';
 
 @Component({
 	moduleId: module.id,
@@ -16,10 +16,13 @@ export class ContractListComponent {
 	@Input()
 	set profile(profile: any){
 		if(profile && this.ico !== profile.entity.ico) {
+			this.profileId = profile._id;
 			this.ico = profile.entity.ico;
 			this.loadData();
 		}
 	}
+	
+	profileId:string;
 	
 	ico:string;
 
@@ -31,38 +34,12 @@ export class ContractListComponent {
 
 	infoWindowClosed:boolean;
 
-	constructor(private yql:YQLService, private toastService:ToastService) { }
+	constructor(private dataService:DataService, private toastService:ToastService) { }
 
 	loadData(){
-		
-		var query = "select * from html where url='https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=" + this.limit + "&do=searchResultList-setLimit&subject_idnum=" + this.ico + "&all_versions=0' and xpath='//*[@id=\"snippet-searchResultList-list\"]/table/tbody/tr'";
-		
-		this.loading = true;
-		
-		this.yql.query(query)
-			.then(data => {
-			
-				this.loading = false;
-			
-				data.query.results.tr.forEach(row => {
-					let amount = this.parseAmount(row.td[4].content);
-					let contract = {
-						"publisher": row.td[0].content.trim(),
-						"name":  row.td[1].content.trim(),
-						"published": this.parseDate(row.td[3].content),
-						"amount": amount[0],
-						"currency": amount[1],
-						"counterparty": row.td[5].content.trim(),
-						"url": "https://smlouvy.gov.cz" + row.td[6].a.href
-					};
-					this.contracts.push(contract);
-				});
-				this.loading = false;
-			})
-			.catch(err => {
-				this.toastService.toast("Nastala chyba při stahování dat z registru smluv","error");
-			});
-		 
+		this.dataService.getProfileContracts(this.profileId)
+			.then(contracts => this.contracts = contracts)
+			.catch(err => this.toastService.toast("error","Nastala chyba při získávání smluv z registru"));
 	 }
 
 	parseAmount(string){

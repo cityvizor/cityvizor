@@ -76,6 +76,8 @@ router.use("/exports", (req,res) => res.sendStatus(404));
 /* PROFILE DATA */
 router.use("/profiles/:profile/budgets",require("../api/profile-budgets"));
 
+router.use("/profiles/:profile/contracts",require("../api/profile-contracts"));
+
 router.use("/profiles/:profile/dashboard",require("../api/profile-dashboard"));
 
 router.use("/profiles/:profile/events",require("../api/profile-events"));

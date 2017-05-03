@@ -21,5 +21,8 @@ mongo-express-config.js
 # uploads
 /uploads
 
+# exports
+/exports
+
 # misc
 npm-debug.log

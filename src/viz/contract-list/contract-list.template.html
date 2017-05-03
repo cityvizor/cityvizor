@@ -21,8 +21,8 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let contract of contracts">
-				<td>{{contract.published | date:"d. M. y"}}</td>
-				<td>{{contract.name}}</td>
+				<td>{{contract.date | date:"d. M. y"}}</td>
+				<td>{{contract.title}}</td>
 				<td>{{contract.counterparty}}</td>
 				<td class="amount">{{(contract.amount === null ? "-" : contract.amount | money:0:false)}}</td>
 				<td>{{contract.currency}}</td>
