@@ -1,12 +1,9 @@
-# development files
-/src
-/scripts
-/server/server-ref.js
-/server/server-dev.js
-/server/mongo-express*
-/tsconfig.json
-/tsconfig-aot.json
-/rollup-config.js
+# compiled test output
+/src/**/*.js
+/src/**/*.js.map
+!systemjs.config.js
+!index.html
+!index.ts
 
 # compilation byproducts
 /build/src
@@ -19,6 +16,7 @@ mongo-express-config.js
 # dependencies
 /node_modules
 /build/node_modules
+/typings
 
 # uploads
 /uploads
