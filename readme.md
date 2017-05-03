@@ -46,7 +46,7 @@ npm start
 Instalace:
 ```
 npm install -g forever forever-service
-sudo forever-service install cityvizor -s server/server.js
+sudo forever-service install cityvizor -s server/server.js -e "NODE_ENV=production"
 ```
 
 Spuštění/vypnutí/restart
