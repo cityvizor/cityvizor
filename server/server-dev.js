@@ -19,7 +19,7 @@ mongoose.connect('mongodb://localhost/cityvizor');
 
 /* Mongo Express */
 var mongo_express = require('mongo-express/lib/middleware');
-var mongo_express_config = require('./mongo-config.js');
+var mongo_express_config = require('./mongo-express-config.js');
 app.use('/db', mongo_express(mongo_express_config))
 
 

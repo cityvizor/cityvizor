@@ -10,7 +10,7 @@
 /build/node_modules
 
 # sensitive data
-mongo-config.js
+mongo-express-config.js
 /cert/*.pem
 
 # dependencies

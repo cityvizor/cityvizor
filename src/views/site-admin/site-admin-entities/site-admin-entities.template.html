@@ -1,12 +1,10 @@
-<h2 class="hidden">Profily</h2>
+<h2 class="hidden">Obce</h2>
 
 <div *ngIf="entityLoading" class="loading">
   <p>Načítám...</p>  
 </div>
 
-<!--<site-admin-entity [entity]="currentEntity" (save)="saveEntity($event)" (delete)="deleteEntity($event)" (close)="selectEntity(null)"></site-admin-entity>-->
-
-
+<site-admin-entity [entity]="currentEntity" (save)="saveEntity($event)" (delete)="deleteEntity($event)" (close)="selectEntity(null)"></site-admin-entity>
 
 <div class="entities">
 
@@ -40,7 +38,7 @@
     <tbody>
       <tr *ngFor="let entity of entities.docs" [class.info]="currentEntity?._id === entity._id" (click)="selectEntity(entity._id)">
         <td>{{entity.name}}</td>
-        <td>{{entity.address.postalCode | postalCode}}</td>
+        <td>{{entity.address?.postalCode | postalCode}}</td>
         <td>{{entity.ico}}</td>
       </tr>
   </table>

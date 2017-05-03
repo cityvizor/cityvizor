@@ -1,0 +1,115 @@
+
+<div *ngIf="entity" class="entity">
+
+  <a (click)="close.emit()" class="close"><i class="fa fa-times fa-lg" aria-hidden="true"></i></a>
+
+  <h3>{{entity.name}}</h3>
+
+  <div class="row">
+
+    <div class="col-sm-9 editform">
+      <form class="form-horizontal" (submit)="saveEntity(entityForm)" #entityForm="ngForm">
+
+        <div class="form-group">
+          <label for="input-id" class="col-sm-3 control-label">ZÚJ</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="input-id" name="_id" [ngModel]="entity._id" disabled>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="input-name" class="col-sm-3 control-label">Název</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="input-name" name="name" [ngModel]="entity.name" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="input-gps1" class="col-sm-3 control-label">GPS souřadnice</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <span class="input-group-addon">N</span>
+              <input type="text" class="form-control" id="input-gps1" name="gps[1]" [ngModel]="entity.gps[1]" required pattern="^\d+\.\d+$">
+              <span class="input-group-addon">E</span>
+              <input type="text" class="form-control"name="gps[0]" [ngModel]="entity.gps[0]" required pattern="^\d+\.\d+$">
+              <span class="input-group-addon"><a>mapa</a></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="input-phone" class="col-sm-3 control-label optional">Telefon</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="input-phone" name="phone" [ngModel]="entity.phone">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="input-email" class="col-sm-3 control-label optional">E-mail</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="input-email" name="email" [ngModel]="entity.email">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="input-dataBox" class="col-sm-3 control-label optional">Datová schránka</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="input-databox" name="dataBox" [ngModel]="entity.dataBox">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="input-ico" class="col-sm-3 control-label optional">IČO</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="input-ico" name="ico" [ngModel]="entity.ico" pattern="^\d{8}$">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="input-address-street" class="col-sm-3 control-label optional">Adresa</label>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <span class="input-group-addon">Ulice:</span>
+              <input type="text" class="form-control" id="input-address" name="address[street]" [ngModel]="entity.address?.street">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="input-group">
+              <span class="input-group-addon">Číslo:</span>
+              <input type="text" class="form-control" name="address[streetNo]" [ngModel]="entity.address?.streetNo">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-5">
+            <div class="input-group">
+              <span class="input-group-addon">Obec:</span>
+              <input type="text" class="form-control" name="address[city]" [ngModel]="entity.address?.city">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <span class="input-group-addon">PSČ:</span>
+              <input type="text" class="form-control" name="address[postalCode]" [ngModel]="entity.address?.postalCode" pattern="^\d{5}$">
+            </div>
+          </div>
+        </div>
+        
+        <div class="submit">
+          <button type="submit" class="btn btn-primary" [disabled]="!entityForm.valid">Uložit změny</button>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="col-sm-3 actions">
+
+      <h4 class="hidden">Akce</h4>
+      <div class="form-group">
+        <button type="button" class="btn btn-danger" (click)="deleteEntity()">Smazat obec</button>
+      </div>
+    </div>
+
+  </div>
+</div>

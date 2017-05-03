@@ -1,0 +1,11 @@
+h3{margin-top:0;}
+
+.entity{position:relative;min-height:250px;padding:20px;margin:20px 0;background-color:#eee;}
+.entity form{padding:10px;}
+.entity form .submit{clear:both;text-align:right;}
+.entity .close{position:absolute;top:10px;right:10px;color:#333;}
+.entity label.optional{font-weight:normal;}
+
+.editform{border-right:1px solid #666;}
+
+.actions button{display:block;width:100%;margin-bottom:10px;}

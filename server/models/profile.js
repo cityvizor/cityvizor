@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 
+var Entity = require("./entity");
+
 var profileSchema = mongoose.Schema({
 	"active": Boolean,
 	"url": {type: String, index: true },

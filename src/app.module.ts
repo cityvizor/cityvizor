@@ -34,6 +34,7 @@ import { SiteAdminProfileComponent } from "./views/site-admin/site-admin-profile
 import { SiteAdminUsersComponent } from "./views/site-admin/site-admin-users/site-admin-users.component";
 import { SiteAdminUserComponent } from "./views/site-admin/site-admin-user/site-admin-user.component";
 import { SiteAdminEntitiesComponent } from "./views/site-admin/site-admin-entities/site-admin-entities.component";
+import { SiteAdminEntityComponent } from "./views/site-admin/site-admin-entity/site-admin-entity.component";
 
 // Services
 import { DataService } 		from './services/data.service';
@@ -83,7 +84,7 @@ export function getAuthHttp(http) {
 		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, SiteAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
-		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent,
+		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe
 	],
