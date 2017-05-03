@@ -13,7 +13,7 @@ var limit = 20;
 
 module.exports = function(cb){
 
-	mongoose.connect('mongodb://localhost/cityvizor');
+	//mongoose.connect('mongodb://localhost/cityvizor');
 	
 	// get all the profiles
 	Profile.find({}).populate("entity","ico")
@@ -24,10 +24,11 @@ module.exports = function(cb){
 			// starts the loop to download contracts
 			downloadContractsLoop(profiles,() => {
 				
-				mongoose.disconnect(() => {
+				/*mongoose.disconnect(() => {
 					console.log("DB disconnected.");
 					cb();
-				});
+				});*/
+				cb();
 				
 			});
 		});

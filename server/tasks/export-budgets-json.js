@@ -10,8 +10,8 @@ var exportsDir = __dirname + "/../../exports";
 
 module.exports = function(cb){
 	
-	mongoose.connect('mongodb://localhost/cityvizor');
-	console.log("DB connected.");
+	//mongoose.connect('mongodb://localhost/cityvizor');
+	//console.log("DB connected.");
 	
 	var path = exportsDir + '/budgets.json.zip';
 	var file = fs.createWriteStream(path);
@@ -19,10 +19,11 @@ module.exports = function(cb){
 	file.on("close",() => {
 		console.log("Budgets exported to " + path);
 		
-		mongoose.disconnect(() => {
+		/*mongoose.disconnect(() => {
 			console.log("DB disconnected.");
 			cb();
-		});
+		});*/
+		cb();
 		
 	});
 
