@@ -29,15 +29,15 @@ export class ChartBigbangComponent {
 	r: number = 500;
  	cx: number = 0;
  	cy: number = 0;
-	alpha: number = 1/10; // default rotation of the chart
+	alpha: number = 1/8; // default rotation of the chart
 	innerR: number = 0.2; // relative to radius
 	minR: number = 0.22; // relative to radius
-	showAmounts: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
-	showGroupTitles: boolean = true; // shows/hides budgetAmount and expenditureAmount in circle of vizualization
+	showAmounts: boolean = true; // shows/hides budgetExpenditureAmount and expenditureAmount in circle of vizualization
+	showGroupTitles: boolean = true; // shows/hides budgetExpenditureAmount and expenditureAmount in circle of vizualization
 	
 	// maximum absolute dimension = max of maximum budget and maximum expenditures
 	maxAmount:number = 0;
-	totalBudgetAmount:number = 0;
+	totalBudgetExpenditureAmount:number = 0;
 	totalExpenditureAmount:number = 0;
 	 
 	// animation settings
@@ -63,18 +63,18 @@ export class ChartBigbangComponent {
 	updateAmounts(data){
 		
 		var maxAmount = 0;
-		var totalBudgetAmount = 0;
+		var totalBudgetExpenditureAmount = 0;
 		var totalExpenditureAmount = 0;
 		
 		Object.keys(data).forEach(id => {
 			let item = data[id];
-			maxAmount = Math.max(maxAmount,item.budgetAmount,item.expenditureAmount);
-			totalBudgetAmount += item.budgetAmount;
+			maxAmount = Math.max(maxAmount,item.budgetExpenditureAmount,item.expenditureAmount);
+			totalBudgetExpenditureAmount += item.budgetExpenditureAmount;
 			totalExpenditureAmount += item.expenditureAmount;
 		});
 		
 		this.maxAmount = maxAmount;
-		this.totalBudgetAmount = totalBudgetAmount;
+		this.totalBudgetExpenditureAmount = totalBudgetExpenditureAmount;
 		this.totalExpenditureAmount = totalExpenditureAmount;
 	}
 	
@@ -85,7 +85,7 @@ export class ChartBigbangComponent {
 			let id = stripe.id;
 
 			stripe.innerSize = data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(data[id].expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
-			stripe.outerSize = data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(data[id].budgetAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
+			stripe.outerSize = data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(data[id].budgetExpenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
 		});
 	}
 	

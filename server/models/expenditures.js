@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 
 require("./profile");
-require("./entity");
 
 var budgetSchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	year: String,
-	budgetAmount: Number,
+	budgetExpenditureAmount: Number,
+	budgetIncomeAmount: Number,
 	expenditureAmount: Number,
 	incomeAmount: Number,
 	paragraphs: [{
@@ -14,11 +14,16 @@ var budgetSchema = mongoose.Schema({
 		events: [{
 			event: String,
 			name: String,
-			budgetAmount: Number,
-			expenditureAmount: Number,
-			incomeAmount: Number
+			budgetExpenditureAmount: Number,
+			expenditureAmount: Number
 		}],
-		budgetAmount: Number,
+		budgetExpenditureAmount: Number,
+		expenditureAmount: Number
+	}],
+	items: [{
+		id: String,
+		budgetExpenditureAmount: Number,
+		budgetIncomeAmount: Number,
 		expenditureAmount: Number,
 		incomeAmount: Number
 	}]
@@ -28,7 +33,8 @@ var eventSchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile", index:true},
 	event: String,
 	name: String,
-	budgetAmount: Number,
+	budgetExpenditureAmount: Number,
+	budgetIncomeAmount: Number,
 	expenditureAmount: Number,
 	incomeAmount: Number,
 	gps: [Number,Number],
@@ -42,23 +48,26 @@ var eventBudgetSchema = mongoose.Schema({
 	year: Number,
 	paragraphs: [{
 		id: String,
-		budgetAmount: Number,
+		budgetExpenditureAmount: Number,
+		budgetIncomeAmount: Number,
 		expenditureAmount: Number,
 		incomeAmount: Number
 	}],
 	items: [{
 		id: String,
-		budgetAmount: Number,
+		budgetExpenditureAmount: Number,
+		budgetIncomeAmount: Number,
 		expenditureAmount: Number,
 		incomeAmount: Number
 	}],
-	budgetAmount: Number,
+	budgetExpenditureAmount: Number,
+	budgetIncomeAmount: Number,
 	expenditureAmount: Number,
 	incomeAmount: Number
 });
 eventBudgetSchema.index({ profile: 1, event: 1 });
 
-var invoiceSchema = mongoose.Schema({
+var paymentSchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	event: String,
 	year: Number,
@@ -70,12 +79,12 @@ var invoiceSchema = mongoose.Schema({
 	counterpartyName: String,
 	description: String
 });
-invoiceSchema.index({ profile: 1, event: 1 });
-invoiceSchema.index({ profile: 1, event: 1, year: 1 });
+paymentSchema.index({ profile: 1, event: 1 });
+paymentSchema.index({ profile: 1, event: 1, year: 1 });
 
 module.exports = {
 	"Budget": mongoose.model('Budget', budgetSchema),
 	"Event": mongoose.model('Event', eventSchema),
 	"EventBudget": mongoose.model('EventBudget', eventBudgetSchema),
-	"Invoice": mongoose.model('Invoice', invoiceSchema)
+	"Payment": mongoose.model('Payment', paymentSchema)
 };

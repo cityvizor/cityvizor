@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
-			<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
+			<div *ngIf="infoWindowClosed" class="alert alert-info alert-dismissable fade in">
 				<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
 				<strong>Informace:</strong> Investice neboli investiční akce jsou v účetnictví analogií k projektu. Tedy když se rozhodne, že se například opraví chodník v ulici xxx, založí se investiční akce, která má začátek a konec, plánovaný objem prostředků. Potom se, pro účely rozpočtování, přiřadí rozpočtové položky a pragrafy. 
 	Skrze investiční akce můžete velmi jednoduše získat přehled o tom, co se ve vašem městě děje a jaké jsou plány. 
@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xs-2 col-xs-offset-4">
+		<div class="col-xs-2">
 			<button class="btn btn-default btn-sm">
 				<i class="fa fa-chevron-left"></i> 2016
 			</button>
@@ -29,51 +29,19 @@
 	</div>
 	
 	
-	<div class="row eETimeline">
-		<div class="col-xs-offset-4 col-xs-8 text-right">
-			<div class="rulerBars" *ngFor="let mesic of viewOptions.monthsArray; let i = index" [style.width]="100/viewOptions.monthsArray.length+'%'">
-				<label>{{mesic}}</label>
-			</div>
-		</div>
-	<div class="EEViz">
-		<div class="row expenditureEventRow" *ngFor="let event of events">
-			<div class="col-xs-4">
-				<a class="small" (click)="openEvent(event)">{{event.name}}</a>
-				<div class="eventBar" [style.width]="EventBarFrac(event)" ></div>
-			</div>
-			<div class="col-xs-8 timelineBar">
-				<span *ngFor="let invoice of event.invoices" 
-							class="invoiceBar tooltip"
-							[style.left]="InvoiceBarPositionFrac(invoice)"
-							[style.height]="InvoiceBarHeightFrac(event, invoice)">
-  				<span class="tooltiptext">{{invoice.amount | money:0:true}} Kč ({{invoice.date | date:'d. M. y' }})</span>
-				</span>
-			</div>
-		</div>
-	</div>
-
-	<div class="row eETimeline hidden">
-		<p class="text-center text-muted small">2017</p>
-		<div class="rulerBars">
-			<label *ngFor="let mesic of nazvyMesice">{{mesic}}</label>
-		</div>
-
-
-
-		<div class="eEBars hidden">
-			<div class="eEBarBounds" *ngFor="let event of events" [style.margin-left]="100*getDateRangeFrac(event,'from')+'%'" [style.margin-right]="(100*(1-getDateRangeFrac(event,'till')))+'%'" (click)="openEvent(event)">
-				<div class="barArrow leftArrow" *ngIf="isOverlapToPast(event.from)">
-					<i class="fa fa-angle-double-right"></i>
-				</div>
-				<div class="amountBubble" [style.width]="getAmountBubbleSize(event.budgetAmount)+'px'" [style.height]="getAmountBubbleSize(event.budgetAmount)+'px'" ></div>
-				<div class="eEBar">
-					<div class="title">{{event.name}}</div>
-				</div>
-				<div class="barArrow rightArrow" *ngIf="isOverlapToFuture(event.till)">
-					<i class="fa fa-angle-double-right"></i>
-				</div>
-			</div>
-		</div>
+	<div class="row">
+		<table>
+			<thead>
+				<th>Název akce</th>
+				<th>Částka</th>
+			</thead>
+			<tbody>
+				<tr *ngFor="let event of events">
+					<td>{{event.name}}</td>
+					<td>{{event.amount}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
 

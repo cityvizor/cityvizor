@@ -16,6 +16,7 @@ Component for graphical vizualization of expenditures
 @Component({
 	moduleId: module.id,
 	selector: 'expenditure-viz',
+  host: {'(window:keydown)': 'hotkeys($event)'},
 	templateUrl: 'expenditure-viz.template.html',
 	styleUrls: ['expenditure-viz.style.css']
 })
@@ -48,8 +49,8 @@ export class ExpenditureVizComponent{
 		
 		expenditureAmount: 0,
 		maxExpenditureAmount: 0,
-		budgetAmount: 0,
-		maxBudgetAmount: 0,
+		budgetExpenditureAmount: 0,
+		maxBudgetExpenditureAmount: 0,
 		
 		groupIndex: {},
 		paragraphIndex: {},
@@ -62,6 +63,8 @@ export class ExpenditureVizComponent{
 	groups: Array<{"id": string, "title": string}>;
 	groupIndex:any = {};
 
+	groupIdArrayIndex = [];
+
 	paragraphNames: {};
 
 	// which group (drawing stripe) is hovered at the moment
@@ -72,17 +75,40 @@ export class ExpenditureVizComponent{
 
 	openedEvent: any = null;
 
-	infoWindowClosed:boolean;
+	openedGroupList: boolean = true;
 
 	vizScale: number = 1;	
 	
 	constructor(private _ds: DataService, private _toastService: ToastService){
 		this.groups = ChartGroups; // set groups
-		this.groups.forEach(group => this.groupIndex[group.id] = group);
-		this.selectedGroup = this.groups[0].id;
+		this.groups.forEach(group => {
+			this.groupIndex[group.id] = group;
+			this.groupIdArrayIndex[this.groupIdArrayIndex.length]=group.id;
+		});
+		//this.selectedGroup = this.groups[0].id;
 		this.paragraphNames = paragraphNames;
 	}
-	 
+
+	hotkeys(event){
+		//ROTATE BIG BANG CHART BY ONE GROUP
+		if(event.keyCode==37 || event.keyCode==39) {
+			var arrayIndex = (this.selectedGroup===null)? 1 : this.groupIdArrayIndex.indexOf(this.selectedGroup);
+			//LEFT
+			if(event.keyCode==37) {
+				if(arrayIndex>0) arrayIndex--;
+				else arrayIndex = this.groupIdArrayIndex.length-1;
+				this.selectedGroup = this.groupIdArrayIndex[arrayIndex];
+			}
+			//RIGHT
+			if(event.keyCode==39) {
+				if(arrayIndex<(this.groupIdArrayIndex.length-1)) arrayIndex++;
+				else arrayIndex = 0;
+			}
+
+			this.selectedGroup = this.groupIdArrayIndex[arrayIndex];
+		}
+  }
+
 	 // numbers are parsed from CSV as text
 	string2number(string){
 		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1); //sometimes minus is at the end, put it to first character
@@ -148,7 +174,7 @@ export class ExpenditureVizComponent{
 		if(!data.groupIndex[groupId]){
 			var group = {
 				id: groupId,
-				budgetAmount:0,
+				budgetExpenditureAmount:0,
 				expenditureAmount:0,
 				paragraphs: []
 			}
@@ -165,12 +191,12 @@ export class ExpenditureVizComponent{
 		data.paragraphIndex = {};
 		data.groupIndex = {};
 		
-		data.maxBudgetAmount = 0;
+		data.maxBudgetExpenditureAmount = 0;
 		data.maxExpenditureAmount = 0;
 		
 		data.paragraphs.forEach(paragraph => {
 			var group = this.getGroupByParagraph(data,paragraph);		
-			group.budgetAmount += paragraph.budgetAmount;
+			group.budgetExpenditureAmount += paragraph.budgetExpenditureAmount;
 			group.expenditureAmount += paragraph.expenditureAmount;
 			group.paragraphs.push(paragraph);
 			
@@ -178,7 +204,7 @@ export class ExpenditureVizComponent{
 		});
 		
 		data.groups.forEach(group => {
-			data.maxBudgetAmount = Math.max(data.maxBudgetAmount,group.budgetAmount);
+			data.maxBudgetExpenditureAmount = Math.max(data.maxBudgetExpenditureAmount,group.budgetExpenditureAmount);
 			data.maxExpenditureAmount = Math.max(data.maxExpenditureAmount,group.expenditureAmount);
 		});
 		
@@ -187,14 +213,14 @@ export class ExpenditureVizComponent{
 	sortData(data){
 
 		var field1 = "expenditureAmount";
-		var field2 = "budgetAmount";
+		var field2 = "budgetExpenditureAmount";
 		
 		data.groups.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
 		data.paragraphs.forEach(paragraph => {
 			paragraph.events.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
 		});
 		
-		// this.groups.sort((a,b) => data.groupIndex[a.id] && data.groupIndex[b.id] ? data.groupIndex[a.id].budgetAmount - data.groupIndex[b.id].budgetAmount : 0);
+		// this.groups.sort((a,b) => data.groupIndex[a.id] && data.groupIndex[b.id] ? data.groupIndex[a.id].budgetExpenditureAmount - data.groupIndex[b.id].budgetExpenditureAmount : 0);
 	}
 
 	openEvent(eventId){
@@ -213,12 +239,12 @@ export class ExpenditureVizComponent{
 
 	/* VIZ HELPER FUNCTIONS */
 	getBarBudgetPercentage(group) {
-		var maxAmount = Math.max(this.budget.maxBudgetAmount,this.budget.maxExpenditureAmount);
-		return this.budget.groupIndex[group.id] && maxAmount ? Math.round(Math.max(this.budget.groupIndex[group.id].budgetAmount,this.budget.groupIndex[group.id].expenditureAmount) / maxAmount * 100) : 0;
+		var maxAmount = Math.max(this.budget.maxBudgetExpenditureAmount,this.budget.maxExpenditureAmount);
+		return this.budget.groupIndex[group.id] && maxAmount ? Math.round(Math.max(this.budget.groupIndex[group.id].budgetExpenditureAmount,this.budget.groupIndex[group.id].expenditureAmount) / maxAmount * 100) : 0;
 	}
 	getBarExpenditurePercentage(group) {
 		if(!this.budget.groupIndex[group.id]) return 0;
-		return this.budget.groupIndex[group.id].budgetAmount > this.budget.groupIndex[group.id].expenditureAmount ? this.budget.groupIndex[group.id].expenditureAmount / this.budget.groupIndex[group.id].budgetAmount * 100 : 100;
+		return this.budget.groupIndex[group.id].budgetExpenditureAmount > this.budget.groupIndex[group.id].expenditureAmount ? this.budget.groupIndex[group.id].expenditureAmount / this.budget.groupIndex[group.id].maxBudgetExpenditureAmount * 100 : 100;
 	}
 	
 

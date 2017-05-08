@@ -69,8 +69,8 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId + "/budgets").toPromise().then(response => response.json());
 	}
 	
-	getProfileContracts(profileId){
-		return this.http.get("/api/profiles/" + profileId + "/contracts").toPromise().then(response => response.json());
+	getProfileContracts(profileId,options?){
+		return this.http.get("/api/profiles/" + profileId + "/contracts" + toParams(options)).toPromise().then(response => response.json());
 	}
 	
 	getProfileDashboardDashboard(profileId){
@@ -89,8 +89,8 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId + "/events/timeline/" + year).toPromise().then(response => response.json());
 	}
 	
-	getProfileLatestInvoices(profileId){
-		return this.http.get("/api/profiles/" + profileId + "/invoices/latest").toPromise().then(response => response.json());
+	getProfilePayments(profileId,options?){
+		return this.http.get("/api/profiles/" + profileId + "/payments" + toParams(options)).toPromise().then(response => response.json());
 	}
 	
 	getProfileManagers(profileId){

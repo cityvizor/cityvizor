@@ -1,6 +1,6 @@
 <svg style="width: 100%;" viewBox="0 0 1000 1000" #donutchart [@scrollAnimation]="visible ? 'visible' : 'hidden'">
-	<path [attr.d]="generateStripePath(500,500,250,400,data.budgetAmount ? data.expenditureAmount / data.budgetAmount : 0,data.budgetAmount ? 1 - data.expenditureAmount / data.budgetAmount : 0)" stroke-width="10" stroke="#fff" fill="#ff9491" />
+	<path [attr.d]="generateStripePath(500,500,250,400,data.budgetExpenditureAmount ? data.expenditureAmount / data.budgetExpenditureAmount : 0,data.budgetExpenditureAmount ? 1 - data.expenditureAmount / data.budgetExpenditureAmount : 0)" stroke-width="10" stroke="#fff" fill="#ff9491" />
 
-	<path *ngIf="data.expenditureAmount" [attr.d]="generateStripePath(500,500,250,500,0,data.budgetAmount ? data.expenditureAmount / data.budgetAmount : 0)" stroke-width="10" stroke="#E73431" fill="#E73431" />
-	<path *ngIf="data.budgetAmount && data.expenditureAmount === 0" [attr.d]="generateStripePath(500,500,250,500,0,0.001)" stroke-width="10" stroke="#E73431" fill="#E73431" />
+	<path *ngIf="data.expenditureAmount" [attr.d]="generateStripePath(500,500,250,500,0,data.budgetExpenditureAmount ? data.expenditureAmount / data.budgetExpenditureAmount : 0)" stroke-width="10" stroke="#E73431" fill="#E73431" />
+	<path *ngIf="data.budgetExpenditureAmount && data.expenditureAmount === 0" [attr.d]="generateStripePath(500,500,250,500,0,1)" stroke-width="10" stroke="#E73431" fill="#E73431" />
 </svg>

@@ -82,7 +82,7 @@ router.use("/profiles/:profile/dashboard",require("../api/profile-dashboard"));
 
 router.use("/profiles/:profile/events",require("../api/profile-events"));
 
-router.use("/profiles/:profile/invoices",require("../api/profile-invoices"));
+router.use("/profiles/:profile/payments",require("../api/profile-payments"));
 
 router.use("/profiles/:profile/managers",require("../api/profile-managers"));
 

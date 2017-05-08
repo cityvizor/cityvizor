@@ -18,9 +18,7 @@
 			</ul>
 		</div>
 	</div>
-	<h2>
-		Faktury <span class="text-muted">(2015-2017)</span>
-	</h2>
+	<h2>Faktury  a platby</h2>
 	
 	
 	<table class="table table-responsive small">
@@ -38,14 +36,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let invoice of event.invoices">
-				<td>{{invoice.date | date:"d. M. y"}}</td>
-				<td>{{invoice.counterpartyName}}</td>
-				<td>{{invoice.counterpartyId}}</td>
-				<td>{{invoice.item}}</td>
-				<td>{{invoice.paragraph}}</td>
-				<td>{{invoice.description}}</td>
-				<td class="text-right">{{invoice.amount | money:0:false}} Kč</td>
+			<tr *ngFor="let payment of event.payments">
+				<td>{{payment.date | date:"d. M. y"}}</td>
+				<td>{{payment.counterpartyName}}</td>
+				<td>{{payment.counterpartyId}}</td>
+				<td>{{payment.item}}</td>
+				<td>{{payment.paragraph}}</td>
+				<td>{{payment.description}}</td>
+				<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
 				<td></td>
 			</tr>
 		</tbody>
@@ -69,7 +67,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>{{budget.budgetAmount | money:0:true}}</td>
+					<td>{{budget.budgetExpenditureAmount | money:0:true}}</td>
 					<td>{{budget.expenditureAmount | money:0:true}}</td>
 				</tr>
 			</tbody>
@@ -87,7 +85,7 @@
 			<tbody>
 				<tr *ngFor="let paragraph of budget.paragraphs">
 					<td>{{paragraphNames[paragraph.id]}}</td>
-					<td class="text-right">{{paragraph.budgetAmount | money:0:true}} Kč</td>
+					<td class="text-right">{{paragraph.budgetExpenditureAmount | money:0:true}} Kč</td>
 					<td class="text-right">{{paragraph.expenditureAmount | money:0:true}} Kč</td>
 					<td></td>
 				</tr>
@@ -106,7 +104,7 @@
 			<tbody>
 				<tr *ngFor="let item of budget.items">
 					<td>{{itemNames[item.id]}}</td>
-					<td class="text-right">{{item.budgetAmount | money:0:true}} Kč</td>
+					<td class="text-right">{{item.budgetExpenditureAmount | money:0:true}} Kč</td>
 					<td class="text-right">{{item.expenditureAmount | money:0:true}} Kč</td>
 					<td></td>
 				</tr>

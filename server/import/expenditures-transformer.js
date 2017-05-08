@@ -3,13 +3,10 @@ var Transform = require('stream').Transform;
 var mongoose = require("mongoose");
 var ExpendituresSchema = require("../models/expenditures");
 var Budget = ExpendituresSchema.Budget;
-var Event = ExpendituresSchema.Event;
 var EventBudget = ExpendituresSchema.EventBudget;
-var Invoice = ExpendituresSchema.Invoice;
+var Payment = ExpendituresSchema.Payment;
 
 module.exports = class ExpenditureTransformer extends Transform {
-
-	
 
 	constructor(profileId,year) {
 		
@@ -46,27 +43,34 @@ module.exports = class ExpenditureTransformer extends Transform {
 		this.i = 0;
 		
 		// array to store all the Promises with requests to DB so that we can track when everything resolves
-		this.requests = [];
+		this.requests = [];		
 		
-		this.invoices = [];
-		
-		// object to store budget data and array-indexes through the transform
+		// DB object to store budget data
 		this.budget = {
 			profile: this.profileId,
 			year: this.year,
-			budgetAmount: 0,
+			paragraphs: [],
+			items: [],
+			budgetExpenditureAmount: 0,
+			budgetIncomeAmount: 0,
 			expenditureAmount: 0,
-			incomeAmount: 0,
-			paragraphs: []
+			incomeAmount: 0
 		};
-		this.paragraphIndex = {};
-		this.paragraphEventIndex = {};		
-		
-		// variables to store event budgets
+
+		// Array to store event budgets of EventBudget objects
 		this.eventBudgets = [];
+		
+		// Array to store event budgets of Payment objects
+		this.payments = [];
+		
+		/* INDICES FOR FASTER LOOKUP */
+		this.budgetItemIndex = {};
+		this.budgetParagraphIndex = {};
+		this.budgetParagraphEventIndex = {};
+		
 		this.eventBudgetIndex = {};
-		this.eventBudgetParagraphIndex = {};
 		this.eventBudgetItemIndex = {};
+		this.eventBudgetParagraphIndex = {};
 		
 		this.headerMap = {};
 	}
@@ -101,21 +105,59 @@ module.exports = class ExpenditureTransformer extends Transform {
 	}
 
 	/**
+		* get budget item object. in case it doesnt exist, create it and make a record in item index
+		**/
+	getBudgetItem(itemId) {
+		
+		if (!this.budgetItemIndex[itemId]){
+			var item = {
+				id: itemId,
+				budgetExpenditureAmount: 0,
+				budgetIncomeAmount: 0,
+				expenditureAmount: 0,
+				incomeAmount: 0
+			};
+			this.budget.items.push(item);
+			this.budgetItemIndex[itemId] = item;
+		}
+		
+		return this.budgetItemIndex[itemId];
+	}
+	
+	/**
 		* get budget paragraph object. in case it doesnt exist, create it and make a record in paragraph index
 		**/
-	getParagraph(paragraphId) {
-		if (!this.paragraphIndex[paragraphId]) {
+	getBudgetParagraph(paragraphId) {
+		
+		if (!this.budgetParagraphIndex[paragraphId]){
 			var paragraph = {
 				id: paragraphId,
+				budgetExpenditureAmount: 0,
 				expenditureAmount: 0,
-				budgetAmount: 0,
-				incomeAmount: 0,
 				events: []
 			};
 			this.budget.paragraphs.push(paragraph);
-			this.paragraphIndex[paragraphId] = paragraph;
+			this.budgetParagraphIndex[paragraphId] = paragraph;
 		}
-		return this.paragraphIndex[paragraphId];
+		
+		return this.budgetParagraphIndex[paragraphId];
+	}
+	
+	getBudgetParagraphEvent(budgetParagraph,eventId){
+		var id = budgetParagraph.id + "-" + eventId;
+		
+		if (!this.budgetParagraphEventIndex[id]) {
+			
+			var budgetParagraphEvent = {
+				event: eventId,
+				budgetExpenditureAmount: 0,
+				expenditureAmount: 0
+			};
+			
+			budgetParagraph.events.push(budgetParagraphEvent);
+			this.budgetParagraphEventIndex[id] = budgetParagraphEvent;
+		}
+		return this.budgetParagraphEventIndex[id];
 	}
 	
 	
@@ -123,86 +165,63 @@ module.exports = class ExpenditureTransformer extends Transform {
 		* get event budget object. in case it doesnt exist, create it and make a record in event budget index
 		**/
 	getEventBudget(eventId){
-		var budget = this.eventBudgetIndex[eventId];		
-		
-		if(!budget){
-			budget = {
+
+		if(!this.eventBudgetIndex[eventId]){
+			var budget = {
 				event: eventId,
 				profile: this.profileId,
 				year: this.year,
 				paragraphs: [],
 				items: [],
+				budgetExpenditureAmount: 0,
+				budgetIncomeAmount: 0,
 				expenditureAmount: 0,
-				budgetAmount: 0,
 				incomeAmount: 0
 			};
+			
 			this.eventBudgets.push(budget);
 			this.eventBudgetIndex[eventId] = budget;
 		}
 		
-		return budget;
+		return this.eventBudgetIndex[eventId];
 	}
 
 	getEventBudgetParagraph(eventBudget, paragraphId) {
-		var epId = eventBudget.event + "-" + paragraphId;
-		
-		var eventBudgetParagraph = this.eventBudgetParagraphIndex[epId];
-		
-		if (!this.eventBudgetParagraphIndex[epId]) {
+		var ebpId = eventBudget.event + "-" + paragraphId;
+
+		if (!this.eventBudgetParagraphIndex[ebpId]) {
 			
-			eventBudgetParagraph = {
+			var eventBudgetParagraph = {
 				id: paragraphId,
-				expenditureAmount: 0,
-				budgetAmount: 0,
-				incomeAmount: 0
+				budgetExpenditureAmount: 0,
+				expenditureAmount: 0			
 			};
 			
 			eventBudget.paragraphs.push(eventBudgetParagraph);
-			this.eventBudgetParagraphIndex[epId] = eventBudgetParagraph;
+			this.eventBudgetParagraphIndex[ebpId] = eventBudgetParagraph;
 		}
 		
-		return eventBudgetParagraph;
+		return this.eventBudgetParagraphIndex[ebpId];
 	}
 	
 	getEventBudgetItem(eventBudget, itemId) {
-		var epId = eventBudget.event + "-" + itemId;
+		var id = eventBudget.event + "-" + itemId;
 		
-		var eventBudgetItem = this.eventBudgetItemIndex[epId];
-		
-		if (!this.eventBudgetItemIndex[epId]) {
+		if (!this.eventBudgetItemIndex[id]) {
 			
-			eventBudgetItem = {
+			var eventBudgetItem = {
 				id: itemId,
+				budgetExpenditureAmount: 0,
+				budgetIncomeAmount: 0,
 				expenditureAmount: 0,
-				budgetAmount: 0,
 				incomeAmount: 0
 			};
 			
 			eventBudget.items.push(eventBudgetItem);
-			this.eventBudgetItemIndex[epId] = eventBudgetItem;
+			this.eventBudgetItemIndex[id] = eventBudgetItem;
 		}
 		
-		return eventBudgetItem;
-	}
-	
-	getParagraphEvent(paragraph,eventId){
-		var epId = paragraph.id + "-" + eventId;
-		
-		var paragraphEvent = this.paragraphEventIndex[epId];
-		
-		if (!paragraphEvent) {
-			
-			paragraphEvent = {
-				event: eventId,
-				expenditureAmount: 0,
-				budgetAmount: 0,
-				incomeAmount: 0
-			};
-			
-			paragraph.events.push(paragraphEvent);
-			this.paragraphEventIndex[epId] = paragraphEvent;
-		}
-		return paragraphEvent;
+		return this.eventBudgetItemIndex[id];
 	}
 	
 	string2number(string){
@@ -220,101 +239,112 @@ module.exports = class ExpenditureTransformer extends Transform {
 		return new Date(string);		
 	}
 
-	_write(item, enc, next) {
+	_write(row, enc, next) {
 		
+		// row counter
 		this.i++;
 		
-		// first row = header
-		if(this.i === 1){
-			return next(this.parseHeader(item));
-		}
+		// first row => parse header
+		if(this.i === 1) return next(this.parseHeader(row));
 		
+		// short for header map
 		var h = this.headerMap;
 		
-		var module = item[h.module];
+		
+		/* ASSOC ROW VALUES */
+		var module = row[h.module];
 
-		var paragraphId = item[h.paragraph];
-		var itemId = item[h.item];
-		var eventId = item[h.event];
+		var itemId = row[h.item];
+		var paragraphId = row[h.paragraph];
+		var eventId = row[h.event];
 		
-		var isIncome = item[h.type] ? (item[h.type] === "P") : (Number(itemId) < 5000);
+		var amountType = row[h.type];
+		if(!amountType && itemId) amountType = Number(itemId) < 5000 ? "P" : (Number(itemId) >= 5000  ? "V" : null);
 		
+		
+		/* GET AMOUNT TARGETS */
 		var budget = this.budget;
-
-		var paragraph = this.getParagraph(paragraphId);
+		var budgetItem = this.getBudgetItem(itemId);
+		var budgetParagraph = this.getBudgetParagraph(paragraphId);
+		var budgetParagraphEvent = this.getBudgetParagraphEvent(budgetParagraph,eventId);
 		
 		var eventBudget = this.getEventBudget(eventId);
-
-		var eventBudgetParagraph = this.getEventBudgetParagraph(eventBudget, paragraphId);
 		var eventBudgetItem = this.getEventBudgetItem(eventBudget, itemId);
+		var eventBudgetParagraph = this.getEventBudgetParagraph(eventBudget, paragraphId);
 		
-		var paragraphEvent = this.getParagraphEvent(paragraph,eventId);
 		
-		var amount = this.string2number(item[h.amount]);
+		/* GET AMOUNT */
+		var amount = this.string2number(row[h.amount]);
 		
+		
+		/* REPORT ERRORS */
 		// critical errors, skip item
 		if(isNaN(amount)) { this.emit("warning","Data: Nečitelná částka na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
-		if(!paragraphId && !isIncome) { this.emit("warning","Data: Neuveden paragraf na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
-		if(!module) { this.emit("warning","Data: Neuveden modul na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
-		if(!item[h.type] && !itemId) { this.emit("warning","Data: Neuvedeno zda se jedná o příjem či výdej ani rozpočtová položka na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
+		if(!row[h.type] && !itemId) { this.emit("warning","Data: Neuvedeno zda se jedná o příjem či výdej ani rozpočtová položka na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
 		
 		// noncritical errors
+		if(!module) this.emit("warning","Data: Neuveden modul na řádku " + this.i +  ".");
 		if(!amount) this.emit("warning","Data: Nulová částka na řádku " + this.i +  ".");
 		if(!itemId) this.emit("warning","Data: Neuvedena rozpočtová položka na řádku " + this.i +  ".");
-		if(!item[h.date]) this.emit("warning","Data: Neuvedeno datum na řádku " + this.i +  ".");
-		if(item[h.counterpartyId] && !item[h.counterpartyName]) this.emit("warning","Data: Neuvedeno jméno dodavatele na řádku " + this.i +  ".");
-	
-		// determine which module is the amount and assign to the corrrect property
-		var amountTarget;
+		if(!itemId && amountType === "V") this.emit("warning","Data: Neuveden paragraf na řádku " + this.i +  ".");
+		if(!row[h.date]) this.emit("warning","Data: Neuvedeno datum na řádku " + this.i +  ".");
+		if(row[h.counterpartyId] && !row[h.counterpartyName]) this.emit("warning","Data: Neuvedeno jméno dodavatele na řádku " + this.i +  ".");
+
+		if(this.i === 5) console.log(amount,module,amountType);
+		/* UPDATE AMOUNTS */
+		if(module === "ROZ" && amountType === "P") [budget, budgetItem, eventBudget, eventBudgetItem].map(obj => obj.budgetIncomeAmount += amount);
 		
-		/* Budget amount */
-		if(module === "ROZ" && Number(itemId) >= 5000) amountTarget = "budgetAmount";
+		else if(module === "ROZ" && amountType === "V") [budget, budgetItem, budgetParagraph, budgetParagraphEvent, eventBudget, eventBudgetItem, eventBudgetParagraph].map(obj => obj.budgetExpenditureAmount += amount);
 		
-		/* Income amount - budget items 1 - 4999 are income */
-		else if(isIncome) amountTarget = "incomeAmount";
+		else if(module !== "ROZ" && amountType === "P") [budget, budgetItem, eventBudget, eventBudgetItem].map(obj => obj.incomeAmount += amount);
 		
-		/* Expenditure amount */
-		else if(!isIncome) amountTarget = "expenditureAmount";
+		else if(module !== "ROZ" && amountType === "V") [budget, budgetItem, budgetParagraph, budgetParagraphEvent, eventBudget, eventBudgetItem, eventBudgetParagraph].map(obj => obj.expenditureAmount += amount);
 		
 		/* Emit warning if other data */
-		else this.emit("warning","Neidentifikovaný záznam na řádku " + this.i +  ".");
+		else { this.emit("warning","Data: Neidentifikovaný záznam na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }
 		
-		// assign for the following objects
-		[budget, paragraph, eventBudget, eventBudgetParagraph, eventBudgetItem, paragraphEvent].map(item => item[amountTarget] = item[amountTarget] + amount);
 		
-		// if record is an invoice, then store it in invoices
-		if(module === "KDF"){	
-			this.invoices.push({
+		/* SAVE INVOICE */
+		if(row[h.counterpartyId]){	
+			this.payments.push({
 				profile: this.profileId,
 				event: eventId,
 				year: this.year,
 				item: itemId,
 				paragraph: paragraphId,
-				date: this.string2date(item[h.date]),
+				date: this.string2date(row[h.date]),
 				amount: amount,
-				counterpartyId: item[h.counterpartyId],
-				counterpartyName: item[h.counterpartyName],
-				description: item[h.description]
+				counterpartyId: row[h.counterpartyId],
+				counterpartyName: row[h.counterpartyName],
+				description: row[h.description]
 			});
 			
-			if(this.invoices.length >= 1000) this.requests.push(this.writeInvoices());
+			if(this.payments.length >= 1000) this.requests.push(this.writePayments());
 		}
 		
-		/* Let next row come */
+		/* Let the next row come */
 		next();
 	}
 	
-	writeInvoices(){
+	writeBudget(){
 		
-		var invoices = this.invoices;
-		this.invoices = [];
+		var budget = new Budget(this.budget);
 		
-		return Invoice.insertMany(invoices)
+		return budget.save()
+			.then(() => this.emit("writeDB","budgets",1))
+	}
+	
+	writePayments(){
+		
+		var payments = this.payments;
+		this.payments = [];
+		
+		return Payment.insertMany(payments)
 			.then(budgets => {
-				this.emit("writeDB","invoices",invoices.length);
+				this.emit("writeDB","payments",payments.length);
 			})
 			.catch(err => {
-				throw new Error("Failed to write invoices to database. Error: " + err)
+				throw new Error("Failed to write payments to database. Error: " + err)
 			});
 	}
 	
@@ -323,7 +353,6 @@ module.exports = class ExpenditureTransformer extends Transform {
 		return EventBudget.insertMany(this.eventBudgets)
 			
 			.then(budgets => {
-			console.log(this.eventBudgets.length);
 				this.emit("writeDB","eventBudgets",this.eventBudgets.length);
 			})
 		
@@ -332,28 +361,12 @@ module.exports = class ExpenditureTransformer extends Transform {
 			});
 	}
 	
-	/**
-		* method to write one budget object to database (since there is one per profileId+year it doesnt make sense to write more)
-		**/
-	writeBudget(){
-		
-		if(!this.budget.budgetAmount) this.emit("warning","Nulový objem rozpočtu obce.");
-		if(!this.budget.expenditureAmount) this.emit("warning","Nulový objem výdajů obce.");
-		if(!this.budget.incomeAmount) this.emit("warning","Nulový objem příjmů obce.");
-		
-		return Budget.create(this.budget)
-			.then(() => this.emit("writeDB","budgets",1))
-			.catch(err => {
-				throw new Error("Failed to write budget to database. Error: " + err)
-			});
-	}
-	
-	_flush(next) {		
+	_flush(next) {
 		
 		// store requests, so that we can watch them for completion
 		var requests = this.requests;
 		
-		requests.push(this.writeInvoices());
+		requests.push(this.writePayments());
 		
 		requests.push(this.writeEventBudgets());
 

@@ -1,13 +1,11 @@
 #headerObec {
 	display: block;  
-	padding: 50px 0px 10px 0px;
-	background: url('/assets/img/polepozadi.jpg') no-repeat;
+	background: #2581C4;
 	background-size: 100% auto; background-position: center -212px; 
 	text-align: left;
 	color: white;
 	font-weight: bold;
 	border-bottom: 5px solid #2581C4;
-	text-shadow: 0px 0px 6px rgba(0,0,0,.3);
 }
 #headerObec .btn {    
   color: white;
@@ -22,7 +20,7 @@
 }
 
 #headerObec h1 {
-	font-size: 3em;
+	font-size: 2em;
 	display: inline-block;
 }
 #headerObec nav {
@@ -53,8 +51,8 @@
 	margin-bottom: 20px;
 }
 .entity-menu .navbar li a {
-	line-height: 45px;
-	font-size: 14pt;
+	line-height: 24px;
+	font-size: 12pt;
 	color: #333;
 	transition-duration: 400ms;
 }

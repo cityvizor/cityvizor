@@ -7,7 +7,7 @@ var acl = require("express-dynacl");
 
 var Event = require("../models/expenditures").Event;
 var EventBudget = require("../models/expenditures").EventBudget;
-var Invoice = require("../models/expenditures").Invoice;
+var Payment = require("../models/expenditures").Payment;
 
 router.get("/:id", acl("events", "list"), (req,res) => {
 	
@@ -18,7 +18,7 @@ router.get("/:id", acl("events", "list"), (req,res) => {
 		
 			let queries = [];
 			queries.push(EventBudget.find({profile:event.profile,event:event.event}).lean().then(budgets => event.budgets = budgets).catch(err => res.status(500).send(err)));
-			queries.push(Invoice.find({profile:event.profile,event:event.event}).lean().then(invoices => event.invoices = invoices).catch(err => res.status(500).send(err)));
+			queries.push(Payment.find({profile:event.profile,event:event.event}).lean().then(payments => event.payments = payments).catch(err => res.status(500).send(err)));
 			Promise.all(queries).then(() => res.json(event));
 		})
 		.catch(err => res.status(500).send(err));

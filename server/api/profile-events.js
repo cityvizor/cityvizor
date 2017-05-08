@@ -7,7 +7,7 @@ var acl = require("express-dynacl");
 
 var Event = require("../models/expenditures").Event;
 var EventBudget = require("../models/expenditures").EventBudget;
-var Invoice = require("../models/expenditures").Invoice;
+var Payment = require("../models/expenditures").Payment;
 
 
 router.get("/", acl("profile-events", "list"), (req,res) => {
@@ -19,7 +19,7 @@ router.get("/", acl("profile-events", "list"), (req,res) => {
 		.catch(err => res.status(500).send(err));
 	
 });
-
+/*
 router.get("/timeline/:year", acl("profile-events", "list"), acl("profile-invoices", "list"), (req,res) => {
 
 	Event.find({profile:req.params.profile}).select("event name").lean()
@@ -38,7 +38,7 @@ router.get("/timeline/:year", acl("profile-events", "list"), acl("profile-invoic
 				event.dateLast = null;
 			});		
 			
-			Invoice.find({profile: req.params.profile, event: {$in: events.map(event => event.event)}, year: Number(req.params.year)}).select("event date amount")
+			Payment.find({profile: req.params.profile, event: {$in: events.map(event => event.event)}, year: Number(req.params.year)}).select("event date amount")
 				.then(invoices => {
 					invoices.forEach(invoice => {
 						eventIndex[invoice.event].invoices.push(invoice);
@@ -54,7 +54,7 @@ router.get("/timeline/:year", acl("profile-events", "list"), acl("profile-invoic
 		})
 		.catch(err => res.status(500).send(err));
 	
-});
+});*/
 
 router.get("/:event", acl("profile-events", "list"), (req,res) => {
 	
@@ -62,7 +62,7 @@ router.get("/:event", acl("profile-events", "list"), (req,res) => {
 		.then(event => {
 			let queries = [];
 			queries.push(EventBudget.find({profile:req.params.profile,event:req.params.event}).lean().then(budgets => event.budgets = budgets).catch(err => res.status(500).send(err)));
-			queries.push(Invoice.find({profile:req.params.profile,event:req.params.event}).lean().then(invoices => event.invoices = invoices).catch(err => res.status(500).send(err)));
+			queries.push(Payment.find({profile:req.params.profile,event:req.params.event}).lean().then(payments => event.payments = payments).catch(err => res.status(500).send(err)));
 			Promise.all(queries).then(() => res.json(event));
 		})
 		.catch(err => res.status(500).send(err));

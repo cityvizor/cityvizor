@@ -2,6 +2,9 @@
 
 div.drawing{}
 
+.container {
+	margin-top: -20px;	
+}
 
 .viztable {margin-top: 1em;}
 .viztable tbody td {padding: 2px;}
@@ -14,57 +17,20 @@ div.drawing{}
 	margin: 1em 0em 0em 0em;
 }
 
-.table-groupList td {
-	font-size: 12px;
-	padding: 1px;
-	vertical-align: middle;
-	border-top: none; 
-	transition-duration: .2s;
-}
-.table-groupList tr {
-	margin-top: 1px;
-}
-.table-groupList td:nth-child(1) {
-	width: 50px;
-	padding-left: 3px;
-	padding-right: 3px;
-}
-.table-groupList tbody td:nth-child(1) {
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
-}
-.table-groupList td:nth-child(2) {
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-}
-.table-groupList tbody td {
+.groupList .group {
+	border-radius: 5px;
 	cursor: pointer;
+	position: relative;
 }
-.table-groupList tr.tr-focus td, .table-groupList tbody tr:hover td {
-	background: #f5f5f5;
-}
-.table-groupList tbody {
-    display:block;
-}
-.groupListShort .table-groupList tbody {
-		/*max-height: 380px;
-		overflow-y: scroll;*/
-}
-
-.table-groupList thead, .table-groupList tbody tr {
-    display:table;
-    width:100%;
-    table-layout:fixed;/* even columns width , fix width of table too*/
-}
-.table-groupList thead {
-    width: calc(100% - 3px); 
-		margin-bottom: 3px;
+.groupList .group-focus, .groupList  .group-focus:hover {
+	background: white;
 }
 
 .bar {
 	border-radius: 3px;
 	height: 6px;
 	width: 100%;
+	margin-top: 5px;
 }
 
 .bar * {
@@ -82,9 +48,103 @@ div.drawing{}
 	background: #2581C4;
 }
 
-.table-groupList tr.tr-focus td .bar-budget {
+.selectedGroupTitle {
+	line-height: 2em;
+	text-align: center;
+}
+.selectedGroupTitle label {
+	background: #E73431;
+	border: 3px solid #E73431;
+	border-bottom: none;
+	color: white;
+	font-size: 1.3em;
+	padding-top: 2px;
+	padding-right: 6px;
+	padding-bottom: 3px;
+	padding-left: 6px;
+	margin-bottom: 0px;
+}
+.selectedGroupTitle label.label-default {
+	background: #888;
+	border: 3px solid #888;
+	border-bottom: none;
+}
+
+.selectedGroupTitle button {
+	background: white;
+	border: 3px solid #2581C4;
+	border-bottom: none;
+	color: #2581C4;
+	font-size: 1.3em;
+	margin-bottom: 0px;
+}
+.selectedGroupTitle button.active {
+	background: #2581C4;
+	border: 3px solid #2581C4;
+	border-bottom: none;
+	color: white;
+	margin-bottom: 0px;
+}
+
+@media (max-width: 991px) {
+	.selectedGroupTitle label {
+		width: 100%;
+	}
+	.selectedGroupTitle button {
+		width: 100%;
+	}
+}
+
+.groupList {
+	border-top: 3px solid #E73431;
+	background: #f5f5f5;
+	transition-duration: .5s;
+	position: absolute;
+	z-index: 1001;
+	height: 0px;
+	overflow: hidden;
+}
+.groupList.opened {
+	height: auto;
+	border-top: 3px solid #2581C4;
+}
+.groupList .wrap {
+	padding: 1em 0.5em;
+	margin-bottom: 0;
+	border-bottom: 3px solid #2581C4;
+}
+
+.groupList .group-focus .bar-budget {
 	background: #ff9491;
 }
-.table-groupList tr.tr-focus td .bar-expenditure {
+.groupList .group-focus .bar-expenditure {
 	background: #E73431;
+}
+
+.whiteTransitions div {
+	width: 100%;
+	position: absolute;
+	z-index: 1000;
+}
+.topTransition {
+	top:0px;
+	height: 10%;
+	background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+.bottomTransition {
+	bottom:0px;
+	height: 5%;
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.btn-infoModal {
+	position: relative;
+	right: 0px;
+	top: 10px;
+	z-index: 1001;
+}
+
+#selectedGroup {
+	margin-top: 1em;
+	min-height: 330px;
 }

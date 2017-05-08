@@ -37,7 +37,7 @@ export class ContractListComponent {
 	constructor(private dataService:DataService, private toastService:ToastService) { }
 
 	loadData(){
-		this.dataService.getProfileContracts(this.profileId)
+		this.dataService.getProfileContracts(this.profileId,{sort:"-date"})
 			.then(contracts => this.contracts = contracts)
 			.catch(err => this.toastService.toast("error","Nastala chyba při získávání smluv z registru"));
 	 }

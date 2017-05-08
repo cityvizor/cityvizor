@@ -25,7 +25,7 @@ module.exports = {
 		"list": true
 	},
 	
-	"profile-invoices": {
+	"profile-payments": {
 		"list": true
 	},
 	

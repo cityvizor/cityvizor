@@ -22,13 +22,12 @@ export class DashboardComponent {
 		"padding" : 10
 	};
 
- 	news = [];
+ 	payments = [];
+	contracts = [];
 	budgets = [];
 	 
 	maxExpenditureAmount:number = 0;
 	maxIncomeAmount:number = 0;
-
-	
 
 	dashboard = {
 		expenditures:[],
@@ -39,21 +38,11 @@ export class DashboardComponent {
 	}
 	 
 	ngOnInit(){
-		this.dataService.getProfileLatestInvoices(this.profile._id)
-			.then(invoices => {
-				invoices.forEach(i => {
-					this.news.push({
-						"type": "Faktura",
-						"counterpartyName":i.counterpartyName,
-						"counterpartyId": i.counterpartyId,
-						"paragraph": i.paragraph,
-						"item": i.item,
-						"date": new Date(i.date),
-						"description": i.description,
-						"amount": i.amount
-					});
-				});
-			});
+		this.dataService.getProfilePayments(this.profile._id,{limit:5,sort:"-date"})
+			.then(payments => this.payments = payments)
+		
+		this.dataService.getProfileContracts(this.profile._id,{limit:5,sort:"-date"})
+			.then(contracts => this.contracts = contracts)
 		
 		this.dataService.getProfileBudgets(this.profile._id)
 			.then(budgets => this.budgets = budgets)
