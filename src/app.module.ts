@@ -17,6 +17,7 @@ import { SiteAdminComponent } from "./views/site-admin/site-admin.component";
 import { DashboardComponent } from "./viz/dash-board/dash-board.component";
 import { ExpenditureVizComponent } from './viz/expenditure-viz/expenditure-viz.component';
 import { ExpenditureEventsComponent } from './viz/expenditure-events/expenditure-events.component';
+import { IncomeVizComponent } from './viz/income-viz/income-viz.component';
 import { ContractListComponent } from "./viz/contract-list/contract-list.component";
 import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component";
 import { EventDetailComponent } from "./viz/event-detail/event-detail.component";
@@ -82,7 +83,7 @@ export function getAuthHttp(http) {
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, SiteAdminComponent,
-		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
+		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 

@@ -9,11 +9,11 @@ import { Component, Input, ViewChild, AfterViewInit, OnDestroy, trigger, state, 
 		trigger('scrollAnimation', [
 			state('hidden', style({
 				opacity: 0,
-				transform: 'scale(0.5)'
+				//transform: 'scale(0.5)'
 			})),
 			state('visible',   style({
 				opacity: 1,
-				transform: 'scale(1)'
+				//transform: 'scale(1)'
 			})),
 			transition('hidden => visible', animate('500ms ease-in-out'))
 		])
@@ -31,15 +31,15 @@ export class ChartDonutComponent implements AfterViewInit, OnDestroy {
 		window.addEventListener("scroll",this.updateVisible.bind(this))
 	}
 	 
-	ngOnDestroy(){
-		window.removeEventListener("scroll",this.updateVisible.bind(this));
-	}
-	 
 	ngAfterViewInit(){
 		// if we change value during ngAfterViewInit, we have to either tell Angular to run another
 		// round of change detection, or we can change the value after ngAfterViewInit (by using setTimeout)
 		// and Angular does change detection on its own.
 		setTimeout(() => this.updateVisible(),0);
+	}
+	
+	ngOnDestroy(){
+		window.removeEventListener("scroll",this.updateVisible.bind(this));
 	}
 	 
 	isVisible(el){
@@ -47,7 +47,10 @@ export class ChartDonutComponent implements AfterViewInit, OnDestroy {
 	}
 	 
 	updateVisible(){
-		this.visible = this.isVisible(this.el.nativeElement);
+		if(this.isVisible(this.el.nativeElement)){
+			this.visible = true;
+			window.removeEventListener("scroll",this.updateVisible.bind(this));
+		}
 	} 
 	
 

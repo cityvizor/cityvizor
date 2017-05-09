@@ -1,0 +1,76 @@
+<div class="container">
+	<button class="btn btn-xs btn-default btn-infoModal pull-right"  (click)="infoModal.show();">
+		<i class="fa fa-question-circle"></i> Informace
+	</button>
+
+	<div class="row">
+
+		<div class="col-lg-12">
+			<!-- VIZUALIZACE -->
+			<div class="drawing" #drawing>
+
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="whiteTransitions">
+							<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
+						</div>
+
+						<chart-bigbang [data]="groups" [max]="maxAmount" [r]="150" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectedGroup=$event" (hover)="hoveredGroup=$event"></chart-bigbang>
+
+					</div>
+				</div>
+
+				<div class="row selectedGroupTitle">
+					<div class="col-lg-12">
+						<label class="label-default" *ngIf="!selectedGroup">Vyberte rozpočtovou skupinu</label>
+						<label class="label-selectedGroup" *ngIf="selectedGroup">{{groupIndex[selectedGroup].title}}</label>
+						<button [attr.class]="(openedGroupList) ? 'active' : ''"  (click)="openedGroupList=!openedGroupList">
+							<i class="fa fa-chevron-circle-down"> </i> Seznam
+						</button>
+					</div>
+				</div>
+
+				<div [attr.class]="(openedGroupList) ? 'row groupList opened' : 'row groupList'" >
+					<div class="row wrap">
+						<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'" (click)="selectedGroup=group.id;openedGroupList=false;">
+							<div class="row">
+								<div class="col-xs-2">
+									<div class="bar">
+										<div class="bar-budget" [style.width]="(group.budgetAmount / maxAmount * 100)+'%'">
+											<div class="bar-expenditure" [style.width]="(group.amount / group.budgetAmount * 100)+'%'">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-10 small analytics" [attr.data-analytics]="group.id">
+									{{group.id}} - {{group.title}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Informace k rozpočtům a výdajům</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					Rozpočet je obecně plán příjmů a výdajů. Sestavuje se na začátku rozpočtovacího období (roku) a posléze se vyhodnocuje. Skutečnost se od rozpočtu může lišit díky neplánovaným událostem (výpad v příjmu, neočekávané výdaje atd.). Rozpočet je členěn dle rozpočtové skladby, která pomáhá lepšímu plánování a výkaznictví. Obvykle se vyhodnocuje plnění rozpočtu, tedy srovnání plánu a skutečnosti z hlediska toku peněz.
+				</p>
+				<p>V aplikaci Cityvizor jsou rozpočtová data spárována s informacemi o skutečných výdajích, takže můžete vidět, za co přesně jsou veřejné peníze utraceny. 
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

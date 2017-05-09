@@ -18,10 +18,8 @@ mongo-express-config.js
 /build/node_modules
 /typings
 
-# uploads
+# data
 /uploads
-
-# exports
 /exports
 
 # misc

@@ -10,34 +10,46 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xs-2">
-			<button class="btn btn-default btn-sm">
-				<i class="fa fa-chevron-left"></i> 2016
-			</button>
-		</div>
-		<div class="col-xs-4 text-center">
+		<div class="pull-right">
 			<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-default active">PŮLROK</button>
-				<button type="button" class="btn btn-sm btn-default">KVARTÁL</button>
+				<button type="button" class="btn btn-sm btn-primary">Období (tento rok)</button>
+				<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="#">Tento rok</a></li>
+					<li><a href="#">Toto pololetí</a></li>
+					<li><a href="#">Tento měsíc</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Vlastní období</a></li>
+				</ul>
 			</div>
 		</div>
-		<div class="col-xs-2 text-right">
-			<button class="btn btn-default btn-sm disabled">
-				2018 <i class="fa fa-chevron-right"></i>
-			</button>
+		<div class="col-xs-12 text-center">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-default active">ABECEDNĚ</button>
+				<button type="button" class="btn btn-sm btn-default">DLE OBJEMU</button>
+				<button type="button" class="btn btn-sm btn-default">NEJNOVĚJŠÍ VÝDAJE</button>
+			</div>
 		</div>
 	</div>
 	
 	
 	<div class="row">
-		<table>
+		<table class="table table-responsive table-striped">
 			<thead>
 				<th>Název akce</th>
+				<th>Počet výdajů</th>
+				<th>Počet dodavatelů</th>
+				<th>Poslední výdaj</th>
 				<th>Částka</th>
 			</thead>
 			<tbody>
-				<tr *ngFor="let event of events">
-					<td>{{event.name}}</td>
+				<tr *ngFor="let event of events" class="small">
+					<td><a (click)="openEvent(event)">{{event.name}}</a></td>
+					<td></td>
+					<td></td>
+					<td></td>
 					<td>{{event.amount}}</td>
 				</tr>
 			</tbody>
