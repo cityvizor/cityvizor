@@ -39,31 +39,11 @@ export class ExpenditureVizComponent{
 	// decides which year's data should be loaded
 	year: number = 2017;
 
-	// the data loaded
-	budget = {
-		year: this.year,
-		
-		events: [],
-		groups: [],
-		paragraphs: [],
-		
-		expenditureAmount: 0,
-		maxExpenditureAmount: 0,
-		budgetExpenditureAmount: 0,
-		maxBudgetExpenditureAmount: 0,
-		
-		groupIndex: {},
-		paragraphIndex: {},
-		eventIndex: {}
-	};
-
 	events = [];
 	eventIndex = {};
 
-	groups: Array<{"id": string, "title": string}>;
+	groups: any[] = [];
 	groupIndex:any = {};
-
-	groupIdArrayIndex = [];
 
 	paragraphNames: {};
 
@@ -77,36 +57,39 @@ export class ExpenditureVizComponent{
 
 	openedGroupList: boolean = true;
 
+	maxAmount:number = 0;
+
 	vizScale: number = 1;	
 	
 	constructor(private _ds: DataService, private _toastService: ToastService){
+		
 		this.groups = ChartGroups; // set groups
 		this.groups.forEach(group => {
+			group.amount = 0;
+			group.budgetAmount = 0;
+			group.paragraphs = [];
 			this.groupIndex[group.id] = group;
-			this.groupIdArrayIndex[this.groupIdArrayIndex.length]=group.id;
 		});
 		//this.selectedGroup = this.groups[0].id;
 		this.paragraphNames = paragraphNames;
 	}
 
+	/**
+		* method to handle left/right arrows to switch the selected group
+		*/
 	hotkeys(event){
-		//ROTATE BIG BANG CHART BY ONE GROUP
-		if(event.keyCode==37 || event.keyCode==39) {
-			var arrayIndex = (this.selectedGroup===null)? 1 : this.groupIdArrayIndex.indexOf(this.selectedGroup);
-			//LEFT
-			if(event.keyCode==37) {
-				if(arrayIndex>0) arrayIndex--;
-				else arrayIndex = this.groupIdArrayIndex.length-1;
-				this.selectedGroup = this.groupIdArrayIndex[arrayIndex];
-			}
-			//RIGHT
-			if(event.keyCode==39) {
-				if(arrayIndex<(this.groupIdArrayIndex.length-1)) arrayIndex++;
-				else arrayIndex = 0;
-			}
+		
+		// we need to get array of groups so we can get next/prev group
+		var groupIds = Object.keys(this.groupIndex);
+		
+		// index of current group. returns -1 in case no group selected, which is no problem for us
+		var i = groupIds.indexOf(this.selectedGroup);
 
-			this.selectedGroup = this.groupIdArrayIndex[arrayIndex];
-		}
+		//LEFT
+		if(event.keyCode == 37) this.selectedGroup = groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1];
+		
+		//RIGHT
+		if(event.keyCode == 39) this.selectedGroup = groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0];
   }
 
 	 // numbers are parsed from CSV as text
@@ -130,11 +113,7 @@ export class ExpenditureVizComponent{
 		
 		// we get a Promise
 		this._ds.getProfileBudget(profileId,year)
-			.then((data) => {
-				this.linkData(data);
-				this.sortData(data);
-				this.budget = data;
-			})
+			.then((budget) => this.setData(budget))
 			.catch((err) => {
 				switch(err.status){
 					case 404:
@@ -169,58 +148,34 @@ export class ExpenditureVizComponent{
 		return found;
 	}
 
-	getGroupByParagraph(data,paragraph){
-		var groupId = paragraph.id.substring(0, 2);	
-		if(!data.groupIndex[groupId]){
-			var group = {
-				id: groupId,
-				budgetExpenditureAmount:0,
-				expenditureAmount:0,
-				paragraphs: []
-			}
-			data.groupIndex[groupId] = group;
-			data.groups.push(group);
-		}		
-		return data.groupIndex[groupId];
-	}
-
-	linkData(data){
+	setData(data){
 		
-		data.groups = [];
+		this.maxAmount = 0;
 		
-		data.paragraphIndex = {};
-		data.groupIndex = {};
-		
-		data.maxBudgetExpenditureAmount = 0;
-		data.maxExpenditureAmount = 0;
+		this.groups.forEach(group => {
+			group.amount = 0;
+			group.budgetAmount = 0;
+			group.paragraphs = [];
+		});
 		
 		data.paragraphs.forEach(paragraph => {
-			var group = this.getGroupByParagraph(data,paragraph);		
-			group.budgetExpenditureAmount += paragraph.budgetExpenditureAmount;
-			group.expenditureAmount += paragraph.expenditureAmount;
-			group.paragraphs.push(paragraph);
 			
-			data.paragraphIndex[paragraph.id] = paragraph;
+			var groupId = paragraph.id.substring(0, 2);	
+			
+			if(this.groupIndex[groupId]){
+				
+				let group = this.groupIndex[groupId];
+			
+				group.budgetAmount += paragraph.budgetExpenditureAmount;
+				group.amount += paragraph.expenditureAmount;
+				group.paragraphs.push(paragraph);
+			}
 		});
 		
-		data.groups.forEach(group => {
-			data.maxBudgetExpenditureAmount = Math.max(data.maxBudgetExpenditureAmount,group.budgetExpenditureAmount);
-			data.maxExpenditureAmount = Math.max(data.maxExpenditureAmount,group.expenditureAmount);
+		this.groups.forEach(group => {
+			this.maxAmount = Math.max(this.maxAmount,group.budgetAmount,group.amount);
 		});
 		
-	}
-	
-	sortData(data){
-
-		var field1 = "expenditureAmount";
-		var field2 = "budgetExpenditureAmount";
-		
-		data.groups.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
-		data.paragraphs.forEach(paragraph => {
-			paragraph.events.sort((a,b) => b[field1] !== a[field1] ? b[field1] - a[field1] : b[field2] - a[field2]);
-		});
-		
-		// this.groups.sort((a,b) => data.groupIndex[a.id] && data.groupIndex[b.id] ? data.groupIndex[a.id].budgetExpenditureAmount - data.groupIndex[b.id].budgetExpenditureAmount : 0);
 	}
 
 	openEvent(eventId){
@@ -239,12 +194,10 @@ export class ExpenditureVizComponent{
 
 	/* VIZ HELPER FUNCTIONS */
 	getBarBudgetPercentage(group) {
-		var maxAmount = Math.max(this.budget.maxBudgetExpenditureAmount,this.budget.maxExpenditureAmount);
-		return this.budget.groupIndex[group.id] && maxAmount ? Math.round(Math.max(this.budget.groupIndex[group.id].budgetExpenditureAmount,this.budget.groupIndex[group.id].expenditureAmount) / maxAmount * 100) : 0;
+		return 0;
 	}
 	getBarExpenditurePercentage(group) {
-		if(!this.budget.groupIndex[group.id]) return 0;
-		return this.budget.groupIndex[group.id].budgetExpenditureAmount > this.budget.groupIndex[group.id].expenditureAmount ? this.budget.groupIndex[group.id].expenditureAmount / this.budget.groupIndex[group.id].maxBudgetExpenditureAmount * 100 : 100;
+		return 0
 	}
 	
 

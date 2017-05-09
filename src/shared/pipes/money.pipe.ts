@@ -11,15 +11,18 @@ export class MoneyPipe implements PipeTransform {
 	transform(value: number, decimal: number, autoDivide: boolean): string {
 		
 		var add = "";
+		if(isNaN(Number(decimal))) decimal = 0;
 		
 		if(autoDivide){
 			if(Math.abs(value) > 950){value = value / 1000;add = " tis.";}
 			if(Math.abs(value) > 950){value = value / 1000;add = " mil.";}
 			if(Math.abs(value) > 950){value = value / 1000;add = " mld.";}
+			// low rounded values are misleading
+			if(value < 10 && decimal === 0) decimal = 1;
 		}
-		
+
 		/* round number to the correct number of decimals if decimal parameter not null */
-		if(decimal != null) value = Math.round(value * Math.pow(10,decimal)) / Math.pow(10,decimal);
+		value = Math.round(value * Math.pow(10,decimal)) / Math.pow(10,decimal);
 		
 		/* splits number to integer and decimal part */
 		var parts = value.toString().split(".");

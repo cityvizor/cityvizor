@@ -1,21 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange, NgZone, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-
-import { ChartGroups }  from "../../data/chartGroups";
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
 	moduleId: module.id,
 	selector: 'chart-bigbang',
 	templateUrl: 'chart-bigbang.template.html',
-	styleUrls: ['chart-bigbang.style.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	styleUrls: ['chart-bigbang.style.css']
 })
 export class ChartBigbangComponent {
 
-	@Input()
-	set data(data:any){
-		this.updateAmounts(data);
-		this.updateStripes(data);
-	}
+	@Input() data:any;
+	@Input() max:number;
 	
 	@Input() rotation:any = 0;
 
@@ -26,120 +20,71 @@ export class ChartBigbangComponent {
 	@Output() hover = new EventEmitter<any>();
 	 
 	// the dimensions of the drawing	
-	r: number = 500;
+	@Input() r: number = 500;
  	cx: number = 0;
  	cy: number = 0;
 	alpha: number = 1/8; // default rotation of the chart
 	innerR: number = 0.2; // relative to radius
 	minR: number = 0.22; // relative to radius
-	showAmounts: boolean = true; // shows/hides budgetExpenditureAmount and expenditureAmount in circle of vizualization
-	showGroupTitles: boolean = true; // shows/hides budgetExpenditureAmount and expenditureAmount in circle of vizualization
+	showAmounts: boolean = true; // shows/hides budgetAmount and amount in circle of vizualization
+	showGroupTitles: boolean = true; // shows/hides budgetAmount and amount in circle of vizualization
 	
-	// maximum absolute dimension = max of maximum budget and maximum expenditures
-	maxAmount:number = 0;
-	totalBudgetExpenditureAmount:number = 0;
-	totalExpenditureAmount:number = 0;
+	// maximum absolute dimension = max of maximum budget and maximum real amounts
+	totalBudgetAmount:number = 0;
+	totalAmount:number = 0;
 	 
-	// animation settings
-	animationLength = 500; // length of the animation
-	animationStart:number; // when did the animation started - used for computing the animation steps
-	 
-	stripes:any[] = [];
-	 
-	constructor(private ngZone: NgZone, private changeDetector: ChangeDetectorRef){
+	constructor(){
+	}
+	 /*
+	ngOnChanges(changes:SimpleChanges){
 		
-		var stripes = [];
-		ChartGroups.forEach((group,i) => {
-			stripes.push({
-				id: group.id,
-				innerSize: 0,
-				outerSize: 0
+		if(false && changes.data && changes.data.currentValue){
+			let data = changes.data.currentValue;
+			
+			var maxAmount = 0;
+			var totalBudgetAmount = 0;
+			var totalAmount = 0;
+
+			data.forEach(item => {
+				maxAmount = Math.max(maxAmount,item.budgetAmount,item.amount);
+				totalBudgetAmount += item.budgetAmount;
+				totalAmount += item.amount;
 			});
-		});
-		this.stripes = stripes;
-		
-	}
-	 
-	updateAmounts(data){
-		
-		var maxAmount = 0;
-		var totalBudgetExpenditureAmount = 0;
-		var totalExpenditureAmount = 0;
-		
-		Object.keys(data).forEach(id => {
-			let item = data[id];
-			maxAmount = Math.max(maxAmount,item.budgetExpenditureAmount,item.expenditureAmount);
-			totalBudgetExpenditureAmount += item.budgetExpenditureAmount;
-			totalExpenditureAmount += item.expenditureAmount;
-		});
-		
-		this.maxAmount = maxAmount;
-		this.totalBudgetExpenditureAmount = totalBudgetExpenditureAmount;
-		this.totalExpenditureAmount = totalExpenditureAmount;
-	}
+
+			this.maxAmount = maxAmount;
+			this.totalBudgetAmount = totalBudgetAmount;
+			this.totalAmount = totalAmount;
+		}
+	}*/
 	
-	updateStripes(data){
-		
-		this.stripes.forEach((stripe,i) => {
-
-			let id = stripe.id;
-
-			stripe.innerSize = data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(data[id].expenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
-			stripe.outerSize = data[id] && this.maxAmount ? Math.max(this.minR, Math.sqrt(data[id].budgetExpenditureAmount / this.maxAmount * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
-		});
+	getStripeSize(amount){
+		//console.log(amount,this.max,this.max ? Math.max(this.minR, Math.sqrt(amount / this.max * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR);
+		return this.max ? Math.max(this.minR, Math.sqrt(amount / this.max * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
 	}
 	
 	getCircleR(){
 		return this.innerR * this.r * 0.9;
 	}
 
+	// get the chart rotation angle based on category
 	getAlpha(){
 		var selectedAlpha = 0;
 		
-		this.stripes.some((stripe,i) => {
-			if(stripe.id == this.selected) {selectedAlpha = i / this.stripes.length;return true;}
+		this.data.some((item,i) => {
+			if(item.id == this.selected) {selectedAlpha = i / this.data.length;return true;}
 			return false;
 		});
 		
 		return this.alpha - selectedAlpha;
 	}
 	 
-/*
-	getLineCircleCoordinates (i,c) {
-		var tR = this.r*4/5;
-		var arcRad = (2*Math.PI/this.groups.length)*(i+0.5);
-		
-		var x = Math.round(this.cx+tR*Math.sin(arcRad));
-		var y = Math.round(this.cy-tR*Math.cos(arcRad));
-		
-		if (c=='x') return x; else return y;
-	}
-
-	getLinePath (i) {
-		var tR = this.r*4/5;
-		
-		var arcRad = (2*Math.PI/this.groups.length)*(i+0.5);
-		
-		var x = Math.round(this.cx+tR*Math.sin(arcRad));
-		var y = Math.round(this.cy-tR*Math.cos(arcRad));
-		
-		var p = [];
-		p.push("M" + x + "," + y);
-		p.push("L" + this.cx + "," + 20);
-		p.push("L" + this.cx + "," + 0);
-		//p.push("Z");
-
-		return p.join(" ");	
-	}
-*/
-	 
 	// generate stripe by index, and inner and outer percentage size
 	getStripePath(i,inner,outer){
 		
 		var innerRadius = inner * this.r;
 		var outerRadius = outer * this.r;
-		var size = this.stripes.length ? 1 / this.stripes.length : 0;
-		var start = i / this.stripes.length;
+		var size = this.data.length ? 1 / this.data.length : 0;
+		var start = i / this.data.length;
 		return this.getDonutPath(this.cx,this.cy,innerRadius,outerRadius,start,size);	
 	}
 

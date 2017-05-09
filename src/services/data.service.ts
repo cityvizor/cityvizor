@@ -81,8 +81,8 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId + "/events/" + eventId).toPromise().then(response => response.json());
 	}
 
-	getProfileEvents(profileId){
-		return this.http.get("/api/profiles/" + profileId + "/events").toPromise().then(response => response.json());
+	getProfileEvents(profileId,options?){
+		return this.http.get("/api/profiles/" + profileId + "/events" + toParams(options)).toPromise().then(response => response.json());
 	}
 	
 	getProfileEventsTimeline(profileId,year){

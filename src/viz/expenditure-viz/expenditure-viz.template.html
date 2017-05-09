@@ -13,7 +13,9 @@
 						<div class="whiteTransitions">
 							<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
 						</div>
-						<chart-bigbang [data]="budget.groupIndex" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectedGroup=$event" (hover)="hoveredGroup=$event"></chart-bigbang>
+						
+						<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectedGroup=$event" (hover)="hoveredGroup=$event"></chart-bigbang>
+						
 					</div>
 				</div>
 				<div class="row selectedGroupTitle">
@@ -31,8 +33,8 @@
 							<div class="row">
 								<div class="col-xs-2">
 									<div class="bar">
-											<div class="bar-budget" [style.width]="getBarBudgetPercentage(group)+'%'">
-												<div class="bar-expenditure" [style.width]="getBarExpenditurePercentage(group)+'%'">
+											<div class="bar-budget" [style.width]="(group.budgetAmount / maxAmount * 100)+'%'">
+												<div class="bar-expenditure" [style.width]="(group.amount / group.budgetAmount * 100)+'%'">
 												</div>
 											</div>
 										</div>
@@ -48,13 +50,9 @@
 
 			<div id="selectedGroup">
 
-				<div *ngIf="!budget.groupIndex[selectedGroup]" class="text-center">
-					<span class="label label-warning"><i class="fa fa-warning"></i> Tato skupina nemá žádné rozpočtované výdaje!</span>		
-				</div>
+				<div *ngIf="groupIndex[selectedGroup]">
 
-				<div *ngIf="budget.groupIndex[selectedGroup]">
-
-					<div *ngFor="let paragraph of budget.groupIndex[selectedGroup].paragraphs" class="paragraph">
+					<div *ngFor="let paragraph of groupIndex[selectedGroup].paragraphs" class="paragraph">
 
 						<div class="row">
 							<div class="col-md-12">
@@ -94,6 +92,8 @@
 										<chart-donut [data]="paragraph"></chart-donut>
 									</div>
 									<div class="col-xs-8">
+										<strong>Rozpočet: {{paragraph.budgetExpenditureAmount | money:0:true}} Kč</strong>
+										<br>
 										<span style="color:#E73431;">&#9632;</span> Čerpáno: {{paragraph.expenditureAmount | money:0:true}} Kč
 										<br>
 										<span *ngIf="paragraph.expenditureAmount <= paragraph.budgetExpenditureAmount">

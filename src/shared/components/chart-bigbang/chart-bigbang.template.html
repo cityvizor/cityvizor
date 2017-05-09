@@ -2,19 +2,19 @@
 	<div class="content">
 		<svg width="100%" viewBox="-500 -500 1000 1000" id="chart-bigbang">
 			<g [style.transform]="'rotate(' + (360 * getAlpha()) + 'deg)'" class="stripes">
-				<g *ngFor="let stripe of stripes; let i = index">
-					<path [attr.d]="getStripePath(i,innerR,stripe.innerSize)" class="stripe innerStripe" [class.selected]="stripe.id==selected" />
-					<path [attr.d]="getStripePath(i,stripe.innerSize,stripe.outerSize)" class="stripe outerStripe" [class.selected]="stripe.id==selected" />
+				<g *ngFor="let item of data; let i = index">
+					<path [attr.d]="getStripePath(i,innerR,getStripeSize(item.amount))" class="stripe innerStripe" [class.selected]="item.id==selected" />
+					<path [attr.d]="getStripePath(i,getStripeSize(item.amount),getStripeSize(item.budgetAmount))" class="stripe outerStripe" [class.selected]="item.id==selected" />
 
-					<path [attr.d]="getStripePath(i,0,1)" class="stripe bgstripe" [class.selected]="stripe.id==selected" [class.hovered]="stripe.id==hovered" (click)="select.emit(stripe.id)" (mouseover)="hover.emit(stripe.id)" (mouseout)="hover.emit(null)" />
+					<path [attr.d]="getStripePath(i,0,1)" class="stripe bgstripe" [class.selected]="item.id==selected" [class.hovered]="item.id==hovered" (click)="select.emit(item.id)" (mouseover)="hover.emit(item.id)" (mouseout)="hover.emit(null)" />
 				</g>
 			</g>
 			<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" fill="#F3F3F3" stroke-width="10" stroke="#fff" (click)="select.emit(null)" class="circle" />
 
 			<!--<path [attr.d]="getDonutPath(cx,cy,0,75,0,data.expenditureAmount/data.budgetExpenditureAmount)" stroke-width="0" fill="#fff" opacity="0.8" />-->
 
-			<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 15" text-anchor="middle" style="font-family:Roboto;font-size:50px;" fill="#E73431">{{totalBudgetExpenditureAmount | money:0:true}}</text>
-			<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 35" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">Čerpání: {{totalExpenditureAmount | money:0:true}}</text>
+			<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 15" text-anchor="middle" style="font-family:Roboto;font-size:50px;" fill="#E73431">{{totalBudgetAmount | money:0:true}}</text>
+			<text *ngIf="showAmounts" [attr.x]="cx" [attr.y]="cy + 35" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">Čerpání: {{totalAmount | money:0:true}}</text>
 
 
 			<!--

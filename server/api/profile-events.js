@@ -12,49 +12,16 @@ var Payment = require("../models/expenditures").Payment;
 
 router.get("/", acl("profile-events", "list"), (req,res) => {
 	
-	var fields = req.body.fields ? req.body.fields : "event name";
+	var query = Event.find({profile:req.params.profile})
 	
-	Event.find({profile:req.params.profile}).select(fields)
+	query.select(req.query.fields || "event name");
+	if(req.query.sort) query.sort(req.query.sort);
+
+	query
 		.then(events => res.json(events ? events : []))
 		.catch(err => res.status(500).send(err));
 	
 });
-/*
-router.get("/timeline/:year", acl("profile-events", "list"), acl("profile-invoices", "list"), (req,res) => {
-
-	Event.find({profile:req.params.profile}).select("event name").lean()
-		.then(events => events ? events : [])
-		.then(events => {
-		
-			var eventIndex = {};
-			events.forEach(event => {
-				eventIndex[event.event] = event;
-				event.invoices = [];
-				event.amount = 0;
-				
-				event.invoiceMaxAmount = 0;
-				
-				event.dateFirst = null;
-				event.dateLast = null;
-			});		
-			
-			Payment.find({profile: req.params.profile, event: {$in: events.map(event => event.event)}, year: Number(req.params.year)}).select("event date amount")
-				.then(invoices => {
-					invoices.forEach(invoice => {
-						eventIndex[invoice.event].invoices.push(invoice);
-						eventIndex[invoice.event].amount += invoice.amount;
-						
-						if (eventIndex[invoice.event].invoiceMaxAmount < invoice.amount) eventIndex[invoice.event].invoiceMaxAmount = invoice.amount;
-						
-						if (eventIndex[invoice.event].dateFirst===null || eventIndex[invoice.event].dateFirst>invoice.date) eventIndex[invoice.event].dateFirst = invoice.date;
-						if (eventIndex[invoice.event].dateLast===null || eventIndex[invoice.event].dateLast<invoice.date) eventIndex[invoice.event].dateLast = invoice.date;
-					});
-					res.json(events);
-				});
-		})
-		.catch(err => res.status(500).send(err));
-	
-});*/
 
 router.get("/:event", acl("profile-events", "list"), (req,res) => {
 	

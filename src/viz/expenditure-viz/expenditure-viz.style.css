@@ -77,6 +77,7 @@ div.drawing{}
 	color: #2581C4;
 	font-size: 1.3em;
 	margin-bottom: 0px;
+	padding: 2px 6px 3px;
 }
 .selectedGroupTitle button.active {
 	background: #2581C4;

@@ -104,10 +104,10 @@
 			<div class="row news" *ngFor="let contract of contracts">
 				<div class="col-xs-10 col-xs-offset-1">
 						<h5 class="service-heading">
-							<strong>{{contract.title}}</strong>
-							<a [href]="contract.url" target="_blank" class="label label-info">otevřít v registru</a>
+							<strong>{{contract.counterparty}} - {{contract.title}}</strong>
+							<a [href]="contract.url" target="_blank" class="label label-info">otevřít</a>
 						</h5>
-						<p class="text-muted">{{contract.date | date:"d. M. y"}} {{contract.counterparty}} <strong class="pull-right">{{contract.amount | money:0:false}} Kč</strong></p>
+						<p class="text-muted">{{contract.date | date:"d. M. y"}}<strong class="pull-right">{{contract.amount | money:0:false}} Kč</strong></p>
 				</div>
 			</div>
 		</div>
