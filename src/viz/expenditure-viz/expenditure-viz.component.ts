@@ -1,4 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
 import { ModalDirective } from 'ng2-bootstrap';
 
 import { DataService } from '../../services/data.service';
@@ -61,7 +63,7 @@ export class ExpenditureVizComponent{
 
 	vizScale: number = 1;	
 	
-	constructor(private _ds: DataService, private _toastService: ToastService){
+	constructor(private router: Router, private route: ActivatedRoute, private _ds: DataService, private _toastService: ToastService){
 		
 		this.groups = ChartGroups; // set groups
 		this.groups.forEach(group => {
@@ -73,6 +75,26 @@ export class ExpenditureVizComponent{
 		//this.selectedGroup = this.groups[0].id;
 		this.paragraphNames = paragraphNames;
 	}
+
+	ngOnInit(){
+		
+		this.route.params.forEach((params: Params) => {		
+			
+			if(params["group"]) {
+				if(this.groupIndex[params["group"]]){
+					this.selectedGroup = params["group"];
+					this.openedGroupList = false;
+				}
+				else this.selectGroup(null);
+			}
+			else {
+				this.selectedGroup = null;
+				this.openedGroupList = true;
+			}
+			
+		});
+		
+  }
 
 	/**
 		* method to handle left/right arrows to switch the selected group
@@ -86,11 +108,15 @@ export class ExpenditureVizComponent{
 		var i = groupIds.indexOf(this.selectedGroup);
 
 		//LEFT
-		if(event.keyCode == 37) this.selectedGroup = groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1];
+		if(event.keyCode == 37) this.selectGroup(groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1]);
 		
 		//RIGHT
-		if(event.keyCode == 39) this.selectedGroup = groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0];
+		if(event.keyCode == 39) this.selectGroup(groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0]);
   }
+
+	selectGroup(group){
+		this.router.navigate(group ? ["./",{group:group}] : ["./",{}],{relativeTo:this.route});
+	}
 
 	 // numbers are parsed from CSV as text
 	string2number(string){
@@ -107,7 +133,6 @@ export class ExpenditureVizComponent{
 	}
 
 	/* PROCESS DATA */
-
 	loadData(profileId,year){
 		
 		// get event names
