@@ -99,6 +99,13 @@ export class ExpenditureVizComponent{
 		return Number(string);																									
 	}
 
+	getDonutChartData(paragraph){
+		return {
+			amount: paragraph.expenditureAmount,
+			budgetAmount: paragraph.budgetExpenditureAmount
+		};
+	}
+
 	/* PROCESS DATA */
 
 	loadData(profileId,year){

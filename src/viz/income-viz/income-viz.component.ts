@@ -42,6 +42,9 @@ export class IncomeVizComponent{
 	groups: any[] = [];
 	groupIndex: any = {};
 
+	eventIndex:any = {};
+	itemNames = {};
+
 	maxAmount:number = 0;
 
 	// which group (drawing stripe) is hovered at the moment
@@ -62,6 +65,13 @@ export class IncomeVizComponent{
 			{id: "4", title: "Přijate transfery"}
 		];	
 		this.groups.forEach(group => this.groupIndex[group.id] = group);
+	}
+
+	getDonutChartData(item){
+		return {
+			amount: item.incomeAmount,
+			budgetAmount: item.budgetIncomeAmount
+		};
 	}
 
 	/**
@@ -89,9 +99,22 @@ export class IncomeVizComponent{
 		return Number(string);																									
 	}
 
+	getEventName(eventId){
+		if(this.eventIndex[eventId]) return this.eventIndex[eventId].name;
+		if(eventId) return "Investiční akce č. " + eventId;
+		return "Ostatní";
+	}
+
 	/* PROCESS DATA */
 
 	loadData(profileId,year){
+		
+		// get event names
+		this._ds.getProfileEvents(profileId)
+			.then(events => {
+				this.eventIndex = {};
+				events.forEach(event => this.eventIndex[event.event] = event);
+			});
 		
 		// we get a Promise
 		this._ds.getProfileBudget(profileId,year)
@@ -116,7 +139,9 @@ export class IncomeVizComponent{
 		
 		// set group values at once
     this.groups.forEach(group => {
-			group.amount = group.budgetAmount = 0;
+			group.amount = 0;
+			group.budgetAmount = 0;
+			group.items = [];
     });
 		
 		budget.items.forEach(item => {
@@ -126,6 +151,7 @@ export class IncomeVizComponent{
 			if(this.groupIndex[groupId]){
 				this.groupIndex[groupId].budgetAmount += item.budgetIncomeAmount;
 				this.groupIndex[groupId].amount += item.incomeAmount;
+				this.groupIndex[groupId].items.push(item);
 			}
 		});
 		
