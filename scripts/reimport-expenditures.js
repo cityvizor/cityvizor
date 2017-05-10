@@ -8,6 +8,10 @@ var Profile = require("../server/models/profile");
 var ETL = require("../server/models/etl");
 var importer = require("../server/import/expenditures");
 
+var argv = require('minimist')(process.argv.slice(2));
+
+var message = argv.m || "Automatický reimport dat z důvodu změn v interní struktuře databáze."
+
 var dir = "uploads/expenditures";
 
 function reImportLoop(files,cb){
@@ -26,7 +30,7 @@ function reImportLoop(files,cb){
 	etlLog.file = file.originalname;
 	etlLog.user = "automat";
 	etlLog.year = file.year;
-	etlLog.note = "Automatický reimport dat z důvodu změn v interní struktuře databáze.";
+	etlLog.note = message;
 	etlLog.save()
 		.then(etlLog => {
 		
