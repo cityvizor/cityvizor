@@ -22,6 +22,14 @@ var budgetSchema = mongoose.Schema({
 	}],
 	items: [{
 		id: String,
+		events: [{
+			event: String,
+			name: String,
+			budgetExpenditureAmount: Number,
+			budgetIncomeAmount: Number,
+			expenditureAmount: Number,
+			incomeAmount: Number
+		}],
 		budgetExpenditureAmount: Number,
 		budgetIncomeAmount: Number,
 		expenditureAmount: Number,
