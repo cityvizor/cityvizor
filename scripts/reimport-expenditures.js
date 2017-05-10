@@ -26,6 +26,7 @@ function reImportLoop(files,cb){
 	etlLog.file = file.originalname;
 	etlLog.user = "automat";
 	etlLog.year = file.year;
+	etlLog.note = "Automatický reimport dat z důvodu změn v interní struktuře databáze.";
 	etlLog.save()
 		.then(etlLog => {
 		
@@ -33,7 +34,7 @@ function reImportLoop(files,cb){
 								
 			// reimport expenditures
 			importer(path,file.profile,file.year,etlLog)
-				.then(etllog => {
+				.then(etlLog => {
 					console.log("Reimported, result: " + etlLog.result);					
 					// go to next file
 					reImportLoop(files,cb);
@@ -55,6 +56,8 @@ files = files.map(file => {
 	else return null;
 });
 
-reImportLoop(files,() => process.exit(0));
+reImportLoop(files,() => {
+	mongoose.disconnect(() => process.exit(0));
+});
 	
 

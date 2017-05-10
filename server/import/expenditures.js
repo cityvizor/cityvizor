@@ -39,7 +39,7 @@ module.exports = function(filePath, profileId, year, etlLog){
 				etlLog.status = "error";
 				etlLog.result = "Chyba při čtení CSV: " + err.message;
 				etlLog.save()
-					.then(reject(etlLog,err));
+					.then(etlLog => reject(etlLog,err));
 			}
 		});	
 
@@ -59,7 +59,7 @@ module.exports = function(filePath, profileId, year, etlLog){
 				etlLog.status = "error";
 				etlLog.result = err.message;
 				etlLog.save()
-					.then(reject(etlLog,err));
+					.then(etlLog => reject(etlLog,err));
 			}
 		});	
 
@@ -70,7 +70,7 @@ module.exports = function(filePath, profileId, year, etlLog){
 				etlLog.result = "Úspěšně nahráno " + counter.payments + " faktur a plateb, " + counter.eventBudgets + " rozpočtů investičních akcí a " + counter.budgets + " rozpočet obce";
 				etlLog.warnings = warnings;
 				etlLog.save()
-					.then(resolve(etlLog));
+					.then(etlLog => resolve(etlLog));
 			}
 		});
 
