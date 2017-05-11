@@ -1,5 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription' ;
 
 import { ModalDirective } from 'ng2-bootstrap';
 
@@ -62,6 +63,9 @@ export class ExpenditureVizComponent{
 	maxAmount:number = 0;
 
 	vizScale: number = 1;	
+
+	// store siubscription to unsubscribe on destroy
+	paramsSubscription:Subscription;
 	
 	constructor(private router: Router, private route: ActivatedRoute, private _ds: DataService, private _toastService: ToastService){
 		
@@ -78,11 +82,11 @@ export class ExpenditureVizComponent{
 
 	ngOnInit(){
 		
-		this.route.params.forEach((params: Params) => {		
+		this.paramsSubscription = this.route.params.subscribe((params: Params) => {		
 			
-			if(params["group"]) {
-				if(this.groupIndex[params["group"]]){
-					this.selectedGroup = params["group"];
+			if(params["paragraf"]) {
+				if(this.groupIndex[params["paragraf"]]){
+					this.selectedGroup = params["paragraf"];
 					this.openedGroupList = false;
 				}
 				else this.selectGroup(null);
@@ -95,6 +99,14 @@ export class ExpenditureVizComponent{
 		});
 		
   }
+
+	ngOnDestroy(){
+		this.paramsSubscription.unsubscribe();
+	}
+
+	selectGroup(group){
+		this.router.navigate(group ? ["./",{"paragraf":group}] : ["./",{}],{relativeTo:this.route});
+	}
 
 	/**
 		* method to handle left/right arrows to switch the selected group
@@ -112,10 +124,6 @@ export class ExpenditureVizComponent{
 		
 		//RIGHT
 		if(event.keyCode == 39) this.selectGroup(groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0]);
-  }
-
-	selectGroup(group){
-		this.router.navigate(group ? ["./",{group:group}] : ["./",{}],{relativeTo:this.route});
 	}
 
 	 // numbers are parsed from CSV as text

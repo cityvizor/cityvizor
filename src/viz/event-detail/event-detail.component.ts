@@ -18,9 +18,38 @@ export class EventDetailComponent{
 	
 	/* DATA */
 	@Input()
-	event;
+	set event(event){
+		if(event) this.setData(event);		
+	};
+	
+	budgets:any[];
+	counterparties:any = {};
 	
 	paragraphNames = paragraphNames;
 	itemNames = itemNames;
+
+	setData(event){
+		this.budgets = event.budgets;
+		
+		this.counterparties = {};
+		
+		event.payments.forEach(payment => {
+			
+			var id = payment.counterpartyId || payment.counterpartyName;
+			
+			if(!this.counterparties[id]) {
+				this.counterparties[id] = {
+					id: payment.counterpartyId,
+					name: payment.counterpartyName,
+					incomes: [],
+					expenditures: []
+				}
+			}
+			
+			if(payment.item < 5000) this.counterparties[id].incomes.push(payment);
+			if(payment.item >= 5000) this.counterparties[id].expenditures.push(payment);
+			
+		});
+	}
 
 }

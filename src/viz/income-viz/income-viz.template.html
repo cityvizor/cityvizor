@@ -98,7 +98,7 @@
 									<div class="col-xs-8">
 										<strong>Rozpočet: {{item.budgetIncomeAmount | money:0:true}} Kč</strong>
 										<br>
-										<span style="color:#E73431;">&#9632;</span> Čerpáno: {{item.incomeAmount | money:0:true}} Kč
+										<span style="color:#E73431;">&#9632;</span> Příjmy: {{item.incomeAmount | money:0:true}} Kč
 										<br>
 										<span *ngIf="item.incomeAmount <= item.budgetIncomeAmount">
 											<span style="color:#ff9491;">&#9632;</span> Zbývá: {{item.budgetIncomeAmount - item.incomeAmount | money:0:true}} Kč
@@ -112,6 +112,22 @@
 				</div>
 			</div>
 
+		</div>
+	</div>
+</div>
+
+<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" (click)="eventReceiptsModal.hide()" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">{{openedEvent?.name || "Načítání..."}}</h4>
+			</div>
+			<div class="modal-body">
+				<event-detail [event]="openedEvent"></event-detail>
+			</div>
 		</div>
 	</div>
 </div>

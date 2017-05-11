@@ -1,5 +1,6 @@
-import { Component, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription' ;
 
 import { ModalDirective } from 'ng2-bootstrap';
 
@@ -55,11 +56,16 @@ export class IncomeVizComponent{
 	// which group (drawign stripe) has been clicked and is open at the moment
 	selectedGroup: string = null;
 
+	openedEvent:any;
+
 	openedGroupList: boolean = true;
 
 	vizScale: number = 1;	
 	
-	constructor(private router: Router, private route: ActivatedRoute, private _ds: DataService, private _toastService: ToastService, private changeDetectorRef:ChangeDetectorRef){
+	// store siubscription to unsubscribe on destroy
+	paramsSubscription:Subscription;
+	
+	constructor(private router: Router, private route: ActivatedRoute, private _ds: DataService, private _toastService: ToastService){
 		this.groups = [
 			{id: "1", title: "Daňové příjmy"},
 			{id: "2", title: "Nedaňové příjmy"},
@@ -73,11 +79,11 @@ export class IncomeVizComponent{
 
 	ngOnInit(){
 		
-		this.route.params.forEach((params: Params) => {		
+		this.paramsSubscription = this.route.params.subscribe((params: Params) => {		
 			
-			if(params["group"]) {
-				if(this.groupIndex[params["group"]]){
-					this.selectedGroup = params["group"];
+			if(params["polozka"]) {
+				if(this.groupIndex[params["polozka"]]){
+					this.selectedGroup = params["polozka"];
 					this.openedGroupList = false;
 				}
 				else this.selectGroup(null);
@@ -90,6 +96,15 @@ export class IncomeVizComponent{
 		});
 		
   }
+
+	ngOnDestroy(){
+		this.paramsSubscription.unsubscribe();
+	}
+
+	selectGroup(group){
+		this.router.navigate(group ? ["./",{"polozka":group}] : ["./",{}],{relativeTo:this.route});
+	}
+		
 
 	/**
 		* method to handle left/right arrows to switch the selected group
@@ -109,9 +124,7 @@ export class IncomeVizComponent{
 		if(event.keyCode == 39) this.selectGroup(groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0]);
   }
 
-	selectGroup(group){
-		this.router.navigate(group ? ["./",{group:group}] : ["./",{}],{relativeTo:this.route});
-	}
+	
 
 	 // numbers are parsed from CSV as text
 	string2number(string){
@@ -189,5 +202,18 @@ export class IncomeVizComponent{
 		});
 		
   }
+
+	openEvent(eventId){
+		
+		this.eventReceiptsModal.show();
+		
+		this._ds.getProfileEvent(this.profileId,eventId)
+			.then(eventData => this.openedEvent = eventData)
+			.catch(err => {
+				this.eventReceiptsModal.hide();
+				this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error");
+			});
+			
+	}
 
 }
