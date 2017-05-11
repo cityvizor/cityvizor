@@ -1,5 +1,6 @@
-import { Component, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, OnInit, OnDestroy, trigger, state, style, transition, animate } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { DataService } 		from '../../services/data.service';
 import { UserService } 		from '../../services/user.service';
@@ -25,7 +26,7 @@ import { Module, MODULES } from "../../shared/data/modules";
 		])
 	]
 })
-export class ProfileViewComponent {
+export class ProfileViewComponent implements OnInit, OnDestroy {
 
 	profile: any;
 	
@@ -35,6 +36,8 @@ export class ProfileViewComponent {
 	
 	year = 2016;
 
+	paramsSubscription:Subscription
+
 	constructor(private route: ActivatedRoute, private dataService: DataService, public userService:UserService) {
 		
 		this.modules = MODULES;	
@@ -42,7 +45,7 @@ export class ProfileViewComponent {
 	}
 
 	ngOnInit(){
-		this.route.params.forEach((params: Params) => {
+		this.paramsSubscription = this.route.params.subscribe((params: Params) => {
 			if(!this.profile || this.profile.url !== params["profile"]) {
 				this.dataService.getProfile(params["profile"]).then(profile => {
 					this.profile = profile;
@@ -57,6 +60,10 @@ export class ProfileViewComponent {
 			});
 
 		});
+	}
+
+	ngOnDestroy(){
+		this.paramsSubscription.unsubscribe();
 	}
 		
 	getMenuConfig(profile){

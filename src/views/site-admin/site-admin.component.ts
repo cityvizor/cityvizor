@@ -24,6 +24,7 @@ export class SiteAdminComponent {
 		},
 		menu: []
 	};
+
 	cat:string;
 
 	public isMenuCollapsed: boolean = true;

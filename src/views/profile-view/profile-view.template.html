@@ -1,8 +1,8 @@
 <div id="entity" *ngIf="profile">
 
-	<header-menu [config]="getMenuConfig(profile)"></header-menu>
+	<profile-header [profile]="profile"></profile-header>
 
-	<div id="content">
+	<div id="content" class="container">
 			<div [ngSwitch]="activeModule?.id" id="vizmodules">
 
 				<dash-board *ngSwitchCase="'dash-board'" [profile]="profile" [@switchAnimation]></dash-board>
