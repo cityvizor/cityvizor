@@ -5,6 +5,7 @@ import { PageViewComponent } from './views/page-view/page-view.component';
 import { ProfileAdminComponent } from './views/profile-admin/profile-admin.component';
 import { ProfileViewComponent } from './views/profile-view/profile-view.component';
 import { SiteAdminComponent } from './views/site-admin/site-admin.component';
+import { ServiceDeskComponent } from './views/service-desk/service-desk.component';
 
 const appRoutes: Routes = [
   {path: '',component: FrontPageComponent},
@@ -19,7 +20,10 @@ const appRoutes: Routes = [
 	
 	{path: 'admin/:cat/:subcat',component: SiteAdminComponent},
 	{path: 'admin/:cat',component: SiteAdminComponent},
-	{path: 'admin', redirectTo: 'admin/prehled'}
+	{path: 'admin', redirectTo: 'admin/prehled'},
+	
+	{path: 'service-desk/:cat',component: ServiceDeskComponent},
+	{path: 'service-desk', redirectTo: 'service-desk/ucet'}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

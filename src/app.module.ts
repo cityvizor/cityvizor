@@ -12,6 +12,7 @@ import { ProfileListComponent } from './views/profile-list/profile-list.componen
 import { ProfileViewComponent } from './views/profile-view/profile-view.component';
 import { ProfileAdminComponent } from "./views/profile-admin/profile-admin.component";
 import { SiteAdminComponent } from "./views/site-admin/site-admin.component";
+import { ServiceDeskComponent } from "./views/service-desk/service-desk.component";
 
 // Data viz components
 import { DashboardComponent } from "./viz/dash-board/dash-board.component";
@@ -37,6 +38,9 @@ import { SiteAdminUserComponent } from "./views/site-admin/site-admin-user/site-
 import { SiteAdminEntitiesComponent } from "./views/site-admin/site-admin-entities/site-admin-entities.component";
 import { SiteAdminEntityComponent } from "./views/site-admin/site-admin-entity/site-admin-entity.component";
 
+// Service Desk Components
+import { ServiceDeskAccountComponent } from "./views/service-desk//service-desk-account/service-desk-account.component";
+
 // Services
 import { DataService } 		from './services/data.service';
 import { YQLService } 		from './services/yql.service';
@@ -49,7 +53,7 @@ import { ModalModule, CollapseModule } from 'ng2-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
-import { ProfileHeaderComponent } 		from './shared/components/profile-header/profile-header.component';
+import { HeaderMenuComponent } 		from './shared/components/header-menu/header-menu.component';
 import { ProfileMapComponent } 		from './shared/components/profile-map/profile-map.component';
 import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart-bigbang.component';
 import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
@@ -82,11 +86,12 @@ export function getAuthHttp(http) {
 	],
   declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, SiteAdminComponent,
+		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, SiteAdminComponent, ServiceDeskComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
-		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
+		/* Service Desk */ ServiceDeskAccountComponent,
+		/* Shared Components */ HeaderMenuComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
 	],
 	providers: [

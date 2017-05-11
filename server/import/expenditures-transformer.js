@@ -326,7 +326,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		
 		/* SAVE INVOICE */
-		if(row[h.counterpartyId]){	
+		if(row[h.counterpartyId] || module === "KDF" || row[h.description]){	
 			this.payments.push({
 				profile: this.profileId,
 				event: eventId,

@@ -1,6 +1,6 @@
 <div id="entity" *ngIf="profile">
 
-	<profile-header [profile]="profile"></profile-header>
+	<header-menu [config]="getMenuConfig(profile)"></header-menu>
 
 	<div id="content">
 			<div [ngSwitch]="activeModule?.id" id="vizmodules">

@@ -1,0 +1,48 @@
+<div *ngIf="config">
+  <header>
+    <div class="container">
+
+      <h1 *ngIf="config.title">
+        <a [routerLink]="config.title.link">{{config.title.text}}</a>
+      </h1>
+
+      <a *ngIf="config.titleRight" [routerLink]="config.titleRight.link" class="btn pull-right hidden-print">
+        <i *ngIf="config.titleRight.icon" [class]="config.titleRight.icon"></i>
+        {{config.titleRight.text}}
+      </a>
+
+    </div>
+  </header>
+
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" (click)="isMenuCollapsed = !isMenuCollapsed" >
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="toggle-title">MENU</span>
+        </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
+        <ul *ngIf="config.menu" class="nav navbar-nav">
+          <li *ngFor="let item of config.menu">
+            <a [routerLink]="item.link" routerLinkActive="active">
+              <i *ngIf="item.icon" [class]="item.icon"></i>
+              {{item.text}}
+            </a>
+          </li>
+        </ul>
+        <ul *ngIf="config.menuRight" class="nav navbar-nav navbar-right">
+          <li *ngFor="let item of config.menuRight">
+            <a [routerLink]="item.link" routerLinkActive="active">
+              <i *ngIf="item.icon" [class]="item.icon"></i>
+              {{item.text}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

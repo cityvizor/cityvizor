@@ -1,4 +1,4 @@
-#headerObec {
+header {
 	display: block;  
 	background: #2581C4;
 	background-size: 100% auto; background-position: center -212px; 
@@ -7,29 +7,30 @@
 	font-weight: bold;
 	border-bottom: 5px solid #2581C4;
 }
-#headerObec .btn {    
+header .btn {    
   color: white;
   border: none;
 	font-size: 1.5em;
 	box-shadow: none;
 }
-#headerObec .btn:hover span {
+header .btn:hover span {
 	color: white;
 	text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
 	text-decoration: underline;
 }
 
-#headerObec h1 {
+header h1 {
 	font-size: 2em;
 	display: inline-block;
 }
-#headerObec nav {
+header nav {
 	display: inline-block;
 }
 
-#headerObec a, #headerObec a:hover {color:white;text-decoration: none;}
+header a, header a:hover {color:white;text-decoration: none;}
+
 @media (max-width: 1400px) {
-		#headerObec {
+		header {
 				background-size: 1400px auto; /* Force the image to its minimum width */
 		}
 }
@@ -41,26 +42,26 @@
 }
 
 
-.entity-menu .container-fluid, .entity-menu .navbar, .entity-menu .navbar-collapse {
+nav .container-fluid, nav, nav-collapse {
 	margin: 0px;
 	padding: 0px;
 	border: none;
 }
-.entity-menu {
+nav {
 	background: #eee;
 	margin-bottom: 20px;
 }
-.entity-menu .navbar li a {
+nav li a {
 	line-height: 24px;
 	font-size: 12pt;
 	color: #333;
 	transition-duration: 400ms;
 }
-.entity-menu .navbar li a:hover {
+nav li a:hover {
 	background-color: white;
 	color: black;
 }
-.entity-menu .navbar li a.active {
+nav li a.active {
 	background-color: #2581C4;
 	color: white;
 }

@@ -3,8 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { UserService } 		from '../../services/user.service';
 
-import { Module, MODULES } from "../../shared/data/modules";
-
 //00006947
 @Component({
 	moduleId: module.id,
@@ -13,14 +11,28 @@ import { Module, MODULES } from "../../shared/data/modules";
 	styleUrls: ['site-admin.style.css']
 })
 export class SiteAdminComponent {
-  
-  modules = MODULES;
 
-  cat:string;
+	menuConfig = {
+		title: {
+			text: "Administrace CityVizor",
+			link: ["../"]
+		},
+		titleRight: {
+			text: "Zavřít",
+			link: ["/"],
+			icon: "fa fa-times"
+		},
+		menu: []
+	};
+	cat:string;
 
 	public isMenuCollapsed: boolean = true;
 
 	constructor(private route: ActivatedRoute, public userService:UserService) {
+		
+		if(userService.acl('profile-admin')) this.menuConfig.menu.push({ text: "Profily", link: ["../profily"] });
+		if(userService.acl('user-admin')) this.menuConfig.menu.push({ text: "Uživatelé", link: ["../uzivatele"] });
+		if(userService.acl('entities-admin')) this.menuConfig.menu.push({ text: "Obce", link: ["../obce"] });
 		
 	}
 
