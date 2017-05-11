@@ -14,7 +14,7 @@
 							<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
 						</div>
 						
-						<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectedGroup=$event" (hover)="hoveredGroup=$event"></chart-bigbang>
+						<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
 						
 					</div>
 				</div>
@@ -29,7 +29,7 @@
 				</div>
 				<div [attr.class]="(openedGroupList) ? 'row groupList opened' : 'row groupList'" >
 					<div class="row wrap">
-						<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'" (click)="selectedGroup=group.id;openedGroupList=false;">
+						<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'">
 							<div class="row">
 								<div class="col-xs-2">
 									<div class="bar">
@@ -89,7 +89,7 @@
 							<div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
 								<div class="row">
 									<div class="col-xs-4">
-										<chart-donut [data]="paragraph"></chart-donut>
+										<chart-donut [data]="getDonutChartData(paragraph)"></chart-donut>
 									</div>
 									<div class="col-xs-8">
 										<strong>Rozpočet: {{paragraph.budgetExpenditureAmount | money:0:true}} Kč</strong>

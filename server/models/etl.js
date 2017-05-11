@@ -13,7 +13,8 @@ var etlSchema = mongoose.Schema({
 	
 	"result": String,
 	"warnings": [String],
-	"error": String
+	
+	"note": String
 		
 });
 

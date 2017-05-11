@@ -4,7 +4,7 @@
 	<path [attr.d]="generateStripePath(500,500,265,400,0,1)" fill="#ff9491" />
 	
 	<!-- Expenditures -->
-	<path *ngIf="data.expenditureAmount" [attr.d]="generateStripePath(500,500,250,500,0,data.budgetExpenditureAmount ? data.expenditureAmount / data.budgetExpenditureAmount : 0)" stroke-width="30" stroke="#fff" fill="#E73431" />
+	<path *ngIf="data.amount" [attr.d]="generateStripePath(500,500,250,500,0,data.budgetAmount ? data.amount / data.budgetAmount : 0)" stroke-width="30" stroke="#fff" fill="#E73431" />
 	
 	
 </svg>

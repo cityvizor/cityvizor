@@ -65,6 +65,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		
 		/* INDICES FOR FASTER LOOKUP */
 		this.budgetItemIndex = {};
+		this.budgetItemEventIndex = {};
 		this.budgetParagraphIndex = {};
 		this.budgetParagraphEventIndex = {};
 		
@@ -115,13 +116,33 @@ module.exports = class ExpenditureTransformer extends Transform {
 				budgetExpenditureAmount: 0,
 				budgetIncomeAmount: 0,
 				expenditureAmount: 0,
-				incomeAmount: 0
+				incomeAmount: 0,
+				events: []
 			};
 			this.budget.items.push(item);
 			this.budgetItemIndex[itemId] = item;
 		}
 		
 		return this.budgetItemIndex[itemId];
+	}
+	
+	getBudgetItemEvent(budgetItem,eventId){
+		var id = budgetItem.id + "-" + eventId;
+		
+		if (!this.budgetItemEventIndex[id]) {
+			
+			var budgetItemEvent = {
+				event: eventId,
+				budgetExpenditureAmount: 0,
+				expenditureAmount: 0,
+				budgetIncomeAmount: 0,
+				incomeAmount: 0
+			};
+			
+			budgetItem.events.push(budgetItemEvent);
+			this.budgetItemEventIndex[id] = budgetItemEvent;
+		}
+		return this.budgetItemEventIndex[id];
 	}
 	
 	/**
@@ -265,6 +286,7 @@ module.exports = class ExpenditureTransformer extends Transform {
 		/* GET AMOUNT TARGETS */
 		var budget = this.budget;
 		var budgetItem = this.getBudgetItem(itemId);
+		var budgetItemEvent = this.getBudgetItemEvent(budgetItem,eventId);
 		var budgetParagraph = this.getBudgetParagraph(paragraphId);
 		var budgetParagraphEvent = this.getBudgetParagraphEvent(budgetParagraph,eventId);
 		
@@ -289,16 +311,15 @@ module.exports = class ExpenditureTransformer extends Transform {
 		if(!itemId && amountType === "V") this.emit("warning","Data: Neuveden paragraf na řádku " + this.i +  ".");
 		if(!row[h.date]) this.emit("warning","Data: Neuvedeno datum na řádku " + this.i +  ".");
 		if(row[h.counterpartyId] && !row[h.counterpartyName]) this.emit("warning","Data: Neuvedeno jméno dodavatele na řádku " + this.i +  ".");
-
-		if(this.i === 5) console.log(amount,module,amountType);
+		
 		/* UPDATE AMOUNTS */
-		if(module === "ROZ" && amountType === "P") [budget, budgetItem, eventBudget, eventBudgetItem].map(obj => obj.budgetIncomeAmount += amount);
+		if(module === "ROZ" && amountType === "P") [budget, budgetItem, budgetItemEvent, eventBudget, eventBudgetItem].map(obj => obj.budgetIncomeAmount += amount);
 		
-		else if(module === "ROZ" && amountType === "V") [budget, budgetItem, budgetParagraph, budgetParagraphEvent, eventBudget, eventBudgetItem, eventBudgetParagraph].map(obj => obj.budgetExpenditureAmount += amount);
+		else if(module === "ROZ" && amountType === "V") [budget, budgetItem, budgetItemEvent,  budgetParagraph, budgetParagraphEvent, eventBudget, eventBudgetItem, eventBudgetParagraph].map(obj => obj.budgetExpenditureAmount += amount);
 		
-		else if(module !== "ROZ" && amountType === "P") [budget, budgetItem, eventBudget, eventBudgetItem].map(obj => obj.incomeAmount += amount);
+		else if(module !== "ROZ" && amountType === "P") [budget, budgetItem, budgetItemEvent, eventBudget, eventBudgetItem].map(obj => obj.incomeAmount += amount);
 		
-		else if(module !== "ROZ" && amountType === "V") [budget, budgetItem, budgetParagraph, budgetParagraphEvent, eventBudget, eventBudgetItem, eventBudgetParagraph].map(obj => obj.expenditureAmount += amount);
+		else if(module !== "ROZ" && amountType === "V") [budget, budgetItem, budgetItemEvent, budgetParagraph, budgetParagraphEvent, eventBudget, eventBudgetItem, eventBudgetParagraph].map(obj => obj.expenditureAmount += amount);
 		
 		/* Emit warning if other data */
 		else { this.emit("warning","Data: Neidentifikovaný záznam na řádku " + this.i +  ". Záznam byl přeskočen."); return next(); }

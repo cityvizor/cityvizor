@@ -1,63 +1,60 @@
 
-<div *ngIf="event">
-	<div class="alert alert-info">
-		<strong>Popis investiční akce:</strong> Dům by měl zajistit komunitní bydlení pro starší, stále soběstačné lidi, s možností si přiobjednat různé služby od jejich poskytovatelů. Nájemníci musí splnit určitá kritéria, aby byl dodržen účel, za kterým byl dům postaven, což se týká například výše příjmu či absence vlastnictví jiného bydlení. Nájem má být srovnatelný s ostatními byty v majetku města.
-		Na stavbu komunitního domu s dvaadvaceti byty, který vyjde na zhruba pětadvacet milionů, získalo město příslib evropské dotace ve výši dvanáct a půl milionu korun.
-		<strong>Pouze ilustrativní popis investiční akce!</strong>
-	</div>
-	
-	<div class="btn-group pull-right">
-		<button type="button" class="btn btn-default">Všechno</button>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-			Zvolit rok <span class="caret"></span></button>
-			<ul class="dropdown-menu" role="menu">
-				<li><a href="#">2017</a></li>
-				<li><a href="#">2016</a></li>
-				<li><a href="#">2015</a></li>
-			</ul>
-		</div>
-	</div>
-	<h2>Faktury  a platby</h2>
-	
-	
-	<table class="table table-responsive small">
-		<thead>
-			<tr>
-				<th>Datum</th>
-				
-				<th>Dodavatel</th>
-				<th>IČO</th>
-				<th>Položka</th>
-				<th>Paragraf</th>
-				<th>Popis</th>
-				<th>Částka</th>
-				
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let payment of event.payments">
+<div class="alert alert-info">
+	<strong>Popis investiční akce:</strong> Dům by měl zajistit komunitní bydlení pro starší, stále soběstačné lidi, s možností si přiobjednat různé služby od jejich poskytovatelů. Nájemníci musí splnit určitá kritéria, aby byl dodržen účel, za kterým byl dům postaven, což se týká například výše příjmu či absence vlastnictví jiného bydlení. Nájem má být srovnatelný s ostatními byty v majetku města.
+	Na stavbu komunitního domu s dvaadvaceti byty, který vyjde na zhruba pětadvacet milionů, získalo město příslib evropské dotace ve výši dvanáct a půl milionu korun.
+	<strong>Pouze ilustrativní popis investiční akce!</strong>
+</div>
+
+<h2>Faktury  a platby</h2>
+
+
+<table *ngIf="counterparties" class="table table-responsive small">
+	<thead>
+		<tr>
+			<th>Dodavatel</th>
+			<th>IČO</th>
+			<th>Příjem/výdaj</th>
+			<th>Datum</th>
+			<th>Popis</th>
+			<th>Částka</th>
+		</tr>
+	</thead>
+	<tbody>
+		<ng-container *ngFor="let counterparty of counterparties|array">
+			<tr *ngFor="let payment of counterparty.incomes;let j = index">
+				<ng-container *ngIf="j === 0">
+					<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.id}}</td>
+					<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.name}}</td>
+				</ng-container>
+				<td *ngIf="j === 0" [attr.rowspan]="counterparty.incomes.length">Příjem</td>
 				<td>{{payment.date | date:"d. M. y"}}</td>
-				<td>{{payment.counterpartyName}}</td>
-				<td>{{payment.counterpartyId}}</td>
-				<td>{{payment.item}}</td>
-				<td>{{payment.paragraph}}</td>
 				<td>{{payment.description}}</td>
 				<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
-				<td></td>
 			</tr>
-		</tbody>
-	</table>
+			<tr *ngFor="let payment of counterparty.expenditures;let j = index">
+				<ng-container *ngIf="j === 0 && !counterparty.incomes.length">
+					<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.id}}</td>
+					<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.name}}</td>
+				</ng-container>
+				<td *ngIf="j === 0" [attr.rowspan]="counterparty.expenditures.length">Výdaj</td>
+				<td>{{payment.date | date:"d. M. y"}}</td>
+				<td>{{payment.description}}</td>
+				<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+			</tr>
+		</ng-container>
+	</tbody>
+</table>
 
-	
-	<h2>
-		Rozpočty
-	</h2>
-	<div *ngFor="let budget of event.budgets">
-		
-		
+
+<h2>
+	Rozpočty
+</h2>
+<div *ngIf="budgets">
+	<div *ngFor="let budget of budgets">
+
+
 		<h3>Rozpočet - {{budget.year}}</h3>
-		
+
 		<table class="table table-responsive small">
 			<thead>
 				<tr>
@@ -72,7 +69,7 @@
 				</tr>
 			</tbody>
 		</table>
-		
+
 		<table class="table table-responsive small">
 			<thead>
 				<tr>
@@ -91,7 +88,7 @@
 				</tr>
 			</tbody>
 		</table>
-		
+
 		<table class="table table-responsive small">
 			<thead>
 				<tr>

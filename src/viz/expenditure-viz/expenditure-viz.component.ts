@@ -1,4 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription' ;
+
 import { ModalDirective } from 'ng2-bootstrap';
 
 import { DataService } from '../../services/data.service';
@@ -60,8 +63,11 @@ export class ExpenditureVizComponent{
 	maxAmount:number = 0;
 
 	vizScale: number = 1;	
+
+	// store siubscription to unsubscribe on destroy
+	paramsSubscription:Subscription;
 	
-	constructor(private _ds: DataService, private _toastService: ToastService){
+	constructor(private router: Router, private route: ActivatedRoute, private _ds: DataService, private _toastService: ToastService){
 		
 		this.groups = ChartGroups; // set groups
 		this.groups.forEach(group => {
@@ -72,6 +78,34 @@ export class ExpenditureVizComponent{
 		});
 		//this.selectedGroup = this.groups[0].id;
 		this.paragraphNames = paragraphNames;
+	}
+
+	ngOnInit(){
+		
+		this.paramsSubscription = this.route.params.subscribe((params: Params) => {		
+			
+			if(params["paragraf"]) {
+				if(this.groupIndex[params["paragraf"]]){
+					this.selectedGroup = params["paragraf"];
+					this.openedGroupList = false;
+				}
+				else this.selectGroup(null);
+			}
+			else {
+				this.selectedGroup = null;
+				this.openedGroupList = true;
+			}
+			
+		});
+		
+  }
+
+	ngOnDestroy(){
+		this.paramsSubscription.unsubscribe();
+	}
+
+	selectGroup(group){
+		this.router.navigate(group ? ["./",{"paragraf":group}] : ["./",{}],{relativeTo:this.route});
 	}
 
 	/**
@@ -86,11 +120,11 @@ export class ExpenditureVizComponent{
 		var i = groupIds.indexOf(this.selectedGroup);
 
 		//LEFT
-		if(event.keyCode == 37) this.selectedGroup = groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1];
+		if(event.keyCode == 37) this.selectGroup(groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1]);
 		
 		//RIGHT
-		if(event.keyCode == 39) this.selectedGroup = groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0];
-  }
+		if(event.keyCode == 39) this.selectGroup(groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0]);
+	}
 
 	 // numbers are parsed from CSV as text
 	string2number(string){
@@ -99,8 +133,14 @@ export class ExpenditureVizComponent{
 		return Number(string);																									
 	}
 
-	/* PROCESS DATA */
+	getDonutChartData(paragraph){
+		return {
+			amount: paragraph.expenditureAmount,
+			budgetAmount: paragraph.budgetExpenditureAmount
+		};
+	}
 
+	/* PROCESS DATA */
 	loadData(profileId,year){
 		
 		// get event names

@@ -35,27 +35,6 @@ export class ChartBigbangComponent {
 	 
 	constructor(){
 	}
-	 /*
-	ngOnChanges(changes:SimpleChanges){
-		
-		if(false && changes.data && changes.data.currentValue){
-			let data = changes.data.currentValue;
-			
-			var maxAmount = 0;
-			var totalBudgetAmount = 0;
-			var totalAmount = 0;
-
-			data.forEach(item => {
-				maxAmount = Math.max(maxAmount,item.budgetAmount,item.amount);
-				totalBudgetAmount += item.budgetAmount;
-				totalAmount += item.amount;
-			});
-
-			this.maxAmount = maxAmount;
-			this.totalBudgetAmount = totalBudgetAmount;
-			this.totalAmount = totalAmount;
-		}
-	}*/
 	
 	getStripeSize(amount){
 		//console.log(amount,this.max,this.max ? Math.max(this.minR, Math.sqrt(amount / this.max * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR);

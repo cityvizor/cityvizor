@@ -1,4 +1,7 @@
-import { Component, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription' ;
+
 import { ModalDirective } from 'ng2-bootstrap';
 
 import { DataService } from '../../services/data.service';
@@ -42,6 +45,9 @@ export class IncomeVizComponent{
 	groups: any[] = [];
 	groupIndex: any = {};
 
+	eventIndex:any = {};
+	itemNames = {};
+
 	maxAmount:number = 0;
 
 	// which group (drawing stripe) is hovered at the moment
@@ -50,11 +56,16 @@ export class IncomeVizComponent{
 	// which group (drawign stripe) has been clicked and is open at the moment
 	selectedGroup: string = null;
 
+	openedEvent:any;
+
 	openedGroupList: boolean = true;
 
 	vizScale: number = 1;	
 	
-	constructor(private _ds: DataService, private _toastService: ToastService, private changeDetectorRef:ChangeDetectorRef){
+	// store siubscription to unsubscribe on destroy
+	paramsSubscription:Subscription;
+	
+	constructor(private router: Router, private route: ActivatedRoute, private _ds: DataService, private _toastService: ToastService){
 		this.groups = [
 			{id: "1", title: "Daňové příjmy"},
 			{id: "2", title: "Nedaňové příjmy"},
@@ -63,6 +74,37 @@ export class IncomeVizComponent{
 		];	
 		this.groups.forEach(group => this.groupIndex[group.id] = group);
 	}
+
+
+
+	ngOnInit(){
+		
+		this.paramsSubscription = this.route.params.subscribe((params: Params) => {		
+			
+			if(params["polozka"]) {
+				if(this.groupIndex[params["polozka"]]){
+					this.selectedGroup = params["polozka"];
+					this.openedGroupList = false;
+				}
+				else this.selectGroup(null);
+			}
+			else {
+				this.selectedGroup = null;
+				this.openedGroupList = true;
+			}
+			
+		});
+		
+  }
+
+	ngOnDestroy(){
+		this.paramsSubscription.unsubscribe();
+	}
+
+	selectGroup(group){
+		this.router.navigate(group ? ["./",{"polozka":group}] : ["./",{}],{relativeTo:this.route});
+	}
+		
 
 	/**
 		* method to handle left/right arrows to switch the selected group
@@ -76,11 +118,13 @@ export class IncomeVizComponent{
 		var i = groupIds.indexOf(this.selectedGroup);
 
 		//LEFT
-		if(event.keyCode == 37) this.selectedGroup = groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1];
+		if(event.keyCode == 37) this.selectGroup(groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1]);
 		
 		//RIGHT
-		if(event.keyCode == 39) this.selectedGroup = groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0];
+		if(event.keyCode == 39) this.selectGroup(groupIds[i + 1 <= groupIds.length - 1 ? i + 1 : 0]);
   }
+
+	
 
 	 // numbers are parsed from CSV as text
 	string2number(string){
@@ -89,9 +133,30 @@ export class IncomeVizComponent{
 		return Number(string);																									
 	}
 
+	getEventName(eventId){
+		if(this.eventIndex[eventId]) return this.eventIndex[eventId].name;
+		if(eventId) return "Investiční akce č. " + eventId;
+		return "Ostatní";
+	}
+
+
+	getDonutChartData(item){
+		return {
+			amount: item.incomeAmount,
+			budgetAmount: item.budgetIncomeAmount
+		};
+	}
+
 	/* PROCESS DATA */
 
 	loadData(profileId,year){
+		
+		// get event names
+		this._ds.getProfileEvents(profileId)
+			.then(events => {
+				this.eventIndex = {};
+				events.forEach(event => this.eventIndex[event.event] = event);
+			});
 		
 		// we get a Promise
 		this._ds.getProfileBudget(profileId,year)
@@ -116,7 +181,9 @@ export class IncomeVizComponent{
 		
 		// set group values at once
     this.groups.forEach(group => {
-			group.amount = group.budgetAmount = 0;
+			group.amount = 0;
+			group.budgetAmount = 0;
+			group.items = [];
     });
 		
 		budget.items.forEach(item => {
@@ -126,6 +193,7 @@ export class IncomeVizComponent{
 			if(this.groupIndex[groupId]){
 				this.groupIndex[groupId].budgetAmount += item.budgetIncomeAmount;
 				this.groupIndex[groupId].amount += item.incomeAmount;
+				this.groupIndex[groupId].items.push(item);
 			}
 		});
 		
@@ -134,5 +202,18 @@ export class IncomeVizComponent{
 		});
 		
   }
+
+	openEvent(eventId){
+		
+		this.eventReceiptsModal.show();
+		
+		this._ds.getProfileEvent(this.profileId,eventId)
+			.then(eventData => this.openedEvent = eventData)
+			.catch(err => {
+				this.eventReceiptsModal.hide();
+				this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error");
+			});
+			
+	}
 
 }

@@ -57,7 +57,7 @@ import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-don
 // Pipes
 import { MoneyPipe } from './shared/pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './shared/pipes/address.pipe';
-import { ConcatPipe, ArrayChildrenPipe } from './shared/pipes/utils.pipe';
+import { ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './shared/pipes/utils.pipe';
 
 // Routes
 import { routing } from './app.routing';
@@ -87,7 +87,7 @@ export function getAuthHttp(http) {
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
 		/* Shared Components */ ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
-		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe
+		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
 	],
 	providers: [
 		DataService, YQLService, NoticeBoardService, ToastService, UserService,
