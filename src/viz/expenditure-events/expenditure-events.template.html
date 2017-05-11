@@ -1,64 +1,62 @@
-<div class="container">
-	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
-			<div *ngIf="infoWindowClosed" class="alert alert-info alert-dismissable fade in">
-				<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
-				<strong>Informace:</strong> Investice neboli investiční akce jsou v účetnictví analogií k projektu. Tedy když se rozhodne, že se například opraví chodník v ulici xxx, založí se investiční akce, která má začátek a konec, plánovaný objem prostředků. Potom se, pro účely rozpočtování, přiřadí rozpočtové položky a pragrafy. 
-	Skrze investiční akce můžete velmi jednoduše získat přehled o tom, co se ve vašem městě děje a jaké jsou plány. 
-			</div>
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div *ngIf="infoWindowClosed" class="alert alert-info alert-dismissable fade in">
+			<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
+			<strong>Informace:</strong> Investice neboli investiční akce jsou v účetnictví analogií k projektu. Tedy když se rozhodne, že se například opraví chodník v ulici xxx, založí se investiční akce, která má začátek a konec, plánovaný objem prostředků. Potom se, pro účely rozpočtování, přiřadí rozpočtové položky a pragrafy. 
+			Skrze investiční akce můžete velmi jednoduše získat přehled o tom, co se ve vašem městě děje a jaké jsou plány. 
 		</div>
 	</div>
+</div>
 
-	<div class="row">
-		<div class="pull-right">
-			<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-primary">Období (tento rok)</button>
-				<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Tento rok</a></li>
-					<li><a href="#">Toto pololetí</a></li>
-					<li><a href="#">Tento měsíc</a></li>
-					<li class="divider"></li>
-					<li><a href="#">Vlastní období</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-xs-12 text-center">
-			<div class="btn-group">
-				<button type="button" class="btn btn-sm btn-default active">ABECEDNĚ</button>
-				<button type="button" class="btn btn-sm btn-default">DLE OBJEMU</button>
-				<button type="button" class="btn btn-sm btn-default">NEJNOVĚJŠÍ VÝDAJE</button>
-			</div>
+<div class="row">
+	<div class="pull-right">
+		<div class="btn-group">
+			<button type="button" class="btn btn-sm btn-primary">Období (tento rok)</button>
+			<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#">Tento rok</a></li>
+				<li><a href="#">Toto pololetí</a></li>
+				<li><a href="#">Tento měsíc</a></li>
+				<li class="divider"></li>
+				<li><a href="#">Vlastní období</a></li>
+			</ul>
 		</div>
 	</div>
-	
-	
-	<div class="row">
-		<table class="table table-responsive table-striped">
-			<thead>
-				<th>Název akce</th>
-				<th>Počet výdajů</th>
-				<th>Počet dodavatelů</th>
-				<th>Poslední výdaj</th>
-				<th>Částka</th>
-			</thead>
-			<tbody>
-				<tr *ngFor="let event of events" class="small">
-					<td><a (click)="openEvent(event)">{{event.name}}</a></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>{{event.amount}}</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="col-xs-12 text-center">
+		<div class="btn-group">
+			<button type="button" class="btn btn-sm btn-default active">ABECEDNĚ</button>
+			<button type="button" class="btn btn-sm btn-default">DLE OBJEMU</button>
+			<button type="button" class="btn btn-sm btn-default">NEJNOVĚJŠÍ VÝDAJE</button>
+		</div>
 	</div>
 </div>
 
 
-	<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="row">
+	<table class="table table-responsive table-striped">
+		<thead>
+			<th>Název akce</th>
+			<th>Počet výdajů</th>
+			<th>Počet dodavatelů</th>
+			<th>Poslední výdaj</th>
+			<th>Částka</th>
+		</thead>
+		<tbody>
+			<tr *ngFor="let event of events" class="small">
+				<td><a (click)="openEvent(event)">{{event.name}}</a></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>{{event.amount}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">

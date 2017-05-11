@@ -54,6 +54,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
 import { HeaderMenuComponent } 		from './shared/components/header-menu/header-menu.component';
+import { ProfileHeaderComponent } 		from './shared/components/profile-header/profile-header.component';
 import { ProfileMapComponent } 		from './shared/components/profile-map/profile-map.component';
 import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart-bigbang.component';
 import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
@@ -91,7 +92,7 @@ export function getAuthHttp(http) {
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
 		/* Service Desk */ ServiceDeskAccountComponent,
-		/* Shared Components */ HeaderMenuComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
+		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent, ProfileMapComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
 	],
 	providers: [

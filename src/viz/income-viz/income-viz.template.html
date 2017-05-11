@@ -1,118 +1,116 @@
-<div class="container">
-	<button class="btn btn-xs btn-default btn-infoModal pull-right"  (click)="infoModal.show();">
-		<i class="fa fa-question-circle"></i> Informace
-	</button>
+<button class="btn btn-xs btn-default btn-infoModal pull-right"  (click)="infoModal.show();">
+	<i class="fa fa-question-circle"></i> Informace
+</button>
 
-	<div class="row">
+<div class="row">
 
-		<div class="col-lg-12">
-			<!-- VIZUALIZACE -->
-			<div class="drawing" #drawing>
+	<div class="col-lg-12">
+		<!-- VIZUALIZACE -->
+		<div class="drawing" #drawing>
 
-				<div class="row">
-					<div class="col-lg-8 col-lg-offset-2">
-						<div class="whiteTransitions">
-							<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
-						</div>
-
-						<chart-bigbang [data]="groups" [max]="maxAmount" [r]="150" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
-
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2">
+					<div class="whiteTransitions">
+						<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
 					</div>
-				</div>
 
-				<div class="row selectedGroupTitle">
-					<div class="col-lg-12">
-						<label class="label-default" *ngIf="!selectedGroup">Vyberte rozpočtovou skupinu</label>
-						<label class="label-selectedGroup" *ngIf="selectedGroup">{{groupIndex[selectedGroup].title}}</label>
-						<button [attr.class]="(openedGroupList) ? 'active' : ''"  (click)="openedGroupList=!openedGroupList">
-							<i class="fa fa-chevron-circle-down"> </i> Seznam
-						</button>
-					</div>
-				</div>
+					<chart-bigbang [data]="groups" [max]="maxAmount" [r]="150" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
 
-				<div [attr.class]="(openedGroupList) ? 'row groupList opened' : 'row groupList'" >
-					<div class="row wrap">
-						<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup=(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'">
-							<div class="row">
-								<div class="col-xs-2">
-									<div class="bar">
-										<div class="bar-budget" [style.width]="(group.budgetAmount / maxAmount * 100)+'%'">
-											<div class="bar-item.diture" [style.width]="(group.amount / group.budgetAmount * 100)+'%'">
-											</div>
+				</div>
+			</div>
+
+			<div class="row selectedGroupTitle">
+				<div class="col-lg-12">
+					<label class="label-default" *ngIf="!selectedGroup">Vyberte rozpočtovou skupinu</label>
+					<label class="label-selectedGroup" *ngIf="selectedGroup">{{groupIndex[selectedGroup].title}}</label>
+					<button [attr.class]="(openedGroupList) ? 'active' : ''"  (click)="openedGroupList=!openedGroupList">
+						<i class="fa fa-chevron-circle-down"> </i> Seznam
+					</button>
+				</div>
+			</div>
+
+			<div [attr.class]="(openedGroupList) ? 'row groupList opened' : 'row groupList'" >
+				<div class="row wrap">
+					<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup=(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'">
+						<div class="row">
+							<div class="col-xs-2">
+								<div class="bar">
+									<div class="bar-budget" [style.width]="(group.budgetAmount / maxAmount * 100)+'%'">
+										<div class="bar-item.diture" [style.width]="(group.amount / group.budgetAmount * 100)+'%'">
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-10 small analytics" [attr.data-analytics]="group.id">
-									{{group.id}} - {{group.title}}
-								</div>
+							</div>
+							<div class="col-xs-10 small analytics" [attr.data-analytics]="group.id">
+								{{group.id}} - {{group.title}}
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			
-			<div id="selectedGroup">
-
-				<div *ngIf="groupIndex[selectedGroup]">
-
-					<div *ngFor="let item of groupIndex[selectedGroup].items" class="paragraph">
-
-						<div class="row">
-							<div class="col-md-12">
-								<h4>&sect; {{item.id}} - {{itemNames[item.id] || ("Rozpočtová položka #" + item.id)}}</h4>
-								<span *ngIf="item.incomeAmount > item.budgetIncomeAmount" class="label label-warning"><i class="fa fa-warning"></i> Překročen rozpočet!</span>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-sm-9">
-								<div class="content">
-
-									<table class="viztable table table-responsive small">
-										<thead>
-											<tr>
-												<th>Investiční akce</th>
-												<th>Rozpočet</th>
-												<th>Skutečné příjmy</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr *ngFor="let event of item.events">
-												<td>
-													<a *ngIf="event.event" (click)="openEvent(event.event)">{{getEventName(event.event)}}</a>
-													<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
-												</td>
-												<td>{{event.budgetIncomeAmount | money:0:true}} Kč</td>
-												<td>{{event.incomeAmount | money:0:true}} Kč</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							
-							<div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
-								<div class="row">
-									<div class="col-xs-4">
-										<chart-donut [data]="getDonutChartData(item)"></chart-donut>
-									</div>
-									<div class="col-xs-8">
-										<strong>Rozpočet: {{item.budgetIncomeAmount | money:0:true}} Kč</strong>
-										<br>
-										<span style="color:#E73431;">&#9632;</span> Příjmy: {{item.incomeAmount | money:0:true}} Kč
-										<br>
-										<span *ngIf="item.incomeAmount <= item.budgetIncomeAmount">
-											<span style="color:#ff9491;">&#9632;</span> Zbývá: {{item.budgetIncomeAmount - item.incomeAmount | money:0:true}} Kč
-										</span>
-										<span *ngIf="item.incomeAmount > item.budgetIncomeAmount">Překročeno o {{item.incomeAmount - item.budgetIncomeAmount | money:0:true}} Kč</span> 
-									</div>
-								</div>
-							</div>
-						</div>					
-					</div>
-				</div>
-			</div>
-
 		</div>
+
+		<div id="selectedGroup">
+
+			<div *ngIf="groupIndex[selectedGroup]">
+
+				<div *ngFor="let item of groupIndex[selectedGroup].items" class="paragraph">
+
+					<div class="row">
+						<div class="col-md-12">
+							<h4>&sect; {{item.id}} - {{itemNames[item.id] || ("Rozpočtová položka #" + item.id)}}</h4>
+							<span *ngIf="item.incomeAmount > item.budgetIncomeAmount" class="label label-warning"><i class="fa fa-warning"></i> Překročen rozpočet!</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-9">
+							<div class="content">
+
+								<table class="viztable table table-responsive small">
+									<thead>
+										<tr>
+											<th>Investiční akce</th>
+											<th>Rozpočet</th>
+											<th>Skutečné příjmy</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let event of item.events">
+											<td>
+												<a *ngIf="event.event" (click)="openEvent(event.event)">{{getEventName(event.event)}}</a>
+												<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
+											</td>
+											<td>{{event.budgetIncomeAmount | money:0:true}} Kč</td>
+											<td>{{event.incomeAmount | money:0:true}} Kč</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
+							<div class="row">
+								<div class="col-xs-4">
+									<chart-donut [data]="getDonutChartData(item)"></chart-donut>
+								</div>
+								<div class="col-xs-8">
+									<strong>Rozpočet: {{item.budgetIncomeAmount | money:0:true}} Kč</strong>
+									<br>
+									<span style="color:#E73431;">&#9632;</span> Příjmy: {{item.incomeAmount | money:0:true}} Kč
+									<br>
+									<span *ngIf="item.incomeAmount <= item.budgetIncomeAmount">
+										<span style="color:#ff9491;">&#9632;</span> Zbývá: {{item.budgetIncomeAmount - item.incomeAmount | money:0:true}} Kč
+									</span>
+									<span *ngIf="item.incomeAmount > item.budgetIncomeAmount">Překročeno o {{item.incomeAmount - item.budgetIncomeAmount | money:0:true}} Kč</span> 
+								</div>
+							</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+
 	</div>
 </div>
 
