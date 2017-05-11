@@ -1,58 +1,24 @@
-import { Component, Input, ViewChild, AfterViewInit, OnDestroy, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, Input, trigger, state, style, transition, animate } from '@angular/core';
 
 @Component({
 	moduleId: module.id,
 	selector: 'chart-donut',
 	templateUrl: 'chart-donut.template.html',
-	styleUrls: [],
 	animations: [
-		trigger('scrollAnimation', [
-			state('hidden', style({
-				opacity: 0,
-				//transform: 'scale(0.5)'
-			})),
-			state('visible',   style({
-				opacity: 1,
-				//transform: 'scale(1)'
-			})),
-			transition('hidden => visible', animate('500ms ease-in-out'))
+		trigger('showAnimation', [
+			transition(':enter', [
+				style({opacity: 0}),
+				animate("500ms", style({opacity: 1}))
+			])
 		])
 	]
 })
-export class ChartDonutComponent implements AfterViewInit, OnDestroy {
+export class ChartDonutComponent {
 
 	@Input() data:any;	
-	 
-	@ViewChild('donutchart') el;
-	 
-	visible:boolean;
 
 	constructor(){
-		window.addEventListener("scroll",this.updateVisible.bind(this))
 	}
-	 
-	ngAfterViewInit(){
-		// if we change value during ngAfterViewInit, we have to either tell Angular to run another
-		// round of change detection, or we can change the value after ngAfterViewInit (by using setTimeout)
-		// and Angular does change detection on its own.
-		setTimeout(() => this.updateVisible(),0);
-	}
-	
-	ngOnDestroy(){
-		window.removeEventListener("scroll",this.updateVisible.bind(this));
-	}
-	 
-	isVisible(el){
-		return (el.getBoundingClientRect().top >= 0) && (el.getBoundingClientRect().bottom <= window.innerHeight);
-	}
-	 
-	updateVisible(){
-		if(this.isVisible(this.el.nativeElement)){
-			this.visible = true;
-			window.removeEventListener("scroll",this.updateVisible.bind(this));
-		}
-	} 
-	
 
 	// generate SVG path attribute string for a donut stripe; start and size are percentage of whole, i.e. 1 is full circle
 	generateStripePath(x,y,innerRadius,outerRadius,start,size){

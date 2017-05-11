@@ -1,4 +1,4 @@
-<svg style="width: 100%;" viewBox="0 0 1000 1000" #donutchart [@scrollAnimation]="visible ? 'visible' : 'hidden'">
+<svg style="width: 100%;" viewBox="0 0 1000 1000" #donutchart @showAnimation>
 	
 	<!-- BG -->
 	<path [attr.d]="generateStripePath(500,500,265,400,0,1)" fill="#ff9491" />
