@@ -16,7 +16,42 @@
 <!-- 3. Display the application -->
 
 <body>
-  
+  <div>
+  <header>
+    <div class="container">
+
+      <h1><a href="/">{{page.title}}</a></h1>
+
+      <a href="https://cityvizor.cz" class="btn pull-right hidden-print">
+        <i class="fa fa-chevron-circle-right"></i>
+        Přejít na cityvizor
+      </a>
+
+    </div>
+  </header>
+
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="toggle-title">MENU</span>
+        </button>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">Úvod</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+	
   <div class="container">
     {{ content }}
   </div>
