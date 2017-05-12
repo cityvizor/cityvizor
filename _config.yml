@@ -1,1 +1,28 @@
-theme: jekyll-theme-leap-day
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: CityVizor
+email: cityvizor@otevrenamesta.cz
+description: > # this means to ignore newlines until "baseurl:"
+    CityVizor je aplikace na ... diplnit!
+baseurl: "" # the subpath of your site, e.g. /blog  http://stackoverflow.com/questions/16316311/github-pages-and-relative-paths/19173888#19173888
+url: "" # the base hostname & protocol for your site
+
+# Build settings
+markdown: kramdown
+
+cdn_libs:
+    css:
+      - https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.css
+      - https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css
+      - https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.2/motion-ui.min.css
+    js:
+      - https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js
+      - https://cdnjs.cloudflare.com/ajax/libs/jquery.countdown/2.2.0/jquery.countdown.min.js
+      - https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.js
+      - https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.2/motion-ui.min.js
