@@ -13,17 +13,17 @@ const appRoutes: Routes = [
 	{path: 'stranka/:id',component: PageViewComponent},
 
 	{path: 'profil/:profile/admin/:module',component: ProfileAdminComponent},
-	{path: 'profil/:profile/admin', redirectTo: 'profil/:profile/admin/uvod'},
+	{path: 'profil/:profile/admin', redirectTo: 'profil/:profile/admin/uvod', pathMatch: 'full'},
 	
 	{path: 'profil/:profile/:module',component: ProfileViewComponent},
-	{path: 'profil/:profile', redirectTo: 'profil/:profile/prehled'},
+	{path: 'profil/:profile', redirectTo: 'profil/:profile/prehled', pathMatch: 'full'},
 	
 	{path: 'admin/:cat/:subcat',component: SiteAdminComponent},
 	{path: 'admin/:cat',component: SiteAdminComponent},
-	{path: 'admin', redirectTo: 'admin/prehled'},
+	{path: 'admin', redirectTo: 'admin/prehled', pathMatch: 'full'},
 	
 	{path: 'service-desk/:cat',component: ServiceDeskComponent},
-	{path: 'service-desk', redirectTo: 'service-desk/ucet'}
+	{path: 'service-desk', redirectTo: 'service-desk/ucet', pathMatch: 'full'}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

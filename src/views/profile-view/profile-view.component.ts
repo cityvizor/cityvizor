@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -13,18 +13,6 @@ import { Module, MODULES } from "../../shared/data/modules";
 	selector: 'profile-view',
 	templateUrl: 'profile-view.template.html',
 	styleUrls: ['profile-view.style.css'],
-	animations: [
-		trigger('switchAnimation', [
-			transition(':enter', [
-				style({opacity: 0, position:"absolute"}),
-				animate("200ms", style({opacity: 1})),
-				style({position:"static"})
-			]),
-			transition(':leave', [
-				animate("200ms", style({opacity: 0}))
-			])
-		])
-	]
 })
 export class ProfileViewComponent implements OnInit, OnDestroy {
 
@@ -93,6 +81,5 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 			link: ["/profil/" + this.profile.url + "/" + viz.url]
 		};
 	}
-
 
 }

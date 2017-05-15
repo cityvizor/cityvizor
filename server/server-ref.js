@@ -30,5 +30,5 @@ app.get('*',(req,res) => {
 
 /* START SERVER */
 app.listen(8000, function () {
-	console.log('CityVizor Server listening on port 8080!');
+	console.log('CityVizor Server listening on port 8000!');
 })

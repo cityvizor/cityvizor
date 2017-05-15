@@ -5,23 +5,26 @@
 (function(global) {
   // map tells the System loader where to look for things
   var map = {
-    'app':                        'src',
-    '@angular':                   'node_modules/@angular',
-    'rxjs':                       'node_modules/rxjs',
-		'papaparse': 									'node_modules/papaparse',
-		'ng2-bootstrap': 							'node_modules/ng2-bootstrap',
-		'ng2-file-upload':						'node_modules/ng2-file-upload',
-		'angular2-jwt':								'node_modules/angular2-jwt',
-		'moment': 										'node_modules/moment'
+		'app':                      						'src',
+    '@angular':                   					'node_modules/@angular',
+    'rxjs':                       					'node_modules/rxjs',
+		'papaparse': 														'node_modules/papaparse',
+		'ngx-bootstrap': 												'node_modules/ngx-bootstrap',
+		'ng2-file-upload':											'node_modules/ng2-file-upload',
+		'angular2-jwt':													'node_modules/angular2-jwt',
+		'moment': 															'node_modules/moment',
+		'@angular/animations': 									'node_modules/@angular/animations/bundles/animations.umd.min.js',
+		'@angular/animations/browser':					'node_modules/@angular/animations/bundles/animations-browser.umd.js',
+		'@angular/platform-browser/animations': 'node_modules/@angular/platform-browser/bundles/platform-browser-animations.umd.js'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
-    'app':                        { main: 'index.js',  defaultExtension: 'js' },
-    'rxjs':                       { defaultExtension: 'js' },
-		'ng2-bootstrap':              { format: 'cjs', main: 'bundles/ng2-bootstrap.umd.js', defaultExtension: 'js' },
-		'ng2-file-upload':            { format: 'cjs', main: 'bundles/ng2-file-upload.umd.js', defaultExtension: 'js' },
-		'angular2-jwt':     	        { defaultExtension: 'js', main: "angular2-jwt.js"},
-		'moment': 										{ defaultExtension: 'js', main: 'moment.js'}
+    'app':                      					  { main: 'index.js',  defaultExtension: 'js' },
+    'rxjs':                     					  { defaultExtension: 'js' },
+		'ngx-bootstrap':            					  { format: 'cjs', main: 'bundles/ngx-bootstrap.umd.js', defaultExtension: 'js' },
+		'ng2-file-upload':          					  { format: 'cjs', main: 'bundles/ng2-file-upload.umd.js', defaultExtension: 'js' },
+		'angular2-jwt':     	      					  { defaultExtension: 'js', main: "angular2-jwt.js"},
+		'moment': 															{ defaultExtension: 'js', main: 'moment.js'}		
   };
   var ngPackageNames = [
     'common',
