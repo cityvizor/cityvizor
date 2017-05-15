@@ -18,7 +18,7 @@ markdown: kramdown
 
 navigation:
 - text: Úvod
-  url: /
+  url: 
 - text: O aplikaci
   url: /o-aplikaci/
 
