@@ -18,7 +18,7 @@
   var packages = {
     'app':                        { main: 'index.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
-		'ng2-bootstrap':              { format: 'cjs', main: 'bundles/ng2-bootstrap.umd.js', defaultExtension: 'js' },
+		'ng2-bootstrap':              { format: 'cjs', main: 'bundles/ngx-bootstrap.umd.js', defaultExtension: 'js' },
 		'ng2-file-upload':            { format: 'cjs', main: 'bundles/ng2-file-upload.umd.js', defaultExtension: 'js' },
 		'angular2-jwt':     	        { defaultExtension: 'js', main: "angular2-jwt.js"},
 		'moment': 										{ defaultExtension: 'js', main: 'moment.js'}
