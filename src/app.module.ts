@@ -1,6 +1,5 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http }     from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
@@ -50,7 +49,7 @@ import { ToastService } 		from './services/toast.service';
 import { UserService } 		from './services/user.service';
 
 // Import Modules
-import { ModalModule, CollapseModule } from 'ngx-bootstrap';
+import { ModalModule, CollapseModule } from 'ng2-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
@@ -80,7 +79,6 @@ export function getAuthHttp(http) {
 @NgModule({
   imports: [
 		BrowserModule,
-		BrowserAnimationsModule,
 		HttpModule,
 		FormsModule,
 		routing,

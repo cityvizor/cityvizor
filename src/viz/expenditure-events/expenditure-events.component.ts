@@ -1,6 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ng2-bootstrap';
 
 import { DataService } from '../../services/data.service';
 import { ToastService } 		from '../../services/toast.service';
