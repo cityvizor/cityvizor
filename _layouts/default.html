@@ -44,12 +44,12 @@
         <ul class="nav navbar-nav">
           {% assign pageUrl = page.url|remove:'index.html' %}
           {% for link in site.navigation %}
-          {% if url == link.url|prepend:'/' %}
+          {% if url == '/'|prepend:link.url %}
           <li><a href="{{link.url}}" class="active">{{link.text}}</a></li>
           {% else %}
           <li><a href="{{link.url}}">{{link.text}}</a></li>
           {% endif %}
-		{{url}},{{link.url|prepend:'/'}}
+		{{url}},{{'/'|prepend:link.url}}
           {% endfor %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
