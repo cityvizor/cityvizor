@@ -13,7 +13,6 @@
 
 	<link rel="stylesheet" href="assets/css/style.css">
 </head>
-<!-- 3. Display the application -->
 
 <body>
   <div>
@@ -43,8 +42,14 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="">Úvod</a></li>
-          <li><a href="o-aplikaci">O aplikaci</a></li>
+          {% assign url = page.url|remove:'index.html' %}
+          {% for link in page.navigation %}
+          {% if url == link.url %}
+          <li class="active"><a href="{{link.url}}">{{link.text}}</a></li>
+          {% else %}
+          <li><a href="{{link.url}}">{{link.text}}</a></li>
+          {% endif %}
+          {% endfor %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
         </ul>
