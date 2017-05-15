@@ -16,6 +16,12 @@ url: "" # the base hostname & protocol for your site
 # Build settings
 markdown: kramdown
 
+navigation
+- text: Úvod
+  url: /
+- text: O aplikaci
+  url: /o-aplikaci/
+
 cdn_libs:
     css:
       - https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.css
