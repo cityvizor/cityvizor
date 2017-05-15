@@ -61,7 +61,6 @@
     "rxjs": "^5.2.0",
     "simple-get": "^2.4.0",
     "stream-transform": "^0.1.2",
-    "typescript": "^2.3.2",
     "zone.js": "^0.8.10"
   },
   "devDependencies": {
