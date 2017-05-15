@@ -49,7 +49,7 @@
           {% else %}
           <li><a href="{{link.url}}">{{link.text}}</a></li>
           {% endif %}
-		{{url}},{{'/'|append:link.url}}
+		{{pageUrl}},{{'/'|append:link.url}}
           {% endfor %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
