@@ -16,7 +16,7 @@ url: "" # the base hostname & protocol for your site
 # Build settings
 markdown: kramdown
 
-navigation
+navigation:
 - text: Úvod
   url: /
 - text: O aplikaci
