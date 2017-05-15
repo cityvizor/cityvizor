@@ -45,7 +45,7 @@
           {% assign pageUrl = page.url|remove:'index.html' %}
           {% for link in site.navigation %}
 	        {% assign linkUrl = '/'|append:link.url %}
-          {% if url == linkUrl %}
+          {% if pageUrl == linkUrl %}
           <li><a href="{{link.url}}" class="active">{{link.text}}</a></li>
           {% else %}
           <li><a href="{{link.url}}">{{link.text}}</a></li>
