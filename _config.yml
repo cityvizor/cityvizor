@@ -10,7 +10,7 @@ title: CityVizor
 email: cityvizor@otevrenamesta.cz
 description: > # this means to ignore newlines until "baseurl:"
     CityVizor je aplikace na ... diplnit!
-baseurl: "" # the subpath of your site, e.g. /blog  http://stackoverflow.com/questions/16316311/github-pages-and-relative-paths/19173888#19173888
+baseurl: "/example" # the subpath of your site, e.g. /blog  http://stackoverflow.com/questions/16316311/github-pages-and-relative-paths/19173888#19173888
 url: "" # the base hostname & protocol for your site
 
 # Build settings
