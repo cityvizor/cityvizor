@@ -42,7 +42,7 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          {% assign url = page.url|remove:'index.html' %}
+          {% assign url = page.url|remove:'index.html'|prepend:'/' %}
           {% for link in site.navigation %}
           {% if url == link.url %}
           <li class="active"><a href="{{link.url}}">{{link.text}}</a></li>
