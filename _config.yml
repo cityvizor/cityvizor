@@ -20,7 +20,7 @@ navigation:
 - text: Úvod
   url: 
 - text: O aplikaci
-  url: /o-aplikaci/
+  url: o-aplikaci/
 
 cdn_libs:
     css:
