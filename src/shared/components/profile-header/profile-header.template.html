@@ -1,0 +1,59 @@
+<div *ngIf="profile">
+  
+  
+  <header>
+    <div class="container">
+
+      <h1>
+        <i class="fa fa-map-signs"></i>
+        <a [routerLink]="['/profil/' + profile.url]">{{profile.name}}</a>
+      </h1>
+
+      <a [routerLink]="['/']" class="btn pull-right hidden-print">
+        <i class="fa fa-chevron-circle-right"></i>
+        Vybrat obec
+      </a>
+
+    </div>
+  </header>
+
+
+  <nav class="navbar">
+    <div class="container">
+      
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" (click)="isMenuCollapsed = !isMenuCollapsed" >
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="toggle-title">MENU</span>
+        </button>
+      </div>
+      
+      <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
+        
+        <ul class="nav navbar-nav">
+          
+          <ng-container *ngFor="let viz of vizModules">
+            <li *ngIf="!isHiddenModule(viz)">
+              <a [routerLink]="['/profil/' + profile.url + '/' + viz.url]" routerLinkActive="active">
+                {{viz.name}}
+              </a>
+            </li>
+          </ng-container>
+          
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li *ngIf="isManagedProfile()">
+            <a [routerLink]="['/profil/' + this.profile.url + '/admin']" routerLinkActive="active">
+              <i class="fa fa-cog"></i>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+</div>

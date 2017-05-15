@@ -2,21 +2,22 @@
 
 	<profile-header [profile]="profile"></profile-header>
 
-	<div id="content" class="container">
-			<div [ngSwitch]="activeModule?.id" id="vizmodules">
+	<div *ngIf="activeModule" id="content" class="container">
+			<div [ngSwitch]="activeModule.id" id="vizmodules">
 
-				<dash-board *ngSwitchCase="'dash-board'" [profile]="profile" [@switchAnimation]></dash-board>
+				<dash-board *ngSwitchCase="'dash-board'" [profile]="profile"></dash-board>
 
-				<expenditure-viz *ngSwitchCase="'expenditure-viz'" [profile]="profile" [@switchAnimation]></expenditure-viz>
+				<expenditure-viz *ngSwitchCase="'expenditure-viz'" [profile]="profile"></expenditure-viz>
 
-				<expenditure-events *ngSwitchCase="'expenditure-events'" [profile]="profile" [@switchAnimation]></expenditure-events>
+				<expenditure-events *ngSwitchCase="'expenditure-events'" [profile]="profile"></expenditure-events>
 				
-				<income-viz *ngSwitchCase="'income-viz'" [profile]="profile" [@switchAnimation]></income-viz>
+				<income-viz *ngSwitchCase="'income-viz'" [profile]="profile"></income-viz>
 
-				<notice-board *ngSwitchCase="'notice-board'" [profile]="profile" [@switchAnimation]></notice-board>
+				<notice-board *ngSwitchCase="'notice-board'" [profile]="profile"></notice-board>
 
-				<contract-list *ngSwitchCase="'contract-list'" [profile]="profile" [@switchAnimation]></contract-list>
+				<contract-list *ngSwitchCase="'contract-list'" [profile]="profile"></contract-list>
 
 			</div>
 		</div>
+
 </div>

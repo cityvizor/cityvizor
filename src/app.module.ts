@@ -1,6 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule, Http }     from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpModule, Http, RequestOptions }     from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent }  from './app.component';
@@ -49,7 +50,7 @@ import { ToastService } 		from './services/toast.service';
 import { UserService } 		from './services/user.service';
 
 // Import Modules
-import { ModalModule, CollapseModule } from 'ng2-bootstrap';
+import { ModalModule, CollapseModule } from 'ngx-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
@@ -69,16 +70,18 @@ import { routing } from './app.routing';
 
 // Providers
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
-export function getAuthHttp(http) {
-	var options = {
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  var jwtOptions = {
+		tokenName: "id_token",
 		noJwtError:true
 	};
-  return new AuthHttp(new AuthConfig(options), http);
+	return new AuthHttp(new AuthConfig(jwtOptions), http, options);
 }
 
 @NgModule({
   imports: [
 		BrowserModule,
+		BrowserAnimationsModule,
 		HttpModule,
 		FormsModule,
 		routing,
@@ -98,10 +101,11 @@ export function getAuthHttp(http) {
 	providers: [
 		DataService, YQLService, NoticeBoardService, ToastService, UserService,
 		{
-			provide: AuthHttp,
-			useFactory: getAuthHttp,
-			deps: [Http]
-		}],
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    }
+	],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
