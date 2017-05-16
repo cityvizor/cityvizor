@@ -54,6 +54,14 @@ export class ProfileListComponent{
 		return this.mapSize.width*(c-this.czechRepublicGPSBounds.lng.min)/(this.czechRepublicGPSBounds.lng.max-this.czechRepublicGPSBounds.lng.min);
 	}
 
+	gps2string(gps):string {
+		if(!gps) return "";
+		let dg = gps.map(n => Math.round(n)); // get degrees
+		let mn = gps.map(n => Math.round((n % 1) * 60 * 1000) / 1000); // get minutes
+		let st = [0,1].map(i => dg[i] + "° " + mn[i] + "'"); // get string
+		return "N " + st[1] + ", E " + st[0] + "'"; // concatenate
+	}
+
 	makeList(profiles){
 		
 		this.letters = [];
