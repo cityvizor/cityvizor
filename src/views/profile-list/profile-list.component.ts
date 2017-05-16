@@ -27,7 +27,7 @@ export class ProfileListComponent{
 	51.055556, 14.316111 S
 	48.5525, 14.333056 J
 	*/
-	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.055556}, "lng":{"min":12.1008364,"max":18.8268292}};
+	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.0556}, "lng":{"min":12.0914,"max":18.8589}};
 	
 	@Input()
 	set search(value: string){
@@ -52,6 +52,13 @@ export class ProfileListComponent{
 	}
 	gps2mapLng (c) {
 		return this.mapSize.width*(c-this.czechRepublicGPSBounds.lng.min)/(this.czechRepublicGPSBounds.lng.max-this.czechRepublicGPSBounds.lng.min);
+	}
+	gps2css(gps){
+		let bounds = this.czechRepublicGPSBounds;
+		return {
+			bottom: (gps[1] - bounds.lat.min) / (bounds.lat.max - bounds.lat.min) * 100 + "%",
+			left: (gps[0] - bounds.lng.min) / (bounds.lng.max - bounds.lng.min) * 100 + "%"
+		};
 	}
 
 	gps2string(gps):string {
