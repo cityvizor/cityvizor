@@ -1,7 +1,18 @@
-<h2 class="hidden">Správa uživatelů</h2>
+<h2>Správci tohoto profilu</h2>
 
-<h3>Správci tohoto profilu</h3>
-
-<ul>
-  <li *ngFor="let manager of managers">{{manager.name}} ({{manager.organization}}, {{manager._id}})</li>
-</ul>
+<table class="table table-responsive table-striped">
+  <thead>
+    <tr>
+      <th>Jméno</th>
+      <th>Organizace</th>
+      <th>Kontakt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let manager of managers">
+      <td>{{manager.name}}</td>
+      <td>{{manager.organization}}</td>
+      <td>{{manager._id}}</td>
+    </tr>
+  </tbody>
+</table>

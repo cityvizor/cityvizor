@@ -4,28 +4,41 @@
 
 	<div id="content"  class="container">
 		
-		<h2 class="hidden">Správa profilu</h2>
 
 		<div class="row">
-			<div class="col-md-3">
-				<ul class="nav nav-stacked">
-					<li routerLinkActive="active" class="nav-item"><a [routerLink]="getModuleLink('uvod')" class="nav-link">Úvod</a></li>
-					<hr>
-					<li routerLinkActive="active" class="nav-item"><a [routerLink]="getModuleLink('import-dat')" class="nav-link">Import účetních dat</a></li>
-					<li routerLinkActive="active" class="nav-item"><a [routerLink]="getModuleLink('datovy-katalog')" class="nav-link">Datový katalog</a></li>
-					<hr>
-					<li routerLinkActive="active" class="nav-item"><a [routerLink]="getModuleLink('nastaveni-profilu')" class="nav-link">Nastavení profilu</a></li>
-					<li routerLinkActive="active" class="nav-item"><a [routerLink]="getModuleLink('sprava-modulu')" class="nav-link">Správa modulů</a></li>
-					<li routerLinkActive="active" class="nav-item"><a [routerLink]="getModuleLink('spravci-profilu')" class="nav-link">Správci profilu</a></li>
-					<hr>
-					<li routerLinkActive="active" class="nav-item"><a [routerLink]="getModuleLink('navody')" class="nav-link">Návody</a></li>
-					<li routerLinkActive="active" class="nav-item"><a [routerLink]="getModuleLink('feedback')" class="nav-link">Poslat připomínku</a></li>
-				</ul>
+			<div class="col-sm-3 col-xs-12">
+				<div class="list-group small">
+					<a [routerLink]="getModuleLink('uvod')" class="list-group-item" routerLinkActive="active">
+						<i class="fa fa-quote-left"></i> Úvod
+					</a>
+					<a [routerLink]="getModuleLink('import-dat')" class="list-group-item"  routerLinkActive="active">
+						<i class="fa fa-upload"></i> Import účetních dat
+					</a>
+					<a [routerLink]="getModuleLink('datovy-katalog')" class="list-group-item" routerLinkActive="active">
+						<i class="fa fa-database"></i> Datový katalog
+					</a>
+					<a [routerLink]="getModuleLink('nastaveni-profilu')" class="list-group-item" routerLinkActive="active">
+						<i class="fa fa-address-card"></i> Nastavení profilu
+					</a>
+					<a [routerLink]="getModuleLink('sprava-modulu')" class="list-group-item" routerLinkActive="active">
+						<i class="fa fa-cogs"></i> Správa modulů
+					</a>
+					<a [routerLink]="getModuleLink('spravci-profilu')" class="list-group-item" routerLinkActive="active">
+						<i class="fa fa-users"></i> Správci profilu
+					</a>
+					<a [routerLink]="getModuleLink('navody')" class="list-group-item" routerLinkActive="active">
+						<i class="fa fa-book"></i> Návody
+					</a>
+					<a [routerLink]="getModuleLink('feedback')" class="list-group-item" routerLinkActive="active">
+						<i class="fa fa-exclamation-circle"></i> Poslat připomínku
+					</a>
+				</div>
 			</div>
 			
-			<div class="col-md-9" [ngSwitch]="activeModule">
+			<div class="col-sm-9 col-xs-12" [ngSwitch]="activeModule">
 				
 				<div *ngSwitchCase="'uvod'">
+					<h2>Správa profilu</h2>
 					<p>Toto je administrace vašeho profilu na CityVizor.cz. Zde můžete nastavit, jak bude váš profil vypadat, které moduly budou aktivní a zde také můžete do profilu nahrát aktuální data.</p>
 					<p>Pokud něčemu nebudete rozumět, můžete se podívat do sekce <a [routerLink]="getModuleLink('navody')">Návody</a>.</p>
 				</div>

@@ -1,38 +1,74 @@
+<h2>Import účetních dat</h2>
 
-<h2>Nahrát data</h2>
-<h3>Výdaje</h3>
-
-
-<div class="form-group">
-	<div class="col-sm-12">
-		
-		Aktuální data k: {{latest.expenditures?.date | date:"d. M. y H:mm:ss"}}
-		
-		<input name="year" type="number" [(ngModel)]="year" min="0" step="1">
-		
-		<input name="file" type="file" ng2FileSelect [uploader]="expendituresUploader" accept=".csv,text/csv">
-		
-		<button type="button" (click)="uploadExpenditures()">Nahrát</button>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Import - Výdaje</strong>
+	</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label for="obec" class="col-sm-3 control-label">Datum platnosti</label>
+			<div class="col-sm-9">
+				<input type="date" class="form-control" id="date" [value]="" aria-describedby="help-entity">
+				<span id="help-entity" class="help-block">Datum exportu dat z účetního systému.</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="obec" class="col-sm-3 control-label">Rozpočtový rok</label>
+			<div class="col-sm-9">
+				<input type="date" class="form-control" name="year" type="number" [(ngModel)]="year" min="0" step="1">
+				<span id="help-entity" class="help-block">Rok, ke kterému se data vztahují.</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="obec" class="col-sm-3 control-label">Soubor s daty</label>
+			<div class="col-sm-9">
+				<input name="file" type="file" ng2FileSelect [uploader]="expendituresUploader" accept=".csv,text/csv">
+				<span id="help-entity" class="help-block">Formát dat: .CSV</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button type="button" class="btn btn-default" (click)="uploadExpenditures()">Nahrát</button>
+			</div>
+		</div>
 	</div>
 </div>
 
-
-<h3>Investiční akce</h3>
-
-<div class="form-group">
-	<div class="col-sm-12">
-		
-		Aktuální data k: {{latest.events?.date | date:"d. M. y H:mm:ss"}}
-		
-		<input name="year" type="number" [(ngModel)]="year">
-
-		<input name="file" type="file" ng2FileSelect [uploader]="eventsUploader" accept=".csv,text/csv">
-		
-		<button type="button" (click)="uploadEvents()">Nahrát</button>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Import - Investiční akce</strong>
+	</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label for="obec" class="col-sm-3 control-label">Datum platnosti</label>
+			<div class="col-sm-9">
+				<input type="date" class="form-control" id="date" [value]="" aria-describedby="help-entity">
+				<span id="help-entity" class="help-block">Datum exportu dat z účetního systému.</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="obec" class="col-sm-3 control-label">Rozpočtový rok</label>
+			<div class="col-sm-9">
+				<input type="date" class="form-control" name="year" type="number" [(ngModel)]="year" min="0" step="1">
+				<span id="help-entity" class="help-block">Rok, ke kterému se data vztahují.</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="obec" class="col-sm-3 control-label">Soubor s daty</label>
+			<div class="col-sm-9">
+				<input name="file" type="file" ng2FileSelect [uploader]="eventsUploader" accept=".csv,text/csv">
+				<span id="help-entity" class="help-block">Formát dat: .CSV</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button type="button" class="btn btn-default" (click)="uploadEvents()">Nahrát</button>
+			</div>
+		</div>
 	</div>
 </div>
 
-<h2>Historie</h2>
+<h3>Historie</h3>
 
 <div class="btn-group">
 	<a (click)="loadHistory(etls.page - 1)" [class.disabled]="etls.page<=1" aria-label="Předchozí" class="btn btn-default"><span aria-hidden="true">&laquo;</span></a>
@@ -40,7 +76,7 @@
 	<a (click)="loadHistory(etls.page + 1)" [class.disabled]="etls.page>=etls.pages" aria-label="Další" class="btn btn-default"><span aria-hidden="true">&raquo;</span></a>
 </div>
 
-<table class="table table-condensed table-hover table-striped etls">
+<table class="table table-responsive table-condensed table-hover table-striped etls">
 	<thead>
 		<tr>
 			<th>Datum</th>
