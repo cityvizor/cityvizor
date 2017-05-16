@@ -38,9 +38,9 @@
 						<!-- MĚSTA -->
 
 						<g *ngFor="let profile of profiles">
-							<g *ngIf="!_search || profile.searchString.match(_search)">
+							<g *ngIf="(!_search || profile.searchString.match(_search)) && profile.entity?.gps">
 								<circle r="7" [attr.cx]="gps2mapLng(profile.entity.gps[0])" [attr.cy]="gps2mapLat(profile.entity.gps[1])" fill="#E73431" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null" class="entityMapMarker" />
-								<text *ngIf="hoverProfile===profile" [attr.x]="gps2mapLng(profile.entity.gps[0])" [attr.y]="gps2mapLat(profile.entity.gps[1])-15" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">{{profile.entity?.name}}</text>
+								<text *ngIf="hoverProfile===profile" [attr.x]="gps2mapLng(profile.entity.gps[0])" [attr.y]="gps2mapLat(profile.entity.gps[1])-15" text-anchor="middle" style="font-family:Roboto;font-size:20px;" fill="#E73431">{{gps2string(profile.entity.gps)}}</text>
 							</g>
 						</g>
 					</svg>
