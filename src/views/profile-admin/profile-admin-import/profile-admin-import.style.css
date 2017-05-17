@@ -1,4 +1,8 @@
 .etls .header{cursor:pointer;}
+.etls .header.open{background-color:#eee;}
+
 .etls .details{padding:0;border-top:none;}
 .etls .details > div{display:none;padding:5px;}
-.etls .details > div.visible{display:block;}
+.etls .details > div.open{display:block;background-color:#eee;max-height:200px;overflow:auto;padding:10px;}
+
+.etls .note{cursor:help;}

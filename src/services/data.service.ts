@@ -111,29 +111,20 @@ export class DataService {
 	
 	
 	/* IMPORT */
-	getExpendituresUploader(profileId,year){
-		if(!profileId || !year) return null;
+	getExpendituresUploader(){
 		return new FileUploader({
 			url: "/api/import/expenditures/",
 			authToken: "Bearer " + this.userService.getToken(),
 			autoUpload: false,
-			additionalParameter: {
-				profile: profileId,
-				year: year
-			},
 			headers: [{name:"Accept",value:"application/json"}]
 		});
 	}
 	
-	getEventsUploader(profileId){
-		if(!profileId) return null;
+	getEventsUploader(){
 		return new FileUploader({
 			url: "/api/import/events/",
 			authToken: "Bearer " + this.userService.getToken(),
 			autoUpload: false,
-			additionalParameter: {
-				profile: profileId
-			},
 			headers: [{name:"Accept",value:"application/json"}]
 		});
 	}
