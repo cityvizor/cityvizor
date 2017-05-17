@@ -18,9 +18,8 @@ const appRoutes: Routes = [
 	{path: 'profil/:profile/:module',component: ProfileViewComponent},
 	{path: 'profil/:profile', redirectTo: 'profil/:profile/prehled', pathMatch: 'full'},
 	
-	{path: 'admin/:cat/:subcat',component: SiteAdminComponent},
 	{path: 'admin/:cat',component: SiteAdminComponent},
-	{path: 'admin', redirectTo: 'admin/prehled', pathMatch: 'full'},
+	{path: 'admin', redirectTo: 'admin/profily', pathMatch: 'full'},
 	
 	{path: 'service-desk/:cat',component: ServiceDeskComponent},
 	{path: 'service-desk', redirectTo: 'service-desk/ucet', pathMatch: 'full'}
