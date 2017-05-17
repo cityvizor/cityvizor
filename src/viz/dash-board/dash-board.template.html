@@ -110,11 +110,11 @@
 			Provoz obecního úřadu
 		</h4>
 		<div class="row rowHours" *ngFor="let day of days;let i = index">
-			<div class="col-xs-2 dayTitle">{{daysCZ[i]}}</div>
-			<div class="col-xs-10 barHours">
-				<div *ngFor="let openHours of profile.entity.openHours[day]" class="barHoursOpened" [style.margin-left]="getBarMarginLeft(openHours.from)+'%'"  [style.margin-right]="getBarMarginRight(openHours.to)+'%'">
-					<div class="titleHours titleHoursStart">{{hour2string(openHours.from)}}</div>
-					<div class="titleHours titleHoursEnd">{{hour2string(openHours.to)}}</div>
+			<div class="col-xs-1 dayTitle">{{daysCZ[i]}}</div>
+			<div class="col-xs-11 barHours">
+				<div *ngFor="let openHours of profile.entity.openHours[day]" class="barHoursOpened" [style.left]="getHoursBarLeft(openHours)+'%'"  [style.width]="getHoursBarWidth(openHours)+'%'">
+					<div class="titleHours titleHoursStart">{{openHours.from}}</div>
+					<div class="titleHours titleHoursEnd">{{openHours.to}}</div>
 				</div>
 			</div>
 		</div>

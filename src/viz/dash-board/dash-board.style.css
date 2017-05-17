@@ -10,28 +10,22 @@
 	margin-bottom: .5em;
 }
 .barHours {
-	height: 1em; background: #f3f3f3; border-radius: 10px; margin: 0px 0%;
+	height: 1.1em; background: #f3f3f3; margin: 0px 0%;
 }	
 .barHoursOpened {
-	background: #2581C4; border-radius: 1.5em; margin: 0px 20%; position: relative;height: 100%;
+	background: #2581C4; height: 100%; position: absolute; top: 0;
 }	
 .titleHours {
 	position: absolute;
 	color: #FFF;
-	background: rgb(37, 129, 196) none repeat scroll 0% 0%;
-	width: 18px;
-	height: 18px;
-	top: -4px;
-	line-height: 18px;
-	border-radius: 9px;
-	text-align: center;
-	font-weight: bold;
+	height: 100%;
+	top: 0;
 }	
 .titleHoursStart {
-	left: 0px;
+	left: 2px;
 }	
 .titleHoursEnd { 
-	right: 0px;
+	right: 2px;
 }
 .dayTitle {
 	font-weight: bold;

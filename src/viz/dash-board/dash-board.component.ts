@@ -18,8 +18,7 @@ export class DashboardComponent {
 	
 	hoursOpeningOptions = {
 		"dayStart" : 7,
-		"dayEnd" : 20,
-		"padding" : 10
+		"dayEnd" : 20
 	};
 
  	payments = [];
@@ -75,15 +74,26 @@ export class DashboardComponent {
 		return number;
 	}
 
-	getBarMarginLeft (h) {
-		h = this.hour2number(h);
-		var o=this.hoursOpeningOptions;
-		return o.padding + Math.round((100-2*o.padding)*(h-o.dayStart)/(o.dayEnd-o.dayStart));
+	getHoursBarLeft (hours) {
+		// convert hours to number
+		let from = this.hour2number(hours.from);
+		
+		// short for hoursOpeningOptions
+		let options = this.hoursOpeningOptions;
+		
+		// compute left position
+		return Math.round((from - options.dayStart) / (options.dayEnd - options.dayStart) * 100);
 	}
-	getBarMarginRight (h) {
-		h = this.hour2number(h);
-		var o = this.hoursOpeningOptions;
-		return o.padding + Math.round((100-2*o.padding)*(o.dayEnd-h)/(o.dayEnd-o.dayStart));
+	getHoursBarWidth (hours) {
+		// convert hours to number
+		let from = this.hour2number(hours.from);
+		let to = this.hour2number(hours.to);
+		
+		// short for hoursOpeningOptions
+		let options = this.hoursOpeningOptions;
+		
+		// compute width
+		return Math.round((to - from) / (options.dayEnd - options.dayStart) * 100);
 	}
 	 
 	dashboardData = {
