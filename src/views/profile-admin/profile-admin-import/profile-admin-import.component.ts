@@ -4,6 +4,7 @@ import { ToastService } 		from '../../../services/toast.service';
 import { DataService } 		from '../../../services/data.service';
 
 import { Module, MODULES } from "../../../shared/data/modules";
+import { Pager } from "../../../shared/schema/pager";
 
 import { FileUploader, FileItem } from "ng2-file-upload";
 
@@ -17,59 +18,80 @@ export class ProfileAdminImportComponent {
 
 	@Input()
 	set profile(profile){
-		
 		if(profile && profile._id){
 			this.profileId = profile._id;
-			this.expendituresUploader = this.dataService.getExpendituresUploader(profile._id,this.year);
-			this.eventsUploader = this.dataService.getEventsUploader(profile._id);
-			
-			this.expendituresUploader.onCompleteItem = this.afterUpload.bind(this);
-			this.eventsUploader.onCompleteItem = this.afterUpload.bind(this);
-				
-			this.loadETLs();
-		}
-		else{
-			this.expendituresUploader = null;
-			this.eventsUploader = null;
+			this.loadHistory(1);
 		}
 	}
 	 
 	profileId:string;
 	 
-	year:number;
-	 
-	etls:{docs:any[],page:number,pages:number,total:number,limit:number} = {docs:[],page:1,pages:1,total:0,limit:20};
+	etls:Pager = new Pager();
 	 
 	latest:{expenditures:any,events:any} = {expenditures:null,events:null};
 	 
 	etlVisible:string;
 
-	modules: Module[];
+	modules: Module[] = MODULES;
 	 
 	expendituresUploader:FileUploader;
 	eventsUploader:FileUploader;
 	 
-	 statuses = {
-		 "success": "úspěšně nahráno",
-		 "error": "nastala chyba",
-		 "pending": "probíhá import"
-	 };
+	statuses = {
+		"success": "úspěšně nahráno",
+		"error": "nastala chyba",
+		"pending": "probíhá import"
+	};
 	 
-	 targets = {
+	targets = {
 		 "expenditures": "výdaje",
 		 "events": "investiční akce"
-	 };
+	};
+	 
+	today:Date = new Date();
 
-	constructor(private dataService: DataService, private _toastService: ToastService) {
-		this.modules = MODULES;
-		this.year = (new Date()).getFullYear();
+	constructor(private dataService: DataService, private toastService: ToastService) {
+		this.expendituresUploader = this.dataService.getExpendituresUploader();
+		this.eventsUploader = this.dataService.getEventsUploader();
+
+		this.expendituresUploader.onCompleteItem = this.afterUpload.bind(this);
+		this.eventsUploader.onCompleteItem = this.afterUpload.bind(this);
 	}
 
-	uploadExpenditures(){
+	uploadExpenditures(form){
+		
+		if(!form.valid){
+			this.toastService.toast("error","Formulář není správně vyplněn.");
+			return;
+		}
+			 
+		let data = form.value;
+		
+		this.expendituresUploader.options.additionalParameter = {
+			profile: this.profileId,
+			year: data.year,
+			valid: data.valid,
+			note: data.note
+		};
+		
 		this.expendituresUploader.queue[this.expendituresUploader.queue.length - 1].upload();
 	}
 	 
-	uploadEvents(){
+	uploadEvents(form){
+		
+		if(!form.valid){
+			this.toastService.toast("error","Formulář není správně vyplněn.");
+			return;
+		}
+			 
+		let data = form.value;
+		
+		this.eventsUploader.options.additionalParameter = {
+			profile: this.profileId,
+			valid: data.valid,
+			note: data.note
+		};
+		
 		this.eventsUploader.queue[this.eventsUploader.queue.length - 1].upload();
 	}
 	 
@@ -83,12 +105,7 @@ export class ProfileAdminImportComponent {
 		this.etls.docs.pop();
 		
 		// reload ETL list in five seconds, import should be finished by that time
-		setTimeout(() => this.loadETLs(),5000);
-	}
-	 
-	loadETLs(){
-		this.loadHistory(this.etls ? this.etls.page : 1);
-		this.loadLatest();		
+		setTimeout(() => this.loadHistory(1),5000);
 	}
 	 
 	loadHistory(page){
@@ -105,14 +122,17 @@ export class ProfileAdminImportComponent {
 			.then(etls => this.etls = etls);
 	}
 	 
-	loadLatest(){
-		this.dataService.getLatestETLs(this.profileId)
-			.then(etls => this.latest = etls);
-	}
-	 
 	toggleETLVisible(etl){
 		if(this.etlVisible === etl._id) this.etlVisible = null;
 		else this.etlVisible = etl._id;
+	}
+	 
+	getCurrentDate(){
+		return new Date();
+	}
+	 
+	getCurrentYear(){
+		return this.getCurrentDate().getFullYear();
 	}
 
 }

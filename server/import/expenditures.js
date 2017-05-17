@@ -35,7 +35,7 @@ module.exports = function(filePath, profileId, year, etlLog){
 
 		parser.on("error",err => {
 			// if there hasn't been already some error (error in other piped stream doesn't stop other streams in pipe), then write the error result
-			if(!etlLog.error){
+			if(etlLog && !etlLog.error){
 				etlLog.status = "error";
 				etlLog.result = "Chyba při čtení CSV: " + err.message;
 				etlLog.save()
@@ -55,7 +55,7 @@ module.exports = function(filePath, profileId, year, etlLog){
 		// listen for errors on the transformation stream
 		transformer.on("error", err => {
 			// if there hasn't been already some error (error in other piped stream doesn't stop other streams in pipe), then write the error result
-			if(!etlLog.error){
+			if(etlLog && !etlLog.error){
 				etlLog.status = "error";
 				etlLog.result = err.message;
 				etlLog.save()
@@ -65,7 +65,7 @@ module.exports = function(filePath, profileId, year, etlLog){
 
 		transformer.on("closeDB", () => {
 			// if there hasn't been already some error (error in other piped stream doesn't stop other streams in pipe), then write the error result
-			if(!etlLog.error){
+			if(etlLog && !etlLog.error){
 				etlLog.status = "success";
 				etlLog.result = "Úspěšně nahráno " + counter.payments + " faktur a plateb, " + counter.eventBudgets + " rozpočtů investičních akcí a " + counter.budgets + " rozpočet obce";
 				etlLog.warnings = warnings;

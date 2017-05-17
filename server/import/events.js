@@ -33,6 +33,8 @@ module.exports = function(req){
 		etlLog.file = fileName;
 		etlLog.user = userId;
 		etlLog.year = year;
+		etlLog.valid = req.body.valid;
+		etlLog.note = req.body.note;
 		etlLog.save(() => resolve(etlLog));
 
 		// couter of written documents to DB

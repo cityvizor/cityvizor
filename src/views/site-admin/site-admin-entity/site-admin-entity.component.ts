@@ -44,5 +44,9 @@ export class SiteAdminEntityComponent {
 			this.toastService.toast("Formulář není správně vyplněn.","error");
 		}
 	}
+	 
+	 getMapLink(x,y){
+		 return "https://mapy.cz/zakladni?x=" + x + "&y=" + y + "&z=10&source=coor&id=" + x + "%2C" + y;
+	 }
 
 }

@@ -32,7 +32,7 @@
               <input type="text" class="form-control" id="input-gps1" name="gps[1]" [ngModel]="entity.gps[1]" required pattern="^\d+\.\d+$">
               <span class="input-group-addon">E</span>
               <input type="text" class="form-control"name="gps[0]" [ngModel]="entity.gps[0]" required pattern="^\d+\.\d+$">
-              <span class="input-group-addon"><a>mapa</a></span>
+              <span class="input-group-addon"><a [href]="getMapLink(entityForm.value['gps[0]'],entityForm.value['gps[1]'])" target="_blank">mapa</a></span>
             </div>
           </div>
         </div>

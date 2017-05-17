@@ -35,6 +35,8 @@ router.post("/", upload.single("file"), acl("profile-events", "write"), acl("pro
 	etlLog.file = file.originalname;
 	etlLog.user = req.user._id;
 	etlLog.year = year;
+	etlLog.valid = req.body.valid;
+	etlLog.note = req.body.note;
 	etlLog.save()
 		.then(etlLog => {
 			res.json(etlLog);
