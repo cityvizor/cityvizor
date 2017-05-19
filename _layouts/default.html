@@ -19,7 +19,7 @@
   <header>
     <div class="container">
 
-      <h1><a href="">{{page.title}}</a></h1>
+      <h1>Dokumentace aplikace CityVizor</h1>
 
       <a href="https://cityvizor.cz" class="btn pull-right hidden-print">
         <i class="fa fa-chevron-circle-right"></i>
@@ -42,10 +42,8 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          {% assign pageUrl = page.url|remove:'index.html' %}
           {% for link in site.navigation %}
-	        {% assign linkUrl = '/'|append:link.url %}
-          {% if pageUrl == linkUrl %}
+          {% if link.id == page.menu %}
           <li><a href="{{link.url}}" class="active">{{link.text}}</a></li>
           {% else %}
           <li><a href="{{link.url}}">{{link.text}}</a></li>
