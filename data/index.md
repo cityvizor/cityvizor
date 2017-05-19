@@ -4,11 +4,18 @@ title: Data
 menu: data
 ---
 
-<a href="/exports/profiles.json.zip" class="btn">Profily obcí v aplikaci v JSON</a><br>
-<a href="/exports/profiles.csv.zip" class="btn disabled">Profily obcí v aplikaci v CSV</a><br>
+# Profily zveřejňujících obcí
+- [JSON](https://cityvizor.cz/exports/profiles.json.zip)
+- [CSV](https://cityvizor.cz/exports/profiles.csv.zip) (plánovaný)
 
-<a href="/exports/entities.json.zip" class="btn">Statická data o obcích v JSON</a><br>
-<a href="/exports/entities.csv.zip" class="btn disabled">Statická data o obcích v CSV</a><br>
+# Data o obcích
+- [JSON](https://cityvizor.cz/exports/entities.json.zip)
+- [CSV](https://cityvizor.cz/exports/entities.csv.zip) (plánovaný)
 
-<a href="/exports/budgets.json.zip" class="btn">Rozpočty obcí v JSON</a><br>
-<a href="/exports/budgets.csv.zip" class="btn disabled">Rozpočty obcí v CSV</a><br>
+# Obecní rozpočty
+- [JSON](https://cityvizor.cz/exports/budgets.json.zip)
+- [CSV](https://cityvizor.cz/exports/budgets.csv.zip) (plánovaný)
+
+# Rozpočty aktivit/investičních akcí
+- [JSON](https://cityvizor.cz/exports/events.json.zip) (plánovaný)
+- [CSV](https://cityvizor.cz/exports/events.csv.zip) (plánovaný)
