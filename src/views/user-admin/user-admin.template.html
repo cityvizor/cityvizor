@@ -1,0 +1,7 @@
+<header-menu [config]="menu"></header-menu>
+
+<div id="content" [ngSwitch]="cat">
+  
+  <user-admin-account *ngSwitchCase="'ucet'"></user-admin-account>
+  
+</div>
