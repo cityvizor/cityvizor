@@ -6,44 +6,10 @@ svg{margin:0 auto;display:block;margin-top:-15%;}
 
 .innerStripe{fill:#2581C4;stroke:#fff;stroke-width:2;}
 .innerStripe.selected{fill:#E73431;}
-.outerStripe{fill:#adf;stroke:#fff;stroke-width:2;  }
+.outerStripe{fill:#adf;stroke:#fff;stroke-width:2;}
 .outerStripe.selected{fill:#ff9491;}
 
 .bgstripe{fill:#aaa;opacity:0;cursor:pointer;transition-duration: .3s;}
 .bgstripe.hovered{opacity:0.2;}
 
-
 .circle{cursor:pointer;}
-
-label {font-size: 100%};
-
-.box{
-	position: relative;
-	width: 50%;		/* desired width */
-}
-.box:before{
-	content: "";
-	display: block;
-	padding-top: 100%; 	/* initial ratio of 1:1*/
-}
-.content{
-	position:  absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-  overflow: hidden;
-}
-/* Other ratios */
-.ratio2_1:before{
-	padding-top: 50%;
-}
-.ratio1_2:before{
-	padding-top: 200%;
-}
-.ratio4_3:before{
-	padding-top: 75%;
-}
-.ratio16_9:before{
-	padding-top: 56.25%;
-}

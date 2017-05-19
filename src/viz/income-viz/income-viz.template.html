@@ -6,7 +6,7 @@
 
 	<div class="col-lg-12">
 		<!-- VIZUALIZACE -->
-		<div class="drawing" #drawing>
+		<div id="bigbang" #drawing>
 
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2">
@@ -14,8 +14,12 @@
 						<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
 					</div>
 
-					<chart-bigbang [data]="groups" [max]="maxAmount" [r]="150" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
-
+					<div class="box ratio2_1">
+						<div class="content">
+							<chart-bigbang [data]="groups" [max]="maxAmount" [r]="150" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 
