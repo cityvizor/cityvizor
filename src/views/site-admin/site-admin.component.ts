@@ -1,7 +1,7 @@
 import { Component, trigger, state, style, transition, animate } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { UserService } 		from '../../services/user.service';
+import { AuthService } 		from '../../services/auth.service';
 
 //00006947
 @Component({
@@ -29,11 +29,11 @@ export class SiteAdminComponent {
 
 	public isMenuCollapsed: boolean = true;
 
-	constructor(private route: ActivatedRoute, public userService:UserService) {
+	constructor(private route: ActivatedRoute, public authService:AuthService) {
 		
-		if(userService.acl('profile-admin')) this.menuConfig.menu.push({ text: "Profily", link: ["../profily"] });
-		if(userService.acl('user-admin')) this.menuConfig.menu.push({ text: "Uživatelé", link: ["../uzivatele"] });
-		if(userService.acl('entities-admin')) this.menuConfig.menu.push({ text: "Obce", link: ["../obce"] });
+		if(authService.acl('profile-admin')) this.menuConfig.menu.push({ text: "Profily", link: ["../profily"] });
+		if(authService.acl('user-admin')) this.menuConfig.menu.push({ text: "Uživatelé", link: ["../uzivatele"] });
+		if(authService.acl('entities-admin')) this.menuConfig.menu.push({ text: "Obce", link: ["../obce"] });
 		
 	}
 

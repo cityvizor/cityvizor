@@ -3,7 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { DataService } 		from '../../services/data.service';
-import { UserService } 		from '../../services/user.service';
 
 import { Module, MODULES } from "../../shared/data/modules";
 
@@ -26,7 +25,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
 	paramsSubscription:Subscription
 
-	constructor(private route: ActivatedRoute, private dataService: DataService, public userService:UserService) {
+	constructor(private route: ActivatedRoute, private dataService: DataService) {
 		
 		this.modules = MODULES;	
 		
@@ -52,27 +51,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy(){
 		this.paramsSubscription.unsubscribe();
-	}
-		
-	getMenuConfig(profile){
-		var menuConfig = {
-			title: {
-				text: profile.name,
-				link: ["/profil/" + this.profile.url],
-				icon: "fa fa-map-signs"
-			},
-			titleRight: {
-				text: "Vybrat obec",
-				link: ["/"],
-				icon: "fa fa-chevron-circle-right"
-			},
-			menu: this.modules.filter(item => this.profile.hiddenModules.indexOf(item.id) < 0).map(item => this.getModuleMenuItem(item)),
-			menuRight: []
-		};
-		
-		if(this.userService.acl("profile-admin",{profile:this.profile._id})) menuConfig.menuRight.push({ icon: "fa fa-cog", link: ["/profil/" + this.profile.url + "/admin"] });
-		
-		return menuConfig;
 	}
 	
 	getModuleMenuItem(viz){

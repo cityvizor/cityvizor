@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { FileUploader } from 'ng2-file-upload/file-upload/file-uploader.class';
 
-import { UserService } from "./user.service";
+import { AuthService } from "./auth.service";
 
 function toParams(options){
 	if(!options) return "";
@@ -32,7 +32,7 @@ function toParams(options){
 @Injectable()
 export class DataService {
 	
-	constructor(private http: AuthHttp, private userService:UserService) { }
+	constructor(private http: AuthHttp, private authService:AuthService) { }
 
 	/* ENTITIES */
 	getEntities(options?) {
@@ -114,7 +114,7 @@ export class DataService {
 	getExpendituresUploader(){
 		return new FileUploader({
 			url: "/api/import/expenditures/",
-			authToken: "Bearer " + this.userService.getToken(),
+			authToken: "Bearer " + this.authService.getToken(),
 			autoUpload: false,
 			headers: [{name:"Accept",value:"application/json"}]
 		});
@@ -123,7 +123,7 @@ export class DataService {
 	getEventsUploader(){
 		return new FileUploader({
 			url: "/api/import/events/",
-			authToken: "Bearer " + this.userService.getToken(),
+			authToken: "Bearer " + this.authService.getToken(),
 			autoUpload: false,
 			headers: [{name:"Accept",value:"application/json"}]
 		});

@@ -9,12 +9,13 @@ import { ACL_ProfileAdmin } from "../acl/profile-admin";
 
 import { User } from "../shared/schema/user";
 
-export { User };
+import { DataService } 		from './data.service';
+
 /**
 	* Service to save user information and commnicate user data with server
 	*/
 @Injectable()
-export class UserService {
+export class AuthService {
 	
 	jwtHelper: JwtHelper = new JwtHelper();
 
@@ -26,18 +27,18 @@ export class UserService {
 		"profile-admin": ACL_ProfileAdmin
 	};
 
- 	// current user roles
-	userRoles:any[] = [];
-	
 	// boolean if user is logged
 	logged: boolean = false;
 
-	// current user (use blank user as default)
-	user: User = new User;
-	
  	// current token
 	token: String = null;
 
+	// current user (use blank user as default)
+	user: User = new User;
+
+ 	// current user roles
+	userRoles:any[] = [];
+	
  
 	constructor(private http: Http){
 		// refresh user data to match token
@@ -61,33 +62,33 @@ export class UserService {
 	// get the token by credentials
 	login(credentials){
 		
-		// query the web api to get the token
-		return this.http.post("/api/login", credentials).toPromise()
+		return new Promise((resolve,reject) => {
 			
-			.then(response => response.text())
-			
-			.then(token => {
+			// query the web api to get the token
+			return this.http.post("/api/login", credentials).toPromise()
+
+				.then(response => response.text())
+
+				.then(token => {
 				
-				// check if the token is valid
-				if(!this.jwtHelper.isTokenExpired(token)){
-					
 					//save the token to storage
 					this.saveToken(token);
-					
-					// update user data to match token
+
+					// update state to match token from storage
 					this.refreshState();
-					
-					// send the user object to next .then() 
-					return this.user;
-				}
+
+					// if user is not logged at this step, token was invalid
+					if(this.logged) resolve(this.user)
+					else reject(new Error("Invalid token"));
 				
-				// missing or invalid token, don't send anything
-				return null;				
-			});
+				})
+				.catch(err => reject(err));
+			
+		});
 	}
 
 	/*
-	 * lookup token in storage and check if it is valid. if yes, save the user
+	 * lookup token in storage and check if it is valid. if yes, update state
 	 */
 	refreshState(){
 		
@@ -96,16 +97,24 @@ export class UserService {
 		
 		// check if token valid
 		if(token && !this.jwtHelper.isTokenExpired(token)){
-			this.user = this.jwtHelper.decodeToken(token);
+			
+			this.token = token;
+			
 			this.logged = true;
-			this.refreshRoles();
+			
+			this.setRoles(this.user);
+			
+			this.user = this.jwtHelper.decodeToken(token);
 			
 		}	else {
 			// token invalid, so set empty user
-			this.user = new User;
+			this.token = null;
 			this.logged = false;
-			this.refreshRoles();
+			this.setRoles(null);
+			this.user = new User;
 		}
+		
+		return this.logged;
 	}
 
 	/*
@@ -123,7 +132,7 @@ export class UserService {
 	/* 
 	 * update this.userRoles to match current user roles
 	 */
-	refreshRoles(){
+	setRoles(){
 		
 		// empty the current roles array
 		this.userRoles = [];
@@ -131,13 +140,12 @@ export class UserService {
 		// guest role is by default;
 		this.userRoles.push(this.roles.guest); 
 		
-		// if we have a user with roles, then assign his/her roles
-		if(this.logged && this.user && this.user.roles){
+		// if we have a user, then assign his/her role		
+		if(this.user && this.user.roles){
 			this.user.roles
-				.filter(role => this.roles[role]) // filter out invalid roles
+				.filter(role => !!this.roles[role]) // filter out invalid roles
 				.forEach(role => this.userRoles.push(this.roles[role])); // assign roles to currentRoles array
 		}
-		
 	}
 
 	// function to evaluate single permission

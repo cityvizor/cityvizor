@@ -3,20 +3,16 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription' ;
 
-import { UserService } 		from '../../services/user.service';
-
-//00006947
 @Component({
 	moduleId: module.id,
-	selector: 'service-desk',
-	templateUrl: 'service-desk.template.html',
-	styleUrls: ['service-desk.style.css']
+	selector: 'user-admin',
+	templateUrl: 'user-admin.template.html'
 })
-export class ServiceDeskComponent implements OnInit, OnDestroy {
+export class UserAdminComponent implements OnInit, OnDestroy {
   
   menu = {
     title: {
-      text: "Service Desk",
+      text: "Správa účtu",
       link: ["../"]
     },
     titleRight: {
@@ -26,8 +22,7 @@ export class ServiceDeskComponent implements OnInit, OnDestroy {
     },
     menu: [
       { text: "Můj účet", link: ["../ucet"] },
-      { text: "Připomínky a požadavky", link: ["../pozadavky"] },
-      { text: "Návody", link: ["../navody"] }
+			{ text: "Upozornění", link: ["../upozorneni"] }
     ]
   };
 
@@ -35,9 +30,7 @@ export class ServiceDeskComponent implements OnInit, OnDestroy {
 
   paramsSubscription:Subscription;
   
-	constructor(private route: ActivatedRoute, public userService:UserService) {
-		
-	}
+	constructor(private route: ActivatedRoute) {}
 
 	ngOnInit(){
 		this.paramsSubscription = this.route.params.subscribe((params: Params) => {			

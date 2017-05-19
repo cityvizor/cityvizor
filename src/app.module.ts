@@ -8,12 +8,11 @@ import { AppComponent }  from './app.component';
 
 // Views components
 import { FrontPageComponent }  from './views/front-page/front-page.component';
-import { PageViewComponent }  from './views/page-view/page-view.component';
 import { ProfileListComponent } from './views/profile-list/profile-list.component';
 import { ProfileViewComponent } from './views/profile-view/profile-view.component';
 import { ProfileAdminComponent } from "./views/profile-admin/profile-admin.component";
 import { SiteAdminComponent } from "./views/site-admin/site-admin.component";
-import { ServiceDeskComponent } from "./views/service-desk/service-desk.component";
+import { UserAdminComponent } from "./views/user-admin/user-admin.component";
 
 // Data viz components
 import { DashboardComponent } from "./viz/dash-board/dash-board.component";
@@ -39,15 +38,14 @@ import { SiteAdminUserComponent } from "./views/site-admin/site-admin-user/site-
 import { SiteAdminEntitiesComponent } from "./views/site-admin/site-admin-entities/site-admin-entities.component";
 import { SiteAdminEntityComponent } from "./views/site-admin/site-admin-entity/site-admin-entity.component";
 
-// Service Desk Components
-import { ServiceDeskAccountComponent } from "./views/service-desk//service-desk-account/service-desk-account.component";
+// User Admin Components
+import { UserAdminAccountComponent } from "./views/user-admin/user-admin-account/user-admin-account.component";
 
 // Services
 import { DataService } 		from './services/data.service';
 import { YQLService } 		from './services/yql.service';
-import { NoticeBoardService } 		from './services/notice-board.service';
 import { ToastService } 		from './services/toast.service';
-import { UserService } 		from './services/user.service';
+import { AuthService } 		from './services/auth.service';
 
 // Import Modules
 import { ModalModule, CollapseModule } from 'ngx-bootstrap';
@@ -89,16 +87,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 	],
   declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, SiteAdminComponent, ServiceDeskComponent,
+		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
-		/* Service Desk */ ServiceDeskAccountComponent,
+		/* Service Desk */ UserAdminAccountComponent,
 		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent, ChartBigbangComponent, ChartDonutComponent, 
 		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
 	],
 	providers: [
-		DataService, YQLService, NoticeBoardService, ToastService, UserService,
+		DataService, YQLService, ToastService, AuthService,
 		{
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

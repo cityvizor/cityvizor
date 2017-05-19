@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 
 import { ToastService } 		from '../../../services/toast.service';
 import { DataService } 		from '../../../services/data.service';
-import { UserService } 		from '../../../services/user.service';
 
 @Component({
 	moduleId: module.id,
@@ -17,7 +16,7 @@ export class ProfileAdminUsersComponent {
 	 
 	managers: any[];
 
-	constructor( private dataService: DataService, private toastService: ToastService, private userService:UserService) {
+	constructor( private dataService: DataService, private toastService: ToastService) {
 	}
 	 
 	ngOnInit(){

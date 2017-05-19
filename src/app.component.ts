@@ -2,7 +2,10 @@ import { Component, ViewContainerRef, ViewChild } from '@angular/core';
 
 import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
-import { UserService, User } 		from './services/user.service';
+import { AuthService } 		from './services/auth.service';
+import { User } from './shared/schema/user';
+
+import { AppConfig } from './config/app-config';
 
 class LoginData {
 	login:string = "";
@@ -30,7 +33,9 @@ export class AppComponent {
 
 	wrongPassword:boolean = false;
 
-	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef) {
+	config:AppConfig = AppConfig;
+
+	constructor(private toastService: ToastService, public authService: AuthService, viewContainerRef:ViewContainerRef) {
 		var today = new Date();
 		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
 
@@ -40,7 +45,7 @@ export class AppComponent {
 	login(){
 		this.wrongPassword = false;
 		
-		this.userService.login(this.loginData)
+		this.authService.login(this.loginData)
 			.then(user => {
 				this.closeLogin();				
 			})
@@ -62,7 +67,7 @@ export class AppComponent {
 	}
 
 	logout(){
-		this.userService.logout();
+		this.authService.logout();
 	}
 
 }

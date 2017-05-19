@@ -26,12 +26,6 @@ export class ChartBigbangComponent {
 	alpha: number = 1/8; // default rotation of the chart
 	innerR: number = 0.2; // relative to radius
 	minR: number = 0.22; // relative to radius
-	showAmounts: boolean = true; // shows/hides budgetAmount and amount in circle of vizualization
-	showGroupTitles: boolean = true; // shows/hides budgetAmount and amount in circle of vizualization
-	
-	// maximum absolute dimension = max of maximum budget and maximum real amounts
-	totalBudgetAmount:number = 0;
-	totalAmount:number = 0;
 	 
 	constructor(){
 	}
