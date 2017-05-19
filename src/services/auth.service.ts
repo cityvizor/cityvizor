@@ -102,7 +102,7 @@ export class AuthService {
 			
 			this.logged = true;
 			
-			this.setRoles(this.user);
+			this.setRoles(this.user.roles);
 			
 			this.user = this.jwtHelper.decodeToken(token);
 			
@@ -132,7 +132,7 @@ export class AuthService {
 	/* 
 	 * update this.userRoles to match current user roles
 	 */
-	setRoles(){
+	setRoles(roles){
 		
 		// empty the current roles array
 		this.userRoles = [];
@@ -140,9 +140,8 @@ export class AuthService {
 		// guest role is by default;
 		this.userRoles.push(this.roles.guest); 
 		
-		// if we have a user, then assign his/her role		
-		if(this.user && this.user.roles){
-			this.user.roles
+		if(roles){
+			roles
 				.filter(role => !!this.roles[role]) // filter out invalid roles
 				.forEach(role => this.userRoles.push(this.roles[role])); // assign roles to currentRoles array
 		}

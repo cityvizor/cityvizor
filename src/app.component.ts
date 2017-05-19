@@ -33,7 +33,7 @@ export class AppComponent {
 
 	wrongPassword:boolean = false;
 
-	config:AppConfig = AppConfig;
+	config:any = AppConfig;
 
 	constructor(private toastService: ToastService, public authService: AuthService, viewContainerRef:ViewContainerRef) {
 		var today = new Date();
