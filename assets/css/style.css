@@ -21,7 +21,7 @@ a {outline: 0; cursor: pointer;}
 h1,h2,h3,h4 {font-weight: 700;cursor:default;}
 header, nav, .btn {font-family: 'Raleway', sans-serif;}
 
-#header nav{border-none;}
+#header nav{border:none;}
 
 form {margin: 0;}
 
