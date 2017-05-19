@@ -53,15 +53,15 @@
 				| <a [attr.href]="config.docsUrl + '/data'">Data</a>
 				| <a [attr.href]="config.docsUrl + '/o-aplikaci/licence'">Licence</a>
 				| <a [attr.href]="config.docsUrl + '/kontakt'">Kontakt</a>
-				
+				<span *ngIf="authService.acl('site-admin')">| <a routerLink="/admin">Administrace</a></span>
 				<br>
 				
-				<span *ngIf="!userService.logged">
+				<span *ngIf="!authService.logged">
 					<a (click)="loginModal.show()">Přihlásit se</a>
 				</span>
-				<span *ngIf="userService.logged">
-					{{userService.user._id}}
-					<span *ngIf="userService.acl('site-admin')">| <a routerLink="/admin">Administrace</a></span>
+				<span *ngIf="authService.logged">
+					{{authService.user._id}}
+					| <a routerLink="/nastaveni-uctu">Nastavení</a>
 					| <a (click)="logout()">Odhlásit</a>
 				</span>
 			</div>

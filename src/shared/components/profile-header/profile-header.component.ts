@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { UserService } 		from '../../../services/user.service';
+import { AuthService } 		from '../../../services/auth.service';
 
 import { Module, MODULES } from "../../../shared/data/modules";
 
@@ -20,14 +20,14 @@ export class ProfileHeaderComponent {
 	 
 	public isMenuCollapsed: boolean = true;
 	 
-	constructor(public userService:UserService) {}
+	constructor(public authService:AuthService) {}
 
 	isHiddenModule(viz){
 		return this.profile.hiddenModules && this.profile.hiddenModules.indexOf(viz.id) >= 0;
 	}
 
 	isManagedProfile(){
-		return this.userService.acl("profile-admin",{profile:this.profile._id});
+		return this.authService.acl("profile-admin",{profile:this.profile._id});
 	}
 
 }
