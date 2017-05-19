@@ -4,6 +4,8 @@ import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
 import { UserService, User } 		from './services/user.service';
 
+import { AppConfig } from './config/app-config';
+
 class LoginData {
 	login:string = "";
 	password:string = "";
@@ -29,6 +31,8 @@ export class AppComponent {
 	loginData:LoginData = new LoginData;
 
 	wrongPassword:boolean = false;
+
+	config:AppConfig = AppConfig;
 
 	constructor(private toastService: ToastService, public userService: UserService, viewContainerRef:ViewContainerRef) {
 		var today = new Date();

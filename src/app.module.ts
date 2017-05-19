@@ -8,7 +8,6 @@ import { AppComponent }  from './app.component';
 
 // Views components
 import { FrontPageComponent }  from './views/front-page/front-page.component';
-import { PageViewComponent }  from './views/page-view/page-view.component';
 import { ProfileListComponent } from './views/profile-list/profile-list.component';
 import { ProfileViewComponent } from './views/profile-view/profile-view.component';
 import { ProfileAdminComponent } from "./views/profile-admin/profile-admin.component";
@@ -89,7 +88,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 	],
   declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, PageViewComponent, SiteAdminComponent, ServiceDeskComponent,
+		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, ServiceDeskComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,

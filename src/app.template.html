@@ -26,7 +26,7 @@
 	<div class="container text-muted small">
 		<div class="row">
 			<div class="col-sm-5 col-xs-12">
-				Vyvinuto s <i class="fa fa-heart" aria-hidden="true"></i> <a routerLink="/stranka/o-aplikaci" fragment="vyvojari">členy komunity otevřených dat</a>
+				Vyvinuto s <i class="fa fa-heart" aria-hidden="true"></i> <a [attr.href]="config.docsUrl + '/o-aplikaci'">členy komunity otevřených dat</a>
 			</div>
 			<div class="col-sm-2 col-xs-12 text-center">
 				<a>
@@ -49,11 +49,13 @@
 				</a>
 			</div>
 			<div class="col-sm-5 col-xs-12 text-right">
-				<a routerLink="/stranka/o-aplikaci">O aplikaci</a>
-				| <a routerLink="/stranka/data">Data</a>
-				| <a routerLink="/stranka/licence" fragment="licence">Licence</a>
-				| <a routerLink="/stranka/kontakt" fragment="kontakt">Kontakt</a>
+				<a [attr.href]="config.docsUrl + '/o-aplikaci'">O aplikaci</a>
+				| <a [attr.href]="config.docsUrl + '/data'">Data</a>
+				| <a [attr.href]="config.docsUrl + '/o-aplikaci/licence'">Licence</a>
+				| <a [attr.href]="config.docsUrl + '/kontakt'">Kontakt</a>
+				
 				<br>
+				
 				<span *ngIf="!userService.logged">
 					<a (click)="loginModal.show()">Přihlásit se</a>
 				</span>
