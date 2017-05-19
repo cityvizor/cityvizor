@@ -13,7 +13,7 @@ Ministerstvo financí vyvinulo Cityvizor na základě následující domluvy se 
 - Financování provozu a rozvoje bude založeno na bázi dobrovolného přispívání jednotlivými obcemi.
 - Ministerstvo financí si vyhrazuje právo prezentovat Cityvizor jako dílo Ministerstva financí.
 
-## Kdo se na vývoji aplikace podílel?</h3>
+## Kdo se na vývoji aplikace podílel?
 
 - [Martin Kopeček](https://cz.linkedin.com/in/martinkopecek) (Ministerstvo financí) - programování
 - [Jan Vlasatý](https://cz.linkedin.com/in/janvlasaty) (Ministerstvo financí) - design
