@@ -33,7 +33,7 @@ module.exports = {
 		"list": true
 	},
 	
-	"user": {
+	"login": {
 		"login": true
 	},
 	
