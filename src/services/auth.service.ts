@@ -100,16 +100,16 @@ export class AuthService {
 			
 			this.token = token;
 			
-			this.logged = true;
-			
-			this.setRoles(this.user);
-			
 			this.user = this.jwtHelper.decodeToken(token);
+			
+			this.setRoles(this.user.roles);
+			
+			this.logged = true;
 			
 		}	else {
 			// token invalid, so set empty user
 			this.token = null;
-			this.logged = false;
+			this.logged = false;	
 			this.setRoles(null);
 			this.user = new User;
 		}
@@ -132,20 +132,21 @@ export class AuthService {
 	/* 
 	 * update this.userRoles to match current user roles
 	 */
-	setRoles(){
+	setRoles(roles){
 		
 		// empty the current roles array
-		this.userRoles = [];
+		let userRoles = [];
 		
 		// guest role is by default;
-		this.userRoles.push(this.roles.guest); 
+		userRoles.push(this.roles.guest); 
 		
-		// if we have a user, then assign his/her role		
-		if(this.user && this.user.roles){
-			this.user.roles
+		if(roles){
+			roles
 				.filter(role => !!this.roles[role]) // filter out invalid roles
-				.forEach(role => this.userRoles.push(this.roles[role])); // assign roles to currentRoles array
+				.forEach(role => userRoles.push(this.roles[role])); // assign roles to currentRoles array
 		}
+		
+		this.userRoles = userRoles;
 	}
 
 	// function to evaluate single permission
@@ -163,6 +164,8 @@ export class AuthService {
 
 	// function to get user roles and evaluate permissions
 	acl(resource,params?){
+								 
+		console.log(resource,params,this.userRoles);
 
 		// go through all roles and check if some has permission, otherwise return false
 		return this.userRoles.some(role => {
