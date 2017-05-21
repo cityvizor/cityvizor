@@ -152,8 +152,6 @@ export class AuthService {
 			this.setRoles(null);
 			this.user = new User;
 		}
-		
-		return this.logged;
 	}
 
 	/*
