@@ -46,5 +46,17 @@ export class UserAdminAccountComponent implements OnInit {
 			})
 			.catch(err => this.toastService.toast("Nastala chyba při ukládání dat.","error"));
 	}
+	 
+	 savePass(){
+		 let data = this.userPassForm.value;
+		 data._id = this.user._id;
+		 
+		 this.dataService.saveUser(data)
+		 	.then(user => {
+			 	this.userPassForm.reset();
+				this.toastService.toast("Uloženo.","notice")
+		 	})
+			.catch(err => this.toastService.toast("Nastala chyba při ukládání dat.","error"));
+	 }
 
 }
