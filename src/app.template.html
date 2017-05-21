@@ -57,14 +57,14 @@
 				
 				<br>
 
-				<span *ngIf="!authService.logged">
+				<ng-container *ngIf="!authService.logged">
 					<a (click)="loginModal.show()">Přihlásit se</a>
-				</span>
-				<span *ngIf="authService.logged">
+				</ng-container>
+				<ng-container *ngIf="authService.logged">
 					{{authService.user._id}}
 					| <a routerLink="/nastaveni-uctu">Nastavení</a>
 					| <a (click)="logout()">Odhlásit</a>
-				</span>
+				</ng-container>
 			</div>
 		</div>
 	</div>
