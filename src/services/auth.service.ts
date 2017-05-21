@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { JwtHelper } from 'angular2-jwt';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Subject }    from 'rxjs/Subject';
+
+import { AuthHttp, JwtHelper } from 'angular2-jwt';
 
 import { ACL_Admin } from "../acl/admin";
 import { ACL_Guest } from "../acl/guest";
@@ -18,6 +19,9 @@ import { DataService } 		from './data.service';
 export class AuthService {
 	
 	jwtHelper: JwtHelper = new JwtHelper();
+
+	private onLogin = new Subject<any>();
+  private onLogout = new Subject<void>();
 
  	// all ACL roles and their definitions
 	roles = {
@@ -38,13 +42,17 @@ export class AuthService {
 
  	// current user roles
 	userRoles:any[] = [];
-	
  
-	constructor(private http: Http){
+	constructor(private http: AuthHttp){
+		
 		// refresh user data to match token
 		this.refreshState()
-		// periodically check token validity
-		setInterval(() => this.refreshState(), 60000);
+		
+		// periodically check token validity; once per minute
+		setInterval(() => this.refreshState(), 60 * 1000);
+		
+		// periodically renew token; once per ten minutes
+		setInterval(() => this.renewToken(), 10 * 60 * 1000)
 	}
 
 	saveToken(token){
@@ -60,7 +68,7 @@ export class AuthService {
 	}
 
 	// get the token by credentials
-	login(credentials){
+	login(credentials):Promise<any>{
 		
 		return new Promise((resolve,reject) => {
 			
@@ -78,7 +86,7 @@ export class AuthService {
 					this.refreshState();
 
 					// if user is not logged at this step, token was invalid
-					if(this.logged) resolve(this.user)
+					if(this.logged) resolve(this.user);
 					else reject(new Error("Invalid token"));
 				
 				})
@@ -87,10 +95,34 @@ export class AuthService {
 		});
 	}
 
+	/**
+		* Tokens have limited time validity to avoid misues, however, we do not want user to be "logged out" while working with the application. Therefore we have to renew this token from time to time.
+		*/
+	renewToken():void{
+		
+		// if we dont have token, there is nothing to renew
+		if(!this.token) return;
+		
+		// get the new token. as an authorization, we use current token
+		this.http.get("/api/login/renew").toPromise()
+
+			.then(response => response.text())
+
+			.then(token => {
+
+				//save the token to storage
+				this.saveToken(token);
+
+				// update state to match token from storage
+				this.refreshState();
+
+				});			
+	}
+
 	/*
 	 * lookup token in storage and check if it is valid. if yes, update state
 	 */
-	refreshState(){
+	refreshState():void{
 		
 		// get token from storage
 		var token = this.getToken();
@@ -98,16 +130,23 @@ export class AuthService {
 		// check if token valid
 		if(token && !this.jwtHelper.isTokenExpired(token)){
 			
+			// announce login to subscribers if applicable
+			if(!this.logged) this.onLogin.next(this.user);
+			
+			// save the token
 			this.token = token;
 			
+			// set user
 			this.user = this.jwtHelper.decodeToken(token);
-			
 			this.setRoles(this.user.roles);
-			
 			this.logged = true;
 			
 		}	else {
-			// token invalid, so set empty user
+			
+			// announce logout to subscribers if applicable
+			if(this.logged) this.onLogout.next();
+			
+			// token invalid or missing, so set empty token and user
 			this.token = null;
 			this.logged = false;	
 			this.setRoles(null);
@@ -120,13 +159,15 @@ export class AuthService {
 	/*
 	 * log out user 
 	 */
-	logout(){
+	logout():boolean{
 		
 		// delete token from storage
 		this.deleteToken();
 		
 		// update user data
 		this.refreshState();
+		
+		return !this.logged;
 	}
 
 	/* 
@@ -164,8 +205,6 @@ export class AuthService {
 
 	// function to get user roles and evaluate permissions
 	acl(resource,params?){
-								 
-		console.log(resource,params,this.userRoles);
 
 		// go through all roles and check if some has permission, otherwise return false
 		return this.userRoles.some(role => {

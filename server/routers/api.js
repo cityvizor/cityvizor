@@ -33,6 +33,7 @@ var aclOptions = {
 		"admin": require("../acl/admin")
 	},
 	defaultRoles: ["guest"],
+	userRoles: ["user"],
 	logConsole: true
 }
 acl.config(aclOptions);
