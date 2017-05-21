@@ -1,16 +1,16 @@
 <div id="wrap">
-	
+
 	<div id="disclaimer">
 		<p>
 			Toto je testovací verze aplikace. Data jsou pouze vzorová a nemusí odpovídat reálným údajům.
 		</p>
 	</div>
-	
+
 	<div id="toasts">
 		<ul>
 			<li *ngFor="let toast of toasts" [class]="toast.status" (click)="toast.hide()">
 				<span *ngIf="toast.opacity" [style.opacity]="toast.opacity">
-						{{toast.text}}
+					{{toast.text}}
 				</span>
 			</li>
 		</ul>
@@ -19,7 +19,7 @@
 	<router-outlet></router-outlet>
 
 	<div id="push"></div>
-	
+
 </div>
 
 <footer class="bs-docs-footer">
@@ -53,9 +53,10 @@
 				| <a [attr.href]="config.docsUrl + '/data'">Data</a>
 				| <a [attr.href]="config.docsUrl + '/o-aplikaci/licence'">Licence</a>
 				| <a [attr.href]="config.docsUrl + '/kontakt'">Kontakt</a>
-				<span *ngIf="authService.acl('site-admin')">| <a routerLink="/admin">Administrace</a></span>
-				<br>
+				<ng-container *ngIf="authService.acl('site-admin')">| <a routerLink="/admin">Administrace</a></ng-container>
 				
+				<br>
+
 				<span *ngIf="!authService.logged">
 					<a (click)="loginModal.show()">Přihlásit se</a>
 				</span>
@@ -85,7 +86,8 @@
 						<div *ngIf="wrongPassword" class="alert alert-danger">
 							Chybná emailová adresa nebo heslo.
 						</div>
-						<form class="form-signin" (ngSubmit)="login()">
+
+						<form *ngIf="!authService.logged" class="form-signin" (ngSubmit)="login()">
 							<div class="form-group">
 								<label for="inputEmail" class="cols-sm-2 control-label">Emailová adresa</label>
 								<div class="cols-sm-10">
@@ -104,12 +106,15 @@
 									</div>
 								</div>
 							</div>
-
 							<div class="form-group ">
 								<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Přihlásit se</button>
 							</div>
-
 						</form>
+
+						<div *ngIf="authService.logged">
+							<p>Již jste přihlášen jako {{authService.user._id}}. <a (click)="logout()">Odhlásit</a>?</p>
+						</div>
+						
 					</div>
 				</div>
 			</div>
