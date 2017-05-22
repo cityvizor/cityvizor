@@ -38,7 +38,7 @@
 					
 					<!-- MĚSTA -->
 					<div class="mesta">
-						<div *ngFor="let profile of profiles" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.entity.gps)">
+						<div *ngFor="let profile of profiles" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.entity.gps)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
 							<span class="name">{{profile.entity.name}}</span>
 							<span class="gps">{{gps2string(profile.entity.gps)}}</span>
 						</div>

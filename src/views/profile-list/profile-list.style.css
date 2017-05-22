@@ -25,7 +25,7 @@
 }
 
 #map{position:relative;max-width: 475px;}
-#map .mesto{position:absolute;width:0;height:0;background-color:#fff;border:3px solid #E73431;border-radius:3px;box-sizing:content-box;}
+#map .mesto{position:absolute;width:0;height:0;background-color:#fff;border:3px solid #E73431;border-radius:3px;box-sizing:content-box;cursor:pointer;}
 #map .mesto span{display:none;position:absolute;font-size:.7em;padding:1px 2px;white-space:nowrap;}
 
 #map .mesto .name{top:50%;right:14px;margin-top:-8px;color:#fff;background-color:#E73431;border-radius:3px;}

@@ -3,6 +3,11 @@ var https = require('https');
 var fs = require('fs');
 var express = require('express');
 
+setTimeout(() => {
+	console.log("Setting up nightly cron jobs.");
+	require("./cron");
+},20000);
+
 /* SET UP ROUTING */
 var app = express();
 console.log("Express running in " + app.get('env') + " environment");

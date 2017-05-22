@@ -10,8 +10,8 @@ var exportsDir = __dirname + "/../../exports";
 
 module.exports = function(cb){
 	
-	//mongoose.connect('mongodb://localhost/cityvizor');
-	//console.log("DB connected.");
+	mongoose.connect('mongodb://localhost/cityvizor');
+	console.log("DB connected.");
 	
 	var path = exportsDir + '/budgets.json.zip';
 	var file = fs.createWriteStream(path);
@@ -19,22 +19,31 @@ module.exports = function(cb){
 	file.on("close",() => {
 		console.log("Budgets exported to " + path);
 		
-		/*mongoose.disconnect(() => {
+		mongoose.disconnect(() => {
 			console.log("DB disconnected.");
 			cb();
-		});*/
+		});
 		cb();
 		
 	});
 
 	var archive = archiver("zip");
-	archive.on('error', err => {throw err;});
+	archive.on('error', err => {
+		console.log("Error: " + err);
+		cb();
+	});
 	archive.pipe(file);
+	
+	
 
 	Budget.find({}).populate("profile","name url entity")
 		.then(items => {
 			items.forEach(item => archive.append(JSON.stringify(item),{"name": item.profile._id + "-" + item.year + ".json"}));
 			archive.finalize();
+		})
+		.catch(err => {
+			console.log("Error: " + err.message);
+			cb();
 		});
 
 }

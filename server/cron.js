@@ -8,6 +8,8 @@ function runTaskLoop(tasks){
     return;
   }
   
+  console.log("Starting task...");
+  
   task(() => {
     console.log("===================================");
     setTimeout(() => runTaskLoop(tasks),5000);
