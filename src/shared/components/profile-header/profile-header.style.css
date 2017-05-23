@@ -7,16 +7,19 @@ header {
 	font-weight: bold;
 	border-bottom: 5px solid #2581C4;
 }
-header .btn {    
-  color: white;
-  border: none;
-	font-size: 1.5em;
+header .btn, header .btn:link, header .btn:active {    
+	color: #FFF;
+	font-size: 15px;
 	box-shadow: none;
+	margin-top: 16px;
+	margin-bottom: 10px;
+	padding: 5px 15px;
+	border: 1px solid #FFF;
+	border-radius: 3px;
 }
-header .btn:hover span {
-	color: white;
-	text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
-	text-decoration: underline;
+header .btn:hover {
+	color: #2581C4;
+	background: white;
 }
 
 header h1 {

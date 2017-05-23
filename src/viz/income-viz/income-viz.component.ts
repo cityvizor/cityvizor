@@ -7,7 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { DataService } from '../../services/data.service';
 import { ToastService } 		from '../../services/toast.service';
 
-import { paragraphNames } from '../../shared/data/paragraph-names.data';
+import { itemNames } from '../../shared/data/item-names.data';
 
 import { ChartGroups }  from "../../shared/data/chartGroups";
 
@@ -46,7 +46,7 @@ export class IncomeVizComponent{
 	groupIndex: any = {};
 
 	eventIndex:any = {};
-	itemNames = {};
+	itemNames = itemNames;
 
 	maxAmount:number = 0;
 
