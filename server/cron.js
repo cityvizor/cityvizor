@@ -38,7 +38,11 @@ var job = new CronJob({
     
     // loop through the tasks one by one
     runTaskLoop(tasks,() => {
-      if(!dbWasConnected) mongoose.disconnect();
+      if(!dbWasConnected){
+        cnsole.log("Disconnecting DB");
+        mongoose.disconnect();
+      }
+      
       console.log("Finished!");
     });
   },
@@ -58,6 +62,7 @@ function runTaskLoop(tasks,cb){
     console.log("===================================");
     console.log("Wait 5 sec");
     
-    setTimeout(() => runTaskLoop(tasks,cb),5000);
+    if(tasks.length) setTimeout(() => runTaskLoop(tasks,cb),5000);
+    else cb();
   });
 }
