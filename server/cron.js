@@ -9,7 +9,7 @@ var job = new CronJob({
     console.log("##### MIDNIGHT CRON RUN #####");
     
     // connect DB
-    let dbWasConnected = false;
+    let dbdisconnect = false;
     
     // wait for DB. 2 = connecting, 3 = disconnecting
     while(mongoose.connection.readyState === 2 || mongoose.connection.readyState === 3){}
@@ -17,7 +17,7 @@ var job = new CronJob({
     // if not connected, connect
     if(mongoose.connection.readyState !== 1){
       
-      dbWasConnected  = true;
+      dbdisconnect  = false;
       
       mongoose.Promise = global.Promise;
       mongoose.plugin(require('mongoose-write-stream'));
@@ -38,8 +38,8 @@ var job = new CronJob({
     
     // loop through the tasks one by one
     runTaskLoop(tasks,() => {
-      if(!dbWasConnected){
-        cnsole.log("Disconnecting DB");
+      if(dbdisconnect){
+        console.log("Disconnecting DB");
         mongoose.disconnect();
       }
       
