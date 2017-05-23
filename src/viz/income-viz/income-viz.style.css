@@ -145,6 +145,7 @@
 	z-index: 1001;
 	height: 0px;
 	overflow: hidden;
+	width: 100%
 }
 .groupList.opened {
 	height: auto;
@@ -165,7 +166,7 @@
 
 .btn-infoModal {
 	position: relative;
-	right: 0px;
+	right: 15px;
 	top: 10px;
 	z-index: 1001;
 }

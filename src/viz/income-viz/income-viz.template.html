@@ -35,7 +35,7 @@
 
 			<div [attr.class]="(openedGroupList) ? 'row groupList opened' : 'row groupList'" >
 				<div class="row wrap">
-					<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup=(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'">
+					<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'">
 						<div class="row">
 							<div class="col-xs-2">
 								<div class="bar">
@@ -62,7 +62,7 @@
 
 					<div class="row">
 						<div class="col-md-12">
-							<h4>&sect; {{item.id}} - {{itemNames[item.id] || ("Rozpočtová položka #" + item.id)}}</h4>
+							<h4># {{item.id}} - {{itemNames[item.id] || ("Rozpočtová položka #" + item.id)}}</h4>
 							<span *ngIf="item.incomeAmount > item.budgetIncomeAmount" class="label label-warning"><i class="fa fa-warning"></i> Překročen rozpočet!</span>
 						</div>
 					</div>
