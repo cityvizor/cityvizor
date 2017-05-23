@@ -1,5 +1,3 @@
-var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
 
 var archiver = require("archiver");
 var fs = require("fs");
@@ -9,20 +7,13 @@ var Budget = require("../models/expenditures").Budget;
 var exportsDir = __dirname + "/../../exports";
 
 module.exports = function(cb){
-	
-	mongoose.connect('mongodb://localhost/cityvizor');
-	console.log("DB connected.");
-	
+
 	var path = exportsDir + '/budgets.json.zip';
 	var file = fs.createWriteStream(path);
 	
 	file.on("close",() => {
 		console.log("Budgets exported to " + path);
-		
-		mongoose.disconnect(() => {
-			console.log("DB disconnected.");
-			cb();
-		});
+
 		cb();
 		
 	});
