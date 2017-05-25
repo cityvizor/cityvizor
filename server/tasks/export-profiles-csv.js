@@ -27,7 +27,7 @@ module.exports = function(cb){
 		.then(profiles => {
 
 			// create header
-			let csv = "url;name;entity\r\n";g
+			let csv = "url;name;entity\r\n";
 		
 			//add data
 			profiles.forEach(profile => {
