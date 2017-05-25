@@ -1,0 +1,20 @@
+
+th{text-align:right;padding:0 10px;}
+
+.parent{position:relative;}
+
+.list{position:absolute;top:100%;left:0;display:none;padding-top:10px;}
+.list table:hover{background-color:#eee;cursor:pointer;}
+
+.parent.open{background-color:rgba(255,255,255,.5);}
+.parent.open .list{display:block;background-color:rgba(255,255,255,.5);}
+
+.year{border-right:3px solid #000;font-size:1.8em; font-weight:normal;width:100px;text-align:right;}
+.budget, .expenditure {font-size:.8em;}
+.budget th, .expenditure th {width:150px;}
+.budget td, .expenditure td {width:300px;}
+
+.bar{display:inline-block;margin-right:10px;height:6px;border-radius:3px;padding:0 3px;}
+
+.budget .bar{background-color:#2581C4;}
+.expenditure .bar{background-color:#E73431;}

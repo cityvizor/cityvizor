@@ -9,7 +9,14 @@ var Budget = require("../models/expenditures").Budget;
 
 router.get("/", acl("profile-budgets","list"), (req,res) => {
 	
-	Budget.find({profile:req.params.profile}).select("year budgetAmount expenditureAmount incomeAmount")
+	var query = Budget.find({profile:req.params.profile});
+	
+	query.select("year budgetExpenditureAmount budgetIncomeAmount expenditureAmount incomeAmount");
+	
+	if(req.query.sort) query.sort(req.query.sort);
+	console.log(req.query);
+	
+	query
 		.then(years => res.json(years ? years : []))
 		.catch(err => res.status(500).send(err));
 

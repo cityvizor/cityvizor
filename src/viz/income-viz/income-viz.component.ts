@@ -21,7 +21,7 @@ Component for graphical vizualization of expenditures
 	selector: 'income-viz',
   host: {'(window:keydown)': 'hotkeys($event)'},
 	templateUrl: 'income-viz.template.html',
-	styleUrls: ['income-viz.style.css']
+	styleUrls: ['../../shared/styles/inc-exp-viz.style.css']
 })
 export class IncomeVizComponent{
 	
@@ -30,7 +30,7 @@ export class IncomeVizComponent{
 	set profile(profile: any ){
 		if(profile){
 			this.profileId = profile._id;
-			this.loadData(profile._id,this.year);
+			this.loadEvents(this.profileId);
 		}
 	}
 	
@@ -39,9 +39,6 @@ export class IncomeVizComponent{
 	@ViewChild('eventReceiptsModal')
 	public eventReceiptsModal:ModalDirective;
 	
-	// decides which year's data should be loaded
-	year: number = 2017;
-
 	groups: any[] = [];
 	groupIndex: any = {};
 
@@ -104,6 +101,10 @@ export class IncomeVizComponent{
 	selectGroup(group){
 		this.router.navigate(group ? ["./",{"polozka":group}] : ["./",{}],{relativeTo:this.route});
 	}
+
+	selectBudget(budget){
+		this.loadBudget(this.profileId,budget.year);
+	}
 		
 
 	/**
@@ -149,7 +150,7 @@ export class IncomeVizComponent{
 
 	/* PROCESS DATA */
 
-	loadData(profileId,year){
+	loadEvents(profileId){
 		
 		// get event names
 		this._ds.getProfileEvents(profileId)
@@ -158,23 +159,27 @@ export class IncomeVizComponent{
 				events.forEach(event => this.eventIndex[event.event] = event);
 			});
 		
+		
+	}
+
+	loadBudget(profileId,year){
 		// we get a Promise
 		this._ds.getProfileBudget(profileId,year)
 			.then((budget) => this.setData(budget))
 			.catch((err) => {
-				switch(err.status){
-					case 404:
-						this._toastService.toast("Data nejsou k dispozici", "warning");
-						return;
-						
-					case 503:
-						this._toastService.toast("Služba je momentálně nedostupná", "warning");
-						return;
-						
-					default:
-						this._toastService.toast("Nastala neočekávaná chyba " + err,"error");
-				}
-			});
+			switch(err.status){
+				case 404:
+					this._toastService.toast("Data nejsou k dispozici", "warning");
+					return;
+
+				case 503:
+					this._toastService.toast("Služba je momentálně nedostupná", "warning");
+					return;
+
+				default:
+					this._toastService.toast("Nastala neočekávaná chyba " + err,"error");
+			}
+		});
 	}
 
   setData(budget){

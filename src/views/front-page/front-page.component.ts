@@ -55,6 +55,10 @@ import { Component, OnInit} from '@angular/core';
 			background: #e73431;
 			font-weight: bold;
 		}
+		
+		section#features p.text-muted {
+			color: #2581c4;
+		}
 	`]
 })
 export class FrontPageComponent implements OnInit {
