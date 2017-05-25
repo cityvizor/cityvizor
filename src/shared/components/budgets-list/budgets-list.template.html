@@ -1,0 +1,44 @@
+
+<div class="parent" [class.open]="open" (mouseover)="open=true" (mouseout)="open=false">
+  <table *ngIf="selectedBudget" class="selected">
+    <tr>
+      <th rowspan="3" class="year">{{selectedBudget.year}} <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+    </tr>
+    <tr class="budget">
+      <th>Rozpočtované {{getType()}}</th>
+      <td>
+        <span class="bar" [style.width]="(getBudgetAmount(selectedBudget) / maxAmount * 200) + 'px'"></span>
+        {{getBudgetAmount(selectedBudget) | money:0:false}} Kč
+      </td>
+    </tr>
+    <tr class="expenditure">
+      <th>Skutečné {{getType()}}</th>
+      <td>
+        <span class="bar" [style.width]="(getAmount(selectedBudget) / maxAmount * 200) + 'px'"></span>
+        {{getAmount(selectedBudget) | money:0:false}} Kč
+      </td>
+    </tr>
+  </table>
+
+  <div class="list">
+    <table *ngFor="let budget of budgets" (click)="selectBudget(budget)">
+      <tr>
+        <th rowspan="3" class="year">{{budget.year}}</th>
+      </tr>
+      <tr class="budget">
+        <th>Rozpočtované {{getType()}}</th>
+        <td>
+          <span class="bar" [style.width]="(getBudgetAmount(budget) / maxAmount * 200) + 'px'"></span>
+          {{getBudgetAmount(budget) | money:0:false}} Kč
+        </td>
+      </tr>
+      <tr class="expenditure">
+        <th>Skutečné {{getType()}}</th>
+        <td>
+          <span class="bar" [style.width]="(getAmount(budget) / maxAmount * 200) + 'px'"></span>
+          {{getAmount(budget) | money:0:false}} Kč
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

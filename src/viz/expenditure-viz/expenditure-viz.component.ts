@@ -21,7 +21,7 @@ Component for graphical vizualization of expenditures
 	selector: 'expenditure-viz',
   host: {'(window:keydown)': 'hotkeys($event)'},
 	templateUrl: 'expenditure-viz.template.html',
-	styleUrls: ['expenditure-viz.style.css']
+	styleUrls: ['../../shared/styles/inc-exp-viz.style.css']
 })
 export class ExpenditureVizComponent{
 	
@@ -30,7 +30,7 @@ export class ExpenditureVizComponent{
 	set profile(profile: any ){
 		if(profile){
 			this.profileId = profile._id;
-			this.loadData(profile._id,this.year);
+			this.loadEvents(this.profileId);
 		}
 	}
 	
@@ -39,9 +39,6 @@ export class ExpenditureVizComponent{
 	@ViewChild('eventReceiptsModal')
 	public eventReceiptsModal:ModalDirective;
 	
-	// decides which year's data should be loaded
-	year: number = 2017;
-
 	events = [];
 	eventIndex = {};
 
@@ -61,13 +58,14 @@ export class ExpenditureVizComponent{
 	openedGroupList: boolean = true;
 
 	maxAmount:number = 0;
+	maxBudgetsAmount:number = 0;
 
 	vizScale: number = 1;	
 
 	// store siubscription to unsubscribe on destroy
 	paramsSubscription:Subscription;
 	
-	constructor(private router: Router, private route: ActivatedRoute, private _ds: DataService, private _toastService: ToastService){
+	constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService, private _toastService: ToastService){
 		
 		this.groups = ChartGroups; // set groups
 		this.groups.forEach(group => {
@@ -102,6 +100,10 @@ export class ExpenditureVizComponent{
 
 	ngOnDestroy(){
 		this.paramsSubscription.unsubscribe();
+	}
+
+	selectBudget(budget){
+		this.loadBudget(this.profileId,budget.year);
 	}
 
 	selectGroup(group){
@@ -141,18 +143,20 @@ export class ExpenditureVizComponent{
 	}
 
 	/* PROCESS DATA */
-	loadData(profileId,year){
-		
+
+	loadEvents(profileId){
 		// get event names
-		this._ds.getProfileEvents(profileId)
+		this.dataService.getProfileEvents(profileId)
 			.then(events => {
 				this.events = events;
 				this.eventIndex = {};
 				this.events.forEach(event => this.eventIndex[event.event] = event);
 			});
+	}
+
+	loadBudget(profileId,year){
 		
-		// we get a Promise
-		this._ds.getProfileBudget(profileId,year)
+		this.dataService.getProfileBudget(profileId,year)
 			.then((budget) => this.setData(budget))
 			.catch((err) => {
 				switch(err.status){
@@ -222,22 +226,13 @@ export class ExpenditureVizComponent{
 		
 		this.eventReceiptsModal.show();
 		
-		this._ds.getProfileEvent(this.profileId,eventId)
+		this.dataService.getProfileEvent(this.profileId,eventId)
 			.then(eventData => this.openedEvent = eventData)
 			.catch(err => {
 				this.eventReceiptsModal.hide();
 				this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error");
 			});
 			
-	}
-
-
-	/* VIZ HELPER FUNCTIONS */
-	getBarBudgetPercentage(group) {
-		return 0;
-	}
-	getBarExpenditurePercentage(group) {
-		return 0
 	}
 	
 

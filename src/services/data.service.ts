@@ -65,8 +65,8 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
 	}
 	
-	getProfileBudgets(profileId){
-		return this.http.get("/api/profiles/" + profileId + "/budgets").toPromise().then(response => response.json());
+	getProfileBudgets(profileId,options?){
+		return this.http.get("/api/profiles/" + profileId + "/budgets" + toParams(options)).toPromise().then(response => response.json());
 	}
 	
 	getProfileContracts(profileId,options?){

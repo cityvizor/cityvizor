@@ -5,52 +5,60 @@
 <div class="row">
 
 	<div class="col-lg-12">
+		
 		<!-- VIZUALIZACE -->
-		<div id="bigbang" #drawing>
-			<div class="row">
-				<div class="col-lg-8 col-lg-offset-2">
-					
-					<div class="whiteTransitions">
-						<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
+		<div class="row" id="bigbang" #drawing>
+			
+			<div class="whiteTransitions">
+				<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
+			</div>
+			
+			<budgets-list [profile]="profileId" type="expenditures" (select)="selectBudget($event)"></budgets-list>
+			
+			<div class="col-lg-8 col-lg-offset-2">
+				
+				<div class="box ratio2_1">
+					<div class="content">
+						<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
 					</div>
+				</div>
 
-					<div class="box ratio2_1">
-						<div class="content">
-							<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
-						</div>
-					</div>
-					
-				</div>
 			</div>
-			<div class="row selectedGroupTitle">
-				<div class="col-lg-12">
-					<label class="label-default" *ngIf="!selectedGroup">Vyberte rozpočtovou skupinu</label>
-					<label class="label-selectedGroup" *ngIf="selectedGroup">{{groupIndex[selectedGroup].title}}</label>
-					<button [attr.class]="(openedGroupList) ? 'active' : ''"  (click)="openedGroupList=!openedGroupList">
-						<i class="fa fa-chevron-circle-down"> </i> Seznam
-					</button>
-				</div>
+			
+		</div>
+		
+		<!-- vyber skupiny -->
+		<div class="row selectedGroupTitle">
+			<div class="col-lg-12">
+				<label class="label-default" *ngIf="!selectedGroup">Vyberte rozpočtovou skupinu</label>
+				<label class="label-selectedGroup" *ngIf="selectedGroup">{{groupIndex[selectedGroup].title}}</label>
+				<button [attr.class]="(openedGroupList) ? 'active' : ''"  (click)="openedGroupList=!openedGroupList">
+					<i class="fa fa-chevron-circle-down"> </i> Seznam
+				</button>
 			</div>
-			<div [attr.class]="(openedGroupList) ? 'row groupList opened' : 'row groupList'" >
-				<div class="row wrap">
-					<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'">
-						<div class="row">
-							<div class="col-xs-2">
-								<div class="bar">
-									<div class="bar-budget" [style.width]="(group.budgetAmount / maxAmount * 100)+'%'">
-										<div class="bar-expenditure" [style.width]="(group.amount / group.budgetAmount * 100)+'%'">
-										</div>
+		</div>
+		
+		<!-- seznam skupin -->
+		<div [attr.class]="(openedGroupList) ? 'row groupList opened' : 'row groupList'" >
+			<div class="row wrap">
+				<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'">
+					<div class="row">
+						<div class="col-xs-2">
+							<div class="bar">
+								<div class="bar-budget" [style.width]="(group.budgetAmount / maxAmount * 100)+'%'">
+									<div class="bar-expenditure" [style.width]="(group.amount / group.budgetAmount * 100)+'%'">
 									</div>
 								</div>
 							</div>
-							<div class="col-xs-10 small analytics" [attr.data-analytics]="group.id">
-								{{group.id}} - {{group.title}}
-							</div>
+						</div>
+						<div class="col-xs-10 small analytics" [attr.data-analytics]="group.id">
+							{{group.id}} - {{group.title}}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 
 		<div id="selectedGroup">
 
