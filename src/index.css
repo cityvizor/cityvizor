@@ -8,6 +8,9 @@ body {
     /* The html and body elements cannot have any padding or margin. */
 }
 
+/* Fix for weird file size changing */
+table {font-size: 14px !important;}
+
 #disclaimer{
 	padding:20px;
 	background-color:#f00;
