@@ -51,8 +51,8 @@ export class AuthService {
 		// periodically check token validity; once per minute
 		setInterval(() => this.refreshState(), 60 * 1000);
 		
-		// periodically renew token; once per ten minutes
-		setInterval(() => this.renewToken(), 10 * 60 * 1000)
+		// periodically renew token; once per 30 minutes
+		setInterval(() => this.renewToken(), 30 * 60 * 1000)
 	}
 
 	saveToken(token){

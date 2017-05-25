@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,500,700&subset=latin-ext');
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Slab:400,700&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500,700&subset=latin-ext');
 
 html,
 body {
@@ -27,7 +26,7 @@ body {
 /* Main structure styles */
 body {
 	background-color:#fff;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 body.modal-open {overflow-y: scroll;}
@@ -51,10 +50,14 @@ a {outline: 0; cursor: pointer;}
 
 h1,h2,h3,h4 {font-weight: 700;cursor:default;}
 
+strong, .label, th {
+	font-weight: 500;
+}
+
 .content h1, .content h2, section h1, section h2 { margin: .5em 0 1em 0;}
 .content h3, .content h4, section h3, section h4 { margin: 0em 0px 1em 0;}
 
-header, nav, .btn {font-family: 'Raleway', sans-serif;}
+header, nav, .btn {font-family: 'Rubik', sans-serif;}
 
 form {margin: 0;}
 
