@@ -56,6 +56,7 @@ import { HeaderMenuComponent } 		from './shared/components/header-menu/header-me
 import { ProfileHeaderComponent } 		from './shared/components/profile-header/profile-header.component';
 import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart-bigbang.component';
 import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
+import { BudgetsListComponent } 		from './shared/components/budgets-list/budgets-list.component';
 
 // Pipes
 import { MoneyPipe } from './shared/pipes/money.pipe';
@@ -92,7 +93,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
 		/* Service Desk */ UserAdminAccountComponent,
-		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent, ChartBigbangComponent, ChartDonutComponent, 
+		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent, ChartBigbangComponent, ChartDonutComponent, BudgetsListComponent, 
 		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
 	],
 	providers: [
