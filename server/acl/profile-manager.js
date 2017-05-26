@@ -1,6 +1,13 @@
 function isManagedProfile(req){
-	let profile = req.body.profile || req.query.profile || req.params.profile || null;
-	return req.user && profile && req.user.managedProfiles.indexOf(profile) >= 0;
+	
+	// we need logged user
+	if(!req.user) return false;
+	
+	// all fields that contain profile id during requests
+	let profiles = [req.body.profile,req.query.profile,req.params.profile];
+	
+	// if any of the profile ids is NOT found in managed profiles, some() returns true, then we return false;
+	var result = !profiles.some(profileId => profileId && req.user.managedProfiles.indexOf(profile) < 0);
 }
 
 module.exports = {
@@ -18,6 +25,12 @@ module.exports = {
 	
 	"profile-budgets": {
 		"write": function(req){
+			return isManagedProfile(req);
+		}
+	},
+	
+	"profile-etls": {
+		"list": function(req){
 			return isManagedProfile(req);
 		}
 	},

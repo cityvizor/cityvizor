@@ -14,7 +14,6 @@ router.get("/", acl("profile-budgets","list"), (req,res) => {
 	query.select("year budgetExpenditureAmount budgetIncomeAmount expenditureAmount incomeAmount");
 	
 	if(req.query.sort) query.sort(req.query.sort);
-	console.log(req.query);
 	
 	query
 		.then(years => res.json(years ? years : []))

@@ -8,6 +8,10 @@ module.exports = {
 		"write": true
 	},
 	
+	"profile-etls": {
+		"list": true
+	},
+	
 	"profile-events": {
 		"write": true
 	},
