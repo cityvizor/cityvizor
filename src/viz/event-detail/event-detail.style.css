@@ -1,1 +1,5 @@
 * {opacity:inherit;}
+
+table.table-title-number-number thead tr th:nth-child(1) { width: 60%; }
+table.table-title-number-number thead tr th:nth-child(2) { width: 20%; }
+table.table-title-number-number thead tr th:nth-child(3) { width: 20%; }

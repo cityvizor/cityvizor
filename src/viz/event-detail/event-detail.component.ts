@@ -24,13 +24,14 @@ export class EventDetailComponent{
 	
 	budgets:any[];
 	counterparties:any = {};
+	name:string = '';
 	
 	paragraphNames = paragraphNames;
 	itemNames = itemNames;
 
 	setData(event){
 		this.budgets = event.budgets;
-		
+		this.name = event.name;
 		this.counterparties = {};
 		
 		event.payments.forEach(payment => {

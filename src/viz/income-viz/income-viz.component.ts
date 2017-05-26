@@ -69,6 +69,25 @@ export class IncomeVizComponent{
 			{id: "3", title: "Kapitálové příjmy"},
 			{id: "4", title: "Přijate transfery"}
 		];	
+		
+		this.groups = [
+			{id:  "11", title: "Daně z příjmů, zisku a kapitálových výnosů"},
+			{id:  "12", title: "Daně ze zboží a služeb v tuzemsku"},
+			{id:  "13", title: "Daně a poplatky z vybraných činností a služeb"},
+			{id:  "14", title: "Daně a cla za zboží a služby ze zahraničí "},
+			{id:  "15", title: "Majetkové daně"},
+			{id:  "16", title: "Povinné pojistné na sociální zabezpečení, příspěvek na státní politiku zaměstnanosti a veřejné zdravotní pojištění"},
+			{id:  "17", title: "Ostatní daňové příjmy"},
+			{id:  "21", title: "Příjmy z vlastní činnosti a odvody přebytků organizací s přímým vztahem"},
+			{id:  "22", title: "Přijaté sankční platby a vratky transferů"},
+			{id:  "23", title: "Příjmy z prodeje nekapitálového majetku a ostatní nedaňové příjmy"},
+			{id:  "24", title: "Přijaté splátky půjčených prostředků "},
+			{id:  "25", title: "Příjmy sdílené s nadnárodním orgánem"},
+			{id:  "31", title: "Příjmy z prodeje dlouhodobého majetku a ostatní kapitálové příjmy"},
+			{id:  "32", title: "Příjmy z prodeje akcií a majetkových podílů "},
+			{id:  "41", title: "Neinvestiční přijaté transfery"},
+			{id:  "42", title: "Investiční přijaté transfery"}
+		];
 		this.groups.forEach(group => this.groupIndex[group.id] = group);
 	}
 
@@ -193,7 +212,7 @@ export class IncomeVizComponent{
 		
 		budget.items.forEach(item => {
 
-			let groupId = item.id.substring(0,1);
+			let groupId = item.id.substring(0,2);
 			
 			if(this.groupIndex[groupId]){
 				this.groupIndex[groupId].budgetAmount += item.budgetIncomeAmount;
