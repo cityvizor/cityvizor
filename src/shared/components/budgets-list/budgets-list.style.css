@@ -16,5 +16,13 @@ th{text-align:right;padding:0 10px;}
 
 .bar{display:inline-block;margin-right:10px;height:6px;border-radius:3px;padding:0 3px;}
 
-.budget .bar{background-color:#2581C4;}
-.expenditure .bar{background-color:#E73431;}
+.budget .bar{background-color:#adf;}
+.expenditure .bar{background-color:#2581C4;}
+
+.bl-selectedBudget {
+  min-width: 400px; 
+}
+
+.bl-bar{display:inline-block;margin-right:10px;height:8px;border-radius:3px;padding:0 3px;}
+.bl-bar-budget {background-color:#2581C4;}
+.bl-bar-expenditure{background-color:#E73431;}
