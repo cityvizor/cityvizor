@@ -1,7 +1,8 @@
-import rollup from 'rollup'
-import nodeResolve from 'rollup-plugin-node-resolve'
+import rollup from 'rollup';
+import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import uglify from 'rollup-plugin-uglify'
+import uglify from 'rollup-plugin-uglify';
+//import closure from 'rollup-plugin-closure-compiler-js';
 
 //paths are relative to the execution path
 export default {
@@ -24,5 +25,6 @@ export default {
 			]
 		}),
 		uglify()
+		//closure()
 	]
 }
