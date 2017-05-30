@@ -29,4 +29,6 @@ Netestováno.
 
 Netestováno.
 
+--------------
+
 <sup>1</sup> Snažíme se postihnout co největší procento uživatelů, zároveň ale není v našich silách podporovat zastaralé prohlížeče.
