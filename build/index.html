@@ -13,11 +13,13 @@
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 		<!-- custom root stylesheet - out of Angular App -->
-		<link rel="stylesheet" href="src/index.css">
+		<link rel="stylesheet" href="build/index.css">
 
-		<!-- Polyfill(s) for older browsers -->
-		<script src="node_modules/core-js/client/shim.min.js"></script>
+		<!-- Libraries and polyfills -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.8.11/zone.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.2.5/web-animations.min.js"></script>
 		
 		<!-- Google Tag Manager -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -26,18 +28,17 @@
 		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 		})(window,document,'script','dataLayer','GTM-KDBRPW4');</script>
 		<!-- End Google Tag Manager -->
+		
+		<!-- JiT-compiled applications that use the SystemJS loader and component-relative URLs must set the @Component.moduleId property to module.id. The module object is undefined when an AoT-compiled app runs. The app fails with a null reference error unless you assign a global module value in the index.html like this: -->
+		<script>window.module = 'aot';</script>
 	</head>
 
 	<body>
 		
 		<!-- 4. check compatibility -->
 		<script src="assets/js/compatibility.js"></script>
-		<script>
-			if(!window.unsupportedBrowser){
-				document.write("<script src=\"build/dist/build.js\"></scr" + "ipt>");
-			}
-		</script>
 		
+		<!-- Display unsupported message when applicable (hide/show done by class on body and CSS) -->
 		<div id="unsupported" class="container">
 			<h1>Váš prohlížeč je zastaralý</h1>
 
@@ -47,17 +48,21 @@
 
 			<p>Děkujeme za pochopení,<br>Tým vývojářů CityVizor</p>
 		</div>
-	
 		
+		
+		<!-- LAUNCH THE APP -->
+		<cityvizor-app></cityvizor-app>
+		<script>
+			if(!window.unsupportedBrowser){
+				document.write("<script src=\"build/dist/build.js\"></scr" + "ipt>");
+			}
+		</script>
+		
+
 		<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KDBRPW4"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
-
-		<cityvizor-app></cityvizor-app>
-
-		<!-- LAUNCH THE APP -->
-		
 
 	</body>
 </html>
