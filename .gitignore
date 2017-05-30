@@ -1,10 +1,12 @@
 # compiled output
 /src/**/*.js
 /src/**/*.js.map
-/build
+/build/dist
+/build/node-modules
+/build/src
+/build/**/*.js
+/build/**/*.js.map
 !systemjs.config.js
-!index.html
-!index.ts
 
 # sensitive data
 mongo-express-config.js
