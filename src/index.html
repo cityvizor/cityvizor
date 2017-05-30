@@ -11,12 +11,14 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+	<link rel="stylesheet" href="build/index.css">
 
 	<!-- 1. Load libraries -->
 
-	<!-- Polyfill(s) for older browsers -->
-	<script src="node_modules/core-js/client/shim.min.js"></script>
+	<!-- Polyfill(s) for older browsers https://angular.io/docs/ts/latest/guide/browser-support.html -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.2.5/web-animations.min.js"></script>
 
 	<!-- SystemJS -->
 	<script src="node_modules/zone.js/dist/zone.js"></script>
@@ -25,17 +27,24 @@
 
 	<!-- 2. Configure SystemJS -->
 	<script src="src/systemjs.config.js"></script>
-	<script>
-		System.import('app').catch(function(err) {
-			console.error(err);
-		});
-	</script>
+	
 
-	<link rel="stylesheet" href="src/index.css">
 </head>
-<!-- 3. Display the application -->
 
 <body>
+	
+	<!-- 4. check compatibility -->
+	<script src="assets/js/compatibility.js"></script>
+	
+	<!-- 5. LOAD THE APP -->
+	<script>
+		if(!window.unsupportedBrowser){
+			System.import('app').catch(function(err) {
+				console.error(err);
+			});
+		}
+	</script>
+	
 	<cityvizor-app>
 		<header id="headerLoading">
 			<svg id="Vrstva_2" height="250" width="250" data-name="Vrstva 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.79 78.63">
@@ -64,6 +73,16 @@
 				</span>
 		</div>
 	</cityvizor-app>
+	
+	<div id="unsupported" class="container">
+		<h1>Váš prohlížeč je zastaralý</h1>
+		
+		<p>Velmi se omlouváme, ale není v našich silách, aby naše aplikace podporovala starší prohlížeče. Buďto bychom museli některé funkce oželet, nebo bychom nad jejich vývojem museli strávit několikanásobně více času.</p>
+		
+		<p>Pro více informací prosím navštivte <a href="https://otevrena-data-mfcr.github.io/CityVizor/o-aplikaci/podporovane-prohlizece">přehled podporovaných prohlížečů a zařízení</a>.</p>
+		
+		<p>Děkujeme za pochopení,<br>Tým vývojářů CityVizor</p>
+	</div>
 
 </body>
 
