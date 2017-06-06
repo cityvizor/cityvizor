@@ -1,4 +1,4 @@
-<button class="btn btn-xs btn-default btn-infoModal pull-right"  (click)="infoModal.show();">
+<button class="btn btn-sm btn-default btn-infoModal pull-right"  (click)="infoModal.show();">
 	<i class="fa fa-question-circle"></i> Informace
 </button>
 
@@ -7,7 +7,7 @@
 	<div class="col-lg-12">
 		
 		<!-- VIZUALIZACE -->
-		<div class="row" id="bigbang" #drawing>
+		<div id="bigbang" #drawing>
 			
 			<div class="whiteTransitions">
 				<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
@@ -15,50 +15,74 @@
 			
 			<budgets-list [profile]="profileId" type="expenditures" (select)="selectBudget($event)"></budgets-list>
 			
-			<div class="col-lg-8 col-lg-offset-2">
-				
-				<div class="box ratio2_1">
-					<div class="content">
-						<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
-					</div>
-				</div>
+			<div class="row">
 
-			</div>
+				<div class="col-lg-8 col-lg-offset-2">
+
+					<div class="box ratio2_1">
+						<div class="content">
+							<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
+						</div>
+					</div>
+
+				</div>
 			
-		</div>
-		
-		<!-- vyber skupiny -->
-		<div class="row selectedGroupTitle">
-			<div class="col-lg-12">
-				<label class="label-default" *ngIf="!selectedGroup">Vyberte rozpočtovou skupinu</label>
-				<label class="label-selectedGroup" *ngIf="selectedGroup">{{groupIndex[selectedGroup].title}}</label>
-				<button [attr.class]="(openedGroupList) ? 'active' : ''"  (click)="openedGroupList=!openedGroupList">
-					<i class="fa fa-chevron-circle-down"> </i> Seznam
-				</button>
 			</div>
 		</div>
 		
-		<!-- seznam skupin -->
-		<div [attr.class]="(openedGroupList) ? 'row groupList opened' : 'row groupList'" >
-			<div class="row wrap">
-				<div *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'col-xs-12 col-sm-6 group group-focus' : 'col-xs-12 col-sm-6 group'">
+		<div class="btn-group-selected">
+			<div class="btn-group">
+				<button type="button" class="btn btn-lg btn-red" *ngIf="selectedGroup">
+							<strong>{{groupIndex[selectedGroup].title}}</strong>
+				</button>
+				<button type="button" class="btn btn-lg btn-red" *ngIf="!selectedGroup">
+							<strong>Vyberte skupinu</strong>
+				</button>
+				<button type="button" class="btn btn-lg btn-label">
 					<div class="row">
-						<div class="col-xs-2">
-							<div class="bar">
-								<div class="bar-budget" [style.width]="(group.budgetAmount / maxAmount * 100)+'%'">
-									<div class="bar-expenditure" [style.width]="(group.amount / group.budgetAmount * 100)+'%'">
+						<div class="col-xs-3 text-right">
+							<strong>Plnění</strong>
+						</div>
+						<div class="col-xs-9 text-right">
+							{{10000 | money:0:false}} Kč
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-3 text-right">
+							<strong>Rozpočet</strong>
+						</div>
+						<div class="col-xs-9 text-right">
+							{{20000 | money:0:false}} Kč
+						</div>
+					</div>
+				</button>
+
+				<div class="btn-group" dropdown>
+					<button dropdownToggle type="button" class="btn btn-lg btn-blue dropdown-toggle">
+						Seznam <span class="caret"></span>
+					</button>
+					<ul *dropdownMenu class="dropdown-menu groupList" role="menu">
+						<li role="menuitem" *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'group group-focus' : 'group'">
+							<a>
+								<div class="row">
+									<div class="col-xs-2">
+										<div class="bar">
+											<div class="bar-budget" [style.width]="(group.budgetAmount / maxAmount * 100)+'%'">
+												<div class="bar-expenditure" [style.width]="(group.amount / group.budgetAmount * 100)+'%'">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-10 small analytics" [attr.data-analytics]="group.id">
+										{{group.title}} <sub class="text-muted hidden">{{group.id}}</sub>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-xs-10 small analytics" [attr.data-analytics]="group.id">
-							{{group.id}} - {{group.title}}
-						</div>
-					</div>
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
-
 
 		<div id="selectedGroup">
 
