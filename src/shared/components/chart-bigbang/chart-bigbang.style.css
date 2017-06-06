@@ -9,6 +9,8 @@ svg{margin:0 auto;display:block;margin-top:-15%;}
 .outerStripe{fill:#adf;stroke:#fff;stroke-width:2;}
 .outerStripe.selected{fill:#ff9491;}
 
+.zeroStripe{fill:#DDD;stroke:#fff;stroke-width:2;}
+
 .bgstripe{fill:#aaa;opacity:0;cursor:pointer;transition-duration: .3s;}
 .bgstripe.hovered{opacity:0.2;}
 
