@@ -142,23 +142,8 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 }
 
 .groupList {
-	border-top: 3px solid #E73431;
-	background: #f5f5f5;
-	transition-duration: .5s;
-	position: absolute;
-	z-index: 1001;
-	height: 0px;
-	overflow: hidden;
-	width: 100%
 }
 .groupList.opened {
-	height: auto;
-	border-top: 3px solid #2581C4;
-}
-.groupList .wrap {
-	padding: 1em 0.5em;
-	margin-bottom: 0;
-	border-bottom: 3px solid #2581C4;
 }
 
 .groupList .group-focus .bar-budget {
@@ -168,9 +153,62 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 	background: #E73431;
 }
 
-.btn-infoModal {
+.btn-group-selected {
 	position: relative;
-	right: 15px;
-	top: 10px;
+	text-align: center;
+}
+.btn-group-selected .btn-group {
+	display: inline-flex;
+}
+.btn-group-selected .btn-group, .btn-group-selected .btn {
+	position: static;
+	white-space: normal;
+}
+.btn-group-selected .btn-blue {
+  min-width: 130px;
+}
+.btn-group-selected ul {
+	-webkit-column-count: 2;
+	-moz-column-count: 2;
+	column-count: 2;
+}
+.dropdown-menu > li > a {
+    padding: 1px 5px;
+}
+
+.btn-label {font-size: 12px;line-height: 12px;}
+
+.groupList div {
+	white-space: normal;
+}
+
+.btn-infoModal {
+	position: absolute;
+	right: 0px;
+	top: 0px;
 	z-index: 1001;
+}
+
+.btn-group {
+	box-shadow: 0px 0px 20px white;
+}
+
+.btn-red {
+	background-color: #E73431;
+	border-color: #E73431;
+	color: white;
+}
+
+.btn-blue {
+	background-color: #2581C4;
+	border-color: #2581C4;
+	color: white;
+}
+.btn-label {
+	background-color: #EEE;
+	border-color: #DDD;
+}
+
+.btn-label:hover, .btn-red:hover {
+	cursor: default;
 }

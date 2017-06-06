@@ -1,5 +1,84 @@
+<div class="btn-group" *ngIf="selectedBudget">
+  <button type="button" class="btn btn-red">
+        <strong>{{selectedBudget.year}}</strong>
+  </button>
+  <button type="button" class="btn btn-default btn-label bl-btn-selected bl-budget">
+    <div class="row">
+      <div class="col-xs-3 text-right">
+        <strong>Plnění</strong>
+      </div>
+      <div class="col-xs-4 text-left">
+        <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(selectedBudget) / maxAmount * 100) + '%'"></span>
+      </div>
+      <div class="col-xs-5 text-right">
+        {{getAmount(selectedBudget) | money:0:false}} Kč
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 text-right">
+        <strong>Rozpočet</strong>
+      </div>
+      <div class="col-xs-4 text-left">
+        <span class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(selectedBudget) / maxAmount * 100) + '%'"></span>
+      </div>
+      <div class="col-xs-5 text-right">
+        {{getBudgetAmount(selectedBudget) | money:0:false}} Kč
+      </div>
+    </div>
+  </button>
+  
+  <div class="btn-group" dropdown>
+    <button dropdownToggle type="button" class="btn btn-blue dropdown-toggle">
+      Vyberte rok<span class="caret"></span>
+    </button>
+    <ul *dropdownMenu class="dropdown-menu" role="menu">
+      <li role="menuitem" *ngFor="let budget of budgets" (click)="selectBudget(budget)">
+        <a>
+          <div class="bl-budget bl-budget-spacing">
+            <div class="row bl-labels">
+              <div class="col-xs-6 text-left">
+                <div class="label label-danger">
+                  {{budget.year}}
+                </div>
+              </div>
+              <div class="col-xs-6 text-right">
+                <div class="label label-default">
+                  Platné k DD. MM. YYYY
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-2">
+                <strong>Plnění</strong>
+              </div>
+              <div class="col-xs-5">
+                <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(budget) / maxAmount * 100) + '%'"></span>
+              </div>
+              <div class="col-xs-5 text-right">
+                {{getAmount(budget) | money:0:false}} Kč
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-2">
+                <strong>Rozpočet</strong>
+              </div>
+              <div class="col-xs-5">
+                <span class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(budget) / maxAmount * 100) + '%'"></span>
+              </div>
+              <div class="col-xs-5 text-right">
+                {{getBudgetAmount(budget) | money:0:false}} Kč
+              </div>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
 
-<div class="parent" [class.open]="open" (mouseover)="open=true" (mouseout)="open=false">
+
+
+<div class="parent hidden" [class.open]="open" (mouseover)="open=true" (mouseout)="open=false">
   <table *ngIf="selectedBudget" class="selected">
     <tr>
       <th rowspan="3" class="year">{{selectedBudget.year}} <i class="fa fa-caret-down" aria-hidden="true"></i></th>

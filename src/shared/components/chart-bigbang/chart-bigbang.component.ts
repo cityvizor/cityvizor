@@ -27,7 +27,16 @@ export class ChartBigbangComponent {
 	innerR: number = 0.2; // relative to radius
 	minR: number = 0.22; // relative to radius
 	 
+	@Input()
+	height:number = 780;
+	 
 	constructor(){
+	}
+	 
+	ngOnChanges(changes:SimpleChanges){
+		if(changes.selected){
+			this.updateAlpha(changes.selected);
+		}
 	}
 	
 	getStripeSize(amount){
@@ -37,18 +46,6 @@ export class ChartBigbangComponent {
 	
 	getCircleR(){
 		return this.innerR * this.r * 0.9;
-	}
-
-	// get the chart rotation angle based on category
-	getAlpha(){
-		var selectedAlpha = 0;
-		
-		this.data.some((item,i) => {
-			if(item.id == this.selected) {selectedAlpha = i / this.data.length;return true;}
-			return false;
-		});
-		
-		return this.alpha - selectedAlpha;
 	}
 	 
 	// generate stripe by index, and inner and outer percentage size
@@ -94,6 +91,32 @@ export class ChartBigbangComponent {
 		properties.push("A" + innerRadius + "," + innerRadius + " 0 " + outerArc + ",0 " + endX2 + "," + endY2);
 		properties.push("Z");
 
-		return properties.join(" ");	
+		return properties.join(" ");
+	}
+	 
+	updateAlpha(change){
+		
+		let prev = 0;
+		this.data.some((item,i) => {
+			if(item.id === change.previousValue){prev = i;return true;}
+			else return false;
+		});
+		
+		let next = 0;
+		this.data.some((item,i) => {
+			if(item.id === change.currentValue){next = i;return true;}
+			else return false;
+		});
+		
+		let diff = 0;
+		
+		if(Math.abs(next - prev) <= this.data.length / 2) diff = next - prev;
+		else{
+			if(prev > next) diff = next - prev + this.data.length;
+			else diff = next - prev - this.data.length;
+		}
+		
+		this.alpha += (-1) * diff * (1 / this.data.length);
+			 
 	}
 }

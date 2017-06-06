@@ -3,17 +3,17 @@
   
   <header>
     <div class="container">
+      <div class="row">
+        <h1 *ngIf="config.title">
+          <i *ngIf="config.title.icon" [class]="config.title.icon"></i>
+          <a [routerLink]="config.title.link">{{config.title.text}}</a>
+        </h1>
 
-      <h1 *ngIf="config.title">
-        <i *ngIf="config.title.icon" [class]="config.title.icon"></i>
-        <a [routerLink]="config.title.link">{{config.title.text}}</a>
-      </h1>
-
-      <a *ngIf="config.titleRight" [routerLink]="config.titleRight.link" class="btn pull-right hidden-print">
-        <i *ngIf="config.titleRight.icon" [class]="config.titleRight.icon"></i>
-        {{config.titleRight.text}}
-      </a>
-
+        <a *ngIf="config.titleRight" [routerLink]="config.titleRight.link" class="btn pull-right hidden-print">
+          <i *ngIf="config.titleRight.icon" [class]="config.titleRight.icon"></i>
+          {{config.titleRight.text}}
+        </a>
+      </div>
     </div>
   </header>
 
