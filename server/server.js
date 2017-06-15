@@ -33,8 +33,8 @@ app.get('*',(req,res) => {
 /* SET UP SERVER */
 // get SSL certificates
 const options = {
-	cert: fs.readFileSync('./cert/fullchain.pem'),
-	key: fs.readFileSync('./cert/privkey.pem')
+	cert: fs.readFileSync('./server/cert/fullchain.pem'),
+	key: fs.readFileSync('./server/cert/privkey.pem')
 }; 	
 
 // start https server

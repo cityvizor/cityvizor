@@ -10,7 +10,7 @@
 
 # sensitive data
 mongo-express-config.js
-/cert/*.pem
+/server/cert/*
 
 # dependencies
 /node_modules
