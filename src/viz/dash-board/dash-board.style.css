@@ -57,6 +57,6 @@ profile-map {
 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,000000+50,1e5799+50,2989d8+51,000000+51,7db9e8+100 */
 background: transparent; /* Old browsers */
 background: -moz-linear-gradient(left, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient((left, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to right, (left, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+background: -webkit-linear-gradient(left, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }

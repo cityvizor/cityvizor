@@ -28,10 +28,6 @@ app.use("/api",require("./routers/api.js"));
 
 app.use(require("./routers/static"));
 
-app.get('*',(req,res) => {
-	res.sendFile("build/index.html", { root: __dirname + "/.." });	
-});
-
 /* SET UP SERVER */
 // get SSL certificates
 const options = {
