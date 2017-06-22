@@ -71,22 +71,22 @@ export class IncomeVizComponent{
 		];	
 		
 		this.groups = [
-			{id:  "11", title: "Daně z příjmů, zisku a kapitálových výnosů"},
-			{id:  "12", title: "Daně ze zboží a služeb v tuzemsku"},
-			{id:  "13", title: "Daně a poplatky z vybraných činností a služeb"},
-			{id:  "14", title: "Daně a cla za zboží a služby ze zahraničí "},
-			{id:  "15", title: "Majetkové daně"},
-			{id:  "16", title: "Povinné pojistné na sociální zabezpečení, příspěvek na státní politiku zaměstnanosti a veřejné zdravotní pojištění"},
-			{id:  "17", title: "Ostatní daňové příjmy"},
-			{id:  "21", title: "Příjmy z vlastní činnosti a odvody přebytků organizací s přímým vztahem"},
-			{id:  "22", title: "Přijaté sankční platby a vratky transferů"},
-			{id:  "23", title: "Příjmy z prodeje nekapitálového majetku a ostatní nedaňové příjmy"},
-			{id:  "24", title: "Přijaté splátky půjčených prostředků "},
-			{id:  "25", title: "Příjmy sdílené s nadnárodním orgánem"},
-			{id:  "31", title: "Příjmy z prodeje dlouhodobého majetku a ostatní kapitálové příjmy"},
-			{id:  "32", title: "Příjmy z prodeje akcií a majetkových podílů "},
-			{id:  "41", title: "Neinvestiční přijaté transfery"},
-			{id:  "42", title: "Investiční přijaté transfery"}
+			{id:  "11", title: "Daně z příjmů, zisku a kapitálových výnosů", eventsColumnHeader: "Příjem na účelovou akci"},
+			{id:  "12", title: "Daně ze zboží a služeb v tuzemsku", eventsColumnHeader: "Investiční akce"},
+			{id:  "13", title: "Daně a poplatky z vybraných činností a služeb", eventsColumnHeader: "Investiční akce"},
+			{id:  "14", title: "Daně a cla za zboží a služby ze zahraničí ", eventsColumnHeader: "Investiční akce"},
+			{id:  "15", title: "Majetkové daně", eventsColumnHeader: "Investiční akce"},
+			{id:  "16", title: "Povinné pojistné na sociální zabezpečení, příspěvek na státní politiku zaměstnanosti a veřejné zdravotní pojištění", eventsColumnHeader: "Investiční akce"},
+			{id:  "17", title: "Ostatní daňové příjmy", eventsColumnHeader: "Investiční akce"},
+			{id:  "21", title: "Příjmy z vlastní činnosti a odvody přebytků organizací s přímým vztahem", eventsColumnHeader: "Investiční akce"},
+			{id:  "22", title: "Přijaté sankční platby a vratky transferů", eventsColumnHeader: "Investiční akce"},
+			{id:  "23", title: "Příjmy z prodeje nekapitálového majetku a ostatní nedaňové příjmy", eventsColumnHeader: "Investiční akce"},
+			{id:  "24", title: "Přijaté splátky půjčených prostředků ", eventsColumnHeader: "Investiční akce"},
+			{id:  "25", title: "Příjmy sdílené s nadnárodním orgánem", eventsColumnHeader: "Investiční akce"},
+			{id:  "31", title: "Příjmy z prodeje dlouhodobého majetku a ostatní kapitálové příjmy", eventsColumnHeader: "Investiční akce"},
+			{id:  "32", title: "Příjmy z prodeje akcií a majetkových podílů ", eventsColumnHeader: "Investiční akce"},
+			{id:  "41", title: "Neinvestiční přijaté transfery", eventsColumnHeader: "Investiční akce"},
+			{id:  "42", title: "Investiční přijaté transfery", eventsColumnHeader: "Investiční akce"}
 		];
 		this.groups.forEach(group => this.groupIndex[group.id] = group);
 	}
