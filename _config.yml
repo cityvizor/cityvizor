@@ -17,9 +17,6 @@ url: "" # the base hostname & protocol for your site
 markdown: kramdown
 
 navigation:
-- text: Úvod
-  url: 
-  id: uvod
 - text: O aplikaci
   url: o-aplikaci/
   id: o-aplikaci
