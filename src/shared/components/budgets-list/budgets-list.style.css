@@ -16,5 +16,50 @@ th{text-align:right;padding:0 10px;}
 
 .bar{display:inline-block;margin-right:10px;height:6px;border-radius:3px;padding:0 3px;}
 
-.budget .bar{background-color:#2581C4;}
-.expenditure .bar{background-color:#E73431;}
+.budget .bar{background-color:#adf;}
+.expenditure .bar{background-color:#2581C4;}
+
+.bl-budget {min-width:300px; font-size: 10px; line-height: 10px;}
+.bl-budget.bl-budget-spacing {margin: 10px 0px;}
+.bl-labels { font-size: 14px;margin-bottom: 10px; }
+
+
+.bl-bar{display:inline-block;
+margin-right: 10px;
+height: 6px;
+border-radius: 3px;
+padding: 0px 2px;}
+.bl-bar-budget {background-color:#ADF;}
+.bl-bar-expenditure{background-color:#2581C4;}
+
+.bl-bar-selected {font-size: 11px;line-height: 10px;}
+
+.bl-bar-selected .row > * {padding: 0px 10px 0px 0px;}
+
+.bl-btn-selected {min-width: 350px;}
+
+
+.btn-group {
+	box-shadow: 0px 0px 20px white;
+}
+
+.btn-red {
+	background-color: #E73431;
+	border-color: #E73431;
+	color: white;
+}
+
+.btn-blue {
+	background-color: #2581C4;
+	border-color: #2581C4;
+	color: white;
+}
+
+.btn-label {
+	background-color: #EEE;
+	border-color: #DDD;
+}
+
+.btn-label:hover, .btn-red:hover {
+	cursor: default;
+}

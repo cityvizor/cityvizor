@@ -1,36 +1,68 @@
 <div class="row">
-	
-	<div class="col-md-12">
 
-		<h2 class="text-center">
-			<i class="fa fa-calendar"></i>
-			Aktuálně
-		</h2>
-
-	</div>
-
-	<div class="col-md-6">
+	<div class="col-md-6 bg-timeline">
+		<div class="row">
+			<div class="col-xs-12 text-center">
+				<h4>
+					<div class="label label-danger">
+						Nejnovější faktury
+					</div>
+				</h4>
+			</div>
+		</div>
 		<div class="row news" *ngFor="let payment of payments">
-			<div class="col-xs-10 col-xs-offset-1">
+			<div class="col-xs-12">
 				<h5 class="service-heading">
 					<strong>{{payment.counterpartyName}}</strong>
 					<span class="label label-info">IČO {{payment.counterpartyId}}</span>
 					<span *ngIf="payment.paragraph" class="label label-primary">&sect; {{payment.paragraph}}</span>
 					<span *ngIf="payment.item" class="label label-success">RP {{payment.item}}</span>
 				</h5>
-				<p class="text-muted">{{payment.date | date:"d. M. y"}} {{payment.description}} <strong class="pull-right">{{payment.amount | money:0:false}} Kč</strong></p>
+				<p class="text-muted small">
+					{{payment.description}}
+				</p>
+				<div class="row small">
+					<div class="col-xs-6">
+						{{payment.date | date:"d. M. y"}}
+					</div>
+					<div class="col-xs-6 text-right text-danger">
+						<strong>
+							{{payment.amount | money:0:false}} Kč
+						</strong>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="col-md-6">
+	<div class="col-md-6 bg-timeline">
+		<div class="row">
+			<div class="col-xs-12 text-center">
+				<h4>
+					<div class="label label-danger">
+						Nejnovější smlouvy
+					</div>	
+				</h4>
+			</div>
+		</div>
 		<div class="row news" *ngFor="let contract of contracts">
-			<div class="col-xs-10 col-xs-offset-1">
+			<div class="col-xs-12">
 				<h5 class="service-heading">
-					<strong>{{contract.counterparty}} - {{contract.title}}</strong>
+					<strong>{{contract.counterparty}}</strong>
 					<a [href]="contract.url" target="_blank" class="label label-info">otevřít</a>
 				</h5>
-				<p class="text-muted">{{contract.date | date:"d. M. y"}}<strong class="pull-right">{{contract.amount | money:0:false}} Kč</strong></p>
+				<p class="text-muted small">{{contract.title}}</p>
+				
+				<div class="row small">
+					<div class="col-xs-6">
+						{{contract.date | date:"d. M. y"}}
+					</div>
+					<div class="col-xs-6 text-right text-danger">
+						<strong>
+							{{contract.amount | money:0:false}} Kč
+						</strong>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -49,17 +81,17 @@
 
 
 			<g *ngFor="let budget of budgets; let i = index;">
-				<text [attr.x]="(i+1/2)*1000/4" [attr.y]="25" style="fill:#aaa;font-size:20px;text-anchor:middle;">{{budget.year}}</text>
+				<text [attr.x]="getXOffset(i)" [attr.y]="25" style="fill:#aaa;font-size:20px;text-anchor:middle;">{{budget.year}}</text>
 
-				<path [attr.d]="'M '+((i+1/2)*1000/4-100)+',150 L '+((i+1/2)*1000/4+100)+',150'" stroke="#e0e0e0" stroke-width="1"/>
+				<path [attr.d]="'M '+(getXOffset(i)-100)+',150 L '+(getXOffset(i)+100)+',150'" stroke="#e0e0e0" stroke-width="1"/>
 
 				<g>
 					<path [attr.d]="getIncSemicirclePath(budget,i)" fill="#f0f0f0" stroke="#ffffff" stroke-width="1" />
 					<path [attr.d]="getExpSemicirclePath(budget,i)" fill="#e0e0e0" stroke="#ffffff" stroke-width="1" />
 					<path [attr.d]="getDiffSemicirclePath(budget,i)" [attr.fill]="getDiffSemicircleFill(budget,i)" stroke="#ffffff" stroke-width="1" />
 
-					<text	[attr.x]="(i+1/2)*1000/4" 
-								[attr.y]="(budget.expenditureAmount > budget.incomeAmount ? 170 : 145)" 
+					<text	[attr.x]="getXOffset(i)" 
+								[attr.y]="(budget.expenditureAmount > budget.incomeAmount ? 145 : 170)" 
 								[attr.fill]="(budget.expenditureAmount > budget.incomeAmount ? '#E73431' : '#2581C4')"
 								style="font-weight: bold;font-size:20px;text-anchor:middle;">
 						{{budget.expenditureAmount > budget.incomeAmount ? '' : '+'}} {{(budget.incomeAmount - budget.expenditureAmount) | money:0:true}}

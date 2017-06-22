@@ -1,15 +1,17 @@
 # compiled output
 /src/**/*.js
 /src/**/*.js.map
-/build
+/build/dist
+/build/node-modules
+/build/src
+/build/**/*.js
+/build/**/*.js.map
 !systemjs.config.js
-!index.html
-!index.ts
 
 # sensitive data
 /server/config/server-config.js
 /server/config/mongo-express-config.js
-/server/cert/*.pem
+/server/cert/*
 
 # dependencies
 /node_modules

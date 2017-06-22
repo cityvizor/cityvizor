@@ -48,7 +48,7 @@ import { ToastService } 		from './services/toast.service';
 import { AuthService } 		from './services/auth.service';
 
 // Import Modules
-import { ModalModule, CollapseModule } from 'ngx-bootstrap';
+import { ModalModule, CollapseModule, BsDropdownModule } from 'ngx-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
@@ -83,7 +83,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		HttpModule,
 		FormsModule,
 		routing,
-		ModalModule.forRoot(), CollapseModule.forRoot(),
+		ModalModule.forRoot(), CollapseModule.forRoot(), BsDropdownModule.forRoot(),
 		FileUploadModule
 	],
   declarations: [

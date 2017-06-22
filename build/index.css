@@ -8,8 +8,14 @@ body {
     /* The html and body elements cannot have any padding or margin. */
 }
 
+#unsupported{display:none;}
+body.unsupported cityvizor-app{display:none;}
+body.unsupported #unsupported{display:block;}
+
 /* Fix for weird file size changing */
 table {font-size: 14px !important;}
+table label{font-weight:bold;}
+table label.optional{font-weight:normal;}
 
 #disclaimer{
 	padding:20px;
@@ -62,7 +68,7 @@ strong, .label, th {
 
 header, nav, .btn {font-family: 'Rubik', sans-serif;}
 
-form {margin: 0;}
+
 
 /* Content specific classes */
 td.amount,th.amount{text-align:right;white-space:nowrap;}
@@ -76,24 +82,16 @@ section:nth-child(even) {
 	background: #f4faff;
 }
 
-input:valid:not(.novalidate):not([type="file"]) {
+/* FORMS */
+
+form {margin: 0;}
+
+/* validation */
+input:valid:not(.novalidate){
   border-left: 5px solid #42A948 !important; /* green */
 }
-input:invalid:not(.novalidate):not([type="file"])  {
+input:invalid:not(.novalidate){
   border-left: 5px solid #a94442 !important; /* red */
-}
-
-.has-success .form-control:not(.novalidate):not([type="file"]) {
-	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%235cb85c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
-	border-color: #5CB85C;
-}
-.has-warning .form-control:not(.novalidate):not([type="file"]) {
-	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23f0ad4e' d='M4.4 5.324h-.8v-2.46h.8zm0 1.42h-.8V5.89h.8zM3.76.63L.04 7.075c-.115.2.016.425.26.426h7.397c.242 0 .372-.226.258-.426C6.726 4.924 5.47 2.79 4.253.63c-.113-.174-.39-.174-.494 0z'/%3E%3C/svg%3E");
-	border-color: #F0AD4E;
-}
-.has-danger .form-control:not(.novalidate):not([type="file"]) {
-	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d9534f' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E");
-	border-color: #D9534F;
 }
 
 .clickable {

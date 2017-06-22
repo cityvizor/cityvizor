@@ -46,8 +46,9 @@ export class DashboardComponent {
 		this.dataService.getProfileBudgets(this.profile._id)
 			.then(budgets => this.budgets = budgets)
 			.then(budgets => {
-				budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.budgetAmount));
+				budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.expenditureAmount));
 				budgets.map(budget => this.maxIncomeAmount = Math.max(this.maxIncomeAmount,budget.incomeAmount));
+			
 			});
 	}
 
@@ -124,18 +125,21 @@ export class DashboardComponent {
 			return x + ' ' + y;
 	}
 
+	getXOffset(i) {
+		return (i+1/2)*1000/this.budgets.length;
+	}
 	getExpSemicirclePath (budget,i) {
 		var MAX_R = 90;
-		var sx = (i+1/2)*1000/4;
+		var sx = this.getXOffset(i);
 		var sy = 150;
-		var r = MAX_R * (budget.expenditureAmount/this.maxExpenditureAmount);
+		var r = MAX_R * (budget.expenditureAmount/Math.max(this.maxExpenditureAmount,this.maxIncomeAmount));
 		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,0,"+(sx+r)+" "+sy+" Z";
 	}
 	getIncSemicirclePath (budget,i) {
 		var MAX_R = 90;
-		var sx = (i+1/2)*1000/4;
+		var sx = this.getXOffset(i);
 		var sy = 150;
-		var r = MAX_R * (budget.incomeAmount/this.maxIncomeAmount);
+		var r = MAX_R * (budget.incomeAmount/Math.max(this.maxExpenditureAmount,this.maxIncomeAmount));
 		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,1,"+(sx+r)+" "+sy+" Z";
 	}
 	getDiffSemicircleFill (budget,i) {
@@ -146,10 +150,10 @@ export class DashboardComponent {
 	}
 	getDiffSemicirclePath (budget,i) {
 		var MAX_R = 90;
-		var sx = (i+1/2)*1000/4;
+		var sx = this.getXOffset(i);
 		var sy = 150;
-		var rInc = MAX_R * (budget.incomeAmount / this.maxIncomeAmount);
-		var rExp = MAX_R * (budget.expenditureAmount / this.maxExpenditureAmount);
+		var rInc = MAX_R * (budget.incomeAmount / Math.max(this.maxExpenditureAmount,this.maxIncomeAmount));
+		var rExp = MAX_R * (budget.expenditureAmount / Math.max(this.maxExpenditureAmount,this.maxIncomeAmount));
 		
 		var r1, r2, orientation;
 		

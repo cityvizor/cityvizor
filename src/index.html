@@ -11,31 +11,33 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+	<link rel="stylesheet" href="build/index.css">
 
 	<!-- 1. Load libraries -->
 
-	<!-- Polyfill(s) for older browsers -->
-	<script src="node_modules/core-js/client/shim.min.js"></script>
+	<!-- Polyfill(s) for older browsers https://angular.io/docs/ts/latest/guide/browser-support.html -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.8.11/zone.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.2.5/web-animations.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reflect-metadata/0.1.10/Reflect.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.13/system.js"></script>
 
-	<!-- SystemJS -->
-	<script src="node_modules/zone.js/dist/zone.js"></script>
-	<script src="node_modules/reflect-metadata/Reflect.js"></script>
-	<script src="node_modules/systemjs/dist/system.src.js"></script>
-
-	<!-- 2. Configure SystemJS -->
+	<!-- Configure SystemJS -->
 	<script src="src/systemjs.config.js"></script>
+	
+
+</head>
+
+<body>
+	
+	<!-- 4. LOAD THE APP -->
 	<script>
 		System.import('app').catch(function(err) {
 			console.error(err);
 		});
 	</script>
-
-	<link rel="stylesheet" href="src/index.css">
-</head>
-<!-- 3. Display the application -->
-
-<body>
+	
 	<cityvizor-app>
 		<header id="headerLoading">
 			<svg id="Vrstva_2" height="250" width="250" data-name="Vrstva 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.79 78.63">
