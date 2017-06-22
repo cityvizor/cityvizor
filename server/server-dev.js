@@ -15,11 +15,11 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
-mongoose.connect('mongodb://localhost/cityvizor');
+mongoose.connect('mongodb://localhost/cityvizor-events');
 
 /* Mongo Express */
 var mongo_express = require('mongo-express/lib/middleware');
-var mongo_express_config = require('./mongo-express-config.js');
+var mongo_express_config = require('./config/mongo-express-config.js');
 app.use('/db', mongo_express(mongo_express_config))
 
 
@@ -34,6 +34,6 @@ app.get('*',(req,res) => {
 
 
 /* START SERVER */
-app.listen(8080, function () {
-	console.log('CityVizor Server listening on port 8080!');
+app.listen(8081, function () {
+	console.log('CityVizor Server listening on port 8081!');
 })

@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
+import { DataService } from '../../services/data.service';
 
 import { paragraphNames } from '../../shared/data/paragraph-names.data';
 import { itemNames } from '../../shared/data/item-names.data';
@@ -14,27 +16,48 @@ Component for graphical vizualization of event
 	templateUrl: 'event-detail.template.html',
 	styleUrls: ['event-detail.style.css']
 })
-export class EventDetailComponent{
+export class EventDetailComponent implements OnChanges {
 	
 	/* DATA */
 	@Input()
-	set event(event){
-		if(event) this.setData(event);		
-	};
+	eventid:string;
 	
-	budgets:any[];
+	event:any;
+	
+	years:any[];
+
 	counterparties:any = {};
-	name:string = '';
 	
 	paragraphNames = paragraphNames;
 	itemNames = itemNames;
+	
+	constructor(private dataService:DataService){}
+	
+	ngOnChanges(changes:SimpleChanges){
+		if(changes.eventid && this.eventid) this.loadBudget(this.eventid);
+	}
 
-	setData(event){
-		this.budgets = event.budgets;
-		this.name = event.name;
+	loadBudget(eventId){
+		this.dataService.getEvent(eventId)
+			.then(event => {
+				
+				this.event = event;
+			
+				this.dataService.getProfileEvents({srcId:event.srcId})
+					.then(events => this.years = events)
+					.catch(err => console.log(err));
+			
+				this.setCounterparties();
+			})
+			.catch(err => console.log(err));
+		
+	}
+
+	setCounterparties(){
+		
 		this.counterparties = {};
 		
-		event.payments.forEach(payment => {
+		this.event.payments.forEach(payment => {
 			
 			var id = payment.counterpartyId || payment.counterpartyName;
 			

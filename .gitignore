@@ -9,7 +9,8 @@
 !systemjs.config.js
 
 # sensitive data
-mongo-express-config.js
+/server/config/server-config.js
+/server/config/mongo-express-config.js
 /server/cert/*
 
 # dependencies

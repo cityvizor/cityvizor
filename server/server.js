@@ -3,6 +3,8 @@ var https = require('https');
 var fs = require('fs');
 var express = require('express');
 
+var config = require("./config/config.js");
+
 setTimeout(() => require("./cron"),20000);
 
 /* SET UP ROUTING */
@@ -35,10 +37,10 @@ app.get('*',(req,res) => {
 const options = {
 	cert: fs.readFileSync('./server/cert/fullchain.pem'),
 	key: fs.readFileSync('./server/cert/privkey.pem')
-}; 	
+}; 
 
 // start https server
-https.createServer(options, app).listen(443, function () {
+https.createServer(config.ssl, app).listen(443, function () {
 	console.log('CityVizor Server listening on port 443!')
 });
 

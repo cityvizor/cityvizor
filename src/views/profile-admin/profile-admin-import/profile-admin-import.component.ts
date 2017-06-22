@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 
 import { ToastService } 		from '../../../services/toast.service';
 import { DataService } 		from '../../../services/data.service';
@@ -8,6 +8,8 @@ import { Pager } from "../../../shared/schema/pager";
 
 import { FileUploader, FileItem } from "ng2-file-upload";
 
+import { AppConfig } from '../../../config/app-config';
+
 @Component({
 	moduleId: module.id,
 	selector: 'profile-admin-import',
@@ -16,6 +18,11 @@ import { FileUploader, FileItem } from "ng2-file-upload";
 })
 export class ProfileAdminImportComponent {
 
+	appConfig:any = AppConfig;
+
+	@ViewChild('eventsFile') eventsFile;
+	@ViewChild('expendituresFile') expendituresFile;
+	
 	@Input()
 	set profile(profile){
 		if(profile && profile._id){
@@ -34,9 +41,6 @@ export class ProfileAdminImportComponent {
 
 	modules: Module[] = MODULES;
 	 
-	expendituresUploader:FileUploader;
-	eventsUploader:FileUploader;
-	 
 	statuses = {
 		"success": "úspěšně nahráno",
 		"error": "nastala chyba",
@@ -51,48 +55,37 @@ export class ProfileAdminImportComponent {
 	today:Date = new Date();
 
 	constructor(private dataService: DataService, private toastService: ToastService) {
-		this.expendituresUploader = this.dataService.getExpendituresUploader();
-		this.eventsUploader = this.dataService.getEventsUploader();
-
-		this.expendituresUploader.onCompleteItem = this.afterUpload.bind(this);
-		this.eventsUploader.onCompleteItem = this.afterUpload.bind(this);
 	}
 
-	uploadExpenditures(form){
+	submitForm(form){
 		
-		if(!form.valid){
-			this.toastService.toast("error","Formulář není správně vyplněn.");
+		let eventsFile = this.eventsFile.nativeElement.files[0];
+		let expendituresFile = this.expendituresFile.nativeElement.files[0];
+		
+		if(!form.valid || !eventsFile || !expendituresFile){
+			this.toastService.toast("Formulář není správně vyplněn.","error");
 			return;
 		}
-			 
+		
+		let formData: FormData = new FormData();
+		
 		let data = form.value;
 		
-		this.expendituresUploader.options.additionalParameter = {
-			profile: this.profileId,
-			year: data.year,
-			valid: data.valid,
-			note: data.note
-		};
+		formData.set("profile",this.profileId);
+		formData.set("year",data.year);
+		formData.set("validity",data.validity);
+		formData.set("note",data.note);
 		
-		this.expendituresUploader.queue[this.expendituresUploader.queue.length - 1].upload();
-	}
-	 
-	uploadEvents(form){
+		console.log(data,eventsFile,expendituresFile);
 		
-		if(!form.valid){
-			this.toastService.toast("error","Formulář není správně vyplněn.");
-			return;
-		}
+		formData.set("eventsFile",eventsFile,eventsFile.name);
+		formData.set("expendituresFile",expendituresFile,expendituresFile.name);
 			 
-		let data = form.value;
+		console.log(formData);
 		
-		this.eventsUploader.options.additionalParameter = {
-			profile: this.profileId,
-			valid: data.valid,
-			note: data.note
-		};
-		
-		this.eventsUploader.queue[this.eventsUploader.queue.length - 1].upload();
+		this.dataService.importExpenditures(formData);
+				
+		return false;
 	}
 	 
 	afterUpload(item,response){
