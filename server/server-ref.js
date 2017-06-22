@@ -29,10 +29,6 @@ app.use("/api",require("./routers/api.js"));
 
 app.use(require("./routers/static"));
 
-app.get('*',(req,res) => {
-	res.sendFile("build/index.html", { root: __dirname + "/.." });	
-});
-
 /* START SERVER */
 app.listen(8000, function () {
 	console.log('CityVizor Server listening on port 8000!');

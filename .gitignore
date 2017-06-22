@@ -1,27 +1,18 @@
 # compiled output
-/src/**/*.js
-/src/**/*.js.map
-/build/dist
-/build/node-modules
-/build/src
-/build/**/*.js
-/build/**/*.js.map
-!systemjs.config.js
+/dist
 
 # sensitive data
-/server/config/server-config.js
+/server/config/config.js
 /server/config/mongo-express-config.js
 /server/cert/*
 
 # dependencies
 /node_modules
-/build/node_modules
-/typings
 
 # data
-/data
-/uploads
-/exports
+/data/*
+/exports/*
+!.gitkeep
 
 # misc
 npm-debug.log

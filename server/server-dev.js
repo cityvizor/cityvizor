@@ -28,10 +28,6 @@ app.use("/api",require("./routers/api.js"));
 
 app.use(require("./routers/static"));
 
-app.get('*',(req,res) => {
-	res.sendFile("src/index.html", { root: __dirname + "/.." });	
-});
-
 
 /* START SERVER */
 app.listen(8080, function () {
