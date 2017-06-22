@@ -12,17 +12,9 @@ router.get("/", acl("events", "list"), (req,res) => {
 	});
 });
 
-router.get("/:id", acl("events", "list"), (req,res) => {
+router.get("/:id", acl("events", "read"), (req,res) => {
 	
-	Event.find({_id:req.params.id}).select("event name expenditureAmount incomeAmount")
-		.then(event => res.json(event))
-		.catch(err => res.status(500).send(err));
-	
-});
-
-router.get("/:id/:year", acl("events", "read"), (req,res) => {
-	
-	Event.findOne({ _id: req.params.id, year: req.params.year })
+	Event.findOne({_id:req.params.id})
 		.then(event => res.json(event))
 		.catch(err => res.status(500).send(err));
 	

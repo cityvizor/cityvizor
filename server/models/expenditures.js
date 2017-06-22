@@ -13,7 +13,7 @@ var budgetSchema = mongoose.Schema({
 	paragraphs: [{
 		id: String,
 		events: [{
-			event: String,
+			event: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
 			name: String,
 			budgetExpenditureAmount: Number,
 			expenditureAmount: Number
@@ -24,7 +24,7 @@ var budgetSchema = mongoose.Schema({
 	items: [{
 		id: String,
 		events: [{
-			event: String,
+			event: {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
 			name: String,
 			budgetExpenditureAmount: Number,
 			budgetIncomeAmount: Number,

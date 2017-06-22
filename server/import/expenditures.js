@@ -195,7 +195,7 @@ class ExpendituresImporter {
 				if(amountType === "P"){
 					
 					let budgetItem = this.getBudgetItem(itemId);
-					let budgetItemEvent = this.getBudgetItemEvent(budgetItem,eventId);
+					let budgetItemEvent = this.getBudgetItemEvent(budgetItem,event);
 					let eventItem = this.getEventBudgetItem(event, itemId);
 					
 					this.assignAmount([budget, event, budgetItem, budgetItemEvent, eventItem],recordType === "ROZ" ? "budgetIncomeAmount" : "incomeAmount", amount);
@@ -204,7 +204,7 @@ class ExpendituresImporter {
 				else if(amountType === "V"){
 					
 					let budgetParagraph = this.getBudgetParagraph(paragraphId);
-					let budgetParagraphEvent = this.getBudgetParagraphEvent(budgetParagraph,eventId);
+					let budgetParagraphEvent = this.getBudgetParagraphEvent(budgetParagraph,event);
 					let eventParagraph = this.getEventBudgetParagraph(event, paragraphId);
 					
 					this.assignAmount([budget, event, budgetParagraph, budgetParagraphEvent, eventParagraph], recordType === "ROZ" ? "budgetExpenditureAmount" : "expenditureAmount", amount);
@@ -347,13 +347,13 @@ class ExpendituresImporter {
 		return this.budgetItemIndex[itemId];
 	}
 	
-	getBudgetItemEvent(budgetItem,eventId){
-		var id = budgetItem.id + "-" + eventId;
+	getBudgetItemEvent(budgetItem,event){
+		var id = budgetItem.id + "-" + event._id;
 		
 		if (!this.budgetItemEventIndex[id]) {
 			
 			var budgetItemEvent = {
-				event: eventId,
+				event: event._id,
 				budgetExpenditureAmount: 0,
 				expenditureAmount: 0,
 				budgetIncomeAmount: 0,
@@ -385,13 +385,13 @@ class ExpendituresImporter {
 		return this.budgetParagraphIndex[paragraphId];
 	}
 	
-	getBudgetParagraphEvent(budgetParagraph,eventId){
-		var id = budgetParagraph.id + "-" + eventId;
+	getBudgetParagraphEvent(budgetParagraph,event){
+		var id = budgetParagraph.id + "-" + event._id;
 		
 		if (!this.budgetParagraphEventIndex[id]) {
 			
 			var budgetParagraphEvent = {
-				event: eventId,
+				event: event._id,
 				budgetExpenditureAmount: 0,
 				expenditureAmount: 0
 			};

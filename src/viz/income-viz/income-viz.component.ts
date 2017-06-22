@@ -227,7 +227,7 @@ export class IncomeVizComponent{
 		
 		this.eventReceiptsModal.show();
 		
-		this.openedEvent = event;
+		this.openedEvent = event.event;
 			
 	}
 

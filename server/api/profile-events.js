@@ -11,6 +11,7 @@ router.get("/", acl("profile-events", "list"), (req,res) => {
 	
 	query.select(req.query.fields || "srcId name year");
 	
+	if(req.query.srcId) query.where({srcId: req.query.srcId});
 	if(req.query.sort) query.sort(req.query.sort);
 	if(req.query.year) query.where({year: req.query.year});
 

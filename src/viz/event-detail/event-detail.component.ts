@@ -24,7 +24,7 @@ export class EventDetailComponent implements OnChanges {
 	
 	event:any;
 	
-	years:any[];
+	history:any[];
 
 	counterparties:any = {};
 	
@@ -43,8 +43,8 @@ export class EventDetailComponent implements OnChanges {
 				
 				this.event = event;
 			
-				this.dataService.getProfileEvents({srcId:event.srcId})
-					.then(events => this.years = events)
+				this.dataService.getProfileEvents(event.profile, {srcId:event.srcId})
+					.then(events => this.history = events)
 					.catch(err => console.log(err));
 			
 				this.setCounterparties();

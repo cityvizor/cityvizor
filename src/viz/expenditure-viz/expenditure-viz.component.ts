@@ -144,7 +144,7 @@ export class ExpenditureVizComponent{
 			.then(events => {
 				this.events = events;
 				this.eventIndex = {};
-				this.events.forEach(event => this.eventIndex[event.srcId] = event);
+				this.events.forEach(event => this.eventIndex[event._id] = event);
 			});
 	}
 
@@ -170,7 +170,7 @@ export class ExpenditureVizComponent{
 
 	getEventName(eventId){
 		if(this.eventIndex[eventId]) return this.eventIndex[eventId].name;
-		if(eventId) return "Investiční akce č. " + eventId;
+		if(eventId) return "Nepojmenovaná investiční akce";
 		return "Ostatní";
 	}
 
@@ -216,11 +216,11 @@ export class ExpenditureVizComponent{
 		
 	}
 
-	openEvent(eventId){
+	openEvent(event){
 		
 		this.eventReceiptsModal.show();
 		
-		this.openedEvent = eventId;
+		this.openedEvent = event.event;
 			
 	}
 	

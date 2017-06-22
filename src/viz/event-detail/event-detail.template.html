@@ -4,6 +4,10 @@
 		Na stavbu komunitního domu s dvaadvaceti byty, který vyjde na zhruba pětadvacet milionů, získalo město příslib evropské dotace ve výši dvanáct a půl milionu korun.
 		<strong>Pouze ilustrativní popis investiční akce!</strong>
 	</div>
+	
+	<ul>
+		<li *ngFor="let historyEvent of history">{{historyEvent.year}} - {{historyEvent.srcId}} - {{historyEvent.name}}</li>
+	</ul>
 
 	<h2>Faktury  a platby</h2>
 
