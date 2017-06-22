@@ -117,8 +117,8 @@ export class IncomeVizComponent{
 	}
 
 	selectBudget(budget){
-		this.loadBudget(this.profileId,budget.year);
-		this.loadEvents(this.profileId,budget.year);
+		this.loadBudget(this.profile._id,budget.year);
+		this.loadEvents(this.profile._id,budget.year);
 	}
 		
 

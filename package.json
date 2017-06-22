@@ -10,7 +10,7 @@
     "dev": "NODE_ENV=development concurrently \"ng build --watch --dev\" \"nodemon server/server-dev.js\"",
     "build": "ng build --prod",
     "log": "tail -f /var/log/cityvizor.log",
-    "update": "git pull && ng build --prod && service cityvizor restart"
+    "update": "service cityvizor stop && git pull && ng build --prod && service cityvizor start"
   },
   "keywords": [
     "opendata",
