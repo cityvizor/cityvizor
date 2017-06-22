@@ -11,7 +11,7 @@ router.get("/", acl("profile-budgets","list"), (req,res) => {
 	
 	var query = Budget.find({profile:req.params.profile});
 	
-	query.select("year budgetExpenditureAmount budgetIncomeAmount expenditureAmount incomeAmount");
+	query.select("year validity budgetExpenditureAmount budgetIncomeAmount expenditureAmount incomeAmount");
 	
 	if(req.query.sort) query.sort(req.query.sort);
 	

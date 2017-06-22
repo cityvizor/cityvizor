@@ -171,7 +171,7 @@ export class IncomeVizComponent{
 		this._ds.getProfileEvents(profileId,{year:year})
 			.then(events => {
 				this.eventIndex = {};
-				events.forEach(event => this.eventIndex[event.event] = event);
+				events.forEach(event => this.eventIndex[event.srcId] = event);
 			});
 		
 		

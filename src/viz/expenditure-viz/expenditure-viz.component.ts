@@ -144,7 +144,7 @@ export class ExpenditureVizComponent{
 			.then(events => {
 				this.events = events;
 				this.eventIndex = {};
-				this.events.forEach(event => this.eventIndex[event.event] = event);
+				this.events.forEach(event => this.eventIndex[event.srcId] = event);
 			});
 	}
 

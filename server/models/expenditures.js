@@ -37,6 +37,8 @@ var budgetSchema = mongoose.Schema({
 		incomeAmount: Number
 	}]
 });
+budgetSchema.index({ profile: 1, year: 1 });
+budgetSchema.index({ profile: 1, year: 1, validity: 1, budgetExpenditureAmount: 1, budgetIncomeAmount: 1, expenditureAmount: 1, incomeAmount: 1 });
 
 var eventSchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
