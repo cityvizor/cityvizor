@@ -27,12 +27,7 @@ export class IncomeVizComponent{
 	
 	/* DATA */
 	@Input()
-	set profile(profile: any ){
-		if(profile){
-			this.profileId = profile._id;
-			this.loadEvents(this.profileId);
-		}
-	}
+	profile:any;
 	
 	profileId: string;
 	
@@ -123,6 +118,7 @@ export class IncomeVizComponent{
 
 	selectBudget(budget){
 		this.loadBudget(this.profileId,budget.year);
+		this.loadEvents(this.profileId,budget.year);
 	}
 		
 
@@ -169,13 +165,13 @@ export class IncomeVizComponent{
 
 	/* PROCESS DATA */
 
-	loadEvents(profileId){
+	loadEvents(profileId,year){
 		
 		// get event names
-		this._ds.getProfileEvents(profileId)
+		this._ds.getProfileEvents(profileId,{year:year})
 			.then(events => {
 				this.eventIndex = {};
-				events.forEach(event => this.eventIndex[event.event] = event);
+				events.forEach(event => this.eventIndex[event.srcId] = event);
 			});
 		
 		
@@ -231,12 +227,7 @@ export class IncomeVizComponent{
 		
 		this.eventReceiptsModal.show();
 		
-		this._ds.getProfileEvent(this.profileId,eventId)
-			.then(eventData => this.openedEvent = eventData)
-			.catch(err => {
-				this.eventReceiptsModal.hide();
-				this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error");
-			});
+		this.openedEvent = eventId;
 			
 	}
 

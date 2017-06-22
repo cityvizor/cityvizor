@@ -3,47 +3,44 @@ var app = express();
 
 var router = module.exports = express.Router();
 
+var config = require("../config/config.js");
+
 var multer = require('multer');
-var upload = multer({ dest: 'uploads/tmp' });
+var upload = multer({ dest: config.uploads.dir });
 
 var fs = require("fs");
 
 var acl = require("express-dynacl");
 
-var ExpenditureImport = require("../import/expenditures");
-var ETL = require("../models/etl");
+var ExpenditureImporter = require("../import/expenditures");
 
-router.post("/", upload.single("file"), acl("profile-events", "write"), acl("profile-budgets", "write"), (req,res) => {
-	
+router.post("/", upload.fields([{ name:"eventsFile", maxCount: 1 }, { name:"expendituresFile", maxCount: 1 }]), acl("profile-events", "write"), acl("profile-budgets", "write"), (req,res) => {
+
 	var profileId = req.body.profile;
-	var file = req.file;
 	var year = req.body.year;
 	
-	if(!file || !profileId || !year){
-		res.status(400).send("Bad request (Missing file, profile or year parameters)");
-		return;
-	}
+	if(!req.files) return res.status(400).send("Bad Request (missing events and expenditures attributes)");
 	
-	var newPath = "uploads/expenditures/" + profileId + "-" + year + ".csv";
-	fs.renameSync(req.file.path, newPath); 
-
-	var etlLog = new ETL();
-	etlLog.target = "expenditures";
-	etlLog.profile = profileId;
-	etlLog.status = "pending";
-	etlLog.date = new Date();
-	etlLog.file = file.originalname;
-	etlLog.user = req.user._id;
-	etlLog.year = year;
-	etlLog.valid = req.body.valid;
-	etlLog.note = req.body.note;
-	etlLog.save()
-		.then(etlLog => {
-			res.json(etlLog);
-			ExpenditureImport(newPath,profileId,year,etlLog);
+	var importer = new ExpenditureImporter({});
+	
+	var params = {
+		profileId: req.body.profile,
+		year: req.body.year,
+		validity: req.body.validity,
+		eventsFile: req.files.eventsFile[0].path,
+		expendituresFile: req.files.expendituresFile[0].path
+	};
+	
+	importer.import(params)
+		.then(result => {
+			res.json(result);
+			fs.rename(req.files.eventsFile[0].path,config.import.saveDir + "/" + params.profileId + "-" + params.year + ".events.csv");
+			fs.rename(req.files.expendituresFile[0].path,config.import.saveDir + "/" + params.profileId + "-" + params.year + ".expenditures.csv");
 		})
-		.catch(err => console.log(err));
-
+		.catch(err => {
+			fs.unlink(req.files.eventsFile[0].path);
+			fs.unlink(req.files.expendituresFile[0].path);
+			res.status(500).send(err.message);
+		}); // TODO PROPER ERROR
 	
-
 });

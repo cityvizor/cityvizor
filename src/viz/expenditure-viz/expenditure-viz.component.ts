@@ -27,14 +27,7 @@ export class ExpenditureVizComponent{
 	
 	/* DATA */
 	@Input()
-	set profile(profile: any ){
-		if(profile){
-			this.profileId = profile._id;
-			this.loadEvents(this.profileId);
-		}
-	}
-	
-	profileId: string;
+	profile:any;
 	
 	@ViewChild('eventReceiptsModal')
 	public eventReceiptsModal:ModalDirective;
@@ -103,7 +96,8 @@ export class ExpenditureVizComponent{
 	}
 
 	selectBudget(budget){
-		this.loadBudget(this.profileId,budget.year);
+		this.loadBudget(this.profile._id,budget.year);
+		this.loadEvents(this.profile._id,budget.year);
 	}
 
 	selectGroup(group){
@@ -144,13 +138,13 @@ export class ExpenditureVizComponent{
 
 	/* PROCESS DATA */
 
-	loadEvents(profileId){
+	loadEvents(profileId,year){
 		// get event names
-		this.dataService.getProfileEvents(profileId)
+		this.dataService.getProfileEvents(profileId,{year:year})
 			.then(events => {
 				this.events = events;
 				this.eventIndex = {};
-				this.events.forEach(event => this.eventIndex[event.event] = event);
+				this.events.forEach(event => this.eventIndex[event.srcId] = event);
 			});
 	}
 
@@ -226,12 +220,7 @@ export class ExpenditureVizComponent{
 		
 		this.eventReceiptsModal.show();
 		
-		this.dataService.getProfileEvent(this.profileId,eventId)
-			.then(eventData => this.openedEvent = eventData)
-			.catch(err => {
-				this.eventReceiptsModal.hide();
-				this._toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error");
-			});
+		this.openedEvent = eventId;
 			
 	}
 	

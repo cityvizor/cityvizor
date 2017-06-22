@@ -5,17 +5,6 @@
   <button type="button" class="btn btn-default btn-label bl-btn-selected bl-budget">
     <div class="row">
       <div class="col-xs-3 text-right">
-        <strong>Plnění</strong>
-      </div>
-      <div class="col-xs-4 text-left">
-        <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(selectedBudget) / maxAmount * 100) + '%'"></span>
-      </div>
-      <div class="col-xs-5 text-right">
-        {{getAmount(selectedBudget) | money:0:false}} Kč
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3 text-right">
         <strong>Rozpočet</strong>
       </div>
       <div class="col-xs-4 text-left">
@@ -23,6 +12,17 @@
       </div>
       <div class="col-xs-5 text-right">
         {{getBudgetAmount(selectedBudget) | money:0:false}} Kč
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3 text-right">
+        <strong>Plnění</strong>
+      </div>
+      <div class="col-xs-4 text-left">
+        <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(selectedBudget) / maxAmount * 100) + '%'"></span>
+      </div>
+      <div class="col-xs-5 text-right">
+        {{getAmount(selectedBudget) | money:0:false}} Kč
       </div>
     </div>
   </button>
@@ -43,19 +43,8 @@
               </div>
               <div class="col-xs-6 text-right">
                 <div class="label label-default">
-                  Platné k DD. MM. YYYY
+                  Platné k {{budget.validity | date:"d. M. y"}}
                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-2">
-                <strong>Plnění</strong>
-              </div>
-              <div class="col-xs-5">
-                <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(budget) / maxAmount * 100) + '%'"></span>
-              </div>
-              <div class="col-xs-5 text-right">
-                {{getAmount(budget) | money:0:false}} Kč
               </div>
             </div>
             <div class="row">
@@ -67,6 +56,17 @@
               </div>
               <div class="col-xs-5 text-right">
                 {{getBudgetAmount(budget) | money:0:false}} Kč
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-2">
+                <strong>Plnění</strong>
+              </div>
+              <div class="col-xs-5">
+                <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(budget) / maxAmount * 100) + '%'"></span>
+              </div>
+              <div class="col-xs-5 text-right">
+                {{getAmount(budget) | money:0:false}} Kč
               </div>
             </div>
           </div>
