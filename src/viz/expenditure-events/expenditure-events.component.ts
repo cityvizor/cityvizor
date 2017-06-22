@@ -17,7 +17,7 @@ export class ExpenditureEventsComponent {
 	@Input()
 	set profile(profile: any ){
 		this.profileId = profile._id;
-		if(profile) this.loadData(profile._id);
+		if(profile) this.loadData(profile._id,this.year);
 	}
 	
 	profileId;
@@ -37,33 +37,25 @@ export class ExpenditureEventsComponent {
 	 
 	nazvyMesice = ["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"];	 
 
-	constructor(private dataService:DataService, private toastService:ToastService) {
-		
-	}
+	constructor(private dataService:DataService, private toastService:ToastService) { }
 
-	loadData(profileId){
+	loadData(profileId,year){
 		 
-		this.dataService.getProfileEvents(this.profileId,{sort:"name"})
+		this.dataService.getProfileEvents(this.profileId,{sort:"name",year:year})
 			.then(events => this.events = events)
 			.catch(err => {
 				this.events = [];
 				this.toastService.toast("Nastala chyba při stahování akcí.","error");
 			});			
 		 
-	 }
-
+	}
 	 
 	openEvent(event){
-		console.log(event);
-		//this.openedEvent = null;
+
 		this.eventReceiptsModal.show();
 		
-		this.dataService.getEvent(event._id)
-			.then(eventData => this.openedEvent = eventData)
-			.catch(err => {
-				this.eventReceiptsModal.hide();
-				this.toastService.toast("Nastala chyba při stahování údajů o akci. " + err.message,"error");
-			});
+		this.openedEvent = event._id;
+		
 	}
 
 }

@@ -1,92 +1,51 @@
 <h2>Import účetních dat</h2>
 
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<strong>Import - Výdaje</strong>
-	</div>
-	<form #expendituresImportForm="ngForm" (submit)="uploadExpenditures(expendituresImportForm)">
-		<div class="panel-body">
-			<div class="form-group">
-				<label for="expvalid" class="col-sm-3 control-label">Datum platnosti</label>
-				<div class="col-sm-9">
-					<input type="date" class="form-control" id="expvalid" name="valid" [ngModel]="today | date:'y-MM-dd'" aria-describedby="help-entity" required>
-					<span id="help-entity" class="help-block">Datum exportu dat z účetního systému.</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="expyear" class="col-sm-3 control-label">Rozpočtový rok</label>
-				<div class="col-sm-9">
-					<input type="number" class="form-control" id="expyear" name="year" [ngModel]="today.getFullYear()" [ngModel]="" min="1990" [attr.max]="getCurrentYear()" step="1" required>
-					<span id="help-entity" class="help-block">Rok, ke kterému se data vztahují. Veškerá data tohoto roku budou přepsána novým souborem.</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="obec" class="col-sm-3 control-label">Soubor s daty</label>
-				<div class="col-sm-9">
-					<input name="file" type="file" ng2FileSelect [uploader]="expendituresUploader" accept=".csv,text/csv">
-					<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8)</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="expnote" class="col-sm-3 control-label">Poznámka</label>
-				<div class="col-sm-9">
-					<input type="text" class="form-control" id="expnote" name="note" ngModel>
-					<span id="help-entity" class="help-block">Volitelné. Libovolná poznámka k tomuto importu.</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-3 col-sm-9">
-					<button type="submit" class="btn btn-default" [disabled]="!expendituresImportForm.valid">Nahrát</button>
-				</div>
+<form #importForm="ngForm" (submit)="submitForm(importForm)">
+	<div class="panel-body">
+		<div class="form-group">
+			<label for="expyear" class="col-sm-3 control-label">Rozpočtový rok</label>
+			<div class="col-sm-9">
+				<input type="number" class="form-control" id="expyear" name="year" [ngModel]="today.getFullYear()" [ngModel]="" min="1990" [attr.max]="getCurrentYear()" step="1" required>
+				<span id="help-entity" class="help-block">Rok, ke kterému se data vztahují. Veškerá data tohoto roku budou přepsána nahranými daty.</span>
 			</div>
 		</div>
-	</form>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<strong>Import - Investiční akce</strong>
-	</div>
-	<form #eventsImportForm="ngForm" (submit)="uploadEvents(eventsImportForm)">
-		<div class="panel-body">
-			<div class="form-group">
-				<label for="evevalid" class="col-sm-3 control-label">Datum platnosti</label>
-				<div class="col-sm-9">
-					<input type="date" class="form-control" id="evevalid" name="valid" [ngModel]="today | date:'y-MM-dd'" aria-describedby="help-entity" required>
-					<span id="help-entity" class="help-block">Datum exportu dat z účetního systému.</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="obec" class="col-sm-3 control-label">Soubor s daty</label>
-				<div class="col-sm-9">
-					<input name="file" type="file" ng2FileSelect [uploader]="eventsUploader" accept=".csv,text/csv">
-					<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8)</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="evenote" class="col-sm-3 control-label">Poznámka</label>
-				<div class="col-sm-9">
-					<input type="text" class="form-control" id="evenote" name="note" ngModel>
-					<span id="help-entity" class="help-block">Volitelné. Libovolná poznámka k tomuto importu.</span>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-sm-offset-3 col-sm-9">
-					<button type="submit" class="btn btn-default" [disabled]="!eventsImportForm.valid">Nahrát</button>
-				</div>
+		<div class="form-group">
+			<label for="expvalid" class="col-sm-3 control-label">Datum platnosti</label>
+			<div class="col-sm-9">
+				<input type="date" class="form-control" id="expvalid" name="validity" [ngModel]="today | date:'y-MM-dd'" aria-describedby="help-entity" required>
+				<span id="help-entity" class="help-block">Datum, ke kterému byla nahraná data aktuální. Např. datum exportu z účetního systému.</span>
 			</div>
 		</div>
-	</form>
-</div>
+		<div class="form-group">
+			<label for="obec" class="col-sm-3 control-label">Číselník investičních akcí</label>
+			<div class="col-sm-9">
+				<input name="eventsFile" type="file" accept=".csv,text/csv" class="form-control" required #eventsFile>
+				<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8). <a [attr.href]="appConfig.docsUrl + '/navody/import'" target="_blank">Více...</a></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="obec" class="col-sm-3 control-label">Datový soubor</label>
+			<div class="col-sm-9">
+				<input name="expendituresFile" type="file" accept=".csv,text/csv" class="form-control" required #expendituresFile>
+				<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8). <a [attr.href]="appConfig.docsUrl + '/navody/import'" target="_blank">Více...</a></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="expnote" class="col-sm-3 control-label optional">Poznámka</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" id="expnote" name="note" ngModel>
+				<span id="help-entity" class="help-block">Volitelné. Libovolná poznámka k tomuto importu.</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button type="submit" class="btn btn-default" [disabled]="!importForm.valid">Nahrát</button>
+			</div>
+		</div>
+	</div>
+</form>
 
 <h3>Historie</h3>
-
-<div class="btn-group">
-	<a (click)="loadHistory(etls.page - 1)" [class.disabled]="etls.page<=1" aria-label="Předchozí" class="btn btn-default"><span aria-hidden="true">&laquo;</span></a>
-	<a (click)="loadHistory(etls.page)" class="btn btn-default">Obnovit</a>
-	<a (click)="loadHistory(etls.page + 1)" [class.disabled]="etls.page>=etls.pages" aria-label="Další" class="btn btn-default"><span aria-hidden="true">&raquo;</span></a>
-</div>
 
 <table class="table table-responsive table-condensed table-hover table-striped etls">
 	<thead>
@@ -141,4 +100,10 @@
 			</tr>
 		</ng-container>
 </table>
+
+<div class="btn-group">
+	<a (click)="loadHistory(etls.page - 1)" [class.disabled]="etls.page<=1" aria-label="Předchozí" class="btn btn-default"><span aria-hidden="true">&laquo;</span></a>
+	<a (click)="loadHistory(etls.page)" class="btn btn-default">Obnovit</a>
+	<a (click)="loadHistory(etls.page + 1)" [class.disabled]="etls.page>=etls.pages" aria-label="Další" class="btn btn-default"><span aria-hidden="true">&raquo;</span></a>
+</div>
 

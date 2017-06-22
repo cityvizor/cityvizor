@@ -76,17 +76,9 @@ export class DataService {
 	getProfileDashboardDashboard(profileId){
 		return this.http.get("/api/profiles/" + profileId + "/dashboard").toPromise().then(response => response.json());
 	}
-	
-	getProfileEvent(profileId,eventId){
-		return this.http.get("/api/profiles/" + profileId + "/events/" + eventId).toPromise().then(response => response.json());
-	}
 
 	getProfileEvents(profileId,options?){
 		return this.http.get("/api/profiles/" + profileId + "/events" + toParams(options)).toPromise().then(response => response.json());
-	}
-	
-	getProfileEventsTimeline(profileId,year){
-		return this.http.get("/api/profiles/" + profileId + "/events/timeline/" + year).toPromise().then(response => response.json());
 	}
 	
 	getProfilePayments(profileId,options?){
@@ -104,29 +96,15 @@ export class DataService {
 		return this.http.get("/api/events/" + eventId).toPromise().then(response => response.json());
 	}
 	
-	getEvents(){
-		return this.http.get("/api/events").toPromise().then(response => response.json());
+	getEvents(options?){
+		return this.http.get("/api/events" + toParams(options)).toPromise().then(response => response.json());
 	}
 	
 	
 	
 	/* IMPORT */
-	getExpendituresUploader(){
-		return new FileUploader({
-			url: "/api/import/expenditures/",
-			authToken: "Bearer " + this.authService.getToken(),
-			autoUpload: false,
-			headers: [{name:"Accept",value:"application/json"}]
-		});
-	}
-	
-	getEventsUploader(){
-		return new FileUploader({
-			url: "/api/import/events/",
-			authToken: "Bearer " + this.authService.getToken(),
-			autoUpload: false,
-			headers: [{name:"Accept",value:"application/json"}]
-		});
+	importExpenditures(data:FormData){
+		this.http.post("/api/import/expenditures",data).toPromise().then(response => response.json());
 	}
 	
 	

@@ -7,8 +7,9 @@
 !index.ts
 
 # sensitive data
-mongo-express-config.js
-/cert/*.pem
+/server/config/server-config.js
+/server/config/mongo-express-config.js
+/server/cert/*.pem
 
 # dependencies
 /node_modules
