@@ -1,49 +1,47 @@
-<h2>
-	{{event.name}}
-</h2>
+<div *ngIf="event">
+	<div class="alert alert-info hidden">
+		<strong>Popis investiční akce:</strong> Dům by měl zajistit komunitní bydlení pro starší, stále soběstačné lidi, s možností si přiobjednat různé služby od jejich poskytovatelů. Nájemníci musí splnit určitá kritéria, aby byl dodržen účel, za kterým byl dům postaven, což se týká například výše příjmu či absence vlastnictví jiného bydlení. Nájem má být srovnatelný s ostatními byty v majetku města.
+		Na stavbu komunitního domu s dvaadvaceti byty, který vyjde na zhruba pětadvacet milionů, získalo město příslib evropské dotace ve výši dvanáct a půl milionu korun.
+		<strong>Pouze ilustrativní popis investiční akce!</strong>
+	</div>
 
-<div class="alert alert-info hidden">
-	<strong>Popis investiční akce:</strong> Dům by měl zajistit komunitní bydlení pro starší, stále soběstačné lidi, s možností si přiobjednat různé služby od jejich poskytovatelů. Nájemníci musí splnit určitá kritéria, aby byl dodržen účel, za kterým byl dům postaven, což se týká například výše příjmu či absence vlastnictví jiného bydlení. Nájem má být srovnatelný s ostatními byty v majetku města.
-	Na stavbu komunitního domu s dvaadvaceti byty, který vyjde na zhruba pětadvacet milionů, získalo město příslib evropské dotace ve výši dvanáct a půl milionu korun.
-	<strong>Pouze ilustrativní popis investiční akce!</strong>
+	<h2>Faktury  a platby</h2>
+
+
+	<table *ngIf="counterparties" class="table table-responsive small">
+		<thead>
+			<tr>
+				<th>Dodavatel</th>
+				<th>IČO</th>
+				<th>Příjem/výdaj</th>
+				<th>Datum</th>
+				<th>Popis</th>
+				<th>Částka</th>
+			</tr>
+		</thead>
+		<tbody>
+			<ng-container *ngFor="let counterparty of counterparties|array">
+				<tr *ngFor="let payment of counterparty.incomes;let j = index">
+					<ng-container *ngIf="j === 0">
+						<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.id}}</td>
+						<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.name}}</td>
+					</ng-container>
+					<td *ngIf="j === 0" [attr.rowspan]="counterparty.incomes.length">Příjem</td>
+					<td>{{payment.date | date:"d. M. y"}}</td>
+					<td>{{payment.description}}</td>
+					<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+				</tr>
+				<tr *ngFor="let payment of counterparty.expenditures;let j = index">
+					<ng-container *ngIf="j === 0 && !counterparty.incomes.length">
+						<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.id}}</td>
+						<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.name}}</td>
+					</ng-container>
+					<td *ngIf="j === 0" [attr.rowspan]="counterparty.expenditures.length">Výdaj</td>
+					<td>{{payment.date | date:"d. M. y"}}</td>
+					<td>{{payment.description}}</td>
+					<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+				</tr>
+			</ng-container>
+		</tbody>
+	</table>
 </div>
-
-<h2>Faktury  a platby</h2>
-
-
-<table *ngIf="counterparties" class="table table-responsive small">
-	<thead>
-		<tr>
-			<th>Dodavatel</th>
-			<th>IČO</th>
-			<th>Příjem/výdaj</th>
-			<th>Datum</th>
-			<th>Popis</th>
-			<th>Částka</th>
-		</tr>
-	</thead>
-	<tbody>
-		<ng-container *ngFor="let counterparty of counterparties|array">
-			<tr *ngFor="let payment of counterparty.incomes;let j = index">
-				<ng-container *ngIf="j === 0">
-					<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.id}}</td>
-					<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.name}}</td>
-				</ng-container>
-				<td *ngIf="j === 0" [attr.rowspan]="counterparty.incomes.length">Příjem</td>
-				<td>{{payment.date | date:"d. M. y"}}</td>
-				<td>{{payment.description}}</td>
-				<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
-			</tr>
-			<tr *ngFor="let payment of counterparty.expenditures;let j = index">
-				<ng-container *ngIf="j === 0 && !counterparty.incomes.length">
-					<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.id}}</td>
-					<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.name}}</td>
-				</ng-container>
-				<td *ngIf="j === 0" [attr.rowspan]="counterparty.expenditures.length">Výdaj</td>
-				<td>{{payment.date | date:"d. M. y"}}</td>
-				<td>{{payment.description}}</td>
-				<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
-			</tr>
-		</ng-container>
-	</tbody>
-</table>

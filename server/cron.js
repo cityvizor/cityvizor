@@ -36,7 +36,7 @@ var job = new CronJob({
       tasks.push(require("./tasks/export-profiles-csv"));
       tasks.push(require("./tasks/export-budgets-json"));
       tasks.push(require("./tasks/export-entities-json"));
-      tasks.push(require("./tasks/update-contracts"));
+      //tasks.push(require("./tasks/update-contracts")); FIXXXXX!!!
 
       // loop through the tasks one by one
       runTaskLoop(tasks,() => {
