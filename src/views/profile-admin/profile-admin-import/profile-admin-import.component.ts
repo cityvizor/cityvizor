@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 
 import { ToastService } 		from '../../../services/toast.service';
 import { DataService } 		from '../../../services/data.service';
@@ -18,29 +18,15 @@ import { AppConfig } from '../../../config/app-config';
 })
 export class ProfileAdminImportComponent {
 
-	appConfig:any = AppConfig;
-
-	@ViewChild('eventsFile') eventsFile;
-	@ViewChild('expendituresFile') expendituresFile;
-	
 	@Input()
-	set profile(profile){
-		if(profile && profile._id){
-			this.profileId = profile._id;
-			this.loadHistory(1);
-		}
-	}
-	 
-	profileId:string;
+	profile:any;
+
+	budgets:any[];
 	 
 	etls:Pager = new Pager();
 	 
-	latest:{expenditures:any,events:any} = {expenditures:null,events:null};
-	 
 	etlVisible:string;
 
-	modules: Module[] = MODULES;
-	 
 	statuses = {
 		"success": "úspěšně nahráno",
 		"error": "nastala chyba",
@@ -52,53 +38,20 @@ export class ProfileAdminImportComponent {
 		 "events": "investiční akce"
 	};
 	 
-	today:Date = new Date();
-
 	constructor(private dataService: DataService, private toastService: ToastService) {
 	}
 
-	submitForm(form){
-		
-		let eventsFile = this.eventsFile.nativeElement.files[0];
-		let expendituresFile = this.expendituresFile.nativeElement.files[0];
-		
-		if(!form.valid || !eventsFile || !expendituresFile){
-			this.toastService.toast("Formulář není správně vyplněn.","error");
-			return;
+	ngOnChanges(changes:SimpleChanges){
+		if(changes.profile){
+			this.loadBudgets();
+			//this.loadHistory(1);
 		}
-		
-		let formData: FormData = new FormData();
-		
-		let data = form.value;
-		
-		formData.set("profile",this.profileId);
-		formData.set("year",data.year);
-		formData.set("validity",data.validity);
-		formData.set("note",data.note);
-		
-		console.log(data,eventsFile,expendituresFile);
-		
-		formData.set("eventsFile",eventsFile,eventsFile.name);
-		formData.set("expendituresFile",expendituresFile,expendituresFile.name);
-			 
-		console.log(formData);
-		
-		this.dataService.importExpenditures(formData);
-				
-		return false;
 	}
-	 
-	afterUpload(item,response){
-		
-		// convert response if needed - in current version of ng2-file-upload we have to do it but maybe in future versions they will fix it
-		if(typeof response === "string") response = JSON.parse(response); 
-		
-		// put the new ETL record to the list
-		this.etls.docs.unshift(response);
-		this.etls.docs.pop();
-		
-		// reload ETL list in five seconds, import should be finished by that time
-		setTimeout(() => this.loadHistory(1),5000);
+
+	loadBudgets(){
+		this.dataService.getProfileBudgets(this.profile._id)
+			.then(budgets => this.budgets = budgets)
+			.catch(err => this.toastService.toast("Nastala chyba při načítání přehledu nahraných dat.","error"));
 	}
 	 
 	loadHistory(page){
@@ -106,7 +59,7 @@ export class ProfileAdminImportComponent {
 		if(page > this.etls.pages || page < 1) return;
 		
 		let options = {
-			profile: this.profileId,
+			profile: this.profile._id,
 			page: page,
 			sort: "-date"
 		};
@@ -118,14 +71,6 @@ export class ProfileAdminImportComponent {
 	toggleETLVisible(etl){
 		if(this.etlVisible === etl._id) this.etlVisible = null;
 		else this.etlVisible = etl._id;
-	}
-	 
-	getCurrentDate(){
-		return new Date();
-	}
-	 
-	getCurrentYear(){
-		return this.getCurrentDate().getFullYear();
 	}
 
 }

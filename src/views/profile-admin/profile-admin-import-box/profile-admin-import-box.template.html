@@ -1,0 +1,83 @@
+<div class="box">
+
+	<div class="info">
+		<h3>Rozpočtový rok {{budget.year}}</h3>
+
+		Platnost: {{budget.validity | date:"d. M. y"}}
+		
+		<br><br>
+
+		<div *ngIf="!editState && !deleteState">
+			<button type="submit" class="btn btn-primary" (click)="editState=true">Nahrát nová data</button>
+			<button type="submit" class="btn btn-danger" (click)="deleteState=true">Smazat data</button>
+		</div>
+		
+		<div class="chart">
+			<chart-budget [data]="budget"></chart-budget>
+		</div>
+	</div>
+
+	<div class="edit">
+	
+		<form *ngIf="editState" #importForm="ngForm" (submit)="importData(importForm)">
+
+			<div class="form-group">
+				<label for="expvalid" class="col-sm-3 control-label">Datum platnosti</label>
+				<div class="col-sm-9">
+					<input type="date" class="form-control" id="expvalid" name="validity" [ngModel]="today | date:'y-MM-dd'" aria-describedby="help-entity" required>
+					<span id="help-entity" class="help-block">Datum, ke kterému byla nahraná data aktuální. Např. datum exportu z účetního systému.</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="obec" class="col-sm-3 control-label">Číselník investičních akcí</label>
+				<div class="col-sm-9">
+					<input name="eventsFile" type="file" accept=".csv,text/csv" class="form-control" required #eventsFile>
+					<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8). <a [attr.href]="appConfig.docsUrl + '/navody/import'" target="_blank">Více...</a></span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="obec" class="col-sm-3 control-label">Datový soubor</label>
+				<div class="col-sm-9">
+					<input name="expendituresFile" type="file" accept=".csv,text/csv" class="form-control" required #expendituresFile>
+					<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8). <a [attr.href]="appConfig.docsUrl + '/navody/import'" target="_blank">Více...</a></span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="expnote" class="col-sm-3 control-label optional">Poznámka</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="expnote" name="note" ngModel>
+					<span id="help-entity" class="help-block">Volitelné. Libovolná poznámka k tomuto importu.</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<button type="submit" class="btn btn-primary" [disabled]="!importForm.valid">Nahrát</button>
+					<button type="submit" class="btn btn-default" (click)="editState=false">Zrušit</button>
+				</div>
+			</div>
+			
+			<span style="display:block;clear:both;"></span>
+
+		</form>
+	</div>
+	
+	<form *ngIf="deleteState" #deleteForm="ngForm" (submit)="deleteData(deleteForm)">
+		<div class="form-group">
+			<div class="col-sm-9">
+				<input type="checkbox" id="deleteconfirm" name="confirmation" ngModel required>
+				<label for="deleteconfirm">Opravdu smazat data za rozpočtový rok {{budget.year}}?</label>
+			</div>
+			<div class="col-sm-3">
+				<button type="submit" class="btn btn-danger" [disabled]="!deleteForm.valid">Smazat</button>
+				<button type="submit" class="btn btn-default" (click)="deleteState=false">Zrušit</button>
+			</div>
+		</div>
+		
+		<span style="display:block;clear:both;"></span>
+	</form>
+	
+</div>

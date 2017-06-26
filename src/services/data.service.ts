@@ -61,9 +61,12 @@ export class DataService {
 	}
 	
 	getProfileBudget(profileId,year){
-		if(!year) year = (new Date()).getFullYear();
 		return this.http.get("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
 	}
+	deleteProfileBudget(profileId,year){
+		return this.http.delete("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
+	}
+	
 	
 	getProfileBudgets(profileId,options?){
 		return this.http.get("/api/profiles/" + profileId + "/budgets" + toParams(options)).toPromise().then(response => response.json());
@@ -104,8 +107,9 @@ export class DataService {
 	
 	/* IMPORT */
 	importExpenditures(data:FormData){
-		this.http.post("/api/import/expenditures",data).toPromise().then(response => response.json());
+		return this.http.post("/api/import/expenditures",data).toPromise().then(response => response.json());
 	}
+	
 	
 	
 	/* USERS */	

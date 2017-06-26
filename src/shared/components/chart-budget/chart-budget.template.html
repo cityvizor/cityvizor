@@ -1,0 +1,12 @@
+<svg style="width: 100%;" viewBox="0 0 1000 500">
+	
+	<!-- Expenditures -->
+	<rect x="100" [attr.y]="getYOffset(data.expenditureAmount)" width="100" [attr.height]="getHeight(data.expenditureAmount)" style="fill:#E73431" />
+	<rect x="300" [attr.y]="getYOffset(data.budgetExpenditureAmount)" width="100" [attr.height]="getHeight(data.budgetExpenditureAmount)" style="fill:#ff9491" />
+	
+	<!-- Income -->
+	<rect x="600" [attr.y]="getYOffset(data.incomeAmount)" width="100" [attr.height]="getHeight(data.incomeAmount)" style="fill:#2581C4" />
+	<rect x="800" [attr.y]="getYOffset(data.budgetIncomeAmount)" width="100" [attr.height]="getHeight(data.budgetIncomeAmount)" style="fill:#adf" />
+	
+	
+</svg>

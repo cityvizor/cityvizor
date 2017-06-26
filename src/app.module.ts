@@ -28,6 +28,7 @@ import { DataCatalogueComponent } from "./viz/data-catalogue/data-catalogue.comp
 import { ProfileAdminProfileComponent } from "./views/profile-admin/profile-admin-profile/profile-admin-profile.component";
 import { ProfileAdminModulesComponent } from "./views/profile-admin/profile-admin-modules/profile-admin-modules.component";
 import { ProfileAdminImportComponent } from "./views/profile-admin/profile-admin-import/profile-admin-import.component";
+import { ProfileAdminImportBoxComponent } from "./views/profile-admin/profile-admin-import-box/profile-admin-import-box.component";
 import { ProfileAdminUsersComponent } from "./views/profile-admin/profile-admin-users/profile-admin-users.component";
 
 // Site administration components
@@ -56,6 +57,7 @@ import { HeaderMenuComponent } 		from './shared/components/header-menu/header-me
 import { ProfileHeaderComponent } 		from './shared/components/profile-header/profile-header.component';
 import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart-bigbang.component';
 import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
+import { ChartBudgetComponent } 		from './shared/components/chart-budget/chart-budget.component';
 import { BudgetsListComponent } 		from './shared/components/budgets-list/budgets-list.component';
 
 // Pipes
@@ -90,10 +92,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
-		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
+		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
 		/* Service Desk */ UserAdminAccountComponent,
-		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent, ChartBigbangComponent, ChartDonutComponent, BudgetsListComponent, 
+		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent, ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, BudgetsListComponent, 
 		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
 	],
 	providers: [
