@@ -69,14 +69,16 @@
 
 </div>
 
-<div class="row">
-	<div class="col-sm-12">
-
-		<h2 class="text-center">
-			<i class="fa fa-balance-scale"></i>
-			Saldo rozpočtů
-		</h2>
-
+<div class="row budgets">
+	<div class="col-sm-4" *ngFor="let budget of budgets">
+		<div class="budget">
+			<h4 class="text-center"><div class="label label-danger">Rozpočet {{budget.year}}</div></h4>
+			<br><br>
+			<chart-budget [data]="budget" [max]="maxBudgetAmount"></chart-budget>
+		</div>
+	</div>
+	
+	<!--
 		<svg viewBox="0 0 1000 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
 
@@ -99,15 +101,14 @@
 				</g>
 			</g>
 		</svg>
-	</div>
+-->
 </div>
 
-<div class="row">
+<div class="row generalinfo hidden">
 	<div class="col-sm-6">
-		<h4>
-			<i class="fa fa-info-circle"></i>
-			Základní údaje
-		</h4>
+
+		<h4 class="text-center"><div class="label label-danger">Základní údaje</div></h4>
+		
 		<div class="small">
 			<div class="row">
 				<div class="col-xs-6"><strong><i class="fa fa-map-signs"></i> Adresa</strong></div>
@@ -137,10 +138,9 @@
 	</div>
 
 	<div class="col-sm-6">
-		<h4>
-			<i class="fa fa-clock-o"></i>
-			Provoz obecního úřadu
-		</h4>
+		
+		<h4 class="text-center"><div class="label label-danger">Provoz obecního úřadu</div></h4>
+
 		<div class="row rowHours" *ngFor="let day of days;let i = index">
 			<div class="col-xs-1 dayTitle">{{daysCZ[i]}}</div>
 			<div class="col-xs-11 barHours">

@@ -11,7 +11,7 @@ export class ChartBudgetComponent {
 
 	@Input() max:number;
 
-	barHeight:number = 490;
+	barHeight:number = 400;
 	 
 	minHeight:number = 10;
 

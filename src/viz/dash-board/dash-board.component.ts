@@ -25,6 +25,8 @@ export class DashboardComponent {
 	contracts = [];
 	budgets = [];
 	 
+	maxBudgetAmount:number = 0;
+	 
 	maxExpenditureAmount:number = 0;
 	maxIncomeAmount:number = 0;
 
@@ -43,12 +45,14 @@ export class DashboardComponent {
 		this.dataService.getProfileContracts(this.profile._id,{limit:5,sort:"-date"})
 			.then(contracts => this.contracts = contracts)
 		
-		this.dataService.getProfileBudgets(this.profile._id)
+		this.dataService.getProfileBudgets(this.profile._id,{limit:3,sort:"-year"})
 			.then(budgets => this.budgets = budgets)
+			.then(budgets => budgets.sort((a,b) => (a.year - b.year)))
 			.then(budgets => {
-				budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.expenditureAmount));
-				budgets.map(budget => this.maxIncomeAmount = Math.max(this.maxIncomeAmount,budget.incomeAmount));
-			
+				/*budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.expenditureAmount));
+				budgets.map(budget => this.maxIncomeAmount = Math.max(this.maxIncomeAmount,budget.incomeAmount));*/
+				this.maxBudgetAmount = 0;
+				budgets.forEach(budget => this.maxBudgetAmount = Math.max(this.maxBudgetAmount,budget.budgetIncomeAmount,budget.incomeAmount,budget.budgetExpenditureAmount,budget.expenditureAmount));
 			});
 	}
 

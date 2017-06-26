@@ -60,3 +60,9 @@ background: -moz-linear-gradient(left, transparent 0%, transparent 50%, #eee 50%
 background: -webkit-linear-gradient(left, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* Chrome10-25,Safari5.1-6 */
 background: linear-gradient(to right, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
+
+.budgets{margin-top:50px;}
+.budgets .budget{margin:0 50px;}
+.budgets .label{margin:0px auto;}
+
+.generalinfo{margin:50px 0;}
