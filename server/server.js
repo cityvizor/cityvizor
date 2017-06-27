@@ -29,12 +29,6 @@ app.use("/api",require("./routers/api.js"));
 app.use(require("./routers/static"));
 
 /* SET UP SERVER */
-// get SSL certificates
-const options = {
-	cert: fs.readFileSync('./server/cert/fullchain.pem'),
-	key: fs.readFileSync('./server/cert/privkey.pem')
-}; 
-
 // start https server
 https.createServer(config.ssl, app).listen(443, function () {
 	console.log('CityVizor Server listening on port 443!')
