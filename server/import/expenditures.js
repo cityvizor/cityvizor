@@ -104,7 +104,11 @@ class ExpendituresImporter {
 			parser.on("error",err => reject(err));
 
 			parser.on("end",() => {
+				
 				this.counter.events = parser.count;
+				
+				if(!this.events.length) this.warnings.push("Data: Nulový počet investičních akcí");
+				
 				resolve();
 			});
 
@@ -125,7 +129,9 @@ class ExpendituresImporter {
 				profile: importData.profileId,
 				year: importData.year,
 				validity: importData.validity,
+				budgetExpenditureAmount: 0,
 				expenditureAmount: 0,
+				budgetIncomeAmount: 0,
 				incomeAmount: 0,
 				items: [],
 				paragraphs: []
@@ -195,8 +201,8 @@ class ExpendituresImporter {
 				if(amountType === "P"){
 					
 					let budgetItem = this.getBudgetItem(itemId);
-					let budgetItemEvent = this.getBudgetItemEvent(budgetItem,event);
-					let eventItem = this.getEventBudgetItem(event, itemId);
+					let budgetItemEvent = event ? this.getBudgetItemEvent(budgetItem,event) : null;
+					let eventItem = event ? this.getEventBudgetItem(event, itemId) : null;
 					
 					this.assignAmount([budget, event, budgetItem, budgetItemEvent, eventItem],recordType === "ROZ" ? "budgetIncomeAmount" : "incomeAmount", amount);
 				}
@@ -204,8 +210,8 @@ class ExpendituresImporter {
 				else if(amountType === "V"){
 					
 					let budgetParagraph = this.getBudgetParagraph(paragraphId);
-					let budgetParagraphEvent = this.getBudgetParagraphEvent(budgetParagraph,event);
-					let eventParagraph = this.getEventBudgetParagraph(event, paragraphId);
+					let budgetParagraphEvent = event ? this.getBudgetParagraphEvent(budgetParagraph,event) : null;
+					let eventParagraph = event ? this.getEventBudgetParagraph(event, paragraphId) : null;
 					
 					this.assignAmount([budget, event, budgetParagraph, budgetParagraphEvent, eventParagraph], recordType === "ROZ" ? "budgetExpenditureAmount" : "expenditureAmount", amount);
 				}
@@ -218,7 +224,7 @@ class ExpendituresImporter {
 					this.payments.push({
 						profile: importData.profileId,
 						year: importData.year,
-						event: event._id,
+						event: event ? event._id : null,
 						type: recordType,
 						item: itemId,
 						paragraph: paragraphId,
@@ -245,6 +251,11 @@ class ExpendituresImporter {
 
 	save(importData){
 		return new Promise((resolve,reject) => {
+			
+			if(!this.budget.budgetExpenditureAmount) this.warnings.push("Data: Celková výše rozpočtovaných výdajů je nulová");
+			if(!this.budget.expenditureAmount) this.warnings.push("Data: Celková výše výdajů je nulová");
+			if(!this.budget.budgetIncomeAmount) this.warnings.push("Data: Celková výše rozpočtovaných příjmů je nulová");
+			if(!this.budget.incomeAmount) this.warnings.push("Data: Celková výše příjmů je nulová");
 			
 			// Clear old data. We always replace entire year block of data. Data is intentionally partitioned in DB to make this easy.
 			var clearOld = [];
@@ -442,6 +453,7 @@ class ExpendituresImporter {
 	
 	assignAmount(targets,property,amount){
 		targets.forEach(target => {
+			if(!target) return;
 			if(!target[property]) target[property] = 0;
 			target[property] += amount;
 		});

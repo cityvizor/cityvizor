@@ -3,10 +3,9 @@ import { Component, Input, ViewChild, OnChanges, SimpleChanges } from '@angular/
 import { ToastService } 		from '../../../services/toast.service';
 import { DataService } 		from '../../../services/data.service';
 
-import { Module, MODULES } from "../../../shared/data/modules";
 import { Pager } from "../../../shared/schema/pager";
 
-import { FileUploader, FileItem } from "ng2-file-upload";
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { AppConfig } from '../../../config/app-config';
 
@@ -20,8 +19,12 @@ export class ProfileAdminImportComponent {
 
 	@Input()
 	profile:any;
+	
+	@ViewChild('importModal') public importModal:ModalDirective;
 
 	budgets:any[];
+	 
+	importResult:{counter:any,warnings:string[]};
 	 
 	etls:Pager = new Pager();
 	 
@@ -66,6 +69,29 @@ export class ProfileAdminImportComponent {
 		
 		this.dataService.getETLs(options)
 			.then(etls => this.etls = etls);
+	}
+	 
+	savedBudget(result){
+		this.importResult = result;
+		this.importModal.show();
+		this.loadBudgets();
+	}
+	 
+	createBudget(){
+	
+		var year = window.prompt("Zadejte rozpočtový rok:");
+		
+		if(!year) return;
+		
+		if(!year.match(/\d{4}/)) {
+			this.toastService.toast("Datum musí být čtyři číslice.","notice");
+			return;
+		}
+			
+		this.budgets.push({
+			profile: this.profile._id,
+			year: year
+		});
 	}
 	 
 	toggleETLVisible(etl){

@@ -64,7 +64,7 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
 	}
 	deleteProfileBudget(profileId,year){
-		return this.http.delete("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
+		return this.http.delete("/api/profiles/" + profileId + "/budgets/" + year).toPromise();
 	}
 	
 	
