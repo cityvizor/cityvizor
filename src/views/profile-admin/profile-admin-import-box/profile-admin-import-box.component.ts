@@ -53,12 +53,8 @@ export class ProfileAdminImportBoxComponent {
 		formData.set("validity",data.validity);
 		formData.set("note",data.note);
 		
-		console.log(data,eventsFile,expendituresFile);
-		
 		formData.set("eventsFile",eventsFile,eventsFile.name);
 		formData.set("expendituresFile",expendituresFile,expendituresFile.name);
-			 
-		console.log(formData);
 		
 		this.dataService.importExpenditures(formData)
 			.then(result => this.saved.emit(result));
@@ -66,14 +62,12 @@ export class ProfileAdminImportBoxComponent {
 		return false;
 	}
 
-	deleteData(form){
-		if(form.value.confirmation){
-			this.dataService.deleteProfileBudget(this.profile._id,this.budget.year)
-				.then(() => this.saved.emit());
-		}
-		else this.toastService.toast("Musíte zaškrtnout pole.","notice")
-																 
-		return false;
+	deleteData(){
+	
+		this.dataService.deleteProfileBudget(this.profile._id,this.budget.year)
+			.then(() => this.saved.emit())
+			.catch(err => this.toastService.toast("Nepodařilo se smazat rozpočtový rok." + err.message,"notice"));
+		
 	}
 
 }

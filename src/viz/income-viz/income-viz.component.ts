@@ -37,6 +37,7 @@ export class IncomeVizComponent{
 	groups: any[] = [];
 	groupIndex: any = {};
 
+events:any[];
 	eventIndex:any = {};
 	itemNames = itemNames;
 
@@ -57,31 +58,31 @@ export class IncomeVizComponent{
 	// store siubscription to unsubscribe on destroy
 	paramsSubscription:Subscription;
 	
-	constructor(private router: Router, private route: ActivatedRoute, private _ds: DataService, private _toastService: ToastService){
+	constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService, private _toastService: ToastService){
 		this.groups = [
 			{id: "1", title: "Daňové příjmy"},
 			{id: "2", title: "Nedaňové příjmy"},
 			{id: "3", title: "Kapitálové příjmy"},
-			{id: "4", title: "Přijate transfery"}
+			{id: "4", title: "Přijaté transfery"}
 		];	
 		
 		this.groups = [
-			{id:  "11", title: "Daně z příjmů, zisku a kapitálových výnosů", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "12", title: "Daně ze zboží a služeb v tuzemsku", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "13", title: "Daně a poplatky z vybraných činností a služeb", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "14", title: "Daně a cla za zboží a služby ze zahraničí ", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "15", title: "Majetkové daně", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "16", title: "Povinné pojistné na sociální zabezpečení, příspěvek na státní politiku zaměstnanosti a veřejné zdravotní pojištění", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "17", title: "Ostatní daňové příjmy", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "21", title: "Příjmy z vlastní činnosti a odvody přebytků organizací s přímým vztahem", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "22", title: "Přijaté sankční platby a vratky transferů", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "23", title: "Příjmy z prodeje nekapitálového majetku a ostatní nedaňové příjmy", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "24", title: "Přijaté splátky půjčených prostředků ", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "25", title: "Příjmy sdílené s nadnárodním orgánem", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "31", title: "Příjmy z prodeje dlouhodobého majetku a ostatní kapitálové příjmy", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "32", title: "Příjmy z prodeje akcií a majetkových podílů ", eventsColumnHeader: "Neúčelový příjem"},
-			{id:  "41", title: "Neinvestiční přijaté transfery", eventsColumnHeader: "Účelový příjem"},
-			{id:  "42", title: "Investiční přijaté transfery", eventsColumnHeader: "Účelový příjem"}
+			{id:  "11", title: "Daně z příjmů, zisku a kapitálových výnosů", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "12", title: "Daně ze zboží a služeb v tuzemsku", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "13", title: "Daně a poplatky z vybraných činností a služeb", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "14", title: "Daně a cla za zboží a služby ze zahraničí ", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "15", title: "Majetkové daně", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "16", title: "Povinné pojistné na sociální zabezpečení, příspěvek na státní politiku zaměstnanosti a veřejné zdravotní pojištění", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "17", title: "Ostatní daňové příjmy", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "21", title: "Příjmy z vlastní činnosti a odvody přebytků organizací s přímým vztahem", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "22", title: "Přijaté sankční platby a vratky transferů", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "23", title: "Příjmy z prodeje nekapitálového majetku a ostatní nedaňové příjmy", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "24", title: "Přijaté splátky půjčených prostředků ", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "25", title: "Příjmy sdílené s nadnárodním orgánem", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "31", title: "Příjmy z prodeje dlouhodobého majetku a ostatní kapitálové příjmy", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "32", title: "Příjmy z prodeje akcií a majetkových podílů ", eventsColumnHeader: "Příjem do rozpočtu obce"},
+			{id:  "41", title: "Neinvestiční přijaté transfery", eventsColumnHeader: "Příjem na konkrétní projekt/akci"},
+			{id:  "42", title: "Investiční přijaté transfery", eventsColumnHeader: "Příjem na konkrétní projekt/akci"}
 		];
 		this.groups.forEach(group => this.groupIndex[group.id] = group);
 	}
@@ -151,7 +152,7 @@ export class IncomeVizComponent{
 
 	getEventName(eventId){
 		if(this.eventIndex[eventId]) return this.eventIndex[eventId].name;
-		if(eventId) return "Investiční akce č. " + eventId;
+		if(eventId) return "Nepojmenovaná investiční akce";
 		return "Ostatní";
 	}
 
@@ -166,20 +167,18 @@ export class IncomeVizComponent{
 	/* PROCESS DATA */
 
 	loadEvents(profileId,year){
-		
 		// get event names
-		this._ds.getProfileEvents(profileId,{year:year})
+		this.dataService.getProfileEvents(profileId,{year:year})
 			.then(events => {
+				this.events = events;
 				this.eventIndex = {};
-				events.forEach(event => this.eventIndex[event.srcId] = event);
+				this.events.forEach(event => this.eventIndex[event._id] = event);
 			});
-		
-		
 	}
 
 	loadBudget(profileId,year){
 		// we get a Promise
-		this._ds.getProfileBudget(profileId,year)
+		this.dataService.getProfileBudget(profileId,year)
 			.then((budget) => this.setData(budget))
 			.catch((err) => {
 			switch(err.status){
