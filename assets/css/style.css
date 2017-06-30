@@ -168,11 +168,12 @@ nav li a {
 	color: #333;
 	transition-duration: 400ms;
 }
-nav li:hover:not(.active) a {
-	background-color: white;
-	color: black;
+
+nav li a:hover,nav li a:focus {
+	background-color: #fff;
 }
-nav li.active a {
+
+nav li.active a,nav li.active a:hover,nav li.active a:focus {
 	background-color: #2581C4;
 	color: white;
 }
