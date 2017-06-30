@@ -4,4 +4,35 @@ title: Návody
 menu: navody
 ---
 
-Zde se již brzy objeví podrobné návody jak provést export dat z různých účetních systémů. Díky těmto návodům pak bude možné provést aktualizaci dat v CityVizoru snadno a bez potřeby orientace v IT.
+
+* TOC
+{:toc}
+
+
+## Práce s aplikací
+
+### Vyhledání obce
+
+### Příjmy a výdaje
+
+### Úřední deska
+
+### Registr smluv
+
+## Správa profilu
+
+### Přihlášení
+
+### Nastavení profilu
+
+### Import účetních dat
+
+### Moduly
+
+## Export účetních dat
+
+#### Ginis
+
+#### Triáda
+
+## Správa uživatelského účtu

@@ -1,0 +1,6 @@
+---
+title: TOC
+---
+
+* TOC
+{:toc}
