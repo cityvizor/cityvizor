@@ -178,6 +178,20 @@ nav li.active a,nav li.active a:hover,nav li.active a:focus {
 	color: white;
 }
 
+nav ul ul{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul ul li{
+  display:inline-block;
+  padding:0 10px;
+}
+
 .navbar-toggle {
 	float:none;
 }
