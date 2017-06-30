@@ -20,6 +20,11 @@ navigation:
 - text: O aplikaci
   url: o-aplikaci/
   id: o-aplikaci
+  children:
+  - text: Licence
+    url: o-aplikaci/licence
+  - text: Podpora
+    url: o-aplikaci/podpora
 - text: Návody
   url: navody/
   id: navody
