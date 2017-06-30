@@ -16,6 +16,7 @@ url: "" # the base hostname & protocol for your site
 # Build settings
 markdown: kramdown
 
+# Main menu
 navigation:
 - text: O aplikaci
   url: o-aplikaci/
@@ -30,6 +31,11 @@ navigation:
   url: kontakt/
   id: kontakt
   
+# Gems
+gems: 
+ - jekyll-redirect-from
+ 
+# Libraries
 cdn_libs:
     css:
       - https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.css
