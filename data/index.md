@@ -33,6 +33,8 @@ Data jsou aktualizována pouze na žádost obcí. Mohou být zastaralá.
 
 ## Obecní rozpočty
 
+### Popis
+
 Data jsou aktualizována jednou denně.
 
 ### Struktura
@@ -42,6 +44,8 @@ Data jsou aktualizována jednou denně.
 - [CSV]() (plánovaný)
 
 ## Rozpočty dle akcí
+
+### Popis
 
 Data jsou aktualizována jednou denně.
 
