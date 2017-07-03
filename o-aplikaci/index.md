@@ -30,20 +30,20 @@ Plný text licence naleznete na této adrese: ADRESA
 
 ## Podpora
 
-CityVizor je zatím ve vývoji, seznam prohlížečů není konečný.
+CityVizor je zatím ve vývoji, seznam je aktuální, ne nutně konečný.
 
 ### Chrome
 
-Funguje pro aktuální verze[^aktualni]
+Podpora pro aktuální verze[^aktualni]
 
 ### Firefox
 
-Funguje pro aktuální verze[^aktualni]
+Podpora pro aktuální verze[^aktualni]
 
 ### Internet Explorer / Edge
 
 - Edge - netestováno
-- Verze 10 a 11 - omezená funkčnost, u některých problémů pracujeme na nápravě[^IE10-11] - sledujte [Issue #24](https://github.com/otevrena-data-mfcr/CityVizor/issues/24)
+- Verze 10 a 11 - omezená funkčnost daná nedostupnými funkcionalitami prohlížeče
 - Verze 9 a nižší - neplánujeme podporu[^IE9]
 
 ### Opera
