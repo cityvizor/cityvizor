@@ -72,8 +72,10 @@ export class ProfileAdminImportComponent {
 	}
 	 
 	savedBudget(result){
-		this.importResult = result;
-		this.importModal.show();
+		if(result){
+			this.importResult = result;
+			this.importModal.show();
+		}
 		this.loadBudgets();
 	}
 	 

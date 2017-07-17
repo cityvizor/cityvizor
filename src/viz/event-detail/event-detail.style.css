@@ -3,3 +3,13 @@
 table.table-title-number-number thead tr th:nth-child(1) { width: 60%; }
 table.table-title-number-number thead tr th:nth-child(2) { width: 20%; }
 table.table-title-number-number thead tr th:nth-child(3) { width: 20%; }
+
+
+table.table-label-date-title-number tr > *:nth-child(1) { width: 15%; }
+table.table-label-date-title-number tr > *:nth-child(2) { width: 15%; }
+table.table-label-date-title-number tr > *:nth-child(3) { width: 50%; }
+table.table-label-date-title-number tr > *:nth-child(4) { width: 20%; }
+
+.borderless td, .borderless th {
+    border: none;
+}

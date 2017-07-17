@@ -92,8 +92,7 @@
 
 					<div class="row">
 						<div class="col-md-12">
-							<h4>&sect; {{paragraph.id}} - {{paragraphNames[paragraph.id]}}</h4>
-							<span *ngIf="paragraph.expenditureAmount > paragraph.budgetExpenditureAmount" class="label label-warning"><i class="fa fa-warning"></i> Překročen rozpočet!</span>
+							<h4>&sect; {{paragraph.id}} - {{paragraphNames[paragraph.id]}} <span *ngIf="paragraph.expenditureAmount > paragraph.budgetExpenditureAmount" class="label label-warning">Překročen rozpočet!</span></h4>
 						</div>
 					</div>
 

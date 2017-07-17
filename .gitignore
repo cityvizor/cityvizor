@@ -4,7 +4,7 @@
 # sensitive data
 /server/config/config.development.js
 /server/config/config.production.js
-/server/config/mongo-express-config.js
+/server/config/config.reference.js
 /server/cert/*
 
 # dependencies
@@ -13,6 +13,7 @@
 # data
 /data/*
 /exports/*
+/uploads/*
 !.gitkeep
 
 # misc

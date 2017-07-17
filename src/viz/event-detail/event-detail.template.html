@@ -5,45 +5,57 @@
 		<strong>Pouze ilustrativní popis investiční akce!</strong>
 	</div>
 	
-	<ul>
+	<ul class="hidden">
 		<li *ngFor="let historyEvent of history">{{historyEvent.year}} - {{historyEvent.srcId}} - {{historyEvent.name}}</li>
 	</ul>
 
-	<h2>Faktury  a platby</h2>
+	<h2>{{ event.name }}</h2>
+	
+	<h3>Faktury a platby</h3>
 
 
-	<table *ngIf="counterparties" class="table table-responsive small">
+	<table *ngIf="counterparties" class="table table-responsive">
 		<thead>
 			<tr>
 				<th>Dodavatel</th>
-				<th>IČO</th>
-				<th>Příjem/výdaj</th>
-				<th>Datum</th>
-				<th>Popis</th>
-				<th>Částka</th>
+				<th class="text-right">Celková částka</th>
 			</tr>
 		</thead>
 		<tbody>
 			<ng-container *ngFor="let counterparty of counterparties|array">
-				<tr *ngFor="let payment of counterparty.incomes;let j = index">
-					<ng-container *ngIf="j === 0">
-						<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.id}}</td>
-						<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.name}}</td>
-					</ng-container>
-					<td *ngIf="j === 0" [attr.rowspan]="counterparty.incomes.length">Příjem</td>
-					<td>{{payment.date | date:"d. M. y"}}</td>
-					<td>{{payment.description}}</td>
-					<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+				<tr>
+					<td><strong>{{counterparty.name}}</strong> <span class="text-muted small">(IČO {{counterparty.id}})</span></td>
+					<td class="text-right">
+						<strong [class.text-success]="counterparty.sums.saldo>0"
+										 [class.text-red]="counterparty.sums.saldo<0">
+							{{counterparty.sums.saldoAbsolute | money:0:false}} Kč
+						</strong>
+					</td>
 				</tr>
-				<tr *ngFor="let payment of counterparty.expenditures;let j = index">
-					<ng-container *ngIf="j === 0 && !counterparty.incomes.length">
-						<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.id}}</td>
-						<td [attr.rowspan]="counterparty.incomes.length + counterparty.expenditures.length">{{counterparty.name}}</td>
-					</ng-container>
-					<td *ngIf="j === 0" [attr.rowspan]="counterparty.expenditures.length">Výdaj</td>
-					<td>{{payment.date | date:"d. M. y"}}</td>
-					<td>{{payment.description}}</td>
-					<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+				<tr>
+					<td colspan="3">
+						<table class="table table-responsive borderless small table-label-date-title-number">
+							<tr *ngFor="let payment of counterparty.incomes;let j = index">
+								<td>
+									<span class="label label-success">
+										<i class="fa fa-plus-circle"></i> Příjem
+									</span>
+								</td>
+								<td>{{payment.date | date:"d. M. y"}}</td>
+								<td>{{payment.description}}</td>
+								<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+							</tr>
+							<tr *ngFor="let payment of counterparty.expenditures;let j = index">
+								<td>
+									<span class="label label-red">
+										<i class="fa fa-minus-circle"></i> Výdej
+									 </span>
+								</td>
+								<td>{{payment.date | date:"d. M. y"}}</td>
+								<td>{{payment.description}}</td>
+								<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+							</tr>
+						</table>
 				</tr>
 			</ng-container>
 		</tbody>

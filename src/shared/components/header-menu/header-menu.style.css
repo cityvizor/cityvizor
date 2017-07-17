@@ -66,6 +66,9 @@ nav li a.active {
 	color: white;
 }
 
+.navbar-nav {
+	margin-left: -15px!important;
+}
 .navbar-toggle {
 	float:none;
 }
