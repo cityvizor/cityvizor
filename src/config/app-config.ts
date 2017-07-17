@@ -5,7 +5,7 @@ var AppConfig = {
   docsUrl: "https://otevrena-data-mfcr.github.io/CityVizor",
   
   // infomail used in texts
-  mail: "cityvizor@otevrenadata.cz",
+  mail: "cityvizor@otevrenamesta.cz",
   
   // modules and their names. this controls what shows in menus etc.
   modules: [

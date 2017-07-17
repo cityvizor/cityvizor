@@ -31,7 +31,10 @@ export class ExpenditureVizComponent{
 	
 	@ViewChild('eventReceiptsModal')
 	public eventReceiptsModal:ModalDirective;
+	modalLoaded:boolean = false;
 	
+	state:{year:number,group:string,event:string} = {year:null,group:null,event:null};
+
 	events = [];
 	eventIndex = {};
 
@@ -42,12 +45,6 @@ export class ExpenditureVizComponent{
 
 	// which group (drawing stripe) is hovered at the moment
 	hoveredGroup: string = null;
-
-	// which group (drawign stripe) has been clicked and is open at the moment
-	selectedGroup: string = null;
-
-	openedEvent: any = null;
-
 	openedGroupList: boolean = true;
 
 	maxAmount:number = 0;
@@ -67,7 +64,7 @@ export class ExpenditureVizComponent{
 			group.paragraphs = [];
 			this.groupIndex[group.id] = group;
 		});
-		//this.selectedGroup = this.groups[0].id;
+		
 		this.paragraphNames = paragraphNames;
 	}
 
@@ -75,33 +72,65 @@ export class ExpenditureVizComponent{
 		
 		this.paramsSubscription = this.route.params.subscribe((params: Params) => {		
 			
-			if(params["paragraf"]) {
-				if(this.groupIndex[params["paragraf"]]){
-					this.selectedGroup = params["paragraf"];
-					this.openedGroupList = false;
-				}
-				else this.selectGroup(null);
+			let newState = {
+				group: this.groupIndex[params["skupina"]] ? params["skupina"] : null,
+				year: Number(params["rok"]),
+				event: params["akce"]
+			};
+			
+			let oldState = this.state;
+			
+			this.openedGroupList = !!newState.group;
+			
+			if(newState.year !== oldState.year && newState.year){
+				this.loadBudget(this.profile._id,newState.year);
+				this.loadEvents(this.profile._id,newState.year);
 			}
-			else {
-				this.selectedGroup = null;
-				this.openedGroupList = true;
+			
+			if(newState.event !== oldState.event && this.modalLoaded){
+				if(newState.event) this.eventReceiptsModal.show();
+				else this.eventReceiptsModal.hide();
 			}
+			
+			this.state = newState;
 			
 		});
 		
   }
+
+	ngAfterViewInit(){
+		this.modalLoaded = true;
+		if(this.state.event) this.eventReceiptsModal.show();
+		else this.eventReceiptsModal.hide();
+	}
 
 	ngOnDestroy(){
 		this.paramsSubscription.unsubscribe();
 	}
 
 	selectBudget(budget){
-		this.loadBudget(this.profile._id,budget.year);
-		this.loadEvents(this.profile._id,budget.year);
+		this.updateState({year: budget.year});
 	}
 
-	selectGroup(group){
-		this.router.navigate(group ? ["./",{"paragraf":group}] : ["./",{}],{relativeTo:this.route});
+	selectGroup(groupId){
+		this.updateState({group: groupId});
+	}
+
+	selectEvent(event){
+		this.updateState({event: event ? event.event : null});
+	}
+
+	updateState(setParams){
+		
+		let params = {
+			rok: "year" in setParams ? setParams.year : this.state.year,
+			skupina: "group" in setParams ? setParams.group : this.state.group,
+			akce: "event" in setParams ? setParams.event : this.state.event
+		};
+		
+		Object.keys(params).forEach(key => { if(!params[key]) delete params[key];});
+		
+		this.router.navigate(["./",params],{relativeTo:this.route});
 	}
 
 	/**
@@ -113,7 +142,7 @@ export class ExpenditureVizComponent{
 		var groupIds = Object.keys(this.groupIndex);
 		
 		// index of current group. returns -1 in case no group selected, which is no problem for us
-		var i = groupIds.indexOf(this.selectedGroup);
+		var i = groupIds.indexOf(this.state.group);
 
 		//LEFT
 		if(event.keyCode == 37) this.selectGroup(groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1]);
@@ -174,18 +203,6 @@ export class ExpenditureVizComponent{
 		return "Ostatní";
 	}
 
-	findItem(array,id){
-		var found;
-		array.some(item => {
-			if(item.id === id) {
-				found = item;
-				return true;
-			}
-			return false;
-		});			
-		return found;
-	}
-
 	setData(data){
 		
 		this.maxAmount = 0;
@@ -216,13 +233,6 @@ export class ExpenditureVizComponent{
 		
 	}
 
-	openEvent(event){
-		
-		this.eventReceiptsModal.show();
-		
-		this.openedEvent = event.event;
-			
-	}
 	
 
 }
