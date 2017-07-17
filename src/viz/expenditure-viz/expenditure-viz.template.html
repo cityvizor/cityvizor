@@ -21,7 +21,7 @@
 
 					<div class="box ratio2_1">
 						<div class="content">
-							<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="selectedGroup" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
+							<chart-bigbang [data]="groups" [max]="maxAmount" [selected]="state.group" [hovered]="hoveredGroup" (select)="selectGroup($event)" (hover)="hoveredGroup=$event"></chart-bigbang>
 						</div>
 					</div>
 
@@ -32,10 +32,10 @@
 		
 		<div class="btn-group-selected">
 			<div class="btn-group">
-				<button type="button" class="btn btn-lg btn-red" *ngIf="selectedGroup">
-							<strong>{{groupIndex[selectedGroup].title}}</strong>
+				<button type="button" class="btn btn-lg btn-red" *ngIf="state.group">
+							<strong>{{groupIndex[state.group].title}}</strong>
 				</button>
-				<button type="button" class="btn btn-lg btn-red" *ngIf="!selectedGroup">
+				<button type="button" class="btn btn-lg btn-red" *ngIf="!state.group">
 							<strong>Vyberte skupinu</strong>
 				</button>
 				<button type="button" class="btn btn-lg btn-label">
@@ -62,7 +62,7 @@
 						Seznam <span class="caret"></span>
 					</button>
 					<ul *dropdownMenu class="dropdown-menu groupList" role="menu">
-						<li role="menuitem" *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group.id)" [attr.class]="(hoveredGroup==group.id || selectedGroup==group.id) ? 'group group-focus' : 'group'">
+						<li role="menuitem" *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group.id)" [attr.class]="(hoveredGroup==group.id || state.group==group.id) ? 'group group-focus' : 'group'">
 							<a>
 								<div class="row">
 									<div class="col-xs-2">
@@ -86,9 +86,9 @@
 
 		<div id="selectedGroup">
 
-			<div *ngIf="groupIndex[selectedGroup]">
+			<div *ngIf="groupIndex[state.group]">
 
-				<div *ngFor="let paragraph of groupIndex[selectedGroup].paragraphs" class="paragraph">
+				<div *ngFor="let paragraph of groupIndex[state.group].paragraphs" class="paragraph">
 
 					<div class="row">
 						<div class="col-md-12">
@@ -111,7 +111,7 @@
 									<tbody>
 										<tr *ngFor="let event of paragraph.events">
 											<td>
-												<a *ngIf="event.event" (click)="openEvent(event)">{{getEventName(event.event)}}</a>
+												<a *ngIf="event.event" (click)="selectEvent(event)">{{getEventName(event.event)}}</a>
 												<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
 											</td>
 											<td>{{event.budgetExpenditureAmount | money:0:true}} Kč</td>
@@ -145,17 +145,17 @@
 	</div>
 </div>
 
-<div bsModal #eventReceiptsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div bsModal #eventReceiptsModal="bs-modal" (onHide)="selectEvent(null)" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" (click)="eventReceiptsModal.hide()" aria-label="Close">
+				<button type="button" class="close" (click)="selectEvent(null)" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">{{openedEvent?.name || "Projekt / akce"}}</h4>
+				<h4 class="modal-title">{{eventIndex[state.event]?.name || "Projekt / akce"}}</h4>
 			</div>
 			<div class="modal-body">
-				<event-detail [eventid]="openedEvent"></event-detail>
+				<event-detail [eventid]="state.event"></event-detail>
 			</div>
 		</div>
 	</div>

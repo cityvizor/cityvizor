@@ -33,11 +33,14 @@ export class IncomeVizComponent{
 	
 	@ViewChild('eventReceiptsModal')
 	public eventReceiptsModal:ModalDirective;
+	modalLoaded = false;
+
+	state:{year:number,group:string,event:string} = {year:null,group:null,event:null};
 	
 	groups: any[] = [];
 	groupIndex: any = {};
 
-events:any[];
+	events:any[];
 	eventIndex:any = {};
 	itemNames = itemNames;
 
@@ -45,13 +48,8 @@ events:any[];
 
 	// which group (drawing stripe) is hovered at the moment
 	hoveredGroup: string = null;
-
-	// which group (drawign stripe) has been clicked and is open at the moment
-	selectedGroup: string = null;
-
-	openedEvent:any;
-
 	openedGroupList: boolean = true;
+	
 
 	vizScale: number = 1;	
 	
@@ -93,33 +91,65 @@ events:any[];
 		
 		this.paramsSubscription = this.route.params.subscribe((params: Params) => {		
 			
-			if(params["polozka"]) {
-				if(this.groupIndex[params["polozka"]]){
-					this.selectedGroup = params["polozka"];
-					this.openedGroupList = false;
-				}
-				else this.selectGroup(null);
+			let newState = {
+				group: this.groupIndex[params["skupina"]] ? params["skupina"] : null,
+				year: Number(params["rok"]),
+				event: params["akce"]
+			};
+			
+			let oldState = this.state;
+			
+			this.openedGroupList = !!newState.group;
+			
+			if(newState.year !== oldState.year && newState.year){
+				this.loadBudget(this.profile._id,newState.year);
+				this.loadEvents(this.profile._id,newState.year);
 			}
-			else {
-				this.selectedGroup = null;
-				this.openedGroupList = true;
+			
+			if(newState.event !== oldState.event && this.modalLoaded){
+				if(newState.event) this.eventReceiptsModal.show();
+				else this.eventReceiptsModal.hide();
 			}
+			
+			this.state = newState;
 			
 		});
 		
   }
 
+	ngAfterViewInit(){
+		this.modalLoaded = true;
+		if(this.state.event) this.eventReceiptsModal.show();
+		else this.eventReceiptsModal.hide();
+	}
+
 	ngOnDestroy(){
 		this.paramsSubscription.unsubscribe();
 	}
 
-	selectGroup(group){
-		this.router.navigate(group ? ["./",{"polozka":group}] : ["./",{}],{relativeTo:this.route});
+	selectBudget(budget){
+		this.updateState({year: budget.year});
 	}
 
-	selectBudget(budget){
-		this.loadBudget(this.profile._id,budget.year);
-		this.loadEvents(this.profile._id,budget.year);
+	selectGroup(groupId){
+		this.updateState({group: groupId});
+	}
+
+	selectEvent(event){
+		this.updateState({event: event ? event.event : null});
+	}
+
+	updateState(setParams){
+		
+		let params = {
+			rok: "year" in setParams ? setParams.year : this.state.year,
+			skupina: "group" in setParams ? setParams.group : this.state.group,
+			akce: "event" in setParams ? setParams.event : this.state.event
+		};
+		
+		Object.keys(params).forEach(key => { if(!params[key]) delete params[key];});
+		
+		this.router.navigate(["./",params],{relativeTo:this.route});
 	}
 		
 
@@ -132,7 +162,7 @@ events:any[];
 		var groupIds = Object.keys(this.groupIndex);
 		
 		// index of current group. returns -1 in case no group selected, which is no problem for us
-		var i = groupIds.indexOf(this.selectedGroup);
+		var i = groupIds.indexOf(this.state.group);
 
 		//LEFT
 		if(event.keyCode == 37) this.selectGroup(groupIds[i - 1 >= 0 ? i - 1 : groupIds.length - 1]);
@@ -221,13 +251,5 @@ events:any[];
 		});
 		
   }
-
-	openEvent(event){
-		
-		this.eventReceiptsModal.show();
-		
-		this.openedEvent = event.event;
-			
-	}
 
 }
