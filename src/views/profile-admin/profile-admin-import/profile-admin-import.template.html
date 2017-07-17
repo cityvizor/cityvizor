@@ -1,7 +1,31 @@
 <h2>Import účetních dat</h2>
 
 <div class="boxes">
-	<profile-admin-import-box *ngFor="let budget of budgets" [profile]="profile" [budget]="budget" (saved)="loadBudgets()"></profile-admin-import-box>
+	<profile-admin-import-box *ngFor="let budget of budgets" [profile]="profile" [budget]="budget" (saved)="savedBudget($event)"></profile-admin-import-box>
+</div>
+
+<a (click)="createBudget()">Přidat rozpočtový rok</a>	
+
+<div bsModal #importModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" (click)="importModal.hide()" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Výsledek importu</h4>
+			</div>
+			<div *ngIf="importResult" class="modal-body">
+				<p *ngIf="!importResult.warnings">Import dat proběhl v pořádku.</p>
+				<p *ngIf="importResult.warnings">Import dat proběhl v pořádku s {{importResult.warnings.length}} varováními:</p>
+				
+				<ul>
+					<li *ngFor="let warning of importResult.warnings">{{warning}}</li>
+				</ul>
+				
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="hidden">

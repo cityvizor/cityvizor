@@ -4,6 +4,8 @@ var https = require('https');
 var Profile = require("../models/profile");
 var Contract = require("../models/contract");
 
+var cheerio = require("cheerio");
+
 // how many contracts per profile should be downloaded
 var limit = 20;
 
@@ -50,15 +52,11 @@ function downloadContractsLoop(profiles,cb){
 		cb();
 		return;
 	}
-
-	// query string for YQL
-	let queryString = "select * from html where url='https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=" + limit + "&do=searchResultList-setLimit&subject_idnum=" + profile.entity.ico + "&all_versions=0' and xpath='//*[@id=\"snippet-searchResultList-list\"]/table/tbody/tr'";
-
 	// options for HTPPS request
 	let options = {
-		host: 'query.yahooapis.com',
+		host: 'smlouvy.gov.cz',
 		port: 443,
-		path: "/v1/public/yql?format=json&q=" + encodeURIComponent(queryString),
+		path: "/vyhledavani?searchResultList-limit=" + limit + "&do=searchResultList-setLimit&subject_idnum=" + profile.entity.ico + "&all_versions=0",
 		method: 'GET'
 	};
 
@@ -79,24 +77,31 @@ function downloadContractsLoop(profiles,cb){
 		// the whole response has been recieved
 		response.on('end', function () {
 
-			// received response is in string, we have to parse it to JSON
-			let data = JSON.parse(str);
+			let $ = cheerio.load(str);
 
 			// variable to prepare contracts for writing to DB
 			let contracts = [];
+			
 
 			// assign values, create contracts' data
-			data.query.results.tr.forEach(row => {
-				let amount = parseAmount(row.td[4].content);
+			$("tr","#snippet-searchResultList-list").each((i,row) => {
+				
+				if(i === 0) return;
+				
+				let items = $(row).children();
+				
+				let amount = parseAmount(items.eq(4).text().trim());
+				
 				let contract = {
 					"profile": profile._id,
-					"title":  row.td[1].content.trim(),
-					"date": parseDate(row.td[3].content),
+					"title":  items.eq(1).text().trim(),
+					"date": parseDate(items.eq(3).text().trim()),
 					"amount": amount[0],
 					"currency": amount[1],
-					"counterparty": row.td[5].content.trim(),
-					"url": "https://smlouvy.gov.cz" + row.td[6].a.href
+					"counterparty": items.eq(5).text().trim(),
+					"url": "https://smlouvy.gov.cz" + items.eq(6).find("a").attr("href")
 				};
+				
 				contracts.push(contract);
 			});
 

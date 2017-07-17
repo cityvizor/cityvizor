@@ -4,6 +4,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastService } 		from '../../services/toast.service';
 import { DataService } 		from '../../services/data.service';
 
+import { AppConfig } from '../../config/app-config';
+
 @Component({
 	moduleId: module.id,
 	selector: 'profile-admin',
@@ -18,6 +20,8 @@ export class ProfileAdminComponent {
 	view: string; 
 	
 	activeModule: string;
+	 
+	appConfig:any = AppConfig;
 
 	constructor( private dataService: DataService, private toastService: ToastService, private route: ActivatedRoute, private router:Router) {
 	}

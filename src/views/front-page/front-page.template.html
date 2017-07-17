@@ -12,7 +12,7 @@
 				<p class="lead">
 					Chcete se orientovat v tom, jaké jsou plánované investice, jací jsou dodavatelé, jaké jsou smlouvy, plány, rozpočty a mnoho dalšího?
 				</p>
-				<p>
+				<p class="hidden">
 					<button class="btn btn-lg ">
 						 Pokračujte ZDE
 					</button>
@@ -31,7 +31,7 @@
 		<div class="row text-center">	
 			<div class="col-lg-12">
 				<h2 class="text-center">
-					<i class="fa fa-plus-circle"></i> Hlavní výhody aplikace
+					Hlavní přínosy aplikace
 				</h2>
 			</div>
 			<div class="col-md-4">
@@ -47,8 +47,8 @@
 							<i class="fa fa-circle fa-stack-2x text-alert"></i>
 							<i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
 					</span>
-					<h4 class="service-heading">Investice</h4>
-					<p class="text-muted">Cityvizor přehledně zobrazuje, jaké konkrétní investiční akce (opravy, stavby, pořízení SW…) probíhají, jaké jsou na ně alokovány prostředky a kolik již bylo vyplaceno.</p>
+					<h4 class="service-heading">Projekty / Akce</h4>
+					<p class="text-muted">Cityvizor přehledně zobrazuje, jaké konkrétní projektové či investiční akce (opravy, stavby, pořízení SW…) probíhají, jaké jsou na ně alokovány prostředky a kolik již bylo vyplaceno.</p>
 			</div>
 			<div class="col-md-4">
 					<span class="fa-stack fa-4x">
@@ -82,24 +82,24 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-				<h2 class="text-center">
-					<i class="fa fa-male"></i> Jak se zapojit?
+				<h2 class="">
+					Jak se zapojit?
 				</h2>
 			</div>
 			<div class="col-lg-12">
 				<p class="lead">
 					Chcete prostě a jednoduše být transparentní a nechcete složitě poptávat nákladné systémy pro vizualizace dat? Také vnímáte, že je potřeba data dávat do souvislostí a jednoduše a přehledně je předávat občanům a mít je na jednom místě? Nechcete zároveň měnit váš zavedený systém evidence?
-					Zapojte se do naší aplikace! Je to zdarma a jediné co musíte je vyexportovat data z vašeho účetního systému. Ozvěte se na cityvizor@mfcr.cz.
+					Zapojte se do naší aplikace! Je to zdarma a jediné co musíte je vyexportovat data z vašeho účetního systému. Ozvěte se na <a [href]="'mailto:' + config.mail">{{config.mail}}</a>.
 				</p>
 			</div>
 			<div class="col-lg-12">
-				<h2 class="text-center">
-					<i class="fa fa-home"></i> Chcete aby se zapojila vaše obec?
+				<h2 class="">
+					Chcete aby se zapojila vaše obec?
 				</h2>
 			</div>
 			<div class="col-lg-12">
 				<p class="lead">
-					Dejte své organizaci vědět, že se mohou zapojit! Napište nám na adresu xxx@mfcr.cz a my se ozveme příslušné osobě. 
+					Dejte své organizaci vědět, že se mohou zapojit! Napište nám na adresu <a [href]="'mailto:' + config.mail">{{config.mail}}</a> a my se ozveme příslušné osobě. 
 				</p>
 			</div>
 		</div>

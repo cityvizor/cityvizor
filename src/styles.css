@@ -1,7 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500,700&subset=latin-ext');
 
-html,
+html {
+	font-size: 14px!important;
+    height: 100%;
+		padding: 0;
+		margin: 0;
+}
 body {
+	font-size: 100%!important;
     height: 100%;
 		padding: 0;
 		margin: 0;
@@ -12,19 +18,20 @@ body {
 body.unsupported cityvizor-app{display:none;}
 body.unsupported #unsupported{display:block;}
 
-/* Fix for weird file size changing */
-table {font-size: 14px !important;}
 table label{font-weight:bold;}
 table label.optional{font-weight:normal;}
 
 #disclaimer{
 	padding:20px;
-	background-color:#f00;
-	color:#fff;
+	background: white;
 	font-weight:bold;
 	text-align:center;
 }
-#disclaimer p{margin:0;padding:0;}
+#disclaimer p{
+	margin:0;
+	padding:0;
+	font-size: 1.2em;
+}
 /**
 	* GENERAL STYLES
 	* 
@@ -49,7 +56,6 @@ body.modal-open {overflow-y: scroll;}
 @media (min-width: 768px) and (max-width: 991px)  {
 	nav li a {
 			line-height: 30px!important;
-			font-size: 10pt!important;
 			padding: 10px!important;
 	}
 }
@@ -67,7 +73,6 @@ strong, .label, th {
 .content h3, .content h4, section h3, section h4 { margin: 0em 0px 1em 0;}
 
 header, nav, .btn {font-family: 'Rubik', sans-serif;}
-
 
 
 /* Content specific classes */
@@ -171,7 +176,6 @@ input:invalid:not(.novalidate){
 
 .skupina-label .label {
 	margin: 1em 0em 0em 0em;
-	font-size: 100%;
 }
 
 
@@ -185,8 +189,8 @@ input:invalid:not(.novalidate){
 #headerLoading {
 	display: block;  
 	padding: 50px 0px 0px 0px;
-	background: url('/assets/img/polepozadi.jpg') no-repeat; 
-	background-size: 100% auto; background-position: center -115px; 
+	background: url('/assets/img/polepozadi5.jpg') no-repeat; 
+	background-size: 100% auto; background-position: center top; 
 	text-align: center;
 	color: white;
 	font-weight: bold;
@@ -251,3 +255,13 @@ input:invalid:not(.novalidate){
 
 
 .table-responsive { border: none; }
+
+.text-red {
+	color: #E73431;
+}
+.label-red, .btn-red {
+	background-color: #E73431;
+}
+.text-success {
+	color: #5cb85c;
+}

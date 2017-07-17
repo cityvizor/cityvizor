@@ -56,7 +56,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-9">
 					<button type="submit" class="btn btn-primary" [disabled]="!importForm.valid">Nahrát</button>
-					<button type="submit" class="btn btn-default" (click)="editState=false">Zrušit</button>
+					<button type="reset" class="btn btn-default" (click)="editState=false">Zrušit</button>
 				</div>
 			</div>
 			
@@ -68,12 +68,11 @@
 	<form *ngIf="deleteState" #deleteForm="ngForm" (submit)="deleteData(deleteForm)">
 		<div class="form-group">
 			<div class="col-sm-9">
-				<input type="checkbox" id="deleteconfirm" name="confirmation" ngModel required>
-				<label for="deleteconfirm">Opravdu smazat data za rozpočtový rok {{budget.year}}?</label>
+				<label>Opravdu smazat data za rozpočtový rok {{budget.year}}?</label>
 			</div>
 			<div class="col-sm-3">
-				<button type="submit" class="btn btn-danger" [disabled]="!deleteForm.valid">Smazat</button>
-				<button type="submit" class="btn btn-default" (click)="deleteState=false">Zrušit</button>
+				<button type="button" class="btn btn-danger" (click)="deleteData()">Smazat</button>
+				<button type="button" class="btn btn-default" (click)="deleteState=false">Zrušit</button>
 			</div>
 		</div>
 		

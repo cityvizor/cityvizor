@@ -47,7 +47,6 @@ export class DashboardComponent {
 		
 		this.dataService.getProfileBudgets(this.profile._id,{limit:3,sort:"-year"})
 			.then(budgets => this.budgets = budgets)
-			.then(budgets => budgets.sort((a,b) => (a.year - b.year)))
 			.then(budgets => {
 				/*budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.expenditureAmount));
 				budgets.map(budget => this.maxIncomeAmount = Math.max(this.maxIncomeAmount,budget.incomeAmount));*/

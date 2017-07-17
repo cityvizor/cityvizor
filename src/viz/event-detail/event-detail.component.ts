@@ -66,12 +66,22 @@ export class EventDetailComponent implements OnChanges {
 					id: payment.counterpartyId,
 					name: payment.counterpartyName,
 					incomes: [],
-					expenditures: []
+					expenditures: [],
+					sums: {incomes: 0, expenditures: 0, saldo: 0, saldoAbsolute: 0}
 				}
 			}
 			
-			if(payment.item < 5000) this.counterparties[id].incomes.push(payment);
-			if(payment.item >= 5000) this.counterparties[id].expenditures.push(payment);
+			if(payment.item < 5000) {
+				this.counterparties[id].incomes.push(payment);
+				this.counterparties[id].sums.incomes += payment.amount;
+			}
+			if(payment.item >= 5000) {
+				this.counterparties[id].expenditures.push(payment);
+				this.counterparties[id].sums.expenditures += payment.amount;
+			}
+			
+			this.counterparties[id].sums.saldo = this.counterparties[id].sums.incomes - this.counterparties[id].sums.expenditures;
+			this.counterparties[id].sums.saldoAbsolute = Math.abs(this.counterparties[id].sums.saldo);
 			
 		});
 	}

@@ -140,12 +140,6 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 .bar-expenditure {
 	background: #2581C4;
 }
-
-.groupList {
-}
-.groupList.opened {
-}
-
 .groupList .group-focus .bar-budget {
 	background: #ff9491;
 }
@@ -168,9 +162,17 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
   min-width: 130px;
 }
 .btn-group-selected ul {
+	width: 100%;
 	-webkit-column-count: 2;
 	-moz-column-count: 2;
 	column-count: 2;
+}
+@media (max-width: 991px) {
+	.btn-group-selected ul {
+		-webkit-column-count: 1; /* Chrome, Safari, Opera */
+    -moz-column-count: 1; /* Firefox */
+    column-count: 1;
+	}
 }
 .dropdown-menu > li > a {
     padding: 1px 5px;

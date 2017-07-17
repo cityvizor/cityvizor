@@ -9,7 +9,7 @@ header {
 }
 header .btn, header .btn:link, header .btn:active {    
 	color: #FFF;
-	font-size: 15px;
+	font-size: 1.2em;
 	box-shadow: none;
 	margin-top: 16px;
 	margin-bottom: 10px;
@@ -56,7 +56,7 @@ nav {
 }
 nav li a {
 	line-height: 24px;
-	font-size: 12pt;
+	font-size: 1.2em;
 	color: #333;
 	transition-duration: 400ms;
 }
@@ -80,7 +80,7 @@ nav li a.active {
 	clear: left;
 }
 .toggle-title {
-	font-size: 14pt;
+	font-size: 1.2em;
 	font-weight: bold;
 	color: #2581C4;
 	margin-left: 12px;

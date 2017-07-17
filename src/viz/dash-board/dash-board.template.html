@@ -1,10 +1,10 @@
 <div class="row">
 
-	<div class="col-md-6 bg-timeline">
+	<div class="col-sm-6 bg-timeline">
 		<div class="row">
 			<div class="col-xs-12 text-center">
 				<h4>
-					<div class="label label-danger">
+					<div class="label label-red">
 						Nejnovější faktury
 					</div>
 				</h4>
@@ -12,34 +12,42 @@
 		</div>
 		<div class="row news" *ngFor="let payment of payments">
 			<div class="col-xs-12">
-				<h5 class="service-heading">
-					<strong>{{payment.counterpartyName}}</strong>
-					<span class="label label-info">IČO {{payment.counterpartyId}}</span>
-					<span *ngIf="payment.paragraph" class="label label-primary">&sect; {{payment.paragraph}}</span>
-					<span *ngIf="payment.item" class="label label-success">RP {{payment.item}}</span>
-				</h5>
-				<p class="text-muted small">
-					{{payment.description}}
-				</p>
-				<div class="row small">
-					<div class="col-xs-6">
-						{{payment.date | date:"d. M. y"}}
+				<div class="row">
+					<div class="col-xs-9">
+						<h5 class="service-heading">
+							{{payment.counterpartyName}}
+							<small>IČO {{payment.counterpartyId}}, &sect; {{payment.paragraph}}, RP {{payment.item}}</small>
+						</h5>
 					</div>
-					<div class="col-xs-6 text-right text-danger">
-						<strong>
+					<div class="col-xs-3 small text-right">
+						<h5>
+							<small>{{payment.date | date:"d. M. y"}}</small>
+						</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-9">
+						<p class="text-muted">
+							{{payment.description}}
+								<span *ngIf="payment.paragraph" class="label label-primary" title="Rozpočtový paragraf"></span>
+								<span *ngIf="payment.item" class="label label-success" title="Rozpočtová položka"></span>
+						</p>
+					</div>
+					<div class="col-xs-3 text-right">
+						<h5>
 							{{payment.amount | money:0:false}} Kč
-						</strong>
+						</h5>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="col-md-6 bg-timeline">
+	<div class="col-sm-6 bg-timeline">
 		<div class="row">
 			<div class="col-xs-12 text-center">
 				<h4>
-					<div class="label label-danger">
+					<div class="label label-red">
 						Nejnovější smlouvy
 					</div>	
 				</h4>
@@ -47,20 +55,25 @@
 		</div>
 		<div class="row news" *ngFor="let contract of contracts">
 			<div class="col-xs-12">
-				<h5 class="service-heading">
-					<strong>{{contract.counterparty}}</strong>
-					<a [href]="contract.url" target="_blank" class="label label-info">otevřít</a>
-				</h5>
-				<p class="text-muted small">{{contract.title}}</p>
-				
-				<div class="row small">
-					<div class="col-xs-6">
-						{{contract.date | date:"d. M. y"}}
+				<div class="row">
+					<div class="col-xs-9">
+						<h5 class="service-heading">
+							<strong>{{contract.counterparty}}</strong>
+						</h5>
 					</div>
-					<div class="col-xs-6 text-right text-danger">
-						<strong>
-							{{contract.amount | money:0:false}} Kč
-						</strong>
+					<div class="col-xs-3 text-right">
+						<h5>
+							<small>{{contract.date | date:"d. M. y"}}</small>
+						</h5>
+						<a [href]="contract.url" target="_blank" class="btn btn-xs btn-primary"><i class="fa fa-link"></i></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-9">
+						<p class="text-muted small">{{contract.title}}</p>
+					</div>
+					<div class="col-xs-3 text-right">
+						<strong>{{contract.amount | money:0:false}} Kč</strong>
 					</div>
 				</div>
 			</div>
@@ -72,7 +85,7 @@
 <div class="row budgets">
 	<div class="col-sm-4" *ngFor="let budget of budgets">
 		<div class="budget">
-			<h4 class="text-center"><div class="label label-danger">Rozpočet {{budget.year}}</div></h4>
+			<h4 class="text-center"><div class="label label-red">Rozpočet {{budget.year}}</div></h4>
 			<br><br>
 			<chart-budget [data]="budget" [max]="maxBudgetAmount"></chart-budget>
 		</div>
@@ -107,7 +120,7 @@
 <div class="row generalinfo hidden">
 	<div class="col-sm-6">
 
-		<h4 class="text-center"><div class="label label-danger">Základní údaje</div></h4>
+		<h4 class="text-center"><div class="label label-red">Základní údaje</div></h4>
 		
 		<div class="small">
 			<div class="row">
@@ -139,7 +152,7 @@
 
 	<div class="col-sm-6">
 		
-		<h4 class="text-center"><div class="label label-danger">Provoz obecního úřadu</div></h4>
+		<h4 class="text-center"><div class="label label-red">Provoz obecního úřadu</div></h4>
 
 		<div class="row rowHours" *ngFor="let day of days;let i = index">
 			<div class="col-xs-1 dayTitle">{{daysCZ[i]}}</div>

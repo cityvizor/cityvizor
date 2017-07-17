@@ -9,7 +9,7 @@
 
       <h3>Detaily účtu</h3>
 
-      <form class="form-horizontal" (submit)="saveUser()" #userForm="ngForm">
+      <form class="form-horizontal" (submit)="saveUser(userForm)" #userForm="ngForm">
 
         <div class="form-group">
           <label for="name" class="col-sm-3 control-label">Jméno</label>
@@ -41,7 +41,7 @@
 
       <h3>Nastavit heslo</h3>
 
-      <form class="form-horizontal" (submit)="savePass()" #userPassForm="ngForm">
+      <form class="form-horizontal" (submit)="savePass(userPassForm)" #userPassForm="ngForm">
 
         <div class="form-group">
           <label for="password" class="col-sm-3 control-label">Heslo</label>

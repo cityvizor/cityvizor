@@ -19,8 +19,6 @@ export class UserAdminAccountComponent implements OnInit {
 
  	@ViewChild('userForm') userForm: NgForm;
 
-  @ViewChild('userPassForm') userPassForm: NgForm;
-
   user:User;
 
 	constructor(private authService:AuthService, private dataService: DataService, private toastService: ToastService) {
@@ -35,11 +33,12 @@ export class UserAdminAccountComponent implements OnInit {
       .then(user => this.user = user);
   }
    
-	saveUser(){
-		var userData = this.userForm.value;
-		userData._id = this.user._id;
+	saveUser(form){
 		
-		this.dataService.saveUser(userData)
+		let formData = form.value;
+		formData._id = this.user._id;
+		
+		this.dataService.saveUser(formData)
 			.then(user => {
 				this.user = user;
 				this.toastService.toast("Uloženo.","notice");
@@ -47,13 +46,25 @@ export class UserAdminAccountComponent implements OnInit {
 			.catch(err => this.toastService.toast("Nastala chyba při ukládání dat.","error"));
 	}
 	 
-	 savePass(){
-		 let data = this.userPassForm.value;
+	 savePass(form){
+		 
+		 let formData = form.value;
+		 
+		 if(formData.password !== formData.password2){
+			 this.toastService.toast("Hesla se neshodují","notice");
+			 return;
+		 }
+		 
+		 let data = {
+			 _id: this.user._id,
+			 password: formData.password
+		 };
+		 
 		 data._id = this.user._id;
 		 
 		 this.dataService.saveUser(data)
 		 	.then(user => {
-			 	this.userPassForm.reset();
+			 	form.reset();
 				this.toastService.toast("Uloženo.","notice")
 		 	})
 			.catch(err => this.toastService.toast("Nastala chyba při ukládání dat.","error"));
