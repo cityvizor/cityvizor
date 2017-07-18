@@ -19,14 +19,13 @@ Vývoj probíhal v odboru 47 – Centrální harmonizační jednotka pod zášti
 
 Toto shrnutí není právně závazné, je pouze naší interpretací závazných licenčních podmínek uvedených níže.
 
-- jedna
-- dvě
-- honza
-- jde
+Ministerstvo financí uvolnilo zdrojové kódy aplikace pod volnou licencí GNU GPL v3, což znamená mimo jiné, že každý nabyvatel licence, který akceptuje její podmínky, získává právo modifikovat dílo, kopírovat ho a dál rozšiřovat toto dílo i jakoukoli odvozenou verzi.
+
+Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
 
 ### Licence
 
-Plný text licence naleznete na této adrese: ADRESA
+Plný text licence naleznete na této adrese: https://www.gnu.org/licenses/gpl-3.0.en.html
 
 ## Podpora
 
