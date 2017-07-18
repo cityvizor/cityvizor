@@ -1,26 +1,38 @@
 var express = require('express');
 var router = express.Router();
 
+var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 var bcrypt = require("bcrypt");
 
 var User = require("../models/user");
 
-router.get("/", acl("users","list"), (req,res) => {
+var usersSchema = {};
+
+router.get("/", schema.validate({query: usersSchema}), acl("users","list"), (req,res) => {
 
 	User.find({}).select("_id name organization roles")
 		.then(users => res.json(users));
 
 });
 
-router.get("/:id", acl("users","read"), (req,res) => {
+var userSchema = {};
+
+router.get("/:id", schema.validate({query: userSchema}), acl("users","read"), (req,res) => {
 
 	User.findOne({_id:req.params.id}).populate("managedProfiles","_id name")
 		.then(user => res.json(user));
 
 });
 
-router.post("/:id", acl("users","write"), (req,res) => {
+var userPostSchema = {
+	type: "object",
+	properties: {
+		"password": {type: "string"}
+	}
+}
+
+router.post("/:id", schema.validate({body: userPostSchema}), acl("users","write"), (req,res) => {
 
 	// if there is password in the payload, hash it with bcrypt
 	var passwordHash = new Promise((resolve,reject) => {

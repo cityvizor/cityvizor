@@ -18,6 +18,7 @@ if(config.server.compression){
 	app.use(compression());
 }
 
+// parse body
 var bodyParser = require("body-parser");
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support urlencoded bodies
@@ -28,20 +29,55 @@ mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
 mongoose.Promise = global.Promise;
 
-/* Mongo Express */
+// configure express-jwt
+var jwt = require('express-jwt');
+app.use(jwt(config.jwt));
+
+// configure DynACL
+var acl = require("express-dynacl");
+var aclOptions = {
+	roles: {
+		"guest": require("./acl/guest"),
+		"profile-manager": require("./acl/profile-manager"),
+		"profile-admin": require("./acl/profile-admin"),
+		"admin": require("./acl/admin")
+	},
+	defaultRoles: ["guest"],
+	userRoles: ["user"],
+	logConsole: true
+}
+acl.config(aclOptions);
+
+/* Mongo Express Database viewer */
 if(config.mongoExpress.enable){
 	var mongo_express = require('mongo-express/lib/middleware');
 	var mongo_express_config = require('./config/mongo-express-config.js');
 	app.use('/db', mongo_express(mongo_express_config))
 }
 
-if(config.api.enable){
-	app.use("/api",require("./routers/api.js"));
-}
+/* SET UP ROUTES */
+// api routes
+app.use("/api",require("./routers/api"));
 
-if(config.ui.enable){
-	app.use(require("./routers/static"));
-}
+// serve static files
+app.use(require("./routers/static"));
+
+app.use((err, req, res, next) => {
+	
+  if (err.name === 'UnauthorizedError') {
+    res.status(err.status);
+		res.send("Unauthorized" + (err.message ? ": " + err.message : ""));
+  }
+	
+	else if (err.name === 'JsonSchemaValidation') {
+		console.log("API Error: " + err.message);
+		console.log(err.validations.query);
+		res.status(400).send("API Error: " + err.message);
+	}
+	
+	else next(err);
+	
+});
 
 
 /* SET UP SERVER */

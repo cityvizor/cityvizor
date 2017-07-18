@@ -1,12 +1,15 @@
 var express = require('express');
 var router = module.exports = express.Router();
 
+var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
 var User = require("../models/user");
 
 var bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
+
+var config = require("../config/config.js");
 
 function createToken(user,validity,callback){
 	
@@ -22,11 +25,19 @@ function createToken(user,validity,callback){
 		expiresIn: validity
 	};
 
-	jwt.sign(tokenData, "kaj;aliuew ;932fjadkjfp9832jf;dlkj", tokenOptions, callback);
+	jwt.sign(tokenData, config.jwt.secret, tokenOptions, callback);
 
 }
 
-router.post("/", acl("login","login"), (req,res) => {
+var loginSchema = {
+	type: "object",
+	properties: {
+		"login": {type: "string", required: true},
+		"password": {type: "string", required: true}
+	}	
+};
+
+router.post("/", schema.validate({body: loginSchema}), acl("login","login"), (req,res) => {
 
 	User.findOne({_id:req.body.login}).select("+password").then((user) => {
 

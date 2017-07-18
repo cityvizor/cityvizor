@@ -1,19 +1,21 @@
 var express = require('express');	
 var router = express.Router();
 
+var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
 var Event = require("../models/expenditures").Event;
 var Payment = require("../models/expenditures").Payment;
 
-router.get("/", acl("events", "list"), (req,res) => {
-	Event.find({}, (err,item) => {
-		if(item) res.json(item);
-		else res.status(404).send('Not found');
-	});
+var eventsSchema = {};
+
+router.get("/", schema.validate({query: eventsSchema}), acl("events", "list"), (req,res) => {
+	Event.find({}, (err,item) => res.json(item));
 });
 
-router.get("/:id", acl("events", "read"), (req,res) => {
+var eventSchema = {};
+
+router.get("/:id", schema.validate({query: eventSchema}), acl("events", "read"), (req,res) => {
 	
 	Event.findOne({_id:req.params.id}).lean()
 		.then(event => {

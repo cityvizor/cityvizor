@@ -1,56 +1,20 @@
 var express = require('express');
-
-var acl = require("express-dynacl");
-
-var jwt = require('express-jwt');
-
-
-// create router for api path
 var router = module.exports = express.Router();
 
+var acl = require("express-dynacl");
 
 // Handle and romalize standard query fields
 router.use((req, res, next) => {
   
 	//normalize field list for mongoose from comma delimited to space delimited
-	if(req.query.fields) req.query.fields = req.query.fields.split(",").join(" ");
+	if(req.query.fields && typeof req.query.fields === "string") req.query.fields = req.query.fields.split(/[, ]/);
 	
 	// normalize page and limit to numbers
 	if(req.query.page) req.query.page = Number(req.query.page);
-	if(req.query.page) req.query.page = Number(req.query.page);
+	if(req.query.limit) req.query.limit = Number(req.query.limit);
 	
 	// continue
   next();
-});
-
-
-// configure DynACL
-var aclOptions = {
-	roles: {
-		"guest": require("../acl/guest"),
-		"profile-manager": require("../acl/profile-manager"),
-		"profile-admin": require("../acl/profile-admin"),
-		"admin": require("../acl/admin")
-	},
-	defaultRoles: ["guest"],
-	userRoles: ["user"],
-	logConsole: true
-}
-acl.config(aclOptions);
-
-
-// configure express-jwt
-var jwtOptions = {
-	secret: "kaj;aliuew ;932fjadkjfp9832jf;dlkj",
-	credentialsRequired: false
-};
-router.use(jwt(jwtOptions));
-
-router.use(function (err, req, res, next) {
-  if (err.name === 'UnauthorizedError') {
-    res.status(err.status);
-		res.send("Unauthorized" + (err.message ? ": " + err.message : ""));
-  }
 });
 
 

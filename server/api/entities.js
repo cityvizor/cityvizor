@@ -1,23 +1,51 @@
 var express = require('express');
-var app = express();
-
-var router = express.Router();
-module.exports = router;
+var router = module.exports = express.Router();
 
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 
+var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
 var Entity = require("../models/entity");
 var EntityImport = require("../import/entities");
+
+var entitySchema = {
+	type: "object",
+	properties: {
+		"search": {
+			type: "object",
+			properties: {
+				"name": {type: "string"},
+				"address.postalCode": {type: "string"},
+				"ico": {type: "string"}
+			}
+		},
+		"fields": {
+			type: "array",
+			items: {
+				type: "string"
+				// we allow any field to be listed
+			}
+		},
+		"limit": {
+			type: "number"
+		},
+		"page": {
+			type: "number"
+		},
+		"sort": {
+			type: "string"
+		}
+	}
+};
 
 //http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
 RegExp.escape= function(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 };
 
-router.get("/", acl("entity","list"), (req,res) => {
+router.get("/", schema.validate({query: entitySchema}), acl("entity","list"), (req,res) => {
 	
 	var where = {};
 	if(req.query.search){

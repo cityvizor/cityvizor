@@ -10,11 +10,21 @@ var upload = multer({ dest: config.uploads.dir });
 
 var fs = require("fs");
 
+var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
 var ExpenditureImporter = require("../import/expenditures");
 
-router.post("/", upload.fields([{ name:"eventsFile", maxCount: 1 }, { name:"expendituresFile", maxCount: 1 }]), acl("profile-events", "write"), acl("profile-budgets", "write"), (req,res) => {
+var expendituresSchema = {
+	type: "object",
+	properties: {
+		"profile": { type: "string", /*pattern: "[a-fA-F0-9]{24}"*/ },
+		"year": { type: "number" },
+		"validity": { type: "string" } // date
+	}
+};
+
+router.post("/", schema.validate({body: expendituresSchema}), upload.fields([{ name:"eventsFile", maxCount: 1 }, { name:"expendituresFile", maxCount: 1 }]), acl("profile-events", "write"), acl("profile-budgets", "write"), (req,res) => {
 
 	var profileId = req.body.profile;
 	var year = req.body.year;
