@@ -8,9 +8,9 @@
   "scripts": {
     "start": "NODE_ENV=production node server/server.js",
     "dev": "NODE_ENV=development concurrently \"ng build --watch --dev --progress false\" \"nodemon server/server.js\"",
-    "build": "ng build --prod",
+    "build": "ng build --prod --app=0 && ng build --prod --app=1",
     "log": "tail -f /var/log/cityvizor.log",
-    "update": "service cityvizor stop && git pull && ng build --prod && service cityvizor start"
+    "update": "service cityvizor stop && git pull && npm run build && service cityvizor start"
   },
   "keywords": [
     "opendata",
