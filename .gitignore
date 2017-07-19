@@ -11,7 +11,7 @@
 /node_modules
 
 # data
-/data/*
+/imports/*
 /exports/*
 /uploads/*
 !.gitkeep
