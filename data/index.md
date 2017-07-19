@@ -17,7 +17,7 @@ Data jsou aktualizována jednou denně.
 
 ### Data ke stažení
 - [JSON](https://cityvizor.cz/exports/profiles.json.zip)
-- [CSV]() (plánovaný)
+- [CSV](https://cityvizor.cz/exports/profiles.csv.zip)
 
 ## Data o obcích
 
