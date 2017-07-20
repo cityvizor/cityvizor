@@ -33,7 +33,6 @@ export class SiteAdminComponent {
 		
 		if(authService.acl('profile-admin')) this.menuConfig.menu.push({ text: "Profily", link: ["../profily"] });
 		if(authService.acl('user-admin')) this.menuConfig.menu.push({ text: "Uživatelé", link: ["../uzivatele"] });
-		if(authService.acl('entities-admin')) this.menuConfig.menu.push({ text: "Obce", link: ["../obce"] });
 		
 	}
 

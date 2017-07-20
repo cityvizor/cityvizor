@@ -19,8 +19,6 @@ router.use((req, res, next) => {
 
 
 /* GENERAL API */
-router.use("/entities",require("../api/entities"));
-
 router.use("/profiles",require("../api/profiles"));
 
 router.use("/events",require("../api/events"));

@@ -78,8 +78,18 @@ export class SiteAdminProfilesComponent {
 			.catch(err => this.toastService.toast("Nastala neznámá chyba při ukládání profilu.","error"));
 	}
 
+	createProfile(){
+
+		this.dataService.createProfile({})
+			.then(profile => {
+				this.toastService.toast("Profil vytvořen.","notice");
+				this.loadProfiles();
+				this.selectProfile(profile._id);
+			})
+			.catch(err => this.toastService.toast("Nastala chyba při vytváření profilu.","notice"));
+	}
+
 	deleteProfile(profileId){
-		
 	}
 
 	getDetailLink(profileId){

@@ -15,9 +15,9 @@ export class ContractListComponent {
 	/* DATA */
 	@Input()
 	set profile(profile: any){
-		if(profile && this.ico !== profile.entity.ico) {
+		if(profile && this.ico !== profile.ico) {
 			this.profileId = profile._id;
-			this.ico = profile.entity.ico;
+			this.ico = profile.ico;
 			this.loadData();
 		}
 	}
