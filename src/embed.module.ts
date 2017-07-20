@@ -23,13 +23,14 @@ import { MoneyPipe } from './shared/pipes/money.pipe';
 import { ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './shared/pipes/utils.pipe';
 
 // Routes
-//import { routing } from './embed.routing';
+import { routing } from './embed.routing';
 
 @NgModule({
   imports: [
 		BrowserModule,
 		BrowserAnimationsModule,
-		HttpModule
+		HttpModule,
+		routing
 	],
   declarations: [
 		AppComponent,
