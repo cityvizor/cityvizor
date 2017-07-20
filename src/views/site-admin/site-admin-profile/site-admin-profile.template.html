@@ -11,9 +11,9 @@
       <form class="form-horizontal" (submit)="saveProfile(profileForm)" #profileForm="ngForm">
 
         <div class="form-group">
-          <label for="name" class="col-sm-3 control-label">Titulek</label>
+          <label for="name" class="col-sm-3 control-label">Název obce</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="name" name="name" [ngModel]="profile.name" required>
+            <input type="text" class="form-control" id="name" name="name" [ngModel]="profile.name" aria-describedby="help-name" required>
           </div>
         </div>
 
@@ -22,28 +22,51 @@
           <div class="col-sm-9">
             <div class="input-group">
               <span class="input-group-addon">https://cityvizor.cz/profil/</span>
-              <input type="text" class="form-control" id="url" name="url" [ngModel]="profile.url">
+              <input type="text" class="form-control" id="url" name="url" [ngModel]="profile.url" aria-describedby="help-url" required pattern="^[0-9a-zA-Z]+$">
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="obec" class="col-sm-3 control-label">Propojená obec<br>(kód ZÚJ)</label>
+          <label for="ico" class="col-sm-3 control-label">Identifikace obce</label>
           <div class="col-sm-9">
             <div class="input-group">
-              <input type="text" class="form-control" name="entity" #inputEntity [ngModel]="profile.entity._id" required pattern="\d{6}" placeholder="123456">
-              <span class="input-group-addon"><button type="button" (click)="checkEntity(inputEntity.value)">Zkontroluj</button></span>
+              <span class="input-group-addon">IČO</span>
+              <input type="text" class="form-control" id="ico" name="ico" [ngModel]="profile.ico" aria-describedby="help-ico">
+              <span class="input-group-addon">ZÚJ</span>
+              <input type="text" class="form-control" name="zuj" [ngModel]="profile.zuj" aria-describedby="help-ico">
             </div>
-            <span *ngIf="entity && !loadingEntity" class="help-block">{{entity.name}} (IČO: {{entity.ico}}, PSČ: {{entity.address?.postalCode}})</span>
-            <span *ngIf="loadingEntity" class="help-block">hledám obec...</span>
-            <span *ngIf="!entity && entityChecked && !loadingEntity" class="help-block">Obec nenalezena!</span>
           </div>
         </div>
-        
+
+        <div class="form-group">
+          <label for="edesky" class="col-sm-3 control-label">Úřední deska</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <span class="input-group-addon">eDesky</span>
+              <input type="number" class="form-control" id="edesky" name="edesky" [ngModel]="profile.edesky" aria-describedby="help-edesky">
+              <span class="input-group-addon">MapaSamospravy</span>
+              <input type="number" class="form-control" name="mapasamospravy" [ngModel]="profile.mapasamospravy" aria-describedby="help-edesky">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="gps" class="col-sm-3 control-label">Poloha obce</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <span class="input-group-addon">N</span>
+              <input type="number" step="0.000001" class="form-control" id="gps" name="gps1" [ngModel]="profile.gps[1]" aria-describedby="help-gps">
+              <span class="input-group-addon">E</span>
+              <input type="number" step="0.000001" class="form-control" name="gps0" [ngModel]="profile.gps[0]" aria-describedby="help-gps">
+            </div>
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="email" class="col-sm-3 control-label">Kontaktní email</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" id="email" name="email" [ngModel]="profile.email">
+            <input type="email" class="form-control" id="email" name="email" [ngModel]="profile.email" aria-describedby="help-email" required>
           </div>
         </div>
 

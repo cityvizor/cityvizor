@@ -8,10 +8,14 @@ export class Profile {
 		*/
 	_id: string;
 
-	active: boolean;
-	url: string;
-	name: string;
-	entity: any;
-	hiddenModules: string[];
+	"active": boolean;
+	"url": string;
+	"name": string;
+	"entity": any;
+	"hiddenModules": string[];
+	"gps": [number,number];
+	"ico": string;
+	"edesky": number;
+	"mapasamospravy": number	
 
 }

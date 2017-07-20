@@ -12,7 +12,7 @@ var limit = 20;
 module.exports = function(cb){
 
 	// get all the profiles
-	Profile.find({}).populate("entity","ico")
+	Profile.find({})
 		.then(profiles => {
 
 			console.log("Found " + profiles.length + " profiles to download contracts for.");
@@ -56,7 +56,7 @@ function downloadContractsLoop(profiles,cb){
 	let options = {
 		host: 'smlouvy.gov.cz',
 		port: 443,
-		path: "/vyhledavani?searchResultList-limit=" + limit + "&do=searchResultList-setLimit&subject_idnum=" + profile.entity.ico + "&all_versions=0",
+		path: "/vyhledavani?searchResultList-limit=" + limit + "&do=searchResultList-setLimit&subject_idnum=" + profile.ico + "&all_versions=0",
 		method: 'GET'
 	};
 

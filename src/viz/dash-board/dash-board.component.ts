@@ -12,14 +12,6 @@ export class DashboardComponent {
 	
 	@Input()
 	profile:any;
-	
-	days = ["mo","tu","we","th","fr","sa","su"];
-	daysCZ = ["Po","Út","St","Čt","Pá","So","Ne"];
-	
-	hoursOpeningOptions = {
-		"dayStart" : 7,
-		"dayEnd" : 20
-	};
 
  	payments = [];
 	contracts = [];
@@ -64,65 +56,6 @@ export class DashboardComponent {
 		var n = this.dashboard.expenditures.length;
 		return (800 - (n - 1) * 50) / n;
 	}
-	 
-	 
-	hour2string(hour){
-		var parts = hour.split(":");
-		if(parts[1] == "00") return parts[0];
-		return hour;
-	}
-
-	hour2number(hour){
-		var parts = hour.split(":");
-		var number = Number(parts[0]) + (parts[1] ? Number(parts[1]) / 60 : 0);
-		return number;
-	}
-
-	getHoursBarLeft (hours) {
-		// convert hours to number
-		let from = this.hour2number(hours.from);
-		
-		// short for hoursOpeningOptions
-		let options = this.hoursOpeningOptions;
-		
-		// compute left position
-		return Math.round((from - options.dayStart) / (options.dayEnd - options.dayStart) * 100);
-	}
-	getHoursBarWidth (hours) {
-		// convert hours to number
-		let from = this.hour2number(hours.from);
-		let to = this.hour2number(hours.to);
-		
-		// short for hoursOpeningOptions
-		let options = this.hoursOpeningOptions;
-		
-		// compute width
-		return Math.round((to - from) / (options.dayEnd - options.dayStart) * 100);
-	}
-	 
-	dashboardData = {
-		"Years" : [2013, 2014, 2015, 2016],
-		"Inc" : {
-			"YearAmounts" : [2000000,3000000,2700000,3200000],
-			"MaxYearAmount" : 3000000,
-			"YearParts" : [
-				[1000000,500000,200000,300000],
-				[1200000,1300000,220000,280000],
-				[1300000,1000000,200000,200000],
-				[1500000,1200000,200000,300000]
-			]
-		},
-		"Exp" : {
-			"YearAmounts" : [1800000,2800000,2200000,3500000],
-			"MaxYearAmount" : 3000000,
-			"YearParts" : [
-				[300000,1000000,500000],
-				[600000,1200000,1000000],
-				[400000,1000000,800000],
-				[900000,1500000,1100000]
-			]
-		}
-	}; 
 	 
 	svgPointString (x,y) {
 			return x + ' ' + y;

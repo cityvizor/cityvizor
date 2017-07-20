@@ -20,25 +20,17 @@ export class ProfileAdminProfileComponent {
 	constructor(private toastService:ToastService) {
 	}
 	 
-	 getEntityString(){
-		 if(!this.profile.entity) return "N/A";
-		 var info = {
-			 "PSČ": this.profile.entity.address ? this.profile.entity.address.postalCode : "",
-			 "ZÚJ": this.profile.entity._id,
-			 "IČO": this.profile.entity.ico
-		 };
-		 
-		 var ids = Object.keys(info).map(key => key + ": " + info[key]).join(", ");
-		 
-		 return this.profile.entity.name + " (" + ids + ")";
-	 }
-	 
 	saveProfile(form){
 		
 		if(form.valid){	
 			
 			var profileData = form.value;
+			
 			profileData._id = this.profile._id;
+			
+			profileData.gps = [profileData.gps0, profileData.gps1];
+			delete profileData.gps0;
+			delete profileData.gps1;
 			
 			this.save.emit(profileData);
 		}

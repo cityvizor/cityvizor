@@ -56,6 +56,10 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId).toPromise().then(response => response.json());
 	}
 	
+	createProfile(profile){
+		return this.http.post("/api/profiles",profile).toPromise().then(response => response.json());
+	}
+	
 	saveProfile(profile){
 		return this.http.post("/api/profiles/" + profile._id,profile).toPromise().then(response => response.json());
 	}
