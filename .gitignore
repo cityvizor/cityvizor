@@ -2,16 +2,16 @@
 /dist
 
 # sensitive data
-/server/config/config.development.js
-/server/config/config.production.js
-/server/config/config.reference.js
 /server/cert/*
+/server/config/config.*.js
+!/server/config/config.example.js
 
 # dependencies
 /node_modules
 
 # data
-/data/*
+/imports/events/*
+/imports/expenditures/*
 /exports/*
 /uploads/*
 !.gitkeep

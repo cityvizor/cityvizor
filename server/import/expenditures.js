@@ -7,7 +7,7 @@ var Budget = ExpendituresSchema.Budget;
 var Event = ExpendituresSchema.Event;
 var Payment = ExpendituresSchema.Payment;
 
-var config = require("../config/config.js").import;
+var importConfig = require("../config/import-config.js");
 
 class ExpendituresImporter {
 
@@ -81,7 +81,7 @@ class ExpendituresImporter {
 			parser.on("data", line => {
 				
 				if(parser.count === 1){
-					headerMap = this.makeHeaderMap(config.events,line);
+					headerMap = this.makeHeaderMap(importConfig.events,line);
 					return;
 				}
 				
@@ -162,7 +162,7 @@ class ExpendituresImporter {
 			parser.on("data",row => {
 				
 				if(parser.count === 1){
-					headerMap = this.makeHeaderMap(config.expenditures,row);
+					headerMap = this.makeHeaderMap(importConfig.expenditures,row);
 					return;
 				}
 				

@@ -1,5 +1,5 @@
-<button class="btn btn-sm btn-default btn-infoModal pull-right"  (click)="infoModal.show();">
-	<i class="fa fa-question-circle"></i> Informace
+<button class="btn btn-lg btn-default btn-infoModal pull-right"  (click)="infoModal.show();">
+	<i class="fa fa-question-circle"></i>
 </button>
 
 <div class="row">
@@ -36,7 +36,7 @@
 							<strong>{{groupIndex[state.group].title}}</strong>
 				</button>
 				<button type="button" class="btn btn-lg btn-red" *ngIf="!state.group">
-							<strong>Vyberte skupinu</strong>
+							<strong>Vyberte skupinu...</strong>
 				</button>
 				<button type="button" class="btn btn-lg btn-label">
 					<div class="row">
@@ -123,18 +123,31 @@
 						</div>
 						<div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
 							<div class="row">
-								<div class="col-xs-4">
-									<chart-donut [data]="getDonutChartData(paragraph)"></chart-donut>
-								</div>
-								<div class="col-xs-8">
-									<strong>Rozpočet: {{paragraph.budgetExpenditureAmount | money:0:true}} Kč</strong>
-									<br>
-									<span style="color:#E73431;">&#9632;</span> Čerpáno: {{paragraph.expenditureAmount | money:0:true}} Kč
-									<br>
-									<span *ngIf="paragraph.expenditureAmount <= paragraph.budgetExpenditureAmount">
-										<span style="color:#ff9491;">&#9632;</span> Zbývá: {{paragraph.budgetExpenditureAmount - paragraph.expenditureAmount | money:0:true}} Kč
-									</span>
-									<span *ngIf="paragraph.expenditureAmount > paragraph.budgetExpenditureAmount">Překročeno o {{paragraph.expenditureAmount - paragraph.budgetExpenditureAmount | money:0:true}} Kč</span> 
+								<div class="col-xs-12">
+									<table class="table graftable table-responsive small">
+										<thead>
+											<tr><th colspan=3>Stav čerpání rozpočtu</th></tr>
+										</thead>
+										<tbody>
+											<tr>
+													<td rowspan=3><chart-donut [data]="getDonutChartData(paragraph)"></chart-donut></td>
+													<td>Rozpočet</td>
+													<td>{{paragraph.budgetExpenditureAmount | money:0:true}} Kč</td>
+											</tr>
+											<tr>
+													<td><span style="color:#E73431;">&#9632;</span> Čerpáno</td>
+													<td>{{paragraph.expenditureAmount | money:0:true}} Kč</td>
+											</tr>
+											<tr *ngIf="paragraph.expenditureAmount <= paragraph.budgetExpenditureAmount">
+													<td><span style="color:#ff9491;">&#9632;</span> Zbývá</td>
+													<td>{{paragraph.budgetExpenditureAmount - paragraph.expenditureAmount | money:0:true}} Kč</td>
+											</tr>
+											<tr *ngIf="paragraph.expenditureAmount > paragraph.budgetExpenditureAmount">
+													<td colspan=3>Překročeno o {{paragraph.expenditureAmount - paragraph.budgetExpenditureAmount | money:0:true}} Kč</td>
+											</tr>
+										</tbody>
+									</table>
+									
 								</div>
 							</div>
 						</div>
