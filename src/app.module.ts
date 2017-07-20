@@ -4,6 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http, RequestOptions }     from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
+import { SharedModule } from './shared.module';
+
 import { AppComponent }  from './app.component';
 
 // Views components
@@ -55,15 +57,6 @@ import { FileUploadModule } from 'ng2-file-upload';
 // Shared coremponents
 import { HeaderMenuComponent } 		from './shared/components/header-menu/header-menu.component';
 import { ProfileHeaderComponent } 		from './shared/components/profile-header/profile-header.component';
-import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart-bigbang.component';
-import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
-import { ChartBudgetComponent } 		from './shared/components/chart-budget/chart-budget.component';
-import { BudgetsListComponent } 		from './shared/components/budgets-list/budgets-list.component';
-
-// Pipes
-import { MoneyPipe } from './shared/pipes/money.pipe';
-import { AddressPipe, PostalCodePipe } from './shared/pipes/address.pipe';
-import { ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './shared/pipes/utils.pipe';
 
 // Routes
 import { routing } from './app.routing';
@@ -80,6 +73,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
 @NgModule({
   imports: [
+		SharedModule,
 		BrowserModule,
 		BrowserAnimationsModule,
 		HttpModule,
@@ -95,8 +89,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
 		/* Service Desk */ UserAdminAccountComponent,
-		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent, ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, BudgetsListComponent, 
-		/* PIPES */ MoneyPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
+		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent,
+		
 	],
 	providers: [
 		DataService, YQLService, ToastService, AuthService,

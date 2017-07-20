@@ -10,7 +10,9 @@ module.exports = {
   
   cron: {
     enable: true,
-    time: "00 00 01 * * *"
+    time: "00 00 01 * * *",
+    startDelay: 20,
+    jobDelay: 5
   },
   
   server: {
