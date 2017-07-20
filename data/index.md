@@ -7,28 +7,38 @@ menu: data
 * TOC
 {:toc}
 
-## Obecné informace
+## Profily zveřejňujících obcí
+
+### Popis
 
 Data jsou aktualizována jednou denně hodinu po půlnoci.
 
-## Datové výstupy
+### Struktura
 
-### Profily zveřejňujících obcí
-
-#### Popis
-
-#### Struktura
-
-#### Data ke stažení
+### Data ke stažení
 - [JSON](https://cityvizor.cz/exports/profiles.json.zip)
 - [CSV](https://cityvizor.cz/exports/profiles.csv.zip)
 
-### Obecní rozpočty
+## Obecní rozpočty
 
-#### Popis
+### Popis
 
-#### Struktura
+Data jsou aktualizována jednou denně hodinu po půlnoci.
 
-#### Data ke stažení
+### Struktura
+
+### Data ke stažení
 - [JSON](https://cityvizor.cz/exports/budgets.json.zip)
 - [CSV](https://cityvizor.cz/exports/budgets.csv.zip)
+
+## Číselníky investičních projektů
+
+### Popis
+
+Data jsou aktualizována jednou denně hodinu po půlnoci.
+
+### Struktura
+
+### Data ke stažení
+- [JSON](https://cityvizor.cz/exports/events.json.zip)
+- [CSV](https://cityvizor.cz/exports/events.csv.zip)
