@@ -16,7 +16,7 @@ router.get("/data", (req,res) => res.sendStatus(404));
 
 router.get("/favicon.ico", (req,res) => res.sendStatus(404));
 
-router.get('/embed',(req,res) => {
+router.get('/embed/*',(req,res) => {
 	res.sendFile("dist/embed/embed.index.html", { root: __dirname + "/../.." });	
 });
 

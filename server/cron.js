@@ -2,8 +2,10 @@ var CronJob = require('cron').CronJob;
 
 var mongoose = require('mongoose');
 
+var config = require("./config/config");
+
 var job = new CronJob({
-  cronTime: '00 00 01 * * *',
+  cronTime: config.cron.time,//'00 00 01 * * *',
   onTick: function() {
 
     console.log("##### MIDNIGHT CRON RUN #####");
@@ -23,7 +25,7 @@ var job = new CronJob({
         mongoose.Promise = global.Promise;
         mongoose.plugin(require('mongoose-write-stream'));
         mongoose.plugin(require('mongoose-paginate'));
-        mongoose.connect('mongodb://localhost/cityvizor');
+        mongoose.connect('mongodb://localhost/' + config.database.db);
         console.log("DB connecting...");
       }
       else console.log("DB connected already");
@@ -34,9 +36,11 @@ var job = new CronJob({
 
       tasks.push(require("./tasks/export-profiles-json"));
       tasks.push(require("./tasks/export-profiles-csv"));
-      tasks.push(require("./tasks/export-entities-json"));
       tasks.push(require("./tasks/export-budgets-json"));
-      tasks.push(require("./tasks/update-contracts"));
+      tasks.push(require("./tasks/export-budgets-csv"));
+      tasks.push(require("./tasks/export-events-json"));
+      tasks.push(require("./tasks/export-events-csv"));
+      tasks.push(require("./tasks/download-contracts"));
 
       // loop through the tasks one by one
       runTaskLoop(tasks,() => {
@@ -66,9 +70,9 @@ function runTaskLoop(tasks,cb){
 
   task(() => {
     console.log("===================================");
-    console.log("Wait 5 sec");
+    console.log("Wait 2 sec");
 
-    if(tasks.length) setTimeout(() => runTaskLoop(tasks,cb),5000);
+    if(tasks.length) setTimeout(() => runTaskLoop(tasks,cb),2000);
     else cb();
   });
 }

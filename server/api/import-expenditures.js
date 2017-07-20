@@ -6,7 +6,7 @@ var router = module.exports = express.Router();
 var config = require("../config/config.js");
 
 var multer = require('multer');
-var upload = multer({ dest: config.uploads.dir });
+var upload = multer({ dest: config.uploads.saveDir });
 
 var fs = require("fs");
 
@@ -44,8 +44,8 @@ router.post("/", schema.validate({body: expendituresSchema}), upload.fields([{ n
 	importer.import(params)
 		.then(result => {
 			res.json(result);
-			fs.rename(req.files.eventsFile[0].path,config.import.saveDir + "/" + params.profileId + "-" + params.year + ".events.csv");
-			fs.rename(req.files.expendituresFile[0].path,config.import.saveDir + "/" + params.profileId + "-" + params.year + ".expenditures.csv");
+			fs.rename(req.files.eventsFile[0].path,config.import.saveDir + "/events/" + params.profileId + "-" + params.year + ".csv");
+			fs.rename(req.files.expendituresFile[0].path,config.import.saveDir + "/expenditures/" + params.profileId + "-" + params.year + ".csv");
 		})
 		.catch(err => {
 			fs.unlink(req.files.eventsFile[0].path);

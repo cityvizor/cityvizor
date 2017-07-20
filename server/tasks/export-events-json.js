@@ -2,18 +2,20 @@
 var archiver = require("archiver");
 var fs = require("fs");
 
-var Budget = require("../models/expenditures").Budget;
+var Event = require("../models/expenditures").Event;
 
 var config = require("../config/config");
 
 module.exports = function(cb){
 
-	var path = __dirname + "/../../" + config.export.saveDir + '/budgets.json.zip';
+	var path = __dirname + "/../../" + config.export.saveDir + '/events.json.zip';
 	var file = fs.createWriteStream(path);
 	
 	file.on("close",() => {
-		console.log("Budgets exported to " + path);
+		console.log("Events exported to " + path);
+
 		cb();
+		
 	});
 
 	var archive = archiver("zip");
@@ -22,10 +24,8 @@ module.exports = function(cb){
 		cb();
 	});
 	archive.pipe(file);
-	
-	
 
-	Budget.find({}).populate("profile","name url entity")
+	Event.find({})
 		.then(items => {
 			items.forEach(item => archive.append(JSON.stringify(item),{"name": item.profile._id + "-" + item.year + ".json"}));
 			archive.finalize();

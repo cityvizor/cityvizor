@@ -4,11 +4,11 @@ var fs = require("fs");
 
 var Profile = require("../models/profile");
 
-var exportsDir = __dirname + "/../../exports";
+var config = require("../config/config");
 
 module.exports = function(cb){
 
-	var path = exportsDir + '/profiles.csv.zip';
+	var path = __dirname + "/../../" + config.export.saveDir + '/profiles.csv.zip';
 	var file = fs.createWriteStream(path);
 	
 	file.on("close",() => {
