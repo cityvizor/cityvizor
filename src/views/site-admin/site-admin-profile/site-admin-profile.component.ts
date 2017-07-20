@@ -5,7 +5,6 @@ import { DataService } 		from '../../../services/data.service';
 import { ToastService } 		from '../../../services/toast.service';
 
 import { Profile } from "../../../shared/schema/profile";
-import { Entity } from "../../../shared/schema/entity";
 
 //00006947
 @Component({
