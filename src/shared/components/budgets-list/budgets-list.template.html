@@ -1,8 +1,8 @@
 <div class="btn-group" *ngIf="selectedBudget">
-  <button type="button" class="btn btn-red">
+  <button type="button" class="btn btn-lg btn-red">
         <strong>{{selectedBudget.year}}</strong>
   </button>
-  <button type="button" class="btn btn-default btn-label bl-btn-selected bl-budget">
+  <button type="button" class="btn btn-lg btn-default btn-label bl-btn-selected bl-budget">
     <div class="row">
       <div class="col-xs-3 text-right">
         <strong>Rozpočet</strong>
@@ -28,7 +28,7 @@
   </button>
   
   <div class="btn-group" dropdown>
-    <button dropdownToggle type="button" class="btn btn-blue dropdown-toggle">
+    <button dropdownToggle type="button" class="btn btn-lg btn-blue dropdown-toggle">
       Vyberte rok<span class="caret"></span>
     </button>
     <ul *dropdownMenu class="dropdown-menu" role="menu">
@@ -48,10 +48,10 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-xs-2">
+              <div class="col-xs-3">
                 <strong>Rozpočet</strong>
               </div>
-              <div class="col-xs-5">
+              <div class="col-xs-4">
                 <span class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(budget) / maxAmount * 100) + '%'"></span>
               </div>
               <div class="col-xs-5 text-right">
@@ -59,10 +59,10 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-xs-2">
+              <div class="col-xs-3">
                 <strong>Plnění</strong>
               </div>
-              <div class="col-xs-5">
+              <div class="col-xs-4">
                 <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(budget) / maxAmount * 100) + '%'"></span>
               </div>
               <div class="col-xs-5 text-right">

@@ -41,6 +41,9 @@ header a, header a:hover {color:white;text-decoration: none;}
 	z-index: 1;
 }
 
+.navbar-collapse {
+	padding: 0px;
+}
 
 nav .container-fluid, nav, nav-collapse {
 	margin: 0px;

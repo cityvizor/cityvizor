@@ -1,48 +1,5 @@
 * {opacity:inherit;}
 
-.address{
-	white-space: pre-line;
-}
-
-.rowHours {
-	font-size: 0.8em;
-	line-height: 1em;
-	margin-bottom: .5em;
-}
-.barHours {
-	height: 1.1em; background: #f3f3f3; margin: 0px 0%;
-}	
-.barHoursOpened {
-	background: #2581C4; height: 100%; position: absolute; top: 0;
-}	
-.titleHours {
-	position: absolute;
-	color: #FFF;
-	height: 100%;
-	top: 0;
-}	
-.titleHoursStart {
-	left: 2px;
-}	
-.titleHoursEnd { 
-	right: 2px;
-}
-.dayTitle {
-	font-weight: bold;
-}
-profile-map {
-	width: 100%; height: auto;
-}
-
-.text-specFaktura {
-	color: #ADF;
-}
-.text-specSmlouva {
-	color: #ff9491;
-}
-.text-specInvesticniAkce {
-	color: #7fff00;
-}
 .news {
 	margin: 10px 0px;
 }
@@ -66,3 +23,12 @@ background: linear-gradient(to right, transparent 0%, transparent 50%, #eee 50%,
 .budgets .label{margin:0px auto;}
 
 .generalinfo{margin:50px 0;}
+
+.vertical-align {
+  display: flex;
+}
+.vertical-align-end {   
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}

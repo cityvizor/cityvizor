@@ -6,10 +6,14 @@
   "repository": "otevrena-data-mfcr/CityVizor",
   "main": "server/server.js",
   "scripts": {
-    "start": "NODE_ENV=production node server/server.js",
+    "start": "npm run build && npm run prod",
+    "prod": "NODE_ENV=production node server/server.js",
+    "stage": "NODE_ENV=staging node server/server.js",
     "dev": "NODE_ENV=development concurrently \"ng build --watch --dev --progress false\" \"nodemon server/server.js\"",
     "build": "ng build --prod --app=0 && ng build --prod --app=1",
     "log": "tail -f /var/log/cityvizor.log",
+    "install-service": "forever-service install cityvizor -s server/server.js -e \"NODE_ENV=production\"",
+    "delete-service": "forever-service delete cityvizor",
     "update": "service cityvizor stop && git pull && npm run build && service cityvizor start"
   },
   "keywords": [

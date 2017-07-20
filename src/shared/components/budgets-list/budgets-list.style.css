@@ -19,7 +19,7 @@ th{text-align:right;padding:0 10px;}
 .budget .bar{background-color:#adf;}
 .expenditure .bar{background-color:#2581C4;}
 
-.bl-budget {min-width:300px; font-size: 10px; line-height: 10px;}
+.bl-budget {min-width:300px; font-size: 12px; line-height: 12px;}
 .bl-budget.bl-budget-spacing {margin: 10px 0px;}
 .bl-labels { font-size: 14px;margin-bottom: 10px; }
 

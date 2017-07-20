@@ -24,7 +24,7 @@ export class NoticeBoardComponent {
 			this.mapURL = this.sanitizer.bypassSecurityTrustResourceUrl("https://mapasamospravy.cz/embed?q[lau_id_eq]=" + profile.entity.mapasamospravy + "#14/" + profile.entity.gps[1] + "/" + profile.entity.gps[0]);
 			
 			this.yql.query("select documents from xml where url = 'https://edesky.cz/api/v1/documents?dashboard_id=" + profile.entity.edesky + "&order=date&search_with=sql&page=1'")
-				.then(data => data.query.results.edesky_search_api.documents.document)
+				.then(data => data.query.results ? data.query.results.edesky_search_api.documents.document : [])
 				.then(documents => this.documents = documents);
 		}
 	}
