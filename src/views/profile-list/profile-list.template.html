@@ -37,9 +37,9 @@
 					
 					<!-- MĚSTA -->
 					<div class="mesta">
-						<div *ngFor="let profile of profiles" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.entity.gps)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
-							<span class="name">{{profile.entity.name}}</span>
-							<span class="gps">{{gps2string(profile.entity.gps)}}</span>
+						<div *ngFor="let profile of profiles" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.gps)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
+							<span class="name">{{profile.name}}</span>
+							<span class="gps">{{gps2string(profile.gps)}}</span>
 						</div>
 					</div>
 				</div>
@@ -67,7 +67,7 @@
 									<h4>{{letter.letter}}</h4>
 									<div class="column">
 										<span *ngFor="let profile of letter.profiles">
-											<a *ngIf="!_search || profile.searchString.match(_search)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null" class="entityListItem">{{profile.entity?.name}}</a>
+											<a *ngIf="!_search || profile.searchString.match(_search)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null" class="entityListItem">{{profile.name}}</a>
 										</span>
 									</div>						
 								</div>

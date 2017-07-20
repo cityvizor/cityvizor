@@ -14,7 +14,7 @@ import { Entity } from "../../../shared/schema/entity";
 	templateUrl: 'site-admin-profile.template.html',
 	styleUrls: ['site-admin-profile.style.css']
 })
-export class SiteAdminProfileComponent implements OnChanges {
+export class SiteAdminProfileComponent {
   
 	@Input()
 	profile:Profile;
@@ -27,51 +27,32 @@ export class SiteAdminProfileComponent implements OnChanges {
 	 
 	@Output()
 	close:EventEmitter<any> = new EventEmitter;
-	 
-	entity:Entity;
-	 
-	entityChecked:boolean = false;
-	loadingEntity:boolean = false;
 
 	constructor(private dataService: DataService, private toastService: ToastService) {
 	}
 	 
-	ngOnChanges(changes: SimpleChanges){
-		if(this.profile && changes.profile) this.checkEntity(this.profile.entity._id);
-	}
-	 
 	deleteProfile(){
-		var confirmation = window.confirm("Opravdu chcete smazat profil " + this.profile.name + " (" + this.profile._id + ")?");
+		window.alert("Profil může smazat pouze admin v databázi. To je proto, aby nikdo nesmazal profil omylem.");
 
-		if(confirmation) this.delete.emit(this.profile._id);
+		//if(confirmation) this.delete.emit(this.profile._id);
 	}
 	 
 	saveProfile(form){
 		if(form.valid){
-			form.value._id = this.profile._id;
-			this.save.emit(form.value)
+			
+			let profileData = form.value;
+			
+			profileData._id = this.profile._id;
+			
+			profileData.gps = [profileData.gps0, profileData.gps1];
+			delete profileData.gps0;
+			delete profileData.gps1;
+			
+			this.save.emit(profileData)
 		}
 		else{
 			this.toastService.toast("Formulář není správně vyplněn.","error");
 		}
-	}
-	 
-	checkEntity(entityId){
-		
-		if(this.entity && this.entity._id === entityId) return;
-			 
-		this.loadingEntity = true;
-		this.dataService.getEntity(entityId)
-			.then(entity => {
-				this.entity = entity;
-				this.loadingEntity = false;
-				this.entityChecked = true;
-			})
-			.catch(err => {
-				this.entity = null;
-				this.loadingEntity = false;
-				this.entityChecked = true;
-			});
 	}
 
 }

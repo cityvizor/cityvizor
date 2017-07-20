@@ -14,7 +14,7 @@ router.get("/", acl("profiles","list"), (req,res) => {
 	
 	if(!req.query.hidden) where.active = true;
 	
-	Profile.find(where).select("id name url entity active").populate("entity","id name gps").exec((err, profiles) => {
+	Profile.find(where).select("id name url active gps").exec((err, profiles) => {
 		if (err) return res.next(err);
 		res.json(profiles);
 	});
@@ -31,18 +31,24 @@ router.get("/:profile", acl("profiles","read"), (req,res) => {
 	
 	if(!req.query.hidden) where.active = true;
 	
-	console.log(where);
-	
-	Profile.findOne(where).populate("entity").exec((err, profile) => {
+	Profile.findOne(where).exec((err, profile) => {
 		if(err) return res.sendStatus(500);
 		if(!profile) return res.sendStatus(404);
 		res.json(profile);
 	});
 });
 
+router.post("/", acl("profiles","write"), (req,res) => {
+	
+	Profile.create(req.body)
+		.then(profile => res.json(profile))
+		.catch(err => res.sendStatus(500));
+
+});
+
 router.post("/:profile", acl("profiles","write"), (req,res) => {
 	
-	Profile.findOneAndUpdate({_id:req.params.profile}, req.body, {new:true, runValidators: true}).populate("entity")
+	Profile.findOneAndUpdate({_id:req.params.profile}, req.body, {new:true, runValidators: true})
 		.then(profile => res.json(profile))
 		.catch(err => res.sendStatus(500));
 

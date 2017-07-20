@@ -38,8 +38,6 @@ import { SiteAdminProfilesComponent } from "./views/site-admin/site-admin-profil
 import { SiteAdminProfileComponent } from "./views/site-admin/site-admin-profile/site-admin-profile.component";
 import { SiteAdminUsersComponent } from "./views/site-admin/site-admin-users/site-admin-users.component";
 import { SiteAdminUserComponent } from "./views/site-admin/site-admin-user/site-admin-user.component";
-import { SiteAdminEntitiesComponent } from "./views/site-admin/site-admin-entities/site-admin-entities.component";
-import { SiteAdminEntityComponent } from "./views/site-admin/site-admin-entity/site-admin-entity.component";
 
 // User Admin Components
 import { UserAdminAccountComponent } from "./views/user-admin/user-admin-account/user-admin-account.component";
@@ -87,7 +85,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
 		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
-		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent, SiteAdminEntitiesComponent, SiteAdminEntityComponent,
+		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
 		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent,
 		

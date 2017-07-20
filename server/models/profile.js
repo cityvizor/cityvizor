@@ -1,14 +1,20 @@
 var mongoose = require('mongoose');
 
-var Entity = require("./entity");
-
 var profileSchema = mongoose.Schema({
+	
 	"active": Boolean,
+	"hiddenModules": [String],
+	
 	"url": {type: String, index: true },
 	"name": String,
 	"email": String,
-	"entity": { type: mongoose.Schema.Types.String, ref: 'Entity' },
-	"hiddenModules": [String]
+	
+	"zuj": String,
+	"ico": String,
+	"dataBox": String,
+	"edesky": Number,
+	"mapasamospravy": Number,
+	"gps":[Number,Number]
 });
 
 module.exports = mongoose.model('Profile', profileSchema);

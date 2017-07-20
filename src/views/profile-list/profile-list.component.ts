@@ -75,20 +75,20 @@ export class ProfileListComponent{
 		
 		profiles.forEach((profile,i) => {
 			
-			profile.searchString = this.cleanString(profile.entity.name);
+			profile.searchString = this.cleanString(profile.name);
 			
 			var letter = profile.searchString.substring(0,1).toUpperCase();
 			if(profile.searchString.substring(0,2).toUpperCase() === "CH") letter = "CH";
 			if(!letter.match(/^\w+$/)) letter = "#";
 			
-			var pushEntity = this.letters.some(item => {
+			var pushProfile = this.letters.some(item => {
 				if(item.letter === letter) {
 					item.profiles.push(profile);
 					return true;
 				}
 			});
 			
-			if(!pushEntity) this.letters.push({
+			if(!pushProfile) this.letters.push({
 				"letter": letter,
 				profiles: [profile]
 			});
