@@ -11,7 +11,7 @@ redirect_from: /
 ## O aplikaci
 Aplikace Cityvizor je postavená na otevřených datech o hospodaření měst a obcí. Cílem projektu je nabídnout městům a obcím jednoduchou možnost vizualizovat data o hospodaření a dát je do kontextu takovým způsobem, aby byla srozumitelná pro širší veřejnost. Využití aplikace je nabízeno zdarma každému městu nebo obci, které projeví zájem se zapojit. Je postavena na principu sdílené služby a provoz zajištuje spolek Otevřených měst. Aplikace byla vyvinuta pracovníky Ministerstva financí.
  
-Vývoj probíhal v odboru 47 – Centrální harmonizační jednotka pod záštitou náměstka pro řízení sekce 04 – Finanční řízení a audit Tomášem Vyhnánkem.
+Vývoj probíhal v odboru 47 – Centrální harmonizační jednotka pod záštitou náměstka pro řízení sekce 04 – Finanční řízení a audit Tomáše Vyhnánka.
 
 ## Licence
 
@@ -41,12 +41,12 @@ Podpora pro aktuální verze[^aktualni]
 ### Internet Explorer / Edge
 
 - Edge - netestováno
-- Verze 10 a 11 - omezená funkčnost daná nedostupnými funkcionalitami prohlížeče
-- Verze 9 a nižší - neplánujeme podporu[^IE9]
+- Internet Explorer 10 a 11 - omezená funkčnost daná nedostupnými funkcionalitami prohlížeče
+- Internet Explorer 9 a nižší - neplánujeme podporu[^IE9]
 
 ### Opera
 
-Netestováno.
+Netestováno.[^netestovano]
 
 --------------
 
@@ -54,4 +54,5 @@ Netestováno.
 
 [^IE10-11]: Snažíme se, aby aplikace byla funkční, nicméně nejlepší zážitek nemůžeme zaručit. Úprava někerých funkcionalit aplikace tak, aby byly plně funkční v těchto verzích, by byla příliš náročná. Microsoft navíc omezuje podporu a uvedl svůj nový prohlížeč Edge.
 
-[^IE9]: Bohužel není v našich časových možnostech podporovat Internet Explorer v těchto verzích. U těchto verzí prohlížeče je navíc ukončená podpora společností Microsoft a velmi nízký podíl aktivních uživatelů. Pro použití aplikace si prosím nainstalujte modernejší verzi prohlížeče, či jiný poderní prohlížeč, nebo o to požádejte správce vašeho IT.
+[^IE9]: Bohužel není v našich časových možnostech podporovat Internet Explorer v těchto verzích. U těchto verzí prohlížeče je navíc ukončená podpora společností Microsoft a velmi nízký podíl aktivních uživatelů. Pro použití aplikace si prosím nainstalujte modernejší verzi prohlížeče, jiný moderní prohlížeč, nebo o to požádejte správce vašeho IT.
+[^netestovano]: Testování plánujeme, ale bohužel zatím z časových důvodů nebylo provedeno.
