@@ -8,6 +8,7 @@ menu: navody
 * TOC
 {:toc}
 
+(vzorový dokument)[navody/test.csv]
 
 ## Práce s aplikací
 
