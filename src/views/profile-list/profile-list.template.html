@@ -37,10 +37,12 @@
 					
 					<!-- MĚSTA -->
 					<div class="mesta">
-						<div *ngFor="let profile of profiles" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.gps)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
-							<span class="name">{{profile.name}}</span>
-							<span class="gps">{{gps2string(profile.gps)}}</span>
-						</div>
+						<ng-container *ngFor="let profile of profiles">
+							<div  *ngIf="!_search || profile.searchString.match(_search)" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.gps)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
+								<span class="name">{{profile.name}}</span>
+								<span class="gps">{{gps2string(profile.gps)}}</span>
+							</div>
+						</ng-container>
 					</div>
 				</div>
 			</div>
