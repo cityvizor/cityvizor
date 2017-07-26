@@ -218,12 +218,10 @@ export class ExpenditureVizComponent{
 			var groupId = paragraph.id.substring(0, 2);	
 			
 			if(this.groupIndex[groupId]){
-				
-				let group = this.groupIndex[groupId];
 			
-				group.budgetAmount += paragraph.budgetExpenditureAmount;
-				group.amount += paragraph.expenditureAmount;
-				group.paragraphs.push(paragraph);
+				this.groupIndex[groupId].budgetAmount += paragraph.budgetExpenditureAmount;
+				this.groupIndex[groupId].amount += paragraph.expenditureAmount;
+				this.groupIndex[groupId].paragraphs.push(paragraph);
 			}
 		});
 		

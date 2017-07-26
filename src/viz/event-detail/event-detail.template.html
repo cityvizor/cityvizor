@@ -1,63 +1,121 @@
 <div *ngIf="event">
-	<div class="alert alert-info hidden">
-		<strong>Popis investiční akce:</strong> Dům by měl zajistit komunitní bydlení pro starší, stále soběstačné lidi, s možností si přiobjednat různé služby od jejich poskytovatelů. Nájemníci musí splnit určitá kritéria, aby byl dodržen účel, za kterým byl dům postaven, což se týká například výše příjmu či absence vlastnictví jiného bydlení. Nájem má být srovnatelný s ostatními byty v majetku města.
-		Na stavbu komunitního domu s dvaadvaceti byty, který vyjde na zhruba pětadvacet milionů, získalo město příslib evropské dotace ve výši dvanáct a půl milionu korun.
-		<strong>Pouze ilustrativní popis investiční akce!</strong>
-	</div>
+	<h2>{{event.name}}</h2>
 	
-	<ul class="hidden">
-		<li *ngFor="let historyEvent of history">{{historyEvent.year}} - {{historyEvent.srcId}} - {{historyEvent.name}}</li>
-	</ul>
-
-	<h2>{{ event.name }}</h2>
+	<tabset>
+    <tab heading="Faktury a platby">
+			
+			<h3>Celkové výdaje</h3>
+			<table *ngIf="counterparties" class="table table-responsive table-title-number-number">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="text-right">
+							Rozpočtovaná částka
+						</th>
+						<th class="text-right">
+							Skutečné výdaje
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="3" class="td-zerosidepadding">
+							<table class="table table-responsive borderless small table-title-number-number-td table-nobottommargin">
+								<tbody>
+									<tr *ngFor="let paragraph of event.paragraphs; let i = index">
+										<td>§ {{paragraph.id}} - {{paragraphNames[paragraph.id]}}</td>
+										<td class="text-right">{{paragraph.budgetExpenditureAmount | money:0:false}} Kč</td>
+										<td class="text-right">{{paragraph.expenditureAmount | money:0:false}} Kč</td>
+									</tr>
+								</tbody>	
+							</table>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td><strong>Celková suma</strong></td>
+						<td class="text-right"><strong>{{event.budgetExpenditureAmount | money:0:false}} Kč Kč</strong></td>
+						<td class="text-right"><strong class="text-red">{{event.expenditureAmount | money:0:false}} tis. Kč</strong></td>
+					</tr>
+				</tfoot>
+			</table>
+			
+			<h3>Faktury a platby</h3>
+			<table *ngIf="counterparties" class="table table-responsive">
+				<thead>
+					<tr>
+						<th>Dodavatel</th>
+						<th class="text-right">Celková částka</th>
+					</tr>
+				</thead>
+				<tbody>
+					<ng-container *ngFor="let counterparty of counterparties|array">
+						<tr>
+							<td>
+								<strong>{{counterparty.name}}</strong> 
+								<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+counterparty.id+'&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES" class="text-muted small">IČO {{counterparty.id}}</a>
+							</td>
+							<td class="text-right">
+								<strong [class.text-success]="counterparty.sums.saldo>0"
+												 [class.text-red]="counterparty.sums.saldo<0">
+									{{counterparty.sums.saldoAbsolute | money:0:false}} Kč
+								</strong>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" class="td-zerosidepadding">
+								<table class="table table-responsive borderless small table-label-date-title-number table-nobottommargin">
+									<tr *ngFor="let payment of counterparty.incomes;let j = index">
+										<td>
+											<span class="label label-success">Příjem</span>
+										</td>
+										<td>{{payment.date | date:"d. M. y"}}</td>
+										<td>{{payment.description}}</td>
+										<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+									</tr>
+									<tr *ngFor="let payment of counterparty.expenditures;let j = index">
+										<td>
+											<span class="label label-red">Výdej</span>
+										</td>
+										<td>{{payment.date | date:"d. M. y"}}</td>
+										<td>{{payment.description}}</td>
+										<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+									</tr>
+									<tr *ngIf="!counterparty.incomes.length && !counterparty.expenditures.length">
+										<td colspan="4" class="text-muted text-center">
+											<i class="fa fa-exclamation-circle fa-2x"></i>
+											<p class="text-muted">Žádné faktury či výdaje k zobrazení.</p>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</ng-container>
+				</tbody>
+			</table>
+		</tab>
+    <tab heading="Příjmové položky">
+			<h3>Celkové příjmy</h3>
+			<table *ngIf="event.budgetIncomeAmount" class="table table-responsive">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="text-right">Částka</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Rozpočtovaná částka</td>
+						<td class="text-right">{{event.budgetIncomeAmount | money:0:false}} Kč</td>
+					</tr>
+					<tr>
+						<td>Skutečný příjen</td>
+						<td class="text-right">{{event.incomeAmount | money:0:false}} Kč</td>
+					</tr>
+				</tbody>
+			</table>
+		</tab>
+  </tabset>
 	
-	<h3>Faktury a platby</h3>
-
-
-	<table *ngIf="counterparties" class="table table-responsive">
-		<thead>
-			<tr>
-				<th>Dodavatel</th>
-				<th class="text-right">Celková částka</th>
-			</tr>
-		</thead>
-		<tbody>
-			<ng-container *ngFor="let counterparty of counterparties|array">
-				<tr>
-					<td><strong>{{counterparty.name}}</strong> <span class="text-muted small">(IČO {{counterparty.id}})</span></td>
-					<td class="text-right">
-						<strong [class.text-success]="counterparty.sums.saldo>0"
-										 [class.text-red]="counterparty.sums.saldo<0">
-							{{counterparty.sums.saldoAbsolute | money:0:false}} Kč
-						</strong>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<table class="table table-responsive borderless small table-label-date-title-number">
-							<tr *ngFor="let payment of counterparty.incomes;let j = index">
-								<td>
-									<span class="label label-success">
-										<i class="fa fa-plus-circle"></i> Příjem
-									</span>
-								</td>
-								<td>{{payment.date | date:"d. M. y"}}</td>
-								<td>{{payment.description}}</td>
-								<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
-							</tr>
-							<tr *ngFor="let payment of counterparty.expenditures;let j = index">
-								<td>
-									<span class="label label-red">
-										<i class="fa fa-minus-circle"></i> Výdej
-									 </span>
-								</td>
-								<td>{{payment.date | date:"d. M. y"}}</td>
-								<td>{{payment.description}}</td>
-								<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
-							</tr>
-						</table>
-				</tr>
-			</ng-container>
-		</tbody>
-	</table>
 </div>

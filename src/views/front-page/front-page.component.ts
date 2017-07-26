@@ -28,8 +28,8 @@ textarea:focus, input:focus{
 
 #headerVyberObce {
   display: block;  padding: 50px 0px 20px 0px;
-  background: url('/assets/img/polepozadi3.jpg') no-repeat; 
-  background-size: cover; background-position: center -60px; 
+  background: url('/assets/img/polepozadi5.jpg') no-repeat; 
+  background-size: cover; background-position: center -10px; 
   text-align: center;
   border-bottom: 10px solid #2581c4;
   max-height: 300px;

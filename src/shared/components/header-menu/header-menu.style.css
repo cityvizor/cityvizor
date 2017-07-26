@@ -10,7 +10,6 @@ header {
 header .btn {    
   color: white;
   border: none;
-	font-size: 1.5em;
 	box-shadow: none;
 }
 header .btn:hover span {
