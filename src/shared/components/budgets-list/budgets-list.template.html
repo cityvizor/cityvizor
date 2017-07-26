@@ -4,18 +4,7 @@
   </button>
   <button type="button" class="btn btn-lg btn-default btn-label bl-btn-selected bl-budget">
     <div class="row">
-      <div class="col-xs-3 text-right">
-        <strong>Rozpočet</strong>
-      </div>
-      <div class="col-xs-4 text-left">
-        <span class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(selectedBudget) / maxAmount * 100) + '%'"></span>
-      </div>
-      <div class="col-xs-5 text-right">
-        {{getBudgetAmount(selectedBudget) | money:0:false}} Kč
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3 text-right">
+      <div class="col-xs-3 text-left">
         <strong>Plnění</strong>
       </div>
       <div class="col-xs-4 text-left">
@@ -25,11 +14,22 @@
         {{getAmount(selectedBudget) | money:0:false}} Kč
       </div>
     </div>
+    <div class="row">
+      <div class="col-xs-3 text-left">
+        <strong>Rozpočet</strong>
+      </div>
+      <div class="col-xs-4 text-left">
+        <span class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(selectedBudget) / maxAmount * 100) + '%'"></span>
+      </div>
+      <div class="col-xs-5 text-right">
+        {{getBudgetAmount(selectedBudget) | money:0:false}} Kč
+      </div>
+    </div>
   </button>
   
-  <div class="btn-group" dropdown>
+  <div *ngIf="budgets.length > 1" class="btn-group" dropdown>
     <button dropdownToggle type="button" class="btn btn-lg btn-blue dropdown-toggle">
-      Vyberte rok<span class="caret"></span>
+      Vyberte rok <span class="caret"></span>
     </button>
     <ul *dropdownMenu class="dropdown-menu" role="menu">
       <li role="menuitem" *ngFor="let budget of budgets" (click)="selectBudget(budget)">

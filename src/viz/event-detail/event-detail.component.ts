@@ -22,6 +22,9 @@ export class EventDetailComponent implements OnChanges {
 	@Input()
 	eventid:string;
 	
+	@Input()
+	openTab:string;
+	
 	event:any;
 	
 	history:any[];
@@ -38,6 +41,8 @@ export class EventDetailComponent implements OnChanges {
 	}
 
 	loadBudget(eventId){
+		this.event = null;
+		
 		this.dataService.getEvent(eventId)
 			.then(event => {
 				

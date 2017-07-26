@@ -4,6 +4,18 @@ table.table-title-number-number thead tr th:nth-child(1) { width: 60%; }
 table.table-title-number-number thead tr th:nth-child(2) { width: 20%; }
 table.table-title-number-number thead tr th:nth-child(3) { width: 20%; }
 
+table.table-title-number-number-td tbody tr td:nth-child(1) { width: 60%; }
+table.table-title-number-number-td tbody tr td:nth-child(2) { width: 20%; }
+table.table-title-number-number-td tbody tr td:nth-child(3) { width: 20%; }
+
+table td.td-zerosidepadding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+table.table-nobottommargin {
+  margin-bottom: 0px;
+}
 
 table.table-label-date-title-number tr > *:nth-child(1) { width: 15%; }
 table.table-label-date-title-number tr > *:nth-child(2) { width: 15%; }

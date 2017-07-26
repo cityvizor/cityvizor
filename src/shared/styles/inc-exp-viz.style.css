@@ -6,11 +6,14 @@ h4{font-weight:normal !important;}
 
 .arrow_groupselecthint {
 	position: absolute;
-	top: 10px;
-	left: 30px;
-	height: 100px;
-	width: 200px;
-	background: url('/assets/img/arrow_groupselecthint.svg') no-repeat cover; 
+	top: 60px;
+	left: 130px;
+	height: 50px;
+	width: 250px;
+}
+.arrow_groupselecthint svg {
+	height: 100%;
+	width: 100%;
 }
 /* BIG BANG CHART */
 #bigbang{
@@ -169,6 +172,9 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 .btn-group-selected .btn-group, .btn-group-selected .btn {
 	position: static;
 	white-space: normal;
+}
+.btn-group-selected .btn-initial {
+	position: relative;
 }
 .btn-group-selected .btn-blue {
   min-width: 130px;
