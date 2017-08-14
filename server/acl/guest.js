@@ -11,7 +11,7 @@ module.exports = {
 	},
 	
 	"profiles": {
-		"read": req => req.query.hidden ? false : true,
+		"read": true,//req => req.query.hidden ? false : true,
 		"list": req => req.query.hidden ? false : true
 	},
 	

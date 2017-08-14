@@ -29,8 +29,6 @@ router.get("/:profile", acl("profiles","read"), (req,res) => {
 	if(req.params.profile.match(/^[0-9a-fA-F]{24}$/)) where["$or"] = [{url:req.params.profile},{_id:req.params.profile}];
 	else where.url = req.params.profile;
 	
-	if(!req.query.hidden) where.active = true;
-	
 	Profile.findOne(where).exec((err, profile) => {
 		if(err) return res.sendStatus(500);
 		if(!profile) return res.sendStatus(404);

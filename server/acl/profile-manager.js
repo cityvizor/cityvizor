@@ -7,13 +7,18 @@ function isManagedProfile(req){
 	let profiles = [req.body.profile,req.query.profile,req.params.profile];
 	
 	// if any of the profile ids is NOT found in managed profiles, some() returns true, then we return false;
-	var result = !profiles.some(profileId => profileId && req.user.managedProfiles.indexOf(profile) < 0);
+	var result = !profiles.some(profileId => profileId && req.user.managedProfiles.indexOf(profileId) < 0);
+	
+	return result;
 }
 
 module.exports = {
 	
 	"profiles": {
 		"read": req => {
+			return true;
+		},
+		"list": req => {
 			if(isManagedProfile(req)) req.query.hidden = true;
 			return true;
 		},

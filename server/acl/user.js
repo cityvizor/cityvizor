@@ -1,6 +1,6 @@
 module.exports = {
 	
-  "user": {
+  "users": {
     "read": (req) => req.user._id === req.params.id,
     "write": (req) => req.user._id === req.params.id
   },
