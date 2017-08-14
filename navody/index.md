@@ -8,8 +8,6 @@ menu: navody
 * TOC
 {:toc}
 
-(vzorový dokument)[navody/test.csv]
-
 ## Práce s aplikací
 
 ### Vyhledání obce
@@ -25,6 +23,10 @@ menu: navody
 ### Přihlášení
 
 ### Nastavení profilu
+
+#### ID eDesky a MapaSamospravy.cz
+
+Číslo (ID) vaší obce najdete buď v [seznamu ID obcí](/navody/seznam-ID-obci), nebo kontaktujte správce webů [eDesky.cz](https://edesky.cz) a [MapaSamospravy.cz](https://mapasamospravy.cz).
 
 ### Import účetních dat
 
