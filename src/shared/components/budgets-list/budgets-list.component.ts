@@ -19,14 +19,20 @@ export class BudgetsListComponent{
   @Input()
 	type:string;
   
-  @Output()
+	@Input()
+	set selected(year:number){
+		if(year !== this.selectedYear) this.selectBudget(year);
+	}
+	
+	@Output()
   select:EventEmitter<any> = new EventEmitter();
 
   // array of budgets
-	budgets:any[];
+	budgets:any[] = [];
 
   // current selected budget
-  selectedBudget:any;
+	selectedYear:number;
+  currentBudget:any;
 
   open:boolean;
 
@@ -43,8 +49,8 @@ export class BudgetsListComponent{
 				this.maxAmount = 0;
       
 				this.budgets.forEach(budget => this.maxAmount = Math.max(this.maxAmount,this.getAmount(budget),this.getBudgetAmount(budget)));
-      
-				if(this.budgets[0]) this.selectBudget(this.budgets[0]);
+      	
+				this.selectBudget(this.selectedYear);
 			});
 	}
 
@@ -72,9 +78,36 @@ export class BudgetsListComponent{
 		}
 	}
 
-  selectBudget(budget):void{
-    this.selectedBudget = budget;
-    this.select.emit(this.selectedBudget);
+  selectBudget(year:number):void{
+		
+		this.selectedYear = year;
+		
+		if(year && this.budgets){
+
+			// search for budget
+			let budget;
+			this.budgets.some(item => {
+				if(Number(item.year) === year) {budget = item; return true;}
+				return false;
+			});
+
+			if(budget){
+				this.currentBudget = budget;
+				this.select.emit(this.currentBudget);
+				return;
+			}
+		}
+		
+		// select first if not found and budgets loaded
+		if(this.budgets[0]){
+			this.currentBudget = this.budgets[0];
+			this.select.emit(this.currentBudget);
+			return;
+		}
+		
+		// set null if no budgets
+		this.currentBudget = null;
+		
   }
 	
 }
