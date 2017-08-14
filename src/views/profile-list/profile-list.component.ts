@@ -29,7 +29,7 @@ export class ProfileListComponent{
 	*/
 	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.0556}, "lng":{"min":12.0914,"max":18.8589}};
 	
-	search: string;
+	search: RegExp;
 
 	listColumns: number = 3;
 
