@@ -21,6 +21,8 @@ Ministerstvo financí uvolnilo zdrojové kódy aplikace pod volnou licencí GNU 
 
 Plný text licence naleznete na této adrese: [https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
+Neoficiální a nezávazný český překlad licence najdete na této adrese: [https://jxself.org/translations/gpl-3.cz.shtml](https://jxself.org/translations/gpl-3.cz.shtml)
+
 ### Data
 
 DOPNIT LICENCE!!! Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
