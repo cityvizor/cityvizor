@@ -29,12 +29,7 @@ export class ProfileListComponent{
 	*/
 	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.0556}, "lng":{"min":12.0914,"max":18.8589}};
 	
-	@Input()
-	set search(value: string){
-		this._search = this.cleanString(value);	
-	}
-
-	_search: string;
+	search: string;
 
 	listColumns: number = 3;
 
@@ -99,23 +94,30 @@ export class ProfileListComponent{
 		
 	}
 
-	cleanString(value: string){
+	cleanString(value:string):string{
 		
 		if(!value) return "";
 		
 		var sdiak="áäčďéěíĺľňóôőöŕšťúůűüýřžÁÄČĎÉĚÍĹĽŇÓÔŐÖŔŠŤÚŮŰÜÝŘŽ234567890[;";
 		var bdiak="aacdeeillnoooorstuuuuyrzAACDEEILLNOOOORSTUUUUYRZescrzyaieuu";
 
-		var output = "";
+		var searchString = "";
 
 		for(var p = 0; p < value.length; p++){
-			if(sdiak.indexOf(value.charAt(p)) !== -1) output += bdiak.charAt(sdiak.indexOf(value.charAt(p)));
-			else output += value.charAt(p);
+			if(sdiak.indexOf(value.charAt(p)) !== -1) searchString += bdiak.charAt(sdiak.indexOf(value.charAt(p)));
+			else searchString += value.charAt(p);
 		}
 
-		output = output.toLowerCase();
+		searchString = searchString.toLowerCase();
+		
+		return searchString;
+		
+	}
 
-		return output;
+	makeSearchString(value: string):RegExp{
+		
+		return new RegExp("(?:^| )" + this.cleanString(value));
+		
 	}
 
 	openProfile(profile){

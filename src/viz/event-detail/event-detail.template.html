@@ -1,14 +1,17 @@
 <div *ngIf="event">
 	<h2>{{event.name}}</h2>
 	
-	<tabset>
-    <tab heading="Faktury a platby">
+	<tabset #detailTabs>
+		<tab heading="Přehled"></tab>
+		<tab heading="Roční srovnání"></tab>
+    <tab heading="Výdaje" [active]="openTab=='exp'">
 			
-			<h3>Celkové výdaje</h3>
-			<table *ngIf="counterparties" class="table table-responsive table-title-number-number">
+			<p *ngIf="!event.budgetExpenditureAmount && !event.expenditureAmount">Tato akce nemá žádné rozpočtované ani uskutečněné výdaje.</p>
+
+			<table *ngIf="event.budgetExpenditureAmount || event.expenditureAmount" class="table table-responsive table-title-number-number">
 				<thead>
 					<tr>
-						<th></th>
+						<th>Rozpočtové paragrafy</th>
 						<th class="text-right">
 							Rozpočtovaná částka
 						</th>
@@ -24,8 +27,8 @@
 								<tbody>
 									<tr *ngFor="let paragraph of event.paragraphs; let i = index">
 										<td>§ {{paragraph.id}} - {{paragraphNames[paragraph.id]}}</td>
-										<td class="text-right">{{paragraph.budgetExpenditureAmount | money:0:false}} Kč</td>
-										<td class="text-right">{{paragraph.expenditureAmount | money:0:false}} Kč</td>
+										<td class="text-right font-number">{{paragraph.budgetExpenditureAmount | money:0:false}} Kč</td>
+										<td class="text-right font-number">{{paragraph.expenditureAmount | money:0:false}} Kč</td>
 									</tr>
 								</tbody>	
 							</table>
@@ -34,14 +37,55 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td><strong>Celková suma</strong></td>
-						<td class="text-right"><strong>{{event.budgetExpenditureAmount | money:0:false}} Kč Kč</strong></td>
-						<td class="text-right"><strong class="text-red">{{event.expenditureAmount | money:0:false}} tis. Kč</strong></td>
+						<td><strong>Součet</strong></td>
+						<td class="text-right font-number"><strong>{{event.budgetExpenditureAmount | money:0:false}} Kč</strong></td>
+						<td class="text-right font-number"><strong class="text-red">{{event.expenditureAmount | money:0:false}} Kč</strong></td>
 					</tr>
 				</tfoot>
 			</table>
+		</tab>
+		
+		<tab heading="Příjmy" [active]="openTab=='inc'">
 			
-			<h3>Faktury a platby</h3>
+			<p *ngIf="!event.budgetIncomeAmount && !event.incomeAmount">Tato akce nemá žádné rozpočtované ani uskutečněné příjmy.</p>
+
+			<table *ngIf="event.budgetIncomeAmount || event.incomeAmount" class="table table-responsive table-title-number-number">
+				<thead>
+					<tr>
+						<th>Rozpočtové položky</th>
+						<th class="text-right">Rozpočtovaná částka</th>
+						<th class="text-right">Skutečný příjem</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="3" class="td-zerosidepadding">
+							<table class="table table-responsive borderless small table-title-number-number-td table-nobottommargin">
+								<tbody>
+									<tr *ngFor="let item of event.items">
+										<td># {{item.id}} - {{itemNames[item.id]}}</td>
+										<td class="text-right font-number">
+											{{item.budgetIncomeAmount | money:0:false}} Kč
+										</td>
+										<td class="text-right font-number text-strong text-success">
+											{{item.incomeAmount | money:0:false}} Kč
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>Součet</td>
+						<td class="text-right font-number">{{event.budgetIncomeAmount | money:0:false}} Kč</td>
+						<td class="text-right font-number">{{event.incomeAmount | money:0:false}} Kč</td>
+					</tr>
+				</tfoot>
+			</table>
+		</tab>
+		<tab heading="Faktury a platby">
 			<table *ngIf="counterparties" class="table table-responsive">
 				<thead>
 					<tr>
@@ -58,7 +102,7 @@
 							</td>
 							<td class="text-right">
 								<strong [class.text-success]="counterparty.sums.saldo>0"
-												 [class.text-red]="counterparty.sums.saldo<0">
+												 [class.text-red]="counterparty.sums.saldo<0" class="font-number">
 									{{counterparty.sums.saldoAbsolute | money:0:false}} Kč
 								</strong>
 							</td>
@@ -72,7 +116,7 @@
 										</td>
 										<td>{{payment.date | date:"d. M. y"}}</td>
 										<td>{{payment.description}}</td>
-										<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+										<td class="text-right font-number">{{payment.amount | money:0:false}} Kč</td>
 									</tr>
 									<tr *ngFor="let payment of counterparty.expenditures;let j = index">
 										<td>
@@ -80,7 +124,7 @@
 										</td>
 										<td>{{payment.date | date:"d. M. y"}}</td>
 										<td>{{payment.description}}</td>
-										<td class="text-right">{{payment.amount | money:0:false}} Kč</td>
+										<td class="text-right font-number">{{payment.amount | money:0:false}} Kč</td>
 									</tr>
 									<tr *ngIf="!counterparty.incomes.length && !counterparty.expenditures.length">
 										<td colspan="4" class="text-muted text-center">
@@ -92,27 +136,6 @@
 							</td>
 						</tr>
 					</ng-container>
-				</tbody>
-			</table>
-		</tab>
-    <tab heading="Příjmové položky">
-			<h3>Celkové příjmy</h3>
-			<table *ngIf="event.budgetIncomeAmount" class="table table-responsive">
-				<thead>
-					<tr>
-						<th></th>
-						<th class="text-right">Částka</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Rozpočtovaná částka</td>
-						<td class="text-right">{{event.budgetIncomeAmount | money:0:false}} Kč</td>
-					</tr>
-					<tr>
-						<td>Skutečný příjen</td>
-						<td class="text-right">{{event.incomeAmount | money:0:false}} Kč</td>
-					</tr>
 				</tbody>
 			</table>
 		</tab>

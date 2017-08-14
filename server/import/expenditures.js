@@ -96,7 +96,11 @@ class ExpendituresImporter {
 					description: line[h.description],
 					gps: line[h.gpsY] && line[h.gpsX] ? [ line[h.gpsY], line[h.gpsX] ] : null,
 					items: [],
-					paragraphs: []
+					paragraphs: [],
+					budgetExpenditureAmount: 0,
+					expenditureAmount: 0,
+					budgetIncomeAmount: 0,
+					incomeAmount: 0
 				});
 				
 			});
@@ -196,7 +200,7 @@ class ExpendituresImporter {
 				
 				/* UPDATE AMOUNTS */
 				let budget = this.budget;
-				let event = this.eventIndex[row[h.event]];
+				let event = this.eventIndex[eventId];
 				
 				if(amountType === "P"){
 					
@@ -414,7 +418,7 @@ class ExpendituresImporter {
 	}
 
 	getEventBudgetParagraph(event, paragraphId) {
-		var ebpId = event.event + "-" + paragraphId;
+		var ebpId = event._id + "-" + paragraphId;
 
 		if (!this.eventParagraphIndex[ebpId]) {
 			
@@ -432,7 +436,7 @@ class ExpendituresImporter {
 	}
 	
 	getEventBudgetItem(event, itemId) {
-		var id = event.event + "-" + itemId;
+		var id = event._id + "-" + itemId;
 		
 		if (!this.eventItemIndex[id]) {
 			
