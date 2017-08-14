@@ -13,23 +13,19 @@ Aplikace Cityvizor je postavená na otevřených datech o hospodaření měst a 
  
 Vývoj probíhal v odboru 47 – Centrální harmonizační jednotka pod záštitou náměstka pro řízení sekce 04 – Finanční řízení a audit Tomáše Vyhnánka.
 
-## Licence
+## Licenční podmínky
 
-### Obecné shrnutí
-
-Toto shrnutí není právně závazné, je pouze naší interpretací závazných licenčních podmínek uvedených níže.
+### Zdrojové kódy aplikace
 
 Ministerstvo financí uvolnilo zdrojové kódy aplikace pod volnou licencí GNU GPL v3, což znamená mimo jiné, že každý nabyvatel licence, který akceptuje její podmínky, získává právo modifikovat dílo, kopírovat ho a dál rozšiřovat toto dílo i jakoukoli odvozenou verzi.
 
-Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
-
-### Licenční podmínky
-
 Plný text licence naleznete na této adrese: [https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
-## Podpora
+### Data
 
-CityVizor je zatím ve vývoji, seznam je aktuální, ne nutně konečný.
+DOPNIT LICENCE!!! Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
+
+## Podpora prohlížečů
 
 ### Chrome
 
@@ -41,13 +37,13 @@ Podpora pro aktuální verze[^aktualni]
 
 ### Internet Explorer / Edge
 
-- Edge - netestováno
+- Edge - netestováno[^netestovano]
 - Internet Explorer 10 a 11 - omezená funkčnost daná nedostupnými funkcionalitami prohlížeče
 - Internet Explorer 9 a nižší - neplánujeme podporu[^IE9]
 
 ### Opera
 
-Netestováno.[^netestovano]
+Netestováno[^netestovano]
 
 --------------
 
