@@ -26,7 +26,7 @@ menu: navody
 
 #### ID eDesky a MapaSamospravy.cz
 
-Číslo (ID) vaší obce najdete buď v [seznamu ID obcí](./seznam-ID-obci), nebo kontaktujte správce webů [eDesky.cz](https://edesky.cz) a [MapaSamospravy.cz](https://mapasamospravy.cz).
+Číslo (ID) vaší obce najdete buď v [seznamu ID obcí](./seznam-ID-obci.md), nebo kontaktujte správce webů [eDesky.cz](https://edesky.cz) a [MapaSamospravy.cz](https://mapasamospravy.cz).
 
 ### Import účetních dat
 
