@@ -84,6 +84,7 @@ export const paragraphNames = {
 	"2279": "Záležitosti ostatních drah jinde nezařazené",
 	"2280": "Výzkum a vývoj v dopravě",
 	"2291": "Mezinárodní spolupráce v dopravě",
+	"2292": "Dopravní obslužnost",
 	"2299": "Ostatní záležitosti v dopravě",
 	"2310": "Pitná voda",
 	"2321": "Odvádění a čištění odpadních vod a nakládání s kaly",
