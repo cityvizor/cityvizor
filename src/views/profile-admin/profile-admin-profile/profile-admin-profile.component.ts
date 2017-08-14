@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ToastService } from "../../../services/toast.service";
 
+import { AppConfig } from '../../../config/app-config';
+
 //00006947
 @Component({
 	moduleId: module.id,
@@ -16,6 +18,8 @@ export class ProfileAdminProfileComponent {
 	 
 	@Output()
 	save:EventEmitter<any> = new EventEmitter();
+	
+	config:any = AppConfig;
 
 	constructor(private toastService:ToastService) {
 	}

@@ -16,7 +16,7 @@
     <div class="col-sm-9">
       <div class="input-group">
         <span class="input-group-addon">https://cityvizor.cz/profil/</span>
-        <input type="text" class="form-control" id="url" name="url" [ngModel]="profile.url" aria-describedby="help-url" required pattern="^[0-9a-zA-Z]+$">
+        <input type="text" class="form-control" id="url" name="url" [ngModel]="profile.url" aria-describedby="help-url" required pattern="^[0-9a-zA-Z\.\-_]+$">
       </div>
       <span id="help-url" class="help-block">Na této adrese bude dostupný profil vaší obce.</span>
     </div>
@@ -44,7 +44,7 @@
 				<span class="input-group-addon">MapaSamospravy</span>
 				<input type="number" class="form-control" name="mapasamospravy" [ngModel]="profile.mapasamospravy" aria-describedby="help-edesky">
 			</div>
-      <span id="help-edesky" class="help-block">Zde vyplňte ID vaší obce v aplikacích <a href="https://edesky.cz/">eDesky</a> a <a href="https://mapasamospravy.cz/">MapaSamospravy</a>.</span>
+      <span id="help-edesky" class="help-block">Zde vyplňte ID vaší obce v aplikacích <a href="https://edesky.cz/">eDesky</a> a <a href="https://mapasamospravy.cz/">MapaSamospravy</a>. Kde najít toto ID se dočtete v sekci <a [attr.href]="config.docsUrl + '/navody#id-edesky-a-mapasamospravycz'">návody</a>.</span>
     </div>
   </div>
 	
