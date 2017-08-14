@@ -23,6 +23,7 @@ Ministerstvo financí uvolnilo zdrojové kódy aplikace pod volnou licencí GNU 
 
 Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
 
+### Licenční podmínky
 
 Plný text licence naleznete na této adrese: [https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
