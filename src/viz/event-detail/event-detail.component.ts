@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
 import { DataService } from '../../services/data.service';
 
@@ -25,9 +25,13 @@ export class EventDetailComponent implements OnChanges {
 	@Input()
 	openTab:string;
 	
+	@Output()
+	selectEvent:EventEmitter<string> = new EventEmitter();
+	
 	event:any;
 	
 	history:any[];
+	maxHistoryAmount:number = 0;
 
 	counterparties:any = {};
 	
@@ -48,8 +52,15 @@ export class EventDetailComponent implements OnChanges {
 				
 				this.event = event;
 			
-				this.dataService.getProfileEvents(event.profile, {srcId:event.srcId})
-					.then(events => this.history = events)
+				this.dataService.getProfileEvents(event.profile, {srcId:event.srcId,sort: "-year"})
+					.then(events => {
+						this.history = events;
+						this.maxHistoryAmount = 0;
+						this.history.forEach(historyEvent => {
+							this.maxHistoryAmount = Math.max(this.maxHistoryAmount,historyEvent.expenditureAmount | 0,historyEvent.incomeAmount | 0,historyEvent.budgetExpenditureAmount | 0,historyEvent.budgetIncomeAmount | 0)
+						});
+					
+					})
 					.catch(err => console.log(err));
 			
 				this.setCounterparties();

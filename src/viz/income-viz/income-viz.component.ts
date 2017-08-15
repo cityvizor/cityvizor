@@ -135,8 +135,8 @@ export class IncomeVizComponent{
 		this.updateState({group: groupId});
 	}
 
-	selectEvent(event){
-		this.updateState({event: event ? event.event : null});
+	selectEvent(eventId){
+		this.updateState({event: eventId});
 	}
 
 	updateState(setParams){

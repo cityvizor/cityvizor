@@ -117,7 +117,7 @@
 									<tbody>
 										<tr *ngFor="let event of paragraph.events">
 											<td>
-												<a *ngIf="event.event" (click)="selectEvent(event)">{{getEventName(event.event)}}</a>
+												<a *ngIf="event.event" (click)="selectEvent(event.event)">{{getEventName(event.event)}}</a>
 												<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
 											</td>
 											<td class="font-number">{{event.budgetExpenditureAmount | money:0:true}} Kč</td>
@@ -174,7 +174,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 				
-				<event-detail [eventid]="state.event" openTab="exp"></event-detail>
+				<event-detail [eventid]="state.event" (selectEvent)="selectEvent($event)" openTab="exp"></event-detail>
 			</div>
 		</div>
 	</div>

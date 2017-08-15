@@ -1,4 +1,11 @@
-* {opacity:inherit;}
+
+.historychart .header{padding:0;}
+.historychart .data{overflow:auto;overflow-y:hidden;padding:0;}
+.historychart .data table{min-width:100%;}
+.historychart .data th{width:200px;padding-left:30px;padding-right:30px;}
+.historychart .data td{width:200px;padding-left:30px;padding-right:30px;overflow:hidden;}
+.historychart .data .amount{float:right;font-weight:bold;}
+.historychart .data .open{float:right;}
 
 table.table-title-number-number thead tr th:nth-child(1) { width: 60%; }
 table.table-title-number-number thead tr th:nth-child(2) { width: 20%; }

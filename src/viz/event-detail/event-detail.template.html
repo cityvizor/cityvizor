@@ -1,11 +1,66 @@
 <div *ngIf="event">
-	<h2>{{event.name}}</h2>
-	
+	<h2>{{event.name}} ({{event.year}})</h2>
+
 	<tabset #detailTabs>
 		<tab heading="Přehled"></tab>
-		<tab heading="Roční srovnání"></tab>
-    <tab heading="Výdaje" [active]="openTab=='exp'">
-			
+		<tab heading="Roční srovnání">
+			<div class="container-fluid">
+				<div class="historychart row">
+					<div class="col-md-2 header">
+						<table class="table">
+							<thead>
+								<tr style="height:30px;"><th>Rok</th></tr>
+								<tr style="height:30px;"><td>Název</td></tr>
+								<tr style="height:123px;"><td></td></tr>
+								<tr style="height:60px;"><td>Výdaje</td></tr>
+								<tr style="height:60px;"><td>Příjmy</td></tr>
+							</thead>
+						</table>
+					</div>
+					<div class="col-md-10 data">
+						<table class="table table-hover">
+							<thead>
+								<tr style="height:30px;">
+									<th *ngFor="let historyEvent of history">{{historyEvent.year}} <a class="open" (click)="selectEvent.emit(historyEvent._id)">otevřít</a></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr style="height:30px;">
+									<td *ngFor="let historyEvent of history">{{historyEvent.name}}</td>
+									<td></td>
+								</tr>
+								<tr style="height:123px;">
+									<td *ngFor="let historyEvent of history">
+										<div style="width:200px;">
+											<chart-budget [data]="historyEvent" [max]="maxHistoryAmount"></chart-budget>
+										</div>
+									</td>
+									<td></td>
+								</tr>
+								<tr style="height:60px;">
+									<td *ngFor="let historyEvent of history">
+										Rozpočet: <span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span><br>
+										Skutečnost: <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span><br>
+									</td>
+									<td></td>
+								</tr>
+								<tr style="height:60px;">
+									<td *ngFor="let historyEvent of history">
+										Rozpočet: <span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span><br>
+										Skutečnost: <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
+									</td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</tab>
+
+		<tab heading="Výdaje" [active]="openTab=='exp'">
+
 			<p *ngIf="!event.budgetExpenditureAmount && !event.expenditureAmount">Tato akce nemá žádné rozpočtované ani uskutečněné výdaje.</p>
 
 			<table *ngIf="event.budgetExpenditureAmount || event.expenditureAmount" class="table table-responsive table-title-number-number">
@@ -44,9 +99,9 @@
 				</tfoot>
 			</table>
 		</tab>
-		
+
 		<tab heading="Příjmy" [active]="openTab=='inc'">
-			
+
 			<p *ngIf="!event.budgetIncomeAmount && !event.incomeAmount">Tato akce nemá žádné rozpočtované ani uskutečněné příjmy.</p>
 
 			<table *ngIf="event.budgetIncomeAmount || event.incomeAmount" class="table table-responsive table-title-number-number">
@@ -102,7 +157,7 @@
 							</td>
 							<td class="text-right">
 								<strong [class.text-success]="counterparty.sums.saldo>0"
-												 [class.text-red]="counterparty.sums.saldo<0" class="font-number">
+												[class.text-red]="counterparty.sums.saldo<0" class="font-number">
 									{{counterparty.sums.saldoAbsolute | money:0:false}} Kč
 								</strong>
 							</td>
@@ -139,6 +194,6 @@
 				</tbody>
 			</table>
 		</tab>
-  </tabset>
-	
+	</tabset>
+
 </div>
