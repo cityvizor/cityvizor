@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+
 import { DataService } from '../../../services/data.service';
+
 
 @Component({
 	moduleId: module.id,
@@ -51,7 +53,11 @@ export class BudgetsListComponent{
 				this.budgets.forEach(budget => this.maxAmount = Math.max(this.maxAmount,this.getAmount(budget),this.getBudgetAmount(budget)));
       	
 				this.selectBudget(this.selectedYear);
+			
+				console.log(this.budgets);
+				console.log(this.budgets.length);
 			});
+		
 	}
 
   getBudgetAmount(budget):number{
@@ -79,6 +85,7 @@ export class BudgetsListComponent{
 	}
 
   selectBudget(year:number):void{
+		console.log(year,this.budgets);
 		
 		this.selectedYear = year;
 		
@@ -87,10 +94,13 @@ export class BudgetsListComponent{
 			// search for budget
 			let budget;
 			this.budgets.some(item => {
+				console.log(item,year);
 				if(Number(item.year) === year) {budget = item; return true;}
 				return false;
 			});
+			
 
+				console.log(budget)
 			if(budget){
 				this.currentBudget = budget;
 				this.select.emit(this.currentBudget);

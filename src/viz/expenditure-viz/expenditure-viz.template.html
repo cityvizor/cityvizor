@@ -10,9 +10,11 @@
 		<div id="bigbang" #drawing>
 			
 			<div class="whiteTransitions">
-				<div class="topTransition" style=""></div><div class="bottomTransition" style=""></div>
+				<div class="topTransition" style=""></div>
+				<div class="bottomTransition" style=""></div>
 			</div>
-			
+
+
 			<budgets-list [profile]="profile._id" type="expenditures" [selected]="state.year" (select)="selectBudget($event)"></budgets-list>
 			
 			<div class="row">
@@ -28,7 +30,6 @@
 		</div>
 		
 		<!-- VYBER SKUPINY -->
-		
 		<div class="btn-group-selected">
 			<div class="btn-group">
 				<button type="button" class="btn btn-lg btn-red" *ngIf="state.group">
@@ -120,8 +121,8 @@
 												<a *ngIf="event.event" (click)="selectEvent(event.event)">{{getEventName(event.event)}}</a>
 												<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
 											</td>
-											<td class="font-number">{{event.budgetExpenditureAmount | money:0:true}} Kč</td>
-											<td class="font-number">{{event.expenditureAmount | money:0:true}} Kč</td>
+											<td class="font-number">{{event.budgetExpenditureAmount | money:0:false}} Kč</td>
+											<td class="font-number">{{event.expenditureAmount | money:0:false}} Kč</td>
 										</tr>
 									</tbody>
 								</table>
@@ -138,19 +139,19 @@
 											<tr>
 													<td rowspan=3><chart-donut [data]="getDonutChartData(paragraph)"></chart-donut></td>
 													<td>Rozpočet</td>
-													<td class="text-right font-number">{{paragraph.budgetExpenditureAmount | money:0:true}} Kč</td>
+													<td class="text-right font-number">{{paragraph.budgetExpenditureAmount | money:0:false}} Kč</td>
 											</tr>
 											<tr>
 													<td><span style="color:#E73431;">&#9632;</span> Čerpáno</td>
-													<td class="text-right font-number">{{paragraph.expenditureAmount | money:0:true}} Kč</td>
+													<td class="text-right font-number">{{paragraph.expenditureAmount | money:0:false}} Kč</td>
 											</tr>
 											<tr *ngIf="paragraph.expenditureAmount <= paragraph.budgetExpenditureAmount">
 													<td><span style="color:#ff9491;">&#9632;</span> Zbývá</td>
-													<td class="text-right font-number">{{paragraph.budgetExpenditureAmount - paragraph.expenditureAmount | money:0:true}} Kč</td>
+													<td class="text-right font-number">{{paragraph.budgetExpenditureAmount - paragraph.expenditureAmount | money:0:false}} Kč</td>
 											</tr>
 											<tr *ngIf="paragraph.expenditureAmount > paragraph.budgetExpenditureAmount">
 												<td colspan=3>
-													<span class="label label-warning font-number">Překročeno o {{paragraph.expenditureAmount - paragraph.budgetExpenditureAmount | money:0:true}} Kč</span>
+													<span class="label label-warning font-number">Překročeno o {{paragraph.expenditureAmount - paragraph.budgetExpenditureAmount | money:0:false}} Kč</span>
 												</td>
 											</tr>
 										</tbody>
