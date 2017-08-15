@@ -1,5 +1,5 @@
 export const itemNames = {
-	"1111":"Daň z příjmů fyz ických osob ze závislé činnosti a funkčních požitků",
+	"1111":"Daň z příjmů fyzických osob ze závislé činnosti a funkčních požitků",
 	"1112":"Daň z příjmů fyzických osob ze samostatné výdělečné činnosti",
 	"1113":"Daň z příjmů fyzických osob z kapitálových výnosů",
 	"1121":"Daň z příjmů právnických osob",
@@ -12,7 +12,9 @@ export const itemNames = {
 	"1342":"Poplatek za lázeňský nebo rekreační pobyt",
 	"1343":"Poplatek za užívání veřejného prostranství",
 	"1345":"Poplatek z ubytovací kapacity",
+	"1351":"Odvod z loterií a podobných her kromě z výherních hracích přístrojů",
 	"1353":"Příjmy za zkoušky z odborné způsobilosti od žadatelů o řidičské oprávnění",
+	"1355":"Odvod z výherních hracích přístrojů",
 	"1359":"Ostatní odvody z vybraných činností a služeb jinde neuvedené",
 	"1361":"Správní poplatky",
 	"1381":"Daň z hazardních her",

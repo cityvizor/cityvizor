@@ -4,7 +4,7 @@ require("./profile");
 
 var budgetSchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
-	year: String,
+	year: Number,
 	validity: Date,
 	budgetExpenditureAmount: Number,
 	budgetIncomeAmount: Number,

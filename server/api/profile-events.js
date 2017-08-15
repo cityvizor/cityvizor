@@ -1,15 +1,26 @@
 var express = require('express');	
 var router = module.exports = express.Router({mergeParams: true});
 
+var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
 var Event = require("../models/expenditures").Event;
 
-router.get("/", acl("profile-events", "list"), (req,res) => {
+var eventSchema = {
+	type: "object",
+	properties: {
+		"srcId": {type: "string"},
+		"sort": {type: "string"},
+		"year": {type: "number"},
+		"fields": {type: "string"}
+	}	
+};
+
+router.get("/", schema.validate({body: eventSchema}), acl("profile-events", "list"), (req,res) => {
 	
 	var query = Event.find({profile:req.params.profile})
 	
-	query.select(req.query.fields || "srcId name year");
+	query.select(req.query.fields || "srcId name year incomeAmount budgetIncomeAmount expenditureAmount budgetExpenditureAmount");
 	
 	if(req.query.srcId) query.where({srcId: req.query.srcId});
 	if(req.query.sort) query.sort(req.query.sort);
