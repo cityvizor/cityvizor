@@ -1,11 +1,24 @@
 
+.historychart{overflow:auto;overflow-y:visible;}
+
 .historychart .header{padding:0;}
-.historychart .data{overflow:auto;overflow-y:hidden;padding:0;}
+.historychart .data{padding:0;}
 .historychart .data table{min-width:100%;}
 .historychart .data th{width:200px;padding-left:30px;padding-right:30px;}
-.historychart .data td{width:200px;padding-left:30px;padding-right:30px;overflow:hidden;}
+.historychart .data td{width:200px;padding-left:30px;padding-right:30px;}
+.historychart .data td .chart{width:100px;margin:0 auto;}
+.historychart .data td span.crop{display:block;width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .historychart .data .amount{float:right;font-weight:bold;}
 .historychart .data .open{float:right;}
+
+@media (min-width: 768px) {
+  .historychart{overflow:visible;}
+  .historychart .data{overflow:auto;overflow-y:visible;}
+}
+
+.payments .counterparty{cursor:pointer;}
+.payments .list > td{padding:0;border:none;}
+.payments .list > td > div{padding-left:10px;background-color:#fff;}
 
 table.table-title-number-number thead tr th:nth-child(1) { width: 60%; }
 table.table-title-number-number thead tr th:nth-child(2) { width: 20%; }
@@ -14,11 +27,6 @@ table.table-title-number-number thead tr th:nth-child(3) { width: 20%; }
 table.table-title-number-number-td tbody tr td:nth-child(1) { width: 60%; }
 table.table-title-number-number-td tbody tr td:nth-child(2) { width: 20%; }
 table.table-title-number-number-td tbody tr td:nth-child(3) { width: 20%; }
-
-table td.td-zerosidepadding {
-  padding-left: 0;
-  padding-right: 0;
-}
 
 table.table-nobottommargin {
   margin-bottom: 0px;

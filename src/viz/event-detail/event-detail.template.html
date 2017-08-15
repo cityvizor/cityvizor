@@ -2,11 +2,24 @@
 	<h2>{{event.name}} ({{event.year}})</h2>
 
 	<tabset #detailTabs>
-		<tab heading="Přehled"></tab>
+		<tab heading="Přehled">
+			Výdaje: {{event.expenditureAmount | money:0:false}}<br>
+			Platby: {{paymentsExpenditureAmount | money:0:false}}<br>
+			Neidentifikované: {{event.expenditureAmount - paymentsExpenditureAmount | money:0:false}}
+			<br>
+			Rozpočtované: {{event.budgetExpenditureAmount | money:0:false}}<br>
+			Zbývá: {{event.budgetExpenditureAmount - event.expenditureAmount | money:0:false}}<br>
+			<br>
+
+			<p>Sem nějaký graf který bude znázorňovat, že:</p>
+			<ul><li>(Platby + Neidentifikované) + Zbývá = Rozpočtované</li></ul>
+			<p>A to samé pro příjmy.</p>
+		</tab>
+		
 		<tab heading="Roční srovnání">
 			<div class="container-fluid">
 				<div class="historychart row">
-					<div class="col-md-2 header">
+					<div class="col-xs-2 header">
 						<table class="table">
 							<thead>
 								<tr style="height:30px;"><th>Rok</th></tr>
@@ -17,7 +30,7 @@
 							</thead>
 						</table>
 					</div>
-					<div class="col-md-10 data">
+					<div class="col-xs-10 data">
 						<table class="table table-hover">
 							<thead>
 								<tr style="height:30px;">
@@ -27,12 +40,12 @@
 							</thead>
 							<tbody>
 								<tr style="height:30px;">
-									<td *ngFor="let historyEvent of history">{{historyEvent.name}}</td>
+									<td *ngFor="let historyEvent of history"><span class="crop" [title]="historyEvent.name">{{historyEvent.name}}</span></td>
 									<td></td>
 								</tr>
 								<tr style="height:123px;">
 									<td *ngFor="let historyEvent of history">
-										<div style="width:200px;">
+										<div  class="chart">
 											<chart-budget [data]="historyEvent" [max]="maxHistoryAmount"></chart-budget>
 										</div>
 									</td>
@@ -83,7 +96,11 @@
 									<tr *ngFor="let paragraph of event.paragraphs; let i = index">
 										<td>§ {{paragraph.id}} - {{paragraphNames[paragraph.id]}}</td>
 										<td class="text-right font-number">{{paragraph.budgetExpenditureAmount | money:0:false}} Kč</td>
-										<td class="text-right font-number">{{paragraph.expenditureAmount | money:0:false}} Kč</td>
+										<td class="text-right font-number">
+											<strong [class.text-success]="paragraph.expenditureAmount < 0" [class.text-red]="paragraph.expenditureAmount > 0" class="font-number">
+												{{paragraph.expenditureAmount | money:0:false}} Kč	
+											</strong>
+										</td>
 									</tr>
 								</tbody>	
 							</table>
@@ -94,7 +111,11 @@
 					<tr>
 						<td><strong>Součet</strong></td>
 						<td class="text-right font-number"><strong>{{event.budgetExpenditureAmount | money:0:false}} Kč</strong></td>
-						<td class="text-right font-number"><strong class="text-red">{{event.expenditureAmount | money:0:false}} Kč</strong></td>
+						<td class="text-right font-number">
+							<strong [class.text-success]="event.expenditureAmount < 0" [class.text-red]="event.expenditureAmount > 0" class="font-number">
+								{{event.expenditureAmount | money:0:false}} Kč
+							</strong>
+						</td>
 					</tr>
 				</tfoot>
 			</table>
@@ -122,8 +143,10 @@
 										<td class="text-right font-number">
 											{{item.budgetIncomeAmount | money:0:false}} Kč
 										</td>
-										<td class="text-right font-number text-strong text-success">
-											{{item.incomeAmount | money:0:false}} Kč
+										<td class="text-right font-number">
+											<strong [class.text-success]="item.incomeAmount > 0" [class.text-red]="item.incomeAmount < 0" class="font-number">
+												{{item.incomeAmount | money:0:false}} Kč	
+											</strong>
 										</td>
 									</tr>
 								</tbody>
@@ -135,59 +158,57 @@
 					<tr>
 						<td>Součet</td>
 						<td class="text-right font-number">{{event.budgetIncomeAmount | money:0:false}} Kč</td>
-						<td class="text-right font-number">{{event.incomeAmount | money:0:false}} Kč</td>
+						<td class="text-right font-number text-success">
+							<strong [class.text-success]="event.incomeAmount > 0" [class.text-red]="event.incomeAmount < 0" class="font-number">
+								{{event.incomeAmount | money:0:false}} Kč
+							</strong>
+						</td>
 					</tr>
 				</tfoot>
 			</table>
 		</tab>
 		<tab heading="Faktury a platby">
-			<table *ngIf="counterparties" class="table table-responsive">
+			<table *ngIf="counterparties" class="table table-responsive table-hover payments">
 				<thead>
 					<tr>
 						<th>Dodavatel</th>
-						<th class="text-right">Celková částka</th>
+						<th class="text-right">Částka</th>
 					</tr>
 				</thead>
 				<tbody>
-					<ng-container *ngFor="let counterparty of counterparties|array">
-						<tr>
+					<ng-container *ngFor="let counterparty of counterparties">
+						<tr (click)="openPayments(counterparty)" class="counterparty">
 							<td>
-								<strong>{{counterparty.name}}</strong> 
-								<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+counterparty.id+'&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES" class="text-muted small">IČO {{counterparty.id}}</a>
+								{{counterparty.name}}
+								<a *ngIf="counterparty.id" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+counterparty.id+'&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES" class="text-muted small">IČO {{counterparty.id}}</a>
 							</td>
 							<td class="text-right">
-								<strong [class.text-success]="counterparty.sums.saldo>0"
-												[class.text-red]="counterparty.sums.saldo<0" class="font-number">
-									{{counterparty.sums.saldoAbsolute | money:0:false}} Kč
+								<strong [class.text-success]="counterparty.total > 0" [class.text-red]="counterparty.total < 0" class="font-number">
+									{{counterparty.total | abs | money:0:false}} Kč
 								</strong>
 							</td>
 						</tr>
-						<tr>
-							<td colspan="3" class="td-zerosidepadding">
-								<table class="table table-responsive borderless small table-label-date-title-number table-nobottommargin">
-									<tr *ngFor="let payment of counterparty.incomes;let j = index">
-										<td>
-											<span class="label label-success">Příjem</span>
-										</td>
-										<td>{{payment.date | date:"d. M. y"}}</td>
-										<td>{{payment.description}}</td>
-										<td class="text-right font-number">{{payment.amount | money:0:false}} Kč</td>
-									</tr>
-									<tr *ngFor="let payment of counterparty.expenditures;let j = index">
-										<td>
-											<span class="label label-red">Výdej</span>
-										</td>
-										<td>{{payment.date | date:"d. M. y"}}</td>
-										<td>{{payment.description}}</td>
-										<td class="text-right font-number">{{payment.amount | money:0:false}} Kč</td>
-									</tr>
-									<tr *ngIf="!counterparty.incomes.length && !counterparty.expenditures.length">
-										<td colspan="4" class="text-muted text-center">
-											<i class="fa fa-exclamation-circle fa-2x"></i>
-											<p class="text-muted">Žádné faktury či výdaje k zobrazení.</p>
-										</td>
-									</tr>
-								</table>
+						<tr class="list">
+							<td colspan="3">
+								<div [@paymentsState]="counterparty.open ? 'open' : 'closed'">
+									<table class="table table-responsive table-hover borderless small table-label-date-title-number table-nobottommargin">
+										<tr *ngFor="let payment of counterparty.payments">
+											<td>
+												<span *ngIf="payment.item < 5000" class="label label-success">Příjem</span>
+												<span *ngIf="payment.item >= 5000" class="label label-red">Výdaj</span>
+											</td>
+											<td>{{payment.date | date:"d. M. y"}}</td>
+											<td>{{payment.description}}</td>
+											<td class="text-right font-number">{{payment.amount | money:0:false}} Kč</td>
+										</tr>
+										<tr *ngIf="!counterparty.payments.length">
+											<td colspan="4" class="text-muted text-center">
+												<i class="fa fa-exclamation-circle fa-2x"></i>
+												<p class="text-muted">Žádné faktury či výdaje k zobrazení.</p>
+											</td>
+										</tr>
+									</table>
+								</div>
 							</td>
 						</tr>
 					</ng-container>
