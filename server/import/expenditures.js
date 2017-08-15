@@ -90,7 +90,7 @@ class ExpendituresImporter {
 				this.events.push({
 					_id: mongoose.Types.ObjectId(),
 					profile: importData.profileId,
-					year: importData.year,
+					year: Number(importData.year),
 					srcId: line[h.srcId],
 					name: line[h.name],
 					description: line[h.description],
