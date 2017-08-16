@@ -24,6 +24,7 @@ export class ProfileAdminImportBoxComponent {
 
 	@Input() budget:any;
 
+	@Output() save:EventEmitter<any> = new EventEmitter();
 	@Output() saved:EventEmitter<any> = new EventEmitter();
 	@Output() error:EventEmitter<any> = new EventEmitter();
 	
@@ -56,6 +57,8 @@ export class ProfileAdminImportBoxComponent {
 		
 		formData.set("eventsFile",eventsFile,eventsFile.name);
 		formData.set("expendituresFile",expendituresFile,expendituresFile.name);
+		
+		this.save.emit();
 		
 		this.dataService.importExpenditures(formData)
 			.then(result => this.saved.emit(result))

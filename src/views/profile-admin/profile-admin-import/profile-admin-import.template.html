@@ -1,12 +1,12 @@
 <h2>Import účetních dat</h2>
 
 <div class="boxes">
-	<profile-admin-import-box *ngFor="let budget of budgets" [profile]="profile" [budget]="budget" (saved)="showResult(true,budget.year,$event)" (error)="showResult(false,budget.year,$event)"></profile-admin-import-box>
+	<profile-admin-import-box *ngFor="let budget of budgets" [profile]="profile" [budget]="budget" (save)="showLoading()" (saved)="showResult(true,budget.year,$event)" (error)="showResult(false,budget.year,$event)"></profile-admin-import-box>
 </div>
 
 <a (click)="createBudget()">Přidat rozpočtový rok</a>	
 
-<div bsModal #importModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div bsModal #importModal="bs-modal" class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -16,7 +16,12 @@
 				<h3 class="modal-title">
 					<span *ngIf="importResult && importResult.success" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Data pro rok {{importResult.year}} byla importována.</span>
 					<span *ngIf="importResult && !importResult.success" class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Nastala chyba při importu dat. Import nebyl proveden.</span>
+					<span *ngIf="!importResult">Probíhá import dat&hellip;</span>
 				</h3>
+			</div>
+			
+			<div *ngIf="!importResult" class="modal-body">
+				<p>Probíhá import dat do aplikace CityVizor. Import může trvat i několik minut, prosím nezavírejte prohlížeč. Výsledek importu bude zobrazen v tomto okně.</p>
 			</div>
 			
 			<div *ngIf="importResult && importResult.success" class="modal-body">
