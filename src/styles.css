@@ -47,6 +47,7 @@ body {
 }
 .font-number {
 	font-family: 'Roboto Mono';
+	text-align: right;
 }
 
 body.modal-open {overflow-y: scroll;}
@@ -76,7 +77,7 @@ strong, .label, th {
 .content h1, .content h2, section h1, section h2 { margin: .5em 0 1em 0;}
 .content h3, .content h4, section h3, section h4 { margin: 0em 0px 1em 0;}
 
-header, nav, .btn {font-family: 'Rubik', sans-serif;}
+header, nav, .btn {font-family: 'Roboto'/*Rubik*/, sans-serif;}
 
 
 /* Content specific classes */
@@ -266,8 +267,14 @@ input:invalid:not(.novalidate){
 .text-red {
 	color: #E73431;
 }
+.text-blue {
+	color: #2581C4;
+}
 .label-red, .btn-red {
 	background-color: #E73431;
+}
+.label-blue, .btn-blue {
+	background-color: #2581C4;
 }
 .text-success {
 	color: #5cb85c;
