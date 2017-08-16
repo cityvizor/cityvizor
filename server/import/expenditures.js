@@ -81,7 +81,7 @@ class ExpendituresImporter {
 			parser.on("data", line => {
 				
 				if(parser.count === 1){
-					headerMap = this.makeHeaderMap(importConfig.events,line);
+					headerMap = this.makeHeaderMap("events",line);
 					return;
 				}
 				
@@ -166,7 +166,7 @@ class ExpendituresImporter {
 			parser.on("data",row => {
 				
 				if(parser.count === 1){
-					headerMap = this.makeHeaderMap(importConfig.expenditures,row);
+					headerMap = this.makeHeaderMap("expenditures",row);
 					return;
 				}
 				
@@ -186,16 +186,16 @@ class ExpendituresImporter {
 				
 				/* REPORT ERRORS */
 				// critical errors, skip item
-				if(isNaN(amount)) { this.warnings.push("Data: Nečitelná částka na řádku " + i +  ". Záznam byl ignorován."); return; }
-				if(!amount) { this.warnings.push("Data: Nulová částka na řádku " + i +  ". Záznam byl ignorován."); return; }
-				if(!row[h.type] && !itemId) { this.warnings.push("Data: Neuvedeno zda se jedná o příjem či výdej ani rozpočtová položka na řádku " + i +  ". Záznam byl ignorován."); return; }
-				if(!recordType) { this.warnings.push("Data: Neuveden modul na řádku " + i +  "."); return; }
+				if(isNaN(amount)) { this.warnings.push("Data, řádek " + i + ": Nečitelná částka, záznam byl ignorován."); return; }
+				if(!amountType) { this.warnings.push("Data, řádek " + i + ": Neuvedeno zda se jedná o příjem či výdej ani rozpočtová položka, záznam byl ignorován."); return; }
 
 				// noncritical errors
-				if(!itemId) this.warnings.push("Data: Neuvedena rozpočtová položka na řádku " + i +  ".");
-				if(!itemId && amountType === "V") this.warnings.push("Data: Neuveden paragraf na řádku " + i +  ".");
-				if(!row[h.date]) this.warnings.push("Data: Neuvedeno datum na řádku " + i +  ".");
-				if(row[h.counterpartyId] && !row[h.counterpartyName]) this.warnings.push("Data: Neuvedeno jméno dodavatele na řádku " + i +  ".");
+				if(!recordType) this.warnings.push("Data, řádek " + i + ": Neuveden modul.");
+				if(amount === 0) this.warnings.push("Data, řádek " + i + ": Nulová částka.");
+				if(!itemId) this.warnings.push("Data, řádek " + i + ": Neuvedena rozpočtová položka.");
+				if(!paragraphId && amountType === "V") this.warnings.push("Data, řádek " + i + ": Neuveden paragraf u výdajové položky.");
+				if(!row[h.date]) this.warnings.push("Data, řádek " + i + ": Neuvedeno datum.");
+				if(row[h.counterpartyId] && !row[h.counterpartyName]) this.warnings.push("Data, řádek " + i + ": Neuvedeno jméno dodavatele.");
 
 				
 				/* UPDATE AMOUNTS */
@@ -219,10 +219,7 @@ class ExpendituresImporter {
 					
 					this.assignAmount([budget, event, budgetParagraph, budgetParagraphEvent, eventParagraph], recordType === "ROZ" ? "budgetExpenditureAmount" : "expenditureAmount", amount);
 				}
-
-				/* Emit warning if other data */
-				else { this.warnings.push("Data: Neidentifikovaný záznam na řádku " + i +  ". Záznam byl ignorován."); return; }
-
+				
 				/* SAVE PAYMENT IF APPLICABLE */
 				if(row[h.counterpartyId] || recordType === "KDF" || row[h.description]){
 					this.payments.push({
@@ -283,6 +280,7 @@ class ExpendituresImporter {
 					Promise.all(save)
 						.then(() => {
 
+							this.counter.budgets = 1;
 							this.counter.events = this.events.length;
 							this.counter.payments = this.payments.length;
 							
@@ -297,7 +295,11 @@ class ExpendituresImporter {
 	}
 
 
-	makeHeaderMap(config,header){
+	makeHeaderMap(headerType,header){
+		
+		let config = importConfig[headerType];
+		
+		let headerTypeNames = {"events":"Číselník investičních akcí","expenditures":"Datový soubor"};
 
 		let headerNames = config.headerNames;
 		let mandatoryFields = config.mandatoryFields;
@@ -316,13 +318,13 @@ class ExpendituresImporter {
 
 			if(!search){
 				if(config.mandatoryFields.indexOf(field) >= 0) missingMandatory.push(field);
-				else this.warnings.push("Hlavička CSV: nenalezeno volitelné pole " + columnNames.join("/") + ".");
+				else this.warnings.push("Hlavička CSV - " + headerTypeNames[headerType] + ": Nenalezeno volitelné pole " + columnNames.join("/") + ".");
 			}
 
 		});
 
 		if(missingMandatory.length > 0) {
-			throw new Error("Hlavička CSV: nenalezena povinná pole " + missingMandatory.map(key => headerNames[key].join("/")).join(", ") + ".");
+			throw new Error("Hlavička CSV - " + headerTypeNames[headerType] + ": Nenalezena povinná pole " + missingMandatory.map(key => headerNames[key].join("/")).join(", ") + ".");
 		}
 
 		return headerMap;

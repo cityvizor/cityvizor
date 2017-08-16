@@ -43,14 +43,18 @@ router.post("/", schema.validate({body: expendituresSchema}), upload.fields([{ n
 	
 	importer.import(params)
 		.then(result => {
+		
 			res.json(result);
+		
 			fs.rename(req.files.eventsFile[0].path,config.import.saveDir + "/events/" + params.profileId + "-" + params.year + ".csv");
 			fs.rename(req.files.expendituresFile[0].path,config.import.saveDir + "/expenditures/" + params.profileId + "-" + params.year + ".csv");
 		})
 		.catch(err => {
+		
+			res.status(500).send(err.message);
+		
 			fs.unlink(req.files.eventsFile[0].path);
 			fs.unlink(req.files.expendituresFile[0].path);
-			res.status(500).send(err.message);
-		}); // TODO PROPER ERROR
+		});
 	
 });

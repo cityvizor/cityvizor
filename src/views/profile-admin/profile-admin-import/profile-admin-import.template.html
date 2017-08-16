@@ -1,7 +1,7 @@
 <h2>Import účetních dat</h2>
 
 <div class="boxes">
-	<profile-admin-import-box *ngFor="let budget of budgets" [profile]="profile" [budget]="budget" (saved)="savedBudget($event)"></profile-admin-import-box>
+	<profile-admin-import-box *ngFor="let budget of budgets" [profile]="profile" [budget]="budget" (saved)="showResult(true,budget.year,$event)" (error)="showResult(false,budget.year,$event)"></profile-admin-import-box>
 </div>
 
 <a (click)="createBudget()">Přidat rozpočtový rok</a>	
@@ -13,82 +13,56 @@
 				<button type="button" class="close" (click)="importModal.hide()" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">Výsledek importu</h4>
+				<h3 class="modal-title">
+					<span *ngIf="importResult && importResult.success" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Data pro rok {{importResult.year}} byla importována.</span>
+					<span *ngIf="importResult && !importResult.success" class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Nastala chyba při importu dat. Import nebyl proveden.</span>
+				</h3>
 			</div>
-			<div *ngIf="importResult" class="modal-body">
-				<p *ngIf="!importResult.warnings">Import dat proběhl v pořádku.</p>
-				<p *ngIf="importResult.warnings">Import dat proběhl v pořádku s {{importResult.warnings.length}} varováními:</p>
+			
+			<div *ngIf="importResult && importResult.success" class="modal-body">
+				<h4>Souhrn</h4>
+				<p>V rámci importu byly nahrány do aplikace CityVizor tyto záznamy:</p>
+				<table class="table table-condensed table-striped table-hover">
+					<thead>
+						<tr><th>Typ záznamu</th><th>Počet záznamů</th></tr>
+					</thead>
+					<tbody>
+						<tr><th>Roční rozpočet obce</th><td>{{importResult.counter.budgets}}</td></tr>
+						<tr><th>Akce/účel</th><td>{{importResult.counter.events}}</td></tr>
+						<tr><th>Faktury a platby</th><td>{{importResult.counter.payments}}</td></tr>
+					</tbody>
+				</table>
 				
+				<ng-container *ngIf="importResult.warnings">
+					<h4>Varování</h4>
+					<p>Během importu byly zjištěny následující skutečnosti. Tyto skutečnosti nebránily dokončení importu.</p>
+					<div class="warnings">
+						<ul>
+							<li *ngFor="let warning of importResult.warnings">{{warning}}</li>
+						</ul>
+					</div>
+				</ng-container>
+				
+			</div>
+			
+			<div *ngIf="importResult && !importResult.success" class="modal-body">
+				<h4>Popis chyby</h4>
+				<p>{{importResult.error}}</p>
+				<br>
+				
+				<h4>Časté chyby</h4>
 				<ul>
-					<li *ngFor="let warning of importResult.warnings">{{warning}}</li>
+					<li>Záměna číselníků a datového souboru.</li>
+					<li>Chybný formát souboru - například záměna CSV za XLS, či špatné kódování.</li>
+					<li>Nerespektování správných názvů záhlaví v souborech</li>
 				</ul>
+				<br>
 				
+				<h4>Řešení chyb</h4>
+				<p>Ujistěte se, že nahráváte správné soubory a že jsou vloženy do správných polí. Dále zkontrolujte obsah a strukturu souborů. Návody na import do aplikace jsou <a [href]="config.docsUrl + '/navody'" target="_blank">v sekci Návody v dokumentaci k aplikaci</a>.</p>
+				<br>
 			</div>
+			
 		</div>
 	</div>
-</div>
-
-<div class="hidden">
-	<h3>Historie</h3>
-
-	<table class="table table-responsive table-condensed table-hover table-striped etls">
-		<thead>
-			<tr>
-				<th><!-- icon status --></th>
-				<th>Datum</th>
-				<th>Cíl</th>
-				<th>Soubor</th>
-				<th>Uživatel</th>
-				<th><!-- icon warnings --></th>
-				<th><!-- icon note --></th>
-			</tr>
-		</thead>
-		<tbody>
-			<ng-container *ngFor="let etl of etls.docs">
-				<tr (click)="toggleETLVisible(etl)" class="header" [class.open]="etlVisible === etl._id">
-					<td>
-						<span *ngIf="etl.status == 'success'" title="Import proběhl úspěšně" class="note text-success"><i class="fa fa-check-circle" aria-hidden="true"></i></span>
-						<span *ngIf="etl.status == 'error'" title="Nastala chyba. Data nebyla nahrána." class="note text-danger"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
-					</td>
-					<td>{{etl.date | date:"d. M. y"}}</td>
-					<td>{{targets[etl.target]}} {{etl.year}}</td>
-					<td>{{etl.file}}</td>
-					<td><span [title]="'Organizace: ' + etl.user?.organization + ', ID: ' + etl.user?._id" class="note">{{etl.user?.name}}</span></td>
-					<td><span *ngIf="etl.warnings.length" [title]="etl.warnings.length + ' varování!'" class="note text-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i><sup>{{etl.warnings.length}}</sup></span></td>
-					<td><span *ngIf="etl.note" [title]="etl.note" class="note text-info"><i class="fa fa-comment" aria-hidden="true"></i></span></td>
-				</tr>
-				<tr>
-					<td colspan="7" class="details">
-						<div [class.open]="etlVisible === etl._id">
-							<dl>
-								<dt>Výsledek</dt>
-								<dd>{{etl.result || etl.error}}</dd>
-
-								<ng-container *ngIf="etl.note">
-									<dt>Poznámka</dt>
-									<dd>{{etl.note}}</dd>
-								</ng-container>
-
-								<ng-container *ngIf="etl.warnings.length">
-									<dt>Varování</dt>
-									<dd>
-										<ul>
-											<li *ngFor="let warning of etl.warnings">{{warning}}</li>
-										</ul>
-									</dd>
-								</ng-container>
-
-							</dl>
-						</div>
-					</td>
-				</tr>
-			</ng-container>
-	</table>
-
-	<div class="btn-group">
-		<a (click)="loadHistory(etls.page - 1)" [class.disabled]="etls.page<=1" aria-label="Předchozí" class="btn btn-default"><span aria-hidden="true">&laquo;</span></a>
-		<a (click)="loadHistory(etls.page)" class="btn btn-default">Obnovit</a>
-		<a (click)="loadHistory(etls.page + 1)" [class.disabled]="etls.page>=etls.pages" aria-label="Další" class="btn btn-default"><span aria-hidden="true">&raquo;</span></a>
-	</div>
-
 </div>

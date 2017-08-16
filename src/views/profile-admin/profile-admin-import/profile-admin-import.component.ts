@@ -24,11 +24,13 @@ export class ProfileAdminImportComponent {
 
 	budgets:any[];
 	 
-	importResult:{counter:any,warnings:string[]};
+	importResult:any;
 	 
 	etls:Pager = new Pager();
 	 
 	etlVisible:string;
+	
+	config:any = AppConfig;
 
 	statuses = {
 		"success": "úspěšně nahráno",
@@ -71,9 +73,15 @@ export class ProfileAdminImportComponent {
 			.then(etls => this.etls = etls);
 	}
 	 
-	savedBudget(result){
+	showResult(success:boolean,year:number,result:any){
 		if(result){
-			this.importResult = result;
+			this.importResult = {
+				success: success,
+				year: year,
+				counter: success ? result.counter : null,
+				warnings: success ? result.warnings : null,
+				error: success ? null : result
+			}
 			this.importModal.show();
 		}
 		this.loadBudgets();
