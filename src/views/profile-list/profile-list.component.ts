@@ -121,7 +121,7 @@ export class ProfileListComponent{
 	}
 
 	openProfile(profile){
-		this._router.navigate(['/profil',profile.url]);
+		this._router.navigate(['/' + profile.url]);
 	}
 
 }

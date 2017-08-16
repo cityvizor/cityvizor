@@ -63,7 +63,7 @@
 								<h4>{{letter.letter}}</h4>
 								<div class="column">
 									<span *ngFor="let profile of letter.profiles">
-										<a *ngIf="!search || search.exec(profile.searchString)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null" class="entityListItem">{{profile.name}}</a>
+										<a *ngIf="!search || search.exec(profile.searchString)" [routerLink]="'/' + profile.url" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null" class="entityListItem">{{profile.name}}</a>
 									</span>
 								</div>						
 							</div>

@@ -101,7 +101,7 @@ export class SiteAdminProfilesComponent {
 	}
 
 	getProfileLink(profile){
-		return "/profil/" + (profile.url || profile._id);
+		return "/" + (profile.url || profile._id);
 	}
 
 }

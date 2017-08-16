@@ -7,7 +7,7 @@
         
         <h1>
           <i class="fa fa-map-signs"></i>
-          <a [routerLink]="['/profil/' + profile.url]">{{profile.name}}</a>
+          <a [routerLink]="['/' + profile.url]">{{profile.name}}</a>
         </h1>
 
         <a [routerLink]="['/']" class="btn btn-lg pull-right hidden-print">
@@ -37,7 +37,7 @@
           
           <ng-container *ngFor="let viz of vizModules">
             <li *ngIf="!isHiddenModule(viz)">
-              <a [routerLink]="['/profil/' + profile.url + '/' + viz.url]" routerLinkActive="active">
+              <a [routerLink]="['/' + profile.url + '/' + viz.url]" routerLinkActive="active">
                 {{viz.name}}
               </a>
             </li>
@@ -47,7 +47,7 @@
 
         <ul class="nav navbar-nav navbar-right">
           <li *ngIf="isManagedProfile()">
-            <a [routerLink]="['/profil/' + this.profile.url + '/admin']" routerLinkActive="active">
+            <a [routerLink]="['/' + this.profile.url + '/admin']" routerLinkActive="active">
               <i class="fa fa-cog"></i>
             </a>
           </li>

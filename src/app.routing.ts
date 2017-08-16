@@ -8,18 +8,32 @@ import { UserAdminComponent } from './views/user-admin/user-admin.component';
 
 const appRoutes: Routes = [
   {path: '',component: FrontPageComponent},
-
-	{path: 'profil/:profile/admin/:module',component: ProfileAdminComponent},
-	{path: 'profil/:profile/admin', redirectTo: 'profil/:profile/admin/uvod', pathMatch: 'full'},
 	
-	{path: 'profil/:profile/:module',component: ProfileViewComponent},
-	{path: 'profil/:profile', redirectTo: 'profil/:profile/prehled', pathMatch: 'full'},
+	/* ADMINISTRATION */
 	
 	{path: 'admin/:cat',component: SiteAdminComponent},
 	{path: 'admin', redirectTo: 'admin/profily', pathMatch: 'full'},
 	
-	{path: 'nastaveni-uctu/:cat',component: UserAdminComponent},
-	{path: 'nastaveni-uctu', redirectTo: 'nastaveni-uctu/ucet', pathMatch: 'full'}
+	/* USER ACCOUNT */
+	
+	{path: 'ucet/:cat',component: UserAdminComponent},
+	{path: 'ucet', redirectTo: 'nastaveni-uctu/ucet', pathMatch: 'full'},
+	
+	/* PROFILES */
+	
+	/* backwards compatibility */
+	{path: 'profil/:profile/admin/:module', redirectTo: ':profile/admin/:module', pathMatch: 'full'},
+	{path: 'profil/:profile/admin', redirectTo: ':profile/admin', pathMatch: 'full'},
+	
+	{path: 'profil/:profile/:module', redirectTo: ':profile/:module', pathMatch: 'full'},
+	{path: 'profil/:profile', redirectTo: ':profile', pathMatch: 'full'},
+	
+	/* current setting */
+	{path: ':profile/admin/:module',component: ProfileAdminComponent},
+	{path: ':profile/admin', redirectTo: ':profile/admin/uvod', pathMatch: 'full'},
+	
+	{path: ':profile/:module',component: ProfileViewComponent},
+	{path: ':profile', redirectTo: ':profile/prehled', pathMatch: 'full'},
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);
