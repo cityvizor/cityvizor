@@ -62,7 +62,11 @@ export class ProfileAdminImportBoxComponent {
 		
 		this.dataService.importExpenditures(formData)
 			.then(result => this.saved.emit(result))
-			.catch(response => this.error.emit(response.text()));
+			.catch(response => {
+				if(response.status === 400) this.error.emit(response.text());
+				else if(response.status === 0) this.error.emit("Nepodařilo se kontaktovat server. Zkontrolujte připojení k internetu.");
+				else this.error.emit("Nastala neznámá chyba. Kontaktujte prosím správce aplikace Cityvizor.");
+			});
 				
 		return false;
 	}

@@ -9,6 +9,7 @@ var multer = require('multer');
 var upload = multer({ dest: config.uploads.saveDir });
 
 var fs = require("fs");
+var path = require("path");
 
 var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
@@ -29,7 +30,10 @@ router.post("/", schema.validate({body: expendituresSchema}), upload.fields([{ n
 	var profileId = req.body.profile;
 	var year = req.body.year;
 	
-	if(!req.files) return res.status(400).send("Bad Request (missing events and expenditures attributes)");
+	if(!req.files || !req.files.eventsFile || !req.files.expendituresFile) return res.status(400).send("Chybí nahrávaný soubor.");
+	
+	if(path.extname(req.files.eventsFile[0].originalname) !== ".csv") return res.status(400).send("Nesprávný formát číselníku akcí. Soubory musí být ve formátu CSV.");
+	if(path.extname(req.files.expendituresFile[0].originalname) !== ".csv") return res.status(400).send("Nesprávný formát datového souboru. Soubory musí být ve formátu CSV.");
 	
 	var importer = new ExpenditureImporter({});
 	
@@ -51,7 +55,7 @@ router.post("/", schema.validate({body: expendituresSchema}), upload.fields([{ n
 		})
 		.catch(err => {
 		
-			res.status(500).send(err.message);
+			res.status(400).send(err.message);
 		
 			fs.unlink(req.files.eventsFile[0].path);
 			fs.unlink(req.files.expendituresFile[0].path);
