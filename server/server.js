@@ -5,10 +5,6 @@ var express = require('express');
 
 var config = require("./config/config.js");
 
-if(config.cron.enable){
-	setTimeout(() => require("./cron"),config.cron.startDelay * 1000);
-}
-
 /* SET UP ROUTING */
 var app = express();
 console.log("Express running in " + app.get('env') + " environment");
@@ -82,23 +78,34 @@ app.use((err, req, res, next) => {
 
 
 /* SET UP SERVER */
+let host = config.server.host || "127.0.0.1";
+let port = config.server.port || 80;
+
 if(config.ssl.enable){
+	
 	// start https server
-	https.createServer(config.ssl, app).listen(443, function () {
-		console.log('CityVizor Server listening on port 443!')
+	https.createServer(config.ssl, app).listen(443, host, function () {
+		console.log('CityVizor Server listening on' + listenPath + '!')
 	});
 
-	// Redirect from http port 80 to https
-	http.createServer(function (req, res) {
-		res.writeHead(301, { "Location": "https://" + req.headers.host + req.url });
-		res.end();
-	}).listen(config.server.port, function () {
-		console.log('CityVizor Server redirecting from port ' + config.server.port + ' to 443!')
-	});
+	let redirectPort = config.server.ssl.redirectPort || port || 80;
+	
+	// Redirect to https
+	if(config.ssl.redirect && redirectPort){		
+		http.createServer(function (req, res) {
+			res.writeHead(301, { "Location": "https://" + req.headers.host + req.url });
+			res.end();
+		}).listen(redirectPort, host, function () {
+			console.log('CityVizor Server redirecting from ' + host + ':' + port + ' to ' + host + ':443!')
+		});
+	}
+	
 }
 
 else {
-	app.listen(config.server.port, function () {
-		console.log('CityVizor Server listening on port ' + config.server.port + '!');
+
+	http.createServer(app).listen(port, host, function () {
+		console.log('CityVizor Server listening on ' + host + ':' + port + '!');
 	});
+	
 }
