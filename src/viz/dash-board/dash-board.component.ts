@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { DataService } from '../../services/data.service';
 
@@ -27,7 +28,7 @@ export class DashboardComponent {
 		income:[]
 	};
 
-	constructor(private dataService: DataService){
+	constructor(private dataService: DataService, private router: Router, private route: ActivatedRoute){
 	}
 	 
 	ngOnInit(){
@@ -46,83 +47,13 @@ export class DashboardComponent {
 				budgets.forEach(budget => this.maxBudgetAmount = Math.max(this.maxBudgetAmount,budget.budgetIncomeAmount,budget.incomeAmount,budget.budgetExpenditureAmount,budget.expenditureAmount));
 			});
 	}
-
-	getIncBarWidth(){
-		var n = this.dashboard.income.length;
-		return (800 - (n - 1) * 50) / n;
+	
+	openBudget(type:string,year:number):void{
+		if(type === 'inc') this.router.navigate(["../prijmy",{rok:year}],{relativeTo:this.route});
+		if(type === 'exp') this.router.navigate(["../vydaje",{rok:year}],{relativeTo:this.route});
 	}
 
-	getExpBarWidth(){
-		var n = this.dashboard.expenditures.length;
-		return (800 - (n - 1) * 50) / n;
-	}
-	 
-	svgPointString (x,y) {
-			return x + ' ' + y;
-	}
-
-	getXOffset(i) {
-		return (i+1/2)*1000/this.budgets.length;
-	}
-	getExpSemicirclePath (budget,i) {
-		var MAX_R = 90;
-		var sx = this.getXOffset(i);
-		var sy = 150;
-		var r = MAX_R * (budget.expenditureAmount/Math.max(this.maxExpenditureAmount,this.maxIncomeAmount));
-		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,0,"+(sx+r)+" "+sy+" Z";
-	}
-	getIncSemicirclePath (budget,i) {
-		var MAX_R = 90;
-		var sx = this.getXOffset(i);
-		var sy = 150;
-		var r = MAX_R * (budget.incomeAmount/Math.max(this.maxExpenditureAmount,this.maxIncomeAmount));
-		return "M"+(sx-r)+" "+sy+" A "+r+" "+r+",0,0,1,"+(sx+r)+" "+sy+" Z";
-	}
-	getDiffSemicircleFill (budget,i) {
-		if (budget.incomeAmount > budget.expenditureAmount)
-			return "#ADF";
-		if (budget.incomeAmount < budget.expenditureAmount)
-			return "#FF9491";
-	}
-	getDiffSemicirclePath (budget,i) {
-		var MAX_R = 90;
-		var sx = this.getXOffset(i);
-		var sy = 150;
-		var rInc = MAX_R * (budget.incomeAmount / Math.max(this.maxExpenditureAmount,this.maxIncomeAmount));
-		var rExp = MAX_R * (budget.expenditureAmount / Math.max(this.maxExpenditureAmount,this.maxIncomeAmount));
-		
-		var r1, r2, orientation;
-		
-		if (rInc>rExp) {
-			r1 = rInc;
-			r2 = rExp;
-			orientation = 1;
-		}
-		else {
-			r1 = rExp;
-			r2 = rInc;
-			orientation = 0;
-		}
-		if ((r1-r2)<3) r1=r1+(3-(r1-r2));
-		
-		return "M"+(sx-r1)+" "+sy+" A "+r1+" "+r1+",0,0,"+orientation+","+(sx+r1)+" "+sy+" L"+(sx+r2)+" "+sy+" A "+r2+" "+r2+",0,0,"+(orientation>0?"0":"1")+","+(sx-r2)+" "+sy+" Z";
-	}
-	 
-	 
-	getExpTrianglePath (sx,sy,a2) {
-		var Cx = [];
-		Cx.push(this.svgPointString(sx,			sy+a2));
-		Cx.push(this.svgPointString(sx+a2,	sy));
-		
-		return "M"+(sx-a2)+" "+sy+" L "+Cx.join(" L");
-	}
-	getIncTrianglePath (sx,sy,a2) {
-		var Cx = [];
-		Cx.push(this.svgPointString(sx,			sy-a2));
-		Cx.push(this.svgPointString(sx+a2,	sy));
-		
-		return "M"+(sx-a2)+" "+sy+" L "+Cx.join(" L");
-	}
+	
 	 
 
 }

@@ -1,4 +1,5 @@
 
+/*
 .historychart{overflow:auto;overflow-y:visible;}
 
 .historychart .header{padding:0;}
@@ -15,7 +16,7 @@
   .historychart{overflow:visible;}
   .historychart .data{overflow:auto;overflow-y:visible;}
 }
-
+*/
 .payments .counterparty{cursor:pointer;}
 .payments .list > td{padding:0;border:none;}
 .payments .list > td > div{padding-left:10px;background-color:#fff;}
@@ -31,7 +32,10 @@ table.table-title-number-number-td tbody tr td:nth-child(3) { width: 20%; }
 table.table-nobottommargin {
   margin-bottom: 0px;
 }
-
+td.td-zerosidepadding {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 table.table-label-date-title-number tr > *:nth-child(1) { width: 15%; }
 table.table-label-date-title-number tr > *:nth-child(2) { width: 15%; }
 table.table-label-date-title-number tr > *:nth-child(3) { width: 50%; }
@@ -39,4 +43,31 @@ table.table-label-date-title-number tr > *:nth-child(4) { width: 20%; }
 
 .borderless td, .borderless th {
     border: none;
+}
+
+table.table-fixedfirstcol {
+  padding-left: 50px;
+}
+table.table-fixedfirstcol thead tr th:first-child, table.table-fixedfirstcol tbody tr td:first-child {
+  position: absolute;
+  left: 0;
+}
+
+.horizontal-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.horizontal-scroll > .col-xs-4 {
+  display: inline-block;
+  float: none;
+}
+
+tr.opened {
+  background-color: #f5f5f5;
+}
+tr .fa.fa-chevron-circle-right {
+  transition-duration: .33s;
+}
+tr.opened .fa.fa-chevron-circle-right {
+  transform: rotate(90deg);
 }

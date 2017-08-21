@@ -4,16 +4,16 @@
   <header>
     <div class="container">
       <div class="row">
-        
-        <h1>
-          <i class="fa fa-map-signs"></i>
-          <a [routerLink]="['/' + profile.url]">{{profile.name}}</a>
-        </h1>
+        <div class="col-xs-12">
+          <h1>
+            <i class="fa fa-map-signs"></i>
+            <a [routerLink]="['/' + profile.url]">{{profile.name}}</a>
+          </h1>
 
-        <a [routerLink]="['/']" class="btn btn-lg pull-right hidden-print">
-          Vybrat obec
-        </a>
-
+          <a [routerLink]="['/']" class="btn btn-lg pull-right hidden-print">
+            Vybrat obec
+          </a>
+        </div>
       </div>
     </div>
   </header>

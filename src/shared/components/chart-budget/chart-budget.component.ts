@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
 	moduleId: module.id,
@@ -10,8 +10,12 @@ export class ChartBudgetComponent {
 	@Input() data:{expenditureAmount:number,budgetExpenditureAmount:number,incomeAmount:number,budgetIncomeAmount:number};	
 
 	@Input() max:number;
+	
+	@Input() type:string;
+	
+	@Output() click:EventEmitter<string> = new EventEmitter();
 
-	barHeight:number = 400;
+	barHeight:number = 150;
 	 
 	minHeight:number = 10;
 
@@ -32,9 +36,9 @@ export class ChartBudgetComponent {
 	}
 	 
 	getHeight(value){
-		if(value > 0) return (value / this.getMaxAmount()) * this.barHeight + this.minHeight;
+		if(value > 0) return (value / this.getMaxAmount()) * this.barHeight;
 			 
-		if(value < 0) return (-1) * (value / this.getMaxAmount()) * this.barHeight + this.minHeight;
+		if(value < 0) return (-1) * (value / this.getMaxAmount()) * this.barHeight;
 		
 		return this.minHeight;
 	}

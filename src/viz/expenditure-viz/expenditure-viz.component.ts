@@ -51,7 +51,21 @@ export class ExpenditureVizComponent{
 	maxBudgetsAmount:number = 0;
 
 	vizScale: number = 1;	
-
+	
+	// ----AUDIO TEST [
+	audioContext: AudioContext;
+	loadingAudio: boolean = false;
+	playingAudio: boolean = false;
+  audioBuffer: AudioBuffer;
+	sourceAudio: any;
+	analyser: any;
+	bufferLength: number;
+	frequencyDataArray: Uint8Array;
+	delayOfFrames: number = 60;
+	drawVisual: any;
+	// ----AUDIO TEST ]
+	
+	
 	// store siubscription to unsubscribe on destroy
 	paramsSubscription:Subscription;
 	
@@ -94,7 +108,27 @@ export class ExpenditureVizComponent{
 			
 			this.state = newState;
 			
+			
 		});
+		
+		// ----AUDIO TEST [
+		this.audioContext = new AudioContext();
+		this.analyser = this.audioContext.createAnalyser();
+		this.analyser.fftSize = 256;
+		this.analyser.minDecibels = -70;
+		this.analyser.maxDecibels = -30;
+		this.bufferLength = this.analyser.frequencyBinCount;
+		this.frequencyDataArray = new Uint8Array(this.bufferLength);
+		this.analyser.getByteFrequencyData(this.frequencyDataArray);
+		
+		this.loadingAudio = true;
+		this.fetchAudio()
+				.then(audioBuffer => {
+						this.loadingAudio = false;
+						this.audioBuffer = audioBuffer;
+				})
+				.catch(error => { throw error; });
+		// ----AUDIO TEST ]
 		
   }
 
@@ -231,6 +265,43 @@ export class ExpenditureVizComponent{
 		
 	}
 
-	
+	// ----AUDIO TEST [
+	fetchAudio(): Promise<AudioBuffer> {
+			return fetch('assets/audio/audio.wav')
+					.then(response => response.arrayBuffer())
+					.then(buffer => {
+							return new Promise((resolve, reject) => {
+									this.audioContext.decodeAudioData(
+											buffer,
+											resolve,
+											reject
+									);
+							})
+					});
+	}
+	playAudio() {
+    let bufferSource = this.audioContext.createBufferSource();
+    bufferSource.buffer = this.audioBuffer;
+    bufferSource.connect(this.analyser);
+		this.analyser.connect(this.audioContext.destination);
+    bufferSource.start(0);
+		
+		this.playingAudio = true;
+		requestAnimationFrame(() => this.getAudioFrequencyData());
+	}
+	onClick() {
+		this.playAudio();
+	}
+	getAudioFrequencyData() {
+		if (this.playingAudio) {
+    	this.analyser.getByteFrequencyData(this.frequencyDataArray);
+		
+			//FIX ME: https://teropa.info/blog/2016/12/12/graphics-in-angular-2.html#javascript-requestanimationframe
+			// this.ngZone.runOutsideAngular(() => this.draw());
+			// Running code out of Angular ZONE is better for performance
+			requestAnimationFrame(() => this.getAudioFrequencyData());
+		}
+  }
+	// ----AUDIO TEST ]
 
 }

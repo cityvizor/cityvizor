@@ -4,7 +4,7 @@
 	<tabset #detailTabs>
 		<tab heading="Přehled">
 			Výdaje: {{event.expenditureAmount | money:0:false}}<br>
-			Platby: {{paymentsExpenditureAmount | money:0:false}}<br>
+			Faktury: {{paymentsExpenditureAmount | money:0:false}}<br>
 			Neidentifikované: {{event.expenditureAmount - paymentsExpenditureAmount | money:0:false}}
 			<br>
 			Rozpočtované: {{event.budgetExpenditureAmount | money:0:false}}<br>
@@ -18,52 +18,39 @@
 		
 		<tab heading="Roční srovnání">
 			<div class="container-fluid">
-				<div class="historychart row">
-					<div class="col-xs-2 header">
-						<table class="table">
-							<thead>
-								<tr style="height:30px;"><th>Rok</th></tr>
-								<tr style="height:30px;"><td>Název</td></tr>
-								<tr style="height:123px;"><td></td></tr>
-								<tr style="height:60px;"><td>Výdaje</td></tr>
-								<tr style="height:60px;"><td>Příjmy</td></tr>
-							</thead>
-						</table>
-					</div>
-					<div class="col-xs-10 data">
-						<table class="table table-hover">
+				<div class="historychart">
+					<div class="data">
+						<table class="table table-hover table-fixedfirstcol">
 							<thead>
 								<tr style="height:30px;">
-									<th *ngFor="let historyEvent of history">{{historyEvent.year}} <a class="open" (click)="selectEvent.emit(historyEvent._id)">otevřít</a></th>
 									<th></th>
+									<th *ngFor="let historyEvent of history" colspan="1">
+										<h4>
+											Rok {{historyEvent.year}} <a class="open" (click)="selectEvent.emit(historyEvent._id)">otevřít</a>
+										</h4>
+										<div class="row">
+											<div class="col-xs-6">	
+												<chart-budget [data]="historyEvent" [type]="'expenditure'" [max]="maxHistoryAmount"></chart-budget>
+											</div>
+											<div class="col-xs-6">
+												<chart-budget [data]="historyEvent" [type]="'income'" [max]="maxHistoryAmount"></chart-budget>
+											</div>
+										</div>
+									</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr style="height:30px;">
-									<td *ngFor="let historyEvent of history"><span class="crop" [title]="historyEvent.name">{{historyEvent.name}}</span></td>
-									<td></td>
-								</tr>
-								<tr style="height:123px;">
+								<tr>
+									<td>Rozpočet</td>
 									<td *ngFor="let historyEvent of history">
-										<div  class="chart">
-											<chart-budget [data]="historyEvent" [max]="maxHistoryAmount"></chart-budget>
-										</div>
+										<span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span> | <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span>
 									</td>
-									<td></td>
 								</tr>
-								<tr style="height:60px;">
+								<tr>
+									<td>Čerpáno</td>
 									<td *ngFor="let historyEvent of history">
-										Rozpočet: <span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span><br>
-										Skutečnost: <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span><br>
+										<span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span> | <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
 									</td>
-									<td></td>
-								</tr>
-								<tr style="height:60px;">
-									<td *ngFor="let historyEvent of history">
-										Rozpočet: <span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span><br>
-										Skutečnost: <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
-									</td>
-									<td></td>
 								</tr>
 							</tbody>
 						</table>
@@ -167,7 +154,7 @@
 				</tfoot>
 			</table>
 		</tab>
-		<tab heading="Faktury a platby">
+		<tab heading="Faktury">
 			<table *ngIf="counterparties" class="table table-responsive table-hover payments">
 				<thead>
 					<tr>
@@ -177,9 +164,9 @@
 				</thead>
 				<tbody>
 					<ng-container *ngFor="let counterparty of counterparties">
-						<tr (click)="openPayments(counterparty)" class="counterparty">
+						<tr (click)="openPayments(counterparty)" [class.opened]="counterparty.open" class="counterparty">
 							<td>
-								{{counterparty.name}}
+								<i class="fa fa-chevron-circle-right"></i> {{counterparty.name}}
 								<a *ngIf="counterparty.id" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+counterparty.id+'&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES" class="text-muted small">IČO {{counterparty.id}}</a>
 							</td>
 							<td class="text-right">
@@ -191,7 +178,7 @@
 						<tr class="list">
 							<td colspan="3">
 								<div [@paymentsState]="counterparty.open ? 'open' : 'closed'">
-									<table class="table table-responsive table-hover borderless small table-label-date-title-number table-nobottommargin">
+									<table class="table table-responsive borderless small table-label-date-title-number table-nobottommargin">
 										<tr *ngFor="let payment of counterparty.payments">
 											<td>
 												<span *ngIf="payment.item < 5000" class="label label-success">Příjem</span>

@@ -53,9 +53,6 @@ export class BudgetsListComponent{
 				this.budgets.forEach(budget => this.maxAmount = Math.max(this.maxAmount,this.getAmount(budget),this.getBudgetAmount(budget)));
       	
 				this.selectBudget(this.selectedYear);
-			
-				console.log(this.budgets);
-				console.log(this.budgets.length);
 			});
 		
 	}
@@ -85,8 +82,7 @@ export class BudgetsListComponent{
 	}
 
   selectBudget(year:number):void{
-		console.log(year,this.budgets);
-		
+
 		this.selectedYear = year;
 		
 		if(year && this.budgets){
@@ -94,13 +90,10 @@ export class BudgetsListComponent{
 			// search for budget
 			let budget;
 			this.budgets.some(item => {
-				console.log(item,year);
 				if(Number(item.year) === year) {budget = item; return true;}
 				return false;
 			});
 			
-
-				console.log(budget)
 			if(budget){
 				this.currentBudget = budget;
 				this.select.emit(this.currentBudget);

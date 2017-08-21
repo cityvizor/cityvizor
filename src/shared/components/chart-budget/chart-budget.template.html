@@ -1,14 +1,15 @@
-<svg style="width: 100%;" viewBox="0 0 500 500">
+<svg style="width: 100%; max-height: 100px;" viewBox="0 0 100 150" (click)="click.emit(null);$event.stopPropagation();">
 	
 	<!-- Expenditures -->
-	<rect x="75" [attr.y]="getYOffset(data.budgetExpenditureAmount)" width="150" [attr.height]="getHeight(data.budgetExpenditureAmount)" style="fill:#ff9491" />
-	<rect x="75" [attr.y]="getYOffset(data.expenditureAmount)" width="150" [attr.height]="getHeight(data.expenditureAmount)" style="fill:#E73431" />
-	<text x="150" y="480" text-anchor="middle" font-size="60" fill="#E73431">Výdaje</text>
+	<g *ngIf="type=='expenditure'" (click)="click.emit('exp');$event.stopPropagation();" style="cursor:pointer;">
+		<rect x="25" [attr.y]="getYOffset(data.budgetExpenditureAmount)" rx="10" ry="10" width="50" [attr.height]="getHeight(data.budgetExpenditureAmount)" style="fill:#ff9491" />
+		<rect x="25" [attr.y]="getYOffset(data.expenditureAmount)" rx="10" ry="10" width="50" [attr.height]="getHeight(data.expenditureAmount)" style="fill:#E73431" />
+	</g>
 	
 	<!-- Income -->
-	<rect x="325" [attr.y]="getYOffset(data.budgetIncomeAmount)" width="150" [attr.height]="getHeight(data.budgetIncomeAmount)" style="fill:#adf" />
-	<rect x="325" [attr.y]="getYOffset(data.incomeAmount)" width="150" [attr.height]="getHeight(data.incomeAmount)" style="fill:#2581C4" />
-	<text x="400" y="480" text-anchor="middle" font-size="60" fill="#2581C4">Příjmy</text>
-	
+	<g *ngIf="type=='income'" (click)="click.emit('inc');$event.stopPropagation();" style="cursor:pointer;">
+		<rect x="25" [attr.y]="getYOffset(data.budgetIncomeAmount)" rx="10" ry="10" width="50" [attr.height]="getHeight(data.budgetIncomeAmount)" style="fill:#adf" />
+		<rect x="25" [attr.y]="getYOffset(data.incomeAmount)" rx="10" ry="10" width="50" [attr.height]="getHeight(data.incomeAmount)" style="fill:#2581C4" />
+	</g>
 	
 </svg>

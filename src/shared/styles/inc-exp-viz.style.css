@@ -7,7 +7,6 @@ h4{font-weight:normal !important;}
 .arrow_groupselecthint {
 	position: absolute;
 	top: 60px;
-	left: 130px;
 	height: 50px;
 	width: 250px;
 }
@@ -229,6 +228,25 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 	border-color: #DDD;
 }
 
-.btn-label:hover, .btn-red:hover {
+.btn-label:hover {
 	cursor: default;
+}
+
+.modal-body {
+	overflow: hidden;	
+}
+
+.equalizer {
+	height: 50px;
+}
+.equalizer .eBar {
+	display: block;
+	font-size: 1px;
+	float: left;
+	width: 5px;
+	margin-left: 2px;
+	min-height: 5px;
+	position: relative;
+	bottom: 0;
+	background: #E73431;
 }

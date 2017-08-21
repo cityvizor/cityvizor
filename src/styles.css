@@ -77,7 +77,7 @@ strong, .label, th {
 .content h1, .content h2, section h1, section h2 { margin: .5em 0 1em 0;}
 .content h3, .content h4, section h3, section h4 { margin: 0em 0px 1em 0;}
 
-header, nav, .btn {font-family: 'Roboto'/*Rubik*/, sans-serif;}
+header, nav, .btn {font-family: 'Rubik', sans-serif;}
 
 
 /* Content specific classes */
@@ -261,6 +261,17 @@ input:invalid:not(.novalidate){
   }
 }
 
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #2581C4 !important;
+}
+.btn-red {
+    background-color: #E73431 !important;
+		color: white;
+}
+.btn-red:hover, .btn-red:active, .btn-red:visited {
+    background-color: #E22926 !important;
+	color:white;
+}
 
 .table-responsive { border: none; }
 
@@ -272,6 +283,9 @@ input:invalid:not(.novalidate){
 }
 .label-red, .btn-red {
 	background-color: #E73431;
+}
+.label-red a, .label-blue a{
+	color: white;
 }
 .label-blue, .btn-blue {
 	background-color: #2581C4;

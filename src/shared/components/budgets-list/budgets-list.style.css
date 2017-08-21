@@ -41,6 +41,7 @@ padding: 0px 2px;}
 
 .btn-group {
 	box-shadow: 0px 0px 20px white;
+	border-radius: 6px;
 }
 
 .btn-red {
@@ -60,6 +61,6 @@ padding: 0px 2px;}
 	border-color: #DDD;
 }
 
-.btn-label:hover, .btn-red:hover {
+.btn-label:hover {
 	cursor: default;
 }

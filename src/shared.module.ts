@@ -9,6 +9,7 @@ import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart
 import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
 import { ChartBudgetComponent } 		from './shared/components/chart-budget/chart-budget.component';
 import { BudgetsListComponent } 		from './shared/components/budgets-list/budgets-list.component';
+//import { HelpModalComponent } 		from './shared/components/help-modal/help-modal.component';
 
 // Pipes
 import { MoneyPipe } from './shared/pipes/money.pipe';
