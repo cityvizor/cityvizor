@@ -1,4 +1,3 @@
-var express = require('express');
-var app = express();
+var environment = process.env.NODE_ENV || "development";
 
-module.exports = require("./config." + app.get('env'));
+module.exports = require("./config." + environment);

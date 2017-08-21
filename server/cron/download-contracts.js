@@ -105,16 +105,16 @@ function downloadContractsLoop(profiles,cb){
 				contracts.push(contract);
 			});
 
-			console.log("Received " + contracts.length + " contracts for " + profile.name);
+			console.log("Received " + contracts.length + " contracts");
 
 			Contract.remove({profile:profile._id})
 				.then(() => {
 
-				console.log("Removed old contracts for " + profile.name);
+				console.log("Removed old contracts");
 
 				// insert all the contracts to DB
 				Contract.insertMany(contracts).then(contracts => {
-					console.log("Written " + contracts.length + " contracts for " + profile.name);
+					console.log("Written " + contracts.length + " contracts");
 					downloadContractsLoop(profiles,cb);
 				});
 

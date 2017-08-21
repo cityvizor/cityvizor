@@ -14,7 +14,7 @@ var path = require("path");
 var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
-var ExpenditureImporter = require("../import/expenditures");
+var ExpenditureImporter = require("./import/expenditures");
 
 var expendituresSchema = {
 	type: "object",

@@ -5,10 +5,6 @@ var express = require('express');
 
 var config = require("./config/config.js");
 
-if(config.cron.enable){
-	setTimeout(() => require("./cron"),config.cron.startDelay * 1000);
-}
-
 /* SET UP ROUTING */
 var app = express();
 console.log("Express running in " + app.get('env') + " environment");
