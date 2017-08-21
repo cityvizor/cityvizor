@@ -9,7 +9,7 @@ import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart
 import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
 import { ChartBudgetComponent } 		from './shared/components/chart-budget/chart-budget.component';
 import { BudgetsListComponent } 		from './shared/components/budgets-list/budgets-list.component';
-//import { HelpModalComponent } 		from './shared/components/help-modal/help-modal.component';
+import { HelpModalComponent } 		from './shared/components/help-modal/help-modal.component';
 
 // Pipes
 import { MoneyPipe } from './shared/pipes/money.pipe';
@@ -22,12 +22,12 @@ import { AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './shared/pipe
     CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot()
   ],
   declarations: [
-    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, BudgetsListComponent,
+    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, BudgetsListComponent, HelpModalComponent,
     /* Shared Pipes */ MoneyPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ],
   exports: [
     CollapseModule, BsDropdownModule, TabsModule,
-    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, BudgetsListComponent,
+    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, BudgetsListComponent, HelpModalComponent,
     /* Shared Pipes */ MoneyPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ]
 })
