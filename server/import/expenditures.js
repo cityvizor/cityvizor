@@ -221,7 +221,8 @@ class ExpendituresImporter {
 				}
 				
 				/* SAVE PAYMENT IF APPLICABLE */
-				if(row[h.counterpartyId] || recordType === "KDF" || row[h.description]){
+				//if(row[h.counterpartyId] || recordType === "KDF" || row[h.description]){
+				if(recordType === "KDF"){
 					this.payments.push({
 						profile: importData.profileId,
 						year: importData.year,
