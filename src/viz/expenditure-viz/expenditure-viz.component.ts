@@ -243,7 +243,7 @@ export class ExpenditureVizComponent{
 		
 		this.groups.forEach(group => {
 			group.amount = 0;
-			group.budgetAmount = 0;
+			group.budgetAmount = 0;			
 			group.paragraphs = [];
 		});
 		
@@ -251,11 +251,21 @@ export class ExpenditureVizComponent{
 			
 			var groupId = paragraph.id.substring(0, 2);	
 			
-			if(this.groupIndex[groupId]){
+			paragraph.eventAmount = 0;
+			paragraph.eventBudgetAmount = 0;
+			paragraph.events.forEach(event => {
+				paragraph.eventAmount += event.expenditureAmount;
+				paragraph.eventBudgetAmount += event.budgetExpenditureAmount;
+			});
 			
-				this.groupIndex[groupId].budgetAmount += paragraph.budgetExpenditureAmount;
-				this.groupIndex[groupId].amount += paragraph.expenditureAmount;
-				this.groupIndex[groupId].paragraphs.push(paragraph);
+			if(this.groupIndex[groupId]){
+				
+				let group = this.groupIndex[groupId];
+			
+				group.budgetAmount += paragraph.budgetExpenditureAmount;
+				group.amount += paragraph.expenditureAmount;
+				group.paragraphs.push(paragraph);
+			
 			}
 		});
 		
