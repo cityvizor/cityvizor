@@ -97,8 +97,7 @@ export class ExpenditureVizComponent{
 			this.openedGroupList = !!newState.group;
 			
 			if(newState.year !== oldState.year && newState.year){
-				this.loadBudget(this.profile._id,newState.year);
-				this.loadEvents(this.profile._id,newState.year);
+				this.loadData(this.profile._id,newState.year);
 			}
 			
 			if(newState.event !== oldState.event && this.modalLoaded){
@@ -200,21 +199,12 @@ export class ExpenditureVizComponent{
 	}
 
 	/* PROCESS DATA */
-
-	loadEvents(profileId,year){
-		// get event names
-		this.dataService.getProfileEvents(profileId,{year:year})
-			.then(events => {
-				this.events = events;
-				this.eventIndex = {};
-				this.events.forEach(event => this.eventIndex[event._id] = event);
-			});
-	}
-
-	loadBudget(profileId,year){
-		
-		this.dataService.getProfileBudget(profileId,year)
-			.then((budget) => this.setData(budget))
+	loadData(profileId,year){
+		let queue = [];
+		queue.push(this.dataService.getProfileBudget(profileId,year));
+		queue.push(this.dataService.getProfileEvents(profileId,{year:year}));
+		Promise.all(queue)
+			.then(values => this.setData(values[0],values[1])) // values[0]=budget,values[1]=events
 			.catch((err) => {
 				switch(err.status){
 					case 404:
@@ -231,15 +221,11 @@ export class ExpenditureVizComponent{
 			});
 	}
 
-	getEventName(eventId){
-		if(this.eventIndex[eventId]) return this.eventIndex[eventId].name;
-		if(eventId) return "Nepojmenovaná investiční akce";
-		return "Ostatní";
-	}
+	setData(budget,events){
 
-	setData(data){
-		
-		this.maxAmount = 0;
+		// create event index
+		let eventIndex = {};
+		events.forEach(event => eventIndex[event._id] = event);
 		
 		this.groups.forEach(group => {
 			group.amount = 0;
@@ -247,31 +233,53 @@ export class ExpenditureVizComponent{
 			group.paragraphs = [];
 		});
 		
-		data.paragraphs.forEach(paragraph => {
+		budget.paragraphs.forEach(paragraph => {
 			
 			var groupId = paragraph.id.substring(0, 2);	
+			let group = this.groupIndex[groupId];
 			
-			paragraph.eventAmount = 0;
-			paragraph.eventBudgetAmount = 0;
+			// this shouldnt happen, but it might
+			if(!group) return;
+			
+			let eventAmount = 0;
+			let eventBudgetAmount = 0;
+			
 			paragraph.events.forEach(event => {
-				paragraph.eventAmount += event.expenditureAmount;
-				paragraph.eventBudgetAmount += event.budgetExpenditureAmount;
+				// assign name from event index
+				event.name = eventIndex[event.event] ? eventIndex[event.event].name : "Nepojmenovaná investiční akce";
+				// sum events to get the Other value
+				eventAmount += event.expenditureAmount;
+				eventBudgetAmount += event.budgetExpenditureAmount;
 			});
 			
-			if(this.groupIndex[groupId]){
-				
-				let group = this.groupIndex[groupId];
+			// sort events in paragraphs
+			paragraph.events.sort((a,b) => a.name.localeCompare(b.name));
 			
-				group.budgetAmount += paragraph.budgetExpenditureAmount;
-				group.amount += paragraph.expenditureAmount;
-				group.paragraphs.push(paragraph);
-			
+			// add Other if necessary
+			if(paragraph.expenditureAmount !== eventAmount || paragraph.budgetExpenditureAmount !== eventBudgetAmount){
+				paragraph.events.push({
+					name: "Ostatní",
+					expenditureAmount: paragraph.expenditureAmount - eventAmount,
+					budgetExpenditureAmount: paragraph.budgetExpenditureAmount - eventBudgetAmount
+				});
 			}
+
+			group.budgetAmount += paragraph.budgetExpenditureAmount;
+			group.amount += paragraph.expenditureAmount;
+			
+			// add the paragraph to the paragraph list
+			group.paragraphs.push(paragraph);
+
 		});
 		
+		this.maxAmount = 0;
 		this.groups.forEach(group => {
 			this.maxAmount = Math.max(this.maxAmount,group.budgetAmount,group.amount);
 		});
+		
+	}
+	
+	sortEvents(){
 		
 	}
 

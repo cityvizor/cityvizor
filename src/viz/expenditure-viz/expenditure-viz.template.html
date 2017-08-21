@@ -112,18 +112,11 @@
 									<tbody>
 										<tr *ngFor="let event of paragraph.events">
 											<td>
-												<a *ngIf="event.event" (click)="selectEvent(event.event)">{{getEventName(event.event)}}</a>
-												<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
+												<a *ngIf="event.event" (click)="selectEvent(event.event)">{{event.name}}</a>
+												<span *ngIf="!event.event">{{event.name}}</span>
 											</td>
 											<td class="font-number">{{event.budgetExpenditureAmount | money:0:false}} Kč</td>
 											<td class="font-number">{{event.expenditureAmount | money:0:false}} Kč</td>
-										</tr>
-										<tr *ngIf="paragraph.budgetExpenditureAmount !== paragraph.eventBudgetAmount || paragraph.expenditureAmount !== paragraph.eventAmount">
-											<td>
-												<span>Ostatní</span>
-											</td>
-											<td class="font-number">{{(paragraph.budgetExpenditureAmount - paragraph.eventBudgetAmount) | money:0:false}} Kč</td>
-											<td class="font-number">{{(paragraph.expenditureAmount - paragraph.eventAmount) | money:0:false}} Kč</td>
 										</tr>
 									</tbody>
 								</table>
