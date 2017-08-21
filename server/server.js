@@ -25,6 +25,8 @@ mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
 mongoose.Promise = global.Promise;
 
+console.log("Connected to database " + config.database.db);
+
 // configure express-jwt
 var jwt = require('express-jwt');
 app.use(jwt(config.jwt));
@@ -85,10 +87,10 @@ if(config.ssl.enable){
 	
 	// start https server
 	https.createServer(config.ssl, app).listen(443, host, function () {
-		console.log('CityVizor Server listening on' + listenPath + '!')
+		console.log('CityVizor Server listening on ' + host + ':443!')
 	});
 
-	let redirectPort = config.server.ssl.redirectPort || port || 80;
+	let redirectPort = config.ssl.redirectPort || port || 80;
 	
 	// Redirect to https
 	if(config.ssl.redirect && redirectPort){		
