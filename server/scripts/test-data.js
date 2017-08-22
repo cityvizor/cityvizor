@@ -84,7 +84,8 @@ queries[2] = new Promise((resolve, reject) => {
 
 Promise.all(queries).then(() => {
 	console.log("Done.");
-	process.exit();
+	mongoose.disconnect();
 });
+
 
 

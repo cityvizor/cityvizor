@@ -26,7 +26,7 @@ if (process.env.VCAP_SERVICES) {
     port:     appConfig.database.port || 27017,
     ssl:      false,
     url:      'mongodb://localhost:27017/db',
-    username: appConfig.database.username,
+    username: appConfig.database.username
   };
 }
 
@@ -69,8 +69,8 @@ module.exports = {
       {
         database: process.env.ME_CONFIG_MONGODB_AUTH_DATABASE || mongo.db,
         username: process.env.ME_CONFIG_MONGODB_AUTH_USERNAME || mongo.username,
-        password: process.env.ME_CONFIG_MONGODB_AUTH_PASSWORD || mongo.password,
-      },
+        password: process.env.ME_CONFIG_MONGODB_AUTH_PASSWORD || mongo.password
+      }
     ],
 
     //  >>>>  If you are using an admin mongodb account, or no admin account exists, fill out section below
@@ -84,7 +84,7 @@ module.exports = {
     whitelist: [],
 
     //blacklist: hide databases listed in the blacklist (empty list for no blacklist)
-    blacklist: [],
+    blacklist: []
   },
 
   site: {
@@ -98,7 +98,7 @@ module.exports = {
     sessionSecret:    process.env.ME_CONFIG_SITE_SESSIONSECRET  || 'sessionsecret',
     sslCert:          process.env.ME_CONFIG_SITE_SSL_CRT_PATH   || '',
     sslEnabled:       process.env.ME_CONFIG_SITE_SSL_ENABLED    || false,
-    sslKey:           process.env.ME_CONFIG_SITE_SSL_KEY_PATH   || '',
+    sslKey:           process.env.ME_CONFIG_SITE_SSL_KEY_PATH   || ''
   },
 
   //set useBasicAuth to true if you want to authenticate mongo-express loggins
@@ -108,7 +108,7 @@ module.exports = {
 
   basicAuth: {
     username: process.env.ME_CONFIG_BASICAUTH_USERNAME || appConfig.mongoExpress.username,
-    password: process.env.ME_CONFIG_BASICAUTH_PASSWORD || appConfig.mongoExpress.password,
+    password: process.env.ME_CONFIG_BASICAUTH_PASSWORD || appConfig.mongoExpress.password
   },
 
   options: {
@@ -152,7 +152,7 @@ module.exports = {
     gridFSEnabled: false,
 
     // logger: this object will be used to initialize router logger (morgan)
-    logger: {},
+    logger: {}
   },
 
   // Specify the default keyname that should be picked from a document to display in collections list.
@@ -168,5 +168,5 @@ module.exports = {
   // }
   defaultKeyNames: {
 
-  },
+  }
 };

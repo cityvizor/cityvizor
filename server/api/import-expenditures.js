@@ -19,7 +19,7 @@ var ExpenditureImporter = require("./import/expenditures");
 var expendituresSchema = {
 	type: "object",
 	properties: {
-		"profile": { type: "string", /*pattern: "[a-fA-F0-9]{24}"*/ },
+		"profile": { type: "string" },
 		"year": { type: "number" },
 		"validity": { type: "string" } // date
 	}

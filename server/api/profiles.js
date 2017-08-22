@@ -14,10 +14,9 @@ router.get("/", acl("profiles","list"), (req,res) => {
 	
 	if(!req.query.hidden) where.active = true;
 	
-	Profile.find(where).select("id name url active gps").exec((err, profiles) => {
-		if (err) return res.next(err);
-		res.json(profiles);
-	});
+	Profile.find(where).select("id name url active gps")
+		.then(profiles => res.json(profiles))
+		.catch(err => res.status(500).send(err.message));
 	
 });
 
@@ -40,7 +39,7 @@ router.post("/", acl("profiles","write"), (req,res) => {
 	
 	Profile.create(req.body)
 		.then(profile => res.json(profile))
-		.catch(err => res.sendStatus(500));
+		.catch(err => res.status(500).send(err.message));
 
 });
 
@@ -48,6 +47,6 @@ router.post("/:profile", acl("profiles","write"), (req,res) => {
 	
 	Profile.findOneAndUpdate({_id:req.params.profile}, req.body, {new:true, runValidators: true})
 		.then(profile => res.json(profile))
-		.catch(err => res.sendStatus(500));
+		.catch(err => res.status(500).send(err.message));
 
 });

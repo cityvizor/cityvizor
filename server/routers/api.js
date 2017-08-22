@@ -27,8 +27,6 @@ router.use("/login",require("../api/login"));
 
 router.use("/users",require("../api/users"));
 
-router.use("/etl",require("../api/etl"));
-
 
 /* DOWNLOAD DATASETS IN ZIP */
 router.use("/exports",acl("exports","read"),express.static("exports"));

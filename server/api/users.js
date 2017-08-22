@@ -12,7 +12,8 @@ var usersSchema = {};
 router.get("/", schema.validate({query: usersSchema}), acl("users","list"), (req,res) => {
 
 	User.find({}).select("_id name organization roles")
-		.then(users => res.json(users));
+		.then(users => res.json(users))
+		.catch(err => res.status(500).send(err.message));
 
 });
 
@@ -21,7 +22,8 @@ var userSchema = {};
 router.get("/:id", schema.validate({query: userSchema}), acl("users","read"), (req,res) => {
 
 	User.findOne({_id:req.params.id}).populate("managedProfiles","_id name")
-		.then(user => res.json(user));
+		.then(user => res.json(user))
+		.catch(err => res.status(500).send(err.message));
 
 });
 
@@ -48,7 +50,7 @@ router.post("/:id", schema.validate({body: userPostSchema}), acl("users","write"
 	passwordHash.then(body => {
 		User.findOneAndUpdate({_id:req.params.id},body,{upsert:true,new:true}).populate("managedProfiles","_id name")
 			.then(user => res.json(user))
-			.catch(err => res.sendStatus(500));
+			.catch(err => res.status(500).send(err.message));
 	});
 
 });
@@ -57,7 +59,7 @@ router.delete("/:id", acl("users","delete"), (req,res) => {
 
 	User.remove({_id:req.params.id})
 		.then(() => res.sendStatus(200))
-		.catch(err => res.sendStatus(500));
+		.catch(err => res.status(500).send(err.message));
 
 });
 

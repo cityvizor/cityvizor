@@ -1,6 +1,7 @@
 
 var archiver = require("archiver");
 var fs = require("fs");
+var path = require("path");
 
 var Budget = require("../models/expenditures").Budget;
 
@@ -8,7 +9,7 @@ var config = require("../config/config");
 
 module.exports = function(cb){
 
-	var path = __dirname + "/../../" + config.export.saveDir + '/budgets.json.zip';
+	var path = path(__dirname,"/../../",config.export.saveDir,'/budgets.json.zip');
 	var file = fs.createWriteStream(path);
 	
 	file.on("close",() => {

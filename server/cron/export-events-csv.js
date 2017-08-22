@@ -1,13 +1,13 @@
-
 var archiver = require("archiver");
 var fs = require("fs");
+var path = require("path");
 
 var config = require("../config/config");
 
 module.exports = function(cb){
 
-	var savePath = __dirname + "/../../" + config.export.saveDir + '/events.csv.zip';
-	var loadPath = __dirname + "/../../" + config.import.saveDir + "/events";
+	var savePath = path.join(__dirname,"/../../",config.export.saveDir,'/events.csv.zip');
+	var loadPath = path.join(__dirname,"/../../",config.import.saveDir,"/events");
 	var file = fs.createWriteStream(savePath);
 	
 	file.on("close",() => {

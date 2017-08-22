@@ -45,9 +45,16 @@ router.post("/", schema.validate({body: loginSchema}), acl("login","login"), (re
 
 		bcrypt.compare(req.body.password, user.password, (err, same) => {
 			
-			if(same){
-				createToken(user,"1 day",(err,token) => res.send(token));
-			} else {
+			if(err){
+				res.status(500).send("Unexpected error when validating the password.");
+			}
+			else if(same){
+				createToken(user,"1 day",(err,token) =>{
+					if(err) res.status(500).send("Unexpected error when creating token.");
+					else if(token) res.send(token)
+				});
+			}
+			else {
 				res.status(401).send("Wrong password for user \"" + user._id + "\".");
 			}
 			

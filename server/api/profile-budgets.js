@@ -19,7 +19,7 @@ router.get("/", acl("profile-budgets","list"), (req,res) => {
 	
 	query
 		.then(years => res.json(years ? years : []))
-		.catch(err => res.status(500).send(err));
+		.catch(err => res.status(500).send(err.message));
 
 });
 
@@ -27,7 +27,7 @@ router.get("/:year", acl("profile-budgets", "read"), (req,res) => {
 	
 	Budget.findOne({profile:req.params.profile,year:req.params.year})
 		.then(budget => budget ? res.json(budget) : res.sendStatus(404))
-		.catch(err => res.sendStatus(500));
+		.catch(err => res.status(500).send(err.message));
 	
 });
 
@@ -40,7 +40,7 @@ router.delete("/:year", acl("profile-budgets", "write"), (req,res) => {
 	
 	Promise.all(queries)
 		.then(() => res.sendStatus(200))
-		.catch(err => res.sendStatus(500));
+		.catch(err => res.status(500).send(err.message));
 	
 });
 

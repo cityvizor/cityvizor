@@ -42,10 +42,10 @@ function reImportLoop(files,cb){
 			reImportLoop(files,cb);
 		})
 		.catch(err => {
-			console.log("Error: " + etlLog.result);
+			console.log("Error: " + err.message);
 			// go to next file
 			reImportLoop(files,cb);
-		}); // TODO PROPER ERROR
+		});
 	
 }
 	
@@ -58,6 +58,6 @@ files = files.map(file => {
 });
 
 reImportLoop(files,() => {
-	mongoose.disconnect(() => process.exit(0));
+	mongoose.disconnect();
 });
 	

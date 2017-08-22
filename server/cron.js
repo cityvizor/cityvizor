@@ -60,6 +60,6 @@ function runTaskLoop(tasks,cb){
     console.log("Wait " + config.cron.jobDelay + " sec");
 
     if(tasks.length) setTimeout(() => runTaskLoop(tasks,cb),config.cron.jobDelay * 1000);
-    else cb();
+    else return cb();
   });
 }

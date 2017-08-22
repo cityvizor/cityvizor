@@ -10,7 +10,9 @@ var Payment = require("../models/expenditures").Payment;
 var eventsSchema = {};
 
 router.get("/", schema.validate({query: eventsSchema}), acl("events", "list"), (req,res) => {
-	Event.find({}, (err,item) => res.json(item));
+	Event.find({})
+		.then(events => res.json(events))
+		.catch(err => res.status(500).send(err.message));
 });
 
 var eventSchema = {};
@@ -30,7 +32,7 @@ router.get("/:id", schema.validate({query: eventSchema}), acl("events", "read"),
 				})
 			
 		})
-		.catch(err => res.status(500).send(err));
+		.catch(err => res.status(500).send(err.message));
 	
 });
 

@@ -6,8 +6,8 @@ var config = require("../config/config");
 
 module.exports = function(cb){
 
-	var savePath = __dirname + "/../../" + config.export.saveDir + '/budgets.csv.zip';
-	var loadPath = __dirname + "/../../" + config.import.saveDir + "/expenditures";
+	var savePath = path(__dirname,"/../../",config.export.saveDir,'/budgets.csv.zip');
+	var loadPath = path(__dirname,"/../../",config.import.saveDir,"/expenditures");
 	var file = fs.createWriteStream(savePath);
 	
 	file.on("close",() => {
