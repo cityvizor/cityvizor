@@ -9,25 +9,26 @@ module.exports = {
   },
   
   cron: {
-    enable: true,
     time: "00 00 01 * * *",
-    startDelay: 20,
     jobDelay: 5
   },
   
   server: {
-    port: 80, // redirect to ssl
+    host: "0.0.0.0",
+    port: 8000, // redirect to ssl
     compression: true
   },
   
   ssl: {
-    enable: true,
+    enable: false,
     cert: fs.readFileSync('../cert/fullchain.pem'),
-    key: fs.readFileSync('../cert/privkey.pem')
+    key: fs.readFileSync('../cert/privkey.pem'),
+    redirect: true,
+    redirectPort: 80
   },
   
   jwt: {
-    secret: "top.secret",
+    secret: "secretphrase",
     credentialsRequired: false
   },
   
@@ -37,9 +38,8 @@ module.exports = {
   
   mongoExpress: {
     enable: false,
-    secret: "top.secret",
-    username: "username",
-    password: "password"
+    username: "user",
+    password: "pass"
   },
 
   import: {

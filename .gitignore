@@ -3,8 +3,8 @@
 
 # sensitive data
 /server/cert/*
-/server/config/config.*.js
-!/server/config/config.example.js
+/server/config/config.production.js
+/server/config/config.development.js
 
 # dependencies
 /node_modules
