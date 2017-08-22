@@ -2,25 +2,7 @@
 
 ![dependencies](https://david-dm.org/otevrena-data-mfcr/CityVizor.svg)
 
-Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalšími funkcemi pro samosprávy:
-
-- rozpočet (celkový přehled, projekty)
-- plnění rozpočtu (výdaje po dodavatelích, výdaje po projektech, jednotlivé faktury)
-- úřední deska (za pomoci [MapaSamosprávy.cz](http://www.mapasamospravy.cz/)
-- [Otevřená Města](http://www.otevrenamesta.cz/) vám poskytují tuto aplikaci jako službu
-
-Data jsou čerpána z otevřených dat (opendat) dané obce či samosprávy.
-
-## Ukázka
-
-Celkový pohled na výdaje samosprávy:
-
-![Celkový pohled na výdaje samosprávy](doc/example-1.png)
-
-Podrobný pohled na ...:
-
-![Podrobný pohled na ...](doc/example-2.png)
-
+Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalšími funkcemi pro samosprávy. Aplikace byla vytvořena zaměstnanci [Ministerstva financí ČR](http://www.mfcr.cz), [Otevřená Města](http://www.otevrenamesta.cz/) vám poskytují tuto aplikaci jako služba. Data jsou poskytována obcemi dobrovolně.
 
 ## Instalace
 
@@ -37,36 +19,52 @@ Instalace závislostí
 npm install
 ```
 
-Spuštění serveru
+Kompilace kódu
+
+```
+npm run build
+```
+
+## Nastavení
+
+Nastavit CityVizor je možno v následujících konfiguračních souborech:
+
+- ```/server/config/config.production.js``` - nastavení serveru v produkčním módu
+- ```/server/config/config.development.js``` - nastavení serveru ve vývojovém módu
+- ```/server/config/import-config.js``` - nastavení pravidel importu dat z CSV
+- ```/server/config/mongo-express-config.js``` - nastavení mongo-express
+- ```/src/config/app-config.js``` - nastavení GUI
+- ```/src/config/info-texts.js``` - informativní texty
+- ```/angular-cli.json, /tsconfig.json, /tslint.json``` - nastavení kompilace GUI
+- ```/pm2-config.json``` - nastavení pro PM2
+
+## Spuštění
+
+**Spuštění serveru**
 
 ```
 npm start
 ```
 
-**Instalace serveru jako služby**
+**Spuštění cron scriptu automatických exportů a načítání smluv**
 
-Instalace:
 ```
-npm install -g forever forever-service
-sudo forever-service install cityvizor -s server/server.js -e "NODE_ENV=production"
+npm run cron
 ```
 
-Spuštění/vypnutí/restart
+**Spuštění serverového clusteru dle počtu CPU a cron scriptu pomocí PM2**
+
 ```
-sudo service cityvizor start
-sudo service cityvizor stop
-sudo service cityvizor restart
+npm install pm2 -g
+
+pm2 start pm2-config.json --env production
 ```
 
-Sledování logu
-```
-npm run logu
-```
-      
+**Vývojový mód**
 
-**Vývoj**
+- Server se zrestartuje a kód překompiluje při jakékoliv změně.
+- Na adrese /db běží ```mongo-express```
 
-Start Typescript kompilátoru s volbou `--watch` a node serveru na portu 80 pro just-in-time compiler (kompilace komponent na klientu). Server se zrestartuje a Typescript překompiluje při jakékoliv změně kódu.
 ```
 npm run dev
 ```
