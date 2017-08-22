@@ -7,12 +7,9 @@
   "main": "server/server.js",
   "scripts": {
     "start": "npm run prod",
-    
     "build": "ng build --prod --app=0 && ng build --prod --app=1",
-    
     "prod": "NODE_ENV=production node server/server.js",
     "cron": "NODE_ENV=production node server/cron.js",
-    
     "dev": "NODE_ENV=development concurrently \"ng build --watch --dev --progress false\" \"nodemon server/server.js\""
   },
   "keywords": [
@@ -50,6 +47,7 @@
     "intl": "^1.2.5",
     "jsonwebtoken": "^7.3.0",
     "minimist": "^1.2.0",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.24",
     "mongoose": "^4.8.5",
     "mongoose-paginate": "^5.0.3",

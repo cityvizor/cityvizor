@@ -1,9 +1,11 @@
 var CronJob = require('cron').CronJob;
 var mongoose = require('mongoose');
+var moment = require("moment");
 
 var config = require("./config/config");
 
 console.log("##### MIDNIGHT CRON RUN #####");
+console.log("Started at " + moment().format("D. M. YYYY, H:mm:ss") + ".");
 
 var job = new CronJob({
   cronTime: config.cron.time,//'00 00 01 * * *',
@@ -34,7 +36,7 @@ var job = new CronJob({
 
         console.log("Disconnecting DB");
         mongoose.disconnect(() => {
-          console.log("Finished!");
+          console.log("Finished at " + moment().format("D. M. YYYY, H:mm:ss") + "!");
         });
 
       });
