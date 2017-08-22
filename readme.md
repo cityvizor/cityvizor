@@ -1,5 +1,7 @@
 # CityVizor
 
+![dependencies](https://david-dm.org/otevrena-data-mfcr/CityVizor.svg)
+
 Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalšími funkcemi pro samosprávy:
 
 - rozpočet (celkový přehled, projekty)
