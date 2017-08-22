@@ -4,7 +4,6 @@
 # sensitive data
 /server/cert/*
 /server/config/config.*.js
-!/server/config/config.example.js
 
 # dependencies
 /node_modules
