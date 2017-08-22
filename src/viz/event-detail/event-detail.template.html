@@ -18,39 +18,57 @@
 		
 		<tab heading="Roční srovnání">
 			<div class="container-fluid">
-				<div class="historychart">
-					<div class="data">
-						<table class="table table-hover table-fixedfirstcol">
+				<div class="historychart row">
+					<div class="col-xs-2 header">
+						<table class="table">
+							<thead>
+								<tr style="height:30px;"><th>Rok</th></tr>
+								<tr style="height:30px;"><td>Název</td></tr>
+								<tr style="height:123px;"><td></td></tr>
+								<tr style="height:60px;"><td>Výdaje</td></tr>
+								<tr style="height:60px;"><td>Příjmy</td></tr>
+							</thead>
+						</table>
+					</div>
+					<div class="col-xs-10 data">
+						<table class="table table-hover">
 							<thead>
 								<tr style="height:30px;">
+									<th *ngFor="let historyEvent of history">{{historyEvent.year}} <a class="open" (click)="selectEvent.emit(historyEvent._id)">otevřít</a></th>
 									<th></th>
-									<th *ngFor="let historyEvent of history" colspan="1">
-										<h4>
-											Rok {{historyEvent.year}} <a class="open" (click)="selectEvent.emit(historyEvent._id)">otevřít</a>
-										</h4>
-										<div class="row">
-											<div class="col-xs-6">	
-												<chart-budget [data]="historyEvent" [type]="'expenditure'" [max]="maxHistoryAmount"></chart-budget>
-											</div>
-											<div class="col-xs-6">
-												<chart-budget [data]="historyEvent" [type]="'income'" [max]="maxHistoryAmount"></chart-budget>
-											</div>
-										</div>
-									</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>Rozpočet</td>
-									<td *ngFor="let historyEvent of history">
-										<span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span> | <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span>
-									</td>
+								<tr style="height:30px;">
+									<td *ngFor="let historyEvent of history"><span class="crop" [title]="historyEvent.name">{{historyEvent.name}}</span></td>
+									<td></td>
 								</tr>
-								<tr>
-									<td>Čerpáno</td>
+								<tr style="height:123px;">
 									<td *ngFor="let historyEvent of history">
-										<span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span> | <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
+										<div class="row">
+												<div class="col-xs-6">
+													<chart-budget [data]="historyEvent" [type]="'expenditure'" [max]="maxHistoryAmount"></chart-budget>
+												</div>
+												<div class="col-xs-6">
+													<chart-budget [data]="historyEvent" [type]="'income'" [max]="maxHistoryAmount"></chart-budget>
+												</div>
+										</div>
 									</td>
+									<td></td>
+								</tr>
+								<tr style="height:60px;">
+									<td *ngFor="let historyEvent of history">
+										Rozpočet: <span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span><br>
+										Skutečnost: <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span><br>
+									</td>
+									<td></td>
+								</tr>
+								<tr style="height:60px;">
+									<td *ngFor="let historyEvent of history">
+										Rozpočet: <span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span><br>
+										Skutečnost: <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
+									</td>
+									<td></td>
 								</tr>
 							</tbody>
 						</table>

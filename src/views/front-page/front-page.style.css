@@ -1,0 +1,79 @@
+
+
+.profile .thumbnail{padding:0;border:0;margin:0 auto 10px auto;}
+.profile .thumbnail.empty{background-color:#eee;}
+
+.profile.col-sm-3 .thumbnail{width:157px;height:157px;}
+.profile.col-md-3 .thumbnail{width:212px;height:212px;}
+.profile.col-lg-2 .thumbnail{width:165px;height:165px;}
+
+.profile.dimmed{opacity:.3;}
+
+.switchListView {
+  position: absolute;
+  width: 100%;
+}
+
+
+#inputVyberObce {
+  border: none; background: none;
+  border-bottom: 3px solid rgba(0,0,0,.25);
+  color: rgba(0,0,0, 1);
+  text-align: left;
+  margin: 0 auto;
+  width: 100%;
+}
+
+#map{position:relative;}
+#map .mesto{position:absolute;width:0;height:0;background-color:#fff;border:3px solid #E73431;border-radius:3px;box-sizing:content-box;cursor:pointer;}
+#map .mesto span{display:none;position:absolute;font-size:1em;padding:1px 4px;white-space:nowrap;}
+
+#map .mesto .name{top:50%;right:17px;margin-top:-10px;color:#fff;background-color:#E73431;border-radius:3px;}
+#map .mesto .gps{top:50%;left:11px;margin-top:-10px;color:#E73431;background-color:rgba(238,238,238,.5);}
+
+#map .mesto.hover{height:8px;width:8px;margin-left:-4px;margin-bottom:-4px;border-radius:8px;}
+#map .mesto.hover span{display:block;}
+
+#frontImage{padding:20px;}
+.box{background-color:rgba(255,255,255,.7);border-radius:5px;font-size:.8em;}
+.box.padding{padding:20px;}
+::-webkit-input-placeholder {
+  color: rgba(0,0,0,0.25);
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: rgba(0,0,0,0.25);
+}
+::-moz-placeholder {  /* Firefox 19+ */
+  color: rgba(0,0,0,0.25);
+}
+:-ms-input-placeholder {  
+  color: rgba(0,0,0,0.25);
+}
+textarea:focus, input:focus{
+  outline: none;
+}
+
+#headerVyberObce {
+  display: block;  padding: 70px 0px 20px 0px;
+  background: url('https://cityvizor.cz/assets/img/polepozadi5.jpg') no-repeat; 
+  background-size: cover; background-position: center -10px; 
+  border-bottom: 10px solid #2581c4;
+  max-height: 340px;
+}
+@media (max-width: 1200px) {
+  #headerVyberObce {
+    background-size: 1200px auto; /* Force the image to its minimum width */
+  }
+}
+#headerVyberObce svg {
+  min-width: 300px;
+  width: 67%;
+  max-width: 750px;
+
+}
+
+section{margin-bottom:40px;}
+
+section#features p.text-muted {
+  color: #2581c4;
+}

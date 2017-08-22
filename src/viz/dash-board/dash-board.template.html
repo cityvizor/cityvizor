@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="bg-timeline">
-			<div class="row news" *ngFor="let payment of payments">
+			<div class="row news" *ngFor="let payment of payments" @showNews>
 				<div class="col-xs-12">
 					<div class="row">
 						<div class="col-xs-9">
@@ -39,7 +39,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="text-center">
+			<div class="text-center more">
 				<a class="btn btn-xs btn-red">Další faktury</a>
 			</div>
 		</div>
@@ -84,7 +84,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="text-center">
+			<div class="text-center more">
 				<a [routerLink]="'../registr-smluv'" routerLinkActive="active" class="btn btn-xs btn-red">Další smlouvy</a>
 			</div>
 		</div>

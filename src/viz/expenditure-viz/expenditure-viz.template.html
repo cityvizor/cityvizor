@@ -164,7 +164,7 @@
 
 <div id="audioTest" class="hidden">
 	<button (click)='onClick()'
-         [disabled]='loadingAudio && !playingAudio'>Play Audio!</button>
+         [disabled]='loadedAudio && !playingAudio'>Play Audio!</button>
 	<div class="equalizer">
 		<span class="eBar small" *ngFor="let frequencyLevel of frequencyDataArray; let i = index;" [style.height]="frequencyLevel/256*50+'px'">
 			{{frequencyLevel}}
