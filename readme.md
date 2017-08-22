@@ -35,7 +35,6 @@ Nastavit CityVizor je možno v následujících konfiguračních souborech:
 - ```/server/config/mongo-express-config.js``` - nastavení mongo-express
 - ```/src/config/app-config.js``` - nastavení GUI
 - ```/src/config/info-texts.js``` - informativní texty
-- ```/angular-cli.json``` - nastavení kompilace GUI
 - ```/pm2-config.json``` - nastavení pro PM2
 
 ## Spuštění
