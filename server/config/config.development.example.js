@@ -26,7 +26,7 @@ module.exports = {
   },
   
   jwt: {
-    secret: "blabla",
+    secret: "secretphrase",
     credentialsRequired: false
   },
   
@@ -45,8 +45,8 @@ module.exports = {
   mongoExpress: {
     enable: true,
     secret: "dasddasds",
-    username: "otevrenadata",
-    password: "otevrenadata"
+    username: "user",
+    password: "pass"
   }
   
 }
