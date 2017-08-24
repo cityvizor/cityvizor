@@ -1,6 +1,6 @@
 module.exports = {
   
-  expenditures: {
+  data: {
     headerNames: {
       amountType: ["PRIJEM_VYDAJ"],
       recordType: ["MODUL","DOKLAD_AGENDA"],

@@ -6,10 +6,12 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist/app",
-      "deployUrl": "dist/app",
+      "outDir": "dist/",
+      "deployUrl": "dist/",
       "assets": [
         "assets",
+        "uploads",
+        "exports",
         "favicon.ico"
       ],
       "index": "app.index.html",
@@ -30,8 +32,8 @@
     },
     {
       "root": "src",
-      "outDir": "dist/embed",
-      "deployUrl": "dist/embed",
+      "outDir": "dist-embed",
+      "deployUrl": "dist-embed",
       "assets": [
         "assets",
         "favicon.ico"

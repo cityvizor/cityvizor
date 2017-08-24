@@ -2,8 +2,10 @@
 
 .news {
 	margin: 10px 0px;
+	height:90px;
 }
 .news > div {
+	height:100%;
 	border: 1px solid #eee;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -11,6 +13,9 @@
 	background: #fcfcfc;
 }
 .bg-timeline {
+	position:relative;
+	height:540px;
+	margin:10px 0;
 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,000000+50,1e5799+50,2989d8+51,000000+51,7db9e8+100 */
 background: transparent; /* Old browsers */
 background: -moz-linear-gradient(left, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* FF3.6-15 */
@@ -18,6 +23,8 @@ background: -webkit-linear-gradient(left, transparent 0%, transparent 50%, #eee 
 background: linear-gradient(to right, transparent 0%, transparent 50%, #eee 50%, #eee 51%, transparent 51%, transparent 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	padding-bottom: 10px;
 }
+
+.bg-timeline .more{position:absolute;left:0;bottom:0;right:0;}
 
 .budgets{margin-top:0px;}
 .budgets .budget{margin:0 10px;}

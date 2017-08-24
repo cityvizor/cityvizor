@@ -8,13 +8,26 @@ var acl = require("express-dynacl");
 
 var Profile = require("../models/profile");
 
+var profileSchema = {
+	type: "object",
+	properties: {
+		"sort": {type: "string"},
+		"fields": {type: "string"},
+		"hidden": {type: "string"}
+	}	
+};
+
 router.get("/", acl("profiles","list"), (req,res) => {
 	
-	var where = {};
+	var query = Profile.find();
 	
-	if(!req.query.hidden) where.active = true;
+	query.select(req.query.fields || "id name url active gps avatarExt");
 	
-	Profile.find(where).select("id name url active gps")
+	if(req.query.sort) query.sort(req.query.sort);
+	
+	if(!req.query.hidden) query.where({active: true});
+	
+	query
 		.then(profiles => res.json(profiles))
 		.catch(err => res.status(500).send(err.message));
 	
@@ -43,7 +56,7 @@ router.post("/", acl("profiles","write"), (req,res) => {
 
 });
 
-router.post("/:profile", acl("profiles","write"), (req,res) => {
+router.put("/:profile", acl("profiles","write"), (req,res) => {
 	
 	Profile.findOneAndUpdate({_id:req.params.profile}, req.body, {new:true, runValidators: true})
 		.then(profile => res.json(profile))

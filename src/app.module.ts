@@ -10,7 +10,6 @@ import { AppComponent }  from './app.component';
 
 // Views components
 import { FrontPageComponent }  from './views/front-page/front-page.component';
-import { ProfileListComponent } from './views/profile-list/profile-list.component';
 import { ProfileViewComponent } from './views/profile-view/profile-view.component';
 import { ProfileAdminComponent } from "./views/profile-admin/profile-admin.component";
 import { SiteAdminComponent } from "./views/site-admin/site-admin.component";
@@ -28,6 +27,7 @@ import { DataCatalogueComponent } from "./viz/data-catalogue/data-catalogue.comp
 
 // Data viz components for data administration
 import { ProfileAdminProfileComponent } from "./views/profile-admin/profile-admin-profile/profile-admin-profile.component";
+import { ProfileAdminAvatarComponent } from "./views/profile-admin/profile-admin-avatar/profile-admin-avatar.component";
 import { ProfileAdminModulesComponent } from "./views/profile-admin/profile-admin-modules/profile-admin-modules.component";
 import { ProfileAdminImportComponent } from "./views/profile-admin/profile-admin-import/profile-admin-import.component";
 import { ProfileAdminImportBoxComponent } from "./views/profile-admin/profile-admin-import-box/profile-admin-import-box.component";
@@ -82,9 +82,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 	],
   declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, ProfileListComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
+		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
-		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
+		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
 		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent,

@@ -1,43 +1,42 @@
 
-var archiver = require("archiver");
+var Transform = require('stream').Transform;
 var fs = require("fs");
 
 var Profile = require("../models/profile");
 
 var config = require("../config/config");
 
+
 module.exports = function(cb){
 
-	var path = __dirname + "/../../" + config.export.saveDir + '/profiles.csv.zip';
-	var file = fs.createWriteStream(path);
 	
-	file.on("close",() => {
-		
-		console.log("Profiles exported to " + path);
-
-		cb();
+	// Profiles source stream
+	var profiles = Profile.find({}).select("_id url name ico zuj gps edesky mapasamospravy").lean().cursor();
 	
+	// convert to CSV
+	var transform = new Transform({
+		writableObjectMode: true,
+		transform(profile, encoding, callback) {
+			callback(null, [profile._id,profile.url,profile.name,profile.ico,profile.zuj,profile.gps[0],profile.gps[1],profile.edesky,profile.mapasamospravy].map(item => "\"" + item + "\"").join(";") + "\r\n");
+		}
 	});
+	
+	// write to file
+	var path = __dirname + "/../../" + config.storage.exportsDir + '/profiles.csv';
+	var file = fs.createWriteStream(path);
 
-	var archive = archiver("zip");
-	archive.on('error', err => {throw err;});
-	archive.pipe(file);
-
-	Profile.find({}).select("url name entity").lean()
-		.then(profiles => {
-
-			// create header
-			let csv = "url;name;entity\r\n";
-		
-			//add data
-			profiles.forEach(profile => {
-				csv = csv + [profile.url,profile.name,profile.entity].map(item => "\"" + item + "\"").join(";") + "\r\n";
-			});
-
-			//archive
-			archive.append(csv,{"name": "profiles.csv"});
-			archive.finalize();
-		});
+	// end export
+	file.on("close",() => {
+		console.log("Profiles exported to " + path);
+		cb();
+	});
+	
+	// write header
+	file.write("_id;url;name;ico;zuj;gps_x;gpx_y;edesky;mapasamospravy\r\n");
+	
+	// write rest data
+	profiles.pipe(transform).pipe(file);
+	
 }
 
 

@@ -39,15 +39,15 @@ export class ProfileAdminComponent {
 		});
 	}
 	 
-	saveProfile(profileData){
-		 
-		 this.dataService.saveProfile(profileData)
-				.then(profile => {
-					this.toastService.toast("Uloženo.", "notice");
-					this.profile = profile;
-					this.router.navigate(this.getModuleLink(this.activeModule));
-				})
-				.catch(err => this.toastService.toast("Nastala neznámá chyba při ukládání profilu.", "error"));
+	updateProfile(profile){
+		
+		// update url if neccessary
+		if(this.profile.url !== profile.url){
+			this.router.navigate(this.getModuleLink(this.activeModule));
+		}
+		
+		this.profile = profile;
+		
 	}
 	 
 	getModuleLink(moduleId){

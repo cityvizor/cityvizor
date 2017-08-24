@@ -88,9 +88,6 @@ td.amount,th.amount{text-align:right;white-space:nowrap;}
 section {
 	padding: 2em 0em;
 }
-section:nth-child(even) {
-	background: #f4faff;
-}
 
 /* FORMS */
 

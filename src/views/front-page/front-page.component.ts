@@ -1,78 +1,79 @@
-import { Component, OnInit} from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DataService} from '../../services/data.service';
 import { AppConfig } from '../../config/app-config';
 
 @Component({
 	moduleId: module.id,
   selector: 'front-page',
 	templateUrl: 'front-page.template.html',
-	styles: [`
-#frontImage{padding:20px;}
-.box{background-color:rgba(255,255,255,.7);border-radius:5px;font-size:.8em;}
-.box.padding{padding:20px;}
-::-webkit-input-placeholder {
-  color: rgba(0,0,0,0.25);
-}
-:-moz-placeholder { /* Firefox 18- */
-  color: rgba(0,0,0,0.25);
-}
-::-moz-placeholder {  /* Firefox 19+ */
-  color: rgba(0,0,0,0.25);
-}
-:-ms-input-placeholder {  
-  color: rgba(0,0,0,0.25);
-}
-textarea:focus, input:focus{
-  outline: none;
-}
-
-#headerVyberObce {
-  display: block;  padding: 50px 0px 20px 0px;
-  background: url('/assets/img/polepozadi5.jpg') no-repeat; 
-  background-size: cover; background-position: center -10px; 
-  text-align: center;
-  border-bottom: 10px solid #2581c4;
-  max-height: 300px;
-}
-@media (max-width: 1200px) {
-  #headerVyberObce {
-    background-size: 1200px auto; /* Force the image to its minimum width */
-  }
-}
-#headerVyberObce svg {
-  min-width: 300px;
-  width: 67%;
-  max-width: 750px;
-
-}
-
-section#ask {
-  background: #f4faff;
-  color: #2581c4;
-  border-bottom: 0px solid #ADF;
-}
-section#ask p.lead {
-    font-weight: 500;
-}
-section#ask .btn {
-  border: none;
-  color: white;
-  background: #e73431;
-  font-weight: bold;
-}
-
-section#features p.text-muted {
-  color: #2581c4;
-}
-`]
+	styleUrls: ['front-page.style.css']
 })
 export class FrontPageComponent implements OnInit {
 	
-	search: string;
+	profiles = [];
+	hoverProfile:any;
+	search: RegExp;
+	
+	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.0556}, "lng":{"min":12.0914,"max":18.8589}};
 	
 	config:any = AppConfig;
 
-	ngOnInit() {
+	constructor(private _ds: DataService, private _router: Router) { }
 
+	ngOnInit(){
+		this._ds.getProfiles({sort:"name"}).then(profiles => {
+			profiles.forEach(profile => {
+				profile.searchString = this.cleanString(profile.name);
+				profile.avatarPath = profile.avatarExt ? 'dist/uploads/avatars/' + profile._id + profile.avatarExt : null;
+			});
+			this.profiles = profiles;
+		});
+	}
+	
+	gps2css(gps){
+		let bounds = this.czechRepublicGPSBounds;
+		return {
+			bottom: (gps[1] - bounds.lat.min) / (bounds.lat.max - bounds.lat.min) * 100 + "%",
+			left: (gps[0] - bounds.lng.min) / (bounds.lng.max - bounds.lng.min) * 100 + "%"
+		};
+	}
+
+	gps2string(gps):string {
+		if(!gps) return "";
+		let dg = gps.map(n => Math.round(n)); // get degrees
+		let mn = gps.map(n => Math.round((n % 1) * 60 * 1000) / 1000); // get minutes
+		let st = [0,1].map(i => dg[i] + "° " + mn[i] + "'"); // get string
+		return "N " + st[1] + ", E " + st[0] + "'"; // concatenate
+	}
+
+	cleanString(value:string):string{
+		
+		if(!value) return "";
+		
+		var sdiak="áäčďéěíĺľňóôőöŕšťúůűüýřžÁÄČĎÉĚÍĹĽŇÓÔŐÖŔŠŤÚŮŰÜÝŘŽ234567890[;";
+		var bdiak="aacdeeillnoooorstuuuuyrzAACDEEILLNOOOORSTUUUUYRZescrzyaieuu";
+
+		var searchString = "";
+
+		for(var p = 0; p < value.length; p++){
+			if(sdiak.indexOf(value.charAt(p)) !== -1) searchString += bdiak.charAt(sdiak.indexOf(value.charAt(p)));
+			else searchString += value.charAt(p);
+		}
+
+		searchString = searchString.toLowerCase();
+		
+		return searchString;
+		
+	}
+
+	makeSearchString(value: string):RegExp{
+		
+		return new RegExp("(?:^| )" + this.cleanString(value));
+		
+	}
+
+	openProfile(profile){
+		this._router.navigate(['/' + profile.url]);
 	}
 }

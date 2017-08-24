@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { DataService } from '../../services/data.service';
 
@@ -7,7 +8,7 @@ import { DataService } from '../../services/data.service';
 	moduleId: module.id,
 	selector: 'dash-board',
 	templateUrl: 'dash-board.template.html',
-	styleUrls: ["dash-board.style.css"],
+	styleUrls: ["dash-board.style.css"]
 })
 export class DashboardComponent {
 	
@@ -46,6 +47,13 @@ export class DashboardComponent {
 				this.maxBudgetAmount = 0;
 				budgets.forEach(budget => this.maxBudgetAmount = Math.max(this.maxBudgetAmount,budget.budgetIncomeAmount,budget.incomeAmount,budget.budgetExpenditureAmount,budget.expenditureAmount));
 			});
+	}
+	
+	loadIteratively(source:any[],target:any[],timeout:number){
+		if(source.length) setTimeout(() => {
+			target.push(source.shift());
+			this.loadIteratively(source,target,timeout);
+		},timeout);
 	}
 	
 	openBudget(type:string,year:number):void{

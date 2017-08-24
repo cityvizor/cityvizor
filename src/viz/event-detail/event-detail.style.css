@@ -1,5 +1,5 @@
 
-/*
+
 .historychart{overflow:auto;overflow-y:visible;}
 
 .historychart .header{padding:0;}
@@ -16,7 +16,7 @@
   .historychart{overflow:visible;}
   .historychart .data{overflow:auto;overflow-y:visible;}
 }
-*/
+
 .payments .counterparty{cursor:pointer;}
 .payments .list > td{padding:0;border:none;}
 .payments .list > td > div{padding-left:10px;background-color:#fff;}

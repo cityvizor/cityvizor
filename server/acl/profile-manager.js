@@ -52,6 +52,12 @@ module.exports = {
 		}
 	},
 	
+	"profile-image": {
+		"write": function(req){
+			return isManagedProfile(req);
+		}
+	},
+	
 	"profile-managers": {
 		"list": function(req){			
 			return isManagedProfile(req);

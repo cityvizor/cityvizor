@@ -54,7 +54,7 @@ export class ExpenditureVizComponent{
 	
 	// ----AUDIO TEST [
 	audioContext: AudioContext;
-	loadingAudio: boolean = false;
+	loadedAudio: boolean = false;
 	playingAudio: boolean = false;
   audioBuffer: AudioBuffer;
 	sourceAudio: any;
@@ -110,7 +110,7 @@ export class ExpenditureVizComponent{
 			
 		});
 		
-		// ----AUDIO TEST [
+		/* ----AUDIO TEST [
 		this.audioContext = new AudioContext();
 		this.analyser = this.audioContext.createAnalyser();
 		this.analyser.fftSize = 256;
@@ -120,14 +120,13 @@ export class ExpenditureVizComponent{
 		this.frequencyDataArray = new Uint8Array(this.bufferLength);
 		this.analyser.getByteFrequencyData(this.frequencyDataArray);
 		
-		this.loadingAudio = true;
 		this.fetchAudio()
 				.then(audioBuffer => {
-						this.loadingAudio = false;
+						this.loadedAudio = true;
 						this.audioBuffer = audioBuffer;
 				})
 				.catch(error => { throw error; });
-		// ----AUDIO TEST ]
+		*/ // ----AUDIO TEST ]
 		
   }
 

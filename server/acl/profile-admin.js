@@ -20,6 +20,10 @@ module.exports = {
 		"write": true
 	},
 	
+	"profile-image": {
+		"write": true
+	},
+	
 	"profile-managers": {
 		"list": true
 	}
