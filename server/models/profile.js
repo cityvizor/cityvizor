@@ -8,7 +8,7 @@ var profileSchema = mongoose.Schema({
 	"url": {type: String, index: true },
 	"name": String,
 	"email": String,
-	"image": Boolean,
+	"avatarExt": String,
 	
 	"zuj": String,
 	"ico": String,

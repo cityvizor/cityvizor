@@ -22,8 +22,7 @@
 			<!-- ABECEDNE -->
 			<div class="row profileList">
 				<div *ngFor="let profile of profiles" class="col-sm-3 col-md-3 col-lg-2 profile" [class.dimmed]="search && !search.exec(profile.searchString)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
-					<a *ngIf="profile.image" [routerLink]="'/' + profile.url" class="thumbnail text-center"></a>
-					<a *ngIf="!profile.image" [routerLink]="'/' + profile.url" class="thumbnail empty text-center"></a>
+					<a [routerLink]="'/' + profile.url" class="thumbnail" [class.empty]="!profile.avatarPath" [style.background-image]="profile.avatarPath ? 'url(' + profile.avatarPath + ')' : 'none'"></a>
 					<div class="caption text-center">
 						<span>
 							<h3>

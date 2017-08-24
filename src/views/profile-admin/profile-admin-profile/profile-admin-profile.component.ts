@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ToastService } from "../../../services/toast.service";
+import { DataService } 		from '../../../services/data.service';
 
 import { AppConfig } from '../../../config/app-config';
 
@@ -17,14 +18,14 @@ export class ProfileAdminProfileComponent {
 	profile: any;
 	 
 	@Output()
-	save:EventEmitter<any> = new EventEmitter();
+	saved:EventEmitter<any> = new EventEmitter();
 	
 	config:any = AppConfig;
 
-	constructor(private toastService:ToastService) {
+	constructor(private toastService:ToastService, private dataService:DataService) {
 	}
 	 
-	saveProfile(form){
+	save(form){
 		
 		if(form.valid){	
 			
@@ -36,7 +37,13 @@ export class ProfileAdminProfileComponent {
 			delete profileData.gps0;
 			delete profileData.gps1;
 			
-			this.save.emit(profileData);
+			this.dataService.saveProfile(profileData)
+				.then(profile => {
+					this.toastService.toast("Uloženo.", "notice");
+					this.saved.emit(profile);
+				})
+				.catch(err => this.toastService.toast("Nastala neznámá chyba při ukládání profilu.", "error"));
+			
 		}
 		else{
 			this.toastService.toast("Formulář není správně vyplněn.","error");

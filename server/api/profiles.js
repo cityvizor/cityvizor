@@ -21,7 +21,7 @@ router.get("/", acl("profiles","list"), (req,res) => {
 	
 	var query = Profile.find();
 	
-	query.select(req.query.fields || "id name url active gps image");
+	query.select(req.query.fields || "id name url active gps avatarExt");
 	
 	if(req.query.sort) query.sort(req.query.sort);
 	
@@ -56,7 +56,7 @@ router.post("/", acl("profiles","write"), (req,res) => {
 
 });
 
-router.post("/:profile", acl("profiles","write"), (req,res) => {
+router.put("/:profile", acl("profiles","write"), (req,res) => {
 	
 	Profile.findOneAndUpdate({_id:req.params.profile}, req.body, {new:true, runValidators: true})
 		.then(profile => res.json(profile))

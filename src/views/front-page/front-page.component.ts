@@ -15,7 +15,6 @@ export class FrontPageComponent implements OnInit {
 	hoverProfile:any;
 	search: RegExp;
 	
-	mapSize = {"width": 973.53, "height":553.6};
 	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.0556}, "lng":{"min":12.0914,"max":18.8589}};
 	
 	config:any = AppConfig;
@@ -24,17 +23,14 @@ export class FrontPageComponent implements OnInit {
 
 	ngOnInit(){
 		this._ds.getProfiles({sort:"name"}).then(profiles => {
-			profiles.forEach(profile => profile.searchString = this.cleanString(profile.name));
+			profiles.forEach(profile => {
+				profile.searchString = this.cleanString(profile.name);
+				profile.avatarPath = profile.avatarExt ? 'dist/uploads/avatars/' + profile._id + profile.avatarExt : null;
+			});
 			this.profiles = profiles;
 		});
 	}
-
-	gps2mapLat (c) {
-		return this.mapSize.height*(this.czechRepublicGPSBounds.lat.max-c)/(this.czechRepublicGPSBounds.lat.max-this.czechRepublicGPSBounds.lat.min);
-	}
-	gps2mapLng (c) {
-		return this.mapSize.width*(c-this.czechRepublicGPSBounds.lng.min)/(this.czechRepublicGPSBounds.lng.max-this.czechRepublicGPSBounds.lng.min);
-	}
+	
 	gps2css(gps){
 		let bounds = this.czechRepublicGPSBounds;
 		return {
