@@ -22,12 +22,8 @@ var job = new CronJob({
       // set the tasks
       var tasks = [];
 
-      tasks.push(require("./cron/export-profiles-json"));
       tasks.push(require("./cron/export-profiles-csv"));
-      tasks.push(require("./cron/export-budgets-json"));
       tasks.push(require("./cron/export-budgets-csv"));
-      tasks.push(require("./cron/export-events-json"));
-      tasks.push(require("./cron/export-events-csv"));
       tasks.push(require("./cron/download-contracts"));
 
       console.log("Starting tasks...");

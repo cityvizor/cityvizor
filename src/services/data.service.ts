@@ -33,19 +33,7 @@ function toParams(options){
 export class DataService {
 	
 	constructor(private http: AuthHttp, private authService:AuthService) { }
-
-	/* ENTITIES */
-	getEntities(options?) {
-			return this.http.get("/api/entities" + toParams(options)).toPromise().then(response => response.json());
-	}
-
-	getEntity(entityId){
-		return this.http.get("/api/entities/" + entityId).toPromise().then(response => response.json());
-	}
 	
-	saveEntity(entity){
-		return this.http.post("/api/entities/" + entity._id,entity).toPromise().then(response => response.json());
-	}
 	
 	/* PROFILES */
 	getProfiles(options?) {
@@ -61,16 +49,25 @@ export class DataService {
 	}
 	
 	saveProfile(profile){
-		return this.http.post("/api/profiles/" + profile._id,profile).toPromise().then(response => response.json());
+		return this.http.put("/api/profiles/" + profile._id,profile).toPromise().then(response => response.json());
+	}
+	
+	saveProfileAvatar(profileId,data:FormData){
+		return this.http.put("/api/profiles/" + profileId + "/avatar",data).toPromise();
+	}
+	deleteProfileAvatar(profileId){
+		return this.http.delete("/api/profiles/" + profileId + "/avatar").toPromise();
 	}
 	
 	getProfileBudget(profileId,year){
 		return this.http.get("/api/profiles/" + profileId + "/budgets/" + year).toPromise().then(response => response.json());
 	}
+	saveProfileBudget(profileId,year,data:FormData){
+		return this.http.put("/api/profiles/" + profileId + "/budgets/" + year,data).toPromise().then(response => response.json());
+	}
 	deleteProfileBudget(profileId,year){
 		return this.http.delete("/api/profiles/" + profileId + "/budgets/" + year).toPromise();
 	}
-	
 	
 	getProfileBudgets(profileId,options?){
 		return this.http.get("/api/profiles/" + profileId + "/budgets" + toParams(options)).toPromise().then(response => response.json());
@@ -108,11 +105,7 @@ export class DataService {
 	}
 	
 	
-	
-	/* IMPORT */
-	importExpenditures(data:FormData){
-		return this.http.post("/api/import/expenditures",data).toPromise().then(response => response.json());
-	}
+
 	
 	
 	

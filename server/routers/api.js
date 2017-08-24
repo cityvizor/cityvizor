@@ -35,6 +35,8 @@ router.use("/exports", (req,res) => res.sendStatus(404));
 
 
 /* PROFILE DATA */
+router.use("/profiles/:profile/avatar",require("../api/profile-avatar"));
+
 router.use("/profiles/:profile/budgets",require("../api/profile-budgets"));
 
 router.use("/profiles/:profile/contracts",require("../api/profile-contracts"));
@@ -46,10 +48,6 @@ router.use("/profiles/:profile/events",require("../api/profile-events"));
 router.use("/profiles/:profile/payments",require("../api/profile-payments"));
 
 router.use("/profiles/:profile/managers",require("../api/profile-managers"));
-
-
-/* IMPORT APIs */
-router.use("/import",require("../api/import"));
 
 
 /* ROOT */

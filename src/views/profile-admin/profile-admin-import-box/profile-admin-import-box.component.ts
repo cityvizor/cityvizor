@@ -50,23 +50,21 @@ export class ProfileAdminImportBoxComponent {
 		
 		let data = form.value;
 		
-		formData.set("profile",this.profile._id);
-		formData.set("year",this.budget.year);
 		formData.set("validity",data.validity);
 		formData.set("note",data.note);
 		
 		formData.set("eventsFile",eventsFile,eventsFile.name);
 		formData.set("expendituresFile",expendituresFile,expendituresFile.name);
 		
-		this.save.emit();
-		
-		this.dataService.importExpenditures(formData)
+		this.dataService.saveProfileBudget(this.profile._id,this.budget.year,formData)
 			.then(result => this.saved.emit(result))
 			.catch(response => {
 				if(response.status === 400) this.error.emit(response.text());
 				else if(response.status === 0) this.error.emit("Nepodařilo se kontaktovat server. Zkontrolujte připojení k internetu.");
 				else this.error.emit("Nastala neznámá chyba. Kontaktujte prosím správce aplikace Cityvizor.");
 			});
+		
+		this.save.emit();
 				
 		return false;
 	}
