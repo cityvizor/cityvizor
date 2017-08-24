@@ -15,9 +15,10 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
 
 ### Struktura
 
+### Formát
+
 ### Data ke stažení
-- [JSON](https://cityvizor.cz/exports/profiles.json.zip)
-- [CSV](https://cityvizor.cz/exports/profiles.csv.zip)
+- [Profily obcí](https://cityvizor.cz/exports/profiles.csv.zip)
 
 ## Obecní rozpočty
 
@@ -27,18 +28,14 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
 
 ### Struktura
 
-### Data ke stažení
-- [JSON](https://cityvizor.cz/exports/budgets.json.zip)
-- [CSV](https://cityvizor.cz/exports/budgets.csv.zip)
-
-## Číselníky investičních projektů
-
-### Popis
-
-Data jsou aktualizována jednou denně hodinu po půlnoci.
-
-### Struktura
+### Formát
 
 ### Data ke stažení
-- [JSON](https://cityvizor.cz/exports/events.json.zip)
-- [CSV](https://cityvizor.cz/exports/events.csv.zip)
+
+***2016***
+- [Číselník akcí](https://cityvizor.cz/exports/budgets-2016.events.csv)
+- [Datový soubor](https://cityvizor.cz/exports/budgets-2016.data.csv)
+
+***2017***
+- [Číselník akcí](https://cityvizor.cz/exports/budgets-2017.events.csv)
+- [Datový soubor](https://cityvizor.cz/exports/budgets-2017.data.csv)
