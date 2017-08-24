@@ -18,7 +18,7 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
 ### Formát
 
 ### Data ke stažení
-- [Profily obcí](https://cityvizor.cz/exports/profiles.csv.zip)
+- [Profily obcí](https://cityvizor.cz/dist/exports/profiles.csv.zip)
 
 ## Obecní rozpočty
 
