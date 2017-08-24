@@ -30,16 +30,11 @@ module.exports = {
     credentialsRequired: false
   },
   
-  uploads: {
-    saveDir: "uploads"
-  },
-
-  import: {
-    saveDir: "imports"
-  },
-  
-  export: {
-    saveDir: "exports"
+  storage: {
+    tmpDir: "/tmp",
+    avatarsDir: "uploads/avatars",
+    importsDir: "uploads/imports",
+    exportsDir: "exports"
   },
   
   mongoExpress: {
