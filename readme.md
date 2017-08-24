@@ -59,7 +59,7 @@ npm install pm2 -g
 pm2 start pm2-config.json --env production
 ```
 
-**Vývojový mód**
+## Vývojový mód
 
 - Server se zrestartuje a kód překompiluje při jakékoliv změně.
 - Na adrese /db běží ```mongo-express```
