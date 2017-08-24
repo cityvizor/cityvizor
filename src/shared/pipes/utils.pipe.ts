@@ -7,6 +7,13 @@ export class AbsPipe implements PipeTransform {
 		return Math.abs(value);
 	}
 }
+
+@Pipe({name: 'ico'})
+export class IcoPipe implements PipeTransform {
+	transform(value: string): string {
+		return ('00000000' + value).slice(-8);
+	}
+}
 /*
  * Join array of strings by separator
  */

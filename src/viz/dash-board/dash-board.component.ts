@@ -8,18 +8,7 @@ import { DataService } from '../../services/data.service';
 	moduleId: module.id,
 	selector: 'dash-board',
 	templateUrl: 'dash-board.template.html',
-	styleUrls: ["dash-board.style.css"],
-	animations: [
-    trigger('showNews', [
-      transition(':enter', [
-				style({opacity:0}),
-				animate('500ms ease-in',style({opacity:1}))
-			]),
-			transition(':leave', [
-				animate('250ms ease-in',style({opacity:0}))
-			])
-    ])
-  ]
+	styleUrls: ["dash-board.style.css"]
 })
 export class DashboardComponent {
 	
@@ -45,10 +34,10 @@ export class DashboardComponent {
 	 
 	ngOnInit(){
 		this.dataService.getProfilePayments(this.profile._id,{limit:5,sort:"-date"})
-			.then(payments => this.loadIteratively(payments,this.payments,50))
+			.then(payments => this.payments = payments)
 		
 		this.dataService.getProfileContracts(this.profile._id,{limit:5,sort:"-date"})
-			.then(contracts => this.loadIteratively(contracts,this.contracts,50))
+			.then(contracts => this.contracts = contracts)
 		
 		this.dataService.getProfileBudgets(this.profile._id,{limit:4,sort:"-year"})
 			.then(budgets => this.budgets = budgets)

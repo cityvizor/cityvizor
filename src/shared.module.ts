@@ -14,7 +14,7 @@ import { HelpModalComponent } 		from './shared/components/help-modal/help-modal.
 // Pipes
 import { MoneyPipe } from './shared/pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './shared/pipes/address.pipe';
-import { AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './shared/pipes/utils.pipe';
+import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './shared/pipes/utils.pipe';
 
 @NgModule({
   imports:      [
@@ -23,12 +23,12 @@ import { AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './shared/pipe
   ],
   declarations: [
     /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, BudgetsListComponent, HelpModalComponent,
-    /* Shared Pipes */ MoneyPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
+    /* Shared Pipes */ MoneyPipe, IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ],
   exports: [
     CollapseModule, BsDropdownModule, TabsModule,
     /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, BudgetsListComponent, HelpModalComponent,
-    /* Shared Pipes */ MoneyPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
+    /* Shared Pipes */ MoneyPipe, IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ]
 })
 export class SharedModule { }

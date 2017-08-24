@@ -27,6 +27,7 @@ import { DataCatalogueComponent } from "./viz/data-catalogue/data-catalogue.comp
 
 // Data viz components for data administration
 import { ProfileAdminProfileComponent } from "./views/profile-admin/profile-admin-profile/profile-admin-profile.component";
+import { ProfileAdminAvatarComponent } from "./views/profile-admin/profile-admin-avatar/profile-admin-avatar.component";
 import { ProfileAdminModulesComponent } from "./views/profile-admin/profile-admin-modules/profile-admin-modules.component";
 import { ProfileAdminImportComponent } from "./views/profile-admin/profile-admin-import/profile-admin-import.component";
 import { ProfileAdminImportBoxComponent } from "./views/profile-admin/profile-admin-import-box/profile-admin-import-box.component";
@@ -83,7 +84,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
-		/* VIZ ADMIN */ ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
+		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
 		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent,
