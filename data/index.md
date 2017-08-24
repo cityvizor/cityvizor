@@ -33,9 +33,9 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
 ### Data ke stažení
 
 ***2016***
-- [Číselník akcí](https://cityvizor.cz/exports/budgets-2016.events.csv)
-- [Datový soubor](https://cityvizor.cz/exports/budgets-2016.data.csv)
+- [Číselník akcí](https://cityvizor.cz/dist/exports/budgets-2016.events.csv)
+- [Datový soubor](https://cityvizor.cz/dist/exports/budgets-2016.data.csv)
 
 ***2017***
-- [Číselník akcí](https://cityvizor.cz/exports/budgets-2017.events.csv)
-- [Datový soubor](https://cityvizor.cz/exports/budgets-2017.data.csv)
+- [Číselník akcí](https://cityvizor.cz/dist/exports/budgets-2017.events.csv)
+- [Datový soubor](https://cityvizor.cz/dist/exports/budgets-2017.data.csv)
