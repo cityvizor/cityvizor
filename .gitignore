@@ -1,8 +1,8 @@
 # compiled output
 /dist
+/dist-embed
 
 # sensitive data
-/server/cert/*
 /server/config/config.production.js
 /server/config/config.development.js
 
@@ -10,10 +10,9 @@
 /node_modules
 
 # data
-/imports/events/*
-/imports/expenditures/*
 /exports/*
-/uploads/*
+/uploads/avatars/*
+/uploads/imports/*
 !.gitkeep
 
 # misc
