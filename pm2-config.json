@@ -1,15 +1,6 @@
 {
   apps : [
     {
-      name      : 'CityVizor Server',
-      script    : 'server/server.js',
-      instances : 0,
-      exec_mode : 'cluster',
-      
-      env: { NODE_ENV: 'development' },
-      env_production : { NODE_ENV: 'production' }
-    },
-    {
       name      : 'CityVizor Cron',
       script    : 'server/cron.js',
       instances : 1,
@@ -17,6 +8,15 @@
       
       env: { NODE_ENV: 'development' },
       env_production : { NODE_ENV: 'production' }
-    }
+    },
+    {
+      name      : 'CityVizor Server',
+      script    : 'server/server.js',
+      instances : 0,
+      exec_mode : 'cluster',
+      
+      env: { NODE_ENV: 'development' },
+      env_production : { NODE_ENV: 'production' }
+    }    
   ]
 }

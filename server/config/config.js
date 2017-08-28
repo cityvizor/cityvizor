@@ -3,6 +3,9 @@ var environment = process.env.NODE_ENV || "development";
 var configPath = "./config." + environment;
 
 try{
+  
+  console.log("Loaded config: " + configPath);
+  
   module.exports = require(configPath);
 }
 catch(err){
