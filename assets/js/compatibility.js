@@ -26,11 +26,16 @@ function detectIE() {
 
 var IEVersion = detectIE();
 
+function setBodyClass(className){
+  if(document.body.classList) document.body.classList.add(className);
+  else document.body.className = document.body.className + " " + className;
+}
+
 if(IEVersion && IEVersion <= 11){
-  document.body.classList.add("unsupported");
+  setBodyClass("unsupported");
   window.unsupportedBrowser = true;
 }
 else{
-  document.body.classList.add("supported");
+  setBodyClass("supported");
   window.unsupportedBrowser = false;
 }

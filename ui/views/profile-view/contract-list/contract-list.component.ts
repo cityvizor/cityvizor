@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { ToastService } 		from '../../services/toast.service';
-import { DataService } 		from '../../services/data.service';
+import { ToastService } 		from '../../../services/toast.service';
+import { DataService } 		from '../../../services/data.service';
 
 @Component({
 	moduleId: module.id,

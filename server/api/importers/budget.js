@@ -218,7 +218,7 @@ class BudgetImporter {
 
 				/* SAVE PAYMENT IF APPLICABLE */
 				//if(row[h.counterpartyId] || recordType === "KDF" || row[h.description]){
-				if(recordType === "KDF"){
+				if(recordType === "KDF" || recordType === "KOF"){
 					this.payments.push({
 						profile: importData.profileId,
 						year: importData.year,
@@ -335,6 +335,7 @@ class BudgetImporter {
 	}
 
 	string2date(string){
+		if(!string) return null;
 		// 29. 3. 1989, 29. 03. 1989, 29.3.1989, 29.03.1989 
 		string = string.replace(/^([0-3]?[0-9])\. ?([01]?[0-9])\. ?([0-9]{4})$/,"$3-$2-$1");
 		return new Date(string);		

@@ -34,9 +34,9 @@ module.exports = {
   
   storage: {
     tmpDir: "/tmp",
-    avatarsDir: "uploads/avatars",
-    importsDir: "uploads/imports",
-    exportsDir: "exports"
+    avatarsDir: "data/uploads/avatars",
+    importsDir: "data/uploads/imports",
+    exportsDir: "data/exports"
   },
   
   mongoExpress: {

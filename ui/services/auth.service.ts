@@ -3,10 +3,10 @@ import { Subject }    from 'rxjs/Subject';
 
 import { AuthHttp, JwtHelper } from 'angular2-jwt';
 
-import { ACL_Admin } from "../acl/admin";
-import { ACL_Guest } from "../acl/guest";
-import { ACL_ProfileManager } from "../acl/profile-manager";
-import { ACL_ProfileAdmin } from "../acl/profile-admin";
+import { ACL_Admin } from "../config/acl/admin";
+import { ACL_Guest } from "../config/acl/guest";
+import { ACL_ProfileManager } from "../config/acl/profile-manager";
+import { ACL_ProfileAdmin } from "../config/acl/profile-admin";
 
 import { User } from "../shared/schema/user";
 

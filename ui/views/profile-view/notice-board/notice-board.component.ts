@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { YQLService } from '../../services/yql.service';
-import { ToastService } 		from '../../services/toast.service';
+import { YQLService } from '../../../services/yql.service';
+import { ToastService } 		from '../../../services/toast.service';
 
 import {Http} from '@angular/http';
 

@@ -4,12 +4,12 @@ import { Subscription } from 'rxjs/Subscription' ;
 
 import { ModalDirective } from 'ngx-bootstrap';
 
-import { DataService } from '../../services/data.service';
-import { ToastService } 		from '../../services/toast.service';
+import { DataService } from '../../../services/data.service';
+import { ToastService } 		from '../../../services/toast.service';
 
-import { itemNames } from '../../shared/data/item-names.data';
+import { itemNames } from '../../../shared/data/item-names.data';
 
-import { ChartGroups }  from "../../shared/data/chartGroups";
+import { ChartGroups }  from "../../../shared/data/chartGroups";
 
 /*
 
@@ -21,7 +21,7 @@ Component for graphical vizualization of expenditures
 	selector: 'income-viz',
   host: {'(window:keydown)': 'hotkeys($event)'},
 	templateUrl: 'income-viz.template.html',
-	styleUrls: ['../../shared/styles/inc-exp-viz.style.css']
+	styleUrls: ['../../../shared/styles/inc-exp-viz.style.css']
 })
 export class IncomeVizComponent{
 	

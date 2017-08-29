@@ -25,7 +25,7 @@ export class FrontPageComponent implements OnInit {
 		this._ds.getProfiles({sort:"name"}).then(profiles => {
 			profiles.forEach(profile => {
 				profile.searchString = this.cleanString(profile.name);
-				profile.avatarPath = profile.avatarExt ? 'dist/uploads/avatars/' + profile._id + profile.avatarExt : null;
+				profile.avatarPath = profile.avatarExt ? this.config.avatarsUrl + "/" + profile._id + profile.avatarExt : null;
 			});
 			this.profiles = profiles;
 		});

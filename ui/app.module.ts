@@ -14,16 +14,14 @@ import { ProfileViewComponent } from './views/profile-view/profile-view.componen
 import { ProfileAdminComponent } from "./views/profile-admin/profile-admin.component";
 import { SiteAdminComponent } from "./views/site-admin/site-admin.component";
 import { UserAdminComponent } from "./views/user-admin/user-admin.component";
+import { EventDetailComponent } from "./views/event-detail/event-detail.component";
 
 // Data viz components
-import { DashboardComponent } from "./viz/dash-board/dash-board.component";
-import { ExpenditureVizComponent } from './viz/expenditure-viz/expenditure-viz.component';
-import { ExpenditureEventsComponent } from './viz/expenditure-events/expenditure-events.component';
-import { IncomeVizComponent } from './viz/income-viz/income-viz.component';
-import { ContractListComponent } from "./viz/contract-list/contract-list.component";
-import { NoticeBoardComponent } from "./viz/notice-board/notice-board.component";
-import { EventDetailComponent } from "./viz/event-detail/event-detail.component";
-import { DataCatalogueComponent } from "./viz/data-catalogue/data-catalogue.component";
+import { DashboardComponent } from "./views/profile-view/dash-board/dash-board.component";
+import { ExpenditureVizComponent } from './views/profile-view/expenditure-viz/expenditure-viz.component';
+import { IncomeVizComponent } from './views/profile-view/income-viz/income-viz.component';
+import { ContractListComponent } from "./views/profile-view/contract-list/contract-list.component";
+import { NoticeBoardComponent } from "./views/profile-view/notice-board/notice-board.component";
 
 // Data viz components for data administration
 import { ProfileAdminProfileComponent } from "./views/profile-admin/profile-admin-profile/profile-admin-profile.component";
@@ -83,7 +81,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
-		/* VIZ */ ExpenditureVizComponent, ExpenditureEventsComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataCatalogueComponent,
+		/* VIZ */ ExpenditureVizComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent,
 		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
 		/* Service Desk */ UserAdminAccountComponent,

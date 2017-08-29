@@ -4,6 +4,8 @@ var AppConfig = {
   // root directory for static documents referenced in various links throughout the site
   docsUrl: "https://otevrena-data-mfcr.github.io/CityVizor",
   
+  avatarsUrl: "/data/uploads/avatars",
+  
   // infomail used in texts
   mail: "cityvizor@otevrenamesta.cz",
   

@@ -5,14 +5,10 @@
   },
   "apps": [
     {
-      "root": "src",
-      "outDir": "dist/",
-      "deployUrl": "dist/",
+      "root": "ui",
+      "outDir": "dist/app",
+      "deployUrl": "/dist/app",
       "assets": [
-        "assets",
-        "uploads",
-        "exports",
-        "favicon.ico"
       ],
       "index": "app.index.html",
       "main": "app.main.ts",
@@ -23,7 +19,8 @@
       "styles": [
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -31,12 +28,10 @@
       }
     },
     {
-      "root": "src",
-      "outDir": "dist-embed",
-      "deployUrl": "dist-embed",
+      "root": "ui",
+      "outDir": "dist/embed",
+      "deployUrl": "/dist/embed",
       "assets": [
-        "assets",
-        "favicon.ico"
       ],
       "index": "embed.index.html",
       "main": "embed.main.ts",
@@ -57,10 +52,10 @@
   ],
   "lint": [
     {
-      "project": "src/tsconfig.app.json"
+      "project": "ui/tsconfig.app.json"
     },
     {
-      "project": "src/tsconfig.spec.json"
+      "project": "ui/tsconfig.spec.json"
     }
   ],
   "defaults": {
