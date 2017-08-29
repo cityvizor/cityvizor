@@ -8,8 +8,8 @@ var router = express.Router();
 router.use('/dist', express.static("dist"));
 router.use('/dist-embed', express.static("dist-embed"));
 
-router.use('/dist/assets', express.static("assets"));
-router.use('/dist-embed/assets', express.static("assets"));
+router.use('/dist/assets', express.static("assets",{ maxage: 24 * 60 * 60 * 1000 })); // cache for one day
+router.use('/dist-embed/assets', express.static("assets", { maxage: 24 * 60 * 60 * 1000 })); // cache for one day
 
 router.use('/dist/exports', express.static("exports"));
 router.use('/dist/uploads', express.static("uploads"));
