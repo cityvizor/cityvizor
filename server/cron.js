@@ -16,7 +16,7 @@ var job = new CronJob({
       mongoose.Promise = global.Promise;
       mongoose.plugin(require('mongoose-write-stream'));
       mongoose.plugin(require('mongoose-paginate'));
-      mongoose.connect('mongodb://localhost/' + config.database.db);
+      mongoose.connect('mongodb://localhost/' + config.database.db, { useMongoClient: true });
       console.log("DB connecting to database " + config.database.db);
 
       // set the tasks
