@@ -25,7 +25,7 @@ Neoficiální a nezávazný český překlad licence najdete na této adrese: [h
 
 ### Data
 
-DOPNIT LICENCE!!! Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
+Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
 
 ## Podpora prohlížečů
 
