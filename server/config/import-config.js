@@ -8,7 +8,7 @@ module.exports = {
       item: ["POLOZKA"],
       event: ["AKCE","ORJ"],
       amount: ["CASTKA"],
-      date: ["DOKLAD_DATUM"],
+      date: ["DATUM","DOKLAD_DATUM"],
       counterpartyId: ["SUBJEKT_IC"],
       counterpartyName: ["SUBJEKT_NAZEV"],
       description: ["POZNAMKA"]

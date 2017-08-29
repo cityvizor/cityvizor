@@ -16,19 +16,18 @@ body {
 }
 
 #unsupported{display:none;}
-body.unsupported cityvizor-app{display:none;}
 body.unsupported #unsupported{display:block;}
 
 table label{font-weight:bold;}
 table label.optional{font-weight:normal;}
 
-#disclaimer{
-	padding:20px;
+#unsupported,#disclaimer{
+	padding:10px 20px;
 	background: white;
 	font-weight:bold;
 	text-align:center;
 }
-#disclaimer p{
+#unsupported p,#disclaimer p{
 	margin:0;
 	padding:0;
 	font-size: 1.2em;

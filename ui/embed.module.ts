@@ -8,7 +8,7 @@ import { SharedModule } from './shared.module';
 import { AppComponent }  from './embed.component';
 
 // Views components
-import { EmbedLargeComponent } 		from './embed/embed-large/embed-large.component';
+import { EmbedLargeComponent } 		from './views/embed-large/embed-large.component';
 // Data viz components
 
 // Services

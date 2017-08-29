@@ -70,15 +70,15 @@ router.put("/:year", schema.validate({body: budgetSchema}), upload.fields([{ nam
 	budgetImporter.import(params)
 		.then(result => {
 		
-			fs.rename(req.files.eventsFile[0].path,config.storage.importsDir + "/" + params.profileId + "-" + params.year + ".events.csv");
-			fs.rename(req.files.expendituresFile[0].path,config.storage.importsDir + "/" + params.profileId + "-" + params.year + ".data.csv");
+			fs.rename(req.files.eventsFile[0].path,config.storage.importsDir + "/" + params.profileId + "-" + params.year + ".events.csv",() => {});
+			fs.rename(req.files.expendituresFile[0].path,config.storage.importsDir + "/" + params.profileId + "-" + params.year + ".data.csv",() => {});
 		
 			return res.json(result);
 		})
 		.catch(err => {
 		
-			fs.unlink(req.files.eventsFile[0].path);
-			fs.unlink(req.files.expendituresFile[0].path);
+			fs.unlink(req.files.eventsFile[0].path,() => {});
+			fs.unlink(req.files.expendituresFile[0].path,() => {});
 		
 			return res.status(400).send(err.message);
 		});

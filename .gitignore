@@ -10,9 +10,9 @@
 /node_modules
 
 # data
-/exports/*
-/uploads/avatars/*
-/uploads/imports/*
+/data/exports/*
+/data/uploads/avatars/*
+/data/uploads/imports/*
 !.gitkeep
 
 # misc
