@@ -21,6 +21,8 @@ router.get("/:id", schema.validate({query: eventSchema}), acl("events", "read"),
 	
 	Event.findOne({_id:req.params.id}).lean()
 		.then(event => {
+		
+			if(!event) return res.sendStatus(404);
 			
 			Payment.find({event: event._id}).lean()
 				.then(payments => {
