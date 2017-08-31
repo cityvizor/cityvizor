@@ -39,7 +39,6 @@
 	</div>
 
 	<div class="text-center more">
-		<span *ngIf="loading">Načítám smlouvy&#8230;</span>
-		<a *ngIf="!loading" [href]="'https://edesky.cz/desky/' + noticeBoard.edesky" target="_blank">Zobrazit všechny dokumenty</a>
+		<a [href]="'https://edesky.cz/desky/' + noticeBoard.edesky" target="_blank">Zobrazit všechny dokumenty</a>
 	</div>
 </ng-container>

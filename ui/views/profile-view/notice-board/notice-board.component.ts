@@ -26,12 +26,8 @@ export class NoticeBoardComponent {
 			
 			this.mapURL = this.sanitizer.bypassSecurityTrustResourceUrl("https://mapasamospravy.cz/embed?q[lau_id_eq]=" + profile.mapasamospravy + "#14/" + profile.gps[1] + "/" + profile.gps[0]);
 
-			this.loading = true;
 			this.dataService.getProfileNoticeBoard(profile._id)
-				.then(noticeBoard => {
-					this.noticeBoard = noticeBoard;
-					this.loading = false;
-				})
+				.then(noticeBoard => this.noticeBoard = noticeBoard)
 				.catch(err => this.toastService.toast("Nepodařilo se stáhnout dokumenty z úředních desek.","error"));
 		}
 	}
@@ -43,8 +39,6 @@ export class NoticeBoardComponent {
 	infoWindowClosed: boolean;
 
 	mapURL: SafeResourceUrl;
-	
-	loading: boolean;
 
 	constructor(private dataService:DataService, private sanitizer:DomSanitizer, private toastService:ToastService) {
 	}
