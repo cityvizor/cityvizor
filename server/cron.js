@@ -21,14 +21,14 @@ var job = new CronJob({
 
       // set the tasks
       var tasks = [];
-
-      tasks.push(require("./cron/export-profiles-csv"));
-      tasks.push(require("./cron/export-budgets-csv"));
-      tasks.push(require("./cron/download-contracts"));
+      
+      tasks.push({exec: require("./cron/export-profiles-csv"), name: "Export profiles to CSV"});
+      tasks.push({exec: require("./cron/export-budgets-csv"), name: "Export budget data to CSV"});
+      tasks.push({exec: require("./cron/download-contracts"), name: "Download contacts from https://smlouvy.gov.cz/"});
 
       console.log("Starting tasks...");
       // loop through the tasks one by one
-      runTaskLoop(tasks,() => {
+      runTaskLoop(tasks,1,() => {
 
         console.log("Disconnecting DB");
         mongoose.disconnect(() => {
@@ -46,18 +46,16 @@ var job = new CronJob({
   timezone: 'Europe/Prague' /* Time zone of this job. */
 });
 
-function runTaskLoop(tasks,cb){
+function runTaskLoop(tasks,counter,cb){
   let task = tasks.shift();
 
-  if(!task) return cb();
-
   console.log("===================================");
+  console.log("Task #" + counter + ": " + task.name);
 
-  task(() => {
-    console.log("===================================");
-    console.log("Wait " + config.cron.jobDelay + " sec");
+  task.exec(() => {
+    console.log("Task finished.");
 
-    if(tasks.length) setTimeout(() => runTaskLoop(tasks,cb),config.cron.jobDelay * 1000);
+    if(tasks.length) setTimeout(() => runTaskLoop(tasks,counter + 1,cb),config.cron.jobDelay * 1000);
     else return cb();
   });
 }
