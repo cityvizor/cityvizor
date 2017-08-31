@@ -17,7 +17,7 @@ const appRoutes: Routes = [
 	/* USER ACCOUNT */
 	
 	{path: 'ucet/:cat',component: UserAdminComponent},
-	{path: 'ucet', redirectTo: 'nastaveni-uctu/ucet', pathMatch: 'full'},
+	{path: 'ucet', redirectTo: 'ucet/nastaveni', pathMatch: 'full'},
 	
 	/* PROFILES */
 	
