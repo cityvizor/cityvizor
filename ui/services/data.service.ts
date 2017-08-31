@@ -93,6 +93,10 @@ export class DataService {
 		return this.http.get("/api/profiles/" + profileId + "/managers").toPromise().then(response => response.json());
 	}
 	
+	getProfileNoticeBoard(profileId,options?){
+		return this.http.get("/api/profiles/" + profileId + "/noticeboard" + toParams(options)).toPromise().then(response => response.json());
+	}
+	
 
 
 	/* EVENTS */

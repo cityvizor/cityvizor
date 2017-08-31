@@ -43,6 +43,13 @@ module.exports = {
     enable: false,
     username: "user",
     password: "pass"
+  },
+  
+  eDesky: {
+    host: "edesky.cz",
+    port: 443,
+    path: "/api/v1/documents",
+    api_key: "your api key"    
   }
   
 }

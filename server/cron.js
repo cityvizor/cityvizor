@@ -25,6 +25,7 @@ var job = new CronJob({
       tasks.push({exec: require("./cron/export-profiles-csv"), name: "Export profiles to CSV"});
       tasks.push({exec: require("./cron/export-budgets-csv"), name: "Export budget data to CSV"});
       tasks.push({exec: require("./cron/download-contracts"), name: "Download contacts from https://smlouvy.gov.cz/"});
+      tasks.push({exec: require("./cron/download-noticeboard"), name: "Download notice board documents from https://eDesky.cz/"});
 
       console.log("Starting tasks...");
       // loop through the tasks one by one

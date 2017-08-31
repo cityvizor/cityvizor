@@ -49,6 +49,8 @@ router.use("/profiles/:profile/payments",require("../api/profile-payments"));
 
 router.use("/profiles/:profile/managers",require("../api/profile-managers"));
 
+router.use("/profiles/:profile/noticeboard",require("../api/profile-noticeboard"));
+
 
 /* ROOT */
 router.get("/", (req,res) => res.sendFile("index.html", { root: __dirname + "/../api" }));

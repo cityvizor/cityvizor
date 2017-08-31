@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { YQLService } from '../../../services/yql.service';
+import { DataService } from '../../../services/data.service';
 import { ToastService } 		from '../../../services/toast.service';
+
+import { AppConfig } from "../../../config/config";
 
 import {Http} from '@angular/http';
 
@@ -13,31 +15,38 @@ import {Http} from '@angular/http';
 	styleUrls: ['notice-board.style.css']
 })
 export class NoticeBoardComponent {
-	// decides which part (vizualization, map or list) will be shown
-	show: string = 'map';
+	
+	config:any = AppConfig;
 
 	@Input()
 	set profile(profile) {
 		if(profile && this.profileId !== profile._id){
+			
 			this.profileId = profile._id;
 			
 			this.mapURL = this.sanitizer.bypassSecurityTrustResourceUrl("https://mapasamospravy.cz/embed?q[lau_id_eq]=" + profile.mapasamospravy + "#14/" + profile.gps[1] + "/" + profile.gps[0]);
-			
-			this.yql.query("select documents from xml where url = 'https://edesky.cz/api/v1/documents?dashboard_id=" + profile.edesky + "&order=date&search_with=sql&page=1'")
-				.then(data => data.query.results ? data.query.results.edesky_search_api.documents.document : [])
-				.then(documents => this.documents = documents);
+
+			this.loading = true;
+			this.dataService.getProfileNoticeBoard(profile._id)
+				.then(noticeBoard => {
+					this.noticeBoard = noticeBoard;
+					this.loading = false;
+				})
+				.catch(err => this.toastService.toast("Nepodařilo se stáhnout dokumenty z úředních desek.","error"));
 		}
 	}
+	
+	profileId:any;
+	
+	noticeBoard:any;
 
-	profileId;
-
-	infoWindowClosed:boolean;
+	infoWindowClosed: boolean;
 
 	mapURL: SafeResourceUrl;
+	
+	loading: boolean;
 
-	documents: Array<any>;
-
-	constructor(private yql:YQLService, private sanitizer:DomSanitizer) {
+	constructor(private dataService:DataService, private sanitizer:DomSanitizer, private toastService:ToastService) {
 	}
 
 }
