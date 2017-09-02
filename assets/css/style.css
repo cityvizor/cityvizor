@@ -25,7 +25,7 @@ header, nav, .btn {font-family: 'Raleway', sans-serif;}
 
 #header nav{border:none;}
 
-#page{padding-right:270px;position:relative}
+#page{position:relative}
 
 form {margin: 0;}
 
@@ -214,8 +214,10 @@ nav ul ul li{
 }
 
 #markdown-toc{
-  position:absolute;top:0;right:0;
+  float:right;
   padding:20px 30px;
+  border:20px solid #fff;
+  border-width:0 0 20px 20px;
   background-color:#eee;
   list-style:none;
   width:250px;
