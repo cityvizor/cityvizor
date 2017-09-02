@@ -54,14 +54,16 @@ Netestováno
 ## Použité technologie
 
 ### Backend
+ - JavaScript
  - NodeJS
  - MongoDB
  - PM2
  - Nginx
- - Centos
+ - CentOS
  - GitHub
  
 ### Frontend
+ - TypeScript
  - Angular
  - GitHub
  - GitHub Pages
