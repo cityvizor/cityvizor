@@ -72,7 +72,9 @@ Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapov
 ***2016***
 - [Číselník akcí](https://cityvizor.cz/data/exports/budgets-2016.events.csv)
 - [Datový soubor](https://cityvizor.cz/data/exports/budgets-2016.data.csv)
+- [Faktury](https://cityvizor.cz/data/exports/budgets-2016.payments.csv)
 
 ***2017***
 - [Číselník akcí](https://cityvizor.cz/data/exports/budgets-2017.events.csv)
 - [Datový soubor](https://cityvizor.cz/data/exports/budgets-2017.data.csv)
+- [Faktury](https://cityvizor.cz/data/exports/budgets-2017.payments.csv)
