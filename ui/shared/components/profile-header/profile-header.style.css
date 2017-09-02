@@ -28,7 +28,7 @@ header nav {
 	display: inline-block;
 }
 
-header a, header a:hover {color:white;text-decoration: none;}
+header a, header a:hover {color:white;}
 
 @media (max-width: 1400px) {
 		header {
@@ -67,6 +67,10 @@ nav li a.active {
 	color: white;
 }
 
+
+.navbar-right {
+  margin-right: 0px !important;
+}
 .navbar-toggle {
 	float:none;
 }

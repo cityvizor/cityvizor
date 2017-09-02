@@ -6,13 +6,15 @@
       <div class="row">
         <div class="col-xs-12">
           <h1>
-            <i class="fa fa-map-signs"></i>
-            <a [routerLink]="['/' + profile.url]">{{profile.name}}</a>
+            {{profile.name}}
           </h1>
 
-          <a [routerLink]="['/']" class="btn btn-md pull-right hidden-print">
-            Vybrat obec
-          </a>
+          
+          <h1 class="pull-right">
+            <a [routerLink]="['/']" class=" hidden-print">
+              <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> ZPĚT
+            </a>
+          </h1>
         </div>
       </div>
     </div>
@@ -47,8 +49,8 @@
 
         <ul class="nav navbar-nav navbar-right">
           <li *ngIf="isManagedProfile()">
-            <a [routerLink]="['/' + this.profile.url + '/admin']" routerLinkActive="active">
-              <i class="fa fa-cog"></i>
+            <a [routerLink]="['/' + this.profile.url + '/admin/uvod']" routerLinkActive="active">
+              Administrace
             </a>
           </li>
         </ul>

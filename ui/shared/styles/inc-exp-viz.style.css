@@ -116,10 +116,11 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 /* TABLE */
 .viztable, .graftable {margin-top: 1em;}
 .viztable tbody td, .graftable tbody td {padding: 2px 8px;}
+.graftable svg {max-width:100px!important;}
 .graftable td {vertical-align: middle};
-.graftable tbody tr:nth-child(1) td:nth-child(1) {width:40%;}
-.graftable tbody tr:nth-child(1) td:nth-child(2) {width:30%;}
-.graftable tbody tr:nth-child(1) td:nth-child(3) {width:30%;}
+.graftable tbody tr:nth-child(1) td:nth-child(1) {width:30%;}
+.graftable tbody tr:nth-child(1) td:nth-child(2) {width:25%;}
+.graftable tbody tr:nth-child(1) td:nth-child(3) {width:45%;}
 .viztable th:nth-child(1), .viztable td:nth-child(1) {width:50%;text-align:left;}
 .viztable th:nth-child(2), .viztable td:nth-child(2) {width:25%;text-align:right;}
 .viztable th:nth-child(3), .viztable td:nth-child(3) {width:25%;text-align:right;}
@@ -182,6 +183,7 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 	width: 100%;
 	-webkit-column-count: 2;
 	-moz-column-count: 2;
+	-moz-column-fill: balance;
 	column-count: 2;
 }
 @media (max-width: 991px) {

@@ -71,6 +71,10 @@ nav li a.active {
 .navbar-nav {
 	margin-left: -15px!important;
 }
+.navbar-right {
+  margin-right: 0px !important;
+}
+
 .navbar-toggle {
 	float:none;
 }
