@@ -28,7 +28,7 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
 
 ### Struktura
 
-<h3>Číselník akcí</h3>
+#### Číselník akcí
 <table class="table table-condensed table-hover table-striped">
   <thead>
     <tr><th>Pole</th><th>Alternativní názvy</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
@@ -47,7 +47,7 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
   </tbody>
 </table>
         
-<h3>Datový soubor</h3>
+#### Datový soubor
 <table class="table table-condensed table-hover table-striped">
   <thead>
     <tr><th>Pole</th><th>Alternativní názvy</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
