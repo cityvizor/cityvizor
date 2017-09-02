@@ -84,6 +84,7 @@ var paymentSchema = mongoose.Schema({
 });
 paymentSchema.index({ profile: 1, event: 1 });
 paymentSchema.index({ profile: 1, event: 1, year: 1 });
+paymentSchema.index({ date: 1 });
 
 module.exports = {
 	"Budget": mongoose.model('Budget', budgetSchema),

@@ -88,6 +88,9 @@ export class DataService {
 	getProfilePayments(profileId,options?){
 		return this.http.get("/api/profiles/" + profileId + "/payments" + toParams(options)).toPromise().then(response => response.json());
 	}
+	getProfilePaymentsMonths(profileId){
+		return this.http.get("/api/profiles/" + profileId + "/payments/months").toPromise().then(response => response.json());
+	}
 	
 	getProfileManagers(profileId){
 		return this.http.get("/api/profiles/" + profileId + "/managers").toPromise().then(response => response.json());
