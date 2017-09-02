@@ -15,7 +15,11 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
 
 ### Struktura
 
+TBD
+
 ### Formát
+
+Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapovací znak ")
 
 ### Data ke stažení
 - [Profily obcí](https://cityvizor.cz/data/exports/profiles.csv)
@@ -60,6 +64,8 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
 </table>
 
 ### Formát
+
+Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapovací znak ")
 
 ### Data ke stažení
 
