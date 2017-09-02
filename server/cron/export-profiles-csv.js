@@ -59,7 +59,7 @@ function makeCSVItem(value){
 	if(typeof(value) === "boolean") return value ? 1 : 0;
 		
 	// empty values
-	if(isNaN(value)) return "";
+	if(Number.isNaN(value)) return "";
 	
 	// string, escape quotes and encapsulate in quotes
 	value = value + "";
