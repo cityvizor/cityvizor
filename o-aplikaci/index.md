@@ -27,6 +27,23 @@ Neoficiální a nezávazný český překlad licence najdete na této adrese: [h
 
 Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
 
+## Technologický popis
+
+### Použité technologie
+
+#### Backend
+ - NodeJS
+ - MongoDB
+ - PM2
+ - Nginx
+ - Centos
+ - GitHub
+ 
+#### Frontend
+ - Angular
+ - GitHub
+ - GitHub Pages
+
 ## Podpora prohlížečů
 
 ### Chrome
@@ -46,6 +63,8 @@ Podpora pro aktuální verze[^aktualni]
 ### Opera
 
 Netestováno[^netestovano]
+
+
 
 --------------
 
