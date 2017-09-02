@@ -27,11 +27,33 @@ Neoficiální a nezávazný český překlad licence najdete na této adrese: [h
 
 Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
 
-## Technologický popis
+## Podpora prohlížečů
 
-### Použité technologie
+### Chrome
 
-#### Backend
+Podpora pro aktuální verze
+
+### Firefox
+
+Podpora pro aktuální verze
+
+### Internet Explorer / Edge
+
+- Edge - netestováno
+- Internet Explorer 10 a 11 - omezená funkčnost daná nedostupnými funkcionalitami prohlížeče
+- Internet Explorer 9 a nižší - neplánujeme podporu
+
+### Opera
+
+Netestováno
+
+### Safari
+
+Netestováno
+
+## Použité technologie
+
+### Backend
  - NodeJS
  - MongoDB
  - PM2
@@ -39,38 +61,7 @@ Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využív
  - Centos
  - GitHub
  
-#### Frontend
+### Frontend
  - Angular
  - GitHub
  - GitHub Pages
-
-## Podpora prohlížečů
-
-### Chrome
-
-Podpora pro aktuální verze[^aktualni]
-
-### Firefox
-
-Podpora pro aktuální verze[^aktualni]
-
-### Internet Explorer / Edge
-
-- Edge - netestováno[^netestovano]
-- Internet Explorer 10 a 11 - omezená funkčnost daná nedostupnými funkcionalitami prohlížeče
-- Internet Explorer 9 a nižší - neplánujeme podporu[^IE9]
-
-### Opera
-
-Netestováno[^netestovano]
-
-
-
---------------
-
-[^aktualni]: U těchto prohlížečů díky automatickým aktualizacím drtivá většina uživatelů používá aktuální, nebo téměř aktuální verzi. Nevidíme tedy smysl v podporování starších verzí.
-
-[^IE10-11]: Snažíme se, aby aplikace byla funkční, nicméně nejlepší zážitek nemůžeme zaručit. Úprava někerých funkcionalit aplikace tak, aby byly plně funkční v těchto verzích, by byla příliš náročná. Microsoft navíc omezuje podporu a uvedl svůj nový prohlížeč Edge.
-
-[^IE9]: Bohužel není v našich časových možnostech podporovat Internet Explorer v těchto verzích. U těchto verzí prohlížeče je navíc ukončená podpora společností Microsoft a velmi nízký podíl aktivních uživatelů. Pro použití aplikace si prosím nainstalujte modernejší verzi prohlížeče, jiný moderní prohlížeč, nebo o to požádejte správce vašeho IT.
-[^netestovano]: Testování plánujeme, ale bohužel zatím z časových důvodů nebylo provedeno.
