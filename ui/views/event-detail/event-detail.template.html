@@ -3,17 +3,41 @@
 
 	<tabset #detailTabs>
 		<tab heading="Přehled">
-			Výdaje: {{event.expenditureAmount | money:0:false}}<br>
-			Faktury: {{paymentsExpenditureAmount | money:0:false}}<br>
-			Neidentifikované: {{event.expenditureAmount - paymentsExpenditureAmount | money:0:false}}
-			<br>
-			Rozpočtované: {{event.budgetExpenditureAmount | money:0:false}}<br>
-			Zbývá: {{event.budgetExpenditureAmount - event.expenditureAmount | money:0:false}}<br>
-			<br>
-
-			<p>Sem nějaký graf který bude znázorňovat, že:</p>
-			<ul><li>(Platby + Neidentifikované) + Zbývá = Rozpočtované</li></ul>
-			<p>A to samé pro příjmy.</p>
+			
+			<h3>Výdaje</h3>
+			
+			<div class="overview">
+				<table class="amounts">
+					<tr>
+						<th>Rozpočet:</th>
+						<td>{{event.budgetExpenditureAmount | money:0:false}} Kč</td>
+					</tr>
+					<tr>
+						<th>Plnění:</th>
+						<td>{{event.expenditureAmount | money:0:false}} Kč</td>
+					</tr>
+				</table>
+			
+				<chart-event-overview *ngIf="event.expenditureAmount || event.budgetExpenditureAmount; else noExpenditures" type="expenditure" [data]="event"></chart-event-overview>
+				<ng-template #noExpenditures><p>Tato akce nemá žádné uskutečněné ani rozpočtované výdaje.</p></ng-template>
+			</div>
+			
+			<h3>Příjmy</h3>
+			<div class="overview">
+				<table class="amounts">
+					<tr>
+						<th>Rozpočet:</th>
+						<td>{{event.budgetIncomeAmount | money:0:false}} Kč</td>
+					</tr>
+					<tr>
+						<th>Plnění:</th>
+						<td>{{event.incomeAmount | money:0:false}} Kč</td>
+					</tr>
+				</table>
+				
+				<chart-event-overview *ngIf="event.incomeAmount || event.budgetIncomeAmount; else noIncome" type="income" [data]="event"></chart-event-overview>
+				<ng-template #noIncome><p>Tato akce nemá žádné uskutečněné ani rozpočtované příjmy.</p></ng-template>
+			</div>
 		</tab>
 		
 		<tab heading="Roční srovnání">
@@ -128,7 +152,10 @@
 
 		<tab heading="Příjmy" [active]="openTab=='inc'">
 
-			<p *ngIf="!event.budgetIncomeAmount && !event.incomeAmount">Tato akce nemá žádné rozpočtované ani uskutečněné příjmy.</p>
+			<div *ngIf="!event.budgetIncomeAmount && !event.incomeAmount" class="text-muted text-center info-box">
+				<i class="fa fa-exclamation-circle fa-2x"></i>
+				<p>Tato akce nemá žádné rozpočtované ani uskutečněné příjmy.</p>
+			</div>
 
 			<table *ngIf="event.budgetIncomeAmount || event.incomeAmount" class="table table-responsive table-title-number-number">
 				<thead>
@@ -173,7 +200,13 @@
 			</table>
 		</tab>
 		<tab heading="Faktury">
-			<table *ngIf="counterparties" class="table table-responsive table-hover payments">
+
+			<div *ngIf="counterparties.length == 0" class="text-muted text-center info-box">
+				<i class="fa fa-exclamation-circle fa-2x"></i>
+				<p>Žádné faktury či výdaje k zobrazení.</p>
+			</div>
+			
+			<table *ngIf="counterparties.length" class="table table-responsive table-hover payments">
 				<thead>
 					<tr>
 						<th>Dodavatel</th>
@@ -206,7 +239,7 @@
 											<td>{{payment.description}}</td>
 											<td class="text-right font-number">{{payment.amount | money:0:false}} Kč</td>
 										</tr>
-										<tr *ngIf="!counterparty.payments.length">
+										<tr *ngIf="counterparty.payments.length == 0">
 											<td colspan="4" class="text-muted text-center">
 												<i class="fa fa-exclamation-circle fa-2x"></i>
 												<p class="text-muted">Žádné faktury či výdaje k zobrazení.</p>

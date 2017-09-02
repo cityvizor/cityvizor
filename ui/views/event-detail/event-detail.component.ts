@@ -39,13 +39,14 @@ export class EventDetailComponent implements OnChanges {
 	
 	event:any;
 	
+	maxExpenditureAmount:number;
+	maxIncomeAmount:number;
+	
 	history:any[];
 	maxHistoryAmount:number = 0;
 	
 	counterparties:any[] = [];
 	otherPayments:any = {payments: [],total: 0, open: false};
-	paymentsIncomeAmount:number = 0;
-	paymentsExpenditureAmount:number = 0;
 	
 	paragraphNames = paragraphNames;
 	itemNames = itemNames;
@@ -66,6 +67,9 @@ export class EventDetailComponent implements OnChanges {
 			
 				this.event.items.sort((a,b) => a.id - b.id);
 				this.event.paragraphs.sort((a,b) => a.id - b.id);
+			
+				this.maxExpenditureAmount = Math.max(event.expenditureAmount,event.budgetExpenditureAmount);
+				this.maxIncomeAmount = Math.max(event.incomeAmount,event.budgetIncomeAmount);
 			
 				// get event accross years;
 				this.dataService.getProfileEvents(event.profile, {srcId:event.srcId,sort: "year"})
@@ -88,7 +92,7 @@ export class EventDetailComponent implements OnChanges {
 	parsePayments(){
 		
 		this.counterparties = [];
-		this.paymentsIncomeAmount = this.paymentsExpenditureAmount = 0;
+		this.event.paymentsIncomeAmount = this.event.paymentsExpenditureAmount = 0;
 		
 		let otherPayments = null;
 		let counterpartyIndex = {};
@@ -96,8 +100,8 @@ export class EventDetailComponent implements OnChanges {
 		this.event.payments.forEach(payment => {
 			
 			// sum up all the payments and invoices
-			if(payment.item < 5000) this.paymentsIncomeAmount += payment.amount;
-			else this.paymentsExpenditureAmount += payment.amount;
+			if(payment.item < 5000) this.event.paymentsIncomeAmount += payment.amount;
+			else this.event.paymentsExpenditureAmount += payment.amount;
 			
 			var id = payment.counterpartyId || payment.counterpartyName;
 

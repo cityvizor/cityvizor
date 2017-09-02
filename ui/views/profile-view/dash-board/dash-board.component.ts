@@ -34,7 +34,7 @@ export class DashboardComponent {
 	 
 	ngOnInit(){
 		this.dataService.getProfilePayments(this.profile._id,{limit:5,sort:"-date"})
-			.then(payments => this.payments = payments)
+			.then(payments => this.payments = payments.docs)
 		
 		this.dataService.getProfileContracts(this.profile._id,{limit:5,sort:"-date"})
 			.then(contracts => this.contracts = contracts)

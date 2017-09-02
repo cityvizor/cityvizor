@@ -42,7 +42,7 @@ export class ProfileAdminImportBoxComponent {
 		let expendituresFile = this.expendituresFile.nativeElement.files[0];
 		
 		if(!form.valid || !eventsFile || !expendituresFile){
-			this.toastService.toast("Formulář není správně vyplněn.","error");
+			this.toastService.toast("Formulář není správně vyplněn","error");
 			return;
 		}
 		
@@ -73,7 +73,7 @@ export class ProfileAdminImportBoxComponent {
 	
 		this.dataService.deleteProfileBudget(this.profile._id,this.budget.year)
 			.then(() => this.saved.emit())
-			.catch(err => this.toastService.toast("Nepodařilo se smazat rozpočtový rok." + err.message,"notice"));
+			.catch(err => this.toastService.toast("Nepodařilo se smazat rozpočtový rok [" + err.message + "]","error"));
 		
 	}
 

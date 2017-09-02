@@ -56,7 +56,7 @@ export class ProfileAdminImportComponent {
 	loadBudgets(){
 		this.dataService.getProfileBudgets(this.profile._id)
 			.then(budgets => this.budgets = budgets)
-			.catch(err => this.toastService.toast("Nastala chyba při načítání přehledu nahraných dat.","error"));
+			.catch(err => this.toastService.toast("Nastala chyba při načítání přehledu nahraných dat","error"));
 	}
 	 
 	loadHistory(page){
@@ -99,7 +99,7 @@ export class ProfileAdminImportComponent {
 		if(!year) return;
 		
 		if(!year.match(/\d{4}/)) {
-			this.toastService.toast("Datum musí být čtyři číslice.","notice");
+			this.toastService.toast("Datum musí být čtyři číslice","notice");
 			return;
 		}
 			

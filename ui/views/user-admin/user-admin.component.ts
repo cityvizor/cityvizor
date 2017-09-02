@@ -21,7 +21,7 @@ export class UserAdminComponent implements OnInit, OnDestroy {
       icon: "fa fa-times"
     },
     menu: [
-      { text: "Můj účet", link: ["../ucet"] },
+      { text: "Můj účet", link: ["../nastaveni"] },
 			{ text: "Upozornění", link: ["../upozorneni"] }
     ]
   };

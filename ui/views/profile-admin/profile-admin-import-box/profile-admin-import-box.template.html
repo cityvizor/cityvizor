@@ -8,12 +8,17 @@
 		<br><br>
 
 		<div *ngIf="!editState && !deleteState">
-			<button type="submit" class="btn btn-primary" (click)="editState=true">Nahrát nová data</button>
-			<button type="submit" class="btn btn-danger" (click)="deleteState=true">Smazat data</button>
+			<button type="submit" class="btn btn-md btn-primary" (click)="editState=true">
+				<i class="fa fa-upload"></i> Nahrát nová data
+			</button>
+			<button type="submit" class="btn btn-md btn-danger" (click)="deleteState=true">
+				<i class="fa fa-trash"></i> Smazat data
+			</button>
 		</div>
 		
 		<div class="chart">
-			<chart-budget [data]="budget"></chart-budget>
+			<chart-budget [data]="budget" [type]="expenditure"></chart-budget>
+			<chart-budget [data]="budget" [type]="income"></chart-budget>
 		</div>
 	</div>
 

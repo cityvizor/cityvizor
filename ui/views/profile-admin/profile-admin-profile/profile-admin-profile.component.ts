@@ -29,17 +29,23 @@ export class ProfileAdminProfileComponent {
 		
 		if(form.valid){	
 			
-			var profileData = form.value;
-			
-			profileData._id = this.profile._id;
-			
-			profileData.gps = [profileData.gps0, profileData.gps1];
-			delete profileData.gps0;
-			delete profileData.gps1;
-			
+			var formData = form.value;
+			var profileData = {
+				_id: this.profile._id,
+				name: formData.name,
+				url: formData.url,
+				ico: formData.ico,
+				zuj: formData.zuj,
+				edesky: formData.edesky,
+				mapasamospravy: formData.mapasamospravy,
+				gps: [Number(formData.gps0), Number(formData.gps1)],
+				email: formData.email,
+				active: !!formData.active,
+			};
+
 			this.dataService.saveProfile(profileData)
 				.then(profile => {
-					this.toastService.toast("Uloženo.", "notice");
+					this.toastService.toast("uloženo", "check");
 					this.saved.emit(profile);
 				})
 				.catch(err => this.toastService.toast("Nastala neznámá chyba při ukládání profilu.", "error"));

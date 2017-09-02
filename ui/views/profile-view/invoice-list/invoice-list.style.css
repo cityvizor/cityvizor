@@ -1,0 +1,6 @@
+.invoices{min-height:700px;}
+.invoices.loading{opacity:.5;}
+.invoices td{white-space:nowrap;}
+.invoices .description,.invoices .counterparty{display:inline-block;white-space:nowrap;text-overflow: ellipsis;overflow:hidden;}
+.invoices .description{width:450px;}
+.invoices .counterparty{width:250px;}

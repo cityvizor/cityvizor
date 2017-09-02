@@ -48,7 +48,7 @@ export class ProfileAdminModulesComponent {
 		
 		this.dataService.saveProfile(profileData)
 			.then(profile => {
-				this.toastService.toast("Uloženo.", "notice");
+				this.toastService.toast("Uloženo", "check");
 			})
 			.catch((err) => {
 				this.profile.hiddenModules = oldModules;

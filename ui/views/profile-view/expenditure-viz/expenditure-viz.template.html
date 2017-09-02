@@ -67,7 +67,7 @@
 						<div *ngIf="state.group" class="col-xs-9 text-right font-number">
 							{{groupIndex[state.group].budgetAmount | money:0:false}} Kč
 						</div>
-						<div *ngIf="!state.group" class="col-xs-9 text-right font-number">0 Kč</div>
+						<div *ngIf="!state.group" class="col-xs-9 text-right font-number">... Kč</div>
 					</div>
 					<div class="row">
 						<div class="col-xs-3 text-right">
@@ -76,7 +76,7 @@
 						<div *ngIf="state.group"  class="col-xs-9 text-right font-number">
 							{{groupIndex[state.group].amount | money:0:false}} Kč
 						</div>
-						<div *ngIf="!state.group" class="col-xs-9 text-right font-number">0 Kč</div>
+						<div *ngIf="!state.group" class="col-xs-9 text-right font-number">... Kč</div>
 					</div>
 				</button>
 
@@ -98,7 +98,7 @@
 					</div>
 
 					<div class="row">
-						<div class="col-sm-8">
+						<div class="col-xs-12 col-md-8">
 							<div class="content">
 
 								<table class="viztable table table-responsive small">
@@ -122,7 +122,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-0">
+						<div class="col-xs-12 col-md-4">
 							<div class="row">
 								<div class="col-xs-12">
 									<table class="table graftable table-responsive small">

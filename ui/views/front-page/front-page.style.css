@@ -1,13 +1,33 @@
+.profile:hover .emblem-background{
+  text-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+}
 
+.profile .emblem-background{    
+  color: #FFFFFF;
+  text-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.profile .emblem{
+  background-size: contain;
+width: 54%;
+background-repeat: no-repeat;
+position: absolute;
+left: 23%;
+height: 54%;
+top: 23%;
+}
+.profile .emblem.empty{background-color:#eee;}
 
-.profile .thumbnail{padding:0;border:0;margin:0 auto 10px auto;background-repeat:no-repeat;background-position:center;background-size:cover;}
-.profile .thumbnail.empty{background-color:#eee;}
-
-.profile.col-sm-3 .thumbnail{width:157px;height:157px;}
-.profile.col-md-3 .thumbnail{width:212px;height:212px;}
-.profile.col-lg-2 .thumbnail{width:165px;height:165px;}
-
-.profile.dimmed{opacity:.3;}
+.profile * {
+  transition-duration: 0s;
+}
+.profile a:hover {
+  text-decoration: none;
+}
+.profile.dimmed{
+  opacity:.2;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
 
 .switchListView {
   position: absolute;
@@ -15,46 +35,26 @@
 }
 
 
-#inputVyberObce {
-  border: none; background: none;
-  border-bottom: 3px solid rgba(0,0,0,.25);
-  color: rgba(0,0,0, 1);
-  text-align: left;
-  margin: 0 auto;
-  width: 100%;
-}
+
 
 #map{position:relative;}
 
 #map svg{display:block;}
 
 #map .mesto{position:absolute;width:0;height:0;margin-left:-3px;margin-bottom:-3px;background-color:#fff;border:3px solid #E73431;border-radius:3px;box-sizing:content-box;cursor:pointer;}
-#map .mesto span{display:none;position:absolute;font-size:1em;padding:1px 4px;white-space:nowrap;}
+#map .mesto *{ }
+#map .mesto span{opacity:0;position:absolute;font-size:1em;padding:1px 4px;white-space:nowrap; }
 
 #map .mesto .name{top:50%;right:17px;margin-top:-10px;color:#fff;background-color:#E73431;border-radius:3px;}
 #map .mesto .gps{top:50%;left:11px;margin-top:-10px;color:#E73431;background-color:rgba(238,238,238,.5);}
 
 #map .mesto.hover{height:8px;width:8px;margin-left:-7px;margin-bottom:-7px;border-radius:8px;}
-#map .mesto.hover span{display:block;}
+#map .mesto.hover span{opacity:1;}
 
 #frontImage{padding:20px;}
 .box{background-color:rgba(255,255,255,.7);border-radius:5px;font-size:.8em;}
 .box.padding{padding:20px;}
-::-webkit-input-placeholder {
-  color: rgba(0,0,0,0.25);
-}
-:-moz-placeholder { /* Firefox 18- */
-  color: rgba(0,0,0,0.25);
-}
-::-moz-placeholder {  /* Firefox 19+ */
-  color: rgba(0,0,0,0.25);
-}
-:-ms-input-placeholder {  
-  color: rgba(0,0,0,0.25);
-}
-textarea:focus, input:focus{
-  outline: none;
-}
+
 
 #headerVyberObce {
   display: block;  padding: 70px 0px 20px 0px;
@@ -77,6 +77,37 @@ textarea:focus, input:focus{
 
 section{margin-bottom:40px;}
 
-section#features p.text-muted {
-  color: #2581c4;
+#inputVyberObce {
+  border: none; background: none;
+  border-bottom: 3px solid #bbb;
+  text-align: left;
+  margin: 0 auto;
+  width: 100%;
+  color: #2581C4;
+}
+.input-group-addon {
+  border: 0px;
+  background-color: transparent;
+  color:  #bbb;
+}
+
+
+#inputVyberObce:focus {
+  color: #2581C4;
+  border-bottom-color: #2581C4;
+}
+::-webkit-input-placeholder {
+  color:  #bbb;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color:  #bbb;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+  color:  #bbb;
+}
+:-ms-input-placeholder {  
+  color:  #bbb;
+}
+textarea:focus, input:focus{
+  outline: none;
 }

@@ -29,9 +29,22 @@ export class ProfileAdminComponent {
 	ngOnInit(){
 		this.route.params.forEach((params: Params) => {
 			if(!this.profile || this.profile.url !== params["profile"]) {
-				this.dataService.getProfile(params["profile"]).then(profile => {
-					this.profile = profile;
-				});
+				
+				this.dataService.getProfile(params["profile"])
+					.then(profile => {
+						this.profile = profile;
+					})
+					.catch(err => {
+						if(err.status === 404){
+							this.toastService.toast("Obec nenalezena.","error");
+						}
+						else{
+							this.toastService.toast("Nastala chyba při stahování dat obce.","error");
+						}
+
+						this.router.navigate(["/"]);
+
+					});
 			}
 			
 			this.activeModule = params["module"];
@@ -41,12 +54,14 @@ export class ProfileAdminComponent {
 	 
 	updateProfile(profile){
 		
-		// update url if neccessary
-		if(this.profile.url !== profile.url){
-			this.router.navigate(this.getModuleLink(this.activeModule));
-		}
+		let oldUrl = this.profile.url;
 		
 		this.profile = profile;
+		
+		// update url if neccessary
+		if(oldUrl !== profile.url){
+			this.router.navigate(this.getModuleLink(this.activeModule));
+		}		
 		
 	}
 	 

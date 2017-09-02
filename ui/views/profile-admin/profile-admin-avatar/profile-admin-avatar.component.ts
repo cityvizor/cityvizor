@@ -27,7 +27,7 @@ export class ProfileAdminAvatarComponent {
 	}
   
   updateAvatar(profileId:string,ext:string):void{  
-    this.avatarPath = ext ? 'dist/uploads/avatars/' + profileId + ext + "?" + new Date().getTime() : null;
+    this.avatarPath = ext ? '/data/uploads/avatars/' + profileId + ext + "?" + new Date().getTime() : null;
   }
 	 
 	save(avatarFile){
@@ -47,14 +47,14 @@ export class ProfileAdminAvatarComponent {
     
     this.dataService.saveProfileAvatar(this._profile._id,formData)
 			.then(result => {
-        this.toastService.toast("Logo obce uloženo.","notice");
+        this.toastService.toast("Logo obce uloženo","check");
         let ext = "." + file.name.split('.').pop();
         this._profile.avatarExt = ext;
         this.updateAvatar(this._profile._id,ext);
         avatarFile.value = "";
       })
 			.catch(response => {
-        this.toastService.toast("Nastala chyba při ukládání loga.","error");
+        this.toastService.toast("Nastala chyba při ukládání loga","error");
 			});
     
 	}
@@ -62,13 +62,13 @@ export class ProfileAdminAvatarComponent {
   delete(){
     this.dataService.deleteProfileAvatar(this._profile._id)
 			.then(result => {
-        this.toastService.toast("Logo obce smazáno.","notice");
+        this.toastService.toast("Logo obce smazáno","check");
         let ext = null;
         this._profile.avatarExt = ext;
         this.updateAvatar(this._profile._id,ext);
       })
 			.catch(response => {
-        this.toastService.toast("Nastala chyba při mazání loga.","error");
+        this.toastService.toast("Nastala chyba při mazání loga","error");
 			});
   }
 

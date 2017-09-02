@@ -26,8 +26,11 @@
 					</div>
 					<div class="row vertical-align">
 						<div class="col-xs-9">
-							<p class="text-muted">
+							<p class="text-muted" *ngIf="payment.description">
 								{{payment.description}}
+							</p>
+							<p class="text-muted small" *ngIf="!payment.description">
+								(bez popisu)
 							</p>
 						</div>
 						<div class="col-xs-3 text-right vertical-align-end">
@@ -39,7 +42,7 @@
 				</div>
 			</div>
 			<div class="text-center more">
-				<a class="btn btn-xs btn-red">Další faktury</a>
+				<a routerLink="../faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
 			</div>
 		</div>
 	</div>
@@ -72,7 +75,12 @@
 					</div>
 					<div class="row vertical-align">
 						<div class="col-xs-9">
-							<p class="text-muted">{{contract.title}}</p>
+							<p class="text-muted" *ngIf="contract.title">
+								{{contract.title}}
+							</p>
+							<p class="text-muted small" *ngIf="!contract.title">
+								(bez popisu)
+							</p>
 						</div>
 						<div class="col-xs-3 text-right vertical-align-end">
 							<p>
@@ -84,7 +92,7 @@
 				</div>
 			</div>
 			<div class="text-center more">
-				<a [routerLink]="'../registr-smluv'" routerLinkActive="active" class="btn btn-xs btn-red">Další smlouvy</a>
+				<a routerLink="../registr-smluv" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
 			</div>
 		</div>
 	</div>

@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { DataService } 		from '../../services/data.service';
+import { ToastService } 		from '../../services/toast.service';
 
 import { Module, MODULES } from "../../shared/data/modules";
 
@@ -25,7 +26,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
 	paramsSubscription:Subscription
 
-	constructor(private route: ActivatedRoute, private dataService: DataService) {
+	constructor(private route: ActivatedRoute, private dataService: DataService, private toastService: ToastService, private router:Router) {
 		
 		this.modules = MODULES;	
 		
@@ -34,9 +35,22 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 	ngOnInit(){
 		this.paramsSubscription = this.route.params.subscribe((params: Params) => {
 			if(!this.profile || this.profile.url !== params["profile"]) {
-				this.dataService.getProfile(params["profile"]).then(profile => {
-					this.profile = profile;
-				});
+				
+				this.dataService.getProfile(params["profile"])
+					.then(profile => {
+						this.profile = profile;
+					})
+					.catch(err => {
+						if(err.status === 404){
+							this.toastService.toast("Obec nenalezena.","error");
+						}
+						else{
+							this.toastService.toast("Nastala chyba při stahování dat obce.","error");
+						}
+
+						this.router.navigate(["/"]);
+
+					});
 			}
 
 			this.modules.some(item => {
