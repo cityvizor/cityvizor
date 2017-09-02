@@ -5,37 +5,48 @@
 		<tab heading="Přehled">
 			
 			<h3>Výdaje</h3>
-			
+
 			<div class="overview">
-				<table class="amounts">
-					<tr>
-						<th>Rozpočet:</th>
-						<td>{{event.budgetExpenditureAmount | money:0:false}} Kč</td>
-					</tr>
-					<tr>
-						<th>Plnění:</th>
-						<td>{{event.expenditureAmount | money:0:false}} Kč</td>
-					</tr>
-				</table>
-			
-				<chart-event-overview *ngIf="event.expenditureAmount || event.budgetExpenditureAmount; else noExpenditures" type="expenditure" [data]="event"></chart-event-overview>
+				<ng-container *ngIf="event.expenditureAmount || event.budgetExpenditureAmount; else noExpenditures">
+					
+					<table class="amounts">
+						<tr>
+							<th>Rozpočet:</th>
+							<td>{{event.budgetExpenditureAmount | money:0:false}} Kč</td>
+						</tr>
+						<tr>
+							<th>Plnění:</th>
+							<td>{{event.expenditureAmount | money:0:false}} Kč</td>
+						</tr>
+					</table>
+
+					<chart-event-overview type="expenditure" [data]="event"></chart-event-overview>
+					
+				</ng-container>
+				
 				<ng-template #noExpenditures><p>Tato akce nemá žádné uskutečněné ani rozpočtované výdaje.</p></ng-template>
 			</div>
 			
 			<h3>Příjmy</h3>
 			<div class="overview">
-				<table class="amounts">
-					<tr>
-						<th>Rozpočet:</th>
-						<td>{{event.budgetIncomeAmount | money:0:false}} Kč</td>
-					</tr>
-					<tr>
-						<th>Plnění:</th>
-						<td>{{event.incomeAmount | money:0:false}} Kč</td>
-					</tr>
-				</table>
+
+				<ng-container *ngIf="event.incomeAmount || event.budgetIncomeAmount; else noIncome">
+					
+					<table class="amounts">
+						<tr>
+							<th>Rozpočet:</th>
+							<td>{{event.budgetIncomeAmount | money:0:false}} Kč</td>
+						</tr>
+						<tr>
+							<th>Plnění:</th>
+							<td>{{event.incomeAmount | money:0:false}} Kč</td>
+						</tr>
+					</table>
+
+					<chart-event-overview type="income" [data]="event"></chart-event-overview>
+					
+				</ng-container>
 				
-				<chart-event-overview *ngIf="event.incomeAmount || event.budgetIncomeAmount; else noIncome" type="income" [data]="event"></chart-event-overview>
 				<ng-template #noIncome><p>Tato akce nemá žádné uskutečněné ani rozpočtované příjmy.</p></ng-template>
 			</div>
 		</tab>
