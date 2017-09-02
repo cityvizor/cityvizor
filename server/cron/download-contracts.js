@@ -48,7 +48,6 @@ function downloadContractsLoop(profiles,cb){
 	// if we don't have any means our work is finished, hooray!
 	if(!profile) {
 		console.log("---");
-		console.log("Finished");
 		cb();
 		return;
 	}
