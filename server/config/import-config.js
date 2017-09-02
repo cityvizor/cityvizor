@@ -2,27 +2,27 @@ module.exports = {
   
   data: {
     headerNames: {
-      amountType: ["PRIJEM_VYDAJ"],
-      recordType: ["MODUL","DOKLAD_AGENDA"],
-      paragraph: ["PARAGRAF"],
-      item: ["POLOZKA"],
-      event: ["AKCE","ORJ"],
-      amount: ["CASTKA"],
-      date: ["DATUM","DOKLAD_DATUM"],
-      counterpartyId: ["SUBJEKT_IC"],
-      counterpartyName: ["SUBJEKT_NAZEV"],
-      description: ["POZNAMKA"]
+      amountType: ["amountType","PRIJEM_VYDAJ"],
+      recordType: ["recordType","MODUL","DOKLAD_AGENDA"],
+      paragraph: ["paragraph","PARAGRAF"],
+      item: ["item","POLOZKA"],
+      event: ["event","AKCE","ORG"],
+      amount: ["amount","CASTKA"],
+      date: ["date","DATUM","DOKLAD_DATUM"],
+      counterpartyId: ["counterpartyId","SUBJEKT_IC"],
+      counterpartyName: ["counterpartyName","SUBJEKT_NAZEV"],
+      description: ["description","POZNAMKA"]
     },
-    mandatoryFields: ["module","paragraph","amount"]
+    mandatoryFields: ["module","paragraph","item","amount"]
   },
 
   events: {
     headerNames: {
-      "srcId": ["AKCE","ORG","ORJ"],
-      "name": ["AKCE_NAZEV","ORG_NAZEV","ORJ_NAZEV"],
-      "description": ["POPIS"],
-      "gpsX": ["SOURADNICE_X"],
-      "gpsY": ["SOURADNICE_Y"]
+      "srcId": ["srcId","AKCE","ORG","ORJ"],
+      "name": ["name","AKCE_NAZEV","ORG_NAZEV","ORJ_NAZEV"],
+      "description": ["description","POPIS"],
+      "gpsX": ["gpsX","SOURADNICE_X"],
+      "gpsY": ["gpsY","SOURADNICE_Y"]
     },
     mandatoryFields: ["srcId","name"]
   }
