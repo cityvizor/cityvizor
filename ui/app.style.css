@@ -1,8 +1,8 @@
 
-#toasts{position:relative;width:100%;top: 48vh;overflow:visible;}
-#toasts ul{display:block;position:absolute;top:0;left:0;right:0;list-style:none;margin:0;left:0;z-index:1000;}
-#toasts li{display:block;margin:0;padding:0;text-align:center;}
-#toasts li span{display:inline-block;padding:10px;margin:2px 0;background-color:rgba(0,0,0,.7);border-radius:3px;color:#fff;cursor:pointer;}
+#toasts{position:fixed;width:100%;top:50%;overflow:visible; text-transform: uppercase;z-index:1000;}
+#toasts ul{display:block;position:absolute;top:0;left:0;right:0;list-style:none;margin:-50px 0 0 0;text-align:center;}
+#toasts li{display:inline-block;margin:0;padding:0;padding:10px 20px;margin:0 5px;background-color:rgba(0,0,0,.7);border-radius:10px;color:#fff;}
+#toasts li span p{margin-top: 5px;margin-bottom:0px;}
 
 /* Wrapper for page content to push down footer */
 #wrap {
@@ -36,5 +36,5 @@ footer .container{
 	 } 
 }
 
-.input-group-addon { min-width: 2em; }
+.input-group-addon { min-width: 3em; }
 

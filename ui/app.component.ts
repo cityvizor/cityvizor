@@ -1,11 +1,12 @@
 import { Component, ViewContainerRef, ViewChild } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
 import { AuthService } 		from './services/auth.service';
 import { User } from './shared/schema/user';
 
-import { AppConfig } from './config/app-config';
+import { AppConfig } from './config/config';
 
 class LoginData {
 	login:string = "";
@@ -16,7 +17,12 @@ class LoginData {
 	moduleId: module.id,
 	selector: 'cityvizor-app',
 	templateUrl: 'app.template.html',
-	styleUrls: ['app.style.css']
+	styleUrls: ['app.style.css'],
+	animations: [
+		trigger("toastsFadeOut", [
+			transition(':leave', animate(250, style({opacity: 0}))) // * => void
+		])
+	]
 })
 export class AppComponent {
 

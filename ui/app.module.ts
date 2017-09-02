@@ -20,8 +20,9 @@ import { EventDetailComponent } from "./views/event-detail/event-detail.componen
 import { DashboardComponent } from "./views/profile-view/dash-board/dash-board.component";
 import { ExpenditureVizComponent } from './views/profile-view/expenditure-viz/expenditure-viz.component';
 import { IncomeVizComponent } from './views/profile-view/income-viz/income-viz.component';
-import { ContractListComponent } from "./views/profile-view/contract-list/contract-list.component";
+import { InvoiceListComponent } from './views/profile-view/invoice-list/invoice-list.component';
 import { NoticeBoardComponent } from "./views/profile-view/notice-board/notice-board.component";
+import { ContractListComponent } from "./views/profile-view/contract-list/contract-list.component";
 
 // Data viz components for data administration
 import { ProfileAdminProfileComponent } from "./views/profile-admin/profile-admin-profile/profile-admin-profile.component";
@@ -81,7 +82,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
-		/* VIZ */ ExpenditureVizComponent, IncomeVizComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent,
+		/* VIZ */ ExpenditureVizComponent, IncomeVizComponent, InvoiceListComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent,
 		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
