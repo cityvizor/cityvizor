@@ -17,6 +17,7 @@ var AppConfig = {
     {"id": "invoice-list", "url": "faktury", "name": "Faktury", "optional": true},	
     {"id": "notice-board", "url": "uredni-deska", "name": "Úřední deska", "optional": true},
     {"id": "contract-list", "url": "registr-smluv", "name": "Registr smluv", "optional": true},
+    {"id": "data-sources", "url": "data", "name": "Data", "optional": true},
   ]
   
 }
