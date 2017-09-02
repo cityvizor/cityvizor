@@ -47,7 +47,7 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
     <tr><td>date</td><td>DATUM, DOKLAD_DATUM</td><td>datum ve formátu YYYY-MM-DD</td><td>Ne</td><td>Datum, pouze u faktur</td></tr>
     <tr><td>counterpartyId</td><td>SUBJEKT_IC</td><td>text</td><td>Ne</td><td>IČO protistrany, pouze u faktur</td></tr>
     <tr><td>counterpartyName</td><td>SUBJEKT_NAZEV</td><td>text</td><td>Ne</td><td>Jméno protistrany, pouze u faktur</td></tr>
-    <tr><td>description</td><td>POZNAMK</td><td>text</td><td>Ne</td><td>Popis faktury, pouze u faktur</td></tr>
+    <tr><td>description</td><td>POZNAMKA</td><td>text</td><td>Ne</td><td>Popis faktury, pouze u faktur</td></tr>
   </tbody>
 </table>
         
