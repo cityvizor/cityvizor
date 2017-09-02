@@ -78,13 +78,14 @@ var paymentSchema = mongoose.Schema({
 	paragraph: String,
 	date: Date,
 	amount: Number,
-	counterpartyId: {type:String, index:true},
+	counterpartyId: String,
 	counterpartyName: String,
 	description: String
 });
 paymentSchema.index({ profile: 1, event: 1 });
 paymentSchema.index({ profile: 1, event: 1, year: 1 });
-paymentSchema.index({ date: 1 });
+paymentSchema.index({ profile: 1, date: 1 });
+paymentSchema.index({ counterpartyId: 1 });
 
 module.exports = {
 	"Budget": mongoose.model('Budget', budgetSchema),

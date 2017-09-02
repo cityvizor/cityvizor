@@ -39,7 +39,6 @@ module.exports = function(cb){
 	});
 
 	exportLoop(exports,() => {
-		console.log("Finished");
 		cb();
 	});
 
@@ -124,7 +123,31 @@ function joinLoop(files,headerNames,destFile,cb){
 }
 
 function makeCSVLine(array){
-	return array.map(item => item.match(/^\d+([\.,]\d+)?$/) ? item : "\"" + item + "\"").join(";") + "\r\n";
+	
+	// clean and format values
+	array = array.map(value => makeCSVItem(value));
+	
+	return array.join(";") + "\r\n";
+}
+
+function makeCSVItem(value){
+	
+	// number, replace , to . and no quotes
+	if(typeof(value) === 'number' || (typeof(value) === 'string' && value.match(/^\d+([\.,]\d+)?$/))){
+		 value = value + "";
+		 return value.replace(",",".");
+	}
+	
+	// boolean, replace to binary 0/1
+	if(typeof(value) === "boolean") return value ? 1 : 0;
+		
+	// empty values
+	if(isNaN(value)) return "";
+	
+	// string, escape quotes and encapsulate in quotes
+	value = value + "";
+	return "\"" + value.replace("\"","\"\"") + "\"";
+	
 }
 
 function makeHeaderMap(headerNames,header){

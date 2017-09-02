@@ -1,3 +1,4 @@
+.selector{margin-top:20px;}
 .invoices{min-height:700px;}
 .invoices.loading{opacity:.5;}
 .invoices td{white-space:nowrap;}

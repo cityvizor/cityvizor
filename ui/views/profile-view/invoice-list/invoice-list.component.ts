@@ -73,7 +73,7 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
 			
 				this.years.sort();
 			
-				if(!this.currentYear) this.selectMonth(this.years[this.years.length - 1],1);
+				if(!this.currentYear) this.selectMonth(this.years[this.years.length - 1],Math.max(...this.months[this.years[this.years.length - 1]]));
 				else if(!this.currentMonth) this.selectMonth(this.currentYear,1);
 			
 			})
