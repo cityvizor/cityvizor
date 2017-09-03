@@ -33,6 +33,10 @@ module.exports = {
 		"list": true
 	},
 	
+	"profile-noticeboard": {
+		"read": true
+	},
+	
 	"login": {
 		"login": true
 	},
