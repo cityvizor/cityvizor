@@ -3,11 +3,6 @@ import { Subject }    from 'rxjs/Subject';
 
 import { AuthHttp, JwtHelper } from 'angular2-jwt';
 
-import { ACL_Admin } from "../config/acl/admin";
-import { ACL_Guest } from "../config/acl/guest";
-import { ACL_ProfileManager } from "../config/acl/profile-manager";
-import { ACL_ProfileAdmin } from "../config/acl/profile-admin";
-
 import { User } from "../shared/schema/user";
 
 import { DataService } 		from './data.service';
@@ -20,16 +15,8 @@ export class AuthService {
 	
 	jwtHelper: JwtHelper = new JwtHelper();
 
-	private onLogin = new Subject<any>();
-  private onLogout = new Subject<void>();
-
- 	// all ACL roles and their definitions
-	roles = {
-		"admin": ACL_Admin,
-		"guest": ACL_Guest,
-		"profile-manager": ACL_ProfileManager,
-		"profile-admin": ACL_ProfileAdmin
-	};
+	public onLogin = new Subject<any>();
+  public onLogout = new Subject<void>();
 
 	// boolean if user is logged
 	logged: boolean = false;
@@ -40,9 +27,6 @@ export class AuthService {
 	// current user (use blank user as default)
 	user: User = new User;
 
- 	// current user roles
-	userRoles:any[] = [];
- 
 	constructor(private http: AuthHttp){
 		
 		// refresh user data to match token
@@ -130,15 +114,15 @@ export class AuthService {
 		// check if token valid
 		if(token && !this.jwtHelper.isTokenExpired(token)){
 			
-			// announce login to subscribers if applicable
-			if(!this.logged) this.onLogin.next(this.user);
-			
 			// save the token
 			this.token = token;
 			
 			// set user
-			this.user = this.jwtHelper.decodeToken(token);
-			this.setRoles(this.user.roles);
+			this.setUser(this.jwtHelper.decodeToken(token));
+			
+			// announce login to subscribers if applicable
+			if(!this.logged) this.onLogin.next(this.user);
+			
 			this.logged = true;
 			
 		}	else {
@@ -149,8 +133,7 @@ export class AuthService {
 			// token invalid or missing, so set empty token and user
 			this.token = null;
 			this.logged = false;	
-			this.setRoles(null);
-			this.user = new User;
+			this.setUser(null);
 		}
 	}
 
@@ -167,62 +150,17 @@ export class AuthService {
 		
 		return !this.logged;
 	}
-
-	/* 
-	 * update this.userRoles to match current user roles
-	 */
-	setRoles(roles){
+	
+	setUser(userData:any){
 		
-		// empty the current roles array
-		let userRoles = [];
+		this.user = userData || new User;
 		
-		// guest role is by default;
-		userRoles.push(this.roles.guest); 
+		if(!this.user.roles) this.user.roles = [];
 		
-		if(roles){
-			roles
-				.filter(role => !!this.roles[role]) // filter out invalid roles
-				.forEach(role => userRoles.push(this.roles[role])); // assign roles to currentRoles array
-		}
+		this.user.roles.push("guest");
 		
-		this.userRoles = userRoles;
+		// add role user for logged users
+		if(userData) this.user.roles.push("user");
 	}
-
-	// function to evaluate single permission
-	evalPermission(permission,params?){
-
-		// if permission is a function, then evaluate its return value
-		if(typeof permission == 'function') return (permission(this.user,params) === true);
-
-		// if permission is boolean true, then evaluate the value
-		else if (permission === true) return true;
-
-		// if permission unspecified or misspecified, return false
-		else return false;
-	}
-
-	// function to get user roles and evaluate permissions
-	acl(resource,params?){
-
-		// go through all roles and check if some has permission, otherwise return false
-		return this.userRoles.some(role => {
-
-			// in case we have set permission for resource and action
-			//if(role[resource] && role[resource][operation]) return this.evalPermission(role[resource][operation],params);
-
-			// in case we have set permission for resource and default action
-			//else if(role[resource] && role[resource]["*"]) return this.evalPermission(role[resource]["*"],params);
-
-			// in case we have set permission for resource
-			if(role[resource]) return this.evalPermission(role[resource],params);
-								 
-			// in case we have set default permission
-			else if(role["*"]) return this.evalPermission(role["*"],params);
-
-			// if nothing is set, user does not have permission
-			else return false;
-		});
-	}
-
 
 }

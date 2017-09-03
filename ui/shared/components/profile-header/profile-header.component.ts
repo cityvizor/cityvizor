@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { AuthService } 		from '../../../services/auth.service';
+import { ACLService } 		from '../../../services/acl.service';
 
 import { Module, MODULES } from "../../../shared/data/modules";
 
@@ -20,14 +20,14 @@ export class ProfileHeaderComponent {
 	 
 	public isMenuCollapsed: boolean = true;
 	 
-	constructor(public authService:AuthService) {}
+	constructor(public aclService:ACLService) {}
 
 	isHiddenModule(viz){
 		return this.profile.hiddenModules && this.profile.hiddenModules.indexOf(viz.id) >= 0;
 	}
-
-	isManagedProfile(){
-		return this.authService.acl("profile-admin",{profile:this.profile._id});
+	
+	getAdminLink(){
+		return '/' + this.profile.url + '/admin';
 	}
 
 }

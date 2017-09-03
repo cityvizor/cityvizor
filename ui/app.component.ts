@@ -1,9 +1,11 @@
 import { Component, ViewContainerRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
 import { AuthService } 		from './services/auth.service';
+import { ACLService } 		from './services/acl.service';
 import { User } from './shared/schema/user';
 
 import { AppConfig } from './config/config';
@@ -41,7 +43,7 @@ export class AppComponent {
 
 	config:any = AppConfig;
 
-	constructor(private toastService: ToastService, public authService: AuthService, viewContainerRef:ViewContainerRef) {
+	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router:Router) {
 		var today = new Date();
 		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
 
@@ -73,6 +75,7 @@ export class AppComponent {
 	}
 
 	logout(){
+		this.router.navigate(['/']);
 		this.authService.logout();
 	}
 

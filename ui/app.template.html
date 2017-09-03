@@ -54,7 +54,7 @@
 				| <a [attr.href]="config.docsUrl + '/data'">Data</a>
 				| <a [attr.href]="config.docsUrl + '/o-aplikaci/licence'">Licence</a>
 				| <a [attr.href]="config.docsUrl + '/kontakt'">Kontakt</a>
-				<ng-container *ngIf="authService.acl('site-admin')">| <a routerLink="/admin">Administrace</a></ng-container>
+				<ng-container *ngIf="aclService.checkRoute('/admin')">| <a routerLink="/admin">Administrace</a></ng-container>
 				
 				<br>
 
@@ -70,7 +70,6 @@
 		</div>
 	</div>
 </footer>
-
 
 <div bsModal #loginModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md">

@@ -44,9 +44,9 @@ import { UserAdminAccountComponent } from "./views/user-admin/user-admin-account
 
 // Services
 import { DataService } 		from './services/data.service';
-import { YQLService } 		from './services/yql.service';
 import { ToastService } 		from './services/toast.service';
 import { AuthService } 		from './services/auth.service';
+import { ACLService } from "./services/acl.service";
 
 // Import Modules
 import { CollapseModule, ModalModule, BsDropdownModule, TabsModule} from 'ngx-bootstrap';
@@ -91,7 +91,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		
 	],
 	providers: [
-		DataService, YQLService, ToastService, AuthService,
+		DataService, ToastService, AuthService, ACLService,
 		{
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
