@@ -17,8 +17,14 @@
 		</div>
 		
 		<div class="chart">
-			<chart-budget [data]="budget" type="expenditure"></chart-budget>
-			<chart-budget [data]="budget" type="income"></chart-budget>
+			<div class="row">
+				<div class="col-xs-6">
+					<chart-budget [data]="budget" type="expenditure"></chart-budget>
+				</div>
+				<div class="col-xs-6">
+					<chart-budget [data]="budget" type="income"></chart-budget>
+				</div>
+			</div>
 		</div>
 	</div>
 
