@@ -1,5 +1,5 @@
 .selector{margin-top:20px;}
-.invoices{min-height:700px;}
+.invoices{min-height:650px;}
 .invoices.loading{opacity:.5;}
 .invoices td{white-space:nowrap;}
 .invoices .description,.invoices .counterparty{display:inline-block;white-space:nowrap;text-overflow: ellipsis;overflow:hidden;}

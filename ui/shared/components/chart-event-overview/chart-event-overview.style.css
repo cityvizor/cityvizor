@@ -18,7 +18,7 @@
 
 .desc{position: absolute;top: 100%;left: 0;right: 0;height: 50px;margin-top: 5px;}
 
-.desc .line{position: absolute;border: 1px solid #000;}
+.desc .line{position: absolute;border: 1px solid #999;}
 
 .desc .lines1{height: 10px;overflow: hidden;position: relative;}
 .desc .lines1 .line{height: 30px;width: 100%;top: -20px;border-radius: 20px;}
@@ -31,7 +31,7 @@
 .desc .small{height:20px;}
 .desc .small .line{top: 0;left: 50%;height: 20px;border-width: 0 0 0 1px;}
 
-.desc p{text-align:center;color: #000;white-space:nowrap;}
+.desc p{text-align:center;color: #333;white-space:nowrap;}
 .desc p.small-left{text-align:left;position:absolute;left:0;}
 .desc p.small-right{text-align:right;position:absolute;right:0;}
 

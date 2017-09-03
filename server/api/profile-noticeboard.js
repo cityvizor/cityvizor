@@ -6,7 +6,7 @@ var acl = require("express-dynacl");
 
 var NoticeBoard = require("../models/noticeboard");
 
-router.get("/", acl("profile-noticeboard", "list"), (req,res) => {
+router.get("/", acl("profile-noticeboard", "read"), (req,res) => {
 	
 	NoticeBoard.findOne({profile:req.params.profile})
 		.then(noticeBoard => res.json(noticeBoard))
