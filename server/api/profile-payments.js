@@ -73,7 +73,7 @@ router.get("/:year/csv", acl("profile-payments", "list"), (req,res) => {
 			// write data
 			payments.forEach(payment => {
 				
-				payment.date = payment.date ? payment.date.toISOString() : null;
+				payment.date = payment.date && payment.date.toISOString ? payment.date.toISOString() : null;
 				if(payment.event){
 					payment.eventSrcId = payment.event.srcId;
 					payment.event = payment.event._id;
@@ -83,15 +83,41 @@ router.get("/:year/csv", acl("profile-payments", "list"), (req,res) => {
 					payment.event = null;
 				}
 				
-				res.write(header.map(field => {
-					return '"' + payment[field].toString().replace(/\"/g, '""') + '"';
-				}).join(";") + '\r\n');
+				res.write(makeCSVLine(header.map(field => payment[field])));
 			});
 		
 			res.end();
 		})
-		.catch(err => res.status(500).send(err.message));
+		.catch(err => res.send(err.message));
 	
 });
+
+function makeCSVLine(array){
+	
+	// clean and format values
+	array = array.map(value => makeCSVItem(value));
+	
+	return array.join(";") + "\r\n";
+}
+
+function makeCSVItem(value){
+	
+	// number, replace , to . and no quotes
+	if(typeof(value) === 'number' || (typeof(value) === 'string' && value.match(/^\d+([\.,]\d+)?$/))){
+		 value = value + "";
+		 return value.replace(",",".");
+	}
+	
+	// boolean, replace to binary 0/1
+	if(typeof(value) === "boolean") return value ? 1 : 0;
+		
+	// empty values
+	if(Number.isNaN(value) || value === null) return "";
+	
+	// string, escape quotes and encapsulate in quotes
+	value = value + "";
+	return "\"" + value.replace("\"","\"\"") + "\"";
+	
+}
 
 module.exports = router;
