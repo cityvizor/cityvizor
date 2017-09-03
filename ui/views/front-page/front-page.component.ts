@@ -27,6 +27,7 @@ export class FrontPageComponent implements OnInit {
 				profile.searchString = this.cleanString(profile.name);
 				profile.avatarPath = profile.avatarExt ? this.config.avatarsUrl + "/" + profile._id + profile.avatarExt : null;
 			});
+			profiles.sort((a,b) => a.searchString.localeCompare(b.searchString));
 			this.profiles = profiles;
 		});
 	}
