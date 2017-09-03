@@ -42,6 +42,6 @@
   <ul>
     <li><a [href]="'/data/uploads/imports/' + profile._id + '-' + budget.year + '.events.csv'" target="_blank">{{profile.name}} - Číselník akcí (CSV)</a></li>
     <li><a [href]="'/data/uploads/imports/' + profile._id + '-' + budget.year + '.data.csv'" target="_blank">{{profile.name}} - Datový soubor (CSV)</a></li>
-    <li><a [href]="'/api/profiles/' + profile._id + '/payments/' + currentYear + '/csv'" target="_blank">{{profile.name}} - Faktury (CSV)</a>	
+    <li><a [href]="'/api/profiles/' + profile._id + '/payments/' + budget.year + '/csv'" target="_blank">{{profile.name}} - Faktury (CSV)</a>	
   </ul>
 </ng-container>
