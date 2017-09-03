@@ -64,6 +64,9 @@ router.get("/:year/csv", acl("profile-payments", "list"), (req,res) => {
 			
 			var header = ['profile','year','event','eventSrcId','type','item','paragraph','date','amount','counterpartyId','counterpartyName','description'];
 			
+			// UTF BOM for MS EXCEL
+			res.write("\ufeff");
+		
 			// write header
 			res.write(header.map(field => '"' + field + '"').join(";") + '\r\n');
 			

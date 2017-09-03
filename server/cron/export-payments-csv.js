@@ -51,19 +51,22 @@ function exportLoop(years,cb){
 	
 	// write to file
 	var path = __dirname + "/../../" + config.storage.exportsDir + '/budgets-' + year + '.payments.csv';
-	var file = fs.createWriteStream(path);
+	var destFile = fs.createWriteStream(path, {defaultEncoding: 'utf8'});
+	// include UTF BOM for MS Excel
+	destFile.write("\ufeff");
+	
 
 	// end export
-	file.on("close",() => {
+	destFile.on("close",() => {
 		console.log("Exported " + path);
 		exportLoop(years,cb);
 	});
 	
 	// write header
-	file.write(makeCSVLine(header));
+	destFile.write(makeCSVLine(header));
 	
 	// write rest data
-	payments.pipe(transform).pipe(file);
+	payments.pipe(transform).pipe(destFile);
 	
 }
 

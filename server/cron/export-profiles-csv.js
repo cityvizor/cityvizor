@@ -23,19 +23,22 @@ module.exports = function(cb){
 	
 	// write to file
 	var path = __dirname + "/../../" + config.storage.exportsDir + '/profiles.csv';
-	var file = fs.createWriteStream(path);
+	var destFile = fs.createWriteStream(path, {defaultEncoding: 'utf8'});
 
 	// end export
-	file.on("close",() => {
+	destFile.on("close",() => {
 		console.log("Profiles exported to " + path);
 		cb();
 	});
 	
+	// include UTF BOM for MS Excel
+	destFile.write("\ufeff");
+	
 	// write header
-	file.write("_id;url;name;ico;zuj;gps_x;gpx_y;edesky;mapasamospravy\r\n");
+	destFile.write("_id;url;name;ico;zuj;gps_x;gpx_y;edesky;mapasamospravy\r\n");
 	
 	// write rest data
-	profiles.pipe(transform).pipe(file);
+	profiles.pipe(transform).pipe(destFile);
 	
 }
 

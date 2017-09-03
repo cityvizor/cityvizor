@@ -53,12 +53,15 @@ function exportLoop(exports,cb){
 	/* TARGET FILE */
 	var destName = "budgets-" + params.year + "." + params.type + ".csv";
 	var destPath = path.join(destDir,destName);
-	var destFile = fs.createWriteStream(destPath);
+	var destFile = fs.createWriteStream(destPath, {defaultEncoding: 'utf8'});
 
 	destFile.on("close",() => {
 		console.log("Exported " + destName);
 		exportLoop(exports,cb);
 	});
+	
+	// include UTF BOM for MS Excel
+	destFile.write("\ufeff");
 
 	/* MAPPING */
 	var headerNames = importConfig[params.type].headerNames;
@@ -68,6 +71,7 @@ function exportLoop(exports,cb){
 	Object.keys(headerNames).forEach(key => {
 		headerLine.push(key);
 	});
+	
 
 	//write header
 	destFile.write(makeCSVLine(headerLine));
