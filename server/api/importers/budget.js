@@ -55,7 +55,12 @@ class BudgetImporter {
 
 		if(!task) return cb();
 
-		task().then(() => this.importLoop(tasks,cb)).catch(err => cb(err));
+		task()
+			.then(() => {
+				if(this.error) return cb(new Error(this.error));
+				this.importLoop(tasks,cb);
+			})
+			.catch(err => cb(err));
 	}
 
 	importEvents(importData) {
@@ -75,6 +80,8 @@ class BudgetImporter {
 			var parser = parse({delimiter: ';',trim:true});
 
 			parser.on("data", line => {
+				
+				if(this.error) return;
 
 				if(parser.count === 1){
 					headerMap = this.makeHeaderMap("events",line);
@@ -160,6 +167,8 @@ class BudgetImporter {
 			parser.on("error",err => reject(err));	
 
 			parser.on("data",row => {
+				
+				if(this.error) return;
 
 				if(parser.count === 1){
 					headerMap = this.makeHeaderMap("data",row);
@@ -321,7 +330,8 @@ class BudgetImporter {
 		});
 
 		if(missingMandatory.length > 0) {
-			throw new Error("Hlavička CSV - " + headerTypeNames[headerType] + ": Nenalezena povinná pole " + missingMandatory.map(key => headerNames[key].join("/")).join(", ") + ".");
+			this.error = "Hlavička CSV - " + headerTypeNames[headerType] + ": Nenalezena povinná pole " + missingMandatory.map(key => headerNames[key].join("/")).join(", ") + ".";
+			return false;
 		}
 
 		return headerMap;
