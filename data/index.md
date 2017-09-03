@@ -57,9 +57,9 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
     <tr><th>Pole</th><th>Alternativní názvy</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
   </thead>
   <tbody>
-    <tr><td>srcId</td><td>AKCE, ORG, ORJ</td><td>Ano</td><td>Číslo akce</td></tr>
-    <tr><td>name</td><td>AKCE_NAZEV, ORG_NAZEV, ORJ_NAZEV</td><td>Ano</td><td>Název akce</td></tr>
-    <tr><td>description</td><td>POPIS</td><td>Ne</td><td>Popis akce, co a proč byla nakupováno atd.</td></tr>
+  <tr><td>srcId</td><td>AKCE, ORG, ORJ</td><td>text</td><td>Ano</td><td>Číslo akce</td></tr>
+    <tr><td>name</td><td>AKCE_NAZEV, ORG_NAZEV, ORJ_NAZEV</td><td>text</td><td>Ano</td><td>Název akce</td></tr>
+    <tr><td>description</td><td>POPIS</td><td>text</td><td>Ne</td><td>Popis akce, co a proč byla nakupováno atd.</td></tr>
   </tbody>
 </table>
 
