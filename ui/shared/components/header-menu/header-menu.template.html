@@ -7,7 +7,7 @@
         <div class="col-xs-12">
           <h1 *ngIf="config.title">
             <i *ngIf="config.title.icon" [class]="config.title.icon"></i>
-            <a [routerLink]="config.title.link">{{config.title.text}} v</a>
+            <a [routerLink]="config.title.link">{{config.title.text}}</a>
           </h1>
 
           <a *ngIf="config.titleRight" [routerLink]="config.titleRight.link" class="btn btn-md pull-right hidden-print">

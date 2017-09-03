@@ -1,7 +1,7 @@
 import { Component, trigger, state, style, transition, animate } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { AuthService } 		from '../../services/auth.service';
+import { ACLService } 		from '../../services/acl.service';
 
 //00006947
 @Component({
@@ -22,18 +22,17 @@ export class SiteAdminComponent {
 			link: ["/"],
 			icon: "fa fa-times"
 		},
-		menu: []
+		menu: [
+			{ text: "Profily", link: ["../profily"] },
+			{ text: "Uživatelé", link: ["../uzivatele"] }
+		]
 	};
 
 	cat:string;
 
 	public isMenuCollapsed: boolean = true;
 
-	constructor(private route: ActivatedRoute, public authService:AuthService) {
-		
-		if(authService.acl('profile-admin')) this.menuConfig.menu.push({ text: "Profily", link: ["../profily"] });
-		if(authService.acl('user-admin')) this.menuConfig.menu.push({ text: "Uživatelé", link: ["../uzivatele"] });
-		
+	constructor(private route: ActivatedRoute) {
 	}
 
 	ngOnInit(){

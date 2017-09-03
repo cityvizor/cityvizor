@@ -1,14 +1,14 @@
 
 var AppConfig = {
-  
+
   // root directory for static documents referenced in various links throughout the site
   docsUrl: "https://otevrena-data-mfcr.github.io/CityVizor",
-  
+
   avatarsUrl: "/data/uploads/avatars",
-  
+
   // infomail used in texts
   mail: "cityvizor@otevrenamesta.cz",
-  
+
   // modules and their names. this controls what shows in menus etc.
   modules: [
     {"id": "dash-board", "url": "prehled", "name": "Aktuálně", "optional": false},
@@ -18,8 +18,41 @@ var AppConfig = {
     {"id": "notice-board", "url": "uredni-deska", "name": "Úřední deska", "optional": true},
     {"id": "contract-list", "url": "registr-smluv", "name": "Registr smluv", "optional": true},
     {"id": "data-sources", "url": "data", "name": "Data", "optional": true},
-  ]
-  
+  ],
+
+  acl: {
+    
+    routes: [
+      {
+        route: "/admin/:cat",
+        allowRoles: ["admin"]
+      },
+      {
+        route: "/admin",
+        allowRoles: ["admin"]
+      },
+      {
+        route: "/ucet",
+        allowRoles: ["admin","user"]
+      },
+      {
+        route: "/:profile/admin/:cat",
+        allowRoles: ["admin"],
+        allowCheck: (user,params) => user.managedProfiles.indexOf(params.profile) !== -1
+      },
+      {
+        route: "/:profile/admin",
+        allowRoles: ["admin"],
+        allowCheck: (user,params) => user.managedProfiles.indexOf(params.profile) !== -1
+      }
+    ],
+    
+    default: {
+      allow: true
+    }
+    
+  }
+
 }
 
 export { AppConfig };

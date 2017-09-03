@@ -48,8 +48,8 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li *ngIf="isManagedProfile()">
-            <a [routerLink]="['/' + this.profile.url + '/admin/uvod']" routerLinkActive="active">
+          <li *ngIf="aclService.checkRoute(getAdminLink())">
+            <a [routerLink]="[getAdminLink()]" routerLinkActive="active">
               Administrace
             </a>
           </li>

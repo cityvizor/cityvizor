@@ -6,12 +6,14 @@ import { ProfileViewComponent } from './views/profile-view/profile-view.componen
 import { SiteAdminComponent } from './views/site-admin/site-admin.component';
 import { UserAdminComponent } from './views/user-admin/user-admin.component';
 
+import { ACLService } from "./services/acl.service";
+
 const appRoutes: Routes = [
   {path: '',component: FrontPageComponent},
 	
 	/* ADMINISTRATION */
 	
-	{path: 'admin/:cat',component: SiteAdminComponent},
+	{path: 'admin/:cat',component: SiteAdminComponent, canActivate: [ACLService]},
 	{path: 'admin', redirectTo: 'admin/profily', pathMatch: 'full'},
 	
 	/* USER ACCOUNT */
