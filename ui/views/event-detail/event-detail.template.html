@@ -4,6 +4,11 @@
 	<tabset #detailTabs>
 		<tab heading="Přehled">
 			
+			<ng-container *ngIf="event.description">
+				<h3>Popis</h3>
+				<p>{{event.description</p>
+			</ng-container>
+			
 			<h3>Výdaje</h3>
 
 			<div class="overview">
@@ -93,15 +98,15 @@
 								</tr>
 								<tr style="height:60px;">
 									<td *ngFor="let historyEvent of history">
-										Rozpočet: <span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span><br>
-										Skutečnost: <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span><br>
+										<i class="fa fa-square" style="color:#ff9491;"></i> Rozpočet: <span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span><br>
+										<i class="fa fa-square" style="color:#e73431;"></i> Skutečnost: <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span><br>
 									</td>
 									<td></td>
 								</tr>
 								<tr style="height:60px;">
 									<td *ngFor="let historyEvent of history">
-										Rozpočet: <span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span><br>
-										Skutečnost: <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
+										<i class="fa fa-square" style="color:#adf;"></i> Rozpočet: <span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span><br>
+										<i class="fa fa-square" style="color:#2581c4;"></i> Skutečnost: <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
 									</td>
 									<td></td>
 								</tr>
