@@ -22,7 +22,7 @@ export class FrontPageComponent implements OnInit {
 	constructor(private _ds: DataService, private _router: Router) { }
 
 	ngOnInit(){
-		this._ds.getProfiles({sort:"name"}).then(profiles => {
+		this._ds.getProfiles().then(profiles => {
 			profiles.forEach(profile => {
 				profile.searchString = this.cleanString(profile.name);
 				profile.avatarPath = profile.avatarExt ? this.config.avatarsUrl + "/" + profile._id + profile.avatarExt : null;

@@ -21,11 +21,11 @@ router.get("/", acl("profiles","list"), (req,res) => {
 	
 	var query = Profile.find();
 	
-	query.select(req.query.fields || "id name url active gps avatarExt");
+	query.select(req.query.fields || "id name url status gps avatarExt");
 	
 	if(req.query.sort) query.sort(req.query.sort);
 	
-	if(!req.query.hidden) query.where({active: true});
+	if(!req.query.hidden) query.where({status: {$ne: "hidden"}});
 	
 	query
 		.then(profiles => res.json(profiles))

@@ -46,7 +46,7 @@ router.get("/months", acl("profile-payments", "list"), (req,res) => {
 	
 	Payment.aggregate(aggregation)
 		.then(result => {
-			if(!result[0]) return res.sendStatus(404);
+			if(!result[0]) return res.json([]);
 			res.json(result[0].months);
 		})
 		.catch(err => res.status(500).send(err.message));

@@ -66,14 +66,18 @@
         <div class="form-group">
           <label for="email" class="col-sm-3 control-label">Kontaktní email</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" id="email" name="email" [ngModel]="profile.email" aria-describedby="help-email" required>
+            <input type="email" class="form-control" id="email" name="email" [ngModel]="profile.email" aria-describedby="help-email">
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label"></label>
+          <label class="col-sm-3 control-label">Stav</label>
           <div class="col-sm-9">
-           <label class="control-label"><input type="checkbox" name="active" [ngModel]="profile.active"> Veřejný profil</label>
+            <select name="status" [ngModel]="profile.status">
+              <option value="active">Veřejný</option>
+              <option value="pending">Připravujeme</option>
+              <option value="hidden">Skrytý</option>
+            </select>
           </div>
         </div>
         

@@ -24,6 +24,7 @@ th{text-align:right;padding:0 10px;}
 .bl-labels { font-size: 14px;margin-bottom: 10px; }
 
 
+
 .bl-bar{display:inline-block;
 margin-right: 10px;
 height: 6px;
@@ -38,6 +39,10 @@ padding: 0px 2px;}
 
 .bl-btn-selected {min-width: 350px;}
 
+@media screen and (max-width: 767px) {
+	.bl-budget {min-width:100px; }
+	.bl-btn-selected {min-width: 150px;}
+}
 
 .btn-group {
 	box-shadow: 0px 0px 20px white;

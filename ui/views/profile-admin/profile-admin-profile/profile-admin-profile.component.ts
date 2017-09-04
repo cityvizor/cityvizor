@@ -40,7 +40,7 @@ export class ProfileAdminProfileComponent {
 				mapasamospravy: formData.mapasamospravy,
 				gps: [Number(formData.gps0), Number(formData.gps1)],
 				email: formData.email,
-				active: !!formData.active,
+				status: formData.status,
 			};
 
 			this.dataService.saveProfile(profileData)

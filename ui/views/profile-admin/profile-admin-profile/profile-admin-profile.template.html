@@ -64,19 +64,24 @@
   <div class="form-group">
     <label for="email" class="col-sm-3 control-label">Kontaktní email</label>
     <div class="col-sm-9">
-      <input type="email" class="form-control" id="email" name="email" [ngModel]="profile.email" aria-describedby="help-email" required>
+      <input type="email" class="form-control" id="email" name="email" [ngModel]="profile.email" aria-describedby="help-email">
       <span id="help-email" class="help-block">Na tomto e-mailu vás budeme kontaktovat, bude-li nějaký problém s vaším profilem.</span>
     </div>
   </div>
   
   <div class="form-group">
-    <label class="col-sm-3 control-label">Viditelnost profilu</label>
+    <label class="col-sm-3 control-label">Stav</label>
     <div class="col-sm-9">
-      <div class="btn-group">
-				<input type="radio" name="active" id="checkboxActiveTrue" [ngModel]="profile.active" [value]="true"> <label for="checkboxActiveTrue">Veřejný</label>
-				<input type="radio" name="active" id="checkboxActiveFalse" [ngModel]="profile.active" [value]="false"> <label for="checkboxActiveFalse">Skrytý</label>
-      </div>
-      <span id="help-active" class="help-block">Pokud zvolíte Veřejný, budou moci návštěvníci portálu CityVizor vidět váš profil v seznamu profilů na hlavní straně.</span>
+			<select name="status" [ngModel]="profile.status">
+				<option value="active">Veřejný</option>
+				<option value="pending">Připravujeme</option>
+				<option value="hidden">Skrytý</option>
+			</select>
+      <span id="help-active" class="help-block">
+				Veřejný = veřejně přístupný<br>
+				Připravujeme = zobrazuje se pouze na úvodní stránce s poznámkou<br>
+				Skrytý = nezobrazuje se na úvodní stránce.
+			</span>
     </div>
   </div>
 	

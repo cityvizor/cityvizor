@@ -28,8 +28,11 @@
 
 			<!-- ABECEDNE -->
 			<div class="row profileList">
-				<div *ngFor="let profile of profiles" class="col-xs-6 col-sm-3 col-md-3 col-lg-2 profile" [class.dimmed]="search && !search.exec(profile.searchString)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
-					<a [routerLink]="'/' + profile.url">
+				<div *ngFor="let profile of profiles" class="col-xs-6 col-sm-3 col-md-3 col-lg-2 profile" [class.profile-pending]="profile.status == 'pending'" [class.dimmed]="search && !search.exec(profile.searchString)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
+					<div class="pending-box text-center" *ngIf="profile.status == 'pending'">
+						<span class="pending-box-title">Připravujeme data</span>
+					</div>	
+					<a [routerLink]="profile.status != 'pending' ? '/' + profile.url : '/'">
 						<div class="text-center" _ngcontent-c1="">
 							<span class="fa-stack fa-4x" _ngcontent-c1="">
 								<i class="fa fa-circle fa-stack-2x emblem-background"></i>
@@ -72,7 +75,7 @@
 					<!-- MĚSTA -->
 					<div class="mesta">
 						<ng-container *ngFor="let profile of profiles">
-							<div *ngIf="!search || search.exec(profile.searchString)" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.gps)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
+							<div *ngIf="(!search || search.exec(profile.searchString)) && (profile.gps[0]!=null || profile.gps[1]!=null) && profile.status!='pending'" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.gps)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
 								<span class="name">{{profile.name}}</span>
 								<span class="gps">{{gps2string(profile.gps)}}</span>
 							</div>
