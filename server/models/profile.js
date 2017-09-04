@@ -18,6 +18,6 @@ var profileSchema = mongoose.Schema({
 	"mapasamospravy": Number,
 	"gps":[Number,Number]
 });
-eventSchema.index({ url: 1 });
+profileSchema.index({ url: 1 });
 
 module.exports = mongoose.model('Profile', profileSchema);
