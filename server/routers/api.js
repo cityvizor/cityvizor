@@ -28,12 +28,6 @@ router.use("/login",require("../api/login"));
 router.use("/users",require("../api/users"));
 
 
-/* DOWNLOAD DATASETS IN ZIP */
-router.use("/exports",acl("exports","read"),express.static("exports"));
-
-router.use("/exports", (req,res) => res.sendStatus(404));
-
-
 /* PROFILE DATA */
 router.use("/profiles/:profile/avatar",require("../api/profile-avatar"));
 
@@ -50,9 +44,3 @@ router.use("/profiles/:profile/payments",require("../api/profile-payments"));
 router.use("/profiles/:profile/managers",require("../api/profile-managers"));
 
 router.use("/profiles/:profile/noticeboard",require("../api/profile-noticeboard"));
-
-
-/* ROOT */
-router.get("/", (req,res) => res.sendFile("index.html", { root: __dirname + "/../api" }));
-
-router.get("*", (req,res) => res.sendStatus(404));
