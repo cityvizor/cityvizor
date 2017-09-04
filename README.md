@@ -27,14 +27,16 @@ npm run build
 
 ### 3) Nastavení
 
-Nastavit CityVizor je možno v následujících konfiguračních souborech:
+Nastavit CityVizor je nutné v následujících konfiguračních souborech:
 
 - ```/server/config/config.production.js``` - nastavení serveru v produkčním módu, vzor v config.production.example.js
 - ```/server/config/config.development.js``` - nastavení serveru ve vývojovém módu, vzor v config.development.example.js
+- ```/src/config/config.js``` - nastavení GUI
+
+Další možná nastavení:
+
 - ```/server/config/import-config.js``` - nastavení pravidel importu dat z CSV
 - ```/server/config/mongo-express-config.js``` - nastavení mongo-express
-- ```/src/config/config.js``` - nastavení GUI
-- ```/src/config/info-texts.js``` - informativní texty
 - ```/pm2-config.json``` - nastavení pro PM2
 
 ## Spuštění
