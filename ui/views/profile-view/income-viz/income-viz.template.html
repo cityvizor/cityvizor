@@ -1,7 +1,3 @@
-<button class="btn btn-lg btn-default btn-infoModal pull-right"  (click)="infoModal.show();">
-	<i class="fa fa-question-circle"></i>
-</button>
-
 <div class="row">
 
 	<div class="col-lg-12">
@@ -178,24 +174,6 @@
 				</button>
 				
 				<event-detail [eventid]="state.event" (selectEvent)="selectEvent($event)" openTab="inc"></event-detail>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h4 class="modal-title">Jak se dělí příjmy?</h4>
-			</div>
-			<div class="modal-body">
-				<p>
-					Příjmy se dělí na účelové a neúčelové. Účelové příjmy jsou zpravidla vázány na konkrétní projekt (dotace národní či evropské či z jiných fondů, dary atd,). Neúčelové příjmy nejsou vázány na konkrétní projekt, zpravidla se jedná o příjmy z daní, příjmy na výkon státní správy atd. 
-				</p>
 			</div>
 		</div>
 	</div>
