@@ -188,6 +188,8 @@ class BudgetImporter {
 				if(!amountType && itemId) amountType = Number(itemId) < 5000 ? "P" : (Number(itemId) >= 5000  ? "V" : null);
 
 				let amount = this.string2number(row[h.amount]);
+				
+				let isInvoice = (recordType === "KDF" || recordType === "KOF");
 
 				/* REPORT ERRORS */
 				// critical errors, skip item
@@ -199,7 +201,7 @@ class BudgetImporter {
 				if(amount === 0) this.warnings.push("Data, řádek " + i + ": Nulová částka.");
 				if(!itemId) this.warnings.push("Data, řádek " + i + ": Neuvedena rozpočtová položka.");
 				if(!paragraphId && amountType === "V") this.warnings.push("Data, řádek " + i + ": Neuveden paragraf u výdajové položky.");
-				if(!row[h.date]) this.warnings.push("Data, řádek " + i + ": Neuvedeno datum.");
+				if(isInvoice && !row[h.date]) this.warnings.push("Data, řádek " + i + ": Neuvedeno datum.");
 				if(row[h.counterpartyId] && !row[h.counterpartyName]) this.warnings.push("Data, řádek " + i + ": Neuvedeno jméno dodavatele.");
 
 
@@ -226,8 +228,7 @@ class BudgetImporter {
 				}
 
 				/* SAVE PAYMENT IF APPLICABLE */
-				//if(row[h.counterpartyId] || recordType === "KDF" || row[h.description]){
-				if(recordType === "KDF" || recordType === "KOF"){
+				if(isInvoice){
 					this.payments.push({
 						profile: importData.profileId,
 						year: importData.year,
