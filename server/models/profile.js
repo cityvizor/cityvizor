@@ -5,7 +5,7 @@ var profileSchema = mongoose.Schema({
 	"active": Boolean,
 	"hiddenModules": [String],
 	
-	"url": {type: String, index: true },
+	"url": String,
 	"name": String,
 	"email": String,
 	"avatarExt": String,
@@ -17,5 +17,6 @@ var profileSchema = mongoose.Schema({
 	"mapasamospravy": Number,
 	"gps":[Number,Number]
 });
+eventSchema.index({ url: 1 });
 
 module.exports = mongoose.model('Profile', profileSchema);

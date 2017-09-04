@@ -5,23 +5,28 @@ var path = require("path");
 
 var router = express.Router();
 
-router.use('/dist', express.static("dist", {fallthrough: false}));
+router.use('/dist', express.static("dist", {fallthrough: false, maxage: 10 * 60 * 1000})); // cache 10 min
 
-router.use('/assets', express.static("assets", {maxage: 60 * 60 * 1000, fallthrough: false})); // cache for one hour
+router.use('/assets', express.static("assets", {fallthrough: false, maxage: 60 * 60 * 1000})); // cache 1 hour
 
-router.use('/data', express.static("data", {fallthrough: false}));
+router.use('/data/uploads', express.static("data/uploads", {fallthrough: false, maxage: 0})); // cache 0
+
+router.use('/data', express.static("data", {fallthrough: false, maxage: 10 * 60 * 1000})); // cache 10 min
 
 let root = path.join(__dirname,"/../..");
 
 router.get('/favicon.ico',(req,res) => {
+	res.set('Cache-Control', 'public, max-age=3600'); // cache 1 hour
 	res.sendFile("assets/img/favicon/favicon.ico", { root: root });	
 });
 
 router.get('/embed/*',(req,res) => {
+	res.set('Cache-Control', 'public, max-age=600'); // cache 10 min
 	res.sendFile("dist/embed/embed.index.html", { root: root });	
 });
 
 router.get('*',(req,res) => {
+	res.set('Cache-Control', 'public, max-age=600'); // cache 10 min
 	res.sendFile("dist/app/app.index.html", { root: root });	
 });
 
