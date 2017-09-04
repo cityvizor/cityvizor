@@ -12,12 +12,16 @@ export class ChartEventOverviewComponent {
 	invoices:number;
 	other:number;
 	over:boolean;
+	
+	currentYear:boolean;
 
 	@Input() type:any;
 	
 	@Input()
 	set data(data:any){
-		console.log(this.type);
+		
+		this.currentYear = (data.year === (new Date()).getFullYear());
+
 		if(this.type === "expenditure"){
 			
 			let max = data.expenditureAmount < data.budgetExpenditureAmount ? data.budgetExpenditureAmount : 2 * data.expenditureAmount - data.budgetExpenditureAmount;
@@ -27,8 +31,6 @@ export class ChartEventOverviewComponent {
 			this.other = 1 - this.invoices;
 			
 			this.over = data.expenditureAmount > data.budgetExpenditureAmount;
-			
-			console.log(data,max,this.invoices,this.other);
 		}
 		
 		if(this.type === "income"){

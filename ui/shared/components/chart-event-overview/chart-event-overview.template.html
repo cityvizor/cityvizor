@@ -27,8 +27,10 @@
 			</div>
 
 			<p [class.small-left]="amount < 0.17">
-				<span *ngIf="type=='expenditure'">Již jsme utratili</span>
-				<span *ngIf="type=='income'">Již jsme přijali</span>
+				<span *ngIf="currentYear && type=='expenditure'">Již jsme utratili</span>
+				<span *ngIf="currentYear && type=='income'">Již jsme přijali</span>
+				<span *ngIf="!currentYear && type=='expenditure'">Utratili jsme</span>
+				<span *ngIf="!currentYear && type=='income'">Přijali jsme</span>
 			</p>
 
 		</div>
@@ -52,8 +54,12 @@
 			</div>
 
 			<p [class.small-right]="1 - amount < 0.17">
-				<span *ngIf="!over && type=='expenditure'">Ještě plánujeme utratit</span>
-				<span *ngIf="!over && type=='income'">Ještě očekáváme</span>
+				<ng-container *ngIf="!over">
+					<span *ngIf="currentYear && type=='expenditure'">Ještě plánujeme utratit</span>
+					<span *ngIf="currentYear && type=='income'">Ještě očekáváme</span>
+					<span *ngIf="!currentYear && type=='expenditure'">Ještě jsme plánovali utratit</span>
+					<span *ngIf="!currentYear && type=='income'">Ještě jsme očekávali</span>
+				</ng-container>
 				<span *ngIf="over">Překročený rozpočet</span>
 			</p>
 		</div>
