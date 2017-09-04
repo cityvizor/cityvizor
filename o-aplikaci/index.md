@@ -27,33 +27,35 @@ Neoficiální a nezávazný český překlad licence najdete na této adrese: [h
 
 Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
 
-## Podpora prohlížečů
+## Technické informace
 
-### Chrome
+### Podpora prohlížečů
 
-Podpora pro aktuální verze
-
-### Firefox
+#### Chrome
 
 Podpora pro aktuální verze
 
-### Internet Explorer / Edge
+#### Firefox
+
+Podpora pro aktuální verze
+
+#### Internet Explorer / Edge
 
 - Edge - netestováno
 - Internet Explorer 10 a 11 - omezená funkčnost daná nedostupnými funkcionalitami prohlížeče
 - Internet Explorer 9 a nižší - neplánujeme podporu
 
-### Opera
+#### Opera
 
 Netestováno
 
-### Safari
+#### Safari
 
 Netestováno
 
-## Použité technologie
+### Použité technologie
 
-### Backend
+#### Backend
  - JavaScript
  - NodeJS
  - MongoDB
@@ -62,7 +64,7 @@ Netestováno
  - CentOS
  - GitHub
  
-### Frontend
+#### Frontend
  - TypeScript
  - Angular
  - GitHub
