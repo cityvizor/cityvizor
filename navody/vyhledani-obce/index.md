@@ -1,3 +1,3 @@
-Pro vyhledání údajů o obci, která Vás zajímá stačí zadat do vyhledávání jméno obce nebo ji najít na mapě. Poté se můžete prokliknout do modulu dané obce.
+Pro vyhledání údajů o konkrétní stačí zadat do vyhledávání jméno obce nebo na ní kliknout či ji najít na mapě. Poté se dostanete do profilu dané obce.
 
 Vyhledání obce
