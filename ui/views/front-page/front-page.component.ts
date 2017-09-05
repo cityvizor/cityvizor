@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Title }     from '@angular/platform-browser';
+
 import { DataService} from '../../services/data.service';
 import { AppConfig } from '../../config/app-config';
 
@@ -19,9 +21,12 @@ export class FrontPageComponent implements OnInit {
 	
 	config:any = AppConfig;
 
-	constructor(private _ds: DataService, private _router: Router) { }
+	constructor(private titleService: Title, private _ds: DataService, private _router: Router) { }
 
 	ngOnInit(){
+		
+		this.titleService.setTitle(this.config.title);
+		
 		this._ds.getProfiles().then(profiles => {
 			profiles.forEach(profile => {
 				profile.searchString = this.cleanString(profile.name);

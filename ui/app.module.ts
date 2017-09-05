@@ -1,5 +1,5 @@
 import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http, RequestOptions }     from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -91,7 +91,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		
 	],
 	providers: [
-		DataService, ToastService, AuthService, ACLService,
+		Title, DataService, ToastService, AuthService, ACLService,
 		{
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

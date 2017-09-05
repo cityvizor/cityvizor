@@ -46,7 +46,7 @@ export class AppComponent {
 	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router:Router) {
 		var today = new Date();
 		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
-
+		
 		this.toasts = this.toastService.toasts;
 	}
 

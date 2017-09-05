@@ -1,6 +1,7 @@
 
 var AppConfig = {
 
+  title: "CityVizor.cz",
   // root directory for static documents referenced in various links throughout the site
   docsUrl: "https://otevrena-data-mfcr.github.io/CityVizor",
 

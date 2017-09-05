@@ -44,7 +44,7 @@
 				<label for="obec" class="col-sm-3 control-label">Číselník investičních akcí</label>
 				<div class="col-sm-9">
 					<input name="eventsFile" type="file" accept=".csv,text/csv" class="form-control" required #eventsFile>
-					<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8). <a [attr.href]="appConfig.docsUrl + '/navody/import'" target="_blank">Více...</a></span>
+					<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8). <a [attr.href]="appConfig.docsUrl + '/navody'" target="_blank">Více...</a></span>
 				</div>
 			</div>
 
@@ -52,7 +52,7 @@
 				<label for="obec" class="col-sm-3 control-label">Datový soubor</label>
 				<div class="col-sm-9">
 					<input name="expendituresFile" type="file" accept=".csv,text/csv" class="form-control" required #expendituresFile>
-					<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8). <a [attr.href]="appConfig.docsUrl + '/navody/import'" target="_blank">Více...</a></span>
+					<span id="help-entity" class="help-block">Formát dat: CSV (hodnoty oddělené středníkem, kódování UTF-8). <a [attr.href]="appConfig.docsUrl + '/navody'" target="_blank">Více...</a></span>
 				</div>
 			</div>
 
@@ -64,13 +64,27 @@
 				</div>
 			</div>
 
+			<div class="form-group disclaimer">
+				<label for="expnote" class="col-sm-3 control-label optional">Upozornění:</label>
+				<div class="col-sm-9">
+					<p>Nahráním stvrzujete, že výše vložená data (dále datové soubory) splňují následující pravidla:</p>
+					<p>Datové soubory:</p>
+					<ul>
+						<li>nejsou způsobem výběru nebo uspořádáním obsahu vlastním duševním výtvorem autora ve smyslu § 2 odst. 2 zákona č. 121/2000 Sb., o právu autorském, o právech souvisejících s právem autorským a o změně některých zákonů (autorský zákon), případně jsou úředním dílem ve smyslu § 3 písm. a) autorského zákona;</li>
+						<li>nenaplňují znaky pro vznik práva pořizovatele databáze dle § 88 a následujících Autorského zákona;</li>
+						<li>v sobě neobsahují autorským právem chráněná díla dle § 2 odst. 1 Autorského zákona.</li>
+					</ul>
+					<p>Z těchto důvodů nejsou tyto datové soubory z hlediska autorského práva a sui generis databázových práv chráněná jako celek, stejně jako nejsou chráněny jejich dílčí části. Každý tak může tyto datové soubory volně vytěžovat a zužitkovat, tzn. data v nich obsažená volně užívat k jakýmkoli účelům, včetně komerčních.</p>
+				</div>
+			</div>
+
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-9">
 					<button type="submit" class="btn btn-primary" [disabled]="!importForm.valid">Nahrát</button>
 					<button type="reset" class="btn btn-default" (click)="editState=false">Zrušit</button>
 				</div>
 			</div>
-			
+
 			<span style="display:block;clear:both;"></span>
 
 		</form>

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Title }     from '@angular/platform-browser';
 
 import { ToastService } 		from '../../services/toast.service';
 import { DataService } 		from '../../services/data.service';
@@ -21,18 +22,22 @@ export class ProfileAdminComponent {
 	
 	activeModule: string;
 	 
-	appConfig:any = AppConfig;
+	config:any = AppConfig;
 
-	constructor( private dataService: DataService, private toastService: ToastService, private route: ActivatedRoute, private router:Router) {
+	constructor(private titleService: Title, private dataService: DataService, private toastService: ToastService, private route: ActivatedRoute, private router:Router) {
 	}
 	 
 	ngOnInit(){
+		
 		this.route.params.forEach((params: Params) => {
+
 			if(!this.profile || this.profile.url !== params["profile"]) {
 				
 				this.dataService.getProfile(params["profile"])
 					.then(profile => {
 						this.profile = profile;
+					
+						this.titleService.setTitle(profile.name + " :: " + this.config.title);
 					})
 					.catch(err => {
 						if(err.status === 404){

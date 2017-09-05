@@ -39,7 +39,7 @@
           
           <ng-container *ngFor="let viz of vizModules">
             <li *ngIf="!isHiddenModule(viz)">
-              <a [routerLink]="['/' + profile.url + '/' + viz.url]" routerLinkActive="active">
+              <a [routerLink]="['/' + profile.url + '/' + viz.url]" routerLinkActive="active" (click)="isMenuCollapsed = !isMenuCollapsed">
                 {{viz.name}}
               </a>
             </li>
