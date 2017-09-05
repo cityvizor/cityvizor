@@ -3,6 +3,6 @@ Na stránce aktuálně se zobrazují nejnovější uhrazené faktury a smlouvy a
 
 ![Aktuálně_1](Aktualne_1.jpg)
 
-Dále je možné se podívat na přehled rozpočtů v minulých letech.
+Dále je možné se podívat na přehled rozpočtů i v minulých letech.
 
 ![Aktuálně_2](Aktualne_2.png)
