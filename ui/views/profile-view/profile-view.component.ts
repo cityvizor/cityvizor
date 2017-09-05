@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Title }     from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 
 import { DataService } 		from '../../services/data.service';
 import { ToastService } 		from '../../services/toast.service';
 
+import { AppConfig } from '../../config/app-config';
 import { Module, MODULES } from "../../shared/data/modules";
 
 //00006947
@@ -23,10 +25,12 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 	activeModule: Module;
 	
 	year = 2016;
+	
+	config:any = AppConfig;
 
 	paramsSubscription:Subscription
 
-	constructor(private route: ActivatedRoute, private dataService: DataService, private toastService: ToastService, private router:Router) {
+	constructor(private titleService: Title, private route: ActivatedRoute, private dataService: DataService, private toastService: ToastService, private router:Router) {
 		
 		this.modules = MODULES;	
 		
@@ -39,6 +43,8 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 				this.dataService.getProfile(params["profile"])
 					.then(profile => {
 						this.profile = profile;
+					
+						this.titleService.setTitle(profile.name + " :: " + this.config.title);
 					})
 					.catch(err => {
 						if(err.status === 404){

@@ -161,16 +161,7 @@
 	</div>
 </div>
 
-
-<div id="audioTest" class="hidden">
-	<button (click)='onClick()'
-         [disabled]='loadedAudio && !playingAudio'>Play Audio!</button>
-	<div class="equalizer">
-		<span class="eBar small" *ngFor="let frequencyLevel of frequencyDataArray; let i = index;" [style.height]="frequencyLevel/256*50+'px'">
-			{{frequencyLevel}}
-		</span>
-	</div>
-</div>
+<equaliser></equaliser>
 
 <div bsModal #eventReceiptsModal="bs-modal" (onHide)="selectEvent(null)" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">

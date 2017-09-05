@@ -1,6 +1,8 @@
 import { Component, trigger, state, style, transition, animate } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Title }     from '@angular/platform-browser';
 
+import { AppConfig } from '../../config/app-config';
 import { ACLService } 		from '../../services/acl.service';
 
 //00006947
@@ -29,13 +31,18 @@ export class SiteAdminComponent {
 	};
 
 	cat:string;
+	
+	config:any = AppConfig;
 
 	public isMenuCollapsed: boolean = true;
 
-	constructor(private route: ActivatedRoute) {
+	constructor(private titleService: Title, private route: ActivatedRoute) {
 	}
 
 	ngOnInit(){
+		
+		this.titleService.setTitle(this.config.title);
+		
 		this.route.params.forEach((params: Params) => {			
 			this.cat = params["cat"];
 		});

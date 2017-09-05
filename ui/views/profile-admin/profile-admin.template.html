@@ -37,7 +37,7 @@
 				<div *ngSwitchCase="'uvod'">
 					<h2>Správa profilu</h2>
 					<p>Toto je administrace vašeho profilu na CityVizor.cz. Zde můžete nastavit, jak bude váš profil vypadat, které moduly budou aktivní a zde také můžete do profilu nahrát aktuální data.</p>
-					<p>Pokud něčemu nebudete rozumět, můžete se podívat do sekce <a [href]="appConfig.docsUrl + '/navody'" target="_blank">Návody</a>.</p>
+					<p>Pokud něčemu nebudete rozumět, můžete se podívat do sekce <a [href]="config.docsUrl + '/navody'" target="_blank">Návody</a>.</p>
 				</div>
 
 				<profile-admin-profile *ngSwitchCase="'profil'" [profile]="profile" (saved)="updateProfile($event)"></profile-admin-profile>
