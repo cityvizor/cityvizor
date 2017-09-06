@@ -47,9 +47,7 @@
 							{% for item in site.navigation %}
 							
 							{% if item.id == page.menu %}
-              <li class="active">
-                <a href="{{site.baseurl}}{{item.url}}">{{item.text}}</a>
-              </li>
+              <li class="active"><a href="{{site.baseurl}}/{{item.url}}">{{item.text}}</a></li>
               
               {% else %}
               <li><a href="{{site.baseurl}}/{{item.url}}">{{item.text}}</a></li>
