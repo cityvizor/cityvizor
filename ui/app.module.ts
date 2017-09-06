@@ -42,6 +42,9 @@ import { SiteAdminUserComponent } from "./views/site-admin/site-admin-user/site-
 // User Admin Components
 import { UserAdminAccountComponent } from "./views/user-admin/user-admin-account/user-admin-account.component";
 
+// EasterEggEqualiser Component
+import { EasterEggEqualiserComponent } from './shared/components/easteregg-equaliser/easteregg-equaliser.component';
+
 // Services
 import { DataService } 		from './services/data.service';
 import { ToastService } 		from './services/toast.service';
@@ -86,6 +89,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		/* VIZ */ ExpenditureVizComponent, IncomeVizComponent, InvoiceListComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataSourcesComponent,
 		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
+    /* Equaliser Component */ EasterEggEqualiserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
 		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent,
 		
