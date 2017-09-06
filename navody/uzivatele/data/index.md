@@ -1,3 +1,10 @@
+layout: default
+title: Data
+menu: navody
+class: navod
+---
+
+# Data
 Zde najdete podrobný popis datové struktury, se kterou Cityvizor pracuje. 
 
 ![Data_1](Data_1.png)
