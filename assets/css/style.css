@@ -23,6 +23,7 @@ h2{margin:50px 0 30px 0;color:#333;border-bottom: 1px solid #333;padding-bottom:
 
 header, nav, .btn {font-family: 'Raleway', sans-serif;}
 
+img{max-width:700px;}
 #header nav{border:none;}
 
 #page{position:relative}
