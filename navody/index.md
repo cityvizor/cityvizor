@@ -6,15 +6,13 @@ menu: navody
 
 * TOC
 {:toc}
-## Návody pro správce
+## Pro správce
 
-### [Nastavení profilu](./nastaveni-profilu)
+### Návod: [Nastavení profilu](./nastaveni-profilu)
 
 - Jak změnit název?
 - Jak opravit pozici obce na mapě?
 - Jak zařídit syynchronizaci úřední desky a registru smluv?
-
-[Otevřít návod =>](./nastaveni-profilu)
 
 ### [Import dat](./import)
 
