@@ -2,6 +2,7 @@
 layout: default
 title: Import dat
 menu: navody
+class: navody
 ---
 
 # Import dat
