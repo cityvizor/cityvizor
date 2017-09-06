@@ -1,4 +1,4 @@
-Zde najdete informace o datech, se kterými aplikace pracuje. 
+Zde najdete podrobný popis datové struktury, se kterou Cityvizor pracuje. 
 
 ![Data_1](Data_1.png)
 
