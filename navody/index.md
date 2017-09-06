@@ -19,9 +19,16 @@ menu: navody
 
 ## Návody pro uživatele
 
-### Vyhledání obce
-### Aktuálně
-### Výdaje
-### Příjmy
-### Úřední deska
-### Registr smluv
+### [Vyhledání obce](./uzivatele/vyhledani-obce)
+
+### [Aktuálně](./uzivatele/aktualne)
+
+### [Výdaje](./uzivatele/vydaje)
+
+### [Příjmy](./uzivatele/prijmy)
+
+### [Úřední deska](./uzivatele/uredni-deska)
+
+### [Registr smluv](./uzivatele/registr-smluv)
+
+### [Data](./uzivatele/data)
