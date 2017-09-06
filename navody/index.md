@@ -15,11 +15,11 @@ menu: navody
 - Jak opravit pozici obce na mapě?
 - Jak zařídit syynchronizaci úřední desky a registru smluv?
 
-### [Import dat](./import)
+### [Import dat](./obce/import)
 
-### [Přihlášení](./prihlaseni)
+### [Přihlášení](./obce/prihlaseni)
 
-### [Správa modulů](./sprava-modulu)
+### [Správa modulů](./obce/sprava-modulu)
 
 ## Návody pro uživatele
 
