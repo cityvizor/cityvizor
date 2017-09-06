@@ -47,7 +47,7 @@ Podpora pro aktuální verze
 
 #### Opera
 
-Netestováno
+Podpora pro aktuální verze
 
 #### Safari
 
