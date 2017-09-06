@@ -112,10 +112,10 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
 	 }
 	
 	selectYear(year:number):void{
-		this.router.navigate(this.getYearLink(year),{relativeTo:this.route});
+		this.router.navigate(this.getYearLink(year),{relativeTo:this.route, replaceUrl: !this.currentYear});
 	}
 	selectMonth(year:number,month:number):void{
-		this.router.navigate(this.getMonthLink(year,month),{relativeTo:this.route});
+		this.router.navigate(this.getMonthLink(year,month),{relativeTo:this.route, replaceUrl: !this.currentYear || !this.currentMonth});
 	}
 	
 	getYearLink(year:number):any{
