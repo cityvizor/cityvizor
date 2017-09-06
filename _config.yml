@@ -23,6 +23,9 @@ navigation:
 - text: Návody
   url: navody/
   id: navody
+- text: Dokumentace
+  url: dokumentace/
+  id: dokumentace
 - text: Data
   url: data/
   id: data
