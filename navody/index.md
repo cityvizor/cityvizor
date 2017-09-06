@@ -9,7 +9,7 @@ menu: navody
 
 ## Pro správce
 
-### Návod: [Nastavení profilu](./obce/nastaveni-profilu)
+### [Nastavení profilu](./obce/nastaveni-profilu)
 
 - Jak změnit název?
 - Jak opravit pozici obce na mapě?
