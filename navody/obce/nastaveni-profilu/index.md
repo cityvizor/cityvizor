@@ -5,6 +5,8 @@ menu: navody
 class: navod
 ---
 
+# Nastavení profilu
+
 Pokud si chcete nastavit Váš profil, tedy změnit své uživatelské údaje, klikněte na tlačítko nastavení, které se nachází v pravém dolním rohu stránky. 
 
 ![Nastaveni_1](nastaveni_1.png)
