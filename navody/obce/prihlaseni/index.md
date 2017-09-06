@@ -1,3 +1,11 @@
+---
+layout: default
+title: Přihlášení
+menu: navody
+class: navod
+---
+
+
 Po otevření úvodní stránky srolujte pomocí myši na konec stránky a klikněte na přihlásit se.
 
 ![Prihlaseni_1](prihlaseni_1.png)
