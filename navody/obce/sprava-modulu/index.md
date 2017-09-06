@@ -1,7 +1,7 @@
 
 ---
 layout: default
-title: Nastavení profilu
+title: Správa modulů
 menu: navody
 class: navod
 ---
