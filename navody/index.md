@@ -11,10 +11,6 @@ menu: navody
 
 ### [Nastavení profilu](./obce/nastaveni-profilu)
 
-- Jak změnit název?
-- Jak opravit pozici obce na mapě?
-- Jak zařídit syynchronizaci úřední desky a registru smluv?
-
 ### [Import dat](./obce/import)
 
 ### [Přihlášení](./obce/prihlaseni)
