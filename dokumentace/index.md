@@ -4,6 +4,9 @@ title: Dokumentace
 menu: dokumentace
 ---
 
+* TOC
+{:toc}
+
 ## Specifikace vstupních dat pro import do aplikace
 
 ### Formát
