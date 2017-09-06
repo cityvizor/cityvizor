@@ -5,6 +5,7 @@ menu: navody
 class: navod
 ---
 
+# Přihlášení
 
 Po otevření úvodní stránky srolujte pomocí myši na konec stránky a klikněte na přihlásit se.
 
