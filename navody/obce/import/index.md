@@ -1,3 +1,9 @@
+---
+layout: default
+title: Import dat
+menu: navody
+---
+
 Po kliknutí na import dat se objeví možnost nahrát nová data, nebo, pokud tam již nějaká data nahraná jsou, možnost nahrát nebo smazat data v daném roce.
 
 ![Import_1](Import_1.png)
