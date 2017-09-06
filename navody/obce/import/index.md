@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Import dat
+title: Import
 menu: navody
 ---
 
