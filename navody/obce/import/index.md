@@ -2,7 +2,7 @@
 layout: default
 title: Import dat
 menu: navody
-class: navody
+class: navod
 ---
 
 # Import dat
