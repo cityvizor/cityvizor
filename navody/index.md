@@ -15,7 +15,7 @@ menu: navody
 - Jak opravit pozici obce na mapě?
 - Jak zařídit syynchronizaci úřední desky a registru smluv?
 
-### [Import dat](./obce/import)
+### [Import dat](./navody/obce/import)
 
 ### [Přihlášení](./obce/prihlaseni)
 
