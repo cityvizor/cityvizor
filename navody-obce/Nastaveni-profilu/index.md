@@ -12,7 +12,9 @@ Ve správě profilu se Vám jako první objeví obsah odkazu Úvod. Zde jsou Vá
 
 Po kliknutí na tento odkaz se Vám objeví informace o dané obce nebo městě, zde se dají informace upravovat. Po otevření nastavení profilu lze vyplnit nebo změnit informace o daném městě.
 
-Adresa/URL- V tomto řádku lze změnit koncovku URL adresy, která bude odkazovat na profil Vámi spravovaného města.
+Adresa/URL- V tomto řádku lze změnit koncovku URL adresy, která bude odkazovat na profil Vámi spravovaného města. Kod pro eDesky- Kod Vámi spravovaného města naleznete v URL adrese. Pro získání správné URL adresy stačí najít dané město na stránkách edesky.cz.
+
+![e-desky_1](e-desky_1.png)
 
 Identifikace obce- V tomto řádku je za potřebí vyplnit identifikační čísla obce ve státních registrech (IČO,ZÚJ).
 
