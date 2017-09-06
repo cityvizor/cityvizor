@@ -45,12 +45,22 @@ function downloadContractsLoop(profiles,cb){
 	// get a profile to download contracts for
 	let profile = profiles.pop();
 
-	// if we don't have any means our work is finished, hooray!
-	if(!profile) {
+	// if we don't have any more data, our work is finished, hooray!
+	if(!profile){
 		console.log("---");
 		cb();
 		return;
 	}
+	
+	console.log("---");
+	console.log(profile.name);
+	
+	if(!profile.ico){
+		console.log("ICO not available, aborting.");
+		downloadContractsLoop(profiles,cb);
+		return;
+	}
+	
 	// options for HTPPS request
 	let options = {
 		host: 'smlouvy.gov.cz',
@@ -58,9 +68,6 @@ function downloadContractsLoop(profiles,cb){
 		path: "/vyhledavani?searchResultList-limit=" + limit + "&do=searchResultList-setLimit&subject_idnum=" + profile.ico + "&all_versions=0",
 		method: 'GET'
 	};
-
-	console.log("---");
-	console.log("Requesting download for profile " + profile.name);
 
 	// request data from YQL by HTTPS
 	var req = https.request(options, function(response) {

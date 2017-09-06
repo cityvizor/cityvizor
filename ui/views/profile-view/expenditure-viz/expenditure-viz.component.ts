@@ -125,6 +125,8 @@ export class ExpenditureVizComponent{
 
 	updateState(setParams){
 		
+		var replaceUrl = !this.state.year; // if no year was set replace history so we can go back
+		
 		let params = {
 			rok: "year" in setParams ? setParams.year : this.state.year,
 			skupina: "group" in setParams ? setParams.group : this.state.group,
@@ -133,7 +135,7 @@ export class ExpenditureVizComponent{
 		
 		Object.keys(params).forEach(key => { if(!params[key]) delete params[key];});
 		
-		this.router.navigate(["./",params],{relativeTo:this.route});
+		this.router.navigate(["./",params],{relativeTo:this.route, replaceUrl:replaceUrl});
 	}
 
 	/**

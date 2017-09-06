@@ -1,0 +1,23 @@
+<div id="wrap" *ngIf="showEqualiser">
+
+		<p class="row text-center">
+			<button (click)="onClick()" [disabled]="!loadedAudio" class="btn btn-red">Hrej!</button>
+		</p>
+
+		<div [style.height]="setup.bigBangHeight + 'px'" [style.width]="'100%'" class="row">
+			<svg height="100%" [style.margin-top]="'30px'" viewBox="-500 -500 1000 1000">
+				<g class="stripes">
+					<g *ngFor="let level of frequencyDataArray; let i = index">
+						<ng-container *ngIf="i>=setup.skipFirstLevels && i<(setup.skipFirstLevels+setup.showedLevels)">
+							<path *ngIf="false" [attr.d]="getStripePath(i,innerR,getStripeSize(level))" class="stripe outerStripe" [class.zeroStripe]="(level)==0" />
+							<path [attr.d]="getStripePath(i,innerR,getStripeSize(level))" class="stripe innerStripe" />
+
+							<path [attr.d]="getStripePath(i,0,1)" class="stripe bgstripe"/>
+						</ng-container>
+					</g>
+				</g>
+				<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" fill="#F3F3F3" stroke-width="10" stroke="#fff" class="circle" />
+			</svg>
+		</div>
+	
+</div>
