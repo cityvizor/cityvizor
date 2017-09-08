@@ -1,11 +1,5 @@
 <div id="wrap">
 
-	<div id="disclaimer" class="">
-		<p class="text-red">
-			<i class="fa fa-warning"></i> Pilotní testovací fáze aplikace končí 6. září &nbsp;&nbsp;<a (click)="projectInfoModal.show()" class="btn btn-xs btn-red">Plán zapojení dalších obcí</a>
-		</p>
-	</div>
-
 	<div id="toasts">
 		<ul class="text-center">
 			<li *ngFor="let toast of toasts" [class]="toast.status" @toastsFadeOut>
@@ -118,41 +112,6 @@
 						
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<div bsModal #projectInfoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="projectInfoModal" aria-hidden="true">
-	<div class="modal-dialog modal-md">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" (click)="projectInfoModal.hide()" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h3><i class="fa fa-warning-sign"></i> Pilotní testovací provoz!</h3>
-			</div>
-			<div class="modal-body">
-				<p>V současné chvíli je možné procházet profil Nového Města na Moravě.</p>
-				<h4>
-					Připravujeme data dalších obcí, které byly zapojeny do pilotního provozu
-				</h4>
-				<ul>
-					<li><strong>Praha 7</strong> - Připravujeme data, předpokládané datum publikace v aplikaci je 6. 9. 2017</li>
-					<li><strong>Praha - Černošice</strong> - Připravujeme data, předpokládané datum publikace v aplikaci je 6. 9. 2017</li>
-					<li><strong>Brno střed</strong> - Připravujeme data, předpokládané datum publikace v aplikaci je říjen 2017</li>
-				</ul>
-				<h4>
-					Mrzí Vás, že zde zatím není Vaše obec?
-				</h4>
-				<p>Nás také, nicméně 6. září končí pilotní testovací provoz a kterákoliv další obec se poté může zdarma zapojit. Ať už jste starosta, radní nebo občan, i Vaše obec se může zapojit!</p>
-				<h4>
-					Kontaktujte nás na <a [href]="'mailto:' + config.mail">{{config.mail}}</a>.
-				</h4>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" (click)="projectInfoModal.hide()" aria-label="Zavřít">Zavřít</button>
 			</div>
 		</div>
 	</div>

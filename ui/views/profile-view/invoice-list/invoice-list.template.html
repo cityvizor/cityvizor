@@ -28,6 +28,7 @@
 		<thead>
 			<tr>
 				<th>Datum publikace</th>
+				<th>Typ</th>
 				<th>IČO</th>
 				<th>Protistrana</th>
 				<th>Popis</th>
@@ -37,6 +38,10 @@
 		<tbody>
 			<tr *ngFor="let invoice of invoices">
 				<td>{{invoice.date | date:"d. M. y"}}</td>
+				<td>
+					<span *ngIf="invoice.type == 'KOF'">vydaná</span>
+					<span *ngIf="invoice.type == 'KDF'">přijatá</span>
+				</td>
 				<td><a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' + (invoice.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank">{{invoice.counterpartyId | ico}}</a></td>
 				<td><span class="counterparty">{{invoice.counterpartyName}}</span></td>
 				<td><span class="description">{{invoice.description}}</span></td>

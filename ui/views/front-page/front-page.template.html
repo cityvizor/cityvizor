@@ -30,7 +30,7 @@
 			<div class="row profileList">
 				<div *ngFor="let profile of profiles" class="col-xs-6 col-sm-3 col-md-3 col-lg-2 profile" [class.profile-pending]="profile.status == 'pending'" [class.dimmed]="search && !search.exec(profile.searchString)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
 					<div class="pending-box text-center" *ngIf="profile.status == 'pending'">
-						<span class="pending-box-title">Připravujeme data</span>
+						<a (click)="projectInfoModal.show()" class="pending-box-title">Připravujeme data</a>
 					</div>	
 					<a [routerLink]="profile.status != 'pending' ? '/' + profile.url : '/'">
 						<div class="text-center" _ngcontent-c1="">
@@ -167,3 +167,31 @@
 		</div>
 	</div>
 </section>
+
+<div bsModal #projectInfoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="projectInfoModal" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" (click)="projectInfoModal.hide()" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3><i class="fa fa-warning-sign"></i> Plán zapojování obcí</h3>
+			</div>
+			<div class="modal-body">
+				
+				<h4>V současnosti připravujeme zapojení těchto obcí:</h4>
+				<ul>
+					<li><strong>Praha 7</strong> - Připravujeme data, předpokládané datum publikace v aplikaci je konec září 2017</li>
+					<li><strong>Brno - střed</strong> - Připravujeme data, předpokládané datum publikace v aplikaci je říjen 2017</li>
+				</ul>
+				
+				<h4>Mrzí Vás, že zde zatím není Vaše obec?</h4>
+				<p>Aplikaci nabízíme zdarma a kterákoliv další obec se tedy může zdarma zapojit. Kontaktujte vaší radnici, ať se nám ozvou na <a [href]="'mailto:' + config.mail">{{config.mail}}</a>.</p>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" (click)="projectInfoModal.hide()" aria-label="Zavřít">Zavřít</button>
+			</div>
+		</div>
+	</div>
+</div>

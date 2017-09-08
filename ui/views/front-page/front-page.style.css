@@ -58,6 +58,7 @@
   background: #E73431;
   border-radius: 3px;
   font-weight: bold;
+  cursor:pointer;
 }
 
 .switchListView {
