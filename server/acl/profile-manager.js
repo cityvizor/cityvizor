@@ -6,6 +6,8 @@ function isManagedProfile(req){
 	// all fields that contain profile id during requests
 	let profiles = [req.body.profile,req.query.profile,req.params.profile];
 	
+	if(!req.user.managedProfiles || !req.user.managedProfiles.length) return false;
+	
 	// if any of the profile ids is NOT found in managed profiles, some() returns true, then we return false;
 	var result = !profiles.some(profileId => profileId && req.user.managedProfiles.indexOf(profileId) < 0);
 	

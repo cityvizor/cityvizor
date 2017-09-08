@@ -39,7 +39,7 @@ var loginSchema = {
 
 router.post("/", schema.validate({body: loginSchema}), acl("login","login"), (req,res) => {
 
-	User.findOne({_id:req.body.login}).select("+password").then((user) => {
+	User.findOne({_id:req.body.login.toLowerCase()}).select("+password").then((user) => {
 
 		if(!user) return res.status(404).send("User not found");
 

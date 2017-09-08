@@ -30,12 +30,16 @@ router.get("/:id", schema.validate({query: userSchema}), acl("users","read"), (r
 var userPostSchema = {
 	type: "object",
 	properties: {
+		"_id": {type: "string"},
 		"password": {type: "string"}
 	}
 }
 
 router.post("/:id", schema.validate({body: userPostSchema}), acl("users","write"), (req,res) => {
 
+	var _id = req.params.id.toLowerCase();
+	req.body._id = _id;
+	
 	// if there is password in the payload, hash it with bcrypt
 	var passwordHash = new Promise((resolve,reject) => {
 		if(req.body.password){
@@ -48,7 +52,7 @@ router.post("/:id", schema.validate({body: userPostSchema}), acl("users","write"
 	});
 		
 	passwordHash.then(body => {
-		User.findOneAndUpdate({_id:req.params.id},body,{upsert:true,new:true}).populate("managedProfiles","_id name")
+		User.findOneAndUpdate({_id:_id},body,{upsert:true,new:true}).populate("managedProfiles","_id name")
 			.then(user => res.json(user))
 			.catch(err => res.status(500).send(err.message));
 	});
@@ -57,7 +61,7 @@ router.post("/:id", schema.validate({body: userPostSchema}), acl("users","write"
 
 router.delete("/:id", acl("users","delete"), (req,res) => {
 
-	User.remove({_id:req.params.id})
+	User.remove({_id:req.params.id.toLowerCase()})
 		.then(() => res.sendStatus(200))
 		.catch(err => res.status(500).send(err.message));
 
