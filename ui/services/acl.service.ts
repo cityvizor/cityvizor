@@ -37,18 +37,20 @@ export class ACLService implements CanActivate {
   }
 
 	// function to get user roles and evaluate permissions
-	checkRoute(routeString:string):boolean{
+	checkRoute(routeString:string, params?:any):boolean{
     
     var route = this.findRoute(routeString);
     if(!route) return false;
+		
+		if(params) Object.assign(route.params,params);
     
     var user = this.authService.user;  
 		
 		if(route.routeDef.allow === true) return true;
     
     if(route.routeDef.allowRoles && user.roles && route.routeDef.allowRoles.some(role => user.roles.indexOf(role) !== -1)) return true;
-    
-    if(route.allowCheck && route.routeDef.allowCheck(user,route.params)) return true;
+		
+    if(route.routeDef.allowCheck && route.routeDef.allowCheck(user,route.params)) return true;
     
     return false;
 	}
