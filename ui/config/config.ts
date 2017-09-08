@@ -37,13 +37,15 @@ var AppConfig = {
         allowRoles: ["admin","user"]
       },
       {
-        route: "/:profile/admin/:cat",
+        route: "/:url/admin/:cat",
         allowRoles: ["admin"],
+        //allowCheck: (user,params) => console.log(user,params)
         allowCheck: (user,params) => user.managedProfiles.indexOf(params.profile) !== -1
       },
       {
-        route: "/:profile/admin",
+        route: "/:url/admin",
         allowRoles: ["admin"],
+        //allowCheck: (user,params) => console.log(user,params)
         allowCheck: (user,params) => user.managedProfiles.indexOf(params.profile) !== -1
       }
     ],

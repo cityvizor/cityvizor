@@ -63,6 +63,8 @@ export class ProfileAdminComponent {
 		
 		this.profile = profile;
 		
+		this.titleService.setTitle(profile.name + " :: " + this.config.title);
+		
 		// update url if neccessary
 		if(oldUrl !== profile.url){
 			this.router.navigate(this.getModuleLink(this.activeModule));

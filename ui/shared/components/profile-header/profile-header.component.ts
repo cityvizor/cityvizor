@@ -29,5 +29,9 @@ export class ProfileHeaderComponent {
 	getAdminLink(){
 		return '/' + this.profile.url + '/admin';
 	}
+	
+	isAdmin(){
+		return this.aclService.checkRoute(this.getAdminLink(),{profile:this.profile._id})
+	}
 
 }
