@@ -32,7 +32,7 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
 
 ### Struktura
 
-#### Číselník akcí
+#### Datový soubor
 <table class="table table-condensed table-hover table-striped">
   <thead>
     <tr><th>Pole</th><th>Alternativní názvy</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
@@ -50,8 +50,8 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
     <tr><td>description</td><td>POZNAMKA</td><td>text</td><td>Ne</td><td>Popis faktury, pouze u faktur</td></tr>
   </tbody>
 </table>
-        
-#### Datový soubor
+    
+#### Číselník akcí
 <table class="table table-condensed table-hover table-striped">
   <thead>
     <tr><th>Pole</th><th>Alternativní názvy</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
