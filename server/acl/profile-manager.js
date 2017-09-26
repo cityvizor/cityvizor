@@ -21,7 +21,6 @@ module.exports = {
 			return true;
 		},
 		"list": req => {
-			if(isManagedProfile(req)) req.query.hidden = true;
 			return true;
 		},
 		"write": function(req){
