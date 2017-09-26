@@ -97,7 +97,7 @@ function joinLoop(files,headerNames,destFile,cb){
 	srcFile.on("close",() => joinLoop(files,headerNames,destFile,cb))
 
 	// get parser
-	var parser = parse({delimiter: ';',trim:true});
+	var parser = parse({delimiter: ';',trim:true,relax_column_count: true});
 
 	var isHeader = true;
 	var headerMap;
