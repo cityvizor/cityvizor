@@ -33,7 +33,7 @@ router.get("/months", acl("profile-payments", "list"), (req,res) => {
 	
 	let aggregation = [
 		{
-			$match: { profile: mongoose.Types.ObjectId(req.params.profile) }
+			$match: { profile: mongoose.Types.ObjectId(req.params.profile), date: {$ne: null, $exists: true} }
 		},
 		{
 			$project: {year: { $year: "$date" }, month: { $month: "$date" }}
