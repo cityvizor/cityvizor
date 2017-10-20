@@ -15,9 +15,9 @@ Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapov
 
 ### Struktura
 
-Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různé názvy (viz sloupec Alternativní názvy v následujících tabulkách). Zároveň také nezáleží na pořadí sloupců. Sloupce, které jsou označené jako nepovinné jsou nepovinné pro úspěšné vykonání importu, samozřejmě ale bude mít jejich nevyplnění, tam kde je to příslušné, negativní dopad na kvalitu vizualizace (čím méně toho vyplníte, tím méně toho uživatelé uvidí).
+#### Datový soubor
 
-#### Číselník akcí
+Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různé názvy (viz sloupec Alternativní názvy v následujících tabulkách). Zároveň také nezáleží na pořadí sloupců. Sloupce, které jsou označené jako nepovinné jsou nepovinné pro úspěšné vykonání importu, samozřejmě ale bude mít jejich nevyplnění, tam kde je to příslušné, negativní dopad na kvalitu vizualizace (čím méně toho vyplníte, tím méně toho uživatelé uvidí).
 
 <table class="table table-condensed table-hover table-striped">
   <thead>
@@ -37,7 +37,7 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
   </tbody>
 </table>
         
-#### Datový soubor
+#### Číselník akcí
 
 <table class="table table-condensed table-hover table-striped">
   <thead>
