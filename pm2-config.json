@@ -7,7 +7,9 @@
       exec_mode : 'fork',
       
       env: { NODE_ENV: 'development' },
-      env_production : { NODE_ENV: 'production' }
+      env_production : { NODE_ENV: 'production' },
+      
+      log_date_format : "YYYY-MM-DD HH:mm"
     },
     {
       name      : 'CityVizor Server',
@@ -16,7 +18,9 @@
       exec_mode : 'cluster',
       
       env: { NODE_ENV: 'development' },
-      env_production : { NODE_ENV: 'production' }
+      env_production : { NODE_ENV: 'production' },
+      
+      log_date_format : "YYYY-MM-DD HH:mm"
     }    
   ]
 }
