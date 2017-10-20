@@ -25,7 +25,7 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
   </thead>
   <tbody>
     <tr><td>amountType</td><td>PRIJEM_VYDAJ</td><td>P/V</td><td>Ne</td><td>Označení zda se jedná o příjmový či výdajový záznam</td></tr>
-    <tr><td>recordType</td><td>MODUL, DOKLAD_AGENDA</td><td>ROZ/KDF/KOF/prázdné/jiné</td><td>Ano</td><td>Typ záznamu. ROZ = rozpočet, KDF = došlá faktura, KOF = odešlá faktura, prázdné/jiné = ostatní záznamy</td></tr>
+    <tr><td>recordType</td><td>MODUL, DOKLAD_AGENDA</td><td>ROZ/KDF/KOF/prázdné/jiné</td><td>Ano</td><td>Typ záznamu. ROZ = upravený rozpočet, KDF = došlá faktura, KOF = odešlá faktura, prázdné/jiné = ostatní záznamy</td></tr>
     <tr><td>paragraph</td><td>PARAGRAF</td><td>číslo</td><td>Ano</td><td>Rozpočtový paragraf</td></tr>
     <tr><td>item</td><td>POLOZKA</td><td>číslo</td><td>Ano</td><td>Rozpočtová položka</td></tr>
     <tr><td>event</td><td>AKCE, ORG</td><td>číslo</td><td>Ne</td><td>Číslo akce dle číselníku</td></tr>
