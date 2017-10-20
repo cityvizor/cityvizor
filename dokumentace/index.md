@@ -46,7 +46,7 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
   <tbody>
   <tr><td>srcId</td><td>AKCE, ORG, ORJ</td><td>text</td><td>Ano</td><td>Číslo akce</td></tr>
     <tr><td>name</td><td>AKCE_NAZEV, ORG_NAZEV, ORJ_NAZEV</td><td>text</td><td>Ano</td><td>Název akce</td></tr>
-    <tr><td>description</td><td>POPIS</td><td>text</td><td>Ne</td><td>Popis akce, co a proč byla nakupováno atd.</td></tr>
+    <tr><td>description</td><td>POPIS</td><td>text</td><td>Ne</td><td>Popis akce, co a proč bylo nakupováno atd.</td></tr>
   </tbody>
 </table>
 
@@ -61,6 +61,6 @@ Pokud budou ve zdroji dva či více stejných záznamů, tj. takových, které m
 Záznamy, jejichž částka se rovná nule, nebudou ve vizualizaci zobrazeny.
 
 ### Dělení faktur
-Faktury, které jsou rozdělené do více rozpočtových položek, akcí či paragrafů budou ve zobrazení tolikrát, v kolika těchto kombinacích budou zařazeny, tj. tak, jak jsou ve vstupních datech. Do budoucna uvažujeme o slučování těchto faktur do jedné, což by ale zvýčilo náročnost importu a vyžadovalo pole čísla faktury.
+Faktury, které jsou rozdělené do více rozpočtových položek, akcí či paragrafů budou ve zobrazení tolikrát, v kolika těchto kombinacích budou zařazeny, tj. tak, jak jsou ve vstupních datech. Do budoucna uvažujeme o slučování těchto faktur do jedné, což by ale zvýšilo náročnost importu a vyžadovalo pole čísla faktury.
 
 
