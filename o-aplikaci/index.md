@@ -31,7 +31,7 @@ Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využív
 
 ### Zdrojový kód
 
-Zdrojový kód aplikace naleznete na GitHubu v [repozitáři otevrena-data-mfcr/CityVizor](https://github.com/otevrena-data-mfcr/CityVizor) v branch master. Uvítáme jakékoliv konstruktivní připomínky.
+Zdrojový kód aplikace naleznete na GitHubu v repozitáři [otevrena-data-mfcr/CityVizor](https://github.com/otevrena-data-mfcr/CityVizor) v branch master. Uvítáme jakékoliv konstruktivní připomínky.
 
 ### Podpora prohlížečů
 
