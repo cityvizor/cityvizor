@@ -27,6 +27,10 @@ Neoficiální a nezávazný český překlad licence najdete na této adrese: [h
 
 Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají. 
 
+## Zdrojový kód
+
+Zdrojový kód aplikace naleznete na GitHubu v [repozitáři CityVizor](https://github.com/otevrena-data-mfcr/CityVizor) v branch master. Uvítáme jakékoliv konstruktivní připomínky.
+
 ## Technické informace
 
 ### Podpora prohlížečů
