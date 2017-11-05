@@ -22,7 +22,7 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
 
 <table class="table table-condensed table-hover table-striped">
   <thead>
-    <tr><th>Název</th><th>Alternativní název</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
+    <tr><th>Název</th><th>Alternativní názvy</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
   </thead>
   <tbody>
     <tr><td>recordType</td><td>MODUL, DOKLAD_AGENDA</td><td>ROZ/KDF/KOF/jiné nebo prázdné</td><td>Ano</td><td>Typ záznamu. ROZ = upravený rozpočet, KDF = došlá faktura, KOF = odešlá faktura, jiné nebo prázdné = ostatní záznamy</td></tr>
