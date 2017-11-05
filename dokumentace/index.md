@@ -64,5 +64,3 @@ Záznamy, jejichž částka se rovná nule, nebudou ve vizualizaci zobrazeny.
 ### Dělení faktur
 Faktury, které jsou rozdělené do více rozpočtových položek, akcí či paragrafů budou ve zobrazení tolikrát, v kolika těchto kombinacích budou zařazeny, tj. tak, jak jsou ve vstupních datech. Do budoucna uvažujeme o slučování těchto faktur do jedné, což by ale zvýšilo náročnost importu a vyžadovalo pole čísla faktury.
 
-
-[vzor](essay1.txt)
