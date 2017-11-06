@@ -62,20 +62,20 @@ app.use("/api",require("./routers/api"));
 app.use(require("./routers/static"));
 
 app.use((err, req, res, next) => {
-	
-  if (err.name === 'UnauthorizedError') {
-    res.status(err.status);
+
+	if (err.name === 'UnauthorizedError') {
+		res.status(err.status);
 		res.send("Unauthorized" + (err.message ? ": " + err.message : ""));
-  }
-	
+	}
+
 	else if (err.name === 'JsonSchemaValidation') {
 		console.log("API Error: " + err.message);
 		console.log(err.validations.query);
 		res.status(400).send("API Error: " + err.message);
 	}
-	
+
 	else next(err);
-	
+
 });
 
 
@@ -84,14 +84,14 @@ let host = config.server.host || "127.0.0.1";
 let port = config.server.port || 80;
 
 if(config.ssl.enable){
-	
+
 	// start https server
 	https.createServer(config.ssl, app).listen(443, host, function () {
 		console.log('CityVizor Server listening on ' + host + ':443!')
 	});
 
 	let redirectPort = config.ssl.redirectPort || port || 80;
-	
+
 	// Redirect to https
 	if(config.ssl.redirect && redirectPort){		
 		http.createServer(function (req, res) {
@@ -101,7 +101,7 @@ if(config.ssl.enable){
 			console.log('CityVizor Server redirecting from ' + host + ':' + port + ' to ' + host + ':443!')
 		});
 	}
-	
+
 }
 
 else {
@@ -109,5 +109,5 @@ else {
 	http.createServer(app).listen(port, host, function () {
 		console.log('CityVizor Server listening on ' + host + ':' + port + '!');
 	});
-	
+
 }
