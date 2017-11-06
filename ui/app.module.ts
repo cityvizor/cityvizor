@@ -52,7 +52,7 @@ import { AuthService } 		from './services/auth.service';
 import { ACLService } from "./services/acl.service";
 
 // Import Modules
-import { CollapseModule, ModalModule, BsDropdownModule, TabsModule} from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents

@@ -1,23 +1,35 @@
-<div id="wrap" *ngIf="showEqualiser">
+<ng-template #equaliserTemplate>
 
-		<p class="row text-center">
-			<button (click)="onClick()" [disabled]="!loadedAudio" class="btn btn-red">Hrej!</button>
-		</p>
+	<div class="modal-header">
+		
+		<h4 class="modal-title pull-left">EasterEgg Equaliser</h4>
+		
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		
+	</div>
 
-		<div [style.height]="setup.bigBangHeight + 'px'" [style.width]="'100%'" class="row">
-			<svg height="100%" [style.margin-top]="'30px'" viewBox="-500 -500 1000 1000">
+	<div class="modal-body">
+		<div id="wrap">
+			
+			<p class="row text-center">
+				<button (click)="playAudio()" [disabled]="!loadedAudio" class="btn btn-red">Hrej!</button>
+			</p>
+			
+			<svg height="100%" width="100%" [style.margin-top]="'30px'" viewBox="-500 -500 1000 1000">
 				<g class="stripes">
-					<g *ngFor="let level of frequencyDataArray; let i = index">
-						<ng-container *ngIf="i>=setup.skipFirstLevels && i<(setup.skipFirstLevels+setup.showedLevels)">
-							<path *ngIf="false" [attr.d]="getStripePath(i,innerR,getStripeSize(level))" class="stripe outerStripe" [class.zeroStripe]="(level)==0" />
-							<path [attr.d]="getStripePath(i,innerR,getStripeSize(level))" class="stripe innerStripe" />
+					<g *ngFor="let i of [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]">
+						<path [attr.d]="getStripePath(i,innerR,getStripeSize(2,frequencyDataArray))" class="stripe outerStripe" />
+						<path [attr.d]="getStripePath(i,innerR,getStripeSize(i,frequencyDataArray))" class="stripe innerStripe" />
 
-							<path [attr.d]="getStripePath(i,0,1)" class="stripe bgstripe"/>
-						</ng-container>
+						<path [attr.d]="getStripePath(i,0,1)" class="stripe bgstripe"/>
 					</g>
 				</g>
 				<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" fill="#F3F3F3" stroke-width="10" stroke="#fff" class="circle" />
 			</svg>
+			
 		</div>
-	
-</div>
+	</div>
+
+</ng-template>
