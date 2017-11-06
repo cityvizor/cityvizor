@@ -68,11 +68,21 @@ router.delete("/",acl("profile-image","write"), (req,res) => {
 			if(!profile) return res.sendStatus(404);
 			if(!profile.avatarExt) return res.sendStatus(200);
 		
-			fs.unlink(path.join(config.storage.avatarsDir,profile._id + profile.avatarExt));
-			profile.avatarExt = null;
-			profile.save()
-				.then(profile => res.sendStatus(200))
-				.catch(err => res.status(500).send(err.message));
+			let avatarPath = path.join(config.storage.avatarsDir,profile._id + profile.avatarExt);
+		
+			fs.unlink(avatarPath, err => {
+				if(!err || err.code === "ENOENT"){
+					profile.avatarExt = null;
+					profile.save()
+						.then(profile => res.sendStatus(200))
+						.catch(err => res.status(500).send(err.message));
+				}
+				else{
+					res.status(500).send(err.message)
+				}
+			});
+		
+			
 		
 		})
 	
