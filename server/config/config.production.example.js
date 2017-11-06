@@ -40,9 +40,7 @@ module.exports = {
   },
   
   mongoExpress: {
-    enable: false,
-    username: "user",
-    password: "pass"
+    enable: false
   },
   
   eDesky: {
