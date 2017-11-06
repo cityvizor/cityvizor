@@ -12,7 +12,7 @@ var AppConfig = {
 
   // modules and their names. this controls what shows in menus etc.
   modules: [
-    {"id": "dash-board", "url": "prehled", "name": "Aktuálně", "optional": false},
+    //{"id": "dash-board", "url": "prehled", "name": "Aktuálně", "optional": false},
     {"id": "expenditure-viz", "url": "vydaje", "name": "Výdaje", "optional": true},
     {"id": "income-viz", "url": "prijmy", "name": "Příjmy", "optional": true},	
     {"id": "invoice-list", "url": "faktury", "name": "Faktury", "optional": true},	

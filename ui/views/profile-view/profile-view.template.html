@@ -3,7 +3,7 @@
 	<profile-header [profile]="profile"></profile-header>
 
 	<div *ngIf="activeModule" id="content" class="container">
-			<div [ngSwitch]="activeModule.id" id="vizmodules">
+			<div [ngSwitch]="activeModule" id="vizmodules">
 
 				<dash-board *ngSwitchCase="'dash-board'" [profile]="profile"></dash-board>
 

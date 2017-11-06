@@ -22,7 +22,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 	
 	modules: Module[];
 
-	activeModule: Module;
+	activeModule:string;
 	
 	year = 2016;
 	
@@ -59,18 +59,28 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 					});
 			}
 
-			this.modules.some(item => {
-				if(item.url === params["module"]){
-					this.activeModule = item;
-					return true;
-				}
-			});
+			this.setModule(params["module"]);
 
 		});
 	}
 
 	ngOnDestroy(){
 		this.paramsSubscription.unsubscribe();
+	}
+	
+	setModule(moduleUrl:string):void{
+		
+		if(moduleUrl === "prehled"){
+			this.activeModule = "dash-board";
+			return;
+		}
+
+		this.modules.some(item => {
+			if(item.url === moduleUrl){
+				this.activeModule = item.id;
+				return true;
+			}
+		});
 	}
 	
 	getModuleMenuItem(viz){
