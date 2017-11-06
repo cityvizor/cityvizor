@@ -1,0 +1,31 @@
+<div *ngIf="wrongPassword" class="alert alert-danger">
+  Chybná emailová adresa nebo heslo.
+</div>
+
+<form *ngIf="!authService.logged" class="form-signin" (ngSubmit)="authenticate(loginForm)" #loginForm="ngForm">
+  <div class="form-group">
+    <label for="email" class="cols-sm-2 control-label">Emailová adresa</label>
+    <div class="cols-sm-10">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+        <input ngModel type="text" name="login" id="inputEmail" class="form-control" placeholder="Emailová adresa" required="" autofocus="">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword" class="cols-sm-2 control-label">Heslo</label>
+    <div class="cols-sm-10">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
+        <input ngModel type="password" name="password" id="inputPassword" class="form-control" placeholder="Heslo" required="">
+      </div>
+    </div>
+  </div>
+  <div class="form-group ">
+    <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Přihlásit se</button>
+  </div>
+</form>
+
+<div *ngIf="authService.logged">
+  <p>Již jste přihlášen jako {{authService.user._id}}. <a (click)="logout()">Odhlásit</a>?</p>
+</div>

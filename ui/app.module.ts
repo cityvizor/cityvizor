@@ -56,6 +56,7 @@ import { CollapseModule, ModalModule, BsDropdownModule, TabsModule} from 'ngx-bo
 import { FileUploadModule } from 'ng2-file-upload';
 
 // Shared coremponents
+import { LoginFormComponent } 		from './shared/components/login-form/login-form.component';
 import { HeaderMenuComponent } 		from './shared/components/header-menu/header-menu.component';
 import { ProfileHeaderComponent } 		from './shared/components/profile-header/profile-header.component';
 
@@ -91,7 +92,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
     /* Equaliser Component */ EasterEggEqualiserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
-		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent,
+		/* Shared Components */ LoginFormComponent, HeaderMenuComponent, ProfileHeaderComponent,
 		
 	],
 	providers: [

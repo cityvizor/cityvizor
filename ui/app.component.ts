@@ -30,48 +30,22 @@ export class AppComponent {
 
 	private viewContainerRef: ViewContainerRef; // ng2-bootstrap requirement
 
+	// get the login modal so that we can close the login modal on succesful login
 	@ViewChild('loginModal')
 	public loginModal;
 
+	// array to link toasts from toastService
 	toasts: Array<any>;
 
-	year: string;
 
-	loginData:LoginData = new LoginData;
 
 	wrongPassword:boolean = false;
 
+	// link application config
 	config:any = AppConfig;
 
 	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router:Router) {
-		var today = new Date();
-		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
-		
 		this.toasts = this.toastService.toasts;
-	}
-
-	login(){
-		this.wrongPassword = false;
-		
-		this.authService.login(this.loginData)
-			.then(user => {
-				this.closeLogin();				
-			})
-			.catch(err => {
-				if(err.status === 401){
-					this.wrongPassword = true;
-				}
-				else {
-					this.closeLogin();
-					this.toastService.toast("Neznámá chyba při přihlášení, prosím kontaktujte správce.","error");
-				}
-			});
-	}
-
-	closeLogin(){
-		this.loginModal.hide();
-		this.wrongPassword = false;
-		this.loginData = new LoginData;
 	}
 
 	logout(){
