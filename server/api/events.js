@@ -1,22 +1,19 @@
+// load express app and export router
 var express = require('express');	
-var router = express.Router();
+var router = module.exports = express.Router();
 
+// load the dependeces
 var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
+// load schemas
 var Event = require("../models/expenditures").Event;
 var Payment = require("../models/expenditures").Payment;
 
-var eventsSchema = {};
-
-router.get("/", schema.validate({query: eventsSchema}), acl("events", "list"), (req,res) => {
-	Event.find({})
-		.then(events => res.json(events))
-		.catch(err => res.status(500).send(err.message));
-});
-
+// schema validation
 var eventSchema = {};
 
+// REQUEST: get event
 router.get("/:id", schema.validate({query: eventSchema}), acl("events", "read"), (req,res) => {
 	
 	Event.findOne({_id:req.params.id}).lean()
@@ -37,5 +34,3 @@ router.get("/:id", schema.validate({query: eventSchema}), acl("events", "read"),
 		.catch(err => res.status(500).send(err.message));
 	
 });
-
-module.exports = router;
