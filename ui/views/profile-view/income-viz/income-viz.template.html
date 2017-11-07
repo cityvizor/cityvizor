@@ -112,8 +112,8 @@
 									<tbody>
 										<tr *ngFor="let event of item.events">
 											<td>
-												<a *ngIf="event.event" (click)="selectEvent(event.event)">{{getEventName(event.event)}}</a>
-												<span *ngIf="!event.event">{{getEventName(event.event)}}</span>
+												<a *ngIf="event.event" (click)="selectEvent(event.event)">{{event.name}}</a>
+												<span *ngIf="!event.event">{{event.name}}</span>
 											</td>
 											<td>{{event.budgetIncomeAmount | money:0:false}} Kč</td>
 											<td>{{event.incomeAmount | money:0:false}} Kč</td>

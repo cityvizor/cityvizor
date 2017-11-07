@@ -27,6 +27,8 @@ router.use("/login",require("../api/login"));
 
 router.use("/users",require("../api/users"));
 
+router.use("/codelists",require("../api/codelists"));
+
 
 /* PROFILE DATA */
 router.use("/profiles/:profile/avatar",require("../api/profile-avatar"));

@@ -47,6 +47,7 @@ import { EasterEggEqualiserComponent } from './shared/components/easteregg-equal
 
 // Services
 import { DataService } 		from './services/data.service';
+import { CodelistService } 		from './services/codelist.service';
 import { ToastService } 		from './services/toast.service';
 import { AuthService } 		from './services/auth.service';
 import { ACLService } from "./services/acl.service";
@@ -96,7 +97,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		
 	],
 	providers: [
-		Title, DataService, ToastService, AuthService, ACLService,
+		Title, DataService, CodelistService, ToastService, AuthService, ACLService,
 		{
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

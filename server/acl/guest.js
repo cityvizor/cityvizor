@@ -43,6 +43,11 @@ module.exports = {
 	
 	"exports": {
 		"read": true
+	},
+	
+	"codelists": {
+		"read": true,
+		"list": true
 	}
 	
 };

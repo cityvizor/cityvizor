@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs/Subscription' ;
 import { ModalDirective } from 'ngx-bootstrap';
 
 import { DataService } from '../../../services/data.service';
+import { CodelistService } from '../../../services/codelist.service';
 import { ToastService } 		from '../../../services/toast.service';
 
-import { paragraphNames } from '../../../shared/data/paragraph-names.data';
+import { ParagraphNamesCodelist } from '../../../shared/schema/codelist';
 
 import { ChartGroups }  from "../../../shared/data/chartGroups";
 
@@ -41,7 +42,7 @@ export class ExpenditureVizComponent{
 	groups: any[] = [];
 	groupIndex:any = {};
 
-	paragraphNames: {};
+	paragraphNames: ParagraphNamesCodelist;
 
 	// which group (drawing stripe) is hovered at the moment
 	hoveredGroup: string = null;
@@ -53,12 +54,10 @@ export class ExpenditureVizComponent{
 	vizScale: number = 1;	
 	
 	
-	
-	
 	// store siubscription to unsubscribe on destroy
 	paramsSubscription:Subscription;
 	
-	constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService, private _toastService: ToastService){
+	constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService, private codelistService:CodelistService, private _toastService: ToastService){
 		
 		this.groups = ChartGroups; // set groups
 		this.groups.forEach(group => {
@@ -67,8 +66,6 @@ export class ExpenditureVizComponent{
 			group.paragraphs = [];
 			this.groupIndex[group.id] = group;
 		});
-		
-		this.paragraphNames = paragraphNames;
 	}
 
 	ngOnInit(){
@@ -173,10 +170,11 @@ export class ExpenditureVizComponent{
 	/* PROCESS DATA */
 	loadData(profileId,year){
 		let queue = [];
+		queue.push(this.codelistService.getCodelist("paragraph-names",new Date(year,0,1)));
 		queue.push(this.dataService.getProfileBudget(profileId,year));
 		queue.push(this.dataService.getProfileEvents(profileId,{year:year}));
 		Promise.all(queue)
-			.then(values => this.setData(values[0],values[1])) // values[0]=budget,values[1]=events
+			.then(values => this.setData(values[0],values[1],values[2])) // values[0]=paragraph names, values[1]=budget, values[2]=events
 			.catch((err) => {
 				switch(err.status){
 					case 404:
@@ -193,7 +191,10 @@ export class ExpenditureVizComponent{
 			});
 	}
 
-	setData(budget,events){
+	setData(paragraphNames,budget,events){
+		
+		// set paragraphNames;
+		this.paragraphNames = paragraphNames;
 
 		// create event index
 		let eventIndex = {};
@@ -207,7 +208,7 @@ export class ExpenditureVizComponent{
 		
 		budget.paragraphs.forEach(paragraph => {
 			
-			var groupId = paragraph.id.substring(0, 2);	
+			let groupId = paragraph.id.substring(0, 2);	
 			let group = this.groupIndex[groupId];
 			
 			// this shouldnt happen, but it might
