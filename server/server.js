@@ -52,6 +52,7 @@ if(config.mongoExpress.enable){
 	var mongo_express = require('mongo-express/lib/middleware');
 	var mongo_express_config = require('./config/mongo-express-config.js');
 	app.use('/db', mongo_express(mongo_express_config))
+	console.log("Mongo Express accessible at /db");
 }
 
 /* SET UP ROUTES */
