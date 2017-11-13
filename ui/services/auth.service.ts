@@ -1,7 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Subject }    from 'rxjs/Subject';
 
-import { AuthHttp, JwtHelper } from 'angular2-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { User } from "../shared/schema/user";
 
@@ -12,8 +13,6 @@ import { DataService } 		from './data.service';
 	*/
 @Injectable()
 export class AuthService {
-	
-	jwtHelper: JwtHelper = new JwtHelper();
 
 	public onLogin = new Subject<any>();
   public onLogout = new Subject<void>();
@@ -27,7 +26,7 @@ export class AuthService {
 	// current user (use blank user as default)
 	user: User = new User;
 
-	constructor(private http: AuthHttp){
+	constructor(private http: HttpClient, private jwtHelper:JwtHelperService){
 		
 		// refresh user data to match token
 		this.refreshState()
@@ -57,9 +56,7 @@ export class AuthService {
 		return new Promise((resolve,reject) => {
 			
 			// query the web api to get the token
-			return this.http.post("/api/login", credentials).toPromise()
-
-				.then(response => response.text())
+			return this.http.post("/api/login", credentials, { responseType: 'text' }).toPromise()
 
 				.then(token => {
 				
@@ -88,9 +85,7 @@ export class AuthService {
 		if(!this.token) return;
 		
 		// get the new token. as an authorization, we use current token
-		this.http.get("/api/login/renew").toPromise()
-
-			.then(response => response.text())
+		this.http.get("/api/login/renew", { responseType: 'text' }).toPromise()
 
 			.then(token => {
 

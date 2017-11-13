@@ -1,7 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule, Http, RequestOptions }     from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from './shared.module';
@@ -55,6 +55,7 @@ import { ACLService } from "./services/acl.service";
 // Import Modules
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FileUploadModule } from 'ng2-file-upload';
+import { JwtModule } from '@auth0/angular-jwt';
 
 // Shared coremponents
 import { LoginFormComponent } 		from './shared/components/login-form/login-form.component';
@@ -64,26 +65,26 @@ import { ProfileHeaderComponent } 		from './shared/components/profile-header/pro
 // Routes
 import { routing } from './app.routing';
 
-// Providers
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  var jwtOptions = {
-		tokenName: "id_token",
-		noJwtError:true
-	};
-	return new AuthHttp(new AuthConfig(jwtOptions), http, options);
-}
-
 @NgModule({
   imports: [
 		SharedModule,
 		BrowserModule,
 		BrowserAnimationsModule,
-		HttpModule,
+		HttpClientModule,
 		FormsModule,
 		routing,
 		ModalModule.forRoot(),
-		FileUploadModule
+		FileUploadModule,
+		JwtModule.forRoot({
+			config: {
+				tokenGetter: () => {
+					return localStorage.getItem('id_token');
+				},
+				whitelistedDomains: ['cityvizor.cz'],
+				throwNoTokenError: true,
+				skipWhenExpired: true
+			}
+		})
 	],
   declarations: [
 		AppComponent,
@@ -97,12 +98,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		
 	],
 	providers: [
-		Title, DataService, CodelistService, ToastService, AuthService, ACLService,
-		{
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    }
+		Title, DataService, CodelistService, ToastService, AuthService, ACLService
 	],
   bootstrap: [ AppComponent ]
 })

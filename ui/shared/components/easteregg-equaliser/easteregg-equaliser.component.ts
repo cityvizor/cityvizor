@@ -100,7 +100,7 @@ export class EasterEggEqualiserComponent implements OnDestroy {
     }
   }
   
-	fetchAudio(): Promise<AudioBuffer> {
+	fetchAudio(): Promise<any> {
     return fetch(this.setup.audioPath)
       .then(response => response.arrayBuffer())
       .then(buffer => {

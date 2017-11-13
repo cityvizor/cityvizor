@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Codelist } from "../shared/schema/codelist";
@@ -13,7 +13,7 @@ export class CodelistService {
 	
 	cache:CodelistCache = new CodelistCache();
 	
-	constructor(private http: Http) { }
+	constructor(private http: HttpClient) { }
 	
 	
 	// alias for getCodelist
@@ -33,8 +33,8 @@ export class CodelistService {
 			let dateString = date.toISOString();
 			
 			// otherwise get the codelist from the server
-			this.http.get("/api/codelists/" + name + "?date=" + dateString).toPromise()
-				.then(response => resolve(this.saveCached(name,response.json())))
+			this.http.get<Codelist>("/api/codelists/" + name + "?date=" + dateString).toPromise()
+				.then(response => resolve(this.saveCached(name,response)))
 				.catch(err => reject(err));
 				
 		});
