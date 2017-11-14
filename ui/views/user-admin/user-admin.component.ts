@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Title }     from '@angular/platform-browser';
 
-import { AppConfig } from '../../config/app-config';
+import { AppConfig, IAppConfig } from '../../config/config';
 import { Subscription } from 'rxjs/Subscription' ;
 
 @Component({
@@ -30,11 +30,9 @@ export class UserAdminComponent implements OnInit, OnDestroy {
 
   cat:string;
 	
-	config:any = AppConfig;
-
   paramsSubscription:Subscription;
   
-	constructor(private titleService: Title, private route: ActivatedRoute) {}
+	constructor(private titleService: Title, private route: ActivatedRoute, @Inject(AppConfig) public config:IAppConfig) {}
 
 	ngOnInit(){
 		this.titleService.setTitle(this.config.title);
