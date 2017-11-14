@@ -69,15 +69,15 @@ import { routing } from './app.routing';
 import { AppConfig, AppConfigData } from "./config/config";
 
 // settings for JWT
-export function tokenGetter(){
-	return localStorage.getItem('id_token');
+export function tokenGetter():string{
+	return localStorage.getItem('id_token') || "";
 }
 
 var jwtOptions = {
 	config: {
 		tokenGetter: tokenGetter,
 		whitelistedDomains: ['cityvizor.cz'],
-		throwNoTokenError: true,
+		throwNoTokenError: false,
 		skipWhenExpired: true
 	}
 };
