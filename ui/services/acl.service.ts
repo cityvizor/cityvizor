@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { User } from "../shared/schema/user";
@@ -6,7 +6,7 @@ import { User } from "../shared/schema/user";
 import { AuthService } 		from './auth.service';
 import { ToastService } 		from './toast.service';
 
-import { AppConfig } from "../config/config";
+import { AppConfig, IAppConfig } from "../config/config";
 
 /**
 	* Service to save user information and commnicate user data with server
@@ -14,12 +14,9 @@ import { AppConfig } from "../config/config";
 @Injectable()
 export class ACLService implements CanActivate {
 	
- 	// all ACL roles and their definitions
-	config:any = AppConfig;
-  
   routes:any = [];
   
-	constructor(private authService: AuthService, private toastService:ToastService, private router:Router){
+	constructor(private authService: AuthService, private toastService:ToastService, private router:Router, @Inject(AppConfig) private config:IAppConfig){
     this.routes = this.config.acl.routes || [];
 	}
   

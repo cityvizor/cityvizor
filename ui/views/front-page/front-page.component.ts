@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Title }     from '@angular/platform-browser';
 
 import { DataService} from '../../services/data.service';
-import { AppConfig } from '../../config/app-config';
+import { AppConfig, IAppConfig } from '../../config/config';
 
 @Component({
 	moduleId: module.id,
@@ -19,9 +19,7 @@ export class FrontPageComponent implements OnInit {
 	
 	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.0556}, "lng":{"min":12.0914,"max":18.8589}};
 	
-	config:any = AppConfig;
-
-	constructor(private titleService: Title, private _ds: DataService, private _router: Router) { }
+	constructor(private titleService: Title, private _ds: DataService, private _router: Router, @Inject(AppConfig) public config:IAppConfig) { }
 
 	ngOnInit(){
 		

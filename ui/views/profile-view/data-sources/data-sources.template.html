@@ -1,3 +1,10 @@
+<h2>Zdrojová data</h2>
+
+<h3>{{profile.name}}</h3>
+<ng-container *ngIf="!budgets.length">
+  <p>K této obci bohužel zatím nebyla nahrána žádná data</p>
+</ng-container>
+
 <ng-container *ngFor="let budget of budgets">
   <p><strong>{{budget.year}}</strong></p>
   <ul>
@@ -6,3 +13,6 @@
     <li><a [href]="'/api/profiles/' + profile._id + '/payments/' + budget.year + '/csv'" target="_blank">{{profile.name}} - Faktury (CSV)</a>	
   </ul>
 </ng-container>
+
+<h3>Souhrnná data</h3>
+<p>Data za všechny obce najdete <a [attr.href]="config.docsUrl + '/data'">v dokumentaci v sekci data</a>.</p>

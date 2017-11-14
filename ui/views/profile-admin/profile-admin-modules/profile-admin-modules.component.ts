@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Inject } from '@angular/core';
 
 import { ToastService } 		from '../../../services/toast.service';
 import { DataService } 		from '../../../services/data.service';
 
-import { Module, MODULES } from "../../../shared/data/modules";
+import { AppConfig, IAppConfig, Module } from '../../../config/config';
 
 @Component({
 	moduleId: module.id,
@@ -18,8 +18,8 @@ export class ProfileAdminModulesComponent {
 
 	modules: Module[];
 
-	constructor(private dataService: DataService, private toastService: ToastService) {
-		this.modules = MODULES;
+	constructor(private dataService: DataService, private toastService: ToastService, @Inject(AppConfig) config: IAppConfig) {
+		this.modules = config.modules;
 	}
 	 
 	isHiddenModule(viz: Module):boolean{ 

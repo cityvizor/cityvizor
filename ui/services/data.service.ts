@@ -60,7 +60,7 @@ export class DataService {
 		return this.http.put<any>("/api/profiles/" + profileId + "/budgets/" + year,data).toPromise();
 	}
 	deleteProfileBudget(profileId,year){
-		return this.http.delete<any>("/api/profiles/" + profileId + "/budgets/" + year, { responseType: 'text' }).toPromise();
+		return this.http.delete("/api/profiles/" + profileId + "/budgets/" + year, { responseType: 'text' }).toPromise();
 	}
 	
 	getProfileBudgets(profileId,options?){

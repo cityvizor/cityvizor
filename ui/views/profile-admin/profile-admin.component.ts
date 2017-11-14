@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Inject } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Title }     from '@angular/platform-browser';
 
 import { ToastService } 		from '../../services/toast.service';
 import { DataService } 		from '../../services/data.service';
 
-import { AppConfig } from '../../config/app-config';
+import { AppConfig, IAppConfig } from '../../config/config';
 
 @Component({
 	moduleId: module.id,
@@ -22,9 +22,7 @@ export class ProfileAdminComponent {
 	
 	activeModule: string;
 	 
-	config:any = AppConfig;
-
-	constructor(private titleService: Title, private dataService: DataService, private toastService: ToastService, private route: ActivatedRoute, private router:Router) {
+	constructor(private titleService: Title, private dataService: DataService, private toastService: ToastService, private route: ActivatedRoute, private router:Router, @Inject(AppConfig) private config:IAppConfig) {
 	}
 	 
 	ngOnInit(){

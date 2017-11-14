@@ -20,12 +20,10 @@ export class LoginFormComponent {
 
 	wrongPassword:boolean = false;
 
-	constructor(private authService: AuthService, private toastService:ToastService) { }
+	constructor(public authService: AuthService, private toastService:ToastService) { }
 
 	authenticate(form){
 		this.wrongPassword = false;
-		
-		console.log(form);
 		
 		let loginData = form.value;
 		

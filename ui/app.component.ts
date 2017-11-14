@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
@@ -8,7 +8,7 @@ import { AuthService } 		from './services/auth.service';
 import { ACLService } 		from './services/acl.service';
 import { User } from './shared/schema/user';
 
-import { AppConfig } from './config/config';
+import { AppConfig, IAppConfig } from './config/config';
 
 class LoginData {
 	login:string = "";
@@ -41,10 +41,7 @@ export class AppComponent {
 
 	wrongPassword:boolean = false;
 
-	// link application config
-	config:any = AppConfig;
-
-	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router:Router) {
+	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router:Router, @Inject(AppConfig) public config:IAppConfig) {
 		this.toasts = this.toastService.toasts;
 	}
 

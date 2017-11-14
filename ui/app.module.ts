@@ -65,6 +65,23 @@ import { ProfileHeaderComponent } 		from './shared/components/profile-header/pro
 // Routes
 import { routing } from './app.routing';
 
+// App Config
+import { AppConfig, AppConfigData } from "./config/config";
+
+// settings for JWT
+export function tokenGetter(){
+	return localStorage.getItem('id_token');
+}
+
+var jwtOptions = {
+	config: {
+		tokenGetter: tokenGetter,
+		whitelistedDomains: ['cityvizor.cz'],
+		throwNoTokenError: true,
+		skipWhenExpired: true
+	}
+};
+
 @NgModule({
   imports: [
 		SharedModule,
@@ -75,16 +92,7 @@ import { routing } from './app.routing';
 		routing,
 		ModalModule.forRoot(),
 		FileUploadModule,
-		JwtModule.forRoot({
-			config: {
-				tokenGetter: () => {
-					return localStorage.getItem('id_token');
-				},
-				whitelistedDomains: ['cityvizor.cz'],
-				throwNoTokenError: true,
-				skipWhenExpired: true
-			}
-		})
+		JwtModule.forRoot(jwtOptions)
 	],
   declarations: [
 		AppComponent,
@@ -98,7 +106,9 @@ import { routing } from './app.routing';
 		
 	],
 	providers: [
-		Title, DataService, CodelistService, ToastService, AuthService, ACLService
+		/* Angular Services */ Title,
+		/* Custom Services */ DataService, CodelistService, ToastService, AuthService, ACLService,
+		/* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
 	],
   bootstrap: [ AppComponent ]
 })
