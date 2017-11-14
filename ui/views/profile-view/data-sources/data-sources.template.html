@@ -1,7 +1,7 @@
 <h2>Zdrojová data</h2>
 
 <h3>{{profile.name}}</h3>
-<ng-container *ngIf="!budgets.length">
+<ng-container *ngIf="!budgets || !budgets.length">
   <p>K této obci bohužel zatím nebyla nahrána žádná data</p>
 </ng-container>
 

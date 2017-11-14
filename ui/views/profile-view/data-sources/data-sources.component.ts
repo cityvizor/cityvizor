@@ -19,7 +19,7 @@ export class DataSourcesComponent implements OnInit {
 	
   budgets:any[];
 
-	constructor(private dataService:DataService, private toastService:ToastService, @Inject(AppConfig) private config:IAppConfig) { }
+	constructor(private dataService:DataService, private toastService:ToastService, @Inject(AppConfig) public config:IAppConfig) { }
   
   ngOnInit(){
     
