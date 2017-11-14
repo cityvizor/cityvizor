@@ -10,7 +10,7 @@
     "build": "ng build --prod --app=0 && ng build --prod --app=1",
     "prod": "NODE_ENV=production node server/server.js",
     "cron": "NODE_ENV=production node server/cron.js",
-    "dev": "NODE_ENV=development concurrently \"ng build --watch --dev --progress false\" \"nodemon server/server.js\""
+    "dev": "NODE_ENV=development concurrently \"ng build --watch --aot --progress false\" \"nodemon server/server.js\""
   },
   "keywords": [
     "opendata",
