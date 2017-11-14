@@ -2,7 +2,6 @@ module.exports = {
   
   data: {
     headerNames: {
-      amountType: ["amountType","PRIJEM_VYDAJ"],
       recordType: ["recordType","MODUL","DOKLAD_AGENDA"],
       paragraph: ["paragraph","PARAGRAF"],
       item: ["item","POLOZKA"],

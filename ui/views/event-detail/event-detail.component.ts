@@ -2,9 +2,10 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { DataService } from '../../services/data.service';
+import { CodelistService } from '../../services/codelist.service';
+import { ToastService } from '../../services/toast.service';
 
-import { paragraphNames } from '../../shared/data/paragraph-names.data';
-import { itemNames } from '../../shared/data/item-names.data';
+import { ParagraphNamesCodelist, ItemNamesCodelist } from "../../shared/schema/codelist";
 
 /*
 
@@ -48,20 +49,22 @@ export class EventDetailComponent implements OnChanges {
 	counterparties:any[] = [];
 	otherPayments:any = {payments: [],total: 0, open: false};
 	
-	paragraphNames = paragraphNames;
-	itemNames = itemNames;
+	paragraphNames:ParagraphNamesCodelist = new ParagraphNamesCodelist();
+	itemNames:ItemNamesCodelist = new ParagraphNamesCodelist();
 	
-	constructor(private dataService:DataService){}
+	constructor(private dataService:DataService, private codelistService:CodelistService, private toastService:ToastService){}
 	
 	ngOnChanges(changes:SimpleChanges){
-		if(changes.eventid && this.eventid) this.loadBudget(this.eventid);
+		if(changes.eventid && this.eventid) this.loadEvent(this.eventid);
 	}
 
-	loadBudget(eventId){
+	loadEvent(eventId){
 		this.event = null;
 		
 		this.dataService.getEvent(eventId)
 			.then(event => {
+			
+				this.loadCodelists(new Date(event.year,0,1));
 				
 				this.event = event;
 			
@@ -84,9 +87,24 @@ export class EventDetailComponent implements OnChanges {
 					.catch(err => console.log(err));
 			
 				this.parsePayments();
+			
 			})
 			.catch(err => console.log(err));
 		
+	}
+	
+	loadCodelists(date:Date){
+		var queue = [];
+		
+		queue.push(this.codelistService.getCodelist("item-names",date));
+		queue.push(this.codelistService.getCodelist("paragraph-names",date));
+		
+		Promise.all(queue)
+			.then(values => {
+				this.itemNames = values[0];
+				this.paragraphNames = values[1];
+			})
+			.catch(err => this.toastService.toast("Chyba při načítání číselníků: " + err.message,"notice"));
 	}
 
 	parsePayments(){

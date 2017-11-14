@@ -1,7 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule, Http, RequestOptions }     from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from './shared.module';
@@ -47,41 +47,52 @@ import { EasterEggEqualiserComponent } from './shared/components/easteregg-equal
 
 // Services
 import { DataService } 		from './services/data.service';
+import { CodelistService } 		from './services/codelist.service';
 import { ToastService } 		from './services/toast.service';
 import { AuthService } 		from './services/auth.service';
 import { ACLService } from "./services/acl.service";
 
 // Import Modules
-import { CollapseModule, ModalModule, BsDropdownModule, TabsModule} from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { FileUploadModule } from 'ng2-file-upload';
+import { JwtModule } from '@auth0/angular-jwt';
 
 // Shared coremponents
+import { LoginFormComponent } 		from './shared/components/login-form/login-form.component';
 import { HeaderMenuComponent } 		from './shared/components/header-menu/header-menu.component';
 import { ProfileHeaderComponent } 		from './shared/components/profile-header/profile-header.component';
 
 // Routes
 import { routing } from './app.routing';
 
-// Providers
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  var jwtOptions = {
-		tokenName: "id_token",
-		noJwtError:true
-	};
-	return new AuthHttp(new AuthConfig(jwtOptions), http, options);
+// App Config
+import { AppConfig, AppConfigData } from "./config/config";
+
+// settings for JWT
+export function tokenGetter(){
+	return localStorage.getItem('id_token');
 }
+
+var jwtOptions = {
+	config: {
+		tokenGetter: tokenGetter,
+		whitelistedDomains: ['cityvizor.cz'],
+		throwNoTokenError: true,
+		skipWhenExpired: true
+	}
+};
 
 @NgModule({
   imports: [
 		SharedModule,
 		BrowserModule,
 		BrowserAnimationsModule,
-		HttpModule,
+		HttpClientModule,
 		FormsModule,
 		routing,
 		ModalModule.forRoot(),
-		FileUploadModule
+		FileUploadModule,
+		JwtModule.forRoot(jwtOptions)
 	],
   declarations: [
 		AppComponent,
@@ -91,16 +102,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
     /* Equaliser Component */ EasterEggEqualiserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
-		/* Shared Components */ HeaderMenuComponent, ProfileHeaderComponent,
+		/* Shared Components */ LoginFormComponent, HeaderMenuComponent, ProfileHeaderComponent,
 		
 	],
 	providers: [
-		Title, DataService, ToastService, AuthService, ACLService,
-		{
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    }
+		/* Angular Services */ Title,
+		/* Custom Services */ DataService, CodelistService, ToastService, AuthService, ACLService,
+		/* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
 	],
   bootstrap: [ AppComponent ]
 })

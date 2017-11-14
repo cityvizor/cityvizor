@@ -1,4 +1,6 @@
-import { Component, Input, NgZone } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild, NgZone, OnDestroy } from '@angular/core';
+
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
 	moduleId: module.id,
@@ -7,8 +9,13 @@ import { Component, Input, NgZone } from '@angular/core';
 	templateUrl: 'easteregg-equaliser.template.html',
 	styleUrls: ['easteregg-equaliser.style.css']
 })
-export class EasterEggEqualiserComponent {
+export class EasterEggEqualiserComponent implements OnDestroy {
 	
+	// get the equaliser modal
+	@ViewChild('equaliserTemplate')
+	equaliserTemplate:TemplateRef<any>;
+	
+	modalRef: BsModalRef;
 	  
   //AUDIO CONTEXT
 	setup:{fftSize:number,
@@ -20,20 +27,21 @@ export class EasterEggEqualiserComponent {
          maxLevelValue: number,
          showedLevels:number,
          skipFirstLevels: number} = {
-             fftSize:256,
-             minDecibels:-70,
-             maxDecibels:-30,
+             fftSize:64,
+             minDecibels:-80,
+             maxDecibels:-25,
              audioPath:'assets/audio/audio.mp3',
              delayOfFrames: 60,
              bigBangHeight: 800,
              maxLevelValue: 255,
-             showedLevels:25,
-             skipFirstLevels: 5};
+             showedLevels:20,
+             skipFirstLevels: 0};
 	
+	numbers: any;
 	
 	audioContext: AudioContext;
+	bufferSource:any;
 	loadingEqualiser: boolean = false;
-	showEqualiser: boolean = false;
 	loadedAudio: boolean = false;
 	playingAudio: boolean = false;
   audioBuffer: AudioBuffer;
@@ -42,15 +50,21 @@ export class EasterEggEqualiserComponent {
 	frequencyDataArray: Uint8Array = new Uint8Array(this.setup.fftSize);
   
   //KONAMI
-  konami_def = [38,38,40,40,37,39,37,39,66,65];
-  konami_stack = [38,38,40,40,37,39,37,39,66,65];
+  konami_def = [38,38,40,40,37,39,37,39,66,65]; // definition of keys to press
+  konami_stack = [38,38,40,40,37,39,37,39,66,65]; // stack to shift elements when correct code pressed
   
-	constructor(private zone: NgZone) {
+	constructor(private zone: NgZone, private modalService: BsModalService) {
   }
+	
+	ngOnDestroy(){
+		this.stopAudio();
+	}
 
   loadEqualiser(){
 		if (!this.loadingEqualiser) {
+			
 			console.log("Loading easter egg!");
+			
       this.loadingEqualiser = true;
 
       this.audioContext = new AudioContext();
@@ -70,14 +84,23 @@ export class EasterEggEqualiserComponent {
         .then(audioBuffer => {
           this.audioBuffer = audioBuffer;
 
+					this.bufferSource = this.audioContext.createBufferSource();
+					this.bufferSource.buffer = this.audioBuffer;
+					this.bufferSource.connect(this.analyser);
+					this.analyser.connect(this.audioContext.destination);
+
+					requestAnimationFrame(() => this.getAudioFrequencyData());
+
           this.loadedAudio = true;
-          this.showEqualiser = true;
+				
+          this.modalRef = this.modalService.show(this.equaliserTemplate);
+				
         })
         .catch(error => { throw error; });
     }
   }
   
-	fetchAudio(): Promise<AudioBuffer> {
+	fetchAudio(): Promise<any> {
     return fetch(this.setup.audioPath)
       .then(response => response.arrayBuffer())
       .then(buffer => {
@@ -92,20 +115,17 @@ export class EasterEggEqualiserComponent {
 	}
   
 	playAudio() {
-    let bufferSource = this.audioContext.createBufferSource();
-    bufferSource.buffer = this.audioBuffer;
-    bufferSource.connect(this.analyser);
-		this.analyser.connect(this.audioContext.destination);
-    bufferSource.start(0);
-		
-		this.playingAudio = true;
-		
-  	requestAnimationFrame(() => this.getAudioFrequencyData());
-		
+		if(!this.playingAudio){
+			this.bufferSource.start(0);
+			this.playingAudio = true;
+		}
 	}
 	
-	onClick() {
-		this.playAudio();    
+	stopAudio(){
+		if(this.playingAudio){
+			this.bufferSource.pause();
+			
+		}
 	}
 	
 	getAudioFrequencyData() {
@@ -143,11 +163,11 @@ export class EasterEggEqualiserComponent {
 	minR: number = 0.22; // relative to radius
 	 
 	
-	getStripeSize(amount){
-		return Math.max(this.minR, Math.sqrt(amount / this.setup.maxLevelValue * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2)));
+	getStripeSize(i,levels){
+		return Math.max(this.minR, Math.sqrt(levels[i] / this.setup.maxLevelValue * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2)));
 	}
 	
-	getCircleR(){
+	getCircleR() {
 		return this.innerR * this.r * 0.9;
 	}
 	 
@@ -156,7 +176,7 @@ export class EasterEggEqualiserComponent {
 		var innerRadius = inner * this.r;
 		var outerRadius = outer * this.r;
 		var size = 1 / this.setup.showedLevels;
-		var start = (i - this.setup.skipFirstLevels) / this.setup.showedLevels;
+		var start = i / this.setup.showedLevels;
 		return this.getDonutPath(this.cx,this.cy,innerRadius,outerRadius,start,size);	
 	}
 

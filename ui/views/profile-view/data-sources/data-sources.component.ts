@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Inject} from '@angular/core';
 
 import { DataService } from "../../../services/data.service";
 import { ToastService } from "../../../services/toast.service";
+
+import { AppConfig, IAppConfig } from '../../../config/config';
 
 @Component({
 	moduleId: module.id,
@@ -14,10 +16,10 @@ export class DataSourcesComponent implements OnInit {
 	/* DATA */
 	@Input()
 	profile:any;
-  
+	
   budgets:any[];
 
-	constructor(private dataService:DataService, private toastService:ToastService) { }
+	constructor(private dataService:DataService, private toastService:ToastService, @Inject(AppConfig) public config:IAppConfig) { }
   
   ngOnInit(){
     

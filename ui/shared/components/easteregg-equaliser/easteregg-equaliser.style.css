@@ -16,8 +16,8 @@
 
 svg{margin:0 auto;display:block;margin-top:-15%;}
 
-.stripes{transition-duration: .2s;transform:rotate(0deg);transform-origin:0px 0px;transition-timing-function:ease-in-out;}
-.stripe{cursor:pointer;border:2px solid #fff;transition-duration: .5s;}
+.stripes{transform:rotate(0deg);transform-origin:0px 0px;transition-timing-function:ease-in-out;}
+.stripe{cursor:pointer;border:2px solid #fff;transition-duration: .05s;}
 
 .innerStripe{fill:#2581C4;stroke:#fff;stroke-width:2;}
 .innerStripe.selected{fill:#E73431;}
@@ -26,7 +26,7 @@ svg{margin:0 auto;display:block;margin-top:-15%;}
 
 .zeroStripe{fill:#DDD;stroke:#fff;stroke-width:2;}
 
-.bgstripe{fill:#aaa;opacity:0;cursor:pointer;transition-duration: .3s;}
+.bgstripe{fill:#aaa;opacity:0;cursor:pointer;}
 .bgstripe.hovered{opacity:0.2;}
 
 .circle{cursor:pointer;}

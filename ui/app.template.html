@@ -37,7 +37,7 @@
 						<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
 					</span>
 				</a>
-				<a href="https://github.com/otevrena-data-mfcr/CityVizor">
+				<a [href]="config.GitHub.url">
 					<span class="fa-stack fa-md">
 						<i class="fa fa-circle fa-stack-2x"></i>
 						<i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -78,41 +78,12 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
-						<div *ngIf="wrongPassword" class="alert alert-danger">
-							Chybná emailová adresa nebo heslo.
-						</div>
-
-						<form *ngIf="!authService.logged" class="form-signin" (ngSubmit)="login()">
-							<div class="form-group">
-								<label for="inputEmail" class="cols-sm-2 control-label">Emailová adresa</label>
-								<div class="cols-sm-10">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-										<input type="text" name="inputEmail" id="inputEmail" class="form-control" placeholder="Emailová adresa" required="" autofocus="" [(ngModel)]="loginData.login">
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputPassword" class="cols-sm-2 control-label">Heslo</label>
-								<div class="cols-sm-10">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
-										<input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Heslo" required="" [(ngModel)]="loginData.password">
-									</div>
-								</div>
-							</div>
-							<div class="form-group ">
-								<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Přihlásit se</button>
-							</div>
-						</form>
-
-						<div *ngIf="authService.logged">
-							<p>Již jste přihlášen jako {{authService.user._id}}. <a (click)="logout()">Odhlásit</a>?</p>
-						</div>
-						
+						<login-form (cancel)="loginModal.hide()" (login)="loginModal.hide()"></login-form>						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<easteregg-equaliser></easteregg-equaliser>

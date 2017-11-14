@@ -39,9 +39,16 @@ module.exports = {
   
   mongoExpress: {
     enable: true,
+    
     secret: "dasddasds",
-    username: "user",
-    password: "pass"
+    username: "login",
+    password: "password",
+    
+    host: "localhost",
+    databases: [
+      { database: "cityvizor", username: null, password: null },
+      { database: "cityvizor-test", username: null, password: null }
+    ]
   },
   
   eDesky: {

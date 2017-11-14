@@ -184,8 +184,7 @@ class BudgetImporter {
 				let eventId = row[h.event];
 
 				let recordType = row[h.recordType];
-				let amountType = row[h.amountType];
-				if(!amountType && itemId) amountType = Number(itemId) < 5000 ? "P" : (Number(itemId) >= 5000  ? "V" : null);
+				let amountType = Number(itemId) < 5000 ? "P" : (Number(itemId) >= 5000  ? "V" : null);
 
 				let amount = this.string2number(row[h.amount]);
 				

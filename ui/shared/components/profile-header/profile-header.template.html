@@ -36,10 +36,16 @@
       <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
         
         <ul class="nav navbar-nav">
-          
+
+          <li>
+            <a [routerLink]="['/' + profile.url + '/prehled']" routerLinkActive="active" (click)="isMenuCollapsed = true">
+              Aktuálně
+            </a>
+          </li>
+
           <ng-container *ngFor="let viz of vizModules">
             <li *ngIf="!isHiddenModule(viz)">
-              <a [routerLink]="['/' + profile.url + '/' + viz.url]" routerLinkActive="active" (click)="isMenuCollapsed = !isMenuCollapsed">
+              <a [routerLink]="['/' + profile.url + '/' + viz.url]" routerLinkActive="active" (click)="isMenuCollapsed = true">
                 {{viz.name}}
               </a>
             </li>

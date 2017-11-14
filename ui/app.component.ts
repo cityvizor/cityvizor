@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
@@ -8,7 +8,7 @@ import { AuthService } 		from './services/auth.service';
 import { ACLService } 		from './services/acl.service';
 import { User } from './shared/schema/user';
 
-import { AppConfig } from './config/config';
+import { AppConfig, IAppConfig } from './config/config';
 
 class LoginData {
 	login:string = "";
@@ -30,48 +30,19 @@ export class AppComponent {
 
 	private viewContainerRef: ViewContainerRef; // ng2-bootstrap requirement
 
+	// get the login modal so that we can close the login modal on succesful login
 	@ViewChild('loginModal')
 	public loginModal;
 
+	// array to link toasts from toastService
 	toasts: Array<any>;
 
-	year: string;
 
-	loginData:LoginData = new LoginData;
 
 	wrongPassword:boolean = false;
 
-	config:any = AppConfig;
-
-	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router:Router) {
-		var today = new Date();
-		this.year = today.getFullYear() == 2016 ? "2016" : "2016&nbsp;~&nbsp;" + today.getFullYear();
-		
+	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router:Router, @Inject(AppConfig) public config:IAppConfig) {
 		this.toasts = this.toastService.toasts;
-	}
-
-	login(){
-		this.wrongPassword = false;
-		
-		this.authService.login(this.loginData)
-			.then(user => {
-				this.closeLogin();				
-			})
-			.catch(err => {
-				if(err.status === 401){
-					this.wrongPassword = true;
-				}
-				else {
-					this.closeLogin();
-					this.toastService.toast("Neznámá chyba při přihlášení, prosím kontaktujte správce.","error");
-				}
-			});
-	}
-
-	closeLogin(){
-		this.loginModal.hide();
-		this.wrongPassword = false;
-		this.loginData = new LoginData;
 	}
 
 	logout(){

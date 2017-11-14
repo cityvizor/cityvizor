@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Title }     from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,10 +6,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { DataService } 		from '../../services/data.service';
 import { ToastService } 		from '../../services/toast.service';
 
-import { AppConfig } from '../../config/app-config';
-import { Module, MODULES } from "../../shared/data/modules";
+import { AppConfig, IAppConfig, Module } from '../../config/config';
 
-//00006947
 @Component({
 	moduleId: module.id,
 	selector: 'profile-view',
@@ -22,17 +20,15 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 	
 	modules: Module[];
 
-	activeModule: Module;
+	activeModule:string;
 	
 	year = 2016;
 	
-	config:any = AppConfig;
-
-	paramsSubscription:Subscription
-
-	constructor(private titleService: Title, private route: ActivatedRoute, private dataService: DataService, private toastService: ToastService, private router:Router) {
+	paramsSubscription:Subscription;
+	
+	constructor(private titleService: Title, private route: ActivatedRoute, private dataService: DataService, private toastService: ToastService, private router:Router, @Inject(AppConfig) private config: IAppConfig) {
 		
-		this.modules = MODULES;	
+		this.modules = config.modules;	
 		
 	}
 
@@ -59,18 +55,28 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 					});
 			}
 
-			this.modules.some(item => {
-				if(item.url === params["module"]){
-					this.activeModule = item;
-					return true;
-				}
-			});
+			this.setModule(params["module"]);
 
 		});
 	}
 
 	ngOnDestroy(){
 		this.paramsSubscription.unsubscribe();
+	}
+	
+	setModule(moduleUrl:string):void{
+		
+		if(moduleUrl === "prehled"){
+			this.activeModule = "dash-board";
+			return;
+		}
+
+		this.modules.some(item => {
+			if(item.url === moduleUrl){
+				this.activeModule = item.id;
+				return true;
+			}
+		});
 	}
 	
 	getModuleMenuItem(viz){

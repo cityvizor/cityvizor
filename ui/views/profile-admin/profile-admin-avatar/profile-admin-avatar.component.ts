@@ -67,8 +67,8 @@ export class ProfileAdminAvatarComponent {
         this._profile.avatarExt = ext;
         this.updateAvatar(this._profile._id,ext);
       })
-			.catch(response => {
-        this.toastService.toast("Nastala chyba při mazání loga","error");
+			.catch(err => {
+        this.toastService.toast("Nastala chyba při mazání loga: " + err.message,"error");
 			});
   }
 

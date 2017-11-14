@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Inject } from '@angular/core';
 
 import { ACLService } 		from '../../../services/acl.service';
 
-import { Module, MODULES } from "../../../shared/data/modules";
+import { AppConfig, IAppConfig, Module } from '../../../config/config';
 
 //00006947
 @Component({
@@ -16,11 +16,13 @@ export class ProfileHeaderComponent {
 	@Input()
   profile:any;
 	 
-	vizModules:Module[] = MODULES;
+	vizModules:Module[];
 	 
 	public isMenuCollapsed: boolean = true;
 	 
-	constructor(public aclService:ACLService) {}
+	constructor(public aclService:ACLService, @Inject(AppConfig) config: IAppConfig) {
+		this.vizModules = config.modules;
+	}
 
 	isHiddenModule(viz){
 		return this.profile.hiddenModules && this.profile.hiddenModules.indexOf(viz.id) >= 0;
