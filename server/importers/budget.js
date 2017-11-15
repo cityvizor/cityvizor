@@ -2,12 +2,12 @@ var fs = require("fs");
 var parse = require("csv-parse");
 
 var mongoose = require("mongoose");
-var ExpendituresSchema = require("../../models/expenditures");
+var ExpendituresSchema = require("../models/expenditures");
 var Budget = ExpendituresSchema.Budget;
 var Event = ExpendituresSchema.Event;
 var Payment = ExpendituresSchema.Payment;
 
-var importConfig = require("../../config/import-config.js");
+var importConfig = require("../config/import-config.js");
 
 class BudgetImporter {
 

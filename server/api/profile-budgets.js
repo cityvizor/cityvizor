@@ -14,7 +14,7 @@ var upload = multer({ dest: config.storage.tmpDir });
 var fs = require("fs");
 var path = require("path");
 
-var BudgetImporter = require("./importers/budget");
+var BudgetImporter = require("../importers/budget");
 
 var Budget = require("../models/expenditures").Budget;
 var Event = require("../models/expenditures").Event;

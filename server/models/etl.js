@@ -1,21 +1,32 @@
 var mongoose = require('mongoose');
 
-var etlSchema = mongoose.Schema({
+var importLogSchema = mongoose.Schema({
 	"profile": {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	"year": Number,
-	"valid": Date,
+	"validity": Date,
 	
 	"date": Date,
 	"user": {type: String, ref: "User"},
-	"target": String,
-	"file": String,	
 	
-	"status": String,
+	"type": String,
+	"autoImport": {type: mongoose.Schema.Types.ObjectId, ref: "AutoImport"},
+	"srcFiles": String,
+	
 	"result": String,
 	"warnings": [String],
-	
-	"note": String
+	"error":String
 		
 });
 
-var ETL = module.exports = mongoose.model('ETL', etlSchema);
+var autoImportSchema = mongoose.Schema({
+	"profile": {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
+	"year": Number,
+	
+	"type": String,
+	"settings": mongoose.Schema.Types.Mixed
+});
+
+module.exports = {
+	"ImportLog": mongoose.model('ImportLog', importLogSchema),
+	"AutoImport": mongoose.model('AutoImport', autoImportSchema)
+};
