@@ -47,7 +47,7 @@ export class DataService {
 	}
 	
 	saveProfileAvatar(profileId,data:FormData){
-		return this.http.put("/api/profiles/" + profileId + "/avatar",data).toPromise();
+		return this.http.put("/api/profiles/" + profileId + "/avatar",data, { responseType: 'text' }).toPromise();
 	}
 	deleteProfileAvatar(profileId){
 		return this.http.delete("/api/profiles/" + profileId + "/avatar", { responseType: 'text' }).toPromise();
