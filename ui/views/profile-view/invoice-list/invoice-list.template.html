@@ -42,7 +42,7 @@
 					<span *ngIf="invoice.type == 'KOF'">vydaná</span>
 					<span *ngIf="invoice.type == 'KDF'">přijatá</span>
 				</td>
-				<td><a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' + (invoice.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank">{{invoice.counterpartyId | ico}}</a></td>
+				<td><a *ngIf="invoice.counterpartyId" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' + (invoice.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank">{{invoice.counterpartyId | ico}}</a></td>
 				<td><span class="counterparty">{{invoice.counterpartyName}}</span></td>
 				<td><span class="description">{{invoice.description}}</span></td>
 				<td class="text-right font-number">{{(invoice.amount === null ? "-" : invoice.amount | money:0:false)}} Kč</td>
