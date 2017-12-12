@@ -9,7 +9,7 @@ mongoose.Promise = global.Promise;
 var User = require("../models/user");
 var bcrypt = require("bcrypt");
 
-console.log("Generating password hash");
+console.log("Generating password hash...");
 bcrypt.hash("admin", 10)
   .then(hash => {
 
@@ -19,7 +19,7 @@ bcrypt.hash("admin", 10)
       "roles": ["admin"]
     };
 
-    console.log("Saving user data to database");
+    console.log("Saving user data to database...");
   
     User.findOneAndUpdate({"_id": "admin"},userData,{upsert:true})
       .then(() => {
@@ -27,12 +27,12 @@ bcrypt.hash("admin", 10)
         mongoose.disconnect(() => process.exit());
       })
       .catch(err => {
-        console.error(err.message);
+        console.error("Error: " + err.message);
         mongoose.disconnect(() => process.exit());
       });
 
   })
   .catch(err => {
-    console.error(err.message);
+    console.error("Error: " + err.message);
     mongoose.disconnect(() => process.exit());
   });
