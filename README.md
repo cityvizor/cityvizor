@@ -39,6 +39,18 @@ Další možná nastavení:
 - ```/server/config/mongo-express-config.js``` - nastavení mongo-express
 - ```/pm2-config.json``` - nastavení pro PM2
 
+## Administrátorský účet
+
+Administrátorský účet lze vytvořit spuštěním skriptu create-admin.js:
+```
+node server/scripts/create-admin.js
+```
+
+Pro produkční prostředí
+```
+NODE_ENV=production node server/scripts/create-admin.js
+```
+
 ## Spuštění
 
 **Spuštění serveru**
