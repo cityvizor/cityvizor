@@ -25,12 +25,6 @@ Kompilace kódu
 npm run build
 ```
 
-Vytvoření administrátorského účtu pro v7vojové a produkční rozhraní
-```
-NODE_ENV=development node server/scripts/create-admin.js
-NODE_ENV=production node server/scripts/create-admin.js
-```
-
 ### 3) Nastavení
 
 Nastavit CityVizor je nutné v následujících konfiguračních souborech:
