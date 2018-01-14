@@ -42,7 +42,7 @@ export class ExpenditureVizComponent{
 	groups: any[] = [];
 	groupIndex:any = {};
 
-	paragraphNames: ParagraphNamesCodelist;
+	paragraphNames: ParagraphNamesCodelist = new ParagraphNamesCodelist();
 
 	// which group (drawing stripe) is hovered at the moment
 	hoveredGroup: string = null;
@@ -169,32 +169,36 @@ export class ExpenditureVizComponent{
 
 	/* PROCESS DATA */
 	loadData(profileId,year){
+		
 		let queue = [];
-		queue.push(this.codelistService.getCodelist("paragraph-names",new Date(year,0,1)));
+		queue.push(this.codelistService.getCodelist("paragraph-names",new Date(year,0,1)))
 		queue.push(this.dataService.getProfileBudget(profileId,year));
 		queue.push(this.dataService.getProfileEvents(profileId,{year:year}));
+		
 		Promise.all(queue)
 			.then(values => this.setData(values[0],values[1],values[2])) // values[0]=paragraph names, values[1]=budget, values[2]=events
 			.catch((err) => {
+
 				switch(err.status){
 					case 404:
 						this._toastService.toast("Data nejsou k dispozici", "warning");
 						return;
-						
+
 					case 503:
 						this._toastService.toast("Služba je momentálně nedostupná", "warning");
 						return;
-						
+
 					default:
 						this._toastService.toast("Nastala neočekávaná chyba " + err,"error");
 				}
 			});
+
 	}
 
 	setData(paragraphNames,budget,events){
 		
 		// set paragraphNames;
-		this.paragraphNames = paragraphNames;
+		this.paragraphNames = paragraphNames ? paragraphNames : {};
 
 		// create event index
 		let eventIndex = {};
