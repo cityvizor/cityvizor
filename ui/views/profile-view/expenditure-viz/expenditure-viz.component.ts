@@ -83,7 +83,7 @@ export class ExpenditureVizComponent{
 			this.openedGroupList = !!newState.group;
 			
 			if(newState.year !== oldState.year && newState.year){
-				this.loadData(this.profile._id,newState.year);
+				this.loadData(this.profile._id,newState.year);console.log(params);
 			}
 			
 			if(newState.event !== oldState.event && this.modalLoaded){

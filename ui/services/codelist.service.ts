@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { Codelist } from "../shared/schema/codelist";
 
-class CodelistCache{
+export class CodelistCache{
 	[k: string]: Codelist[];
 }
 
