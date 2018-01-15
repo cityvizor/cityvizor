@@ -9,14 +9,6 @@ menu: data
 
 ## Profily zveřejňujících obcí
 
-### Popis
-
-Data jsou aktualizována jednou denně hodinu po půlnoci.
-
-### Struktura
-
-TBD
-
 ### Formát
 
 Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapovací znak ")
@@ -25,10 +17,6 @@ Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapov
 - [Profily obcí](https://cityvizor.cz/data/exports/profiles.csv)
 
 ## Obecní rozpočty
-
-### Popis
-
-Data jsou aktualizována jednou denně hodinu po půlnoci.
 
 ### Struktura
 
@@ -61,6 +49,203 @@ Data jsou aktualizována jednou denně hodinu po půlnoci.
     <tr><td>name</td><td>AKCE_NAZEV, ORG_NAZEV, ORJ_NAZEV</td><td>text</td><td>Ano</td><td>Název akce</td></tr>
     <tr><td>description</td><td>POPIS</td><td>text</td><td>Ne</td><td>Popis akce, co a proč byla nakupováno atd.</td></tr>
   </tbody>
+</table>
+
+### Vzorový soubor
+
+Soubor s daty:
+
+<table>
+  <tr>
+    <th>DOKLAD_AGENDA</th>
+    <th>ORG</th>
+    <th>PARAGRAF</th>
+    <th>POLOZKA</th>
+    <th>CASTKA</th>
+    <th>DATUM</th>
+    <th>SUBJEKT_IC</th>
+    <th>SUBJEKT_NAZEV</th>
+    <th>POZNAMKA</th>
+  </tr>
+  <tr>
+    <td>ROZ</td>
+    <td></td>
+    <td>0</td>
+    <td>1111</td>
+    <td>120000</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>ROZ</td>
+    <td>1</td>
+    <td>5512</td>
+    <td>5169</td>
+    <td>66000</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>ROZ</td>
+    <td>2</td>
+    <td>2212</td>
+    <td>5139</td>
+    <td>85000</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>KDF</td>
+    <td>2</td>
+    <td>2212</td>
+    <td>5139</td>
+    <td>20000</td>
+    <td>2017-01-05</td>
+    <td>12345678</td>
+    <td>Jiří Novák</td>
+    <td>Uhrada za smluvené služby</td>
+  </tr>
+  <tr>
+    <td>KDF</td>
+    <td>2</td>
+    <td>2212</td>
+    <td>5139</td>
+    <td>40000</td>
+    <td>2017-02-01</td>
+    <td>22345678</td>
+    <td>Doprava a.s.</td>
+    <td>Uhrada za leden</td>
+  </tr>
+  <tr>
+    <td>KDF</td>
+    <td>2</td>
+    <td>2212</td>
+    <td>5139</td>
+    <td>20000</td>
+    <td>2017-03-01</td>
+    <td>22345678</td>
+    <td>Doprava a.s.</td>
+    <td>Uhrada za unor</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>1</td>
+    <td>5512</td>
+    <td>5169</td>
+    <td>50000</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td>0</td>
+    <td>1111</td>
+    <td>95000</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>POK</td>
+    <td>3</td>
+    <td>0</td>
+    <td>1340</td>
+    <td>520</td>
+    <td>2017-01-08</td>
+    <td></td>
+    <td></td>
+    <td>Platební poukazka (pozn.: tento popis se v cityvizoru neukáže</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>126</td>
+    <td>3612</td>
+    <td>2132</td>
+    <td>25000</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>KOF</td>
+    <td>126</td>
+    <td>3612</td>
+    <td>2132</td>
+    <td>30000</td>
+    <td>2017-09-29</td>
+    <td>32345678</td>
+    <td>ABC Group</td>
+    <td> a.s.</td>
+  </tr>
+  <tr>
+    <td>KDF</td>
+    <td>126</td>
+    <td>3612</td>
+    <td>5152</td>
+    <td>11000</td>
+    <td>2017-01-11</td>
+    <td>42345678</td>
+    <td>RWE</td>
+    <td>Byty - dodávka tep. energie </td>
+  </tr>
+  <tr>
+    <td>ROZ</td>
+    <td>126</td>
+    <td>3612</td>
+    <td>5152</td>
+    <td>60000</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>ROZ</td>
+    <td>126</td>
+    <td>3612</td>
+    <td>2132</td>
+    <td>70000</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+Číselník akcí:
+
+<table>
+  <tr>
+    <th>ORG</th>
+    <th>ORG_NAZEV</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Hasičská zbrojnice</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Zimní údržba (ORG)</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Svoz komunálního odpadu</td>
+  </tr>
+  <tr>
+    <td>126</td>
+    <td>Bytové hospodářství</td>
+  </tr>
 </table>
 
 ### Formát
