@@ -55,7 +55,7 @@ Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapov
 
 Soubor s daty:
 
-<table>
+<table class="table table-condensed table-hover table-striped">
   <tr>
     <th>DOKLAD_AGENDA</th>
     <th>ORG</th>
@@ -225,7 +225,7 @@ Soubor s daty:
 
 Číselník akcí:
 
-<table>
+<table class="table table-condensed table-hover table-striped">
   <tr>
     <th>ORG</th>
     <th>ORG_NAZEV</th>
