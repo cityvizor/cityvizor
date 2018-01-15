@@ -5,20 +5,8 @@ var express = require('express');
 
 var config = require("./config/config.js");
 
-/* SET UP ROUTING */
-var app = express();
-console.log("Express running in " + app.get('env') + " environment");
 
-if(config.server.compression){
-	var compression = require('compression');
-	app.use(compression());
-}
-
-// parse body
-var bodyParser = require("body-parser");
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support urlencoded bodies
-
+/* CONFIGURE AND RUN DATABASE */
 var mongoose = require('mongoose');
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
@@ -30,13 +18,22 @@ mongoose.connect('mongodb://localhost/' + config.database.db, { useMongoClient: 
 	});
 
 
+/* CONFIGURE SERVER */
+var app = express();
+console.log("Express running in " + app.get('env') + " environment");
 
 
-// configure express-jwt
+/* body parsing */
+var bodyParser = require("body-parser");
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support urlencoded bodies
+
+
+/* json web token parsing */
 var jwt = require('express-jwt');
 app.use(jwt(config.jwt));
 
-// configure DynACL
+/* access control */
 var acl = require("express-dynacl");
 var aclOptions = {
 	roles: {
@@ -52,6 +49,7 @@ var aclOptions = {
 }
 acl.config(aclOptions);
 
+
 /* Mongo Express Database viewer */
 if(config.mongoExpress.enable){
 	var mongo_express = require('mongo-express/lib/middleware');
@@ -60,13 +58,18 @@ if(config.mongoExpress.enable){
 	console.log("Mongo Express accessible at /db");
 }
 
-/* SET UP ROUTES */
-// api routes
-app.use("/api",require("./routers/api"));
 
-// serve static files
-app.use(require("./routers/static"));
+/* API ROUTES */
+app.use(require("./router"));
 
+/* default route */
+app.get('*',(req,res) => {
+	res.set('Cache-Control', 'public, max-age=600'); // cache 10 min
+	res.sendFile("./index.html", { root: __dirname });	
+});
+
+
+/* ERROR HANDLING */
 app.use((err, req, res, next) => {
 
 	if (err.name === 'UnauthorizedError') {
@@ -85,35 +88,10 @@ app.use((err, req, res, next) => {
 });
 
 
-/* SET UP SERVER */
+/* START SERVER */
 let host = config.server.host || "127.0.0.1";
 let port = config.server.port || 80;
 
-if(config.ssl.enable){
-
-	// start https server
-	https.createServer(config.ssl, app).listen(443, host, function () {
-		console.log('CityVizor Server listening on ' + host + ':443!')
-	});
-
-	let redirectPort = config.ssl.redirectPort || port || 80;
-
-	// Redirect to https
-	if(config.ssl.redirect && redirectPort){		
-		http.createServer(function (req, res) {
-			res.writeHead(301, { "Location": "https://" + req.headers.host + req.url });
-			res.end();
-		}).listen(redirectPort, host, function () {
-			console.log('CityVizor Server redirecting from ' + host + ':' + port + ' to ' + host + ':443!')
-		});
-	}
-
-}
-
-else {
-
-	http.createServer(app).listen(port, host, function () {
-		console.log('CityVizor Server listening on ' + host + ':' + port + '!');
-	});
-
-}
+http.createServer(app).listen(port, host, function () {
+	console.log('CityVizor Server listening on ' + host + ':' + port + '!');
+});

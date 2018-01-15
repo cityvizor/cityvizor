@@ -19,14 +19,6 @@ module.exports = {
     compression: true
   },
   
-  ssl: {
-    enable: false,
-    //cert: fs.readFileSync('../cert/fullchain.pem'),
-    //key: fs.readFileSync('../cert/privkey.pem'),
-    redirect: true,
-    redirectPort: 80
-  },
-  
   jwt: {
     secret: "secretphrase",
     credentialsRequired: false
@@ -40,7 +32,17 @@ module.exports = {
   },
   
   mongoExpress: {
-    enable: false
+    enable: false,
+    
+    secret: "dasddasds",
+    username: "login",
+    password: "password",
+    
+    host: "localhost",
+    databases: [
+      { database: "cityvizor", username: null, password: null },
+      { database: "cityvizor-test", username: null, password: null }
+    ]
   },
   
   eDesky: {
