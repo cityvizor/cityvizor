@@ -43,7 +43,7 @@ export class IncomeVizComponent{
 
 	events:any[];
 	eventIndex:any = {};
-	itemNames:ItemNamesCodelist;
+	itemNames:ItemNamesCodelist = new ItemNamesCodelist();
 
 	maxAmount:number = 0;
 
@@ -214,9 +214,10 @@ export class IncomeVizComponent{
 	}
 
 	setData(itemNames, budget, events){
-		// set paragraphNames;
-		this.itemNames = itemNames;
-		console.log(budget);
+		
+		// set itemNames
+		this.itemNames = itemNames ? itemNames : {};
+
 		// create event index
 		let eventIndex = {};
 		events.forEach(event => eventIndex[event._id] = event);
