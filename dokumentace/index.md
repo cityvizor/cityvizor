@@ -53,7 +53,7 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
 ### Vzorová data
 Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud Vás zajímá, jak tato vzorová data CityVizor vizualizuje, zkopírujte je a nahrajte v požadovaném formátu do cityvizor.cz/demo. Zde si také můžete vyzkoušet, jak by vypadala aplikace s daty Vaší obce, aniž byste odesílali data na náš server.
 
-#### Vzorový datový soubor
+**Vzorový datový soubor**
 
 <table class="table table-condensed table-hover table-striped">
   <tr>
@@ -223,7 +223,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
   </tr>
 </table>
 
-#### Vzorový číselník akcí
+**Vzorový číselník akcí**
 
 <table class="table table-condensed table-hover table-striped">
   <tr>
