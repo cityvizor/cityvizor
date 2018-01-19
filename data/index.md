@@ -20,7 +20,7 @@ Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapov
 
 ### Struktura
 
-Informace o struktuře naleznete v záložce [Dokumentace](https://otevrena-data-mfcr.github.io/CityVizor/dokumentace/)
+Informace o struktuře naleznete v záložce [Dokumentace](https://otevrena-data-mfcr.github.io/CityVizor/dokumentace/).
 
 ### Formát
 
