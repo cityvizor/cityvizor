@@ -227,8 +227,8 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
 
 <table class="table table-condensed table-hover table-striped">
   <tr>
-    <th>ORG</th>
-    <th>ORG_NAZEV</th>
+    <th>srcId</th>
+    <th>name</th>
   </tr>
   <tr>
     <td>1</td>
