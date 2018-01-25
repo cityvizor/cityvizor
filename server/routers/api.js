@@ -21,6 +21,8 @@ router.use((req, res, next) => {
 /* GENERAL API */
 router.use("/profiles",require("../api/profiles"));
 
+router.use("/etls",require("../api/etls"));
+
 router.use("/events",require("../api/events"));
 
 router.use("/login",require("../api/login"));
@@ -39,7 +41,11 @@ router.use("/profiles/:profile/contracts",require("../api/profile-contracts"));
 
 router.use("/profiles/:profile/dashboard",require("../api/profile-dashboard"));
 
+router.use("/profiles/:profile/etls",require("../api/profile-etls"));
+
 router.use("/profiles/:profile/events",require("../api/profile-events"));
+
+router.use("/profiles/:profile/import",require("../api/profile-import"));
 
 router.use("/profiles/:profile/payments",require("../api/profile-payments"));
 

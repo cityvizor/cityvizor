@@ -1,6 +1,7 @@
 var CronJob = require('cron').CronJob;
 var mongoose = require('mongoose');
 var moment = require("moment");
+var async = require("async");
 
 var config = require("./config/config");
 
@@ -9,6 +10,9 @@ console.log("Started at " + moment().format("D. M. YYYY, H:mm:ss") + ".");
 
 var job = new CronJob({
   cronTime: config.cron.time,//'00 00 01 * * *',
+  start: true, /* Start the job right now */
+  runOnInit: true,
+  timezone: 'Europe/Prague', /* Time zone of this job. */
   onTick: function() {
 
     try {
@@ -27,37 +31,32 @@ var job = new CronJob({
       tasks.push({exec: require("./cron/export-payments-csv"), name: "Export payments to CSV"});
       tasks.push({exec: require("./cron/download-contracts"), name: "Download contacts from https://smlouvy.gov.cz/"});
       tasks.push({exec: require("./cron/download-noticeboard"), name: "Download notice board documents from https://eDesky.cz/"});
+      tasks.push({exec: require("./cron/autoimports"), name: "Process auto imports of data"});
 
+      // function to run each task
+      var runTask = (task,cb) => {
+        console.log("===================================");
+        console.log("Task: " + task.name);
+
+        task.exec((err) => {
+          if(err) console.error("Error: " + err.message);
+          else console.log("Task finished.");
+          setTimeout(cb,config.cron.jobDelay * 500);
+        });
+      }
+      
       console.log("Starting tasks...");
+      
       // loop through the tasks one by one
-      runTaskLoop(tasks,1,() => {
-
+      async.mapSeries(tasks,runTask,() => {
         console.log("Disconnecting DB");
         mongoose.disconnect(() => {
           console.log("Finished at " + moment().format("D. M. YYYY, H:mm:ss") + "!");
         });
-
       });
     }
     catch(err) {
-      console.log(err);
+      console.error(err);
     }
-  },
-  start: true, /* Start the job right now */
-  runOnInit: true,
-  timezone: 'Europe/Prague' /* Time zone of this job. */
+  }
 });
-
-function runTaskLoop(tasks,counter,cb){
-  let task = tasks.shift();
-
-  console.log("===================================");
-  console.log("Task #" + counter + ": " + task.name);
-
-  task.exec(() => {
-    console.log("Task finished.");
-
-    if(tasks.length) setTimeout(() => runTaskLoop(tasks,counter + 1,cb),config.cron.jobDelay * 1000);
-    else return cb();
-  });
-}

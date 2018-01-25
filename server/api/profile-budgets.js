@@ -14,8 +14,7 @@ var upload = multer({ dest: config.storage.tmpDir });
 var fs = require("fs");
 var path = require("path");
 
-var BudgetImporter = require("../importers/budget");
-
+var Profile = require("../models/profile");
 var Budget = require("../models/expenditures").Budget;
 var Event = require("../models/expenditures").Event;
 var Payment = require("../models/expenditures").Payment;
@@ -24,8 +23,10 @@ router.get("/", acl("profile-budgets","list"), (req,res) => {
 	
 	var query = Budget.find({profile:req.params.profile});
 	
-	query.select("year validity budgetExpenditureAmount budgetIncomeAmount expenditureAmount incomeAmount");
+	query.select("year budgetExpenditureAmount budgetIncomeAmount expenditureAmount incomeAmount");
+	query.populate("etl","validity success");
 	
+	if(req.query.limit) query.limit(req.query.limit);
 	if(req.query.sort) query.sort(req.query.sort);
 	
 	query
@@ -51,38 +52,51 @@ var budgetSchema = {
 };
 
 router.put("/:year", schema.validate({body: budgetSchema}), upload.fields([{ name:"eventsFile", maxCount: 1 }, { name:"expendituresFile", maxCount: 1 }]), acl("profile-events", "write"), acl("profile-budgets", "write"), (req,res) => {
-	
+	/*
 	if(!req.files || !req.files.eventsFile || !req.files.expendituresFile) return res.status(400).send("Chybí nahrávaný soubor.");
 	
 	if(path.extname(req.files.eventsFile[0].originalname) !== ".csv") return res.status(400).send("Nesprávný formát číselníku akcí. Soubory musí být ve formátu CSV.");
 	if(path.extname(req.files.expendituresFile[0].originalname) !== ".csv") return res.status(400).send("Nesprávný formát datového souboru. Soubory musí být ve formátu CSV.");
+
+	var warnings = [];
 	
-	var params = {
-		profileId: req.params.profile,
-		year: req.params.year,
-		validity: req.body.validity,
-		eventsFile: req.files.eventsFile[0].path,
-		expendituresFile: req.files.expendituresFile[0].path
-	};
+	var parser = new Parser_NativeCSV(req.files.eventsFile[0].path, req.files.expendituresFile[0].path);
+	parser.on("warning",warning => warnings.push(warning));
 	
-	var budgetImporter = new BudgetImporter();
+	var writer = new ImportWriter(req.params.profile,req.params.year);
+	writer.on("warning",warning => warnings.push(warning));
 	
-	budgetImporter.import(params)
-		.then(result => {
+	parser.parseTo(writer)
+		.then(() => {
 		
-			fs.rename(req.files.eventsFile[0].path,config.storage.importsDir + "/" + params.profileId + "-" + params.year + ".events.csv",() => {});
-			fs.rename(req.files.expendituresFile[0].path,config.storage.importsDir + "/" + params.profileId + "-" + params.year + ".data.csv",() => {});
+			// send response
+			res.json({success: true, warnings: warnings, error: null});
 		
-			return res.json(result);
+			// delete uploaded files
+			fs.unlink(req.files.eventsFile[0].path,err => {});
+			fs.unlink(req.files.expendituresFile[0].path,err => {});
+			
+			// save info about new data
+			Profile.findOne({profile: req.params.profile})
+				.then(profile => {
+					let budgets = profile.budgets.filter(budget => budget.year !== Number(req.params.year));
+					budgets.push({year: req.params.year, validity: req.body.validity, lastCheck: new Date()});
+					profile.budgets = budgets;
+					profile.save();
+				})
+				.catch(err => console.error("Error when updating profile budgets info: " + err.message));
+		
 		})
 		.catch(err => {
-		
-			fs.unlink(req.files.eventsFile[0].path,() => {});
-			fs.unlink(req.files.expendituresFile[0].path,() => {});
-		
-			return res.status(400).send(err.message);
+			
+			// delete uploaded files
+			fs.unlink(req.files.eventsFile[0].path,err => {});
+			fs.unlink(req.files.expendituresFile[0].path,err => {});
+			
+			// send response
+			res.status(400).send(err.message);
 		});
-	
+	*/
 });
 
 router.delete("/:year", acl("profile-budgets", "write"), (req,res) => {

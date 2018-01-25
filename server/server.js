@@ -71,11 +71,14 @@ app.use((err, req, res, next) => {
 
 	else if (err.name === 'JsonSchemaValidation') {
 		console.log("API Error: " + err.message);
-		console.log(err.validations.query);
+		console.log(JSON.stringify(err.validations));
 		res.status(400).send("API Error: " + err.message);
 	}
 
-	else next(err);
+	else {
+		res.status(500).send("Internal Server Error");
+		console.error(err.message);
+	}
 
 });
 

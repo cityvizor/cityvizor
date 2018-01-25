@@ -20,6 +20,11 @@ module.exports = {
 		"list": true
 	},
 	
+	"profile-etls": {
+		"read": false,
+		"list": false
+	},
+	
 	"profile-events": {
 		"read": true,
 		"list": true

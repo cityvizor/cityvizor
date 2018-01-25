@@ -16,7 +16,22 @@ var profileSchema = mongoose.Schema({
 	"dataBox": String,
 	"edesky": Number,
 	"mapasamospravy": Number,
-	"gps":[Number,Number]
+	"gps":[Number,Number],
+	
+	"budgets": [{
+		"year": Number,
+		"lastCheck": Date,
+		"validity": Date
+	}],
+	
+	"contracts": {
+		"lastUpdate": Date
+	},
+	
+	"noticeboards": {
+		"lastUpdate": Date
+	}
+	
 });
 profileSchema.index({ url: 1 });
 

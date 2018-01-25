@@ -39,7 +39,7 @@ export class DashboardComponent {
 		this.dataService.getProfileContracts(this.profile._id,{limit:5,sort:"-date"})
 			.then(contracts => this.contracts = contracts)
 		
-		this.dataService.getProfileBudgets(this.profile._id,{limit:4,sort:"-year"})
+		this.dataService.getProfileBudgets(this.profile._id,{limit:3,sort:"-year"})
 			.then(budgets => this.budgets = budgets)
 			.then(budgets => {
 				/*budgets.map(budget => this.maxExpenditureAmount = Math.max(this.maxExpenditureAmount,budget.expenditureAmount));
