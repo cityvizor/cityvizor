@@ -96,17 +96,25 @@
 			<div class="form-group">
 				<label for="name" class="col-sm-3 control-label">Formát souboru</label>
 				<div class="col-sm-9">
-					<select class="form-control" name="importer" [ngModel]="settings.etl.importer" required>
+					<select class="form-control" name="importer" [(ngModel)]="settings.etl.importer" required>
 						<option value="internet-stream">Internet Stream</option>
-						<option value="cityvizor">CityVizor</option>
+						<option value="cityvizor-v1">CityVizor v1</option>
+						<option value="cityvizor-v2">CityVizor v2</option>
 					</select>
 				</div>
 			</div>
 			
 			<div class="form-group">
-				<label for="name" class="col-sm-3 control-label">URL</label>
+				<label for="dataFile" class="col-sm-3 control-label">Datový soubor</label>
 				<div class="col-sm-9">
-					<input type="url" class="form-control" name="url" [ngModel]="settings.etl.url">
+					<input type="url" class="form-control" name="dataFile" [ngModel]="settings.etl.dataFile">
+				</div>
+			</div>
+			
+			<div *ngIf="settings.etl.importer==='cityvizor-v1'" class="form-group">
+				<label for="eventsFile" class="col-sm-3 control-label">URL číselníku akcí</label>
+				<div class="col-sm-9">
+					<input type="url" class="form-control" name="eventsFile" [ngModel]="settings.etl.eventsFile">
 				</div>
 			</div>
 
@@ -149,7 +157,12 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		<p>Potvrzením dojde ke smazání veškerých dat souvisejících s tímto rozpočtovým rokem.</p>
+		<div class="row">
+			<div class="col-md-offset-2 col-md-8">
+				<p><input type="radio" name="deleteType" id="deleteTypeDelete" value="delete" [(ngModel)]="delete.type"> <label for="deleteTypeDelete">Smazat rozpočtový rok včetně všech dat.</label></p>
+				<p><input type="radio" name="deleteType" id="deleteTypeTruncate" value="truncate" [(ngModel)]="delete.type"> <label for="deleteTypeTruncate">Smazat pouze data.</label></p>
+			</div>
+		</div>
 		<p class="alert alert-danger text-center"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Tato akce je nevratná! <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></p>
 	</div>
 	<div class="modal-footer">
@@ -165,13 +178,20 @@
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
-	<form class="form-horizontal" #uploadForm="ngForm" (ngSubmit)="import(upload.etl,importFile,uploadForm)">
+	<form class="form-horizontal" #uploadForm="ngForm" (ngSubmit)="import(upload.etl,dataFile,eventsFile,uploadForm)">
 		<div class="modal-body">
-
+			
 			<div class="form-group">
-				<label for="name" class="col-sm-3 control-label">Soubor</label>
+				<label for="dataFile" class="col-sm-3 control-label">Datový soubor</label>
 				<div class="col-sm-9">
-					<input type="file" accept=".csv,text/csv" class="form-control" required name="file" #importFile>
+					<input type="file" accept=".csv,text/csv" class="form-control" required name="dataFile" #dataFile>
+				</div>
+			</div>
+			
+			<div [hidden]="upload.etl.importer!=='cityvizor-v1'" class="form-group">
+				<label for="eventsFile" class="col-sm-3 control-label">Číselník akcí</label>
+				<div class="col-sm-9">
+					<input type="file" accept=".csv,text/csv" class="form-control" required name="eventsFile" #eventsFile>
 				</div>
 			</div>
 

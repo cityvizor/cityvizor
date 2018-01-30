@@ -9,7 +9,8 @@ var ImportWriter = require("../import/writer.db");
 
 const importers = {
   "internet-stream": require("../import/importers/importer.internet-stream"),
-  "cityvizor": require("../import/importers/importer.cityvizor")
+  "cityvizor-v1": require("../import/importers/importer.cityvizor-v1"),
+  "cityvizor-v2": require("../import/importers/importer.cityvizor-v2")
 };
 
 class Importer {
@@ -20,7 +21,10 @@ class Importer {
     
     this.profileId = etl.profile._id || etl.profile;
     
-    this.validity = options && options.validity || null;
+    this.validity = null;
+    if(options && options.validity){
+      this.validity = new Date(options.validity) || null
+    }
     this.userId = options && options.userId || null;
     this.autoImport = options ? !!options.autoImport : false;
     
@@ -39,7 +43,7 @@ class Importer {
     var importer;
   }  
 
-  import(source,path,cb){
+  import(source,files,cb){
     
     this.source = source;
     
@@ -50,8 +54,8 @@ class Importer {
       cb => this.createImporter(cb),
 
       (importer,cb) => {
-        if(source === "url") return importer.importUrl(path,cb);
-        if(source === "file") return importer.importFile(path,cb);
+        if(source === "url") return importer.importUrl(cb);
+        if(source === "file") return importer.importFile(files,cb);
       },
 
       (modified,cb) => {
@@ -72,12 +76,11 @@ class Importer {
     });
   }
   
-  importFile(path,cb){
-    
-    return this.import("file",path,cb);
+  importFile(files,cb){
+    return this.import("file",files,cb);
   }
-  importUrl(url,cb){
-    return this.import("url",url,cb);
+  importUrl(cb){
+    return this.import("url",null,cb);
   }
 
   init(cb){
@@ -144,6 +147,7 @@ class Importer {
         let validity = this.validity || (result.validity ? new Date(result.validity) : null) || (result.lastModified ? new Date(result.lastModified) : new Date());
         let lastModified = result.lastModified ? new Date(result.lastModified) : null;
 
+        
         etl.warnings = this.warnings;
         etl.validity = validity;
         etl.lastModified = lastModified;

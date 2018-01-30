@@ -28,7 +28,7 @@ export class ProfileAdminImportComponent {
 	history:{ etl:ETL, etllogs:ETLLog[], pager:Pager } = { etl: new ETL(), etllogs: [], pager: new Pager() };
 	settings:{etl:ETL} = {etl: new ETL()};
 	upload:{etl:ETL, today:Date} = {etl: new ETL(), today: new Date()};
-	delete:{etl:ETL} = {etl: new ETL()};
+	delete:{etl:ETL, type:string} = {etl: new ETL(), type: "truncate"};
 	
 	importResult:any;
 	
@@ -158,7 +158,6 @@ export class ProfileAdminImportComponent {
 		this.dataService.saveProfileETL(this.profile._id,this.settings.etl._id,data)
 			.then(etl_new => {
 				Object.assign(etl,etl_new);
-				console.log(etl);
 				this.modalRef.hide();
 				this.toastService.toast("Uloženo.","notice");
 			})
@@ -167,12 +166,12 @@ export class ProfileAdminImportComponent {
 	
 	/* DELETE POPUP */
 	openDelete(etl:ETL,popup){
-		this.delete = {etl:etl};
+		this.delete = {etl: etl, type: "truncate"};
 		this.modalRef = this.modalService.show(popup);
 	}
 
 	deleteETL(etl){
-		this.dataService.deleteProfileETL(this.profile._id,etl._id)
+		this.dataService.deleteProfileETL(this.profile._id,etl._id,{type: this.delete.type})
 			.then(() => {
 				this.modalRef.hide();
 				this.toastService.toast("Smazáno.","notice");
@@ -181,11 +180,12 @@ export class ProfileAdminImportComponent {
 			.catch(err => this.toastService.toast("Chyba: " + err.message,"error"));
 	}
 	
-	import(etl,fileInput,form){
+	import(etl,dataFile,eventsFile,form){
 		
-		let file = fileInput.files[0];
+		dataFile = dataFile.files[0];
+		eventsFile = eventsFile.files[0];
 		
-		if(!file || !form.valid){
+		if(!dataFile || (etl.importer === "cityvizor-v1" && !eventsFile) || !form.valid){
 			this.toastService.toast("Formulář není správně vyplněn.","error");
 			return;
 		}
@@ -195,7 +195,8 @@ export class ProfileAdminImportComponent {
 		let data = form.value;
 		
 		formData.set("validity",data.validity);
-		formData.set("file",file,file.name);
+		formData.set("dataFile",dataFile,dataFile.name);
+		if(etl.importer === "cityvizor-v1") formData.set("eventsFile",eventsFile,eventsFile.name);
 		
 		this.dataService.uploadProfileImport(this.profile._id,etl._id,formData)
 			.then(() => {

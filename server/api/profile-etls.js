@@ -41,7 +41,6 @@ var etlCreateSchema = {
 
 router.post("/", schema.validate({body: etlCreateSchema}), acl("profile-etls","write"), (req,res,next) => {
 	var data = {profile: req.params.profile,year: req.body.year};
-	console.log(data);
 	
 	ETL.create(data)
 		.then(etl => res.json(etl))
@@ -88,14 +87,25 @@ router.delete("/:etl", acl("profile-etls", "write"), (req,res,next) => {
 				});
 			}));
 
-			Promise.all(queries)
-				.then(() => {
+		Promise.all(queries)
+			.then(() => {
+
+				if(req.query.type === "truncate"){
+					etl.validity = null;
+					etl.save()
+						.then(() => res.sendStatus(200))
+						.catch(err => next(err));
+				}
+				else{
 					ETL.remove({_id:etl._id})
 						.then(() => res.sendStatus(200))
 						.catch(err => next(err));
-				})
-				.catch(err => next(err));
-		
+				}
+			
+			})
+			.catch(err => next(err));
+
+
 		})
 		.catch(err => next(err));
 	

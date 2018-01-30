@@ -14,8 +14,8 @@ const headerNames = {
   type: ["type","recordType","MODUL","DOKLAD_AGENDA"],
   paragraph: ["paragraph","PARAGRAF"],
   item: ["item","POLOZKA"],
-  event: ["event","AKCE","ORG"],
-  eventName: ["event","AKCE_NAZEV","ORG"],
+  eventId: ["eventId","event","AKCE","ORG"],
+  eventName: ["event","AKCE_NAZEV"],
   amount: ["amount","CASTKA"],
   date: ["date","DATUM","DOKLAD_DATUM"],
   counterpartyId: ["counterpartyId","SUBJEKT_IC"],
@@ -37,41 +37,50 @@ class Importer extends EventEmitter {
     this.error;
   }
   
-  importUrl(url,cb){
+  importUrl(cb){
     
+    let url = this.etl.dataFile;
     if(!url) return cb(new Error("Missing url"));
 
-    var downloader = this.createDownloadStream(url);
+    var downloader = this.createDownloader(url);
     downloader.on("error",(err,res,body) => this.error = err);
     
     var parser = this.createParser();
     parser.on("error",(err,res,body) => this.error = err);
-    parser.on("end",cb());
+    parser.on("end", () => cb(null,this.modified));
     
     var reader = this.createReader();
     
     downloader.pipe(parser).pipe(reader);
   }
   
-  importFile(path,cb){
-    if(!path) return cb(new Error("Missing file path"));
-
-    var file = fs.createReadStream(path);
+  importFile(files,cb){
     
-    var parser = csvparse({delimiter: this.etl.delimiter, columns: this.parseHeader});
-    parser.on("error",err => cb(err,true)); //true means modified
-    parser.on("end",() =>cb(null,true));
+    if(!files.dataFile) return cb(new Error("Missing file path"));
+
+    var file = fs.createReadStream(files.dataFile);
+    
+    var parser = this.createParser();
+    parser.on("end",() => cb(null,true));
     
     var reader = this.createReader();
     
     file.pipe(parser).pipe(reader);
+  }
+  
+  createParser(cb){
+    
+    var parser = csvparse({delimiter: this.etl.delimiter, columns: this.parseHeader});
+    parser.on("error",err => this.error = err);
+    
+    return parser;
   }
     
   createDownloader(url){
 
     // request definition
     var httpOptions = {
-      url: this.url,
+      url: url,
       headers: {},
       gzip: true
     }
@@ -102,11 +111,6 @@ class Importer extends EventEmitter {
     });
     
     return downloader;
-  }
-  
-  createParser(cb){
-    var parser = csvparse({delimiter: this.etl.delimiter, columns: this.parseHeader});
-    return parser;
   }
   
   createReader(){
@@ -143,17 +147,17 @@ class Importer extends EventEmitter {
 
     // emit event - must be before balance!
     if(record.event && record.eventName){
-      let event = { srcId: record.event, name: record.eventName };
+      let event = { id: record.eventId, name: record.eventName };
       this.emit("event",event);
     }
 
     // emit balance
-    var balance = ["type","paragraph","item","event","amount"].reduce((bal,key) => (bal[key] = record[key],bal),{});
+    var balance = ["type","paragraph","item","eventId","amount"].reduce((bal,key) => (bal[key] = record[key],bal),{});
     this.emit("balance",balance);
 
     // emit payment
     if(balance.type === "KDF" || balance.type === "KOF"){
-      let payment = ["type","paragraph","item","event","amount","date","counterpartyId","counterpartyName","description"].reduce((bal,key) => (bal[key] = record[key],bal),{});
+      let payment = ["type","paragraph","item","eventId","amount","date","counterpartyId","counterpartyName","description"].reduce((bal,key) => (bal[key] = record[key],bal),{});
       this.emit("payment",payment);
     }
   }

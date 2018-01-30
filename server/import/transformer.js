@@ -68,16 +68,16 @@ class ImportTransformer extends EventEmitter {
 	
 	writeEvent(event) {
 		
-		if(!event.name || !event.name.trim()) { this.emit("warning","Akce č. " + event.srcId + ": Neuveden název, záznam byl ignorován."); return; }
+		if(!event.name || !event.name.trim()) { this.emit("warning","Akce č. " + event.id + ": Neuveden název, záznam byl ignorován."); return; }
 
-		if(this.eventIndex[event.srcId]) return;
+		if(this.eventIndex[event.id]) return;
 		
-		this.eventIndex[event.srcId] = {
+		this.eventIndex[event.id] = {
 			_id: mongoose.Types.ObjectId(),
 			profile: this.etl.profile,
 			year: this.etl.year,
 			etl: this.etl._id,
-			srcId: event.srcId,
+			srcId: event.id,
 			name: event.name,
 			description: event.description,
 			gps: event.gpsY && event.gpsX ? [ event.gpsY, event.gpsX] : null,
@@ -89,9 +89,9 @@ class ImportTransformer extends EventEmitter {
 			incomeAmount: 0
 		};
 
-		this.events.push(this.eventIndex[event.srcId]);
+		this.events.push(this.eventIndex[event.id]);
 		
-		this.emit("event",this.eventIndex[event.srcId]);
+		this.emit("event",this.eventIndex[event.id]);
 
 	}
 
@@ -123,7 +123,7 @@ class ImportTransformer extends EventEmitter {
 
 		/* UPDATE AMOUNTS */
 		let budget = this.budget;
-		let event = this.eventIndex[r.event];
+		let event = this.eventIndex[r.eventId];
 
 		if(isIncome){
 
@@ -154,7 +154,7 @@ class ImportTransformer extends EventEmitter {
 		if(!payment.date) this.emit("warning","Záznam " + payment.id + ": Neuvedeno datum u platby.");
 		if(payment.counterpartyId && !payment.counterpartyName) this.emit("warning","Záznam " + payment.id + ": Neuvedeno jméno dodavatele u platby.");
 		
-		let event = this.eventIndex[payment.event];
+		let event = this.eventIndex[payment.eventId];
 		
 		this.payments.push({
 			profile: this.etl.profile,

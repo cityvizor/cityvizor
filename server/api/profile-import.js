@@ -22,10 +22,10 @@ var importUploadSchema = {
 
 var upload = multer({ dest: config.storage.tmpDir });
 
-router.put("/:etl/upload", schema.validate({body: importUploadSchema}), upload.single("file"), acl("profile-import","write"), (req,res,next) => {
+router.put("/:etl/upload", schema.validate({body: importUploadSchema}), upload.fields([{name:"dataFile",maxCount:1},{name:"eventsFile",maxCount:1}]), acl("profile-import","write"), (req,res,next) => {
 	
 	// When file missing throw error immediately
-	if(!req.file) return next(new Error("Missing file"));
+	if(!req.files.dataFile) return next(new Error("Missing data file"));
 
 	ETL.findOne({_id: req.params.etl})
 		.then(etl => {
@@ -38,9 +38,14 @@ router.put("/:etl/upload", schema.validate({body: importUploadSchema}), upload.s
 			importer.validity = req.body.validity;
 			importer.userId = req.user ? req.user._id : null;
 		
+			var files = {
+				dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,
+				eventsFile: req.files.eventsFile ? req.files.eventsFile[0].path : null
+			};
+		
 			var tasks = [
 
-				cb => importer.importFile(req.file.path,cb),
+				cb => importer.importFile(files,cb),
 
 				(result,cb) => fs.unlink(req.file.path,err => (!err || err.code == 'ENOENT' ? cb() : cb(err))),
 

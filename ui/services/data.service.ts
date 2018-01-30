@@ -92,8 +92,8 @@ export class DataService {
 	saveProfileETL(profileId,etlId,data){
 		return this.http.put<any>("/api/profiles/" + profileId + "/etls/" + etlId,data).toPromise();
 	}
-	deleteProfileETL(profileId,etlId){
-		return this.http.delete("/api/profiles/" + profileId + "/etls/" + etlId, { responseType: 'text' }).toPromise();
+	deleteProfileETL(profileId,etlId,options?){
+		return this.http.delete("/api/profiles/" + profileId + "/etls/" + etlId + toParams(options), { responseType: 'text' }).toPromise();
 	}
 
 	/* EVENTS */

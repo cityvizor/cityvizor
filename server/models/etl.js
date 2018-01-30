@@ -9,7 +9,8 @@ var etlSchema =  mongoose.Schema({
 	
 	"enabled": Boolean,
 	"importer": String,
-	"url": String,
+	"dataFile": String,
+	"eventsFile": String,
 	"delimiter": String,
 
 	"status": String,
@@ -22,6 +23,6 @@ var etlSchema =  mongoose.Schema({
 
 });
 etlSchema.index({ profile: 1, year: -1 }, {unique: true});
-etlSchema.index({ visible: 1 });
+etlSchema.index({ profile: 1, visible: 1 });
 
 module.exports = mongoose.model('ETL', etlSchema);

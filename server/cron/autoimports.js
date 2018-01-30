@@ -19,8 +19,10 @@ function runImport(etl,cb) {
 
 	var importer = new Importer(etl);
 	importer.autoImport = true;
+	
+	var options = {};
 
-	importer.importUrl(etl.url,(err,result) => {
+	importer.importUrl((err,result) => {
 		if(err) console.log("Error: " + err.message);
 		else console.log(result);
 		cb();

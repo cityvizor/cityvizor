@@ -16,7 +16,9 @@ class Importer extends EventEmitter {
     
     this.etl = etl;    
     
-    this.url = etl.url;
+    this.url = etl.dataFile;
+    if(!this.url) return cb(new Error("Missing url in etl settings"));
+    
     this.lastModified = etl.lastModified;
     this.etag = etl.etag;
     
@@ -33,13 +35,27 @@ class Importer extends EventEmitter {
     };
   }
   
-  importUrl(url,cb){
+  importUrl(cb){
     
-    if(!url) return cb(new Error("Missing url in etl settings"));
-
     var tasks = [
       (cb) => this.createTempDir(cb),
       (cb) => this.download(cb),
+      (cb) => this.unzip(cb),
+      (cb) => this.parse(cb),
+      (cb) => this.cleanup(cb)
+    ];
+    
+    async.series(tasks,err => cb(err,this.modified));
+    
+  }
+  
+  importFile(files,cb){
+    
+    if(!files.dataFile) return cb(new Error("Missing file path"));
+
+    var tasks = [
+      (cb) => this.createTempDir(cb),
+      (cb) => fs.rename(files.dataFile,this.zipFile,cb),
       (cb) => this.unzip(cb),
       (cb) => this.parse(cb),
       (cb) => this.cleanup(cb)
@@ -154,7 +170,7 @@ class Importer extends EventEmitter {
       let amount = Number(chunk.POLOZKA) > 5000 ? chunk.CASTKA_DAL - chunk.CASTKA_MD : chunk.CASTKA_MD - chunk.CASTKA_DAL;
 
       if(chunk.ORGANIZACE && chunk.ORGANIZACE_NAZEV){
-        let event = { srcId: chunk.ORGANIZACE, name: chunk.ORGANIZACE_NAZEV };
+        let event = { id: chunk.ORGANIZACE, name: chunk.ORGANIZACE_NAZEV };
         this.emit("event",event);
       }
 
