@@ -62,25 +62,8 @@ app.use("/api",require("./routers/api"));
 // serve static files
 app.use(require("./routers/static"));
 
-app.use((err, req, res, next) => {
-
-	if (err.name === 'UnauthorizedError') {
-		res.status(err.status);
-		res.send("Unauthorized" + (err.message ? ": " + err.message : ""));
-	}
-
-	else if (err.name === 'JsonSchemaValidation') {
-		console.log("API Error: " + err.message);
-		console.log(JSON.stringify(err.validations));
-		res.status(400).send("API Error: " + err.message);
-	}
-
-	else {
-		res.status(500).send("Internal Server Error");
-		console.error(err.message);
-	}
-
-});
+// error handling
+app.use(require("./middleware/error-handler"));
 
 
 /* SET UP SERVER */
