@@ -178,7 +178,7 @@ class Importer extends EventEmitter {
         type: file === "RU.csv" ? "ROZ" : chunk["DOKLAD_AGENDA"],
         paragraph: chunk["PARAGRAF"],
         item: chunk["POLOZKA"],
-        event: chunk["ORGANIZACE"],
+        eventId: chunk["ORGANIZACE"],
         amount: amount
       };
       
