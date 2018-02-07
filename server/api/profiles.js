@@ -6,6 +6,7 @@ var config = require("../config/config");
 
 var multer = require('multer');
 var upload = multer({ dest: config.storage.tmpDir });
+var mime = require('mime-types')
 
 var fs = require("fs");
 var path = require("path");
@@ -75,7 +76,7 @@ router.get("/:profile/avatar", acl("profile-image","read"), (req,res,next) => {
 	Profile.findOne({_id:req.params.profile}).select("avatar")
 		.then(profile => {
 			if(!profile || !profile.avatar) return res.sendStatus(404);
-			if(profile.avatar.mime) res.contentType(profile.avatar.mime);
+			if(profile.avatar.mimeType) res.contentType(profile.avatar.mimeType);
 			res.send(profile.avatar.data);
 		})
 		.catch(err => next(err));
@@ -93,7 +94,7 @@ router.put("/:profile/avatar", upload.single("avatar"), acl("profile-image","wri
 	var data = {
 		avatar: {
 			data: fs.readFileSync(req.file.path),
-			type: req.file.mimetype,
+			mimeType: mime.lookup(req.file.originalname) || null,
 			name: req.file.originalname
 		}
 	};

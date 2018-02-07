@@ -33,6 +33,7 @@
     "extract-zip": "^1.6.6",
     "https": "^1.0.0",
     "jsonwebtoken": "^8.1.1",
+    "mime-types": "^2.1.17",
     "minimist": "^1.2.0",
     "moment": "^2.20.1",
     "mongodb": "^3.0.2",

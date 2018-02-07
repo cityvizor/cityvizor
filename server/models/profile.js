@@ -11,7 +11,7 @@ var profileSchema = mongoose.Schema({
 	"email": String,
 	"avatar": {
 		"data": {type: Buffer, select:false},
-		"mime": String,
+		"mimeType": String,
 		"name": String
 	},
 	
