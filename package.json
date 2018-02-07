@@ -1,12 +1,14 @@
 {
-  "name": "cityvizor-server",
-  "version": "1.3.0",
+  "name": "cityvizor",
+  "version": "1.2.0",
   "description": "",
   "homepage": "https://cityvizor.cz/",
   "repository": "otevrena-data-mfcr/CityVizor",
   "main": "server/server.js",
   "scripts": {
-    "start": "NODE_ENV=production node server/server.js",
+    "start": "npm run prod",
+    "prod": "NODE_ENV=production node server/server.js",
+    "cron": "NODE_ENV=production node server/cron.js",
     "dev": "NODE_ENV=development nodemon server/server.js"
   },
   "keywords": [
@@ -15,7 +17,8 @@
     "faktury"
   ],
   "dependencies": {
-    "archiver": "^2.1.0",
+    "archiver": "^2.1.1",
+    "async": "^2.6.0",
     "batch-stream": "^0.1.3",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
@@ -27,16 +30,19 @@
     "express-dynacl": "^1.0.0",
     "express-jsonschema": "^1.1.6",
     "express-jwt": "^5.1.0",
-    "intl": "^1.2.5",
-    "jsonwebtoken": "^8.1.0",
+    "extract-zip": "^1.6.6",
+    "https": "^1.0.0",
+    "jsonwebtoken": "^8.1.1",
     "minimist": "^1.2.0",
-    "moment": "^2.19.4",
-    "mongodb": "^2.2.33",
-    "mongoose": "^4.13.7",
+    "moment": "^2.20.1",
+    "mongodb": "^3.0.2",
+    "mongoose": "^5.0.3",
     "mongoose-paginate": "^5.0.3",
     "mongoose-write-stream": "0.0.0",
     "multer": "^1.3.0",
     "path": "^0.12.7",
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^2.6.2",
     "simple-get": "^2.7.0",
     "stream-transform": "^1.0.0",
     "xml2js": "^0.4.19"

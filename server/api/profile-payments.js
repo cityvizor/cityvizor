@@ -1,39 +1,43 @@
 var express = require('express');	
-var app = express();
 var mongoose = require("mongoose");
 
 var router = express.Router({mergeParams: true});
 
 var acl = require("express-dynacl");
 
+var etlFilter = require("../middleware/etl-filter");
+
 var Payment = require("../models/expenditures").Payment;
 
-router.get("/", acl("profile-payments", "list"), (req,res) => {
-	
-	var query = {};
-	query.profile = req.params.profile;
+router.get("/", etlFilter({visible:true}), acl("profile-payments", "list"), (req,res,next) => {
+
+	var query = {
+		profile: req.params.profile,
+		etl: {$in: req.etls}
+	};
+
 	if(req.query.dateFrom || req.query.dateTo){
 		query.date = {};
 		if(req.query.dateFrom) query.date.$gte = new Date(req.query.dateFrom);
 		if(req.query.dateTo) query.date.$lt = new Date(req.query.dateTo);
 	}
-	
+
 	var options = {};
 	options.page = req.query.page || 1;
 	if(req.query.sort) options.sort = req.query.sort;
 	options.limit = req.query.limit ? Math.min(100,Number(req.query.limit)) : 20;
-							
+
 	Payment.paginate(query, options)
 		.then(payments => res.json(payments ? payments : []))
-		.catch(err => res.status(500).send(err.message));
-
+		.catch(err => next(err));
 });
 
-router.get("/months", acl("profile-payments", "list"), (req,res) => {
-	
+
+router.get("/months", etlFilter({visible:true}), acl("profile-payments", "list"), (req,res,next) => {
+
 	let aggregation = [
 		{
-			$match: { profile: mongoose.Types.ObjectId(req.params.profile), date: {$ne: null, $exists: true} }
+			$match: { profile: mongoose.Types.ObjectId(req.params.profile), etl: {$in: req.etls}, date: {$ne: null, $exists: true} }
 		},
 		{
 			$project: {year: { $year: "$date" }, month: { $month: "$date" }}
@@ -43,19 +47,19 @@ router.get("/months", acl("profile-payments", "list"), (req,res) => {
 			"months": { "$addToSet": { "year": "$year", "month": "$month" }}
 		}}
 	];
-	
+
 	Payment.aggregate(aggregation)
 		.then(result => {
 			if(!result[0]) return res.json([]);
 			res.json(result[0].months);
 		})
-		.catch(err => res.status(500).send(err.message));
+		.catch(err => next(err));
 	
 });
 
-router.get("/:year/csv", acl("profile-payments", "list"), (req,res) => {
+router.get("/:year/csv", etlFilter({visible:true}), acl("profile-payments", "list"), (req,res,next) => {
 	
-	Payment.find({profile: req.params.profile, year: req.params.year}).populate("event","_id srcId").lean()
+	Payment.find({profile: req.params.profile, year: req.params.year, etl: req.etls}).populate("event","_id srcId").lean()
 		.then(payments => {
 		
 			res.statusCode = 200;
