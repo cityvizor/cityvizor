@@ -12,9 +12,9 @@
 					<div class="row">
 						<div class="col-xs-9">
 							<h5 class="service-heading">
-								{{payment.counterpartyName}}
-								<small>
-										<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+ (payment.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES">ARES</a>
+								{{payment.counterpartyName || "Protistrana neuvedena"}}
+								<small *ngIf="payment.counterpartyId">
+									<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+ (payment.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES">ARES</a>
 								</small>
 							</h5>
 						</div>
