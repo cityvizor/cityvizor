@@ -7,7 +7,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "npm run prod",
-    "build": "ng build --prod --app=0 && ng build --prod --app=1",
+    "build": "ng build --prod",
     "prod": "NODE_ENV=production node server/server.js",
     "cron": "NODE_ENV=production node server/cron.js",
     "dev": "NODE_ENV=development concurrently \"ng build --watch --aot --progress false\" \"nodemon server/server.js\"",
@@ -29,7 +29,7 @@
     "@angular/platform-browser-dynamic": "^5.2.3",
     "@angular/platform-server": "^5.2.3",
     "@angular/router": "^5.2.3",
-    "@auth0/angular-jwt": "^1.0.0-beta.10",
+    "@auth0/angular-jwt": "^1.0.0-beta.9",
     "ajv": "^5.5.2",
     "archiver": "^2.1.1",
     "async": "^2.6.0",

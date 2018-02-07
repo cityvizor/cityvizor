@@ -5,7 +5,7 @@ var path = require("path");
 
 var router = express.Router();
 
-router.use('/dist', express.static("dist", {fallthrough: false, maxage: 10 * 60 * 1000})); // cache 10 min
+router.use('/', express.static("dist", {fallthrough: true, maxage: 10 * 60 * 1000})); // cache 10 min
 
 router.use('/assets', express.static("assets", {fallthrough: false, maxage: 60 * 60 * 1000})); // cache 1 hour
 
@@ -20,14 +20,9 @@ router.get('/favicon.ico',(req,res) => {
 	res.sendFile("assets/img/favicon/favicon.ico", { root: root });	
 });
 
-router.get('/embed/*',(req,res) => {
-	res.set('Cache-Control', 'public, max-age=600'); // cache 10 min
-	res.sendFile("dist/embed/embed.index.html", { root: root });	
-});
-
 router.get('*',(req,res) => {
 	res.set('Cache-Control', 'public, max-age=600'); // cache 10 min
-	res.sendFile("dist/app/app.index.html", { root: root });	
+	res.sendFile("dist/app.index.html", { root: root });	
 });
 
 module.exports = router;
