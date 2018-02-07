@@ -54,7 +54,6 @@ class Importer {
       cb => this.createImporter(cb),
 
       (importer,cb) => {
-        console.log(source);
         if(source === "url") return importer.importUrl(cb);
         if(source === "file") return importer.importFile(files,cb);
       },

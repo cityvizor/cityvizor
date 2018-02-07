@@ -20,15 +20,13 @@ var job = new CronJob({
       mongoose.Promise = global.Promise;
       mongoose.plugin(require('mongoose-write-stream'));
       mongoose.plugin(require('mongoose-paginate'));
-      mongoose.connect('mongodb://localhost/' + config.database.db, { useMongoClient: true });
+      
       console.log("DB connecting to database " + config.database.db);
 
       // set the tasks
       var tasks = [];
       
-      tasks.push({exec: require("./cron/export-profiles-csv"), name: "Export profiles to CSV"});
-      tasks.push({exec: require("./cron/export-budgets-csv"), name: "Export budget data to CSV"});
-      tasks.push({exec: require("./cron/export-payments-csv"), name: "Export payments to CSV"});
+      tasks.push({exec: cb => mongoose.connect('mongodb://localhost/' + config.database.db, cb), name: "Connect database"});
       tasks.push({exec: require("./cron/download-contracts"), name: "Download contacts from https://smlouvy.gov.cz/"});
       tasks.push({exec: require("./cron/download-noticeboard"), name: "Download notice board documents from https://eDesky.cz/"});
       tasks.push({exec: require("./cron/autoimports"), name: "Process auto imports of data"});

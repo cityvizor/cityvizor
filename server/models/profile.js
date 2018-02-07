@@ -9,7 +9,11 @@ var profileSchema = mongoose.Schema({
 	"url": String,
 	"name": String,
 	"email": String,
-	"avatarExt": String,
+	"avatar": {
+		"data": {type: Buffer, select:false},
+		"mime": String,
+		"name": String
+	},
 	
 	"zuj": String,
 	"ico": String,

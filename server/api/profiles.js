@@ -1,8 +1,14 @@
 var express = require('express');
-var app = express();
 
-var router = express.Router();
-module.exports = router;
+var router = module.exports = express.Router();
+
+var config = require("../config/config");
+
+var multer = require('multer');
+var upload = multer({ dest: config.storage.tmpDir });
+
+var fs = require("fs");
+var path = require("path");
 
 var acl = require("express-dynacl");
 
@@ -21,7 +27,7 @@ router.get("/", acl("profiles","list"), (req,res) => {
 	
 	var query = Profile.find();
 	
-	query.select(req.query.fields || "id name url status gps avatarExt");
+	query.select(req.query.fields || "id name url status gps");
 	
 	if(req.query.sort) query.sort(req.query.sort);
 	
@@ -62,4 +68,44 @@ router.put("/:profile", acl("profiles","write"), (req,res) => {
 		.then(profile => res.json(profile))
 		.catch(err => res.status(500).send(err.message));
 
+});
+
+router.get("/:profile/avatar", acl("profile-image","read"), (req,res,next) => {
+	
+	Profile.findOne({_id:req.params.profile}).select("avatar")
+		.then(profile => {
+			if(!profile || !profile.avatar) return res.sendStatus(404);
+			if(profile.avatar.mime) res.contentType(profile.avatar.mime);
+			res.send(profile.avatar.data);
+		})
+		.catch(err => next(err));
+});
+
+router.put("/:profile/avatar", upload.single("avatar"), acl("profile-image","write"), (req,res,next) => {
+	
+	if(!req.file) return res.status(400).send("Missing file.");
+	
+	var allowedTypes = [".png",".jpg",".jpe",".gif",".svg"];
+	var extname = path.extname(req.file.originalname).toLowerCase();
+	
+	if(allowedTypes.indexOf(extname) === -1) return res.status(400).send("Allowed file types are: " + allowedTypes.join(", "));
+	
+	var data = {
+		avatar: {
+			data: fs.readFileSync(req.file.path),
+			type: req.file.mimetype,
+			name: req.file.originalname
+		}
+	};
+
+	Profile.findOneAndUpdate({_id:req.params.profile},data)
+		.then(profile => res.sendStatus(200))
+		.catch(err => next(err));
+
+});
+
+router.delete("/:profile/avatar",acl("profile-image","write"), (req,res,next) => {
+	Profile.findOneAndUpdate({_id:req.params.profile},{avatar:null})
+		.then(profile => res.sendStatus(200))
+		.catch(err => next(err));
 });

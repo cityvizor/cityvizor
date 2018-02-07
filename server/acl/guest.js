@@ -30,6 +30,10 @@ module.exports = {
 		"list": true
 	},
 	
+	"profile-image": {
+		"read": true
+	},
+	
 	"profile-payments": {
 		"list": true
 	},
