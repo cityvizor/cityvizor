@@ -1,2 +1,2 @@
-.avatar img{width:160px;height:160px;}
-.avatar p.empty{padding: 60px 20px 0 20px;display: block;height:160px;background-color: #eee;text-align:center;}
+.avatar img{height:160px;}
+.avatar p.empty{padding: 60px 20px 0 20px;display: block;width:160px;height:160px;background-color: #eee;text-align:center;}
