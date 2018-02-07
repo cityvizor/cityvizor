@@ -81,7 +81,7 @@ router.get("/:etl/start", schema.validate({body: importStartSchema}), acl("profi
 			var importer = new Importer(etl);
 			importer.userId = req.user ? req.user._id : null;
 
-			importer.importUrl(etl.url,err => {
+			importer.importUrl(err => {
 				if(err) console.error(err.message);
 			});
 		

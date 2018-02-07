@@ -2,7 +2,7 @@
 
 <table *ngIf="etls.length > 0" class="table" [class.loading]="loading">
 	<thead>
-		<tr><th>Stav</th><th>Rok</th><th>Validita dat</th><th colspan="2">Poslední import</th><th colspan="3"></th></tr>
+		<tr><th>Stav</th><th>Rok</th><th>Validita dat</th><th colspan="2">Poslední kontrola</th><th colspan="3"></th></tr>
 	</thead>
 	<tbody>
 		<tr *ngFor="let etl of etls">
@@ -15,7 +15,8 @@
 			<td [title]="etl.lastCheck | date:'d. M. y, H:mm':'CET'">{{etl.lastCheck | date: 'd. M. y':'CET'}}</td>
 			<td [ngSwitch]="etl.status">
 				<span *ngSwitchCase="'pending'" class="text-warning"><i class="fa fa-play" aria-hidden="true"></i> Probíhá... (<a (click)="loadETLs()">obnovit</a>)</span>
-				<span *ngSwitchCase="'success'" class="text-success"><i class="fa fa-check" aria-hidden="true"></i> OK</span>
+				<span *ngSwitchCase="'success'" class="text-success"><i class="fa fa-check" aria-hidden="true"></i> Nová data</span>
+				<span *ngSwitchCase="'not modified'" class="text-success"><i class="fa fa-check" aria-hidden="true"></i> Nezměněno</span>
 				<span *ngSwitchCase="'error'" class="text-danger"><i class="fa fa-times" aria-hidden="true"></i> Chyba: {{etl.error}}</span>
 				<span *ngSwitchDefault>{{etl.status || "N/A"}}</span>
 			</td>

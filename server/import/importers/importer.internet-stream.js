@@ -88,12 +88,12 @@ class Importer extends EventEmitter {
     if(this.lastModified) httpOptions.headers["If-Modified-Since"] = (new Date(this.lastModified)).toGMTString();
     if(this.etag) httpOptions.headers["If-None-Match"] = this.etag;
 
-    var error = false;
+    var error = null;
     
     // create request
     var source = request(httpOptions);
 
-    source.on("error",(err,res,body) => cb(err));
+    source.on("error",(err,res,body) => error = err);
 
     // listen to response in order to store the modified header
     source.on('response', (res) => {
@@ -118,22 +118,19 @@ class Importer extends EventEmitter {
           break;
           
         case 404:
-          error = true;
-          cb(new Error("File not found."));
+          error = new Error("File not found.");
           break;
           
         default:
-          error = true;
-          cb(new Error("Unknown error."));
+          error = new Error("Unknown error.");
       }
       
       
     });
     
     var file = fs.createWriteStream(this.zipFile);
-    file.on("close",() => {
-      if(!error) cb();
-    });
+    file.on("error",(err,res,body) => error = err);
+    file.on("close",err => cb(err || error));
     
     source.pipe(file);
   }
@@ -161,10 +158,14 @@ class Importer extends EventEmitter {
 
   parseFile(file,cb){
 
-    var source = fs.createReadStream(path.join(this.folder,file));
-
-    var parser = csvparse({delimiter: this.etl.delimiter || ";", columns: true});
+    var error = false;
     
+    var source = fs.createReadStream(path.join(this.folder,file));
+    source.on("error", err => (error = true,cb(err)));
+    
+    var parser = csvparse({delimiter: this.etl.delimiter || ";", columns: true});
+    parser.on("error", err => (error = true,cb(err)));
+      
     parser.on("data", chunk => {
 
       let amount = Number(chunk.POLOZKA) > 5000 ? chunk.CASTKA_DAL - chunk.CASTKA_MD : chunk.CASTKA_MD - chunk.CASTKA_DAL;
@@ -198,7 +199,7 @@ class Importer extends EventEmitter {
 
     });
 
-    parser.on("end",cb);
+    parser.on("end",err => !error && cb(err));
 
     source.pipe(parser);
 

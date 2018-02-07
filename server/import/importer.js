@@ -54,12 +54,12 @@ class Importer {
       cb => this.createImporter(cb),
 
       (importer,cb) => {
+        console.log(source);
         if(source === "url") return importer.importUrl(cb);
         if(source === "file") return importer.importFile(files,cb);
       },
 
       (modified,cb) => {
-        
         if(modified) this.transformer.finish((err,data) => cb(null,modified,data))
         else cb(null,modified,null);
       },
@@ -137,26 +137,30 @@ class Importer {
       if(err) etllog.error = etl.error = err.message;
       else if(result) etllog.error = etl.error = result.statusCode + " " + result.statusMessage;
     }
-    else{
+    else if(modified){
 
       etl.status = "success";
       etl.error = null;
       
-      if(modified){
+      let validity = this.validity || (result.validity ? new Date(result.validity) : null) || (result.lastModified ? new Date(result.lastModified) : new Date());
+      let lastModified = result.lastModified ? new Date(result.lastModified) : null;
 
-        let validity = this.validity || (result.validity ? new Date(result.validity) : null) || (result.lastModified ? new Date(result.lastModified) : new Date());
-        let lastModified = result.lastModified ? new Date(result.lastModified) : null;
+      etl.warnings = this.warnings;
+      etl.validity = validity;
+      etl.lastModified = lastModified;
+      etl.etag = result.etag || null;
 
-        
-        etl.warnings = this.warnings;
-        etl.validity = validity;
-        etl.lastModified = lastModified;
-        etl.etag = result.etag || null;
+      etllog.validity = validity;
+      etllog.lastModified = lastModified;
 
-        etllog.validity = validity;
-        etllog.lastModified = lastModified;
-      }
     }
+    else{
+
+      etl.status = "not modified";
+      etl.error = null;
+
+    }
+     
 
 
     etl.save()

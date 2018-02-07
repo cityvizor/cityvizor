@@ -20,7 +20,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support urlencoded bodies
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/' + config.database.db, { useMongoClient: true });
+mongoose.connect('mongodb://localhost/' + config.database.db);
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
 mongoose.Promise = global.Promise;

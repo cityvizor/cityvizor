@@ -16,7 +16,7 @@ import { AppConfig } from '../../../config/app-config';
 	templateUrl: 'profile-admin-import.template.html',
 	styleUrls: ['profile-admin-import.style.css']
 })
-export class ProfileAdminImportComponent {
+export class ProfileAdminImportComponent implements OnChanges {
 
 	@Input()
 	profile:any;
@@ -35,15 +35,17 @@ export class ProfileAdminImportComponent {
 	config:any = AppConfig;
 
 	loading:boolean = false;
-	 
+	
 	constructor(private dataService: DataService, private toastService: ToastService,  private modalService: BsModalService) {
 	}
+	
 
 	ngOnChanges(changes:SimpleChanges){
 		if(changes.profile){
 			this.loadETLs();
 		}
 	}
+	
 
 	/* MAIN PAGE */
 	loadETLs(){
@@ -201,7 +203,7 @@ export class ProfileAdminImportComponent {
 		this.dataService.uploadProfileImport(this.profile._id,etl._id,formData)
 			.then(() => {
 				this.toastService.toast("Data byla nahrána na server, nyní jsou zpracovávána.", "notice");
-				this.loadETLs();
+				etl.status = "pending";
 				this.modalRef.hide();
 			})
 			.catch(err => this.toastService.toast("Nastala chyba při nahrávání dat: " + err.message,"error"));

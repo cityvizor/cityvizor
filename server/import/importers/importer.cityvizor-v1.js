@@ -38,8 +38,6 @@ class Importer extends EventEmitter {
     this.modified = false;
 
     this.result = {};
-
-    this.error = null;
   }
 
   importUrl(cb){
@@ -83,28 +81,34 @@ class Importer extends EventEmitter {
 
     ];
 
-    async.series(tasks,err => cb(err || this.error,true));
+    async.series(tasks,err => cb(err,true));
 
   }
 
   parseData(dataFile,cb){
 
+    var error = false;
+    
     var parser = csvparse({delimiter: this.etl.delimiter, columns: line => this.parseHeader(line,headerNames)});
-    parser.on("error",err => this.error = err); //true means modified
-    parser.on("end",() => cb());
+    parser.on("error",err => (error = true,cb(err)));
+    parser.on("end",() => !error && cb());
 
     var reader = this.createReader();
+    reader.on("error",err => (error = true,cb(err)));
 
     dataFile.pipe(parser).pipe(reader);
   }
 
   parseEvents(eventsFile,cb){
+    
+    var error = false;
 
     var parser = csvparse({delimiter: this.etl.delimiter, columns: line => this.parseHeader(line,eventHeaderNames)});
-    parser.on("error",err => this.error = err); //true means modified
-    parser.on("end",() => cb());
+    parser.on("error",err => (error = true,cb(err)));
+    parser.on("end",() => !error && cb());
 
     var reader = this.createEventsReader();
+    reader.on("error",err => (error = true,cb(err)));
 
     eventsFile.pipe(parser).pipe(reader);
   }
