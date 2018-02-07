@@ -21,8 +21,8 @@ module.exports = {
   
   ssl: {
     enable: false,
-    cert: fs.readFileSync('../cert/fullchain.pem'),
-    key: fs.readFileSync('../cert/privkey.pem'),
+    //cert: fs.readFileSync('../cert/fullchain.pem'),
+    //key: fs.readFileSync('../cert/privkey.pem'),
     redirect: true,
     redirectPort: 80
   },

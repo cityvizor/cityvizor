@@ -60,6 +60,10 @@ router.post("/", schema.validate({body: loginSchema}), acl("login","login"), (re
 			
 		});
 		
+	})
+	.catch(err => {
+		res.status(500).send("Error when getting user data: " + err.message);
+		console.error(err.message);
 	});
 });
 

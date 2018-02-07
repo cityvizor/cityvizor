@@ -5,7 +5,7 @@ var codeListSchema = mongoose.Schema({
 	validFrom: Date,
 	validTill: Date,
   description: String,
-	codeList: mongoose.Schema.Types.Mixed
+	codelist: mongoose.Schema.Types.Mixed
 });
 codeListSchema.index({ name: 1 });
 codeListSchema.index({ name: 1, validFrom: 1, validTill: 1 });

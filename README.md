@@ -1,6 +1,6 @@
 # CityVizor
 
-![dependencies](https://david-dm.org/otevrena-data-mfcr/CityVizor.svg)
+[![dependencies](https://david-dm.org/otevrena-data-mfcr/CityVizor.svg)](https://david-dm.org/otevrena-data-mfcr/CityVizor)
 
 Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalšími funkcemi pro samosprávy. Aplikace byla vytvořena zaměstnanci [Ministerstva financí ČR](http://www.mfcr.cz), [Otevřená Města](http://www.otevrenamesta.cz/) vám poskytují tuto aplikaci jako služba. Data jsou poskytována obcemi dobrovolně.
 
@@ -38,6 +38,20 @@ Další možná nastavení:
 - ```/server/config/import-config.js``` - nastavení pravidel importu dat z CSV
 - ```/server/config/mongo-express-config.js``` - nastavení mongo-express
 - ```/pm2-config.json``` - nastavení pro PM2
+
+## Výchozí data
+
+Administrátorský účet lze vytvořit spuštěním skriptu create-admin.js:
+```
+NODE_ENV=development node server/scripts/create-admin.js
+NODE_ENV=production node server/scripts/create-admin.js
+```
+
+Vzorové číselníky rozpočtových paragrafů a položek lze do databáze vložit skriptem sample-codelists
+```
+NODE_ENV=development node server/scripts/sample-codelists.js
+NODE_ENV=production node server/scripts/create-admin.js
+```
 
 ## Spuštění
 

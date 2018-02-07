@@ -20,12 +20,17 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support urlencoded bodies
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/' + config.database.db);
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
 mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/' + config.database.db)
+	.then(() => console.log("Connected to database " + config.database.db))
+	.catch(err => {
+		throw new Error("Error when connectiong to DB " + config.database.db + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
+	});
 
-console.log("Connected to database " + config.database.db);
+
+
 
 // configure express-jwt
 var jwt = require('express-jwt');
