@@ -1,5 +1,5 @@
 
-#toasts{position:fixed;width:100%;top:50%;overflow:visible; text-transform: uppercase;z-index:1000;}
+#toasts{position:fixed;width:100%;top:50%;overflow:visible; text-transform: uppercase;z-index:99999;}
 #toasts ul{display:block;position:absolute;top:0;left:0;right:0;list-style:none;margin:-50px 0 0 0;text-align:center;}
 #toasts li{display:inline-block;margin:0;padding:0;padding:10px 20px;margin:0 5px;background-color:rgba(0,0,0,.7);border-radius:10px;color:#fff;}
 #toasts li span p{margin-top: 5px;margin-bottom:0px;}

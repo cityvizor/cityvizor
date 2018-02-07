@@ -127,7 +127,22 @@ function downloadLoop(profiles,cb){
 				// insert all the contracts to DB
 				NoticeBoard.create(noticeBoard).then(documents => {
 					console.log("Written " + noticeBoard.documents.length + " documents");
-					downloadLoop(profiles,cb);
+					
+					// update last update timestamp for contracts
+					profile.noticeboards.lastUpdate = new Date();
+					profile.markModified("noticeboards");
+					
+					profile.save()
+						.then(() => {
+							console.log("Updated profile lastUpdated timestamp.");
+							downloadLoop(profiles,cb);
+						})
+						.catch(err => {
+							console.error("Error when saving noticeboards update timestamp: " + err.message);
+							downloadLoop(profiles,cb);
+						});
+					
+					
 				});
 
 			})

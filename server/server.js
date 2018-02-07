@@ -23,7 +23,7 @@ var mongoose = require('mongoose');
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/' + config.database.db, { useMongoClient: true })
+mongoose.connect('mongodb://localhost/' + config.database.db)
 	.then(() => console.log("Connected to database " + config.database.db))
 	.catch(err => {
 		throw new Error("Error when connectiong to DB " + config.database.db + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
@@ -67,22 +67,8 @@ app.use("/api",require("./routers/api"));
 // serve static files
 app.use(require("./routers/static"));
 
-app.use((err, req, res, next) => {
-
-	if (err.name === 'UnauthorizedError') {
-		res.status(err.status);
-		res.send("Unauthorized" + (err.message ? ": " + err.message : ""));
-	}
-
-	else if (err.name === 'JsonSchemaValidation') {
-		console.log("API Error: " + err.message);
-		console.log(err.validations.query);
-		res.status(400).send("API Error: " + err.message);
-	}
-
-	else next(err);
-
-});
+// error handling
+app.use(require("./middleware/error-handler"));
 
 
 /* SET UP SERVER */

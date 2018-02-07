@@ -121,7 +121,19 @@ function downloadContractsLoop(profiles,cb){
 				// insert all the contracts to DB
 				Contract.insertMany(contracts).then(contracts => {
 					console.log("Written " + contracts.length + " contracts");
-					downloadContractsLoop(profiles,cb);
+					
+					// update last update timestamp for contracts
+					profile.contracts.lastUpdate = new Date();
+					profile.markModified("contracts");
+					profile.save()
+						.then(() => {
+							console.log("Updated profile lastUpdated timestamp.");
+							downloadContractsLoop(profiles,cb);
+						})
+						.catch(err => {
+							console.error("Error when saving contracts update timestamp: " + err.message)
+							downloadContractsLoop(profiles,cb);
+						});
 				});
 
 			})

@@ -1,73 +1,211 @@
 <h2>Import účetních dat</h2>
 
-<div class="boxes">
-	<profile-admin-import-box *ngFor="let budget of budgets" [profile]="profile" [budget]="budget" (save)="showLoading()" (saved)="showResult(true,budget.year,$event)" (error)="showResult(false,budget.year,$event)"></profile-admin-import-box>
-</div>
+<table *ngIf="etls.length > 0" class="table" [class.loading]="loading">
+	<thead>
+		<tr><th>Stav</th><th>Rok</th><th>Validita dat</th><th colspan="2">Poslední kontrola</th><th colspan="3"></th></tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let etl of etls">
+			<td class="buttons">
+				<button type="button" class="btn btn-sm btn-default" [class.btn-success]="etl.visible" [class.btn-danger]="!etl.visible" (click)="setVisible(etl,!etl.visible)" title="Zobrazení ve výběru rozpočtových let"><i *ngIf="etl.visible" class="fa fa-eye" aria-hidden="true"></i><i *ngIf="!etl.visible" class="fa fa-eye-slash" aria-hidden="true"></i></button>
+				<button type="button" class="btn btn-sm btn-default" [class.btn-success]="etl.enabled" [class.btn-danger]="!etl.enabled" (click)="setAutoImport(etl,!etl.enabled)" title="Automatický import"><i *ngIf="etl.enabled" class="fa fa-play" aria-hidden="true"></i><i *ngIf="!etl.enabled" class="fa fa-pause" aria-hidden="true"></i></button>
+			</td>
+			<td><strong>{{etl.year}}</strong></td>
+			<td [title]="etl.validity | date:'d. M. y, H:mm':'CET'">{{etl.validity | date: 'd. M. y':'CET'}}</td>
+			<td [title]="etl.lastCheck | date:'d. M. y, H:mm':'CET'">{{etl.lastCheck | date: 'd. M. y':'CET'}}</td>
+			<td [ngSwitch]="etl.status">
+				<span *ngSwitchCase="'pending'" class="text-warning"><i class="fa fa-play" aria-hidden="true"></i> Probíhá... (<a (click)="loadETLs()">obnovit</a>)</span>
+				<span *ngSwitchCase="'success'" class="text-success"><i class="fa fa-check" aria-hidden="true"></i> Nová data</span>
+				<span *ngSwitchCase="'not modified'" class="text-success"><i class="fa fa-check" aria-hidden="true"></i> Nezměněno</span>
+				<span *ngSwitchCase="'error'" class="text-danger"><i class="fa fa-times" aria-hidden="true"></i> Chyba: {{etl.error}}</span>
+				<span *ngSwitchDefault>{{etl.status || "N/A"}}</span>
+			</td>
+			<td class="text-right buttons">
+				<button type="button" class="btn btn-sm btn-default" (click)="openHistory(etl,popup_history)" title="Historie"><i class="fa fa-history" aria-hidden="true"></i></button>
+				&nbsp;
+				<button type="button" class="btn btn-sm btn-default" (click)="openSettings(etl,popup_settings)" title="Nastavení"><i class="fa fa-cogs" aria-hidden="true"></i></button>
+				<button type="button" class="btn btn-sm btn-danger" (click)="openDelete(etl,popup_delete)" title="Smazat"><i class="fa fa-trash" aria-hidden="true"></i></button>
+				&nbsp;
+				<button type="button" class="btn btn-sm btn-primary" (click)="openUpload(etl,popup_upload)" title="Nahrát data ručně"><i class="fa fa-upload" aria-hidden="true"></i></button>
+				<button type="button" class="btn btn-sm btn-primary" [class.disabled]="etl.status==='pending'" (click)="startImport(etl,$event)" title="Spustit automatický import"><i class="fa fa-play" aria-hidden="true"></i></button>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
-<a (click)="createBudget()">Přidat rozpočtový rok</a>	
+<p *ngIf="!loading && !etls.length">Nemáte v profilu žádné rozpočtové roky.</p>	
+<p *ngIf="loading && !etls.length">Načitání&hellip;</p>	
 
-<div bsModal #importModal="bs-modal" class="modal fade">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" (click)="importModal.hide()" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h3 class="modal-title">
-					<span *ngIf="importResult && importResult.success" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Data pro rok {{importResult.year}} byla importována.</span>
-					<span *ngIf="importResult && !importResult.success" class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Nastala chyba při importu dat. Import nebyl proveden.</span>
-					<span *ngIf="!importResult">Probíhá import dat&hellip;</span>
-				</h3>
-			</div>
-			
-			<div *ngIf="!importResult" class="modal-body">
-				<p>Probíhá import dat do aplikace CityVizor. Import může trvat i několik minut, prosím nezavírejte prohlížeč. Výsledek importu bude zobrazen v tomto okně.</p>
-			</div>
-			
-			<div *ngIf="importResult && importResult.success" class="modal-body">
-				<h4>Souhrn</h4>
-				<p>V rámci importu byly nahrány do aplikace CityVizor tyto záznamy:</p>
-				<table class="table table-condensed table-striped table-hover">
-					<thead>
-						<tr><th>Typ záznamu</th><th>Počet záznamů</th></tr>
-					</thead>
-					<tbody>
-						<tr><th>Roční rozpočet obce</th><td>{{importResult.counter.budgets}}</td></tr>
-						<tr><th>Akce/účel</th><td>{{importResult.counter.events}}</td></tr>
-						<tr><th>Faktury a platby</th><td>{{importResult.counter.payments}}</td></tr>
-					</tbody>
-				</table>
-				
-				<ng-container *ngIf="importResult.warnings">
-					<h4>Varování</h4>
-					<p>Během importu byly zjištěny následující skutečnosti. Tyto skutečnosti nebránily dokončení importu.</p>
-					<div class="warnings">
-						<ul>
-							<li *ngFor="let warning of importResult.warnings">{{warning}}</li>
-						</ul>
-					</div>
-				</ng-container>
-				
-			</div>
-			
-			<div *ngIf="importResult && !importResult.success" class="modal-body">
-				<h4>Popis chyby</h4>
-				<p>{{importResult.error}}</p>
-				<br>
-				
-				<h4>Časté chyby</h4>
-				<ul>
-					<li>Záměna číselníků a datového souboru.</li>
-					<li>Chybný formát souboru - například záměna CSV za XLS, či špatné kódování.</li>
-					<li>Nerespektování správných názvů záhlaví v souborech</li>
-				</ul>
-				<br>
-				
-				<h4>Řešení chyb</h4>
-				<p>Ujistěte se, že nahráváte správné soubory a že jsou vloženy do správných polí. Dále zkontrolujte obsah a strukturu souborů. Návody na import do aplikace jsou <a [href]="config.docsUrl + '/navody'" target="_blank">v sekci Návody v dokumentaci k aplikaci</a>.</p>
-				<br>
-			</div>
-			
-		</div>
+<button type="button" class="btn btn-primary" (click)="createETL()"><i class="fa fa-plus" aria-hidden="true"></i> Přidat rozpočtový rok</button>
+
+<ng-template #popup_history>	
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">{{history.etl.year}} - Historie</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
-</div>
+	<div class="modal-body">
+		<table *ngIf="history.etllogs" class="table table-condensed table-striped table-hover">
+			<thead>
+				<tr><th>Datum a čas</th><th>Zdroj</th><th>Autoimport</th><th>Uživatel</th><th>Varování</th><th>HTTP stav</th><th>Chyba</th></tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let log of history.etllogs">
+					<td>{{log.timestamp | date:'d. M. y, H:mm':'CET'}}</td>
+					<td [ngSwitch]="log.source">
+						<ng-container *ngSwitchCase="'url'">URL</ng-container>
+						<ng-container *ngSwitchCase="'file'">upload</ng-container>
+						<ng-container *ngSwitchDefault>{{log.source}}</ng-container>
+					</td>
+					<td>{{log.autoImport ? "Ano" : "Ne"}}</td>
+					<td>{{log.user}}</td>
+					<td>{{log.warnings.length}}</td>
+					<td>{{log.statusCode}} {{log.statusMessage}}</td>
+					<td>{{log.error || "-"}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<nav class="text-center">
+			<ul class="pagination">
+				<li *ngFor="let i of history.pager.pages" [class.active]="history.pager.page == i"><a (click)="loadHistory(history.etl,i)">{{i}}</a></li>
+			</ul>
+		</nav>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="modalRef.hide()">Zavřít</button>
+	</div>
+</ng-template>
+
+<ng-template #popup_settings>	
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">{{settings.etl.year}} - Nastavení</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<form class="form-horizontal" #settingsForm="ngForm" (ngSubmit)="saveSettings(settings.etl,settingsForm)">  
+		<div class="modal-body">
+
+			<div class="form-group">
+				<label for="validity" class="col-sm-3 control-label">Validita dat</label>
+				<div class="col-sm-9">
+					<input type="date" class="form-control" name="validity" [ngModel]="settings.etl.validity | date:'yyyy-MM-dd'">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="name" class="col-sm-3 control-label">Formát souboru</label>
+				<div class="col-sm-9">
+					<select class="form-control" name="importer" [(ngModel)]="settings.etl.importer" required>
+						<option value="internet-stream">Internet Stream</option>
+						<option value="cityvizor-v1">CityVizor v1</option>
+						<option value="cityvizor-v2">CityVizor v2</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="dataFile" class="col-sm-3 control-label">Datový soubor</label>
+				<div class="col-sm-9">
+					<input type="url" class="form-control" name="dataFile" [ngModel]="settings.etl.dataFile">
+				</div>
+			</div>
+			
+			<div *ngIf="settings.etl.importer==='cityvizor-v1'" class="form-group">
+				<label for="eventsFile" class="col-sm-3 control-label">URL číselníku akcí</label>
+				<div class="col-sm-9">
+					<input type="url" class="form-control" name="eventsFile" [ngModel]="settings.etl.eventsFile">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="name" class="col-sm-3 control-label">Oddělovač CSV</label>
+				<div class="col-sm-9">
+					<select class="form-control" name="delimiter" [ngModel]="settings.etl.delimiter || ','">
+						<option value=",">čárka (výchozí)</option>
+						<option value=";">středník</option>
+						<option [value]="'\t'">tabulátor</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="lastModified" class="col-sm-3 control-label">Last Modified</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" name="lastModified" [ngModel]="settings.etl.lastModified">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="etag" class="col-sm-3 control-label">ETAG</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" name="etag" [ngModel]="settings.etl.etag">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" (click)="modalRef.hide()">Zahodit změny</button>
+			<button type="submit" class="btn btn-primary">Uložit</button>
+		</div>
+	</form>
+</ng-template>
+
+
+<ng-template #popup_delete>	
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">Opravdu smazat data za rozpočtový rok {{delete.etl.year}}?</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-offset-2 col-md-8">
+				<p><input type="radio" name="deleteType" id="deleteTypeDelete" value="delete" [(ngModel)]="delete.type"> <label for="deleteTypeDelete">Smazat rozpočtový rok včetně všech dat.</label></p>
+				<p><input type="radio" name="deleteType" id="deleteTypeTruncate" value="truncate" [(ngModel)]="delete.type"> <label for="deleteTypeTruncate">Smazat pouze data.</label></p>
+			</div>
+		</div>
+		<p class="alert alert-danger text-center"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Tato akce je nevratná! <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" (click)="modalRef.hide()">Zrušit</button>
+		<button type="button" class="btn btn-danger" (click)="deleteETL(delete.etl)">Smazat</button>
+	</div>
+</ng-template>
+
+<ng-template #popup_upload>	
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">Ručně nahrát data pro rok {{upload.etl.year}}?</h4>
+		<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<form class="form-horizontal" #uploadForm="ngForm" (ngSubmit)="import(upload.etl,dataFile,eventsFile,uploadForm)">
+		<div class="modal-body">
+			
+			<div class="form-group">
+				<label for="dataFile" class="col-sm-3 control-label">Datový soubor</label>
+				<div class="col-sm-9">
+					<input type="file" accept=".csv,text/csv" class="form-control" required name="dataFile" #dataFile>
+				</div>
+			</div>
+			
+			<div [hidden]="upload.etl.importer!=='cityvizor-v1'" class="form-group">
+				<label for="eventsFile" class="col-sm-3 control-label">Číselník akcí</label>
+				<div class="col-sm-9">
+					<input type="file" accept=".csv,text/csv" class="form-control" required name="eventsFile" #eventsFile>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="validity" class="col-sm-3 control-label">Validita dat</label>
+				<div class="col-sm-9">
+					<input type="date" class="form-control" name="validity" [ngModel]="upload.today | date:'yyyy-MM-dd'" required>
+				</div>
+			</div>
+
+		</div>
+		<div class="modal-footer">
+			<button type="submit" class="btn btn-primary">Nahrát</button>
+		</div>
+	</form>
+</ng-template>

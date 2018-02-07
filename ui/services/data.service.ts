@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
+import { Paginator } from '../shared/schema/paginator';
+import { ETL } from "../shared/schema/etl";
+
 function toParams(options){
 	if(!options) return "";
 	
@@ -46,6 +49,7 @@ export class DataService {
 		return this.http.put<any>("/api/profiles/" + profile._id,profile).toPromise();
 	}
 	
+	/* AVATARS */
 	saveProfileAvatar(profileId,data:FormData){
 		return this.http.put("/api/profiles/" + profileId + "/avatar",data, { responseType: 'text' }).toPromise();
 	}
@@ -53,32 +57,51 @@ export class DataService {
 		return this.http.delete("/api/profiles/" + profileId + "/avatar", { responseType: 'text' }).toPromise();
 	}
 	
+	/* BUDGETS */
 	getProfileBudget(profileId,year){
 		return this.http.get<any>("/api/profiles/" + profileId + "/budgets/" + year).toPromise();
 	}
-	saveProfileBudget(profileId,year,data:FormData){
-		return this.http.put<any>("/api/profiles/" + profileId + "/budgets/" + year,data).toPromise();
-	}
-	deleteProfileBudget(profileId,year){
-		return this.http.delete("/api/profiles/" + profileId + "/budgets/" + year, { responseType: 'text' }).toPromise();
-	}
-	
 	getProfileBudgets(profileId,options?){
 		return this.http.get<any[]>("/api/profiles/" + profileId + "/budgets" + toParams(options)).toPromise();
 	}
 	
+	/* CONTRACTS */
 	getProfileContracts(profileId,options?){
 		return this.http.get<any>("/api/profiles/" + profileId + "/contracts" + toParams(options)).toPromise();
 	}
 	
+	/* DASHBOARD */
 	getProfileDashboardDashboard(profileId){
 		return this.http.get<any>("/api/profiles/" + profileId + "/dashboard").toPromise();
 	}
+	
+	/* ETL */
+	getProfileETLs(profileId,options?){
+		return this.http.get<any[]>("/api/profiles/" + profileId + "/etls" + toParams(options)).toPromise();
+	}
+	getProfileETLLogs(profileId,etlId,options?){
+		if(typeof etlId === "string") return this.http.get<Paginator>("/api/profiles/" + profileId + "/etls/" + etlId + "/logs" + toParams(options)).toPromise();
+		else return this.http.get<Paginator>("/api/profiles/" + profileId + "/etllogs" + toParams(etlId || options)).toPromise();
+	}
+	getProfileETL(profileId,etlId,options?){
+		return this.http.get<any>("/api/profiles/" + profileId + "/etls/" + etlId + toParams(options)).toPromise();
+	}
+	createProfileETL(profileId,data){
+		return this.http.post<ETL>("/api/profiles/" + profileId + "/etls/", data).toPromise();
+	}
+	saveProfileETL(profileId,etlId,data){
+		return this.http.put<any>("/api/profiles/" + profileId + "/etls/" + etlId,data).toPromise();
+	}
+	deleteProfileETL(profileId,etlId,options?){
+		return this.http.delete("/api/profiles/" + profileId + "/etls/" + etlId + toParams(options), { responseType: 'text' }).toPromise();
+	}
 
+	/* EVENTS */
 	getProfileEvents(profileId,options?){
 		return this.http.get<any[]>("/api/profiles/" + profileId + "/events" + toParams(options)).toPromise();
 	}
 	
+	/* PAYMENTS */
 	getProfilePayments(profileId,options?){
 		return this.http.get<any>("/api/profiles/" + profileId + "/payments" + toParams(options)).toPromise();
 	}
@@ -86,54 +109,41 @@ export class DataService {
 		return this.http.get<any[]>("/api/profiles/" + profileId + "/payments/months").toPromise();
 	}
 	
+	/* MANAGERS */
 	getProfileManagers(profileId){
 		return this.http.get<any[]>("/api/profiles/" + profileId + "/managers").toPromise();
 	}
 	
+	/* NOTICE BOARD */
 	getProfileNoticeBoard(profileId,options?){
 		return this.http.get<any[]>("/api/profiles/" + profileId + "/noticeboard" + toParams(options)).toPromise();
 	}
 	
-
+	/* IMPORT DATA */
+	uploadProfileImport(profileId,etlId,data:FormData){
+		return this.http.put("/api/profiles/" + profileId + "/import/" + etlId + "/upload",data, { responseType: 'text' }).toPromise();
+	}
+	startProfileImport(profileId,etlId){
+		return this.http.get("/api/profiles/" + profileId + "/import/" + etlId + "/start", { responseType: 'text' }).toPromise();
+	}
 
 	/* EVENTS */
 	getEvent(eventId){
 		return this.http.get<any>("/api/events/" + eventId).toPromise();
 	}
 	
-	getEvents(options?){
-		return this.http.get<any[]>("/api/events" + toParams(options)).toPromise();
-	}
-	
-	
-
-	
-	
-	
 	/* USERS */	
 	getUsers(){
 		return this.http.get<any>("/api/users").toPromise();
 	}
-	
 	getUser(userId){
 		return this.http.get<any>("/api/users/" + userId).toPromise();
 	}
-	
 	saveUser(userData){
 		return this.http.post<any>("/api/users/" + userData._id,userData).toPromise();
 	}
-	
 	deleteUser(userId){
-		return this.http.delete("/api/users/" + userId).toPromise();
-	}
-	
-	/* ETLs */
-	getETLs(options?){
-		return this.http.get<any>("/api/etl" + toParams(options)).toPromise();	
-	}
-	
-	getLatestETLs(profileId,options?){
-		return this.http.get<any>("/api/etl/latest/" + profileId + toParams(options)).toPromise();	
+		return this.http.delete("/api/users/" + userId, { responseType: 'text' }).toPromise();
 	}
 	
 }

@@ -2,7 +2,6 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from './shared.module';
 
@@ -30,7 +29,6 @@ import { ProfileAdminProfileComponent } from "./views/profile-admin/profile-admi
 import { ProfileAdminAvatarComponent } from "./views/profile-admin/profile-admin-avatar/profile-admin-avatar.component";
 import { ProfileAdminModulesComponent } from "./views/profile-admin/profile-admin-modules/profile-admin-modules.component";
 import { ProfileAdminImportComponent } from "./views/profile-admin/profile-admin-import/profile-admin-import.component";
-import { ProfileAdminImportBoxComponent } from "./views/profile-admin/profile-admin-import-box/profile-admin-import-box.component";
 import { ProfileAdminUsersComponent } from "./views/profile-admin/profile-admin-users/profile-admin-users.component";
 
 // Site administration components
@@ -88,7 +86,6 @@ var jwtOptions = {
 		BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
-		FormsModule,
 		routing,
 		ModalModule.forRoot(),
 		FileUploadModule,
@@ -98,12 +95,13 @@ var jwtOptions = {
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
 		/* VIZ */ ExpenditureVizComponent, IncomeVizComponent, InvoiceListComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataSourcesComponent,
-		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminImportBoxComponent, ProfileAdminUsersComponent,
+		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
     /* Equaliser Component */ EasterEggEqualiserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
 		/* Shared Components */ LoginFormComponent, HeaderMenuComponent, ProfileHeaderComponent,
-		
+	],
+	entryComponents: [
 	],
 	providers: [
 		/* Angular Services */ Title,
