@@ -1,18 +1,7 @@
-<h2>Zdrojová data</h2>
-
-<h3>{{profile.name}}</h3>
-<ng-container *ngIf="!budgets || !budgets.length">
-  <p>K této obci bohužel zatím nebyla nahrána žádná data</p>
-</ng-container>
-
-<ng-container *ngFor="let budget of budgets">
-  <p><strong>{{budget.year}}</strong></p>
+<ng-container *ngFor="let etl of etls">
+  <h2>{{etl.year}}</h2>
   <ul>
-    <li><a [href]="'/data/uploads/imports/' + profile._id + '-' + budget.year + '.events.csv'" target="_blank">{{profile.name}} - Číselník akcí (CSV)</a></li>
-    <li><a [href]="'/data/uploads/imports/' + profile._id + '-' + budget.year + '.data.csv'" target="_blank">{{profile.name}} - Datový soubor (CSV)</a></li>
-    <li><a [href]="'/api/profiles/' + profile._id + '/payments/' + budget.year + '/csv'" target="_blank">{{profile.name}} - Faktury (CSV)</a>	
+    <li><a [href]="getBudgetsLink(etl)" target="_blank">Rozpočet včetně plnění (JSON)</a></li>
+    <li><a [href]="getPaymentsLink(etl)" target="_blank">Faktury (JSON)</a></li>
   </ul>
 </ng-container>
-
-<h3>Souhrnná data</h3>
-<p>Data za všechny obce najdete <a [attr.href]="config.docsUrl + '/data'">v dokumentaci v sekci data</a>.</p>

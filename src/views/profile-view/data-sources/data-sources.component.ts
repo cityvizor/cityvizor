@@ -5,6 +5,8 @@ import { ToastService } from "../../../services/toast.service";
 
 import { AppConfig, IAppConfig } from '../../../config/config';
 
+import { ETL } from "../../../shared/schema/etl";
+
 @Component({
 	moduleId: module.id,
 	selector: 'data-sources',
@@ -17,16 +19,23 @@ export class DataSourcesComponent implements OnInit {
 	@Input()
 	profile:any;
 	
-  budgets:any[];
+  etls:ETL[];
 
 	constructor(private dataService:DataService, private toastService:ToastService, @Inject(AppConfig) public config:IAppConfig) { }
   
   ngOnInit(){
     
-    this.dataService.getProfileBudgets(this.profile._id)
-      .then(budgets => this.budgets = budgets)
+    this.dataService.getProfileETLs(this.profile._id)
+      .then(etls => this.etls = etls.filter(etl => etl.visible))
       .catch(err => this.toastService.toast("Nastala chyba při získávání dostupných exportů.","error"));
     
   }
+	
+	getBudgetsLink(etl:ETL){
+		return '/exports/profiles/' + etl.profile + '/budgets/' + etl.year;
+	}
+	getPaymentsLink(etl:ETL){
+		return '/exports/profiles/' + etl.profile + '/payments/' + etl.year;
+	}
 
 }
