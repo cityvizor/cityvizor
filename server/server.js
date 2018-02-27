@@ -61,7 +61,9 @@ if(config.mongoExpress.enable){
 }
 
 /* SET UP ROUTES */
-app.use("/api",require("./router"));
+app.use("/api",require("./routers/api"));
+
+app.use("/exports",require("./routers/exports"));
 
 // error handling
 app.use(require("./middleware/error-handler"));

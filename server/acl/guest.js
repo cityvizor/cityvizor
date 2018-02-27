@@ -50,7 +50,17 @@ module.exports = {
 		"login": true
 	},
 	
-	"exports": {
+	"exports-profiles": {
+		"list": true,
+		"read": true
+	},
+	"exports-etls": {
+		"read": true
+	},
+	"exports-budgets": {
+		"read": true
+	},
+	"exports-payments": {
 		"read": true
 	},
 	
