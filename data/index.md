@@ -7,33 +7,23 @@ menu: data
 * TOC
 {:toc}
 
-## Profily zveřejňujících obcí
+## API
 
-### Formát
+CityVizor nabízí jednoduché API pro stahování exportů dat. Toto api bude postupně upravováno dle požadavků uživatelů dat.
 
-Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapovací znak ")
+Vlastnosti dat:
+- v současnosti neexistuje limit na stažení dat, v případě zneužívání exportů bude zaveden
+- data jsou s až desetiminutovým zpožděním, z důvodu kešování
+- data jsou exportována ve formát JSON
 
-### Data ke stažení
-- [Profily obcí](https://cityvizor.cz/data/exports/profiles.csv)
+### Profily obcí: GET /exports/profiles
 
-## Obecní rozpočty
+### Profil obce: GET /exports/profiles/:profile
 
-### Struktura
+### Datové sady profilu obce: GET /exports/profiles/:profile/etls
 
-Informace o struktuře naleznete v záložce [Dokumentace](https://otevrena-data-mfcr.github.io/CityVizor/dokumentace/).
+### Rozpočty obce: GET /exports/profiles/:profile/budgets
 
-### Formát
+### Rozpočet obce za rok: GET /exports/profiles/:profile/budgets/:year
 
-Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapovací znak ")
-
-### Data ke stažení
-
-***2016***
-- [Číselník akcí](https://cityvizor.cz/data/exports/budgets-2016.events.csv)
-- [Datový soubor](https://cityvizor.cz/data/exports/budgets-2016.data.csv)
-- [Faktury](https://cityvizor.cz/data/exports/budgets-2016.payments.csv)
-
-***2017***
-- [Číselník akcí](https://cityvizor.cz/data/exports/budgets-2017.events.csv)
-- [Datový soubor](https://cityvizor.cz/data/exports/budgets-2017.data.csv)
-- [Faktury](https://cityvizor.cz/data/exports/budgets-2017.payments.csv)
+### Faktury obce za rok: GET /exports/profiles/:profile/payments/:year
