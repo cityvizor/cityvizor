@@ -32,10 +32,10 @@ export class DataSourcesComponent implements OnInit {
   }
 	
 	getBudgetsLink(etl:ETL){
-		return '/exports/profiles/' + etl.profile + '/budgets/' + etl.year;
+		return '/exports/v1/profiles/' + etl.profile + '/budgets/' + etl.year;
 	}
 	getPaymentsLink(etl:ETL){
-		return '/exports/profiles/' + etl.profile + '/payments/' + etl.year;
+		return '/exports/v1/profiles/' + etl.profile + '/payments/' + etl.year;
 	}
 
 }
