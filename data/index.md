@@ -16,6 +16,8 @@ Vlastnosti dat:
 - data jsou s až desetiminutovým zpožděním, z důvodu kešování
 - data jsou exportována ve formát JSON
 
+Všechny žádosti jsou na hostname ```cityvizor.cz```.
+
 ### Profily obcí
 
 ```GET /exports/profiles```
