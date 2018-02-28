@@ -16,14 +16,26 @@ Vlastnosti dat:
 - data jsou s až desetiminutovým zpožděním, z důvodu kešování
 - data jsou exportována ve formát JSON
 
-### Profily obcí: ```GET /exports/profiles```
+### Profily obcí
 
-### Profil obce: ```GET /exports/profiles/:profile```
+```GET /exports/profiles```
 
-### Datové sady profilu obce: ```GET /exports/profiles/:profile/etls```
+### Profil obce
 
-### Rozpočty obce: ```GET /exports/profiles/:profile/budgets```
+```GET /exports/profiles/:profile```
 
-### Rozpočet obce za rok: ```GET /exports/profiles/:profile/budgets/:year```
+### Datové sady profilu obce
 
-### Faktury obce za rok: ```GET /exports/profiles/:profile/payments/:year```
+```GET /exports/profiles/:profile/etls```
+
+### Rozpočty obce
+
+```GET /exports/profiles/:profile/budgets```
+
+### Rozpočet obce za rok
+
+```GET /exports/profiles/:profile/budgets/:year```
+
+### Faktury obce za rok
+
+```GET /exports/profiles/:profile/payments/:year```
