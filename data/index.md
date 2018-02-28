@@ -7,7 +7,7 @@ menu: data
 * TOC
 {:toc}
 
-## API
+## REST API
 
 CityVizor nabízí jednoduché API pro stahování exportů dat. Toto API bude postupně vylepšováno dle požadavků uživatelů dat.
 
