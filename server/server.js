@@ -16,8 +16,8 @@ if(config.server.compression){
 
 // parse body
 var bodyParser = require("body-parser");
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support urlencoded bodies
+app.use(bodyParser.json({})); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true})); // support urlencoded bodies
 
 var mongoose = require('mongoose');
 mongoose.plugin(require('mongoose-write-stream'));

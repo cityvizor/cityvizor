@@ -1,13 +1,15 @@
 var mongoose = require('mongoose');
 
 var codeListSchema = mongoose.Schema({
-	name: String,
-	validFrom: Date,
-	validTill: Date,
+	_id: String,
   description: String,
-	codelist: mongoose.Schema.Types.Mixed
+	codelist: [{
+		id: String,
+		name: String,
+		validFrom: Date,
+		validTill: Date
+	}]
 });
-codeListSchema.index({ name: 1 });
-codeListSchema.index({ name: 1, validFrom: 1, validTill: 1 });
+codeListSchema.index({ name: 1, description: 1 });
 
 var CodeList = module.exports = mongoose.model('CodeList', codeListSchema);

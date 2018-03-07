@@ -22,7 +22,7 @@ module.exports = {
 	
 	"profile-etls": {
 		"read": false,
-		"list": false
+		"list": true
 	},
 	
 	"profile-events": {
