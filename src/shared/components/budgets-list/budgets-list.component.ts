@@ -42,6 +42,10 @@ export class BudgetsListComponent{
   maxAmount:number = 0;
 
 	constructor(private dataService: DataService){ }
+	
+	ngOnChanges(){
+		this.updateMax();
+	}
 
 	loadBudgets(profileId):void{
 		this.dataService.getProfileBudgets(profileId,{sort:"-year"})
@@ -50,33 +54,37 @@ export class BudgetsListComponent{
 			  this.budgets = budgets;
 				this.maxAmount = 0;
       
-				this.budgets.forEach(budget => this.maxAmount = Math.max(this.maxAmount,this.getAmount(budget),this.getBudgetAmount(budget)));
+				this.updateMax();
       	
 				this.selectBudget(this.selectedYear);
 			});
 		
 	}
+	
+	updateMax(){
+		this.budgets.forEach(budget => this.maxAmount = Math.max(this.maxAmount,this.getAmount(budget),this.getBudgetAmount(budget)));
+	}
 
   getBudgetAmount(budget):number{
    switch(this.type){
-     case "expenditures": return budget.budgetExpenditureAmount;
-     case "income": return budget.budgetIncomeAmount;
+     case "exp": return budget.budgetExpenditureAmount;
+     case "inc": return budget.budgetIncomeAmount;
      default: return 0;
    }
   }
 
   getAmount(budget):number{
    switch(this.type){
-     case "expenditures": return budget.expenditureAmount;
-     case "income": return budget.incomeAmount;
+     case "exp": return budget.expenditureAmount;
+     case "inc": return budget.incomeAmount;
      default: return 0;
    }
   }
 
 	getType():string{
 		switch(this.type){
-			case "expenditures": return "výdaje";
-			case "income": return "příjmy";
+			case "exp": return "výdaje";
+			case "inc": return "příjmy";
 			default: return "";
 		}
 	}

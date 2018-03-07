@@ -49,6 +49,9 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
 			let month = Number(params["mesic"]);
 			let page = Number(params["strana"]);
 			
+			this.currentYear = year;
+			this.currentMonth = month;
+			
 			if(year && month) this.loadData(year, month, page || 1);
 			
 		});
@@ -82,12 +85,9 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
 
 	loadData(year, month,page){
 		
-		this.currentYear = year;
-    this.currentMonth = month;
-		
 		let params = {
-			dateFrom: this.currentYear + "-" + ("00" + this.currentMonth).slice(-2) + "-01",
-			dateTo: this.currentMonth === 12 ? (this.currentYear + 1) + "-" + ("00" + this.currentMonth).slice(-2) + "-01" :  this.currentYear + "-" + ("00" + (this.currentMonth + 1)).slice(-2) + "-01",
+			dateFrom: year + "-" + ("00" + month).slice(-2) + "-01",
+			dateTo: month === 12 ? (year + 1) + "-" + ("00" + month).slice(-2) + "-01" :  year + "-" + ("00" + (month + 1)).slice(-2) + "-01",
 			sort: "date",
 			limit: 20,
 			page: page

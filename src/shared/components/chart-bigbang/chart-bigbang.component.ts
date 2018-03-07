@@ -40,8 +40,8 @@ export class ChartBigbangComponent {
 	}
 	
 	getStripeSize(amount){
-		//console.log(amount,this.max,this.max ? Math.max(this.minR, Math.sqrt(amount / this.max * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR);
-		return this.max ? Math.max(this.minR, Math.sqrt(amount / this.max * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2))) : this.minR;
+		if(!amount || !this.max) return this.minR;
+		return Math.max(this.minR, Math.sqrt(amount / this.max * (1 - Math.pow(this.innerR,2)) + Math.pow(this.innerR,2)));
 	}
 	
 	getCircleR(){
@@ -95,6 +95,8 @@ export class ChartBigbangComponent {
 	}
 	 
 	updateAlpha(change){
+		
+		if(!this.data.length) return;
 		
 		let prev = 0;
 		this.data.some((item,i) => {

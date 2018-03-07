@@ -30,12 +30,5 @@ export class DataSourcesComponent implements OnInit {
       .catch(err => this.toastService.toast("Nastala chyba při získávání dostupných exportů.","error"));
     
   }
-	
-	getBudgetsLink(etl:ETL){
-		return '/exports/v1/profiles/' + etl.profile + '/budgets/' + etl.year;
-	}
-	getPaymentsLink(etl:ETL){
-		return '/exports/v1/profiles/' + etl.profile + '/payments/' + etl.year;
-	}
 
 }

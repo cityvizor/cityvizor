@@ -5,8 +5,6 @@ import { DataService } from '../../services/data.service';
 import { CodelistService } from '../../services/codelist.service';
 import { ToastService } from '../../services/toast.service';
 
-import { ParagraphNamesCodelist, ItemNamesCodelist } from "../../shared/schema/codelist";
-
 /*
 
 Component for graphical vizualization of event
@@ -40,6 +38,9 @@ export class EventDetailComponent implements OnChanges {
 	
 	event:any;
 	
+	itemNames:any;
+	paragraphNames:any;
+	
 	maxExpenditureAmount:number;
 	maxIncomeAmount:number;
 	
@@ -48,9 +49,6 @@ export class EventDetailComponent implements OnChanges {
 	
 	counterparties:any[] = [];
 	otherPayments:any = {payments: [],total: 0, open: false};
-	
-	paragraphNames:ParagraphNamesCodelist = new ParagraphNamesCodelist();
-	itemNames:ItemNamesCodelist = new ParagraphNamesCodelist();
 	
 	constructor(private dataService:DataService, private codelistService:CodelistService, private toastService:ToastService){}
 	
@@ -61,18 +59,32 @@ export class EventDetailComponent implements OnChanges {
 	loadEvent(eventId){
 		this.event = null;
 		
-		this.dataService.getEvent(eventId)
-			.then(event => {
+		var queries = [
+			this.dataService.getEvent(eventId),
+			this.codelistService.getCodelist("paragraph-names"),
+			this.codelistService.getCodelist("item-names")
+		];
+		
+		Promise.all(queries)
+			.then(values => {
 			
-				this.loadCodelists(new Date(event.year,0,1));
-				
-				this.event = event;
+				let event = values[0];
 			
-				this.event.items.sort((a,b) => a.id - b.id);
-				this.event.paragraphs.sort((a,b) => a.id - b.id);
+				var codelistDate = new Date(event.year,0,1);
+			
+				let paragraphNames = values[1].getIndex(codelistDate);
+				let itemNames = values[2].getIndex(codelistDate);			
+			
+				event.items.forEach(item => item.name = itemNames[item.id] || "Položka č. " + item.id);
+				event.paragraphs.forEach(paragraph => paragraph.name = paragraphNames[paragraph.id] || "Paragraf č. " + paragraph.id);
+			
+				event.items.sort((a,b) => a.id - b.id);
+				event.paragraphs.sort((a,b) => a.id - b.id);
 			
 				this.maxExpenditureAmount = Math.max(event.expenditureAmount,event.budgetExpenditureAmount);
 				this.maxIncomeAmount = Math.max(event.incomeAmount,event.budgetIncomeAmount);
+			
+				this.event = event;
 			
 				// get event accross years;
 				this.dataService.getProfileEvents(event.profile, {srcId:event.srcId,sort: "year"})
@@ -86,7 +98,7 @@ export class EventDetailComponent implements OnChanges {
 					})
 					.catch(err => console.log(err));
 			
-				this.parsePayments();
+					this.parsePayments();
 			
 			})
 			.catch(err => console.log(err));
@@ -96,13 +108,13 @@ export class EventDetailComponent implements OnChanges {
 	loadCodelists(date:Date){
 		var queue = [];
 		
-		queue.push(this.codelistService.getCodelist("item-names",date));
-		queue.push(this.codelistService.getCodelist("paragraph-names",date));
+		queue.push(this.codelistService.getCodelist("item-names"));
+		queue.push(this.codelistService.getCodelist("paragraph-names"));
 		
 		Promise.all(queue)
 			.then(values => {
-				this.itemNames = values[0];
-				this.paragraphNames = values[1];
+				this.itemNames = values[0].getIndex(date);
+				this.paragraphNames = values[1].getIndex(date);
 			})
 			.catch(err => this.toastService.toast("Chyba při načítání číselníků: " + err.message,"notice"));
 	}

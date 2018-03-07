@@ -139,7 +139,7 @@
 							<table class="table table-responsive borderless small table-title-number-number-td table-nobottommargin">
 								<tbody>
 									<tr *ngFor="let paragraph of event.paragraphs; let i = index">
-										<td>§ {{paragraph.id}} - {{paragraphNames[paragraph.id]}}</td>
+										<td>§ {{paragraph.id}} - {{paragraph.name}}</td>
 										<td class="text-right font-number">{{paragraph.budgetExpenditureAmount | money:0:false}} Kč</td>
 										<td class="text-right font-number">
 											<strong [class.text-success]="paragraph.expenditureAmount < 0" [class.text-red]="paragraph.expenditureAmount > 0" class="font-number">
@@ -187,7 +187,7 @@
 							<table class="table table-responsive borderless small table-title-number-number-td table-nobottommargin">
 								<tbody>
 									<tr *ngFor="let item of event.items">
-										<td># {{item.id}} - {{itemNames[item.id]}}</td>
+										<td># {{item.id}} - {{item.name}}</td>
 										<td class="text-right font-number">
 											{{item.budgetIncomeAmount | money:0:false}} Kč
 										</td>
