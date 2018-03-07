@@ -11,7 +11,7 @@ console.log("Started at " + moment().format("D. M. YYYY, H:mm:ss") + ".");
 var job = new CronJob({
   cronTime: config.cron.time,//'00 00 01 * * *',
   start: true, /* Start the job right now */
-  runOnInit: true,
+  runOnInit: false,
   timezone: 'Europe/Prague', /* Time zone of this job. */
   onTick: function() {
 

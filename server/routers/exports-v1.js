@@ -14,7 +14,7 @@ var Payment = require("../models/payment");
 var Codelist = require("../models/codelist");
 
 function serveExport(req,res,filename,json){
-	res.setHeader("Cache-Control", "public, max-age=10m");
+	res.setHeader("Cache-Control", "public, max-age=600");
 	if(req.query.download) res.attachment(filename);
 
 	res.json(json);

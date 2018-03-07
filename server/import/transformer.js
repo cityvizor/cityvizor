@@ -156,6 +156,8 @@ class ImportTransformer extends EventEmitter {
 		
 		let event = this.eventIndex[payment.eventId];
 		
+		let description = String(payment.description).replace("\\n","\n").split(/[\r\n]+/)[0];
+		
 		this.payments.push({
 			profile: this.etl.profile,
 			year: this.etl.year,
@@ -168,7 +170,7 @@ class ImportTransformer extends EventEmitter {
 			amount: this.string2number(payment.amount),
 			counterpartyId: payment.counterpartyId,
 			counterpartyName: payment.counterpartyName,
-			description: payment.description
+			description: description
 		});
 		
 		this.emit("payment",this.payment);
