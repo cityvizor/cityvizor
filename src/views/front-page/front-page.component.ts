@@ -19,13 +19,13 @@ export class FrontPageComponent implements OnInit {
 	
 	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.0556}, "lng":{"min":12.0914,"max":18.8589}};
 	
-	constructor(private titleService: Title, private _ds: DataService, private _router: Router, @Inject(AppConfig) public config:IAppConfig) { }
+	constructor(private titleService: Title, private dataService: DataService, private router: Router, @Inject(AppConfig) public config:IAppConfig) { }
 
 	ngOnInit(){
 		
 		this.titleService.setTitle(this.config.title);
 		
-		this._ds.getProfiles().then(profiles => {
+		this.dataService.getProfiles().then(profiles => {
 			profiles.forEach(profile => {
 				profile.searchString = this.cleanString(profile.name);
 			});
@@ -77,6 +77,11 @@ export class FrontPageComponent implements OnInit {
 	}
 
 	openProfile(profile){
-		this._router.navigate(['/' + profile.url]);
+		this.router.navigate(['/' + profile.url]);
+	}
+	
+	openPending(profile,modal,event){
+		if(event.shiftKey) this.router.navigate(["/" + profile.url]);
+		else modal.show();
 	}
 }
