@@ -25,7 +25,7 @@
 						</tr>
 					</table>
 
-					<chart-event-overview type="expenditure" [data]="event"></chart-event-overview>
+					<chart-event-overview *ngIf="event.expenditureAmount >= 0 || event.budgetExpendiureAmount > 0" type="expenditure" [data]="event"></chart-event-overview>
 					
 				</ng-container>
 				
