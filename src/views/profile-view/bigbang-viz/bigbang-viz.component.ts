@@ -98,14 +98,15 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 	}
 
 	ngOnInit() {
-		this.loadGroups().then(() => this.watchState());
+		this.loadGroups();
+		this.watchState();
 	}
 
 	watchState() {
 		this.paramsSubscription = this.route.params.subscribe((params: Params) => {
 
 			let newState = {
-				group: this.groupIndex[params["skupina"]] ? params["skupina"] : null,
+				group: params["skupina"],
 				year: Number(params["rok"]),
 				event: params["akce"]
 			};
@@ -221,13 +222,18 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 				this.groups = codelist.getNames(new Date());
 
 				this.groupIndex = {};
-				this.groups.forEach(group => this.groupIndex[group.id] = group);
+
+				this.groups.forEach(group => {
+					group.subGroups = [];
+					this.groupIndex[group.id] = group;
+				});
 			})
 			.catch(err => this.toastService.toast("Nastala chyba při načítání grafu.", "error"));
 	}
+	
 	/* PROCESS DATA */
 	loadData() {
-
+		
 		this.data = {};
 
 		let queue = [
@@ -249,6 +255,8 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 	}
 
 	setData() {
+		
+		if(!this.groups.length) return;
 
 		let budget = this.data.budget;
 		let events = this.data.events;
@@ -285,11 +293,10 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 
 			// add Other if necessary
 			if (sg[conf.amount] !== eventAmount || sg[conf.budgetAmount] !== eventBudgetAmount) {
-				sg.events.push({
-					name: "Ostatní",
-					amount: sg[conf.amount] - eventAmount,
-					budgetAmount: sg[conf.budgetAmount] - eventBudgetAmount
-				});
+				let event = {name: "Ostatní"};
+				event[conf.amount] = sg[conf.amount] - eventAmount;
+				event[conf.budgetAmount] = sg[conf.budgetAmount] - eventBudgetAmount;
+				sg.events.push(event);
 			}
 
 			let groupId = sg.id.substring(0, 2);
