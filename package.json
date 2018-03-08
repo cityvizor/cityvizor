@@ -8,7 +8,7 @@
   "scripts": {
     "start": "ng serve --prod",
     "build": "ng build --prod",
-    "dev": "ng serve --watch --aot --port 8000 --host cityvizor.cz"
+    "dev": "ng build --watch --aot"
   },
   "keywords": [
     "opendata",
