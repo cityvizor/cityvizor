@@ -102,6 +102,8 @@ export class BudgetsListComponent{
 				return false;
 			});
 			
+			
+			
 			if(budget){
 				this.currentBudget = budget;
 				this.select.emit(this.currentBudget);

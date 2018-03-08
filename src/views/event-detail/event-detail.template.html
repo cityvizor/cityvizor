@@ -117,7 +117,7 @@
 			</div>
 		</tab>
 
-		<tab heading="Výdaje" [active]="openTab=='exp'">
+		<tab heading="Výdaje">
 
 			<p *ngIf="!event.budgetExpenditureAmount && !event.expenditureAmount">Tato akce nemá žádné rozpočtované ani uskutečněné výdaje.</p>
 
@@ -166,7 +166,7 @@
 			</table>
 		</tab>
 
-		<tab heading="Příjmy" [active]="openTab=='inc'">
+		<tab heading="Příjmy">
 
 			<div *ngIf="!event.budgetIncomeAmount && !event.incomeAmount" class="text-muted text-center info-box">
 				<i class="fa fa-exclamation-circle fa-2x"></i>
