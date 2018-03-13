@@ -3,7 +3,7 @@ var router = express.Router();
 
 var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcryptjs");
 
 var User = require("../models/user");
 
