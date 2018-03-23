@@ -1,3 +1,6 @@
+console.log("Starting CityVizor Server");
+console.log("Node version: " + process.version);
+						
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
