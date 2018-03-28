@@ -17,7 +17,7 @@ if(config.server.compression){
 // parse body
 var bodyParser = require("body-parser");
 app.use(bodyParser.json({})); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true})); // support urlencoded bodies
+app.use(bodyParser.urlencoded({ extended: true, limit:"500kb"})); // support urlencoded bodies
 
 var mongoose = require('mongoose');
 mongoose.plugin(require('mongoose-write-stream'));
@@ -63,7 +63,9 @@ if(config.mongoExpress.enable){
 /* SET UP ROUTES */
 app.use("/api",require("./routers/api"));
 
-app.use("/exports/v1",require("./routers/exports-v1"));
+app.use("/api/search",require("./routers/search"));
+
+app.use("/api/exports/v1",require("./routers/exports-v1"));
 
 // error handling
 app.use(require("./middleware/error-handler"));
