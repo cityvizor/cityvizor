@@ -19,9 +19,9 @@ var paymentSchema = mongoose.Schema({
 	counterpartyName: String,
 	description: String
 });
-paymentSchema.index({ profile: 1, event: 1 });
-paymentSchema.index({ profile: 1, event: 1, year: 1 });
-paymentSchema.index({ profile: 1, date: 1 });
-paymentSchema.index({ counterpartyId: 1 });
+paymentSchema.index({ etl: 1, profile: 1, event: 1 });
+paymentSchema.index({ etl: 1, profile: 1, event: 1, year: 1 });
+paymentSchema.index({ etl: 1, profile: 1, date: 1 });
+paymentSchema.index({ etl: 1, counterpartyName: 1 });
 
 module.exports = mongoose.model('Payment', paymentSchema);
