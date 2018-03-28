@@ -11,8 +11,8 @@ module.exports = {
 	},
 	
 	"profiles": {
-		"read": true,//req => req.query.hidden ? false : true,
-		"list": req => req.query.hidden ? false : true
+		"read": true,
+		"list": true
 	},
 	
 	"profile-budgets": {
@@ -50,18 +50,16 @@ module.exports = {
 		"login": true
 	},
 	
-	"exports-profiles": {
-		"list": true,
+	"etls": {
+		"read": true,
+		"list": true
+	},
+	"budgets": {
 		"read": true
 	},
-	"exports-etls": {
-		"read": true
-	},
-	"exports-budgets": {
-		"read": true
-	},
-	"exports-payments": {
-		"read": true
+	"payments": {
+		"read": true,
+		"list": true
 	},
 	
 	"codelists": {
