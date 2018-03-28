@@ -20,11 +20,7 @@ var etlsSchema = {
 
 router.get("/", schema.validate({query: etlsSchema}), acl("etls","list"), (req,res,next) => {
 	
-	var query = ETL.find({});
-	
-	if(req.query.sort) query.sort(req.query.sort);
-	
-	query	
+	var query = ETL.find({})
 		.then(etls => res.json(etls))
 		.catch(err => next(err));
 
