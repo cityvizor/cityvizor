@@ -55,7 +55,3 @@ router.get('/favicon.ico',(req,res) => {
 	res.set('Cache-Control', 'public, max-age=3600'); // cache 1 hour
 	res.sendFile("assets/img/favicon/favicon.ico", { root: root });	
 });
-
-router.use("*",(req,res) => {
-	res.sendStatus(404);	
-});
