@@ -4,7 +4,6 @@ import 'rxjs/add/operator/toPromise';
 
 import { Paginator } from '../shared/schema/paginator';
 import { ETL } from "../shared/schema/etl";
-import { Counterparty } from "../shared/schema/counterparty";
 
 function toParams(options){
 	if(!options) return "";
@@ -71,6 +70,11 @@ export class DataService {
 		return this.http.get<any>("/api/profiles/" + profileId + "/contracts" + toParams(options)).toPromise();
 	}
 	
+	/* DASHBOARD */
+	getProfileDashboardDashboard(profileId){
+		return this.http.get<any>("/api/profiles/" + profileId + "/dashboard").toPromise();
+	}
+	
 	/* ETL */
 	getProfileETLs(profileId,options?){
 		return this.http.get<any[]>("/api/profiles/" + profileId + "/etls" + toParams(options)).toPromise();
@@ -124,12 +128,8 @@ export class DataService {
 	}
 
 	/* EVENTS */
-	getEvent(eventId:string){
+	getEvent(eventId){
 		return this.http.get<any>("/api/events/" + eventId).toPromise();
-	}
-	
-	getCounterparty(conterpartyId:string){
-		return this.http.get<Counterparty>("/api/counterparties/" + conterpartyId).toPromise();
 	}
 	
 	/* USERS */	
@@ -140,15 +140,10 @@ export class DataService {
 		return this.http.get<any>("/api/users/" + userId).toPromise();
 	}
 	saveUser(userData){
-		return this.http.put<any>("/api/users/" + userData._id,userData).toPromise();
+		return this.http.post<any>("/api/users/" + userData._id,userData).toPromise();
 	}
 	deleteUser(userId){
 		return this.http.delete("/api/users/" + userId, { responseType: 'text' }).toPromise();
-	}
-	
-	/* SEARCH */	
-	searchCounterparties(query){
-		return this.http.post<any>("/api/search/counterparties",query).toPromise();
 	}
 	
 }
