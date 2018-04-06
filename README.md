@@ -22,7 +22,7 @@ npm run build
 
 ## Nastavení
 
-Nastavit CityVizor je možné v souboru confi.js:
+Nastavit CityVizor je možné v souboru config.js:
 - ```/src/config/config.js```
 
 ## Přispívání
