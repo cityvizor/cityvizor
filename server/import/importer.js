@@ -169,7 +169,10 @@ class Importer {
         else if(modified) cb(null,"New data imported.");
         else cb(null,"Not modified.");
       })
-      .catch(err => cb(err));
+      //.catch(err => cb(err));
+      .catch(err => {
+        console.error(err);
+      });
 
   }
 

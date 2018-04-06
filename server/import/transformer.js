@@ -107,7 +107,7 @@ class ImportTransformer extends EventEmitter {
 		let isOutcome = Number(r.item) >= 5000;
 
 		r.amount = this.string2number(r.amount);
-
+		
 		/* REPORT ERRORS */
 		// critical errors, skip item
 		if(isNaN(r.amount)) { this.emit("warning","Záznam " + id + ": Nečitelná částka, záznam byl ignorován."); return; }
@@ -182,10 +182,9 @@ class ImportTransformer extends EventEmitter {
 	/* HELPER functions */
 
 	string2number(string){
-		if(!isNaN(string)) return Number(string);
-		if(!string) return 0;
+		if(!string.length) return 0;
 		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1); // sometimes minus is at the end, put it to first character
-		string.replace(",","."); // function Number accepts only dot as decimal point
+		string = string.replace(",",".");
 		return parseFloat(string);
 	}
 
