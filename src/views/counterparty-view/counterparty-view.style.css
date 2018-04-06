@@ -1,0 +1,9 @@
+.bar{display:inline-block;height:10px;background-color:#000;border-radius:5px;border:5px solid #000;border-width:0 5px;}
+
+.profile .amount{text-align:right;}
+
+.profile .heading .bar{background-color:#f00;border-color:#f00;}
+.profile .heading .amount{font-weight:bold;}
+
+.profile .budget.current .bar{position:relative;border-radius:5px 0 0 5px;}
+.profile .budget.current .bar::after{content: "";position: absolute;top: 0;left: 100%;width:10px;height:100%;background:linear-gradient(to right,#000, #fff);}

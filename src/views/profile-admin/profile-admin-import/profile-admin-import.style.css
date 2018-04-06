@@ -1,0 +1,5 @@
+.modal .warnings{max-height:300px;overflow:auto;}
+
+table.loading{opacity:.5;}
+td{vertical-align:middle !important;}
+td.buttons{white-space: nowrap;}

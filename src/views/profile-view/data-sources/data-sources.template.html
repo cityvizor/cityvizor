@@ -1,0 +1,22 @@
+<h2>Statická data</h2>
+<ul>
+  <li><a [href]="'/exports/v1/profiles/' + profile._id + '?download=1'" target="_blank">Profil obce (JSON)</a></li>
+  <li><a [href]="'/exports/v1/codelists/item-names?download=1'" target="_blank">Číselník položek (JSON)</a></li>
+  <li><a [href]="'/exports/v1/codelists/paragraph-names?download=1'" target="_blank">Číselník paragrafů (JSON)</a></li>
+</ul>
+
+<h2>Účetní data</h2>
+
+<h3>Časové řady</h3>
+<ul>
+  <li><a [href]="'/exports/v1/profiles/' + profile._id + '/budgets?download=1'" target="_blank">Rozpočty včetně plnění (JSON)</a></li>
+</ul>
+
+<ng-container *ngFor="let etl of etls">
+  <h3>Data za rok {{etl.year}}</h3>
+  <ul>
+    <li><a [href]="'/exports/v1/profiles/' + profile._id + '/budgets/' + etl.year + '?download=1'" target="_blank">Rozpočet včetně plnění (JSON)</a></li>
+    <li><a [href]="'/exports/v1/profiles/' + profile._id + '/events/' + etl.year + '?download=1'" target="_blank">Investiční akce (JSON)</a></li>
+    <li><a [href]="'/exports/v1/profiles/' + profile._id + '/payments/' + etl.year + '?download=1'" target="_blank">Faktury (JSON)</a></li>
+  </ul>
+</ng-container>

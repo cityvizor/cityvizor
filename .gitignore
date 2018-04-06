@@ -1,19 +1,11 @@
 # compiled output
 /dist
-/dist-embed
-
-# sensitive data
-/server/config/config.production.js
-/server/config/config.development.js
 
 # dependencies
 /node_modules
 
-# data
-/data/exports/*
-/data/uploads/avatars/*
-/data/uploads/imports/*
-!.gitkeep
+# licensed data
+/src/assets/audio
 
 # misc
 npm-debug.log
