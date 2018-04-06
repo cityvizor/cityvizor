@@ -20,9 +20,9 @@ export class SiteAdminComponent {
 			link: ["../"]
 		},
 		titleRight: {
-			text: "Zavřít",
+			text: "Zpět",
 			link: ["/"],
-			icon: "fa fa-times"
+			icon: "fa fa-chevron-circle-left"
 		},
 		menu: [
 			{ text: "Profily", link: ["../profily"] },

@@ -7,15 +7,17 @@ header {
 	font-weight: bold;
 	border-bottom: 5px solid #2581C4;
 }
-header .btn {    
-  color: white;
-  border: none;
+header .btn, header .btn:link, header .btn:active {    
+	color: #FFF;
 	box-shadow: none;
+	margin-top: 16px;
+	margin-bottom: 10px;
+	border: 1px solid #FFF;
+	border-radius: 3px;
 }
-header .btn:hover span {
-	color: white;
-	text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
-	text-decoration: underline;
+header .btn:hover {
+	color: #2581C4;
+	background: white;
 }
 
 header h1 {
@@ -26,7 +28,7 @@ header nav {
 	display: inline-block;
 }
 
-header a, header a:hover {color:white;text-decoration: none;}
+header a, header a:hover {color:white;}
 
 @media (max-width: 1400px) {
 		header {
@@ -40,9 +42,6 @@ header a, header a:hover {color:white;text-decoration: none;}
 	z-index: 1;
 }
 
-.navbar-collapse {
-	padding: 0px;
-}
 
 nav .container-fluid, nav, nav-collapse {
 	margin: 0px;
@@ -55,7 +54,7 @@ nav {
 }
 nav li a {
 	line-height: 24px;
-	font-size: 12pt;
+	font-size: 1.2em;
 	color: #333;
 	transition-duration: 400ms;
 }
@@ -68,13 +67,10 @@ nav li a.active {
 	color: white;
 }
 
-.navbar-nav {
-	margin-left: -15px!important;
-}
+
 .navbar-right {
   margin-right: 0px !important;
 }
-
 .navbar-toggle {
 	float:none;
 }
@@ -86,7 +82,7 @@ nav li a.active {
 	clear: left;
 }
 .toggle-title {
-	font-size: 14pt;
+	font-size: 1.2em;
 	font-weight: bold;
 	color: #2581C4;
 	margin-left: 12px;

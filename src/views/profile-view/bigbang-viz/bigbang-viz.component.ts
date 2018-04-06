@@ -325,7 +325,10 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 
 		this.maxAmount = 0;
 		this.groups.forEach(group => {
+			
 			this.maxAmount = Math.max(this.maxAmount, group.budgetAmount, group.amount);
+			
+			group.subGroups.sort((a,b) => a.id - b.id);
 		});
 
 	}

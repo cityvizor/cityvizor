@@ -225,22 +225,3 @@ input:invalid:not(.novalidate){
 .text-success {
 	color: #5cb85c;
 }
-
-
-
-.list-group-item:first-child, .list-group-item:last-child {
-  border-radius: 0px;
-}
-.list-group-item:first-child, .list-group-item:last-child {
-  border-bottom: 0px;
-}
-a.list-group-item, button.list-group-item {
-  color: #555;
-	border: 0px;
-	border-bottom: 1px solid #eee;
-}
-.list-group {
-	text-align: right;
-	border: 0px;
-  border-right: 3px solid #2581C4;
-}

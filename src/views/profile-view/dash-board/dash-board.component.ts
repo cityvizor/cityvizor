@@ -49,13 +49,6 @@ export class DashboardComponent {
 			});
 	}
 	
-	loadIteratively(source:any[],target:any[],timeout:number){
-		if(source.length) setTimeout(() => {
-			target.push(source.shift());
-			this.loadIteratively(source,target,timeout);
-		},timeout);
-	}
-	
 	openBudget(type:string,year:number):void{
 		if(type === 'inc') this.router.navigate(["../prijmy",{rok:year}],{relativeTo:this.route});
 		if(type === 'exp') this.router.navigate(["../vydaje",{rok:year}],{relativeTo:this.route});
