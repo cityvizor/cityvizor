@@ -40,7 +40,7 @@ const appRoutes: Routes = [
 	{path: ':profile/admin', redirectTo: ':profile/admin/uvod', pathMatch: 'full'},
 	
 	{path: ':profile/:module',component: ProfileViewComponent },
-	{path: ':profile', redirectTo: ':profile/vydaje', pathMatch: 'full'},
+	{path: ':profile', redirectTo: ':profile/prehled', pathMatch: 'full'},
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);
