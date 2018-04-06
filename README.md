@@ -1,4 +1,4 @@
-# CityVizor
+# CityVizor Server
 
 [![dependencies](https://david-dm.org/otevrena-data-mfcr/CityVizor-server.svg)](https://david-dm.org/otevrena-data-mfcr/CityVizor-server)
 
