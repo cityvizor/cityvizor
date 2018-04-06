@@ -71,7 +71,7 @@ pm2 start pm2-config.json --env production
 ## Spuštění pro vývoj
 
 - Server se zrestartuje a kód překompiluje při jakékoliv změně.
-- Na adrese /db běží ```mongo-express```
+- Na adrese /db běží [Mongo Express](https://github.com/mongo-express/mongo-express)
 
 ```
 npm run dev
