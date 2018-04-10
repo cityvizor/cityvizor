@@ -92,6 +92,8 @@ router.delete("/:etl", acl("profile-etls", "write"), (req,res,next) => {
 
 				if(req.query.type === "truncate"){
 					etl.validity = null;
+					etl.lastModified = null;
+					etl.etag = null;
 					etl.save()
 						.then(() => res.sendStatus(200))
 						.catch(err => next(err));

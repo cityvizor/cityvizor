@@ -182,9 +182,15 @@ class ImportTransformer extends EventEmitter {
 	/* HELPER functions */
 
 	string2number(string){
+		
+		if(typeof string === "number") return string;
+		
 		if(!string.length) return 0;
+		
 		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1); // sometimes minus is at the end, put it to first character
+		
 		string = string.replace(",",".");
+		
 		return parseFloat(string);
 	}
 

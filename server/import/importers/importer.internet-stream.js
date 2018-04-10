@@ -52,6 +52,8 @@ class Importer extends EventEmitter {
   importFile(files,cb){
     
     if(!files.dataFile) return cb(new Error("Missing file path"));
+    
+    this.modified = true;
 
     var tasks = [
       (cb) => this.createTempDir(cb),
@@ -136,6 +138,7 @@ class Importer extends EventEmitter {
   }
   
   unzip(cb){
+    
     // no data was downloaded
     if(!this.modified) return cb();
     
@@ -157,7 +160,7 @@ class Importer extends EventEmitter {
   }
 
   parseFile(file,cb){
-
+    
     var error = false;
     
     var source = fs.createReadStream(path.join(this.folder,file));

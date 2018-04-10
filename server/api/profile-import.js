@@ -49,7 +49,7 @@ router.put("/:etl/upload", schema.validate({body: importUploadSchema}), upload.f
 
 				(cb) => fs.unlink(req.files.dataFile[0].path,err => (!err || err.code == 'ENOENT' ? cb() : cb(err))),
 				
-				(cb) => fs.unlink(req.files.eventsFile[0].path,err => (!err || err.code == 'ENOENT' ? cb() : cb(err)))
+				(cb) => !req.files.eventsFile || fs.unlink(req.files.eventsFile[0].path,err => (!err || err.code == 'ENOENT' ? cb() : cb(err)))
 
 			];
 
