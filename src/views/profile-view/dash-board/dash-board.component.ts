@@ -4,6 +4,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 
 import { DataService } from '../../../services/data.service';
 
+import { Dashboard } from "../../../shared/schema/dashboard";
+
 @Component({
 	moduleId: module.id,
 	selector: 'dash-board',
@@ -24,10 +26,7 @@ export class DashboardComponent {
 	maxExpenditureAmount:number = 0;
 	maxIncomeAmount:number = 0;
 
-	dashboard = {
-		expenditures:[],
-		income:[]
-	};
+	dashboard:Dashboard;
 
 	constructor(private dataService: DataService, private router: Router, private route: ActivatedRoute){
 	}
@@ -38,6 +37,9 @@ export class DashboardComponent {
 		
 		this.dataService.getProfileContracts(this.profile._id,{limit:5,sort:"-date"})
 			.then(contracts => this.contracts = contracts)
+		
+		this.dataService.getProfileDashboard(this.profile._id)
+			.then(dashboard => this.dashboard = dashboard)
 		
 		this.dataService.getProfileBudgets(this.profile._id,{limit:3,sort:"-year"})
 			.then(budgets => this.budgets = budgets)

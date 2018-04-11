@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { Paginator } from '../shared/schema/paginator';
 import { ETL } from "../shared/schema/etl";
 import { Counterparty } from "../shared/schema/counterparty";
+import { Dashboard } from "../shared/schema/dashboard";
 
 function toParams(options){
 	if(!options) return "";
@@ -69,6 +70,11 @@ export class DataService {
 	/* CONTRACTS */
 	getProfileContracts(profileId,options?){
 		return this.http.get<any>("/api/profiles/" + profileId + "/contracts" + toParams(options)).toPromise();
+	}
+	
+	/* DASHBOARD */
+	getProfileDashboard(profileId:string){
+		return this.http.get<Dashboard>("/api/profiles/" + profileId + "/dashboard").toPromise();
 	}
 	
 	/* ETL */

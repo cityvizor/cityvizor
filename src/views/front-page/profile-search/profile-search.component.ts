@@ -42,7 +42,7 @@ export class ProfileSearchComponent implements OnInit {
 		let dg = gps.map(n => Math.round(n)); // get degrees
 		let mn = gps.map(n => Math.round((n % 1) * 60 * 1000) / 1000); // get minutes
 		let st = [0,1].map(i => dg[i] + "° " + mn[i] + "'"); // get string
-		return "N " + st[1] + ", E " + st[0] + "'"; // concatenate
+		return "N " + st[1] + ", E " + st[0]; // concatenate
 	}
 
 	cleanString(value:string):string{

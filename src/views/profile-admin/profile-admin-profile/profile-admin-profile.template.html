@@ -3,7 +3,8 @@
 </h2>
 
 <form class="form-horizontal" #profileForm="ngForm" (submit)="save(profileForm)">  
-  <div class="form-group">
+  
+	<div class="form-group">
     <label for="name" class="col-sm-3 control-label">Název obce</label>
     <div class="col-sm-9">
       <input type="text" class="form-control" id="name" name="name" [ngModel]="profile.name" aria-describedby="help-name" required>
@@ -90,4 +91,5 @@
 			<button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Uložit změny</button>
 		</div>
 	</div>
+	
 </form>

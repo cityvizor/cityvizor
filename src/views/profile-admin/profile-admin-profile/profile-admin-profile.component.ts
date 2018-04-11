@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ToastService } from "../../../services/toast.service";
 import { DataService } 		from '../../../services/data.service';
 
-import { AppConfig } from '../../../config/app-config';
+import { AppConfig, IAppConfig } from '../../../config/app-config';
 
 //00006947
 @Component({
@@ -19,10 +19,8 @@ export class ProfileAdminProfileComponent {
 	 
 	@Output()
 	saved:EventEmitter<any> = new EventEmitter();
-	
-	config:any = AppConfig;
 
-	constructor(private toastService:ToastService, private dataService:DataService) {
+	constructor(private toastService:ToastService, private dataService:DataService, @Inject(AppConfig) private config: IAppConfig) {
 	}
 	 
 	save(form){
