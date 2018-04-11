@@ -305,8 +305,8 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 				sg.events.push(event);
 				
 				// sum events to get the Other value
-				eventsAmount += event[conf.amount];
-				eventsBudgetAmount += event[conf.budgetAmount];
+				eventsAmount += event.amount;
+				eventsBudgetAmount += event.budgetAmount;
 			});
 
 			// sort events in sg
@@ -314,9 +314,11 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 
 			// add Other if necessary
 			if (sg.amount !== eventsAmount || sg.budgetAmount !== eventsBudgetAmount) {
-				let event = {name: "Ostatní"};
-				event[conf.amount] = sg.amount - eventsAmount;
-				event[conf.budgetAmount] = sg.budgetAmount - eventsBudgetAmount;
+				let event = {
+					name: "Ostatní",
+					amount: sg.amount - eventsAmount,
+					budgetAmount: sg.budgetAmount - eventsBudgetAmount
+				};
 				sg.events.push(event);
 			}
 			
