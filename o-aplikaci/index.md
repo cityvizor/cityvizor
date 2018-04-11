@@ -31,7 +31,7 @@ Za správnost dat zodpovídají jednotlivé organizace, které aplikaci využív
 
 ### Zdrojový kód
 
-Zdrojový kód aplikace naleznete na GitHubu v repozitáři [otevrena-data-mfcr/CityVizor](https://github.com/otevrena-data-mfcr/CityVizor). Uvítáme jakékoliv konstruktivní připomínky.
+Zdrojový kód aplikace naleznete na GitHubu v repozitářích [otevrena-data-mfcr/CityVizor](https://github.com/otevrena-data-mfcr/CityVizor) a [otevrena-data-mfcr/CityVizor-server](https://github.com/otevrena-data-mfcr/CityVizor-server). Uvítáme jakékoliv konstruktivní připomínky.
 
 ### Podpora prohlížečů
 
@@ -63,13 +63,15 @@ Netestováno
  - JavaScript
  - NodeJS
  - MongoDB
+ - JWT
  - PM2
  - Nginx
- - CentOS
- - GitHub
+ - CentOS 7
  
 #### Frontend
  - TypeScript
- - Angular
- - GitHub
- - GitHub Pages
+ - Angular 5
+ - HTML5
+ - CSS3
+ - Bootstrap v3
+ - Jekyll / GitHub Pages (tato dokumentace)
