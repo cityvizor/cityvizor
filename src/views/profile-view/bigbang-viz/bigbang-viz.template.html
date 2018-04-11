@@ -89,7 +89,7 @@
 						<i class="fa fa-exclamation-circle fa-2x"></i>
 						<p class="text-muted">Tato skupina není rozpočtována.</p>
 				</div>
-				<div *ngFor="let sg of groupIndex[state.group].subGroups" class="parsgagraph">
+				<div *ngFor="let sg of groupIndex[state.group].subGroups">
 
 					<div class="row">
 						<div class="col-md-12">
@@ -103,17 +103,21 @@
 
 								<table class="viztable table table-responsive small">
 									<thead>
-										<tr>
-											<th *ngIf="type === 'exp'">Účel výdaje</th>
-											<th *ngIf="type === 'inc'">Příjem</th>
+										<tr *ngIf="type === 'exp'">
+											<th>Účel výdaje</th>
 											<th>Rozpočtová částka</th>
 											<th>Skutečný výdaj</th>
+										</tr>
+										<tr *ngIf="type === 'inc'">
+											<th>Příjem</th>
+											<th>Rozpočtová částka</th>
+											<th>Skutečný příjem</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr *ngFor="let event of sg.events">
 											<td>
-												<a *ngIf="event.event" (click)="selectEvent(event.event)">{{event.name}}</a>
+												<a *ngIf="event.event" (click)="selectEvent(event._id)">{{event.name}}</a>
 												<span *ngIf="!event.event">{{event.name}}</span>
 											</td>
 											<td class="font-number">{{event[getConf().budgetAmount] | money:0:false}} Kč</td>
