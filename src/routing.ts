@@ -34,7 +34,7 @@ const appRoutes: Routes = [
 	{path: ':profile/admin/:module',component: ProfileAdminComponent},
 	{path: ':profile/admin', redirectTo: ':profile/admin/uvod', pathMatch: 'full'},
 	
-	{path: ':profile/:module',component: ProfileViewComponent},
+	{path: ':profile/:module',component: ProfileViewComponent },
 	{path: ':profile', redirectTo: ':profile/prehled', pathMatch: 'full'},
 ];
 
