@@ -15,6 +15,9 @@ import { SiteAdminComponent } from "./views/site-admin/site-admin.component";
 import { UserAdminComponent } from "./views/user-admin/user-admin.component";
 import { EventDetailComponent } from "./views/event-detail/event-detail.component";
 
+// Front page components
+import { ProfileSearchComponent } from "./views/front-page/profile-search/profile-search.component";
+
 // Data viz components
 import { DashboardComponent } from "./views/profile-view/dash-board/dash-board.component";
 import { BigBangVizComponent } from './views/profile-view/bigbang-viz/bigbang-viz.component';
@@ -93,6 +96,7 @@ var jwtOptions = {
   declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
+		/* FRONT PAGE */ ProfileSearchComponent,
 		/* VIZ */ BigBangVizComponent, InvoiceListComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataSourcesComponent,
 		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
