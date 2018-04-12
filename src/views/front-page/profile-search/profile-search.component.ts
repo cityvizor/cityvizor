@@ -42,7 +42,7 @@ export class ProfileSearchComponent implements OnInit {
 		})
 			.catch(err => {
 				this.loading = false;
-				this.toastService.toast("Nastal chyba při načítání obcí.","error");
+				this.toastService.toast("Nastala chyba při načítání obcí.","error");
 			});
 	}
 	
