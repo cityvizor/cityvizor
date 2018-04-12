@@ -39,10 +39,11 @@ export class ChartEventOverviewComponent {
 		let keys = this.keys[this.type];
 
 		let overdraft = Math.max(0, data[keys.amount] - data[keys.budgetAmount]);
-		
-		let max = Math.max(data[keys.budgetAmount], data[keys.amount]);
 				
-		this.amount = (data[keys.amount] - overdraft) / max;
+		// the amount spent/received minus overdraft if any
+		this.amount = overdraft ? ((data[keys.amount] - overdraft) / data[keys.amount]) : (data[keys.amount] / data[keys.budgetAmount]);
+		
+		// part of amount that is covered by invoices
 		this.invoices = Math.min(1, data[keys.paymentsAmount] / (data[keys.amount] - overdraft));
 		this.other = 1 - this.invoices;
 
