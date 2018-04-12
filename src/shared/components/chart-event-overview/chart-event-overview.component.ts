@@ -14,6 +14,20 @@ export class ChartEventOverviewComponent {
 	over:boolean;
 	
 	currentYear:boolean;
+	
+	keys:any = {
+		"expenditure": {
+			amount: "expenditureAmount",
+			budgetAmount: "budgetExpenditureAmount",
+			paymentsAmount: "paymentsExpenditureAmount"
+		},
+		"income": {
+			amount: "incomeAmount",
+			budgetAmount: "budgetIncomeAmount",
+			paymentsAmount: "paymentsIncomeAmount"
+		}
+	};
+			
 
 	@Input() type:any;
 	
@@ -22,31 +36,20 @@ export class ChartEventOverviewComponent {
 		
 		this.currentYear = (data.year === (new Date()).getFullYear());
 
-		if(this.type === "expenditure"){
-			
-			let max = data.expenditureAmount < data.budgetExpenditureAmount ? data.budgetExpenditureAmount : 2 * data.expenditureAmount - data.budgetExpenditureAmount;
-			
-			this.amount = data.expenditureAmount / max;
-			this.invoices = data.paymentsExpenditureAmount / data.expenditureAmount;
-			this.other = 1 - this.invoices;
-			
-			this.over = data.expenditureAmount > data.budgetExpenditureAmount;
-		}
+		let keys = this.keys[this.type];
+
+		let overdraft = Math.max(0, data[keys.amount] - data[keys.budgetAmount]);
 		
-		if(this.type === "income"){
-			let max = data.incomeAmount < data.budgetIncomeAmount ? data.budgetIncomeAmount : 2 * data.incomeAmount - data.budgetIncomeAmount;
-			
-			this.amount = data.incomeAmount / max;
-			this.invoices = data.paymentsIncomeAmount / data.incomeAmount;
-			this.other = 1 - this.invoices;
-			
-			this.over = data.incomeAmount > data.budgetIncomeAmount;
-		}
+		let max = Math.max(data[keys.budgetAmount], data[keys.amount]);
+				
+		this.amount = (data[keys.amount] - overdraft) / max;
+		this.invoices = Math.min(1, data[keys.paymentsAmount] / (data[keys.amount] - overdraft));
+		this.other = 1 - this.invoices;
+
+		this.over = !!overdraft;
+		
 	};
 	
-	//@Output() click:EventEmitter<string> = new EventEmitter();
-
-	 
 	minWidth:number = 0;
 		 
 
