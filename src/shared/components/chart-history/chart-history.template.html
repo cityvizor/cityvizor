@@ -1,0 +1,16 @@
+<div class="row">
+  <a [routerLink]="getLink(currentYear)" class="gauge col-xs-4" (mouseenter)="hoverYear = currentYear" (mouseout)="hoverYear = null">
+    {{getLastAmount() | money:0:true}} Kč
+  </a>
+  <div class="right col-xs-8">
+    <div class="title">
+      {{name}} {{hoverYear}}
+    </div>
+    <div class="bars">
+      <a *ngFor="let bar of bars" [routerLink]="getLink(bar.year)" class="bar" [title]="'Rozpočet: ' + (bar.budgetAmount | money:0:false) + ' Kč, Výdaje: ' + (bar.amount | money:0:false) + ' Kč'" [class.dim]="hoverYear && hoverYear !== bar.year" (mouseenter)="hoverYear = bar.year" (mouseleave)="hoverYear = null">
+        <span class="outer"></span>
+        <span class="middle" [style.height]="(bar.budgetAmount / maxAmount * 100) + '%'"></span>
+        <span class="inner" [style.height]="(bar.amount / maxAmount * 100) + '%'"></span>
+      </a>
+  </div>
+</div>
