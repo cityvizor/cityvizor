@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DataService } from '../../../services/data.service';
+import { ToastService } from "../../../services/toast.service";
 
 @Component({
 	moduleId: module.id,
@@ -17,16 +18,32 @@ export class ProfileSearchComponent implements OnInit {
 	
 	czechRepublicGPSBounds = {"lat": {"min":48.5525,"max":51.0556}, "lng":{"min":12.0914,"max":18.8589}};
 	
-  constructor(private dataService: DataService, private router: Router) { }
+	loading:boolean = false;
+	
+  constructor(private dataService: DataService, private toastService:ToastService, private router: Router) { }
 	
 	ngOnInit(){
+		
+		this.loading = true;
+		
 		this.dataService.getProfiles().then(profiles => {
+			
+			this.loading = false;
+			
 			profiles.forEach(profile => {
 				profile.searchString = this.cleanString(profile.name);
 			});
-			profiles.sort((a,b) => a.searchString.localeCompare(b.searchString));
+			profiles.sort((a,b) => {
+				if(a.status === "pending" && b.status !== "pending") return 1;
+				if(a.status !== "pending" && b.status === "pending") return -1;
+				return a.searchString.localeCompare(b.searchString);
+			});
 			this.profiles = profiles;
-		});
+		})
+			.catch(err => {
+				this.loading = false;
+				this.toastService.toast("Nastal chyba při načítání obcí.","error");
+			});
 	}
 	
 	gps2css(gps){
