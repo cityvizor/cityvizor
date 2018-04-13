@@ -55,7 +55,8 @@ module.exports = {
 		"list": true
 	},
 	"budgets": {
-		"read": true
+		"read": true,
+		"list": true
 	},
 	"payments": {
 		"read": true,
