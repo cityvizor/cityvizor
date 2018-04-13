@@ -1,5 +1,9 @@
 module.exports = {
 	
+	"counterparty": {
+		"read": true
+	},
+	
 	"entity": {
 		"read": true,
 		"list": true
@@ -28,6 +32,10 @@ module.exports = {
 	"profile-events": {
 		"read": true,
 		"list": true
+	},
+	
+	"profile-dashboard": {
+		"read": true
 	},
 	
 	"profile-image": {

@@ -19,11 +19,14 @@ router.use((req, res, next) => {
 
 
 /* GENERAL API */
-router.use("/profiles",require("../api/profiles"));
+
+router.use("/counterparties",require("../api/counterparties"));
 
 router.use("/etls",require("../api/etls"));
 
 router.use("/events",require("../api/events"));
+
+router.use("/profiles",require("../api/profiles"));
 
 router.use("/login",require("../api/login"));
 
