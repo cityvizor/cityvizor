@@ -171,7 +171,9 @@ class Importer extends EventEmitter {
       
     parser.on("data", chunk => {
 
-      let amount = Number(chunk.POLOZKA) > 5000 ? chunk.CASTKA_DAL - chunk.CASTKA_MD : chunk.CASTKA_MD - chunk.CASTKA_DAL;
+      let amount = parseFloat(chunk["CASTKA_DAL"]) - parseFloat(chunk["CASTKA_MD"]);
+      
+      if(Number(chunk.POLOZKA) < 5000) amount = (-1) * amount;
 
       if(chunk.ORGANIZACE && chunk.ORGANIZACE_NAZEV){
         let event = { id: chunk.ORGANIZACE, name: chunk.ORGANIZACE_NAZEV };
