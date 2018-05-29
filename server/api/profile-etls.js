@@ -36,7 +36,7 @@ var etlCreateSchema = {
 	type: "object",
 	properties: {
 		"year": {type: "number", required: true}
-	}	
+	}
 };
 
 router.post("/", schema.validate({body: etlCreateSchema}), acl("profile-etls","write"), (req,res,next) => {

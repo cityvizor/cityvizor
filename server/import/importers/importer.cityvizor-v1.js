@@ -183,8 +183,7 @@ class Importer extends EventEmitter {
     var reader = new Writable({
       objectMode: true,
       write: (line,enc,callback) => {
-        let event = { id: line.id, name: line.name };
-        this.emit("event",event);
+        this.emit("event",{ id: line.id, name: line.name });
         callback();
       }
     });
