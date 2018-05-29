@@ -68,7 +68,9 @@ class ImportTransformer extends EventEmitter {
 	
 	writeEvent(event) {
 		
+		if(!event.id) { this.emit("warning","Akce: Neuvedeno číslo akce, záznam byl ignorován."); return; }
 		if(!event.name || !event.name.trim()) { this.emit("warning","Akce č. " + event.id + ": Neuveden název, záznam byl ignorován."); return; }
+		
 
 		if(this.eventIndex[event.id]) return;
 		
