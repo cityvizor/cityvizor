@@ -204,12 +204,9 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 	}
 
 	getDonutChartData(sg) {
-
-		let conf = this.getConf();
-
 		return {
-			amount: sg[conf.amount],
-			budgetAmount: sg[conf.budgetAmount]
+			amount: sg.amount,
+			budgetAmount: sg.budgetAmount
 		};
 	}
 
@@ -238,9 +235,12 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 
 		let queue = [
 			this.dataService.getProfileBudget(this.profile._id, this.state.year).then(budget => this.data.budget = budget),
-			this.dataService.getProfileEvents(this.profile._id, {
-				year: this.state.year
-			}).then(events => this.data.events = events)
+			this.dataService.getProfileEvents(this.profile._id, { year: this.state.year }).then(events => {
+				this.data.events = events;
+				// create event index
+				this.data.eventIndex = {};
+				this.data.events.forEach(event => this.data.eventIndex[event._id] = event);
+			})
 		];
 
 
@@ -260,6 +260,7 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 
 		let budget = this.data.budget;
 		let events = this.data.events;
+		let eventIndex = this.data.eventIndex;
 
 		if (!budget || !events) return;
 
@@ -269,44 +270,63 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 			group.subGroups = [];
 		});
 
-		// create event index
-		let eventIndex = {};
-		events.forEach(event => eventIndex[event._id] = event);
-
 		let conf = this.getConf();
 
-		budget[conf.subGroup.type].forEach(sg => {
+		budget[conf.subGroup.type].forEach(budgetSG => {
 
-			let eventAmount = 0;
-			let eventBudgetAmount = 0;
+			let groupId = budgetSG.id.substring(0, 2);
+			let group = this.groupIndex[groupId];
 
-			sg.events.forEach(event => {
-				// assign name from event index
-				event.name = eventIndex[event.event] ? eventIndex[event.event].name : "Nepojmenovaná investiční akce";
+			// this shouldnt happen, but in case
+			if (!group) { console.log("MISSING GROUP!"); return; }
+			
+			// create the subgroup for view (do not modify source data)
+			let sg = {
+				id: budgetSG.id,
+				name: "",
+				events:[],
+				amount: budgetSG[conf.amount],
+				budgetAmount: budgetSG[conf.budgetAmount]
+			};
+			
+			let eventsAmount = 0;
+			let eventsBudgetAmount = 0;
+
+			budgetSG.events.forEach(budgetSGevent => {
+				let event = {
+					_id: budgetSGevent.event,
+					// assign name from event index
+					name: eventIndex[budgetSGevent.event] ? eventIndex[budgetSGevent.event].name : "Nepojmenovaná investiční akce",
+					// get correct amounts by inc or exp
+					amount: budgetSGevent[conf.amount],
+					budgetAmount: budgetSGevent[conf.budgetAmount]
+				};
+				
+				sg.events.push(event);
+				
 				// sum events to get the Other value
-				eventAmount += event[conf.amount];
-				eventBudgetAmount += event[conf.budgetAmount];
+				eventsAmount += event.amount;
+				eventsBudgetAmount += event.budgetAmount;
 			});
 
-			// sort events in subGroups
+			// sort events in sg
 			sg.events.sort((a, b) => a.name.localeCompare(b.name));
 
 			// add Other if necessary
-			if (sg[conf.amount] !== eventAmount || sg[conf.budgetAmount] !== eventBudgetAmount) {
-				let event = {name: "Ostatní"};
-				event[conf.amount] = sg[conf.amount] - eventAmount;
-				event[conf.budgetAmount] = sg[conf.budgetAmount] - eventBudgetAmount;
+			if (sg.amount !== eventsAmount || sg.budgetAmount !== eventsBudgetAmount) {
+				let event = {
+					name: "Ostatní",
+					amount: sg.amount - eventsAmount,
+					budgetAmount: sg.budgetAmount - eventsBudgetAmount
+				};
 				sg.events.push(event);
 			}
+			
+			
+			/* integrate the subgroup to the parent group */
 
-			let groupId = sg.id.substring(0, 2);
-			let group = this.groupIndex[groupId];
-
-			// this shouldnt happen, but it might
-			if (!group) return;
-
-			group.amount += sg[conf.amount];
-			group.budgetAmount += sg[conf.budgetAmount];
+			group.amount += sg.amount;
+			group.budgetAmount += sg.budgetAmount;
 
 			// add the subGroup to the subGroup list
 			group.subGroups.push(sg);
@@ -319,16 +339,15 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 				// get the index of names
 				let index = codelist.getIndex(new Date(budget.year, 0, 1));
 				// assign all the names
-				budget[conf.subGroup.type].forEach(sg => sg.name = index[sg.id] || (conf.subGroup.name + " č. " + sg.id));
+				this.groups.forEach(group => {
+					group.subGroups.forEach(sg => sg.name = index[sg.id] || (conf.subGroup.name + " č. " + sg.id));
+				});
 			})
 			.catch(err => this.toastService.toast("Nepodařilo se načíst názvy položek a paragrafů.","error"));
 
 		this.maxAmount = 0;
 		this.groups.forEach(group => {
-			
 			this.maxAmount = Math.max(this.maxAmount, group.budgetAmount, group.amount);
-			
-			group.subGroups.sort((a,b) => a.id - b.id);
 		});
 
 	}

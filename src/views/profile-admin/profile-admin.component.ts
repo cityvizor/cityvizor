@@ -69,9 +69,9 @@ export class ProfileAdminComponent {
 		}		
 		
 	}
-	
+	 
 	getModuleLink(moduleId){
-		return ['/obec/' + this.profile.url + '/admin/' + moduleId];
+		return ['/profil/' + this.profile.url + '/admin/' + moduleId];
 	}
 	 
 
