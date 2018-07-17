@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
 
 import { ToastService } from "../../../services/toast.service";
 import { DataService } 		from '../../../services/data.service';
@@ -20,7 +20,7 @@ export class ProfileAdminProfileComponent {
 	@Output()
 	saved:EventEmitter<any> = new EventEmitter();
 
-	constructor(private toastService:ToastService, private dataService:DataService, @Inject(AppConfig) private config: IAppConfig) {
+	constructor(private toastService:ToastService, private dataService:DataService, @Inject(AppConfig) public config: IAppConfig) {
 	}
 	 
 	save(form){
