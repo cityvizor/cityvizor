@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap';
 

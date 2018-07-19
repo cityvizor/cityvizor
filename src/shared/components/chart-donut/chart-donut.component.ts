@@ -1,4 +1,5 @@
-import { Component, Input, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
 	moduleId: module.id,
