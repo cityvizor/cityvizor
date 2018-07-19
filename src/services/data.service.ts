@@ -133,6 +133,18 @@ export class DataService {
 	getEvent(eventId){
 		return this.http.get<any>("/api/events/" + eventId).toPromise();
 	}
+  
+  getCounterparty(conterpartyId:string){
+		return this.http.get<Counterparty>("/api/counterparties/" + conterpartyId).toPromise();
+	}
+  
+  getCounterparties(options?:any){
+		return this.http.get<any[]>("/api/counterparties" + toParams(options)).toPromise();
+	}
+  
+  searchCounterparties(query:string){
+		return this.http.get<any[]>("/api/counterparties/search" + toParams({query:query})).toPromise();
+	}
 	
 	/* USERS */	
 	getUsers(){

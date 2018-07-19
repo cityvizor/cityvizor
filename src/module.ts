@@ -14,9 +14,11 @@ import { ProfileAdminComponent } from "./views/profile-admin/profile-admin.compo
 import { SiteAdminComponent } from "./views/site-admin/site-admin.component";
 import { UserAdminComponent } from "./views/user-admin/user-admin.component";
 import { EventDetailComponent } from "./views/event-detail/event-detail.component";
+import { CounterpartyViewComponent } from "./views/counterparty-view/counterparty-view.component";
 
 // Front page components
 import { ProfileSearchComponent } from "./views/front-page/profile-search/profile-search.component";
+import { CounterpartySearchComponent } from "./views/front-page/counterparty-search/counterparty-search.component";
 
 // Data viz components
 import { DashboardComponent } from "./views/profile-view/dash-board/dash-board.component";
@@ -95,8 +97,8 @@ var jwtOptions = {
 	],
   declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent,
-		/* FRONT PAGE */ ProfileSearchComponent,
+		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent, CounterpartyViewComponent,
+		/* FRONT PAGE */ ProfileSearchComponent, CounterpartySearchComponent,
 		/* VIZ */ BigBangVizComponent, InvoiceListComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataSourcesComponent,
 		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
