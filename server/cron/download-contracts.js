@@ -64,11 +64,12 @@ function downloadContractsLoop(profiles,cb){
 	// options for HTPPS request
 	let options = {
 		host: 'smlouvy.gov.cz',
+    rejectUnauthorized: false, 
 		port: 443,
 		path: "/vyhledavani?searchResultList-limit=" + limit + "&do=searchResultList-setLimit&subject_idnum=" + profile.ico + "&all_versions=0",
 		method: 'GET'
 	};
-
+  
 	// request data from YQL by HTTPS
 	var req = https.request(options, function(response) {
 
@@ -114,38 +115,27 @@ function downloadContractsLoop(profiles,cb){
 			console.log("Received " + contracts.length + " contracts");
 
 			Contract.remove({profile:profile._id})
-				.then(() => {
-
-				console.log("Removed old contracts");
-
-				// insert all the contracts to DB
-				Contract.insertMany(contracts).then(contracts => {
-					console.log("Written " + contracts.length + " contracts");
-					
-					// update last update timestamp for contracts
-					profile.contracts.lastUpdate = new Date();
-					profile.markModified("contracts");
-					profile.save()
-						.then(() => {
-							console.log("Updated profile lastUpdated timestamp.");
-							downloadContractsLoop(profiles,cb);
-						})
-						.catch(err => {
-							console.error("Error when saving contracts update timestamp: " + err.message)
-							downloadContractsLoop(profiles,cb);
-						});
-				});
-
-			})
-				.catch(e => {
-				console.log("Error: " + e.message);
-			});
+				.then(() => console.log("Removed old contracts"))
+      // insert all the contracts to DB
+        .then(() => Contract.insertMany(contracts).then(contracts => console.log("Written " + contracts.length + " contracts")))
+        .then(() => {
+            // update last update timestamp for contracts
+            profile.contracts.lastUpdate = new Date();
+            profile.markModified("contracts");
+            return profile.save().then(() => console.log("Updated profile lastUpdated timestamp."));
+			  })
+        .then(() => downloadContractsLoop(profiles,cb))
+        .catch(err => {
+          console.error("Error: " + err.message)
+          downloadContractsLoop(profiles,cb);
+        });
 
 		});
 	});
 
 	req.on('error', (e) => {
 		console.error("Error: " + e.message);
+    downloadContractsLoop(profiles,cb);
 	});
 
 	req.end();
