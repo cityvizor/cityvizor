@@ -1,4 +1,4 @@
-import { Component, trigger, state, style, transition, animate } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Title }     from '@angular/platform-browser';
 

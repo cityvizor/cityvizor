@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Title }     from '@angular/platform-browser';
 
 import { AppConfig, IAppConfig } from '../../config/config';
-import { Subscription } from 'rxjs/Subscription' ;
+import { Subscription } from 'rxjs' ;
 
 @Component({
 	moduleId: module.id,
