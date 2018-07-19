@@ -1,7 +1,8 @@
 module.exports = {
 	
 	"counterparty": {
-		"read": true
+		"read": true,
+    "list": true
 	},
 	
 	"entity": {
