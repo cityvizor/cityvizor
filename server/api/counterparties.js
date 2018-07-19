@@ -21,7 +21,10 @@ router.get("/search", etlFilter({visible:true}), acl("counterparty","list"), (re
     {
       $match: {
         etl: {$in: req.etls},
-        $or: [{name: new RegExp(req.query.query,"i")},{counterpartyId: req.query.query}]
+        $or: [
+          {$text: {$search: req.query.query}},
+          {counterpartyId: req.query.query}
+        ]
       }
     },
     { $group: {_id : "$counterpartyId", "name": {$first: "$name"}} },
