@@ -138,19 +138,27 @@ export class DataService {
 	}
 
 	getCounterparty(conterpartyId: string) {
-		return this.http.get<Counterparty>("/api/counterparties/" + conterpartyId).toPromise();
+		return this.http.get<Counterparty>(this.root + "/counterparties/" + conterpartyId).toPromise();
 	}
 
 	getCounterparties(options?: any) {
-		return this.http.get<any[]>("/api/counterparties" + toParams(options)).toPromise();
+		return this.http.get<any[]>(this.root + "/counterparties" + toParams(options)).toPromise();
+	}
+
+	getCounterpartiesTop(){
+		return this.http.get<any[]>(this.root + "/counterparties/top").toPromise();
 	}
 
 	searchCounterparties(query: string) {
-		return this.http.get<any[]>("/api/counterparties/search" + toParams({ query: query })).toPromise();
+		return this.http.get<any[]>(this.root + "/counterparties/search" + toParams({ query: query })).toPromise();
 	}
 
-	getCounterpartyProfiles(counterpartyId:string){
-		return this.http.get<any[]>("/api/counterparties/" + counterpartyId + "/profiles").toPromise();
+	getCounterpartyBudgets(counterpartyId:string){
+		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/budgets").toPromise();
+	}
+
+	getCounterpartyPayments(counterpartyId:string){
+		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/payments").toPromise();
 	}
 
 	/* USERS */

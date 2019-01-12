@@ -1,8 +1,6 @@
 <div class="container">
-  <div *ngFor="let profile of profiles" class="profile">
-    {{profile.name}}
-    <div *ngFor="let budget of profile.budgets" class="budget">
-      {{budget.year}} - {{budget.amount | money:0:false}} Kč
-    </div>
+  <div *ngFor="let budget of budgets" class="profile">
+    {{budget.profile.name}} - {{budget.year}} -
+    {{budget.expenditureAmount}}
   </div>
 </div>

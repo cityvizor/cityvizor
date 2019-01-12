@@ -1,14 +1,14 @@
-import { NgModule }      from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { SharedModule } from 'app/shared/shared.module';
 
-import { AppComponent }  from './app.component';
+import { AppComponent } from './app.component';
 
 // Views components
-import { FrontPageComponent }  from 'app/views/front-page/front-page.component';
+import { FrontPageComponent } from 'app/views/front-page/front-page.component';
 import { ProfileViewComponent } from 'app/views/profile-view/profile-view.component';
 import { ProfileAdminComponent } from "app/views/profile-admin/profile-admin.component";
 import { SiteAdminComponent } from "app/views/site-admin/site-admin.component";
@@ -23,6 +23,8 @@ import { CounterpartySearchComponent } from "app/views/front-page/counterparty-s
 
 // Couterparty components
 import { CounterpartyViewProfilesComponent } from "app/views/counterparty-view/counterparty-view-profiles/counterparty-view-profiles.component";
+import { CounterpartyViewPaymentsComponent } from "app/views/counterparty-view/counterparty-view-payments/counterparty-view-payments.component";
+
 // Data viz components
 import { DashboardComponent } from "app/views/profile-view/dash-board/dash-board.component";
 import { BigBangVizComponent } from 'app/views/profile-view/bigbang-viz/bigbang-viz.component';
@@ -51,10 +53,10 @@ import { UserAdminAccountComponent } from "app/views/user-admin/user-admin-accou
 import { EasterEggEqualiserComponent } from 'app/shared/components/easteregg-equaliser/easteregg-equaliser.component';
 
 // Services
-import { DataService } 		from 'app/services/data.service';
-import { CodelistService } 		from 'app/services/codelist.service';
-import { ToastService } 		from 'app/services/toast.service';
-import { AuthService } 		from 'app/services/auth.service';
+import { DataService } from 'app/services/data.service';
+import { CodelistService } from 'app/services/codelist.service';
+import { ToastService } from 'app/services/toast.service';
+import { AuthService } from 'app/services/auth.service';
 import { ACLService } from "app/services/acl.service";
 
 // Import Modules
@@ -63,9 +65,9 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { JwtModule } from '@auth0/angular-jwt';
 
 // Shared coremponents
-import { LoginFormComponent } 		from 'app/shared/components/login-form/login-form.component';
-import { HeaderMenuComponent } 		from 'app/shared/components/header-menu/header-menu.component';
-import { ProfileHeaderComponent } 		from 'app/shared/components/profile-header/profile-header.component';
+import { LoginFormComponent } from 'app/shared/components/login-form/login-form.component';
+import { HeaderMenuComponent } from 'app/shared/components/header-menu/header-menu.component';
+import { ProfileHeaderComponent } from 'app/shared/components/profile-header/profile-header.component';
 
 // Routes
 import { routing } from './app-routing.module';
@@ -75,21 +77,21 @@ import { AppConfig, AppConfigData } from "../config/config";
 import { WordCloudComponent } from './app/shared/word-cloud/word-cloud.component';
 
 // settings for JWT
-export function tokenGetter():string{
+export function tokenGetter(): string {
 	return localStorage.getItem('id_token') || "";
 }
 
 var jwtOptions = {
 	config: {
 		tokenGetter: tokenGetter,
-		whitelistedDomains: ['cityvizor.cz'],
+		whitelistedDomains: ['cityvizor.cz','dev.cityvizor.cz'],
 		throwNoTokenError: false,
 		skipWhenExpired: true
 	}
 };
 
 @NgModule({
-  imports: [
+	imports: [
 		SharedModule,
 		BrowserModule,
 		BrowserAnimationsModule,
@@ -99,15 +101,15 @@ var jwtOptions = {
 		FileUploadModule,
 		JwtModule.forRoot(jwtOptions)
 	],
-  declarations: [
+	declarations: [
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent, CounterpartyViewComponent,
 		/* FRONT PAGE */ ProfileSearchComponent, CounterpartySearchComponent,
-    /* COUNTERPSRTY */ CounterpartyViewProfilesComponent,
+    	/* COUNTERPSRTY */ CounterpartyViewProfilesComponent, CounterpartyViewPaymentsComponent,
 		/* VIZ */ BigBangVizComponent, InvoiceListComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataSourcesComponent,
 		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
-    /* Equaliser Component */ EasterEggEqualiserComponent,
+    	/* Equaliser Component */ EasterEggEqualiserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
 		/* Shared Components */ LoginFormComponent, HeaderMenuComponent, ProfileHeaderComponent, WordCloudComponent,
 	],
@@ -118,6 +120,6 @@ var jwtOptions = {
 		/* Custom Services */ DataService, CodelistService, ToastService, AuthService, ACLService,
 		/* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
 	],
-  bootstrap: [ AppComponent ]
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

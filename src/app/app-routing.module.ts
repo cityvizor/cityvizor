@@ -7,6 +7,7 @@ import { ProfileAdminComponent } from './views/profile-admin/profile-admin.compo
 
 import { CounterpartyViewComponent } from './views/counterparty-view/counterparty-view.component';
 import { CounterpartyViewProfilesComponent } from './views/counterparty-view/counterparty-view-profiles/counterparty-view-profiles.component';
+import { CounterpartyViewPaymentsComponent } from './views/counterparty-view/counterparty-view-payments/counterparty-view-payments.component';
 
 import { SiteAdminComponent } from './views/site-admin/site-admin.component';
 import { UserAdminComponent } from './views/user-admin/user-admin.component';
@@ -32,7 +33,7 @@ const appRoutes: Routes = [
     component: CounterpartyViewComponent,
     children: [
       { path: 'obce', component: CounterpartyViewProfilesComponent },
-      { path: 'faktury', component: CounterpartyViewProfilesComponent },
+      { path: 'faktury', component: CounterpartyViewPaymentsComponent },
       { path: '', redirectTo: 'obce', pathMatch: 'full'}
     ]
   },
