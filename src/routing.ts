@@ -1,8 +1,13 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import { FrontPageComponent } from './views/front-page/front-page.component';
-import { ProfileAdminComponent } from './views/profile-admin/profile-admin.component';
+
 import { ProfileViewComponent } from './views/profile-view/profile-view.component';
+import { ProfileAdminComponent } from './views/profile-admin/profile-admin.component';
+
+import { CounterpartyViewComponent } from './views/counterparty-view/counterparty-view.component';
+import { CounterpartyViewProfilesComponent } from './views/counterparty-view/counterparty-view-profiles/counterparty-view-profiles.component';
+
 import { SiteAdminComponent } from './views/site-admin/site-admin.component';
 import { UserAdminComponent } from './views/user-admin/user-admin.component';
 
@@ -21,6 +26,17 @@ const appRoutes: Routes = [
 	{path: 'ucet/:cat',component: UserAdminComponent},
 	{path: 'ucet', redirectTo: 'ucet/nastaveni', pathMatch: 'full'},
 	
+  /* COUNTERPARTIES */
+	{
+    path: 'dodavatele/:counterparty',
+    component: CounterpartyViewComponent,
+    children: [
+      { path: 'obce', component: CounterpartyViewProfilesComponent },
+      { path: 'faktury', component: CounterpartyViewProfilesComponent },
+      { path: '', redirectTo: 'obce', pathMatch: 'full'}
+    ]
+  },
+  
 	/* PROFILES */
 	
 	/* backwards compatibility */

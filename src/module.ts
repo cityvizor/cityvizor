@@ -20,6 +20,9 @@ import { CounterpartyViewComponent } from "./views/counterparty-view/counterpart
 import { ProfileSearchComponent } from "./views/front-page/profile-search/profile-search.component";
 import { CounterpartySearchComponent } from "./views/front-page/counterparty-search/counterparty-search.component";
 
+
+// Couterparty components
+import { CounterpartyViewProfilesComponent } from "./views/counterparty-view/counterparty-view-profiles/counterparty-view-profiles.component";
 // Data viz components
 import { DashboardComponent } from "./views/profile-view/dash-board/dash-board.component";
 import { BigBangVizComponent } from './views/profile-view/bigbang-viz/bigbang-viz.component';
@@ -99,6 +102,7 @@ var jwtOptions = {
 		AppComponent,
 		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent, CounterpartyViewComponent,
 		/* FRONT PAGE */ ProfileSearchComponent, CounterpartySearchComponent,
+    /* COUNTERPSRTY */ CounterpartyViewProfilesComponent,
 		/* VIZ */ BigBangVizComponent, InvoiceListComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataSourcesComponent,
 		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,

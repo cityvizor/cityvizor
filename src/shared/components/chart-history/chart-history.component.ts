@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 class ChartHistoryBar {
 

@@ -13,7 +13,7 @@
   <div class="row" class="list">
     <div class="col-sm-8 col-sm-offset-2">
       <div class="list-group">
-        <a *ngFor="let result of results" [routerLink]="'/dodavatel/' + result._id" class="list-group-item">
+        <a *ngFor="let result of results" [routerLink]="'/dodavatele/' + result.counterpartyId" class="list-group-item">
           <span class="badge">IČO: {{result.counterpartyId}}</span>
           {{result.name}}
         </a>
