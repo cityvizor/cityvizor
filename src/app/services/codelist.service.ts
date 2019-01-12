@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Codelist } from "../shared/schema/codelist";
+import { Codelist } from "app/shared/schema/codelist";
 import { environment } from 'environments/environment.local';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class CodelistService {
 	getCodelist(id:string):Promise<Codelist>{
 
 		if(!this.codelists[id]){
-			this.codelists[id] = this.http.get<Codelist>(environment.api_root + "/api/codelists/" + id).toPromise().then(codelist => new Codelist(codelist));
+			this.codelists[id] = this.http.get<Codelist>(environment.api_root + "/codelists/" + id).toPromise().then(codelist => new Codelist(codelist));
 		}
 		
 		return this.codelists[id];
