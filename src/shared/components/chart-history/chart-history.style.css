@@ -1,18 +1,19 @@
-:host{width:270px;height:80px;}
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
 
-.gauge{background-color:#E22926;color:#fff;width:80px;height:80px;border-radius:40px;text-align:center;line-height:80px;vertical-align:middle;text-decoration:none;}
+.drawpath {
+	stroke-dasharray: 1000;
+	stroke-dashoffset: 1000;
+	animation: dash 15s linear forwards;
+}
 
-.right{position:relative;height:80px;margin-left:20px;}
-
-.title{position:absolute;top:0;left:0;width:100%;height:40px;font-size:20px;text-align:left;}
-
-.bars{position:absolute;top:50%;left:0;width:100%;}
-.bar{display:inline-block;position:relative;width:20px;height:40px;}
-.bar:first-child{padding-left:0;}
-.bar:last-child{padding-right:0;}
-.bar > * {position:absolute;bottom:0;left:5px;border-radius:5px;width:10px;min-height:10px;}
-.bar .outer{background-color:#eee;height:100%;}
-.bar .middle{background-color:#ff9491;}
-.bar .inner{background-color:#E22926;}
-
-.bar.dim{opacity:.2;}
+@keyframes dash {
+	from {
+		stroke-dashoffset: 1000;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}

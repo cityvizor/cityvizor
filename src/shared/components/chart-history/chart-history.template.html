@@ -1,16 +1,28 @@
-<div class="row">
-  <a [routerLink]="getLink(currentYear)" class="gauge col-xs-4" (mouseenter)="hoverYear = currentYear" (mouseout)="hoverYear = null">
-    {{getLastAmount() | money:0:true}} Kč
-  </a>
-  <div class="right col-xs-8">
-    <div class="title">
-      {{name}} {{hoverYear}}
+<div class="" style="
+border: 1px solid #eee;
+border-radius: 10px;
+background: white; margin-bottom: 15px;">
+  <div class="row  vertical-align">
+    <div class="col-xs-5" style="
+    height: 100%; text-align: center; padding-right: 0px;">
+      <div>
+        <i [attr.class]="'fa fa-4x '+icon" style="color: #2581C4;"></i>
+        <h4 style="color: #2581C4;">{{name}}</h4>
+      </div>
     </div>
-    <div class="bars">
-      <a *ngFor="let bar of bars" [routerLink]="getLink(bar.year)" class="bar" [title]="'Rozpočet: ' + (bar.budgetAmount | money:0:false) + ' Kč, Výdaje: ' + (bar.amount | money:0:false) + ' Kč'" [class.dim]="hoverYear && hoverYear !== bar.year" (mouseenter)="hoverYear = bar.year" (mouseleave)="hoverYear = null">
-        <span class="outer"></span>
-        <span class="middle" [style.height]="(bar.budgetAmount / maxAmount * 100) + '%'"></span>
-        <span class="inner" [style.height]="(bar.amount / maxAmount * 100) + '%'"></span>
-      </a>
-  </div>
+    <div class="col-xs-7" style="
+    height: 100%;
+    border-left: 1px solid #eee;
+    background: #fcfcfc;
+   ">
+      <div class="" style="text-transform: uppercase; color: #777; font-size: 75%; margin-top: 15px;">Rozpočtované výdaje {{currentYear}}</div>
+      <h4 style="color: #2581C4;">{{getLastAmount() | money:0:true}} Kč</h4>
+      <svg viewBox="0 0 200 100" style="width:100%; height: auto;">
+        <path  [attr.d]="chartPathString" stroke="#2581C4" stroke-width="3" fill="none" [ngClass]="{'drawpath': true}"></path>
+        <g *ngFor="let bar of bars; let i = index">
+          <text [attr.x]="i*50+25" y="80" text-anchor="middle" fill="#777" style="font-size: 75%;">{{bar.year}}</text>
+        </g>
+      </svg>
+    </div>
+  </div> 
 </div>

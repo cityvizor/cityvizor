@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MinLengthValidator } from '@angular/forms';
 
 class ChartHistoryBar {
 
@@ -21,6 +22,9 @@ export class ChartHistoryComponent implements OnChanges {
   
   @Input()
   name:string;
+
+  @Input()
+  icon:string;
   
   @Input()
   data:ChartHistoryBar[] = [];
@@ -31,12 +35,15 @@ export class ChartHistoryComponent implements OnChanges {
   currentYear:number;
   hoverYear:number;
 	
-	maxAmount:number;
+  maxAmount:number;
+  minAmount:number;
+  
+	chartPathString:string;
   
   constructor(){
     this.currentYear = (new Date()).getFullYear();
     
-    for(let y = this.currentYear - 9; y <= this.currentYear; y++){
+    for(let y = this.currentYear - 3; y <= this.currentYear; y++){
       let bar = new ChartHistoryBar(y);
       this.bars.push(bar);
       this.barsIndex[y] = bar;
@@ -52,7 +59,35 @@ export class ChartHistoryComponent implements OnChanges {
 				}
       });
 			
-			this.maxAmount = this.bars.reduce((max,bar) => max = Math.max(max, bar.amount, bar.budgetAmount),0);
+      this.maxAmount = this.bars.reduce((max,bar) => max = Math.max(max, /*bar.amount,*/ bar.budgetAmount),0);
+      this.minAmount = this.bars.reduce((min,bar) => min = Math.min(min, /*bar.amount,*/ bar.budgetAmount),Infinity);
+      
+      //create path for svg chart
+
+      this.chartPathString = '';
+      var x,y,prevX,prevY,numPoints = 0;
+      this.bars.forEach((data, index, array) => {
+        //TO DO: get height, and horizontal spacing as parameter
+        var height = 80;
+        var minHeight = 20; //minimal is still 0
+        var spacing = 50;
+        
+        x = index*spacing+25;
+        y = (height-5)-minHeight-Math.round((data.budgetAmount-this.minAmount)/(this.maxAmount-this.minAmount)*(height-10-minHeight));
+
+        if (data.budgetAmount>0 || true) {
+          if (numPoints == 0) {
+            this.chartPathString += 'M' + x + ','+y;
+            numPoints++;
+          } else {
+            this.chartPathString += ' C' + (prevX+spacing/2) + ',' + prevY + ' ' + (x-spacing/2) + ',' + y + ' ' + x + ',' + y;
+            numPoints++;
+          }
+
+          prevX = x;
+          prevY = y;
+        }
+      });
     }
   }
   
