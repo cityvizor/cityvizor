@@ -45,7 +45,7 @@
       <div class="text-center" _ngcontent-c1="">
         <span class="fa-stack fa-4x" _ngcontent-c1="">
           <i class="fa fa-circle fa-stack-2x emblem-background"></i>
-          <span class="fa-stack-1x emblem" [style.background-image]="'url(/api/profiles/' + profile._id + '/avatar)'"></span>
+          <span class="fa-stack-1x emblem" [style.background-image]="getProfileAvatarUrl(profile)"></span>
         </span>
       </div>
       <div class="caption text-center">

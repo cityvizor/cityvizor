@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { DataService } from '../../../services/data.service';
 import { ToastService } from "../../../services/toast.service";
 
+import { environment } from "environments/environment";
+
 @Component({
 	moduleId: module.id,
   selector: 'profile-search',
@@ -95,6 +97,10 @@ export class ProfileSearchComponent implements OnInit {
 	openPending(profile,modal,event){
 		if(event.shiftKey) this.router.navigate(["/" + profile.url]);
 		else modal.show();
+	}
+
+	getProfileAvatarUrl(profile){
+		return `url(${environment.api_root}/profiles/${profile._id}/avatar)`;
 	}
 
 }
