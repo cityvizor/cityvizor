@@ -14,7 +14,7 @@ import { AppConfig } from 'config/app-config';
 	moduleId: module.id,
 	selector: 'profile-admin-import',
 	templateUrl: 'profile-admin-import.component.html',
-	styleUrls: ['profile-admin-import.component.css']
+	styleUrls: ['profile-admin-import.component.scss']
 })
 export class ProfileAdminImportComponent implements OnChanges {
 

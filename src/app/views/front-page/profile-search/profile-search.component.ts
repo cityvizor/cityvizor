@@ -10,7 +10,7 @@ import { environment } from "environments/environment";
 	moduleId: module.id,
 	selector: 'profile-search',
 	templateUrl: 'profile-search.component.html',
-	styleUrls: ['profile-search.component.css']
+	styleUrls: ['profile-search.component.scss']
 })
 export class ProfileSearchComponent implements OnInit {
 

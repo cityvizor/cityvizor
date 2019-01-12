@@ -11,7 +11,7 @@ import { Profile } from "../../../shared/schema/profile";
 	moduleId: module.id,
 	selector: 'site-admin-profile',
 	templateUrl: 'site-admin-profile.component.html',
-	styleUrls: ['site-admin-profile.component.css']
+	styleUrls: ['site-admin-profile.component.scss']
 })
 export class SiteAdminProfileComponent {
   

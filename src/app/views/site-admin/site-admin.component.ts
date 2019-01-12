@@ -10,7 +10,7 @@ import { ACLService } 		from 'app/services/acl.service';
 	moduleId: module.id,
 	selector: 'site-admin',
 	templateUrl: 'site-admin.component.html',
-	styleUrls: ['site-admin.component.css']
+	styleUrls: ['site-admin.component.scss']
 })
 export class SiteAdminComponent {
 

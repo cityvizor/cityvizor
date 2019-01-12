@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
 	moduleId: module.id,
 	selector: 'help-modal',
 	templateUrl: 'help-modal.component.html',
-	styleUrls: ['help-modal.component.css']
+	styleUrls: ['help-modal.component.scss']
 })
 export class HelpModalComponent {
 

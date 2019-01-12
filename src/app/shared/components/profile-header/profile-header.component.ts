@@ -11,7 +11,7 @@ import { AppConfig, IAppConfig, Module } from 'config/config';
 	moduleId: module.id,
 	selector: 'profile-header',
 	templateUrl: 'profile-header.component.html',
-	styleUrls: ['profile-header.component.css']
+	styleUrls: ['profile-header.component.scss']
 })
 export class ProfileHeaderComponent {
 

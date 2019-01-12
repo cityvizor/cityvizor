@@ -11,7 +11,7 @@ import { AppConfig, IAppConfig } from 'config/config';
 	moduleId: module.id,
 	selector: 'profile-admin',
 	templateUrl: 'profile-admin.component.html',
-	styleUrls: ['profile-admin.component.css'],
+	styleUrls: ['profile-admin.component.scss'],
 })
 export class ProfileAdminComponent {
 

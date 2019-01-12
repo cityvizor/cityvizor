@@ -12,7 +12,7 @@ import { AppConfig, IAppConfig, Module } from 'config/config';
 	moduleId: module.id,
 	selector: 'profile-view',
 	templateUrl: 'profile-view.component.html',
-	styleUrls: ['profile-view.component.css'],
+	styleUrls: ['profile-view.component.scss'],
 })
 export class ProfileViewComponent implements OnInit, OnDestroy {
 

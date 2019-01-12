@@ -7,7 +7,7 @@ import { AppConfig, IAppConfig } from 'config/config';
 	moduleId: module.id,
 	selector: 'front-page',
 	templateUrl: 'front-page.component.html',
-	styleUrls: ['front-page.component.css']
+	styleUrls: ['front-page.component.scss']
 })
 export class FrontPageComponent implements OnInit {
 

@@ -166,5 +166,4 @@ export class DataService {
 	deleteUser(userId) {
 		return this.http.delete(this.root + "/users/" + userId, { responseType: 'text' }).toPromise();
 	}
-
 }

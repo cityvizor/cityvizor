@@ -9,7 +9,7 @@ import { DataService } 		from '../../../services/data.service';
 	moduleId: module.id,
 	selector: 'invoice-list',
 	templateUrl: 'invoice-list.component.html',
-	styleUrls: ['invoice-list.component.css'],
+	styleUrls: ['invoice-list.component.scss'],
 })
 export class InvoiceListComponent implements OnInit, OnDestroy {
 

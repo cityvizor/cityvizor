@@ -10,7 +10,7 @@ import { Dashboard } from "../../../shared/schema/dashboard";
 	moduleId: module.id,
 	selector: 'dash-board',
 	templateUrl: 'dash-board.component.html',
-	styleUrls: ["dash-board.component.css"]
+	styleUrls: ["dash-board.component.scss"]
 })
 export class DashboardComponent {
 	
@@ -49,13 +49,6 @@ export class DashboardComponent {
 				this.maxBudgetAmount = 0;
 				budgets.forEach(budget => this.maxBudgetAmount = Math.max(this.maxBudgetAmount,budget.budgetIncomeAmount,budget.incomeAmount,budget.budgetExpenditureAmount,budget.expenditureAmount));
 			});
-	}
-	
-	loadIteratively(source:any[],target:any[],timeout:number){
-		if(source.length) setTimeout(() => {
-			target.push(source.shift());
-			this.loadIteratively(source,target,timeout);
-		},timeout);
 	}
 	
 	openBudget(type:string,year:number):void{
