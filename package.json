@@ -27,6 +27,7 @@
     "@angular/platform-server": "^7.2.0",
     "@angular/router": "^7.2.0",
     "@auth0/angular-jwt": "^2.1.0",
+    "@types/wordcloud": "^1.1.0",
     "ajv": "^6.6.2",
     "bootstrap-sass": "^3.4.0",
     "classlist.js": "^1.1.20150312",
@@ -38,6 +39,7 @@
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.3.3",
     "web-animations-js": "^2.3.1",
+    "wordcloud": "^1.1.0",
     "zone.js": "^0.8.27"
   },
   "devDependencies": {

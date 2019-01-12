@@ -1,23 +1,29 @@
 <div class="container">
   <form class="form" #searchForm="ngForm" (ngSubmit)="search(searchForm)">
     <div class="form-group">
-      <div class="col-sm-6 col-sm-offset-2">
-        <input ngModel type="search" name="query" class="form-control input-lg" placeholder="Název nebo IČO dodavatele">
-      </div>
-      <div class="col-sm-2">
-        <button type="submit" class="btn btn-primary btn-lg">Hledat</button>
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-2">
+          <input ngModel type="search" name="query" class="form-control input-lg" placeholder="Název nebo IČO dodavatele">
+        </div>
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-primary btn-lg">Hledat</button>
+        </div>
       </div>
     </div>
   </form>
 
-  <div class="row" class="list">
-    <div class="col-sm-8 col-sm-offset-2">
-      <div class="list-group">
-        <a *ngFor="let result of results" [routerLink]="'/dodavatele/' + result.counterpartyId" class="list-group-item">
-          <span class="badge">IČO: {{result.counterpartyId}}</span>
-          {{result.name}}
-        </a>
+  <div *ngIf="results" class="row" class="list">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="list-group">
+          <a *ngFor="let result of results" [routerLink]="'/dodavatele/' + result.counterpartyId" class="list-group-item">
+            <span class="badge">IČO: {{result.counterpartyId}}</span>
+            {{result.name}}
+          </a>
+        </div>
       </div>
     </div>
   </div>
+
+  <div #wordcloud class="wordcloud"></div>
 </div>

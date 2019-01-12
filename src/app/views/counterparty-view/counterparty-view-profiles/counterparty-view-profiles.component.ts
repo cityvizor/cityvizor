@@ -14,7 +14,7 @@ import { Counterparty } from "app/shared/schema/counterparty";
 })
 export class CounterpartyViewProfilesComponent implements OnInit {
 
-  profiles:any[];
+  budgets:any[];
   
   paramsSubscription:Subscription;
 
@@ -36,6 +36,6 @@ export class CounterpartyViewProfilesComponent implements OnInit {
   }
 
   async loadCounterpartyProfiles(counterpartyId:string){
-    this.profiles = await this.dataService.getCounterpartyProfiles(counterpartyId);
+    this.budgets = await this.dataService.getCounterpartyBudgets(counterpartyId);
   }
 }

@@ -89,11 +89,15 @@
   "defaultProject": "cityvizor-app",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "app",
+      "spec": false,
       "styleext": "scss"
     },
     "@schematics/angular:directive": {
-      "prefix": "app"
+      "prefix": "",
+      "spec": false
+    },
+    "@schematics/angular:service": {
+      "spec": false
     }
   }
 }

@@ -7,6 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from "../shared/schema/user";
 
 import { DataService } 		from './data.service';
+import { environment } from 'environments/environment';
 
 /**
 	* Service to save user information and commnicate user data with server
@@ -56,7 +57,7 @@ export class AuthService {
 		return new Promise((resolve,reject) => {
 			
 			// query the web api to get the token
-			return this.http.post("/api/login", credentials, { responseType: 'text' }).toPromise()
+			return this.http.post(environment.api_root + "/login", credentials, { responseType: 'text' }).toPromise()
 
 				.then(token => {
 				
@@ -85,7 +86,7 @@ export class AuthService {
 		if(!this.token) return;
 		
 		// get the new token. as an authorization, we use current token
-		this.http.get("/api/login/renew", { responseType: 'text' }).toPromise()
+		this.http.get(environment.api_root + "/login/renew", { responseType: 'text' }).toPromise()
 
 			.then(token => {
 
