@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Paginator } from '../shared/schema/paginator';
 import { ETL } from "../shared/schema/etl";
+import { Counterparty } from "../shared/schema/counterparty";
+import { Dashboard } from "../shared/schema/dashboard";
 
 function toParams(options){
 	if(!options) return "";
@@ -129,8 +131,17 @@ export class DataService {
 	}
 
 	/* EVENTS */
+<<<<<<< HEAD
 	getEvent(eventId){
 		return this.http.get<any>(this.root + "/events/" + eventId).toPromise();
+=======
+	getEvent(eventId:string){
+		return this.http.get<any>("/api/events/" + eventId).toPromise();
+>>>>>>> origin/dev-dashboard
+	}
+	
+	getCounterparty(conterpartyId:string){
+		return this.http.get<Counterparty>("/api/counterparties/" + conterpartyId).toPromise();
 	}
 	
 	/* USERS */	
@@ -141,10 +152,19 @@ export class DataService {
 		return this.http.get<any>(this.root + "/users/" + userId).toPromise();
 	}
 	saveUser(userData){
+<<<<<<< HEAD
 		return this.http.post<any>(this.root + "/users/" + userData._id,userData).toPromise();
+=======
+		return this.http.put<any>("/api/users/" + userData._id,userData).toPromise();
+>>>>>>> origin/dev-dashboard
 	}
 	deleteUser(userId){
 		return this.http.delete(this.root + "/users/" + userId, { responseType: 'text' }).toPromise();
+	}
+	
+	/* SEARCH */	
+	searchCounterparties(query){
+		return this.http.post<any>("/api/search/counterparties",query).toPromise();
 	}
 	
 }
