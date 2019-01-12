@@ -87,7 +87,7 @@ export class ChartHistoryComponent implements OnChanges {
     var x,y,prevX,prevY,numPoints = 0;
     this.bars.forEach((data, index) => {
       //TO DO: get height, and horizontal spacing as parameter
-      var height = 65;
+      var height = 55;
       var minHeight = 0; //minimal is still 0
       var spacing = 50;
       
