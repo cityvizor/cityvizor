@@ -4,7 +4,7 @@ import { Component, Input, /*Output, EventEmitter*/ } from '@angular/core';
 	moduleId: module.id,
 	selector: 'chart-event-overview',
 	templateUrl: 'chart-event-overview.component.html',
-	styleUrls: ['chart-event-overview.component.css']
+	styleUrls: ['chart-event-overview.component.scss']
 })
 export class ChartEventOverviewComponent {
 

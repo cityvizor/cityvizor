@@ -19,7 +19,7 @@ class LoginData {
 	moduleId: module.id,
 	selector: 'cityvizor-app',
 	templateUrl: 'app.component.html',
-	styleUrls: ['app.component.css'],
+	styleUrls: ['app.component.scss'],
 	animations: [
 		trigger("toastsFadeOut", [
 			transition(':leave', animate(250, style({opacity: 0}))) // * => void

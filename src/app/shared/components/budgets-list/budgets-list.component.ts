@@ -8,7 +8,7 @@ import { DataService } from '../../../services/data.service';
 	moduleId: module.id,
 	selector: 'budgets-list',
 	templateUrl: 'budgets-list.component.html',
-	styleUrls: ['budgets-list.component.css']
+	styleUrls: ['budgets-list.component.scss']
 })
 export class BudgetsListComponent{
 	

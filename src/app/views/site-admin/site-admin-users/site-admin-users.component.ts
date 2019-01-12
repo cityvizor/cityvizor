@@ -11,7 +11,7 @@ import { User } from "../../../shared/schema/user";
 	moduleId: module.id,
 	selector: 'site-admin-users',
 	templateUrl: 'site-admin-users.component.html',
-	styleUrls: ['site-admin-users.component.css']
+	styleUrls: ['site-admin-users.component.scss']
 })
 export class SiteAdminUsersComponent {
   

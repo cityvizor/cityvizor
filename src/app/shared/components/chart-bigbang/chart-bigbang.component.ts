@@ -4,7 +4,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 	moduleId: module.id,
 	selector: 'chart-bigbang',
 	templateUrl: 'chart-bigbang.component.html',
-	styleUrls: ['chart-bigbang.component.css']
+	styleUrls: ['chart-bigbang.component.scss']
 })
 export class ChartBigbangComponent {
 

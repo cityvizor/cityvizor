@@ -13,7 +13,7 @@ import { User } from "../../../shared/schema/user";
 	moduleId: module.id,
 	selector: 'user-admin-account',
 	templateUrl: 'user-admin-account.component.html',
-	styleUrls: ['user-admin-account.component.css']
+	styleUrls: ['user-admin-account.component.scss']
 })
 export class UserAdminAccountComponent implements OnInit {
 

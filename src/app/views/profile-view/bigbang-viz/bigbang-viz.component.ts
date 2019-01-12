@@ -15,7 +15,7 @@ import { ToastService } from '../../../services/toast.service';
 		'(window:keydown)': 'hotkeys($event)'
 	},
 	templateUrl: 'bigbang-viz.component.html',
-	styleUrls: ['bigbang-viz.component.css']
+	styleUrls: ['bigbang-viz.component.scss']
 })
 export class BigBangVizComponent implements OnInit, OnChanges {
 

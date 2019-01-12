@@ -10,7 +10,7 @@ import { Counterparty } from "../../shared/schema/counterparty";
   moduleId: module.id,
   selector: 'counterparty-view',
   templateUrl: 'counterparty-view.component.html',
-  styleUrls: ['counterparty-view.component.css'],
+  styleUrls: ['counterparty-view.component.scss'],
 })
 export class CounterpartyViewComponent implements OnInit, OnDestroy {
 

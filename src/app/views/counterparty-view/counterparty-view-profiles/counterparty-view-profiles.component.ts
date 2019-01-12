@@ -10,7 +10,7 @@ import { Counterparty } from "app/shared/schema/counterparty";
   moduleId: module.id,
   selector: 'counterparty-view-profiles',
   templateUrl: 'counterparty-view-profiles.component.html',
-  styleUrls: ['counterparty-view-profiles.component.css'],
+  styleUrls: ['counterparty-view-profiles.component.scss'],
 })
 export class CounterpartyViewProfilesComponent implements OnInit {
 

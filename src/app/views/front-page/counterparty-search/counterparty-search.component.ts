@@ -8,7 +8,7 @@ import { ToastService } from '../../../services/toast.service';
 	moduleId: module.id,
   selector: 'counterparty-search',
 	templateUrl: 'counterparty-search.component.html',
-	styleUrls: ['counterparty-search.component.css']
+	styleUrls: ['counterparty-search.component.scss']
 })
 export class CounterpartySearchComponent {
   

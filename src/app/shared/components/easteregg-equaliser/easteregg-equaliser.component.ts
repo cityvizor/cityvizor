@@ -7,7 +7,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 	selector: 'easteregg-equaliser',
   host: {'(window:keydown)': 'hotkeys($event)'},
 	templateUrl: 'easteregg-equaliser.component.html',
-	styleUrls: ['easteregg-equaliser.component.css']
+	styleUrls: ['easteregg-equaliser.component.scss']
 })
 export class EasterEggEqualiserComponent implements OnDestroy {
 	

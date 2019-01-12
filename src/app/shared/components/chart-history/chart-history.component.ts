@@ -12,7 +12,7 @@ class ChartHistoryBar {
 @Component({
 	selector: 'chart-history',
 	templateUrl: 'chart-history.component.html',
-	styleUrls: ['chart-history.component.css'],
+	styleUrls: ['chart-history.component.scss'],
   animations: [
 		trigger('showAnimation', [
 			transition(':enter', [

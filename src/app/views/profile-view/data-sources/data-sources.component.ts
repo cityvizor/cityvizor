@@ -11,7 +11,7 @@ import { ETL } from "app/shared/schema/etl";
 	moduleId: module.id,
 	selector: 'data-sources',
 	templateUrl: 'data-sources.component.html',
-	styleUrls: ['data-sources.component.css'],
+	styleUrls: ['data-sources.component.scss'],
 })
 export class DataSourcesComponent implements OnInit {
 

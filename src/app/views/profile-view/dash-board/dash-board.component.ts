@@ -10,7 +10,7 @@ import { Dashboard } from "../../../shared/schema/dashboard";
 	moduleId: module.id,
 	selector: 'dash-board',
 	templateUrl: 'dash-board.component.html',
-	styleUrls: ["dash-board.component.css"]
+	styleUrls: ["dash-board.component.scss"]
 })
 export class DashboardComponent {
 	

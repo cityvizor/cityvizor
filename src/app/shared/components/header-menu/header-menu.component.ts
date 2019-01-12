@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
 	moduleId: module.id,
 	selector: 'header-menu',
 	templateUrl: 'header-menu.component.html',
-	styleUrls: ['header-menu.component.css']
+	styleUrls: ['header-menu.component.scss']
 })
 export class HeaderMenuComponent {
 

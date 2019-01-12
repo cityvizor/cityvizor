@@ -7,7 +7,7 @@ import { DataService } from "../../../services/data.service";
 	moduleId: module.id,
 	selector: 'profile-admin-avatar',
 	templateUrl: 'profile-admin-avatar.component.html',
-	styleUrls: ['profile-admin-avatar.component.css']
+	styleUrls: ['profile-admin-avatar.component.scss']
 })
 export class ProfileAdminAvatarComponent {
 

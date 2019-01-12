@@ -14,7 +14,7 @@ Component for graphical vizualization of event
 	moduleId: module.id,
 	selector: 'event-detail',
 	templateUrl: 'event-detail.component.html',
-	styleUrls: ['event-detail.component.css'],
+	styleUrls: ['event-detail.component.scss'],
 	animations: [
 		trigger('paymentsState', [
 			state('closed', style({display:'none',opacity:0})),
