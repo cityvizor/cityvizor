@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { ButtonsModule, CollapseModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 
 // Shared coremponents
-<<<<<<< HEAD:src/app/shared/shared.module.ts
 import { ChartBigbangComponent } 		from './components/chart-bigbang/chart-bigbang.component';
 import { ChartDonutComponent } 		from './components/chart-donut/chart-donut.component';
 import { ChartBudgetComponent } 		from './components/chart-budget/chart-budget.component';
@@ -15,15 +14,6 @@ import { ChartEventOverviewComponent } 		from './components/chart-event-overview
 import { BudgetsListComponent } 		from './components/budgets-list/budgets-list.component';
 import { HelpModalComponent } 		from './components/help-modal/help-modal.component';
 import { ChartHistoryComponent } 		from './components/chart-history/chart-history.component';
-=======
-import { ChartBigbangComponent } 		from './shared/components/chart-bigbang/chart-bigbang.component';
-import { ChartDonutComponent } 		from './shared/components/chart-donut/chart-donut.component';
-import { ChartBudgetComponent } 		from './shared/components/chart-budget/chart-budget.component';
-import { ChartEventOverviewComponent } 		from './shared/components/chart-event-overview/chart-event-overview.component';
-import { BudgetsListComponent } 		from './shared/components/budgets-list/budgets-list.component';
-import { HelpModalComponent } 		from './shared/components/help-modal/help-modal.component';
-import { ChartHistoryComponent } 		from './shared/components/chart-history/chart-history.component';
->>>>>>> origin/development:src/module.shared.ts
 
 // Pipes
 import { MoneyPipe } from './pipes/money.pipe';

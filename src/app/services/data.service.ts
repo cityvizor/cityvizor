@@ -1,17 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-<<<<<<< HEAD:src/app/services/data.service.ts
 import { Paginator } from 'app/shared/schema/paginator';
 import { ETL } from "app/shared/schema/etl";
 import { Counterparty } from "app/shared/schema/counterparty";
 import { Dashboard } from "app/shared/schema/dashboard";
-=======
-import { Paginator } from '../shared/schema/paginator';
-import { ETL } from "../shared/schema/etl";
-import { Counterparty } from "../shared/schema/counterparty";
-import { Dashboard } from "../shared/schema/dashboard";
->>>>>>> origin/development:src/services/data.service.ts
 
 import { environment } from "environments/environment";
 
@@ -143,7 +136,6 @@ export class DataService {
 	getEvent(eventId) {
 		return this.http.get<any>(this.root + "/events/" + eventId).toPromise();
 	}
-<<<<<<< HEAD:src/app/services/data.service.ts
 
 	getCounterparty(conterpartyId: string) {
 		return this.http.get<Counterparty>("/api/counterparties/" + conterpartyId).toPromise();
@@ -163,15 +155,6 @@ export class DataService {
 
 	/* USERS */
 	getUsers() {
-=======
-	
-	getCounterparty(conterpartyId:string){
-		return this.http.get<Counterparty>("/api/counterparties/" + conterpartyId).toPromise();
-	}
-	
-	/* USERS */	
-	getUsers(){
->>>>>>> origin/development:src/services/data.service.ts
 		return this.http.get<any>(this.root + "/users").toPromise();
 	}
 	getUser(userId) {
@@ -183,14 +166,4 @@ export class DataService {
 	deleteUser(userId) {
 		return this.http.delete(this.root + "/users/" + userId, { responseType: 'text' }).toPromise();
 	}
-<<<<<<< HEAD:src/app/services/data.service.ts
-
-=======
-	
-	/* SEARCH */	
-	searchCounterparties(query){
-		return this.http.post<any>("/api/search/counterparties",query).toPromise();
-	}
-	
->>>>>>> origin/development:src/services/data.service.ts
 }
