@@ -1,6 +1,25 @@
-.vertical-align {
-    display: flex;
-    align-items: center;
+.widget {
+	border: 1px solid #eee;
+	border-radius: 10px;
+	background: white; margin: 15px 0;
+	
+	.row {
+		display: flex;
+		align-items: center;
+		margin: 0;
+	}
+	.left-side {
+		height: 100%; text-align: center; padding: 0px;
+	}
+	.right-side {
+		height: 100%;
+		border-left: 1px solid #eee;
+		background: #fcfcfc;
+		padding: 0px;
+	}
+	.amount-title {
+		text-transform: uppercase; color: #777; font-size: 75%; margin-top: 15px;
+	}
 }
 
 .drawpath {
