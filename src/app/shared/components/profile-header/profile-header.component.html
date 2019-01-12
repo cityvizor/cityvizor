@@ -1,0 +1,68 @@
+<div *ngIf="profile">
+  
+  
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>
+            {{profile.name}}
+          </h1>
+
+          
+          <h1 class="pull-right">
+            <a [routerLink]="['/']" class=" hidden-print">
+              <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> ZPĚT
+            </a>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <nav class="navbar">
+    <div class="container">
+      
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" (click)="isMenuCollapsed = !isMenuCollapsed" >
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="toggle-title">MENU</span>
+        </button>
+      </div>
+      
+      <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
+        
+        <ul class="nav navbar-nav">
+
+          <li>
+            <a [routerLink]="['/' + profile.url + '/prehled']" routerLinkActive="active" (click)="isMenuCollapsed = true">
+              Přehled
+            </a>
+          </li>
+
+          <ng-container *ngFor="let viz of vizModules">
+            <li *ngIf="!isHiddenModule(viz)">
+              <a [routerLink]="getVizLink(viz)" routerLinkActive="active" (click)="isMenuCollapsed = true">
+                {{viz.name}}
+              </a>
+            </li>
+          </ng-container>
+          
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li *ngIf="isAdmin()">
+            <a [routerLink]="[getAdminLink()]" routerLinkActive="active">
+              Administrace
+            </a>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+</div>

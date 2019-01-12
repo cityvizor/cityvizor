@@ -21,7 +21,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",
+              "src/styles/styles.scss"
             ],
             "scripts": []
           },
@@ -77,25 +78,19 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "ui/tsconfig.app.json",
-              "ui/tsconfig.spec.json"
+              "ui/tsconfig.app.json"
             ],
             "exclude": []
           }
         }
       }
-    },
-    "cityvizor-app-e2e": {
-      "root": "",
-      "sourceRoot": "e2e",
-      "projectType": "application"
     }
   },
   "defaultProject": "cityvizor-app",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "css"
+      "styleext": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
