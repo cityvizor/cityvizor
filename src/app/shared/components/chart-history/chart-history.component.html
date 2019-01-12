@@ -19,14 +19,17 @@
           </td>
         </tr>
       </table>
-      <svg viewBox="0 0 200 100" style="width:100%; height: auto;">
-        <path [attr.d]="chartPathString" stroke="#2581C4" stroke-width="3" fill="none" [ngClass]="{'drawpath': true}"></path>
+      <svg viewBox="0 0 200 75" style="width:100%; height: auto;">
+        <path [attr.d]="chartPathString" stroke="#2581C4" stroke-width="2" fill="none" [ngClass]="{'drawpath': true}"></path>
         <circle [attr.cx]="chartPoints.amount[hoverYear][0]" [attr.cy]="chartPoints.amount[hoverYear][1]" r="4" fill="#2581C4"></circle>
-        <path [attr.d]="chartBudgetPathString" stroke="#E73431" stroke-width="3" fill="none" [ngClass]="{'drawpath': true}"></path>
+        <path [attr.d]="chartBudgetPathString" stroke="#E73431" stroke-width="2" fill="none" [ngClass]="{'drawpath': true}"></path>
         <circle [attr.cx]="chartPoints.budgetAmount[hoverYear][0]" [attr.cy]="chartPoints.budgetAmount[hoverYear][1]" r="4" fill="#E73431"></circle>
         <g *ngFor="let bar of bars; let i = index">
-          <text [attr.x]="i*50+25" y="80" text-anchor="middle" fill="#777" style="font-size: 75%;">{{bar.year}}</text>
-          <rect *ngIf="bar.amount > 0 && bar.budgetAmount > 0" [attr.x]="i*50" y="0" width="75" height="100" (mouseenter)="hoverYear = bar.year" (mouseout)="hoverYear = currentYear" style="opacity:0;"></rect>
+          <text [attr.x]="i*50+25" y="65" text-anchor="middle" fill="#777" style="font-size: 75%;">{{bar.year}}</text>
+          <rect *ngIf="bar.amount > 0 && bar.budgetAmount > 0" [attr.x]="i*50" y="0" width="50" height="75" (mouseenter)="hoverYear = bar.year" (mouseout)="hoverYear = currentYear" 
+            style="opacity:0; cursor: pointer;"
+            [routerLink]="getLink(bar.year)"
+            ></rect>
         </g>
       </svg>
     </div>

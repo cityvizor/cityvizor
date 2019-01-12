@@ -78,10 +78,6 @@ export class ChartHistoryComponent implements OnChanges {
     }
   }
   
-  getLastAmount(type:string):number{
-    return this.barsIndex[this.currentYear][type];
-  }
-  
   getLink(year:number){
    return ["../vydaje",{rok:year,skupina:this.id}];
   }
@@ -91,12 +87,12 @@ export class ChartHistoryComponent implements OnChanges {
     var x,y,prevX,prevY,numPoints = 0;
     this.bars.forEach((data, index) => {
       //TO DO: get height, and horizontal spacing as parameter
-      var height = 80;
-      var minHeight = 20; //minimal is still 0
+      var height = 65;
+      var minHeight = 0; //minimal is still 0
       var spacing = 50;
       
       x = index*spacing+25;
-      y = (height-5)-minHeight-Math.round((data[type]-this.stats.min)/(this.stats.max-this.stats.min)*(height-10-minHeight));
+      y = (height)-minHeight-Math.round((data[type]-this.stats.min)/(this.stats.max-this.stats.min)*(height-10-minHeight));
 
       if (data[type]>0) {
         if (numPoints == 0) {
