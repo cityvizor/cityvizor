@@ -21,7 +21,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/styles.css"
             ],
             "scripts": []
           },
@@ -77,18 +77,12 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "ui/tsconfig.app.json",
-              "ui/tsconfig.spec.json"
+              "ui/tsconfig.app.json"
             ],
             "exclude": []
           }
         }
       }
-    },
-    "cityvizor-app-e2e": {
-      "root": "",
-      "sourceRoot": "e2e",
-      "projectType": "application"
     }
   },
   "defaultProject": "cityvizor-app",
