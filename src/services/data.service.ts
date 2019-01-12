@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Paginator } from '../shared/schema/paginator';
 import { ETL } from "../shared/schema/etl";
 
+import { environment } from "../environments/environment";
+
 function toParams(options){
 	if(!options) return "";
 	

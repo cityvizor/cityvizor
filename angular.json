@@ -16,6 +16,7 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "i18nLocale": "cs",
             "assets": [
               "src/assets"
             ],
@@ -25,11 +26,7 @@
             "scripts": []
           },
           "configurations": {
-            "development": {
-              "i18nLocale": "cs"
-            },
             "production": {
-              "i18nLocale": "cs",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -45,6 +42,14 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           }
         },
@@ -56,6 +61,9 @@
           "configurations": {
             "production": {
               "browserTarget": "cityvizor-app:build:production"
+            },
+            "local": {
+              "browserTarget": "cityvizor-app:build:local"
             }
           }
         },
