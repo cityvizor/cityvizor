@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 class ChartHistoryBar {
 
@@ -12,15 +12,7 @@ class ChartHistoryBar {
 @Component({
 	selector: 'chart-history',
 	templateUrl: 'chart-history.template.html',
-	styleUrls: ['chart-history.style.css'],
-  animations: [
-		trigger('showAnimation', [
-			transition(':enter', [
-				style({opacity: 0}),
-				animate("500ms", style({opacity: 1}))
-			])
-		])
-	]
+	styleUrls: ['chart-history.style.css']
 })
 export class ChartHistoryComponent implements OnChanges {
   
