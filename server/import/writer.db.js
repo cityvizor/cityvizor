@@ -3,6 +3,7 @@ const EventEmitter = require("events");
 
 const Budget = require("../models/budget");
 const Event = require("../models/event");
+const Counterparty = require("../models/counterparty");
 const Payment = require("../models/payment");
 
 class ImportWriter extends EventEmitter{
@@ -18,6 +19,7 @@ class ImportWriter extends EventEmitter{
       cb => this.clear(cb),
       cb => this.saveBudget(data.budget,cb),
       cb => this.saveEvents(data.events,cb),
+      cb => this.saveCounterparties(data.counterparties,cb),
       cb => this.savePayments(data.payments,cb),
     ];
     
@@ -30,6 +32,7 @@ class ImportWriter extends EventEmitter{
 
     var tasks = [
       cb => Budget.remove({ etl: etlId },cb),
+      cb => Counterparty.remove({ etl: etlId },cb),
       cb => Event.remove({ etl: etlId },cb),
       cb => Payment.remove({ etl: etlId },cb)
     ];
@@ -44,6 +47,10 @@ class ImportWriter extends EventEmitter{
   
   saveEvents(events,cb){
     return Event.insertMany(events,cb);
+  }
+  
+  saveCounterparties(counterparties,cb){
+    return Counterparty.insertMany(counterparties,cb);
   }
   
   savePayments(payments,cb){
