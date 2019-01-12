@@ -25,7 +25,11 @@
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "i18nLocale": "cs"
+            },
             "production": {
+              "i18nLocale": "cs",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
