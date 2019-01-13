@@ -17,6 +17,10 @@ export class CounterpartySearchComponent implements OnInit {
 
 	results: any[];
 
+	supplierQuery: string = '';
+	supplierQueryFocus: boolean = false;
+	supplierSelected: number = 0;
+
 	wordcloudMinSize = 10;
 	wordcloudMaxSize = 70;
 	wordcloudMinOpacity = 0.2;
@@ -71,5 +75,22 @@ export class CounterpartySearchComponent implements OnInit {
 
 	openCounterparty(counterpartyId:string){
 		this.router.navigate(["/dodavatele",counterpartyId]);
+	}
+
+	querySupplier(query:string) {
+
+		if (query!='') this.supplierQueryFocus=true;
+
+		this.dataService.searchCounterparties(query)
+			.then(results => this.results = results)
+			.catch(err => this.toastService.toast("Nastal chyba při vyhledávání dodavatelů.", "error"));
+	}
+
+	selectSupplier(direction:string) {
+		if (direction == 'up' && this.supplierSelected>0) this.supplierSelected--;
+		if (direction == 'down' && this.supplierSelected<(this.results.length-1)) this.supplierSelected++;
+		if (direction == 'route') {
+			this.router.navigate(['/dodavatele/' + this.results[this.supplierSelected].counterpartyId]);
+		}
 	}
 }
