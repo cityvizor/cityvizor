@@ -11,9 +11,10 @@
               (keyup.arrowdown)="selectSupplier('down')"
               (keyup.arrowup)="selectSupplier('up')"
               (keyup.enter)="selectSupplier('route')"
+              (keyup.escape)="supplierQueryFocus = false"
               name="supplierQuery" class="form-control input-lg novalidate" placeholder="Zadejte název či IČ dodavatele..." />
         </form>
-        <div class="instant-results" *ngIf="results && supplierQuery!=''">
+        <div class="instant-results" *ngIf="results && supplierQuery!='' && supplierQueryFocus">
             <ul class="list-unstyled result-bucket">
                 <li *ngIf="results.length==0"  class="result-entry">
                     <i>Nenalezli jsme žádné dodavatele zadaným kritériím.</i>

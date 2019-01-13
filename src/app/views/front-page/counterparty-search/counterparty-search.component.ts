@@ -34,15 +34,6 @@ export class CounterpartySearchComponent implements OnInit {
 		this.createWordcloud();
 	}
 
-	search(form: NgForm) {
-
-		var formData = form.value;
-
-		this.dataService.searchCounterparties(formData.query)
-			.then(results => this.results = results)
-			.catch(err => this.toastService.toast("Nastal chyba při vyhledávání dodavatelů.", "error"));
-	}
-
 	async createWordcloud() {
 		const counterparties = await this.dataService.getCounterpartiesTop();
 		
@@ -78,6 +69,7 @@ export class CounterpartySearchComponent implements OnInit {
 	}
 
 	querySupplier(query:string) {
+		this.supplierSelected = 0;
 
 		if (query!='') this.supplierQueryFocus=true;
 
@@ -89,7 +81,7 @@ export class CounterpartySearchComponent implements OnInit {
 	selectSupplier(direction:string) {
 		if (direction == 'up' && this.supplierSelected>0) this.supplierSelected--;
 		if (direction == 'down' && this.supplierSelected<(this.results.length-1)) this.supplierSelected++;
-		if (direction == 'route') {
+		if (direction == 'route' && this.supplierQueryFocus) {
 			this.router.navigate(['/dodavatele/' + this.results[this.supplierSelected].counterpartyId]);
 		}
 	}
