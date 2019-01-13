@@ -28,6 +28,13 @@ export class ChartHistoryComponent implements OnChanges {
   
   @Input()
   data:ChartHistoryBar[] = [];
+
+  config:any = {
+    visibleYears: 4,
+    maxVisibleYears: 6,
+    width: 200,
+    height: 75
+  };
   
   bars:ChartHistoryBar[] = [];
   barsIndex:any = {};
@@ -48,20 +55,26 @@ export class ChartHistoryComponent implements OnChanges {
   };
   
   constructor(){
-    this.currentYear = (new Date()).getFullYear()-1;
-    this.hoverYear = this.currentYear;
-    
-    for(let y = this.currentYear - 3; y <= this.currentYear; y++){
-      let bar = new ChartHistoryBar(y);
-      this.bars.push(bar);
-      this.barsIndex[y] = bar;
-      this.chartPoints['amount'][y] = [];
-      this.chartPoints['budgetAmount'][y] = [];
-    }
   }
   
   ngOnChanges(changes:SimpleChanges){
+
     if(changes.data) {
+      this.config.visibleYears = Math.min(this.config.maxVisibleYears,changes.data.currentValue.length);
+
+      this.config.spacing = this.config.width / this.config.visibleYears;
+
+      this.currentYear = changes.data.currentValue.reduce((max,data) => max = Math.max(max, data.year),0);;
+      this.hoverYear = this.currentYear;
+      
+      for(let y = this.currentYear - (this.config.visibleYears-1); y <= this.currentYear; y++){
+        let bar = new ChartHistoryBar(y);
+        this.bars.push(bar);
+        this.barsIndex[y] = bar;
+        this.chartPoints['amount'][y] = [];
+        this.chartPoints['budgetAmount'][y] = [];
+      }
+
       changes.data.currentValue.forEach(data => {
         if(this.barsIndex[data.year]){
 					this.barsIndex[data.year].amount = data.amount || 0;
@@ -86,20 +99,17 @@ export class ChartHistoryComponent implements OnChanges {
     var pathString = '';
     var x,y,prevX,prevY,numPoints = 0;
     this.bars.forEach((data, index) => {
-      //TO DO: get height, and horizontal spacing as parameter
-      var height = 55;
-      var minHeight = 0; //minimal is still 0
-      var spacing = 50;
+      var height = this.config.height-20;
       
-      x = index*spacing+25;
-      y = (height)-minHeight-Math.round((data[type]-this.stats.min)/(this.stats.max-this.stats.min)*(height-10-minHeight));
+      x = index*this.config.spacing+this.config.spacing/2;
+      y = (height)-Math.round((data[type]-this.stats.min)/(this.stats.max-this.stats.min)*(height-10));
 
       if (data[type]>0) {
         if (numPoints == 0) {
           pathString += 'M' + x + ','+y;
           numPoints++;
         } else {
-          pathString += ' C' + (prevX+spacing/2) + ',' + prevY + ' ' + (x-spacing/2) + ',' + y + ' ' + x + ',' + y;
+          pathString += ' C' + (prevX+this.config.spacing/2) + ',' + prevY + ' ' + (x-this.config.spacing/2) + ',' + y + ' ' + x + ',' + y;
           numPoints++;
         }
         this.chartPoints[type][data.year] = [x, y];
