@@ -11,11 +11,23 @@
         <tr>
           <td style="width: 50%;">
               <div class="amount-title">Rozpočet</div>
-              <h4><span  style="color: #2581C4;">{{barsIndex[hoverYear].budgetAmount | money:0:true}} Kč</span></h4>
+              <h4>
+                <span  style="color: #2581C4;">
+                  <span style="white-space: nowrap;">{{barsIndex[hoverYear].budgetAmount | money:0:true}}</span>
+                  <span class="hidden-md"> Kč</span>
+                  <span class="visible-md">Kč</span>
+                </span>
+              </h4>
           </td>
           <td>
               <div class="amount-title">Skutečnost</div>
-              <h4><span  style="color: #E73431;">{{barsIndex[hoverYear].amount | money:0:true}} Kč</span></h4>
+              <h4>
+                <span  style="color: #E73431;">
+                  <span style="white-space: nowrap;">{{barsIndex[hoverYear].amount | money:0:true}}</span>
+                  <span class="hidden-md"> Kč</span>
+                  <span class="visible-md">Kč</span>
+                </span>
+              </h4>
           </td>
         </tr>
       </table>
