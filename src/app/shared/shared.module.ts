@@ -14,6 +14,7 @@ import { ChartEventOverviewComponent } 		from './components/chart-event-overview
 import { BudgetsListComponent } 		from './components/budgets-list/budgets-list.component';
 import { HelpModalComponent } 		from './components/help-modal/help-modal.component';
 import { ChartHistoryComponent } 		from './components/chart-history/chart-history.component';
+import { WordCloudComponent } from "./components/word-cloud/word-cloud.component";
 
 // Pipes
 import { MoneyPipe } from './pipes/money.pipe';
@@ -28,13 +29,13 @@ import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pi
     ButtonsModule.forRoot(), CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot()
   ],
   declarations: [
-    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent, ChartHistoryComponent,
+    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent, ChartHistoryComponent, WordCloudComponent,
     /* Shared Pipes */ MoneyPipe, IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ],
   exports: [
     FormsModule,
     ButtonsModule, CollapseModule, BsDropdownModule, TabsModule,
-    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent, ChartHistoryComponent,
+    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent, ChartHistoryComponent, WordCloudComponent,
     /* Shared Pipes */ MoneyPipe, IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ]
 })
