@@ -1,12 +1,11 @@
 <div class="container">
 
 
-    <div id="search-form" class="search-form js-search-form"
-      (blur)="supplierQueryFocus = false">
+    <div id="search-form" class="search-form js-search-form" (blur)="supplierQueryFocus = false">
         <form class="form-search" role="search" >
             <input 
               autocomplete="off"
-              [(ngModel)]="supplierQuery" (ngModelChange)="querySupplier($event)" 
+              [ngModel]="supplierQuery | async" (ngModelChange)="supplierQuery.next($event)" 
               (click)="supplierQueryFocus = true"
               (keyup.arrowdown)="selectSupplier('down')"
               (keyup.arrowup)="selectSupplier('up')"
@@ -14,7 +13,7 @@
               (keyup.escape)="supplierQueryFocus = false"
               name="supplierQuery" class="form-control input-lg novalidate" placeholder="Zadejte název či IČ dodavatele..." />
         </form>
-        <div class="instant-results" *ngIf="results && supplierQuery!='' && supplierQueryFocus">
+        <div class="instant-results" *ngIf="results && (supplierQuery | async) && supplierQueryFocus">
             <ul class="list-unstyled result-bucket">
                 <li *ngIf="results.length==0"  class="result-entry">
                     <i>Nenalezli jsme žádné dodavatele zadaným kritériím.</i>

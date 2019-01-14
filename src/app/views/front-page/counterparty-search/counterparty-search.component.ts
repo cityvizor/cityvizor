@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime } from "rxjs/operators";
 
 import { DataService } from '../../../services/data.service';
 import { ToastService } from '../../../services/toast.service';
@@ -18,7 +20,7 @@ export class CounterpartySearchComponent implements OnInit {
 
 	results: any[];
 
-	supplierQuery: string = '';
+	supplierQuery: BehaviorSubject<string> = new BehaviorSubject("");
 	supplierQueryFocus: boolean = false;
 	supplierSelected: number = 0;
 
@@ -29,6 +31,8 @@ export class CounterpartySearchComponent implements OnInit {
 
 	ngOnInit(){
 		this.loadTopCounterparties();
+
+		this.supplierQuery.pipe(debounceTime(500)).subscribe(query => this.querySupplier(query));
 	}
 
 	async loadTopCounterparties(){
