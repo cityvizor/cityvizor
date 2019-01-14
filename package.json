@@ -8,7 +8,7 @@
   "scripts": {
     "start": "ng serve --prod",
     "build": "ng build --prod",
-    "dev": "ng build --watch --aot"
+    "dev": "ng serve --configuration=local"
   },
   "keywords": [
     "opendata",
