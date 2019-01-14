@@ -1,9 +1,9 @@
-import { Component, ViewChild, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 
 import * as WordCloud from "wordcloud";
 
-type Word = [string,number];
+export type Word = [string,number];
 
 @Component({
   selector: 'word-cloud',
@@ -14,16 +14,19 @@ export class WordCloudComponent {
 
   @ViewChild("wordcloud") wordcloudEl: ElementRef<HTMLElement>;
 
-  @Input() minSize = 10;
-  @Input() maxSize = 70;
-  @Input() minOpacity = 0.2;
-  @Input() maxOpacity = 1;
+  @Input() minSize:number = 10;
+  @Input() maxSize:number = 70;
+  @Input() minOpacity:number = 0.2;
+  @Input() maxOpacity:number = 1;
 
-  words:ReplaySubject<Word[]> = new ReplaySubject(1);
+  @Output() click:EventEmitter<Word> = new EventEmitter<Word>();
 
-  @Input("words") set setWords(words:Word[]){
+  @Input("words")
+  set setWords(words:Word[]){
     this.words.next(words);
   }
+
+  words:ReplaySubject<Word[]> = new ReplaySubject(1);
 
   constructor() { }
 
@@ -32,13 +35,11 @@ export class WordCloudComponent {
   }
     
   createWordcloud(words:Word[]) {    
-    console.log("create",words);
 
+    // if words is null or undefined, do nothing. Note: empty array will pass as expected
     if(!words) return;
 
     const max = words.reduce((acc, cur) => Math.max(cur[1], acc), 0);
-
-    const replaced = ["spol\\. s r\\.o\\.", "a\\. ?s\\.", "s\\.? ?r\\. ?o\\.", "JUDR\\.", "příspěvková organizace", ","].map(string => new RegExp(string, "i"));
 
     words.forEach(word => word[1] = word[1] / max);
 
@@ -48,7 +49,7 @@ export class WordCloudComponent {
       rotateRatio: 0,
       color: (word, weight, fontSize, distance, theta) => `rgba(37, 129, 196, ${(1 - (fontSize - this.minSize) / (this.maxSize - this.minSize)) * this.minOpacity + ((fontSize - this.minSize) / (this.maxSize - this.minSize)) * this.maxOpacity})`,
       classes: "word",
-      click: (item, dimension, event) => console.log(item,dimension)
+      click: (item, dimension, event) => this.click.emit(item)
     };
 
     WordCloud(this.wordcloudEl.nativeElement, options);

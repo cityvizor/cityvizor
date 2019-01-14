@@ -32,5 +32,5 @@
         </div>
     </div>
 
-    <word-cloud [words]="wordcloud"></word-cloud>
+    <word-cloud [words]="wordcloud" (click)="openWord($event)"></word-cloud>
 </div>

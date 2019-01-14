@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 import { DataService } from '../../../services/data.service';
 import { ToastService } from '../../../services/toast.service';
 
-
 import { Counterparty } from 'app/shared/schema/counterparty';
+
+import { Word } from 'app/shared/components/word-cloud/word-cloud.component';
 
 @Component({
 	moduleId: module.id,
@@ -21,8 +22,8 @@ export class CounterpartySearchComponent implements OnInit {
 	supplierQueryFocus: boolean = false;
 	supplierSelected: number = 0;
 
-	topCounterparties:Counterparty[];
-	wordcloud:Array<[string,number]> = [];
+	wordcloudCounterparties:Counterparty[]; // save so we can lookup on click
+	wordcloud:Word[] = [];
 
 	constructor(private dataService: DataService, private toastService: ToastService, private router:Router) { }
 
@@ -40,10 +41,16 @@ export class CounterpartySearchComponent implements OnInit {
       counterparty.name = counterparty.name.trim();
 		})
 
-		this.topCounterparties = counterparties;
+		// save so we can lookup on word click
+		this.wordcloudCounterparties = counterparties;
 
-		this.wordcloud = this.topCounterparties.map(counterparty => [counterparty.name,counterparty.amount] as [string,number]);
+		this.wordcloud = this.wordcloudCounterparties.map(counterparty => [counterparty.name,counterparty.amount] as [string,number]);
 
+	}
+
+	openWord(word:Word){
+		const counterparty = this.wordcloudCounterparties.find(counterparty => counterparty.name === word[0]);
+		if(counterparty) this.openCounterparty(counterparty._id)
 	}
 
 	openCounterparty(counterpartyId:string){
