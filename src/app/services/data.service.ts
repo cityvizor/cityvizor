@@ -146,7 +146,7 @@ export class DataService {
 	}
 
 	getCounterpartiesTop(){
-		return this.http.get<any[]>(this.root + "/counterparties/top").toPromise();
+		return this.http.get<Counterparty[]>(this.root + "/counterparties/top").toPromise();
 	}
 
 	searchCounterparties(query: string) {

@@ -1,11 +1,11 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { NgForm } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { DataService } from '../../../services/data.service';
 import { ToastService } from '../../../services/toast.service';
 
-import * as WordCloud from "wordcloud";
-import { Router } from '@angular/router';
+
+import { Counterparty } from 'app/shared/schema/counterparty';
 
 @Component({
 	moduleId: module.id,
@@ -21,47 +21,29 @@ export class CounterpartySearchComponent implements OnInit {
 	supplierQueryFocus: boolean = false;
 	supplierSelected: number = 0;
 
-	wordcloudMinSize = 10;
-	wordcloudMaxSize = 70;
-	wordcloudMinOpacity = 0.2;
-	wordcloudMaxOpacity = 1;
-
-	@ViewChild("wordcloud") wordcloudEl: ElementRef<HTMLElement>;
+	topCounterparties:Counterparty[];
+	wordcloud:Array<[string,number]> = [];
 
 	constructor(private dataService: DataService, private toastService: ToastService, private router:Router) { }
 
 	ngOnInit(){
-		this.createWordcloud();
+		this.loadTopCounterparties();
 	}
 
-	async createWordcloud() {
+	async loadTopCounterparties(){
 		const counterparties = await this.dataService.getCounterpartiesTop();
-		
 
-		const max = counterparties.reduce((acc,cur) => Math.max(cur.amount,acc),0);
-
-		const replaced = ["spol\\. s r\\.o\\.","a\\. ?s\\.","s\\.? ?r\\. ?o\\.","JUDR\\.","příspěvková organizace",","].map(string => new RegExp(string,"i"));
+		const replaced = ["spol\\. s r\\.o\\.", "a\\. ?s\\.", "s\\.? ?r\\. ?o\\.", "JUDR\\.", "příspěvková organizace", ","].map(string => new RegExp(string, "i"));
 
 		counterparties.forEach(counterparty => {
-			replaced.forEach(replace => counterparty.name = counterparty.name.replace(replace,""))
-			counterparty.name = counterparty.name.trim();
+      replaced.forEach(replace => counterparty.name = counterparty.name.replace(replace, ""))
+      counterparty.name = counterparty.name.trim();
 		})
 
-		const list = counterparties.map(counterparty => [counterparty.name, Math.round((1 - counterparty.amount / max) * this.wordcloudMinSize + counterparty.amount / max * this.wordcloudMaxSize)]);
+		this.topCounterparties = counterparties;
 
-		const options = {
-			list,		
-			rotateRatio:0,	
-			color: (word, weight, fontSize, distance, theta) => `rgba(37, 129, 196, ${(1 - (fontSize - this.wordcloudMinSize) / (this.wordcloudMaxSize - this.wordcloudMinSize)) * this.wordcloudMinOpacity + ((fontSize - this.wordcloudMinSize) / (this.wordcloudMaxSize - this.wordcloudMinSize)) * this.wordcloudMaxOpacity})`,
-			classes: "word",
-			click: (item, dimension, event) => {
-				const counterparty = counterparties.find(counterparty => counterparty.name === item[0]);
-				if(!counterparty) return;
-				this.openCounterparty(counterparty._id);
-			}
-		};
+		this.wordcloud = this.topCounterparties.map(counterparty => [counterparty.name,counterparty.amount] as [string,number]);
 
-		WordCloud(this.wordcloudEl.nativeElement, options );
 	}
 
 	openCounterparty(counterpartyId:string){

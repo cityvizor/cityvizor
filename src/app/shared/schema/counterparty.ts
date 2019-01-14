@@ -2,6 +2,7 @@ export class Counterparty {
 	_id: string;
 	name: string;
 	profiles: CounterpartyProfile[];
+	amount:number;
 }
 
 export class CounterpartyProfile {
