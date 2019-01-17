@@ -6,7 +6,6 @@
       <div class="row">
         <div class="col-xs-12">
           <h1 *ngIf="config.title">
-            <i *ngIf="config.title.icon" [class]="config.title.icon"></i>
             <a [routerLink]="config.title.link">{{config.title.text}}</a>
           </h1>
 
