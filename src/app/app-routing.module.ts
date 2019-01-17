@@ -6,6 +6,7 @@ import { ProfileViewComponent } from './views/profile-view/profile-view.componen
 import { ProfileAdminComponent } from './views/profile-admin/profile-admin.component';
 
 import { CounterpartyViewComponent } from './views/counterparty-view/counterparty-view.component';
+import { CounterpartyViewDashboardComponent } from './views/counterparty-view/counterparty-view-dashboard/counterparty-view-dashboard.component';
 import { CounterpartyViewProfilesComponent } from './views/counterparty-view/counterparty-view-profiles/counterparty-view-profiles.component';
 import { CounterpartyViewPaymentsComponent } from './views/counterparty-view/counterparty-view-payments/counterparty-view-payments.component';
 
@@ -33,8 +34,9 @@ const appRoutes: Routes = [
     component: CounterpartyViewComponent,
     children: [
       { path: 'obce', component: CounterpartyViewProfilesComponent },
-      { path: 'faktury', component: CounterpartyViewPaymentsComponent },
-      { path: '', redirectTo: 'obce', pathMatch: 'full'}
+			{ path: 'faktury', component: CounterpartyViewPaymentsComponent },
+			{ path: 'prehled', component: CounterpartyViewDashboardComponent },
+      { path: '', redirectTo: 'prehled', pathMatch: 'full'}
     ]
   },
   

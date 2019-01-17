@@ -25,6 +25,7 @@ export class CounterpartyViewComponent implements OnInit, OnDestroy {
       icon: "fa fa-times"
     },
     menu: [
+      { text: "Přehled", link: ["./prehled"] },
       { text: "Obce", link: ["./obce"] },
       { text: "Faktury", link: ["./faktury"] }
     ]
@@ -54,6 +55,6 @@ export class CounterpartyViewComponent implements OnInit, OnDestroy {
   async loadCounterparty(counterpartyId:string){
     this.counterparty = await this.dataService.getCounterparty(counterpartyId)
     
-    this.menuConfig.title.text = "Dodavatel: " + this.counterparty.name;
+    this.menuConfig.title.text = this.counterparty.name;
   }
 }
