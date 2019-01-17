@@ -38,10 +38,10 @@ export class CounterpartySearchComponent implements OnInit {
 	async loadTopCounterparties(){
 		const counterparties = await this.dataService.getCounterpartiesTop();
 
-		const replaced = ["spol\\. s r\\.o\\.", "a\\. ?s\\.", "s\\.? ?r\\. ?o\\.", "JUDR\\.", "příspěvková organizace", ","].map(string => new RegExp(string, "i"));
+		const removeStrings = ["spol\\. s r\\.o\\.", "a\\. ?s\\.", "s\\.? ?r\\. ?o\\.", "s\\. ?p\\.", "JUDR\\.", "příspěvková organizace", ","].map(string => new RegExp(string, "i"));
 
 		counterparties.forEach(counterparty => {
-      replaced.forEach(replace => counterparty.name = counterparty.name.replace(replace, ""))
+      removeStrings.forEach(removeString => counterparty.name = counterparty.name.replace(removeString, ""))
       counterparty.name = counterparty.name.trim();
 		})
 
