@@ -1,7 +1,5 @@
 # CityVizor
 
-[![dependencies](https://david-dm.org/otevrena-data-mfcr/CityVizor.svg)](https://david-dm.org/otevrena-data-mfcr/CityVizor)
-
 Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalšími funkcemi pro samosprávy. Aplikace byla vytvořena zaměstnanci [Ministerstva financí ČR](http://www.mfcr.cz), [Otevřená Města](http://www.otevrenamesta.cz/) vám poskytují tuto aplikaci jako služba. Data jsou poskytována obcemi dobrovolně.
 
 Toto je front end aplikace. Serverovou část najdete v repozitáři [CityVizor Server](https://github.com/otevrena-data-mfcr/CityVizor-server).
