@@ -8,11 +8,16 @@ const importConfig = require("../config/import-config.js");
 
 class ImportTransformer extends EventEmitter {
 
-	constructor(etl){
-		
+	constructor(etl,dataSource){
+    
 		super();
 		
 		this.etl = etl;
+
+    dataSource.on("event", event => this.writeEvent(event));
+    dataSource.on("counterparty", counterparty => this.writeCounterparty(counterparty));
+    dataSource.on("balance", balance => this.writeBalance(balance));
+    dataSource.on("payment", payment => this.writePayment(payment));
 		
 		this.i = 0;
 
@@ -30,6 +35,9 @@ class ImportTransformer extends EventEmitter {
 		
 		this.events = [];
 		this.eventIndex = {};
+    
+    this.counterparties = [];
+		this.counterpartyIndex = {};
 		
 		this.payments = [];
 
@@ -57,6 +65,7 @@ class ImportTransformer extends EventEmitter {
 		let data = {
 			budget: this.budget,
 			events: this.events,
+      counterparties: this.counterparties,
 			payments: this.payments
 		}
 		
@@ -94,6 +103,31 @@ class ImportTransformer extends EventEmitter {
 		this.emit("event",this.eventIndex[event.id]);
 
 	}
+  
+  writeCounterparty(counterparty) {
+    
+		if(this.counterpartyIndex[counterparty.counterpartyId]) return;
+		
+		this.counterpartyIndex[counterparty.counterpartyId] = {
+			_id: mongoose.Types.ObjectId(),
+			profile: this.etl.profile,
+			year: this.etl.year,
+			etl: this.etl._id,
+			orgId: counterparty.counterpartyId,
+			name: counterparty.counterpartyName,
+      budgetExpenditureAmount: 0,
+      budgetIncomeAmount: 0,
+      expenditureAmount: 0,
+      incomeAmount: 0
+		};
+
+		this.counterparties.push(this.counterpartyIndex[counterparty.counterpartyId]);
+    
+    
+		
+		this.emit("counterparty",this.counterpartyIndex[counterparty.counterpartyId]);
+
+	}
 
 	writeBalance(balance){
 		
@@ -124,6 +158,7 @@ class ImportTransformer extends EventEmitter {
 		/* UPDATE AMOUNTS */
 		let budget = this.budget;
 		let event = this.eventIndex[r.eventId];
+    let counterparty = this.counterpartyIndex[r.orgId];
 
 		if(isIncome){
 
@@ -133,7 +168,7 @@ class ImportTransformer extends EventEmitter {
 			
 			let targetAccount = r.type === "ROZ" ? "budgetIncomeAmount" : "incomeAmount";
 
-			this.assignAmount([budget, event, budgetItem, budgetItemEvent, eventItem], targetAccount, r.amount);
+			this.assignAmount([budget, event, counterparty, budgetItem, budgetItemEvent, eventItem], targetAccount, r.amount);
 		}
 
 		else if(isOutcome){
@@ -144,7 +179,7 @@ class ImportTransformer extends EventEmitter {
 			
 			let targetAccount = r.type === "ROZ" ? "budgetExpenditureAmount" : "expenditureAmount";
 
-			this.assignAmount([budget, event, budgetParagraph, budgetParagraphEvent, eventParagraph], targetAccount, r.amount);
+			this.assignAmount([budget, event, counterparty, budgetParagraph, budgetParagraphEvent, eventParagraph], targetAccount, r.amount);
 		}
 	}
 
@@ -177,7 +212,6 @@ class ImportTransformer extends EventEmitter {
 		
 	}
 	
-
 	
 	/* HELPER functions */
 

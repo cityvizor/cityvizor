@@ -80,7 +80,7 @@ class Importer extends EventEmitter {
   }
 
   download(cb){   
-
+    
     // request definition
     var httpOptions = {
       url: this.url,
@@ -95,10 +95,11 @@ class Importer extends EventEmitter {
     // create request
     var source = request(httpOptions);
 
-    source.on("error",(err,res,body) => error = err);
+    source.on("error",(err,res,body) => cb(err));
 
     // listen to response in order to store the modified header
     source.on('response', (res) => {
+      
       
       this.result.statusCode = res.statusCode;
       this.result.statusMessage = res.statusMessage;
@@ -185,10 +186,23 @@ class Importer extends EventEmitter {
         paragraph: chunk["PARAGRAF"],
         item: chunk["POLOZKA"],
         eventId: chunk["ORGANIZACE"],
+        counterpartyId: chunk["SUBJEKT_IC"],
         amount: amount
       };
       
       this.emit("balance",balance);
+      
+      
+      if(chunk["SUBJEKT_IC"]){
+        
+        const counterparty = {
+          counterpartyId: chunk["SUBJEKT_IC"].padStart(8, "0"),
+          counterpartyName: chunk["SUBJEKT_NAZEV"]
+        }
+        
+        this.emit("counterparty",counterparty);
+        
+      }
       
       if(balance.type === "KDF" || balance.type === "KOF"){
         
