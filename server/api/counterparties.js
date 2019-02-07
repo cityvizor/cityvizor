@@ -10,6 +10,7 @@ var etlFilter = require("../middleware/etl-filter");
 
 // load schemas
 var Counterparty = require("../models/counterparty");
+var Payment = require("../models/payment");
 
 // REQUEST: get event
 
@@ -22,13 +23,13 @@ router.get("/search", etlFilter({visible:true}), acl("counterparty","list"), (re
       $match: {
         $or: [
           {$text: {$search: req.query.query}},
-          {orgId: req.query.query}
+          {counterpartyId: req.query.query}
         ],
         etl: {$in: req.etls}
       }
     },
     { $group: {
-      _id : "$orgId",
+      _id : "$counterpartyId",
       "name": {$first: "$name"}      
     } },
     { $limit: 10 },
@@ -42,43 +43,41 @@ router.get("/search", etlFilter({visible:true}), acl("counterparty","list"), (re
 
 });
 
-router.get("/:id", etlFilter({visible:true}), acl("counterparty", "read"), async (req,res,next) => {
-
-  var counterparties = await Counterparty.find({ orgId:req.params.id, etl: {$in: req.etls}}).populate("profile","_id name")
-
-  if(!counterparties.length) return res.sendStatus(404);
-
+router.get("/top", etlFilter({visible:true}), acl("counterparty","list"), async (req,res,next) => {
+  const counterparties = await Counterparty.aggregate([
+    { $match: { etl: {$in: req.etls}} },
+    { $group: { _id: "$counterpartyId", name: { $first: "$name" }, amount: { $sum: "$expenditureAmount" } } },
+    { $sort: { amount: -1 } },
+    { $limit: 100 }
+  ]);
+  
   res.json(counterparties);
 });
 
-router.get("/:id/profiles", etlFilter({visible:true}), acl("counterparty", "read"), async (req,res,next) => {
+router.get("/:id", etlFilter({visible:true}), acl("counterparty", "read"), async (req,res,next) => {
 
-  var counterparties = await Counterparty.find({ counterpartyId:req.params.id, etl: {$in: req.etls}}).populate("profile","_id name");
+  var counterparty = await Counterparty.aggregate([
+    { $match: { counterpartyId: req.params.id, etl: {$in: req.etls}} },
+    { $group: { _id: "$counterpartyId", name: { $first: "$name" } } }
+  ])
 
-  var profiles = [];
-  var profileIndex = {};
+  if(!counterparty[0]) return res.sendStatus(404);
 
-  counterparties.forEach(item => {
+  res.json(counterparty[0]);
+});
 
-    if(!profileIndex[item.profile._id]) {
-      let profile = {
-        "_id": item.profile._id,
-        "name": item.profile.name,
-        "budgets": []
-      };
+router.get("/:id/budgets", etlFilter({visible:true}), acl("counterparty", "read"), async (req,res,next) => {
 
-      profileIndex[item.profile._id] = profile;
-      profiles.push(profile);
-    }
+  var budgets = await Counterparty.find({ counterpartyId:req.params.id, etl: {$in: req.etls}}).populate("profile","_id name");
 
-    profileIndex[item.profile._id].budgets.push({
-      "year": item.year,
-      "etl": item.etl,
-      "amount": Number(item.amount) || 0
-    });
+  res.json(budgets);
+  
+});
 
-  });
+router.get("/:id/payments", etlFilter({visible:true}), acl("counterparty", "read"), async (req,res,next) => {
 
-  res.json(profiles);
+  var payments = await Payment.find({ counterpartyId:req.params.id, etl: {$in: req.etls}});
+
+  res.json(payments);
   
 });
