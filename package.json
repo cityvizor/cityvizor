@@ -49,6 +49,7 @@
     "request-promise-native": "^1.0.5",
     "rimraf": "^2.6.3",
     "simple-get": "^2.8.1",
+    "ssl-root-cas": "^1.2.5",
     "stream-transform": "^1.0.8",
     "xml2js": "^0.4.19"
   },

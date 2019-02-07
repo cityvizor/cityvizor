@@ -17,7 +17,6 @@ class Importer extends EventEmitter {
     this.etl = etl;    
     
     this.url = etl.dataFile;
-    if(!this.url) return cb(new Error("Missing url in etl settings"));
     
     this.lastModified = etl.lastModified;
     this.etag = etl.etag;
@@ -36,6 +35,8 @@ class Importer extends EventEmitter {
   }
   
   importUrl(cb){
+    
+    if(!this.url) return cb(new Error("Missing url in etl settings"));
     
     var tasks = [
       (cb) => this.createTempDir(cb),

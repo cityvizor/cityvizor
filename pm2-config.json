@@ -1,7 +1,7 @@
 {
   apps : [
     {
-      name      : 'CityVizor Cron',
+      name      : 'cityvizor-cron',
       script    : 'server/cron.js',
       instances : 1,
       exec_mode : 'fork',
@@ -12,7 +12,7 @@
       log_date_format : "YYYY-MM-DD HH:mm"
     },
     {
-      name      : 'CityVizor Server',
+      name      : 'cityvizor-server',
       script    : 'server/server.js',
       instances : 0,
       exec_mode : 'cluster',

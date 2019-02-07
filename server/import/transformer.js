@@ -77,7 +77,9 @@ class ImportTransformer extends EventEmitter {
 	
 	writeEvent(event) {
 		
+		if(!event.id) { this.emit("warning","Akce: Neuvedeno číslo akce, záznam byl ignorován."); return; }
 		if(!event.name || !event.name.trim()) { this.emit("warning","Akce č. " + event.id + ": Neuveden název, záznam byl ignorován."); return; }
+		
 
 		if(this.eventIndex[event.id]) return;
 		
@@ -219,7 +221,7 @@ class ImportTransformer extends EventEmitter {
 		
 		if(typeof string === "number") return string;
 		
-		if(!string.length) return 0;
+		if(!string || !string.length) return 0;
 		
 		if(string.charAt(string.length - 1) === "-") string = "-" + string.substring(0,string.length - 1); // sometimes minus is at the end, put it to first character
 		

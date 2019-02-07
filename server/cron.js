@@ -5,6 +5,8 @@ var async = require("async");
 
 var config = require("./config/config");
 
+console.log("Setting up CityVizor cron job at " + config.cron.time);
+
 var job = new CronJob({
   cronTime: config.cron.cronTime, //'00 00 01 * * *',
   start: config.cron.start, /* Start the job right now */

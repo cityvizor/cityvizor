@@ -183,8 +183,7 @@ class Importer extends EventEmitter {
     var reader = new Writable({
       objectMode: true,
       write: (line,enc,callback) => {
-        let event = { id: line.id, name: line.name };
-        this.emit("event",event);
+        this.emit("event",{ id: line.id, name: line.name });
         callback();
       }
     });
@@ -197,10 +196,7 @@ class Importer extends EventEmitter {
     return headerLine.map(originalField => {
 
       // browser throught all the target fields if originalField is someones alias
-      var matchedField = Object.keys(names).find(name => {
-        // check all the aliases if any is matched
-        return names[name].some(matchOptions => matchOptions.indexOf(originalField) >= 0)
-      });
+      var matchedField = Object.keys(names).find(name => names[name].indexOf(originalField) >= 0);
 
       // return matched or original field
       return matchedField || originalField;
