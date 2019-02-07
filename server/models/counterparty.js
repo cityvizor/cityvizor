@@ -7,7 +7,7 @@ var counterpartySchema = mongoose.Schema({
 	profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
 	etl: {type: mongoose.Schema.Types.ObjectId, ref: "ETL"},
 	year: Number,
-	orgId: String,
+	counterpartyId: String,
 	name: String,
 	budgetExpenditureAmount: Number,  
 	budgetIncomeAmount: Number,
@@ -17,7 +17,7 @@ var counterpartySchema = mongoose.Schema({
 
 counterpartySchema.set('collection', 'counterparties');
 
-counterpartySchema.index({ orgId: 1, name: 1, amount: 1 });
+counterpartySchema.index({ counterpartyId: 1, name: 1, amount: 1 });
 counterpartySchema.index({ name: "text" });
 
 var Counterparty = module.exports = mongoose.model('Counterparty', counterpartySchema);
