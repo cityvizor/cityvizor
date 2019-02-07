@@ -33,7 +33,7 @@
 						</div>
 						<div class="col-xs-3 small text-right">
 							<h5>
-								<small>{{payment.date | date:"d. M. y"}}</small>
+								<small *ngIf="payment.date">{{payment.date | date:"d. M. y"}}</small>
 							</h5>
 						</div>
 					</div>
