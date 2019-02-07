@@ -113,7 +113,7 @@ class ImportTransformer extends EventEmitter {
 			profile: this.etl.profile,
 			year: this.etl.year,
 			etl: this.etl._id,
-			orgId: counterparty.counterpartyId,
+			counterpartyId: counterparty.counterpartyId,
 			name: counterparty.counterpartyName,
       budgetExpenditureAmount: 0,
       budgetIncomeAmount: 0,
@@ -158,7 +158,7 @@ class ImportTransformer extends EventEmitter {
 		/* UPDATE AMOUNTS */
 		let budget = this.budget;
 		let event = this.eventIndex[r.eventId];
-    let counterparty = this.counterpartyIndex[r.orgId];
+    let counterparty = this.counterpartyIndex[r.counterpartyId];
 
 		if(isIncome){
 

@@ -180,6 +180,11 @@ class Importer extends EventEmitter {
         let event = { id: chunk.ORGANIZACE, name: chunk.ORGANIZACE_NAZEV };
         this.emit("event",event);
       }
+      
+      if(chunk["SUBJEKT_IC"]){
+        const counterparty = { counterpartyId: chunk["SUBJEKT_IC"].padStart(8, "0"), counterpartyName: chunk["SUBJEKT_NAZEV"] }
+        this.emit("counterparty",counterparty);
+      }
 
       var balance = {
         type: file === "RU.csv" ? "ROZ" : chunk["DOKLAD_AGENDA"],
@@ -191,18 +196,6 @@ class Importer extends EventEmitter {
       };
       
       this.emit("balance",balance);
-      
-      
-      if(chunk["SUBJEKT_IC"]){
-        
-        const counterparty = {
-          counterpartyId: chunk["SUBJEKT_IC"].padStart(8, "0"),
-          counterpartyName: chunk["SUBJEKT_NAZEV"]
-        }
-        
-        this.emit("counterparty",counterparty);
-        
-      }
       
       if(balance.type === "KDF" || balance.type === "KOF"){
         
