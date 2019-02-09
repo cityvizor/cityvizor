@@ -9,8 +9,9 @@ module.exports = {
   },
   
   cron: {
-    time: "00 00 01 * * *",
-    jobDelay: 5
+    cronTime: "00 00 01 * * *",
+    jobDelay: 5,
+    start: false
   },
   
   server: {
@@ -44,9 +45,7 @@ module.exports = {
   },
   
   eDesky: {
-    host: "edesky.cz",
-    port: 443,
-    path: "/api/v1/documents",
+    url: "https://edesky.cz/api/v1/documents",
     api_key: "your api key"    
   }
   

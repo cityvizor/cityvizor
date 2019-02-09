@@ -7,10 +7,10 @@ var ETLLog = require("../models/etl-log");
 var ImportTransformer = require("../import/transformer");
 var ImportWriter = require("../import/writer.db");
 
-const importers = {
-  "internet-stream": require("../import/importers/importer.internet-stream"),
-  "cityvizor-v1": require("../import/importers/importer.cityvizor-v1"),
-  "cityvizor-v2": require("../import/importers/importer.cityvizor-v2")
+const dataSources = {
+  "internet-stream": require("../import/data-sources/internet-stream"),
+  "cityvizor-v1": require("../import/data-sources/cityvizor-v1"),
+  "cityvizor-v2": require("../import/data-sources/cityvizor-v2")
 };
 
 class Importer {
@@ -22,6 +22,7 @@ class Importer {
     this.profileId = etl.profile._id || etl.profile;
     
     this.validity = null;
+    
     if(options && options.validity){
       this.validity = new Date(options.validity) || null
     }
@@ -32,12 +33,15 @@ class Importer {
 
     // collect warnings from all of the parts
     this.warnings = [];
+    
+    this.dataSource = this.createDataSource(this.etl.importer);
+    this.dataSource.on("warning",warning => this.warnings.push(warning));
+
+    this.transformer = new ImportTransformer(etl,this.dataSource);
+    this.transformer.on("warning",warning => this.warnings.push(warning));
 
     this.writer = new ImportWriter(etl);
     this.writer.on("warning",warning => this.warnings.push(warning));
-
-    this.transformer = new ImportTransformer(etl);
-    this.transformer.on("warning",warning => this.warnings.push(warning));
 
     // we want to have the importer in the same scope as transformer and writer, so we can access it later
     var importer;
@@ -45,17 +49,18 @@ class Importer {
 
   import(source,files,cb){
     
+    if(this.started) return cb(new Error("Import already started."));
+    this.started = true;    
+    
     this.source = source;
     
     var tasks = [
 
       cb => this.init(cb),
 
-      cb => this.createImporter(cb),
-
-      (importer,cb) => {
-        if(source === "url") return importer.importUrl(cb);
-        if(source === "file") return importer.importFile(files,cb);
+      cb => {
+        if(source === "url") return this.dataSource.importUrl(cb);
+        if(source === "file") return this.dataSource.importFile(files,cb);
       },
 
       (modified,cb) => {
@@ -87,29 +92,20 @@ class Importer {
     this.etl.save(err => cb(err));
   }
 
-  createImporter(cb){
+  createDataSource(dataSourceName){
     
-    var Importer = importers[this.etl.importer];
+    var DataSource = dataSources[dataSourceName];
 
-    if(!Importer){
-      var message = "Invalid importer \"" + this.etl.importer + "\"";
-      return cb(new Error(message));
-    }
+    if(!DataSource) throw new Error("Invalid importer \"" + this.etl.importer + "\"");
     
-    let importer = this.importer = new Importer(this.etl);
-    importer.on("warning",warning => this.warnings.push(warning));
-    importer.on("event", event => this.transformer.writeEvent(event));
-    importer.on("balance", balance => this.transformer.writeBalance(balance));
-    importer.on("payment", payment => this.transformer.writePayment(payment));
-    
-    cb(null,importer);
+    return new DataSource(this.etl);
 
   }
 
   logResults(err,modified,cb){
     
     let etl = this.etl;
-    let result = this.importer ? this.importer.result : null;
+    let result = this.dataSource ? this.dataSource.result : null;
 
     // create etl log entry
     var etllog = new ETLLog({

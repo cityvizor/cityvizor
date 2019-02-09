@@ -81,7 +81,7 @@ class Importer extends EventEmitter {
   }
 
   download(cb){   
-
+    
     // request definition
     var httpOptions = {
       url: this.url,
@@ -96,10 +96,11 @@ class Importer extends EventEmitter {
     // create request
     var source = request(httpOptions);
 
-    source.on("error",(err,res,body) => error = err);
+    source.on("error",(err,res,body) => cb(err));
 
     // listen to response in order to store the modified header
     source.on('response', (res) => {
+      
       
       this.result.statusCode = res.statusCode;
       this.result.statusMessage = res.statusMessage;
@@ -172,11 +173,18 @@ class Importer extends EventEmitter {
       
     parser.on("data", chunk => {
 
-      let amount = Number(chunk.POLOZKA) > 5000 ? chunk.CASTKA_DAL - chunk.CASTKA_MD : chunk.CASTKA_MD - chunk.CASTKA_DAL;
+      let amount = parseFloat(chunk["CASTKA_DAL"]) - parseFloat(chunk["CASTKA_MD"]);
+      
+      if(Number(chunk.POLOZKA) < 5000) amount = (-1) * amount;
 
       if(chunk.ORGANIZACE && chunk.ORGANIZACE_NAZEV){
         let event = { id: chunk.ORGANIZACE, name: chunk.ORGANIZACE_NAZEV };
         this.emit("event",event);
+      }
+      
+      if(chunk["SUBJEKT_IC"]){
+        const counterparty = { counterpartyId: chunk["SUBJEKT_IC"].padStart(8, "0"), counterpartyName: chunk["SUBJEKT_NAZEV"] }
+        this.emit("counterparty",counterparty);
       }
 
       var balance = {
@@ -184,6 +192,7 @@ class Importer extends EventEmitter {
         paragraph: chunk["PARAGRAF"],
         item: chunk["POLOZKA"],
         eventId: chunk["ORGANIZACE"],
+        counterpartyId: chunk["SUBJEKT_IC"],
         amount: amount
       };
       

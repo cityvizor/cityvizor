@@ -9,15 +9,36 @@ mongoose.plugin(require('mongoose-paginate'));
 mongoose.connect('mongodb://localhost/' + config.database.db);
 console.log("DB connecting to database " + config.database.db);
 
-var tasks = process.argv.slice(2).map(task => require("./cron/" + task));
+var tasks = process.argv.slice(2).map(task => require("./tasks/" + task));
 
-async.series(tasks,err => {
-  if(err) console.error(err.message);
-  else console.log("Task finished.");
-  
-  console.log("Disconnecting DB");
-  
-  mongoose.disconnect(() => {
-    process.exit();
+runTasks(tasks)
+  .then(() => {
+    console.log("Disconnecting DB");
+
+    mongoose.disconnect(() => {
+      process.exit();
+    });
   });
-});
+
+async function runTasks(tasks){
+
+  console.log("=========");
+  
+  while(tasks.length){
+    
+    let task = tasks.shift();
+    
+    if(typeof task !== "function") {
+      console.error("Task must be a function. Instead: " + (typeof task));
+      continue;
+    }
+    
+    try{
+      await task();
+      console.log("Task finished.");
+    }catch(err){
+      console.error("Error: " + err.message);
+    }
+  }
+   
+}
