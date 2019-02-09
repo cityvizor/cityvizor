@@ -1,10 +1,8 @@
-
+ 
 // config injection token, i. e. the key in the injection storage map
 import { InjectionToken } from '@angular/core';
 export interface IAppConfig { [k:string]:any; }
 export let AppConfig = new InjectionToken<IAppConfig>('app.config');
-
-
 
 /* CONFIGURATION */
 
@@ -21,7 +19,7 @@ let modules:Module[] = [
   {"id": "invoice-list", "url": "faktury", "name": "Faktury", "optional": true},	
   {"id": "notice-board", "url": "uredni-deska", "name": "Úřední deska", "optional": true},
   {"id": "contract-list", "url": "registr-smluv", "name": "Registr smluv", "optional": true},
-  {"id": "data-sources", "url": "data", "name": "Data", "optional": true},
+  {"id": "data-sources", "url": "data", "name": "Data", "optional": true}
 ];
 
 // configuration data

@@ -1,0 +1,47 @@
+.list{margin-top:100px}
+
+word-cloud{width:100%;height:400px;margin:30px auto 0 auto;}
+
+/*---------- Search ----------*/
+.result-bucket li {
+    padding: 5px 15px;
+}
+.instant-results {
+    background: #fff;
+    width: 100%;
+    color: gray;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .175);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .175);
+    z-index: 9;
+    padding-bottom: 0px;
+}
+.form-search {
+    transition: all 200ms ease-out;
+    -webkit-transition: all 200ms ease-out;
+    -ms-transition: all 200ms ease-out;
+}
+.search-form {
+    position: relative;
+    max-width: 100%;
+}
+.result-link {
+    color: black;
+    text-decoration: none;
+    li {
+        border-top:1px solid #eee;      
+        &:hover {
+            background: #fafafa;
+        }
+        &.selected {
+            background: #eee;
+        }
+    }
+}
+.result-bucket {
+    margin-bottom: 0px;
+}

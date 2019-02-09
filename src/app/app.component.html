@@ -1,0 +1,90 @@
+<div id="wrap">
+
+	<div id="toasts">
+		<ul class="text-center">
+			<li *ngFor="let toast of toasts" [class]="toast.status" @toastsFadeOut>
+				<i *ngIf="toast.status=='check'" class="fa fa-2x fa-check"></i>
+				<i *ngIf="toast.status=='error'" class="fa fa-2x fa-exclamation-triangle"></i>
+				<i *ngIf="toast.status=='notice'" class="fa fa-2x fa-info-circle"></i>
+				<p>{{toast.text}}</p>
+			</li>
+		</ul>
+	</div>
+
+	<router-outlet></router-outlet>
+
+	<div id="push"></div>
+
+</div>
+
+<footer class="bs-docs-footer">
+	<div class="container text-muted small">
+		<div class="row">
+			<div class="col-sm-5 col-xs-12">
+        Vyvinuto na <a href="https://www.mfcr.cz/">Ministerstvu financí</a><br>
+        Provozují <a href="https://www.otevrenamesta.cz/">Otevřená města, z. s.</a><br>
+				Server poskytuje <a href="https://vpsfree.cz/o-vpsfree/" target="_blank"><span style="color:#f6914b">vps</span><span style="color:#000;">Free.cz, z.s.</span></a>
+			</div>
+			<div class="col-sm-2 col-xs-12 text-center">
+				<a href="https://facebook.com/CityVizor" class="hidden">
+					<span class="fa-stack fa-md">
+						<i class="fa fa-circle fa-stack-2x"></i>
+						<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+				<a href="https://twitter.com/CityVizor" class="hidden">
+					<span class="fa-stack fa-md">
+						<i class="fa fa-circle fa-stack-2x"></i>
+						<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+				<a [href]="config.GitHub.url">
+					<span class="fa-stack fa-md">
+						<i class="fa fa-circle fa-stack-2x"></i>
+						<i class="fa fa-github fa-stack-1x fa-inverse"></i>
+					</span>
+				</a>
+			</div>
+			<div class="col-sm-5 col-xs-12 text-right">
+				<a [attr.href]="config.docsUrl + '/o-aplikaci'">O aplikaci</a>
+				&nbsp;|&nbsp;<a [attr.href]="config.docsUrl + '/data'">Data</a>
+				&nbsp;|&nbsp;<a [attr.href]="config.docsUrl + '/o-aplikaci/#licenční-podmínky'">Licence</a>
+				&nbsp;|&nbsp;<a [attr.href]="config.docsUrl + '/kontakt'">Kontakt</a>
+				<ng-container *ngIf="aclService.checkRoute('/admin')">&nbsp;|&nbsp;<a routerLink="/admin">Administrace</a></ng-container>
+				
+				<br>
+
+				<ng-container *ngIf="!authService.logged">
+					<a (click)="loginModal.show()">Přihlásit se</a>
+				</ng-container>
+				<ng-container *ngIf="authService.logged">
+					{{authService.user._id}}
+					| <a routerLink="/ucet">Nastavení</a>
+					| <a (click)="logout()">Odhlásit</a>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<div bsModal #loginModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" (click)="loginModal.hide()" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Přihlášení správce obce</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2">
+						<login-form (cancel)="loginModal.hide()" (login)="loginModal.hide()"></login-form>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<easteregg-equaliser></easteregg-equaliser>

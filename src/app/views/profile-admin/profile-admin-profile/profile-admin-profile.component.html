@@ -1,0 +1,95 @@
+<h2>
+	Nastavení profilu
+</h2>
+
+<form class="form-horizontal" #profileForm="ngForm" (submit)="save(profileForm)">  
+  
+	<div class="form-group">
+    <label for="name" class="col-sm-3 control-label">Název obce</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="name" name="name" [ngModel]="profile.name" aria-describedby="help-name" required>
+      <span id="help-name" class="help-block">Tento název se zobrazuje v záhlaví stránky s profilem obce a na mapce. Může se lišit od oficiálního názvu obce.</span>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="url" class="col-sm-3 control-label">Adresa</label>
+    <div class="col-sm-9">
+      <div class="input-group">
+        <span class="input-group-addon">https://cityvizor.cz/</span>
+        <input type="text" class="form-control" id="url" name="url" [ngModel]="profile.url" aria-describedby="help-url" required pattern="^[0-9a-zA-Z\.\-_]+$">
+      </div>
+      <span id="help-url" class="help-block">Na této adrese bude dostupný profil vaší obce.</span>
+    </div>
+	</div>
+
+	<div class="form-group">
+		<label for="ico" class="col-sm-3 control-label">Identifikace obce</label>
+		<div class="col-sm-9">
+			<div class="input-group">
+				<span class="input-group-addon">IČO</span>
+				<input type="text" class="form-control" id="ico" name="ico" [ngModel]="profile.ico" aria-describedby="help-ico" pattern="\d{8}">
+				<span class="input-group-addon">ZÚJ</span>
+				<input type="text" class="form-control" name="zuj" [ngModel]="profile.zuj" aria-describedby="help-ico" pattern="\d{6}">
+			</div>
+			<span id="help-ico" class="help-block">Identifikace obce ve veřejných registrech.</span>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="edesky" class="col-sm-3 control-label">Úřední deska</label>
+		<div class="col-sm-9">
+			<div class="input-group">
+				<span class="input-group-addon">eDesky</span>
+				<input type="number" class="form-control" id="edesky" name="edesky" [ngModel]="profile.edesky" aria-describedby="help-edesky">
+				<span class="input-group-addon">MapaSamospravy</span>
+				<input type="number" class="form-control" name="mapasamospravy" [ngModel]="profile.mapasamospravy" aria-describedby="help-edesky">
+			</div>
+      <span id="help-edesky" class="help-block">Zde vyplňte ID vaší obce v aplikacích <a href="https://edesky.cz/">eDesky</a> a <a href="https://mapasamospravy.cz/">MapaSamospravy</a>. Kde najít toto ID se dočtete v sekci <a [attr.href]="config.docsUrl + '/navody#id-edesky-a-mapasamospravycz'">návody</a>.</span>
+    </div>
+  </div>
+	
+	<div class="form-group">
+		<label for="gps" class="col-sm-3 control-label">Poloha obce</label>
+		<div class="col-sm-9">
+			<div class="input-group">
+				<span class="input-group-addon">N</span>
+				<input type="text" class="form-control" id="gps" name="gps1" [ngModel]="profile.gps[1]" aria-describedby="help-gps" pattern="^\d+[,.]\d+$">
+				<span class="input-group-addon">E</span>
+				<input type="text" class="form-control" name="gps0" [ngModel]="profile.gps[0]" aria-describedby="help-gps" pattern="^\d+[,.]\d+$">
+			</div>
+			<span id="help-gps" class="help-block">Souřadnice GPS středu vaší obce.</span>
+		</div>
+	</div>
+    
+  <div class="form-group">
+    <label for="email" class="col-sm-3 control-label">Kontaktní email</label>
+    <div class="col-sm-9">
+      <input type="email" class="form-control" id="email" name="email" [ngModel]="profile.email" aria-describedby="help-email">
+      <span id="help-email" class="help-block">Na tomto e-mailu vás budeme kontaktovat, bude-li nějaký problém s vaším profilem.</span>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label class="col-sm-3 control-label">Stav</label>
+    <div class="col-sm-9">
+			<select name="status" [ngModel]="profile.status">
+				<option value="active">Veřejný</option>
+				<option value="pending">Připravujeme</option>
+				<option value="hidden">Skrytý</option>
+			</select>
+      <span id="help-active" class="help-block">
+				Veřejný = veřejně přístupný<br>
+				Připravujeme = zobrazuje se pouze na úvodní stránce s poznámkou<br>
+				Skrytý = nezobrazuje se na úvodní stránce.
+			</span>
+    </div>
+  </div>
+	
+  <div class="form-group">
+		<div class="col-sm-offset-3 col-sm-9">
+			<button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Uložit změny</button>
+		</div>
+	</div>
+	
+</form>
