@@ -5,7 +5,7 @@ var async = require("async");
 
 var config = require("./config/config");
 
-console.log("Setting up CityVizor cron job at " + config.cron.time);
+console.log("Setting up CityVizor cron job at " + config.cron.cronTime);
 
 var job = new CronJob({
   cronTime: config.cron.cronTime, //'00 00 01 * * *',
@@ -30,7 +30,7 @@ async function runCron() {
   // set the tasks
   var tasks = [];
 
-  tasks.push({exec: () => mongoose.connect('mongodb://localhost/' + config.database.db), name: "Connect database"});
+  tasks.push({exec: () => mongoose.connect(config.database.uri, { useNewUrlParser: true })});
   tasks.push({exec: require("./tasks/download-contracts"), name: "Download contacts from https://smlouvy.gov.cz/"});
   tasks.push({exec: require("./tasks/download-noticeboard"), name: "Download notice board documents from https://eDesky.cz/"});
   tasks.push({exec: require("./tasks/autoimports"), name: "Process auto imports of data"});
