@@ -73,6 +73,7 @@ import { ProfileHeaderComponent } from 'app/shared/components/profile-header/pro
 import { routing } from './app-routing.module';
 
 // App Config
+import { environment } from 'environments/environment';
 import { AppConfig, AppConfigData } from "../config/config";
 import { CounterpartyViewDashboardComponent } from './views/counterparty-view/counterparty-view-dashboard/counterparty-view-dashboard.component';
 
@@ -84,7 +85,7 @@ export function tokenGetter(): string {
 var jwtOptions = {
 	config: {
 		tokenGetter: tokenGetter,
-		whitelistedDomains: ['cityvizor.cz','dev.cityvizor.cz'],
+		whitelistedDomains: environment.jwtDomains,
 		throwNoTokenError: false,
 		skipWhenExpired: true
 	}

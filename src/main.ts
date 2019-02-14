@@ -8,4 +8,6 @@ if (environment.production) {
   enableProdMode();
 }
 
+console.log(`Running version built for ${environment.name} environment.`)
+
 platformBrowserDynamic().bootstrapModule(AppModule);
