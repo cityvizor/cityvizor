@@ -36,10 +36,19 @@ var mongoose = require('mongoose');
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
 mongoose.Promise = global.Promise;
+
 mongoose.connect(config.database.uri, { useNewUrlParser: true })
 	.then(() => console.log("Connected to database " + config.database.db))
 	.catch(err => {
-		throw new Error("Error when connectiong to DB " + config.database.db + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
+		console.error("Error when connectiong to DB " + config.database.db + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
+    
+    console.log("Will retry connection in 10s...");
+    setTimeout(() => {
+      mongoose.connect(config.database.uri, { useNewUrlParser: true })
+        .then(() => console.log("Connected to database " + config.database.db))
+	      .catch(err => console.error("Error when reconnectiong to DB " + config.database.db + ": " + err.message));
+    }, 10000);
+    
 	});
 
 

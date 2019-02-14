@@ -1,5 +1,4 @@
 var CronJob = require('cron').CronJob;
-var mongoose = require('mongoose');
 var moment = require("moment");
 var async = require("async");
 
@@ -9,31 +8,29 @@ console.log("Setting up CityVizor cron job at " + config.cron.cronTime);
 
 var job = new CronJob({
   cronTime: config.cron.cronTime, //'00 00 01 * * *',
-  start: config.cron.start, /* Start the job right now */
-  runOnInit: false,
+  start: true, /* Set the job right now */
+  runOnInit: config.cron.runOnInit, /* Start the job right now */
   timezone: 'Europe/Prague', /* Time zone of this job. */
-  onTick: runCron()
+  onTick: () => runCron()
 });
 
 async function runCron() {
 
+  console.log("\n=============================");
   console.log("##### MIDNIGHT CRON RUN #####");
-  console.log("Node version: " + process.version);
-  console.log("Started at " + moment().format("D. M. YYYY, H:mm:ss") + ".");
-
-  mongoose.Promise = global.Promise;
-  mongoose.plugin(require('mongoose-write-stream'));
-  mongoose.plugin(require('mongoose-paginate'));
-
-  console.log("DB connecting to database " + config.database.db);
+  console.log("=============================");
+  
+  console.log("\nNode version: " + process.version);
+  console.log("Started at " + moment().format("D. M. YYYY, H:mm:ss") + ".\n");
 
   // set the tasks
   var tasks = [];
 
-  tasks.push({exec: () => mongoose.connect(config.database.uri, { useNewUrlParser: true })});
+  tasks.push({exec: require("./tasks/db-connect"), name: "Connect to database"});
   tasks.push({exec: require("./tasks/download-contracts"), name: "Download contacts from https://smlouvy.gov.cz/"});
   tasks.push({exec: require("./tasks/download-noticeboard"), name: "Download notice board documents from https://eDesky.cz/"});
   tasks.push({exec: require("./tasks/autoimports"), name: "Process auto imports of data"});
+  tasks.push({exec: require("./tasks/db-disconnect"), name: "Disconnect database"});
 
   // function to run each task
 
@@ -43,8 +40,9 @@ async function runCron() {
 
     let task = tasks.shift();
 
-    console.log("===================================");
+    console.log("\n===================================");
     console.log("Task: " + task.name);
+    console.log("===================================");
 
     try{
       await task.exec()
@@ -57,9 +55,7 @@ async function runCron() {
     
   }
 
-  console.log("Disconnecting DB");
-  await mongoose.disconnect();
-
-  console.log("Finished at " + moment().format("D. M. YYYY, H:mm:ss") + "!");
+  console.log("===================================\n\n");
+  console.log("Finished all at " + moment().format("D. M. YYYY, H:mm:ss") + "!");
 
 }
