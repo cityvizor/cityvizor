@@ -8,6 +8,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-console.log(`Running version built for ${environment.name} environment.`)
+console.log(`Running CityVizor built for ${environment.name} environment.`)
 
 platformBrowserDynamic().bootstrapModule(AppModule);
