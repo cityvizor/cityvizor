@@ -17,6 +17,8 @@ var Payment = require("../models/payment");
 router.get("/search", etlFilter({visible:true}), acl("counterparty","list"), (req,res,next) => {
 
   var match = {};
+  
+  if(!req.query.query) return res.status(400).send("Missing parameter query");
 
   var query = Counterparty.aggregate([
     {
