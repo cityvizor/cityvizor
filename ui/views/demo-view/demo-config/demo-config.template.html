@@ -26,10 +26,16 @@
 	<div class="form-group">
 		<label for="input-file" class="col-sm-2 control-label"></label>
 		<div class="col-sm-10">
-			<button type="button" (click)="setData(eventsFile.files[0],dataFile.files[0])">Nahrát data</button>
+			<button type="button" class="btn btn-primary" (click)="setData(eventsFile.files[0],dataFile.files[0])">Nahrát data</button>
 		</div>
 	</div>
 
+	<ng-container *ngIf="dataService.warnings.length">
+		<h2>Varování</h2>
+		<ul>
+			<li *ngFor="let message of dataService.warnings">{{message}}</li>
+		</ul>
+	</ng-container>
 
 
 </form>

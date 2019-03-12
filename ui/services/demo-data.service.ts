@@ -19,6 +19,8 @@ export class DemoDataService {
 
 	public payments: any[] = [];
 
+	public warnings:string[] = [];
+
 	constructor(private papa: Papa) {
 		this.year = (new Date()).getFullYear();
 		this.loadLocalStorage();
@@ -45,7 +47,9 @@ export class DemoDataService {
 		var importer = new DemoImporter(this.year);
 		var parser = new DemoParser(this.papa, importer);
 
-		importer.subscribe((message: string) => console.log("Warning: ", message));
+		this.warnings = [];
+
+		importer.subscribe((message: string) => this.warnings.push(message));
 
 		await parser.parseEvents(eventsFile)
 
@@ -177,7 +181,7 @@ class DemoImporter extends EventEmitter<string>{
 
 	writeEvent(event, i: number) {
 
-		if (!event.name || !event.name.trim()) { this.emit("Akce ř. " + i + ": Neuveden název, záznam byl ignorován."); return; }
+		if (!event.name || !event.name.trim()) { this.emit("Číselník akcí ř. " + i + ": Neuveden název, záznam byl ignorován."); return; }
 
 		if (this.eventIndex[event.srcId]) return;
 
@@ -213,15 +217,15 @@ class DemoImporter extends EventEmitter<string>{
 
 		/* REPORT ERRORS */
 		// critical errors, skip item
-		if (isNaN(r.amount)) { this.emit("Záznam ř. " + i + ": Nečitelná částka, záznam byl ignorován."); return; }
-		if (!r.item) { this.emit("Záznam ř. " + i + ": Neuvedena rozpočtová položka, záznam byl ignorován."); return; }
-		if (!isOutcome && !isIncome) { this.emit("Záznam ř. " + i + ": Nelze určit zda se jedná o příjem či výdaj."); return; }
-		if (!r.paragraph && isOutcome) { this.emit("Záznam ř. " + i + ": Neuveden paragraf u výdajové položky. Záznam byl ignorován."); return; }
+		if (isNaN(r.amount)) { this.emit("Datový soubor ř. " + i + ": Nečitelná částka, záznam byl ignorován."); return; }
+		if (!r.item) { this.emit("Datový soubor ř. " + i + ": Neuvedena rozpočtová položka, záznam byl ignorován."); return; }
+		if (!isOutcome && !isIncome) { this.emit("Datový soubor ř. " + i + ": Nelze určit zda se jedná o příjem či výdaj."); return; }
+		if (!r.paragraph && isOutcome) { this.emit("Datový soubor ř. " + i + ": Neuveden paragraf u výdajové položky. Záznam byl ignorován."); return; }
 
 		// noncritical errors
-		if (!r.type) this.emit("Záznam ř. " + i + ": Neuveden typ záznamu.");
-		if (r.amount === 0) this.emit("Záznam ř. " + i + ": Nulová částka.");
-		if (!r.item) this.emit("Záznam ř. " + i + ": Neuvedena rozpočtová položka.");
+		if (!r.type) this.emit("Datový soubor ř. " + i + ": Neuveden typ záznamu.");
+		if (r.amount === 0) this.emit("Datový soubor ř. " + i + ": Nulová částka.");
+		if (!r.item) this.emit("Datový soubor ř. " + i + ": Neuvedena rozpočtová položka.");
 
 		/* UPDATE AMOUNTS */
 		let budget = this.budget;
@@ -253,8 +257,8 @@ class DemoImporter extends EventEmitter<string>{
 	/* SAVE PAYMENT IF APPLICABLE */
 	writePayment(payment, i: number) {
 
-		if (!payment.date) this.emit("Záznam ř. " + i + ": Neuvedeno datum u platby.");
-		if (payment.counterpartyId && !payment.counterpartyName) this.emit("Záznam ř. " + i + ": Neuvedeno jméno dodavatele u platby.");
+		if (!payment.date) this.emit("Datový soubor ř. " + i + ": Neuvedeno datum u platby.");
+		if (payment.counterpartyId && !payment.counterpartyName) this.emit("Datový soubor ř. " + i + ": Neuvedeno jméno dodavatele u platby.");
 
 		let event = this.eventIndex[payment.event];
 

@@ -13,8 +13,11 @@ export class DemoConfigComponent {
 	
 	@Input()
 	profile:any;
+
+	public dataService:any;
 	
-	constructor(private dataService:DataService, private toastService:ToastService) {
+	constructor(dataService:DataService, private toastService:ToastService) {
+		this.dataService = dataService;
 		this.dataService.getProfile(null).then(profile => this.profile = profile);	
 	}
 
