@@ -45,9 +45,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cityvizor-demo:build",
-            "port": 8000,
-            "host": "cityvizor.cz"
+            "browserTarget": "cityvizor-demo:build"
           },
           "configurations": {
             "production": {
