@@ -45,9 +45,9 @@ export class DemoDataService {
 		var importer = new DemoImporter(this.year);
 		var parser = new DemoParser(this.papa, importer);
 
-		importer.subscribe(message => console.log(message));
+		importer.subscribe((message: string) => console.log("Warning: ", message));
 
-		await parser.parseEvents(eventsFile);
+		await parser.parseEvents(eventsFile)
 
 		await parser.parseData(dataFile);
 
@@ -222,7 +222,6 @@ class DemoImporter extends EventEmitter<string>{
 		if (!r.type) this.emit("Záznam ř. " + i + ": Neuveden typ záznamu.");
 		if (r.amount === 0) this.emit("Záznam ř. " + i + ": Nulová částka.");
 		if (!r.item) this.emit("Záznam ř. " + i + ": Neuvedena rozpočtová položka.");
-
 
 		/* UPDATE AMOUNTS */
 		let budget = this.budget;
