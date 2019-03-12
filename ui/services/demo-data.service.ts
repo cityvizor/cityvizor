@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PapaParseService } from 'ngx-papaparse';
+import { Papa } from 'ngx-papaparse';
 /* DEMO DATA SERVICE */
 
 @Injectable()
@@ -19,9 +19,8 @@ export class DemoDataService {
 
 	public payments: any[] = [];
 
-	constructor(private papa: PapaParseService) {
+	constructor(private papa: Papa) {
 		this.year = (new Date()).getFullYear();
-
 		this.loadLocalStorage();
 	}
 
@@ -29,11 +28,7 @@ export class DemoDataService {
 		this.budget = JSON.parse(localStorage.getItem("budget")) || {};
 		this.events = JSON.parse(localStorage.getItem("events")) || [];
 		this.payments = JSON.parse(localStorage.getItem("payments")) || [];
-
-		this.eventIndex = this.events.reduce((acc, event) => {
-			this.eventIndex[event.srcId] = event;
-			return acc;
-		}, {});
+		this.eventIndex = this.events.reduce((acc, event) => { acc[event._id] = event; return acc; }, {})
 	}
 
 	saveLocalStorage() {
@@ -42,18 +37,17 @@ export class DemoDataService {
 		localStorage.setItem("payments", JSON.stringify(this.payments));
 	}
 
-
-	getProfile(profileId) {
-		return new Promise((resolve, reject) => resolve(this.profile));
+	async getProfile(profileId) {
+		return this.profile;
 	}
 
 	async saveProfileBudget(eventsFile, dataFile, placeHolder) { // placeHolder to match definition of DataService
 		var importer = new DemoImporter(this.year);
 		var parser = new DemoParser(this.papa, importer);
 
-		importer.subscribe((message: string) => console.log("Importer", message));
+		importer.subscribe(message => console.log(message));
 
-		await parser.parseEvents(eventsFile)
+		await parser.parseEvents(eventsFile);
 
 		await parser.parseData(dataFile);
 
@@ -65,37 +59,35 @@ export class DemoDataService {
 		this.saveLocalStorage();
 	}
 
-	getProfileBudget(profileId, year) {
-		return new Promise<any>((resolve, reject) => resolve(this.budget));
+	async getProfileBudget(profileId, year) {
+		return this.budget;
 	}
-	getProfileBudgets(profileId, options?) {
-		return new Promise<any[]>((resolve, reject) => resolve([this.budget]));
-	}
-
-	getEvent(eventId) {
-		return new Promise<any>((resolve, reject) => {
-			let event = this.eventIndex[eventId];
-			if (event) event.payments = this.payments.filter(item => item.event === event.srcId);
-			resolve(event);
-		});
+	async getProfileBudgets(profileId, options?) {
+		return [this.budget];
 	}
 
-	getProfileEvents(profileId, options?) {
-		return new Promise<any[]>((resolve, reject) => resolve(this.events.filter(item => options.srcId ? item.srcId === options.srcId : true)));
+	async getEvent(eventId: string) {
+		let event = this.eventIndex[eventId];
+		if (event) event.payments = this.payments.filter(item => item.event === eventId);
+		return event;
 	}
 
-	getProfilePaymentsMonths(profileId) {
-		return new Promise<any[]>((resolve, reject) => resolve([]));
+	async getProfileEvents(profileId, options?) {
+		return this.events.filter(item => options.srcId ? item.srcId === options.srcId : true);
 	}
 
-	getProfilePayments(profileId, options?) {
-		return new Promise<any>((resolve, reject) => resolve({}));
+	async getProfilePaymentsMonths(profileId) {
+		return [];
+	}
+
+	async getProfilePayments(profileId, options?) {
+		return {};
 	}
 
 
 	// ORIGINAL
-	getEvents(options?) {
-		return new Promise<any[]>((resolve, reject) => resolve([]));
+	async getEvents(options?) {
+		return [];
 	}
 
 }
@@ -112,9 +104,10 @@ export class DemoParser {
 
 			if (!eventsFile) return resolve(this.importer);
 
+			var c = 1;
 			this.papa.parse(eventsFile, {
 				header: true,
-				step: (result, parser) => this.importer.writeEvent(result.data[0]),
+				step: (result, parser) => this.importer.writeEvent(result.data[0], c++),
 				complete: (results, file) => resolve(this.importer),
 				error: (err, file) => reject(err)
 			});
@@ -126,13 +119,15 @@ export class DemoParser {
 
 		return new Promise((resolve, reject) => {
 
+			var c = 0;
+
 			this.papa.parse(dataFile, {
 				header: true,
 				step: (result, parser) => {
+					c++;
 					let row = result.data[0];
-					this.importer.writeEvent(row);
-					this.importer.writeBalance(row);
-					if (row.type === "KDF" || row.type === "KOF") this.importer.writePayment(row);
+					this.importer.writeBalance(row, c);
+					if (row.type === "KDF" || row.type === "KOF") this.importer.writePayment(row, c);
 				},
 				complete: (results, file) => resolve(this.importer),
 				error: (err, file) => reject(err)
@@ -180,9 +175,9 @@ class DemoImporter extends EventEmitter<string>{
 		this.budget.year = this.year;
 	}
 
-	writeEvent(event) {
+	writeEvent(event, i: number) {
 
-		if (!event.name || !event.name.trim()) { this.emit("Akce č. " + event.srcId + ": Neuveden název, záznam byl ignorován."); return; }
+		if (!event.name || !event.name.trim()) { this.emit("Akce ř. " + i + ": Neuveden název, záznam byl ignorován."); return; }
 
 		if (this.eventIndex[event.srcId]) return;
 
@@ -207,7 +202,7 @@ class DemoImporter extends EventEmitter<string>{
 
 	}
 
-	writeBalance(balance) {
+	writeBalance(balance, i: number) {
 
 		let r = balance;
 
@@ -218,15 +213,15 @@ class DemoImporter extends EventEmitter<string>{
 
 		/* REPORT ERRORS */
 		// critical errors, skip item
-		if (isNaN(r.amount)) { this.emit("Záznam č. " + r.id + ": Nečitelná částka, záznam byl ignorován."); return; }
-		if (!r.item) { this.emit("Záznam č. " + r.id + ": Neuvedena rozpočtová položka, záznam byl ignorován."); return; }
-		if (!isOutcome && !isIncome) { this.emit("Záznam č. " + r.id + ": Nelze určit zda se jedná o příjem či výdaj."); return; }
-		if (!r.paragraph && isOutcome) { this.emit("Záznam č. " + r.id + ": Neuveden paragraf u výdajové položky. Záznam byl ignorován."); return; }
+		if (isNaN(r.amount)) { this.emit("Záznam ř. " + i + ": Nečitelná částka, záznam byl ignorován."); return; }
+		if (!r.item) { this.emit("Záznam ř. " + i + ": Neuvedena rozpočtová položka, záznam byl ignorován."); return; }
+		if (!isOutcome && !isIncome) { this.emit("Záznam ř. " + i + ": Nelze určit zda se jedná o příjem či výdaj."); return; }
+		if (!r.paragraph && isOutcome) { this.emit("Záznam ř. " + i + ": Neuveden paragraf u výdajové položky. Záznam byl ignorován."); return; }
 
 		// noncritical errors
-		if (!r.type) this.emit("Záznam č. " + r.id + ": Neuveden typ záznamu.");
-		if (r.amount === 0) this.emit("Záznam č. " + r.id + ": Nulová částka.");
-		if (!r.item) this.emit("Záznam č. " + r.id + ": Neuvedena rozpočtová položka.");
+		if (!r.type) this.emit("Záznam ř. " + i + ": Neuveden typ záznamu.");
+		if (r.amount === 0) this.emit("Záznam ř. " + i + ": Nulová částka.");
+		if (!r.item) this.emit("Záznam ř. " + i + ": Neuvedena rozpočtová položka.");
 
 
 		/* UPDATE AMOUNTS */
@@ -257,10 +252,10 @@ class DemoImporter extends EventEmitter<string>{
 	}
 
 	/* SAVE PAYMENT IF APPLICABLE */
-	writePayment(payment) {
+	writePayment(payment, i: number) {
 
-		if (!payment.date) this.emit("Záznam č. " + payment.id + ": Neuvedeno datum u platby.");
-		if (payment.counterpartyId && !payment.counterpartyName) this.emit("Záznam č. " + payment.id + ": Neuvedeno jméno dodavatele u platby.");
+		if (!payment.date) this.emit("Záznam ř. " + i + ": Neuvedeno datum u platby.");
+		if (payment.counterpartyId && !payment.counterpartyName) this.emit("Záznam ř. " + i + ": Neuvedeno jméno dodavatele u platby.");
 
 		let event = this.eventIndex[payment.event];
 
