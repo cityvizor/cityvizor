@@ -45,6 +45,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "aot": true,
             "browserTarget": "cityvizor-demo:build"
           },
           "configurations": {
