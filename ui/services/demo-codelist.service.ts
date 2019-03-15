@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 
 import { Codelist } from "../shared/schema/codelist";
-import { CodelistCache } from "./codelist.service";
+import { CodelistCache, CodelistService } from "./codelist.service";
 
 import { paragraphNames } from "../shared/data/paragraph-names.data";
 import { itemNames } from "../shared/data/item-names.data";
+import { HttpClient } from '@angular/common/http';
 
 /* DEMO SERVICE FOR CODELISTS, SEE ORIGINAL CODELIST SERVICE */
 
+type PublicPart<T> = {[K in keyof T]: T[K]}
+
 @Injectable()
-export class DemoCodelistService {
+export class DemoCodelistService implements PublicPart<CodelistService> {
 	
 	cache:CodelistCache = new CodelistCache();
-	
-	constructor() {
+
+	constructor(private http:HttpClient) {
 		this.cache["paragraph-names"] = [{
 			_id: null,
 			name: "paragraph-names",

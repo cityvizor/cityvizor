@@ -92,7 +92,7 @@ export class DemoDataService {
 	// ORIGINAL
 	async getEvents(options?) {
 		return [];
-	}
+	}	
 
 }
 

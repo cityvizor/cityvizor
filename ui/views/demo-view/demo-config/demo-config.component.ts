@@ -14,6 +14,8 @@ export class DemoConfigComponent {
 	@Input()
 	profile:any;
 
+	importType:string = "cityvizor";
+
 	public dataService:any;
 	
 	constructor(dataService:DataService, private toastService:ToastService) {
@@ -21,9 +23,13 @@ export class DemoConfigComponent {
 		this.dataService.getProfile(null).then(profile => this.profile = profile);	
 	}
 
-	setData(eventsFile,dataFile){
+	importDataCityVizor(eventsFile,dataFile){
 		this.dataService.saveProfileBudget(eventsFile,dataFile,null)
 			.then(() => this.toastService.toast("Data nahrána.","notice"));
+	}
+
+	importDataGordic(dataFile){
+	
 	}
 
 }
