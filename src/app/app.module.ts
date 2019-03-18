@@ -54,7 +54,7 @@ import { AppConfig, AppConfigData } from "config/config";
 	],
 	providers: [
 		/* Angular Services */ Title,
-		/* Custom Services */ DemoDataService, { provide: DataService, useClass: DemoDataService }, { provide: CodelistService, useClass: DemoCodelistService }, ToastService,
+		/* Custom Demo Services */ DemoDataService, { provide: DataService, useClass: DemoDataService }, { provide: CodelistService, useClass: DemoCodelistService }, ToastService,
 		/* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
 	],
   bootstrap: [ AppComponent ]

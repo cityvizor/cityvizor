@@ -1,9 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
+import { DataService } from './data.service';
 /* DEMO DATA SERVICE */
 
+type PublicPart<T> = { [K in keyof T]: T[K] }
+
 @Injectable()
-export class DemoDataService {
+export class DemoDataService implements PublicPart<DataService> {
 
 	public profile: any = {
 		_id: "abc",
@@ -19,7 +22,7 @@ export class DemoDataService {
 
 	public payments: any[] = [];
 
-	public warnings:string[] = [];
+	public warnings: string[] = [];
 
 	constructor(private papa: Papa) {
 		this.year = (new Date()).getFullYear();
@@ -92,7 +95,25 @@ export class DemoDataService {
 	// ORIGINAL
 	async getEvents(options?) {
 		return [];
-	}	
+	}
+
+	// methods from DataService not implemented in DemoDataService
+	async getProfiles(options) { return []; }
+	async createProfile(profile) { return; }
+	async saveProfile(profile) { }
+	async saveProfileAvatar(profileId, data: FormData) { return ""; }
+	async getProfileContracts(profileId, options?) { }
+	async deleteProfileAvatar(profileId) { return ""; }
+	async deleteProfileBudget(profileId, year) { return ""; }
+	async getProfileDashboardDashboard() { }
+	async getProfileManagers(profileid) { return []; }
+	async getProfileNoticeBoard() { return []; }
+	async getUsers() { }
+	async getUser() { }
+	async saveUser() { }
+	async deleteUser(userId) { return {}; }
+	async getETLs() { }
+	async getLatestETLs() { }
 
 }
 
