@@ -84,6 +84,9 @@
     },
     "@schematics/angular:directive": {
       "spec": false      
+    },
+    "@schematics/angular:service": {
+      "spec": false
     }
   }
 }

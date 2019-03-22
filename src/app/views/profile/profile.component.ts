@@ -6,11 +6,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { DataService } from "../../services/data.service";
 
 @Component({
-	selector: 'demo-view',
-	templateUrl: 'demo-view.component.html',
-	styleUrls: ['demo-view.component.scss'],
+	selector: 'profile',
+	templateUrl: 'profile.component.html',
+	styleUrls: ['profile.component.scss'],
 })
-export class DemoViewComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
 
 	profile: any = {};
 	

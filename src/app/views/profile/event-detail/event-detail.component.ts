@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-import { DataService } from '../../services/data.service';
-import { CodelistService } from '../../services/codelist.service';
-import { ToastService } from '../../services/toast.service';
+import { DataService } from 'app/services/data.service';
+import { CodelistService } from 'app/services/codelist.service';
+import { ToastService } from 'app/services/toast.service';
 
-import { ParagraphNamesCodelist, ItemNamesCodelist } from "../../shared/schema/codelist";
+import { ParagraphNamesCodelist, ItemNamesCodelist } from "app/shared/schema/codelist";
 
 /*
 

@@ -1,8 +1,9 @@
 import { NgModule }            from '@angular/core';
 import { CommonModule }        from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 // Import Modules
-import { CollapseModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { CollapseModule, BsDropdownModule, TabsModule, ModalModule } from 'ngx-bootstrap';
 
 // Shared coremponents
 import { ChartBigbangComponent } 		from './components/chart-bigbang/chart-bigbang.component';
@@ -16,18 +17,24 @@ import { HelpModalComponent } 		from './components/help-modal/help-modal.compone
 import { MoneyPipe } from './pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './pipes/address.pipe';
 import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pipes/utils.pipe';
+import { PapaParseModule } from 'ngx-papaparse';
+
 
 @NgModule({
   imports:      [
     CommonModule,
-    CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot()
+    FormsModule,
+    CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot(), ModalModule.forRoot(),
+    PapaParseModule
   ],
   declarations: [
     /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent,
     /* Shared Pipes */ MoneyPipe, IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ],
   exports: [
-    CollapseModule, BsDropdownModule, TabsModule,
+    FormsModule,
+    CollapseModule, BsDropdownModule, TabsModule, ModalModule,
+    PapaParseModule,
     /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent,
     /* Shared Pipes */ MoneyPipe, IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ]

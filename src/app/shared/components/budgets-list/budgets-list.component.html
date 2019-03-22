@@ -1,8 +1,8 @@
-<div class="btn-group" *ngIf="currentBudget">
+<div class="btn-group">
   
   <div class="btn-group" dropdown>
     <button dropdownToggle type="button" class="btn btn-lg btn-red dropdown-toggle">
-        <strong>{{currentBudget.year}}</strong> <span class="caret"></span>
+        <strong>{{currentBudget?.year}}</strong> <span class="caret"></span>
     </button>
     
     <ul *dropdownMenu class="dropdown-menu" role="menu">
@@ -53,9 +53,9 @@
         <strong>Rozpočet</strong>
       </div>
       <div class="hidden-xs col-sm-4 text-left">
-        <span class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(currentBudget) / maxAmount * 100) + '%'"></span>
+        <span *ngIf="currentBudget" class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(currentBudget) / maxAmount * 100) + '%'"></span>
       </div>
-      <div class="col-xs-8 col-sm-5 text-right font-number">
+      <div *ngIf="currentBudget" class="col-xs-8 col-sm-5 text-right font-number">
         {{getBudgetAmount(currentBudget) | money:0:false}} Kč
       </div>
     </div>
@@ -64,9 +64,9 @@
         <strong>Plnění</strong>
       </div>
       <div class="hidden-xs col-sm-4 text-left">
-        <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(currentBudget) / maxAmount * 100) + '%'"></span>
+        <span *ngIf="currentBudget" class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(currentBudget) / maxAmount * 100) + '%'"></span>
       </div>
-      <div class="col-xs-8 col-sm-5 text-right font-number">
+      <div *ngIf="currentBudget" class="col-xs-8 col-sm-5 text-right font-number">
         {{getAmount(currentBudget) | money:0:false}} Kč
       </div>
     </div>

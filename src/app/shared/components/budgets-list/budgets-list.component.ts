@@ -13,7 +13,7 @@ export class BudgetsListComponent{
 	
 	/* DATA */
 	@Input()
-  set profile(profile:string){
+  set profile(profile:string){		
     if(profile) this.loadBudgets(profile);
   };
 

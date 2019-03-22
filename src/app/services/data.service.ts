@@ -1,139 +1,199 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Papa } from 'ngx-papaparse';
+import { AccountingData, ImportedData, AccountingEvent, AccountingRecord, Balances, TreeBudgetParagraph, TreeBudgetEvent, TreeBudgetItem } from 'app/shared/schema';
+import { TreeBudget } from 'app/shared/schema';
 
-function toParams(options){
-	if(!options) return "";
-	
-	var params = Object.keys(options)
-		.map(key => {
-			if(typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
-			else return key + "=" + options[key];
-		})
-		.join("&");
-	
-	return "?" + params;
-}
+/* DEMO DATA SERVICE */
 
-/**
-	* Service to communicate with server database
-	* getEntities - returns Promise with the list of entities, possibly filtered by filter:object parameter
-	* getEntity - returns Promise with single entity
-	* saveEntity - updates entity and returns Promise with updated data on entity
-	* getDashboard - returns Promise with dashboard data
-	* getExpenditures - returns Promise with expenditures data for entity and year
-	**/
-@Injectable()
+@Injectable({
+	providedIn: "root"
+})
 export class DataService {
-	
-	constructor(private http: HttpClient) { }
-	
-	
-	/* PROFILES */
-	getProfiles(options?) {
-			return this.http.get<any>("/api/profiles" + toParams(options)).toPromise();
+
+	public profile: any = {
+		_id: "abc",
+		name: "Moje obec"
+	};
+
+	public year: number = (new Date()).getFullYear();
+
+	profileYear = { profile: this.profile._id, year: this.year };
+
+	data: AccountingData = new AccountingData();
+
+	constructor(private papa: Papa) {
+		try {
+			this.data = JSON.parse(localStorage.getItem("data"));
+		}
+		catch (e) { }
 	}
 
-	getProfile(profileId) {
-		return this.http.get<any>("/api/profiles/" + profileId).toPromise();
-	}
-	
-	createProfile(profile){
-		return this.http.post<any>("/api/profiles",profile).toPromise();
-	}
-	
-	saveProfile(profile){
-		return this.http.put<any>("/api/profiles/" + profile._id,profile).toPromise();
-	}
-	
-	saveProfileAvatar(profileId,data:FormData){
-		return this.http.put("/api/profiles/" + profileId + "/avatar",data, { responseType: 'text' }).toPromise();
-	}
-	deleteProfileAvatar(profileId){
-		return this.http.delete("/api/profiles/" + profileId + "/avatar", { responseType: 'text' }).toPromise();
-	}
-	
-	getProfileBudget(profileId,year){
-		return this.http.get<any>("/api/profiles/" + profileId + "/budgets/" + year).toPromise();
-	}
-	saveProfileBudget(profileId,year,data:FormData){
-		return this.http.put<any>("/api/profiles/" + profileId + "/budgets/" + year,data).toPromise();
-	}
-	deleteProfileBudget(profileId,year){
-		return this.http.delete("/api/profiles/" + profileId + "/budgets/" + year, { responseType: 'text' }).toPromise();
-	}
-	
-	getProfileBudgets(profileId,options?){
-		return this.http.get<any[]>("/api/profiles/" + profileId + "/budgets" + toParams(options)).toPromise();
-	}
-	
-	getProfileContracts(profileId,options?){
-		return this.http.get<any>("/api/profiles/" + profileId + "/contracts" + toParams(options)).toPromise();
-	}
-	
-	getProfileDashboardDashboard(profileId){
-		return this.http.get<any>("/api/profiles/" + profileId + "/dashboard").toPromise();
+
+	async getProfile(profileId: string) {
+		return this.profile;
 	}
 
-	getProfileEvents(profileId,options?){
-		return this.http.get<any[]>("/api/profiles/" + profileId + "/events" + toParams(options)).toPromise();
+	async saveData(data: ImportedData) {
+		this.data = new AccountingData();
+
+		// save data and create new IDs. Here data are duplicated for some time, FIX if causes memory problems
+		this.data.records = data.records.map((record, i) => ({ _id: "record_" + i, ...this.profileYear, ...record, event: record.event ? String(record.event) : null }));
+		this.data.payments = data.payments.map((payment, i) => ({ _id: "payment_" + i, ...this.profileYear, ...payment, event: payment.event ? String(payment.event) : null }));
+		this.data.events = data.events.map((event, i) => ({ _id: String(event.srcId), ...this.profileYear, ...event }));
+
+		localStorage.setItem("data", JSON.stringify(this.data));
 	}
-	
-	getProfilePayments(profileId,options?){
-		return this.http.get<any>("/api/profiles/" + profileId + "/payments" + toParams(options)).toPromise();
+
+	async getProfileBudget(profileId, year): Promise<TreeBudget> {
+
+		const budget: TreeBudget = {
+			...this.profileYear,
+			...this.sumBalances(),
+			paragraphs: [],
+			items: []
+		}
+
+		const paragraphIndex = {}
+		const paragraphEventIndex = {};
+		this.data.records.forEach(record => {
+
+			if (record.paragraph < 1000) return;
+			if (!record.amount && !record.budgetAmount) return;
+
+			var paragraph = paragraphIndex[record.paragraph];
+			if (!paragraph) {
+				paragraph = paragraphIndex[record.paragraph] = new TreeBudgetParagraph(record.paragraph);
+				budget.paragraphs.push(paragraph)
+			}
+			this.addBalances(record, paragraph);
+
+			if (record.event) {
+				const id = record.paragraph + "-" + record.event;
+				var event = paragraphEventIndex[id];
+				if (!event) {
+					event = paragraphEventIndex[id] = new TreeBudgetEvent(record.event);
+					paragraph.events.push(event);
+				}
+				this.addBalances(record, event);
+			}
+		})
+
+		return budget;
 	}
-	getProfilePaymentsMonths(profileId){
-		return this.http.get<any[]>("/api/profiles/" + profileId + "/payments/months").toPromise();
+
+	async getProfileBudgets(profileId: string, options?: any) {
+		const budget = {
+			year: this.year,
+			...this.sumBalances()
+		};
+
+		return [budget];
 	}
-	
-	getProfileManagers(profileId){
-		return this.http.get<any[]>("/api/profiles/" + profileId + "/managers").toPromise();
+
+	async getEvent(eventId: number) {
+		const eventInfo = this.data.events.find(event => event._id === String(eventId));
+		const event = {
+			...eventInfo,
+			...this.sumBalances((record) => record.event === String(eventId)),
+			paragraphs: [],
+			items: [],
+			payments: this.data.payments.filter(payment => payment.event === String(eventId))
+		};
+
+		const paragraphIndex = {};
+		const itemIndex = {};
+		this.data.records
+			.filter(record => record.event === String(eventId))
+			.forEach(record => {
+				if (!record.amount && !record.budgetAmount) return;
+
+				if (record.paragraph) {
+					var paragraph = paragraphIndex[record.paragraph];
+					if (!paragraph) {
+						paragraph = paragraphIndex[record.paragraph] = new TreeBudgetParagraph(record.paragraph);
+						event.paragraphs.push(paragraph);
+					}
+					this.addBalances(record, paragraph);
+				}
+
+				var item = itemIndex[record.item];
+				if (!item) {
+					item = itemIndex[record.item] = new TreeBudgetItem(record.item);
+					event.items.push(item);
+				}
+				this.addBalances(record, item);
+			});
+
+		return event;
 	}
-	
-	getProfileNoticeBoard(profileId,options?){
-		return this.http.get<any[]>("/api/profiles/" + profileId + "/noticeboard" + toParams(options)).toPromise();
+
+	async getEventPayments(eventId: string) {
+		return this.data.payments.filter(payment => payment.event === eventId);
 	}
-	
+
+	async getProfileEvents(profileId, options?) {
+		return this.data.events.filter(item => options.srcId ? item.srcId === options.srcId : true);
+	}
+
+	async getProfilePaymentsMonths(profileId) {
+		return [];
+	}
+
+	async getProfilePayments(profileId, options?) {
+		return {};
+	}
 
 
-	/* EVENTS */
-	getEvent(eventId){
-		return this.http.get<any>("/api/events/" + eventId).toPromise();
+	// ORIGINAL
+	async getEvents(options?) {
+		return [];
 	}
-	
-	getEvents(options?){
-		return this.http.get<any[]>("/api/events" + toParams(options)).toPromise();
-	}
-	
-	
 
-	
-	
-	
-	/* USERS */	
-	getUsers(){
-		return this.http.get<any>("/api/users").toPromise();
+	// methods from DataService not implemented in DemoDataService
+	async getProfiles(options) { return []; }
+	async createProfile(profile) { return; }
+	async saveProfile(profile) { }
+	async saveProfileAvatar(profileId, data: FormData) { return ""; }
+	async getProfileContracts(profileId, options?) { }
+	async deleteProfileAvatar(profileId) { return ""; }
+	async deleteProfileBudget(profileId, year) { return ""; }
+	async getProfileDashboardDashboard() { }
+	async getProfileManagers(profileid) { return []; }
+	async getProfileNoticeBoard() { return []; }
+	async getUsers() { }
+	async getUser() { }
+	async saveUser() { }
+	async deleteUser(userId) { return {}; }
+	async getETLs() { }
+	async getLatestETLs() { }
+
+	/* HELPER METHODS */
+	sumBalances(filter?: (record: AccountingRecord) => boolean): Balances {
+
+		if (!filter) filter = () => true;
+
+		const balances: Balances = {
+			incomeAmount: 0,
+			budgetIncomeAmount: 0,
+			expenditureAmount: 0,
+			budgetExpenditureAmount: 0
+		};
+
+		this.data.records
+			.filter(filter)
+			.forEach(record => this.addBalances(record, balances))
+
+		return balances;
 	}
-	
-	getUser(userId){
-		return this.http.get<any>("/api/users/" + userId).toPromise();
+
+	addBalances(record: AccountingRecord, target: Balances) {
+		if (record.item > 5000) {
+			target.expenditureAmount += record.amount;
+			target.budgetExpenditureAmount += record.budgetAmount;
+		}
+		else {
+			target.incomeAmount += record.amount;
+			target.budgetIncomeAmount += record.budgetAmount;
+		}
 	}
-	
-	saveUser(userData){
-		return this.http.post<any>("/api/users/" + userData._id,userData).toPromise();
-	}
-	
-	deleteUser(userId){
-		return this.http.delete("/api/users/" + userId).toPromise();
-	}
-	
-	/* ETLs */
-	getETLs(options?){
-		return this.http.get<any>("/api/etl" + toParams(options)).toPromise();	
-	}
-	
-	getLatestETLs(profileId,options?){
-		return this.http.get<any>("/api/etl/latest/" + profileId + toParams(options)).toPromise();	
-	}
-	
 }

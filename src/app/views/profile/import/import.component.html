@@ -1,0 +1,166 @@
+<ng-container [ngSwitch]="step">
+
+  <section *ngSwitchCase="'input'">
+    <h2>Vstupní data</h2>
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="input-file" class="col-sm-2 control-label">Formát dat</label>
+        <div class="col-sm-10">
+          <input [(ngModel)]="importType" [ngModelOptions]="{standalone:true}" type="radio" value="cityvizor" id="importTypeRadio_cityvizor">
+          &nbsp;
+          <label for="importTypeRadio_cityvizor" class="control-label">CityVizor</label>
+          <p>Nativní vstupní formát dat je nejjednodušším formátem, který CityVizor přijímá. Jeho struktura je popsaná v <a href="https://cityvizor.github.io/CityVizor/dokumentace/">dokumentaci k aplikaci</a>.</p>
+          <br>
+          <input [(ngModel)]="importType" [ngModelOptions]="{standalone:true}" type="radio" value="ginis" id="importTypeRadio_ginis">
+          &nbsp;
+          <label for="importTypeRadio_ginis" class="control-label">Gordic 56G</label>
+          <p>Jedná se o základní exportní formát systému Ginis od společnosti Gordic. Návod, jak vstupní soubory získat, je zde: (DOPLNIT)</p>
+        </div>
+      </div>
+    </form>
+
+    <ng-container [ngSwitch]="importType">
+
+      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorForm)" class="form-horizontal">
+        <div class="form-group">
+          <label for="input-file" class="col-sm-2 control-label">Číselník akcí</label>
+          <div class="col-sm-10">
+            <input type="file" accept=".csv" class="form-control" id="input-file" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input-file" class="col-sm-2 control-label">Datový soubor</label>
+          <div class="col-sm-10">
+            <input type="file" accept=".csv" class="form-control" id="input-file" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input-file" class="col-sm-2 control-label"></label>
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Nahrát data</button>
+          </div>
+        </div>
+      </form>
+
+      <form *ngSwitchCase="'ginis'" (ngSubmit)="importGinis(ginisInputBudget, ginisInputAccounting, ginisInputEvents)" class="form-horizontal">
+
+        <div class="form-group">
+          <label for="input-file" class="col-sm-2 control-label">Data rozpočtu (UCR)</label>
+          <div class="col-sm-10">
+            <input type="file" accept=".kxx" class="form-control" id="input-file" required #ginisInputBudget>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input-file" class="col-sm-2 control-label">Data účetnictví (UCT)</label>
+          <div class="col-sm-10">
+            <input type="file" accept=".kxx" class="form-control" id="input-file" required #ginisInputAccounting>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input-file" class="col-sm-2 control-label">Číselník akcí (ORG)</label>
+          <div class="col-sm-10">
+            <input type="file" accept=".csv" class="form-control" id="input-file" required #ginisInputEvents>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input-file" class="col-sm-2 control-label"></label>
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Nahrát data</button>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </section>
+
+  <section *ngSwitchCase="'progress'">
+    <h2>Průběh</h2>
+    <p>Hotovo: {{(progress | async) || 0}} %</p>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" [style.width]="(progress | async) + '%'">
+        <span class="sr-only">{{(progress | async) || 0}}% Complete</span>
+      </div>
+    </div>
+
+  </section>
+
+  <section *ngSwitchCase="'confirmation'">
+    <h2>Kontrola</h2>
+
+    <h3>Varování</h3>
+    <ng-container *ngIf="warnings.length;else noWarnings">
+      <ul>
+        <li *ngFor="let message of warnings">{{message}}</li>
+      </ul>
+    </ng-container>
+    <ng-template #noWarnings>
+      <p>Žádná varování</p>
+    </ng-template>
+
+    <h3>Rozpočtová skladba</h3>
+
+    <div class="records">
+      <table class="table" *ngIf="data">
+        <tr>
+          <th>Paragraf</th>
+          <th>Položka</th>
+          <th>Akce</th>
+          <th>Rozpočet</th>
+          <th>Čerpání</th>
+        </tr>
+        <tr *ngFor="let record of data.records">
+          <td>{{record.paragraph}}</td>
+          <td>{{record.item}}</td>
+          <td>{{record.event}}</td>
+          <td class="text-right">{{record.budgetAmount | money:2:false}}&nbsp;</td>
+          <td class="text-right">{{record.amount | money:2:false}}&nbsp;</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Doklady</h3>
+    <div class="records">
+      <table class="table" *ngIf="data">
+        <tr>
+          <th>Typ dokladu</th>
+          <th>IČO</th>
+          <th>Protistrana</th>
+          <th>Popis</th>
+          <th>Částka</th>
+        </tr>
+        <tr *ngFor="let payment of data.payments">
+          <td [ngSwitch]="payment.type">
+            <ng-container *ngSwitchCase="'invoice_incoming'">Přijatá faktura</ng-container>
+            <ng-container *ngSwitchCase="'invoice_outgoing'">Vydaná faktura</ng-container>
+          </td>
+          <td>{{payment.counterparty_id}}</td>
+          <td>{{payment.counterparty_name}}</td>
+          <td>{{payment.comment}}</td>
+          <td class="text-right">{{payment.amount | money:2:false}}&nbsp;Kč</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Akce</h3>
+    <div class="records">
+      <table class="table" *ngIf="data">
+        <tr>
+          <th>Číslo akce</th>
+          <th>Název akce</th>
+        </tr>
+        <tr *ngFor="let event of data.events">
+          <td>{{event.srcId}}</td>
+          <td>{{event.name}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="text-right">
+      <button type="button" class="btn btn-primary" (click)="saveData()">Nahrát data</button>
+    </div>
+  </section>
+</ng-container>

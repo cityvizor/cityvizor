@@ -1,20 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
 
 import { Codelist } from "../shared/schema/codelist";
+
+import { paragraphNames } from "../shared/data/paragraph-names";
+import { itemNames } from "../shared/data/item-names";
+
+/* DEMO SERVICE FOR CODELISTS, SEE ORIGINAL CODELIST SERVICE */
 
 export class CodelistCache{
 	[k: string]: Codelist[];
 }
 
-@Injectable()
+@Injectable({
+	providedIn: "root"
+})
 export class CodelistService {
 	
 	cache:CodelistCache = new CodelistCache();
-	
-	constructor(private http: HttpClient) { }
-	
+
+	constructor() {
+		this.cache["paragraph-names"] = [{
+			_id: null,
+			name: "paragraph-names",
+			validFrom: new Date(1990,0,1),
+			validTill: null,
+			codelist: paragraphNames
+		}];
+		
+		this.cache["item-names"] = [{
+			_id: null,
+			name: "item-names",
+			validFrom: new Date(1990,0,1),
+			validTill: null,
+			codelist: itemNames
+		}];
+	}
 	
 	// alias for getCodelist
 	get(name:string,date:Date):Promise<any>{
@@ -23,58 +43,16 @@ export class CodelistService {
 	
 	// main get method
 	getCodelist(name:string,date:Date):Promise<any>{
-		return new Promise((resolve,reject) => {
-			
-			let cached = this.getCached(name,date);
-											
-			// if we have already this codelist, then resolve to the cached value
-			if(cached) return resolve(cached);
-			
-			let dateString = date.toISOString();
-			
-			// otherwise get the codelist from the server
-			this.http.get<Codelist>("/api/codelists/" + name + "?date=" + dateString).toPromise()
-				.then(response => resolve(this.saveCached(name,response)))
-				.catch(err => reject(err));
-				
-		});
+		return new Promise((resolve,reject) => resolve(this.getCached(name,date)));
 	}
 	
+
 	/* Search for codelist. Return if found, otherwise return false. */
 	getCached(name:string,date:Date){
-		
-		// here we save the codelist during search
-		var codelist;
-		
-		// if no codelist of that name return false immediately
-		if(!this.cache[name]) return false;
-		
-		// search until first item found
-		var matched = this.cache[name].some(item => {
-			
-			// check date validity. if correct, assign to codelist variable and stop search by returning true. otherwise return false and continue
-			if(item.validFrom <= date && item.validTill >= date){
-				codelist = item;
-				return true;
-			}
-			else return false;
-			
-		});
-		
-		// if some codelist was matched return the codelist contents (not the metadata parent)
-		if(matched) return codelist.codelist;
-		return false;
+		return this.cache[name][0].codelist;
 	}
 				 
 	saveCached(name:string,codelist:Codelist){
-		
-		// if no list was present, we have to create the array
-		if(!this.cache[name]) this.cache[name] = [];
-		
-		// we simply add the codelist to the array
-		this.cache[name].push(codelist);
-		
-		// return the codelist. the return is so that in future versions when some transformation would be present we have common interface to get the just saved codelist
 		return codelist.codelist;
 	}
 

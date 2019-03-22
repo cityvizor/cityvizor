@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 
 /**
@@ -6,22 +6,24 @@ import {Injectable} from '@angular/core';
 	* 
 	* toast() - create new toast
 	*/
-@Injectable()
+@Injectable({
+	providedIn: "root"
+})
 export class ToastService {
-	
+
 	/**
 		* array of toasts
 		*/
-	toasts: Array<{text:string, status:string}> = [];
+	toasts: Array<{ text: string, status: string }> = [];
 
 	/**
 		* text:string - text of toast
 		* status:string - status type of toast, translates possibly to class
 		*/
-	toast(text: string, status: string):void{
+	toast(text: string, status: string): void {
 
-		this.toasts.push({text:text, status: status ? status : "notice"});
-		
+		this.toasts.push({ text: text, status: status ? status : "notice" });
+
 		setTimeout(() => this.toasts.shift(), 2000);
 	}
 
