@@ -12,7 +12,7 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "paths": { "stream": [ "../node_modules/readable-stream" ] },
+    "paths": { },
     "lib": [
     ]
   }
