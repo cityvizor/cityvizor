@@ -1,11 +1,10 @@
 import { KxxRecord, KxxRecordBalance, kxxreader } from "kxx-reader-browser";
 import { ImportedData, ImportedRecord, ImportedPayment, ImportedEvent } from "app/shared/schema";
-import { ApplicationRef } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
 
 import * as Papa from "papaparse";
+import { Importer } from "../schema/importer";
 
-export class ImporterGinis {
+export class ImporterGinis implements Importer {
 
   payments: ImportedPayment[] = [];
   records: ImportedRecord[] = [];
@@ -15,36 +14,34 @@ export class ImporterGinis {
   bytesTotal: number = Infinity;
   bytesRead: number = 0;
 
-  public progress: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
   paymentTypes = {
     "KOF": "invoice_outgoing",
     "KDF": "invoice_incoming",
     "UCT": "accounting_document"
   };
 
-  constructor(private appRef: ApplicationRef) { }
+  constructor() { }
 
   async import(files: { budget?: File, accounting?: File, events?: File }) {
 
     this.bytesTotal = (files.budget ? files.budget.size : 0) + (files.accounting ? files.accounting.size : 0) + (files.events ? files.events.size : 0);
 
-    this.progress.next(0);
+    this.updateProgress(0);
 
     if (files.budget) await this.parseAccounting(files.budget);
 
-    if (files.budget) await this.parseAccounting(files.accounting);
+    if (files.accounting) await this.parseAccounting(files.accounting);
 
     if (files.events) await this.parseEvents(files.events);
 
-    this.progress.next(1);
+    this.updateProgress(this.bytesTotal);
 
     return this.getData();
   }
 
-  updateProgress() {
-    this.progress.next(this.bytesRead / this.bytesTotal);
-    this.appRef.tick();
+  updateProgress(bytesRead: number) {
+    this.bytesRead = bytesRead;
+    postMessage({ type: "progress", data: bytesRead / this.bytesTotal })
   }
 
   parseAccounting(file: File) {
@@ -66,11 +63,8 @@ export class ImporterGinis {
         encoding: "windows-1250",
 
         chunk: (result, parser) => {
-
-          parser.pause();
-
-          this.bytesRead = this.bytesRead + result.meta.cursor;
-          this.updateProgress();
+          
+          this.updateProgress(this.bytesRead + result.meta.cursor);
 
           result.data.forEach(row => {
             if (row["ORG"] && row["NAZEV"]) {
@@ -80,8 +74,6 @@ export class ImporterGinis {
               })
             }
           });
-
-          requestAnimationFrame(() => parser.resume());
         },
 
         complete: (results, file) => resolve(),
@@ -101,12 +93,9 @@ export class ImporterGinis {
 
       transform: (chunk, controller) => {
 
-        this.bytesRead = this.bytesRead + chunk.byteLength;
-        this.updateProgress();
+        this.updateProgress(this.bytesRead + chunk.byteLength);
 
         controller.enqueue(td.decode(chunk));
-
-        return new Promise(resolve => requestAnimationFrame(() => resolve()));
       },
 
       flush: (controller) => { }

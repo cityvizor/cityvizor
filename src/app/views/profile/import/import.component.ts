@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { DataService } from 'app/services/data.service';
 import { ImportService } from 'app/services/import.service';
@@ -22,22 +22,25 @@ export class ImportComponent {
 
 	warnings: string[] = [];
 
-	progress: Observable<number>;
+	progress: number;
 
 	data: ImportedData;
 
 	totals = { budgetIncome: 0, budgetExpenditure: 0, income: 0, expenditure: 0 };
 
-	constructor(private importService: ImportService, private dataService: DataService, private toastService: ToastService) {
-		this.progress = this.importService.progress.pipe(map(progress => Math.floor(progress * 100)));
+	constructor(private importService: ImportService, private dataService: DataService, private toastService: ToastService, cdRef:ChangeDetectorRef) {
+		this.importService.progress.subscribe(progress => {
+			this.progress = Math.floor(progress * 100);
+			cdRef.markForCheck();
+		});
 	}
 
-	async importCityVizor(ngForm: NgForm) {
+	async importCityVizor(inputData: HTMLInputElement, inputEvents: HTMLInputElement, encoding: string) {
 
 
 		const files = {
-			data: undefined,
-			events: undefined
+			data: inputData.files[0],
+			events: inputEvents.files[0]
 		};
 
 		this.step = "progress";
@@ -45,6 +48,7 @@ export class ImportComponent {
 		this.data = await this.importService.importCityVizor(files);
 
 		this.step = "confirmation";
+
 		this.updateTotals();
 		this.sortData();
 	}
@@ -68,7 +72,7 @@ export class ImportComponent {
 
 	}
 
-	async saveData(){
+	async saveData() {
 		await this.dataService.saveData(this.data);
 
 		this.step = "input";
@@ -92,6 +96,6 @@ export class ImportComponent {
 	sortData() {
 		this.data.records.sort((a, b) => a.paragraph - b.paragraph || a.item - b.item || Number(a.event) - Number(b.event));
 	}
-	
+
 
 }

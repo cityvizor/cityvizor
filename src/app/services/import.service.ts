@@ -1,8 +1,7 @@
-import { Injectable, ApplicationRef } from '@angular/core';
+import { Injectable, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { ImportedData } from 'app/shared/schema';
-import { ImporterGinis } from 'app/importers/importer-ginis';
 
 type RegExpWithGroups = RegExpExecArray & { groups?: { [key: string]: string } };
 
@@ -13,80 +12,42 @@ export class ImportService {
 
 	progress: Subject<number> = new Subject();
 
-	constructor(private appRef: ApplicationRef) { }
+	worker: Worker;
+
+	constructor(private appRef: ApplicationRef) {
+		this.worker = new Worker("worker.js");
+	}
 
 	async importCityVizor(files: { events: File, data: File }): Promise<ImportedData> {
-		return {
-			payments: [],
-			records: [],
-			events: []
-		}
+		return this.runImport("cityvizor", files)
 	}
 
 
 	async importGordic(files: { budget: File, accounting: File, events: File }): Promise<ImportedData> {
+		return this.runImport("ginis", files)
+	}
 
-		const importer = new ImporterGinis(this.appRef);
 
-		const progressSubscription = importer.progress.subscribe(this.progress);
+	runImport(importer: string, files: { [key: string]: File }): Promise<ImportedData> {
+		return new Promise((resolve, reject) => {
+			this.worker.postMessage({ "type": "import", "importer": importer, files })
 
-		const data = await importer.import(files);
+			this.worker.onmessage = (event: MessageEvent) => {
 
-		progressSubscription.unsubscribe();
+				console.log("Received event:", event);
+				switch (event.data.type) {
+					case "progress":
+						this.progress.next(event.data.data);
+						break;
+					case "data":
+						resolve(event.data.data);						
+						break;
+				}
+			};
 
-		return data;
-
+			this.worker.onerror = (err: ErrorEvent) => reject(err);
+		})
 	}
 
 
 }
-
-
-
-/*
-
-export class CityVizorParser {
-
-	constructor() {
-	}
-
-	parseEvents(eventsFile) {
-		return new Promise((resolve, reject) => {
-
-			if (!eventsFile) return resolve(this.importer);
-
-			var c = 1;
-			this.papa.parse(eventsFile, {
-				header: true,
-				step: (result, parser) => this.importer.writeEvent(result.data[0], c++),
-				complete: (results, file) => resolve(this.importer),
-				error: (err, file) => reject(err)
-			});
-
-		});
-	}
-
-	parseData(dataFile) {
-
-		return new Promise((resolve, reject) => {
-
-			var c = 0;
-
-			this.papa.parse(dataFile, {
-				header: true,
-				step: (result, parser) => {
-					c++;
-					let row = result.data[0];
-					this.importer.writeBalance(row, c);
-					if (row.type === "KDF" || row.type === "KOF") this.importer.writePayment(row, c);
-				},
-				complete: (results, file) => resolve(this.importer),
-				error: (err, file) => reject(err)
-			});
-
-
-		});
-
-	}
-}
-*/

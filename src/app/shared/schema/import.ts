@@ -1,3 +1,5 @@
+import { Observable } from "rxjs";
+
 export class ImportedRecord {
 	paragraph: number;
 	item: number;

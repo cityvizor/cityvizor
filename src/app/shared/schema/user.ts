@@ -23,7 +23,7 @@ export class User {
 		*/
 	public roles: Array<string>;	
 	
-	constructor(id?){
+	constructor(id?:string){
 		this._id = id;
 	}
 

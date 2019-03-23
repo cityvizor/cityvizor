@@ -12,10 +12,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/app",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "src/tsconfig.json",
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets"
@@ -23,7 +23,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              { "input": "dist/worker/worker.js", "lazy": true }
+            ]
           },
           "configurations": {
             "production": {
@@ -67,10 +69,21 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "src/tsconfig.json",
             ],
             "exclude": []
+          }
+        }
+      }
+    },
+    "import-worker": {
+      "root": "./import",
+      "projectType": "library",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-webpack:webpack",
+          "options": {
+            "webpackConfig": "import/webpack.config.js"
           }
         }
       }
@@ -83,7 +96,7 @@
       "styleext": "scss"
     },
     "@schematics/angular:directive": {
-      "spec": false      
+      "spec": false
     },
     "@schematics/angular:service": {
       "spec": false

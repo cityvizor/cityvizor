@@ -21,18 +21,18 @@
 
     <ng-container [ngSwitch]="importType">
 
-      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorForm)" class="form-horizontal">
+      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
         <div class="form-group">
           <label for="input-file" class="col-sm-2 control-label">Číselník akcí</label>
           <div class="col-sm-10">
-            <input type="file" accept=".csv" class="form-control" id="input-file" required>
+            <input type="file" accept=".csv" class="form-control" id="input-file" required #cityvizorInputData>
           </div>
         </div>
 
         <div class="form-group">
           <label for="input-file" class="col-sm-2 control-label">Datový soubor</label>
           <div class="col-sm-10">
-            <input type="file" accept=".csv" class="form-control" id="input-file" required>
+            <input type="file" accept=".csv" class="form-control" id="input-file" required #cityvizorInputEvents>
           </div>
         </div>
 
@@ -79,10 +79,10 @@
 
   <section *ngSwitchCase="'progress'">
     <h2>Průběh</h2>
-    <p>Hotovo: {{(progress | async) || 0}} %</p>
+    <p>Hotovo: {{progress || 0}} %</p>
     <div class="progress">
-      <div class="progress-bar" role="progressbar" [style.width]="(progress | async) + '%'">
-        <span class="sr-only">{{(progress | async) || 0}}% Complete</span>
+      <div class="progress-bar" role="progressbar" [style.width]="progress + '%'">
+        <span class="sr-only">{{progress || 0}}% Complete</span>
       </div>
     </div>
 
