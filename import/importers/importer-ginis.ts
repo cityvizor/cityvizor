@@ -182,6 +182,7 @@ export class ImporterGinis implements Importer {
 
   writePayment(balance: KxxRecordBalance, record: KxxRecord) {
     this.payments.push({
+      date: record.date,
       type: Object.entries(this.paymentTypes).find(entry => !!record.meta["EVK"][entry[0]])[1],
       id: record.meta["EVK"]["KDF"] || record.meta["EVK"]["KOF"],
       counterparty_id: record.meta["IC"],

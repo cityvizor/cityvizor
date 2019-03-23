@@ -42,6 +42,7 @@ export class ImporterCityVizor implements Importer {
         .map(row => ({
           type: row["type"],
           id: row["id"],
+          date: new Date(row["date"]),
           counterparty_id: row["counterparty_id"],
           counterparty_name: row["counterparty_name"],
           amount: Number(row["amount"]),

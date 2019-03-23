@@ -9,6 +9,7 @@ export class ImportedRecord {
 }
 
 export class ImportedPayment {
+	date: Date;
 	type: string;
 	id: string;
 	counterparty_id: string;
