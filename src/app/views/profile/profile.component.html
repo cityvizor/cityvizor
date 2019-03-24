@@ -1,0 +1,57 @@
+<div id="entity">
+
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>
+						{{profile.name}}
+					</h1>
+
+
+					<h1 class="pull-right">
+						<a [routerLink]="['/']" class=" hidden-print">
+							<i class="fa fa-chevron-circle-left" aria-hidden="true"></i> ZPĚT
+						</a>
+					</h1>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<nav class="navbar">
+		<div class="container">
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" (click)="isMenuCollapsed = !isMenuCollapsed">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="toggle-title">MENU</span>
+				</button>
+			</div>
+
+			<div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
+
+				<ul class="nav navbar-nav">
+					<li><a routerLink="/profil/vydaje" routerLinkActive="active" (click)="isMenuCollapsed = true">Výdaje</a></li>
+					<li><a routerLink="/profil/prijmy" routerLinkActive="active" (click)="isMenuCollapsed = true">Příjmy</a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a routerLink="/profil/import" routerLinkActive="active">Nahrát data</a></li>
+					<li><a routerLink="/profil/nastaveni" routerLinkActive="active">Nastavení</a></li>
+				</ul>
+
+			</div>
+
+		</div>
+	</nav>
+
+	<div id="content" class="container">
+		<div id="vizmodules">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+
+</div>
