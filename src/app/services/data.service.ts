@@ -76,6 +76,31 @@ export class DataService {
 				}
 				this.addBalances(record, event);
 			}
+		});
+
+		const itemIndex = {}
+		const itemEventIndex = {};
+		this.data.records.forEach(record => {
+
+			if (record.item < 1000) return;
+			if (!record.amount && !record.budgetAmount) return;
+
+			var item = itemIndex[record.item];
+			if (!item) {
+				item = itemIndex[record.item] = new TreeBudgetItem(record.item);
+				budget.items.push(item)
+			}
+			this.addBalances(record, item);
+
+			if (record.event) {
+				const id = record.item + "-" + record.event;
+				var event = itemEventIndex[id];
+				if (!event) {
+					event = itemEventIndex[id] = new TreeBudgetEvent(record.event);
+					item.events.push(event);
+				}
+				this.addBalances(record, event);
+			}
 		})
 
 		return budget;

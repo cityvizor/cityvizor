@@ -11,6 +11,7 @@ import { ToastService } from 'app/services/toast.service';
 import { ItemNamesCodelist } from 'app/shared/schema/codelist';
 
 import { ChartGroups } from "app/shared/data/chartGroups";
+import { TreeBudget, AccountingEvent } from 'app/shared/schema';
 
 /*
 
@@ -27,9 +28,7 @@ export class IncomeVizComponent {
 
 	/* DATA */
 	@Input()
-	profile: any;
-
-	profileId: string;
+	profile = { _id: "abc" };
 
 	@ViewChild('eventReceiptsModal')
 	public eventReceiptsModal: ModalDirective;
@@ -212,7 +211,7 @@ export class IncomeVizComponent {
 			});
 	}
 
-	setData(itemNames, budget, events) {
+	setData(itemNames, budget:TreeBudget, events:AccountingEvent[]) {
 
 		// set itemNames
 		this.itemNames = itemNames ? itemNames : {};
@@ -230,7 +229,7 @@ export class IncomeVizComponent {
 
 		budget.items.forEach(item => {
 
-			let groupId = item.id.substring(0, 2);
+			let groupId = String(item.id).substring(0, 2);
 			let group = this.groupIndex[groupId];
 
 			// this shouldnt happen, but it might
@@ -254,8 +253,11 @@ export class IncomeVizComponent {
 			if (item.incomeAmount !== eventAmount || item.budgetIncomeAmount !== eventBudgetAmount) {
 				item.events.push({
 					name: "Ostatní",
+					event: null,
 					incomeAmount: item.incomeAmount - eventAmount,
-					budgetIncomeAmount: item.budgetIncomeAmount - eventBudgetAmount
+					budgetIncomeAmount: item.budgetIncomeAmount - eventBudgetAmount,
+					expenditureAmount: 0,
+					budgetExpenditureAmount: 0
 				});
 			}
 

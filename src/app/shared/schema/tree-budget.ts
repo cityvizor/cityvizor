@@ -31,6 +31,8 @@ export class TreeBudgetItem implements Balances {
   expenditureAmount: number = 0;
   budgetExpenditureAmount: number = 0;
 
+  events: TreeBudgetEvent[] = [];
+
   constructor(public id: number) { }
 }
 
