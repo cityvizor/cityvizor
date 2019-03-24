@@ -80,8 +80,7 @@ export class ImportComponent {
 
 		delete this.data;
 
-		this.router.navigate(["/profile/vydaje"]);
-		this.toastService.toast("Data uložena v prohlížeči.","notice");
+		this.router.navigate(["/profil/vydaje"]);
 	}
 
 	updateTotals() {

@@ -1,5 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
+
+import { ToastService } from "app/services/toast.service";
+
 import { AccountingData, ImportedData, AccountingEvent, AccountingRecord, Balances, TreeBudgetParagraph, TreeBudgetEvent, TreeBudgetItem } from 'app/shared/schema';
 import { TreeBudget } from 'app/shared/schema';
 
@@ -21,7 +24,7 @@ export class DataService {
 
 	data: AccountingData = new AccountingData();
 
-	constructor(private papa: Papa) {
+	constructor(private papa: Papa, private toastService:ToastService) {
 		try {
 			this.data = JSON.parse(localStorage.getItem("data"));
 		}
@@ -42,6 +45,8 @@ export class DataService {
 		this.data.events = data.events.map((event, i) => ({ _id: String(event.srcId), ...this.profileYear, ...event }));
 
 		localStorage.setItem("data", JSON.stringify(this.data));
+    
+    this.toastService.toast("Data uložena v prohlížeči.","notice");
 	}
 
 	async getProfileBudget(profileId, year): Promise<TreeBudget> {
