@@ -4,8 +4,8 @@ export class AccountingPayment {
 	type: string;
 	date: Date;
 	id: string;
-	counterparty_id: string;
-	counterparty_name: string;
+	counterpartyId: string;
+	counterpartyName: string;
 	amount: number;
 	comment: string;
 	paragraph: number;

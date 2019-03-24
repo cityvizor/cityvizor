@@ -12,8 +12,8 @@ export class ImportedPayment {
 	date: Date;
 	type: string;
 	id: string;
-	counterparty_id: string;
-	counterparty_name: string;
+	counterpartyId: string;
+	counterpartyName: string;
 	amount: number;
 	comment: string;
 	paragraph: number;

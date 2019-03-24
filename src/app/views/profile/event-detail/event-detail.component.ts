@@ -120,15 +120,15 @@ export class EventDetailComponent implements OnChanges {
 			if(payment.item < 5000) this.event.paymentsIncomeAmount += payment.amount;
 			else this.event.paymentsExpenditureAmount += payment.amount;
 			
-			var id = payment.counterparty_id || payment.counterparty_name;
+			var id = payment.counterpartyId || payment.counterpartyName;
 
 			var counterparty;
 			
 			if(id){
 				if(!counterpartyIndex[id]) {
 					let newCounterparty = {
-						id: payment.counterparty_id,
-						name: payment.counterparty_name,
+						id: payment.counterpartyId,
+						name: payment.counterpartyName,
 						payments: [],
 						total: 0,
 						open: false

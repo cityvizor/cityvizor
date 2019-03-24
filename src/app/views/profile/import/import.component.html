@@ -137,8 +137,8 @@
             <ng-container *ngSwitchCase="'invoice_incoming'">Přijatá faktura</ng-container>
             <ng-container *ngSwitchCase="'invoice_outgoing'">Vydaná faktura</ng-container>
           </td>
-          <td>{{payment.counterparty_id}}</td>
-          <td>{{payment.counterparty_name}}</td>
+          <td>{{payment.counterpartyId}}</td>
+          <td>{{payment.counterpartyName}}</td>
           <td>{{payment.comment}}</td>
           <td class="text-right">{{payment.amount | money:2:false}}&nbsp;Kč</td>
         </tr>
