@@ -8,6 +8,7 @@ import { ImportService } from 'app/services/import.service';
 import { ToastService } from 'app/services/toast.service';
 
 import { ImportedData } from 'app/shared/schema';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'import',
@@ -28,7 +29,7 @@ export class ImportComponent {
 
 	totals = { budgetIncome: 0, budgetExpenditure: 0, income: 0, expenditure: 0 };
 
-	constructor(private importService: ImportService, private dataService: DataService, private toastService: ToastService, cdRef:ChangeDetectorRef) {
+	constructor(private importService: ImportService, private dataService: DataService, private toastService: ToastService, private router: Router, cdRef: ChangeDetectorRef) {
 		this.importService.progress.subscribe(progress => {
 			this.progress = Math.floor(progress * 100);
 			cdRef.markForCheck();
@@ -78,6 +79,9 @@ export class ImportComponent {
 		this.step = "input";
 
 		delete this.data;
+
+		this.router.navigate(["/profile/vydaje"]);
+		this.toastService.toast("Data uložena v prohlížeči.","notice");
 	}
 
 	updateTotals() {
