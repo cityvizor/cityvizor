@@ -12,8 +12,6 @@ onmessage = function (e) {
 
   var importer: Importer;
 
-  console.log("Received event:", e);
-
   switch (e.data.type) {
 
     case "import":

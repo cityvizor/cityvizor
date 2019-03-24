@@ -34,7 +34,6 @@ export class ImportService {
 
 			this.worker.onmessage = (event: MessageEvent) => {
 
-				console.log("Received event:", event);
 				switch (event.data.type) {
 					case "progress":
 						this.progress.next(event.data.data);
