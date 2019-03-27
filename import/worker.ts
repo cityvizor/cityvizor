@@ -1,3 +1,5 @@
+import "./polyfills";
+
 import { ImporterCityVizor } from "./importers/importer-cityvizor";
 import { ImporterGinis } from "./importers/importer-ginis";
 import { Importer } from "./schema/importer";

@@ -1,5 +1,8 @@
 import { KxxRecord, KxxRecordBalance, kxxreader } from "kxx-reader-browser";
 import { ImportedData, ImportedRecord, ImportedPayment, ImportedEvent } from "app/shared/schema";
+import { FileSource } from "../tools/file-source";
+
+declare var self: WorkerGlobalScope & { streamsPolyfill: boolean };
 
 import * as Papa from "papaparse";
 import { Importer } from "../schema/importer";
@@ -20,7 +23,8 @@ export class ImporterGinis implements Importer {
     "UCT": "accounting_document"
   };
 
-  constructor() { }
+  constructor() {
+  }
 
   async import(files: { budget?: File, accounting?: File, events?: File }) {
 
@@ -63,7 +67,7 @@ export class ImporterGinis implements Importer {
         encoding: "windows-1250",
 
         chunk: (result, parser) => {
-          
+
           this.updateProgress(this.bytesRead + result.meta.cursor);
 
           result.data.forEach(row => {
@@ -87,6 +91,7 @@ export class ImporterGinis implements Importer {
   getFileReadable(file: File, encoding: string): ReadableStream<string> {
 
     const td = new TextDecoder(encoding);
+
     const transformer: Transformer<Uint8Array, string> = {
 
       start: (controller) => { },
@@ -103,9 +108,23 @@ export class ImporterGinis implements Importer {
 
     const td_transform = new TransformStream<Uint8Array, string>(transformer);
 
-    return new Response(file).body.pipeThrough(td_transform)
+    var fileReadable:ReadableStream;
+
+    if (self.streamsPolyfill) {
+      /* This could be done by new Response(file).body, but conflicts with polyfill */
+      /* More here: https://github.com/creatorrr/web-streams-polyfill/issues/10 */
+      console.log("Compatibility: Using FileReader API for reading source files");
+      const fileSource = new FileSource(file);
+      fileReadable = new ReadableStream(fileSource);
+    }
+    else {
+      fileReadable = new Response(file).body;
+    }
+
+    return fileReadable.pipeThrough(td_transform);
 
   }
+
 
   getWritable() {
 
