@@ -30,6 +30,7 @@ export class ImportService {
 
 	runImport(importer: string, files: { [key: string]: File }): Promise<ImportedData> {
 		return new Promise((resolve, reject) => {
+
 			this.worker.postMessage({ "type": "import", "importer": importer, files })
 
 			this.worker.onmessage = (event: MessageEvent) => {

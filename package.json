@@ -32,7 +32,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.6.5",
     "intl": "^1.2.5",
-    "kxx-reader-browser": "^1.4.1",
+    "kxx-reader-browser": "^1.5.0",
     "moment": "^2.24.0",
     "ngx-bootstrap": "^3.2.0",
     "ngx-papaparse": "^3.0.2",
