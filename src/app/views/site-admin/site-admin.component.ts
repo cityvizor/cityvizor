@@ -5,7 +5,6 @@ import { Title }     from '@angular/platform-browser';
 import { AppConfig } from 'config/app-config';
 import { ACLService } 		from 'app/services/acl.service';
 
-//00006947
 @Component({
 	moduleId: module.id,
 	selector: 'site-admin',
@@ -17,7 +16,7 @@ export class SiteAdminComponent {
 	menuConfig = {
 		title: {
 			text: "Administrace CityVizor",
-			link: ["app/"]
+			link: ["/admin"]
 		},
 		titleRight: {
 			text: "Zavřít",
@@ -25,8 +24,8 @@ export class SiteAdminComponent {
 			icon: "fa fa-times"
 		},
 		menu: [
-			{ text: "Profily", link: ["app/profily"] },
-			{ text: "Uživatelé", link: ["app/uzivatele"] }
+			{ text: "Profily", link: ["/admin/profily"] },
+			{ text: "Uživatelé", link: ["/admin/uzivatele"] }
 		]
 	};
 
