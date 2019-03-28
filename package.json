@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "Vizualization platform for municipalities",
   "homepage": "https://cityvizor.cz/",
-  "repository": "CityVizor/CityVizor",
+  "repository": "cityvizor/cityvizor",
   "private": true,
   "keywords": [
     "opendata",
@@ -11,5 +11,5 @@
     "faktury"
   ],
   "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0"
 }
