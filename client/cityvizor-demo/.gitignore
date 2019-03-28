@@ -1,0 +1,22 @@
+# compiled output
+/dist
+/dist-embed
+
+# sensitive data
+/server/config/config.production.js
+/server/config/config.development.js
+
+# dependencies
+/node_modules
+
+# licensed data
+/assets/audio
+
+# data
+/data/exports/*
+/data/uploads/avatars/*
+/data/uploads/imports/*
+!.gitkeep
+
+# misc
+npm-debug.log

@@ -1,0 +1,11 @@
+<form class="form-horizontal" #profileForm="ngForm">
+
+	<h2>Informace o obci</h2>
+	<div class="form-group">
+		<label for="input-name" class="col-sm-2 control-label">Název obce</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="input-name" name="name" [(ngModel)]="profile.name" placeholder="Praha - Suchdol">
+		</div>
+	</div>
+	
+</form>

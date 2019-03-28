@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true,    
+    "module": "es2015",
+    "target": "es5",
+    "declaration": false,  
+    "types": [],
+    "baseUrl": ".",
+    "lib": [
+      "es2016",
+      "es2017",
+      "webworker"
+    ],    
+    "paths": {
+      "app/*": ["../src/app/*"]
+    }
+  },
+  "include": ["./**/*.ts"]
+}

@@ -1,0 +1,56 @@
+{
+  "name": "cityvizor-demo",
+  "version": "2.0.0",
+  "description": "",
+  "homepage": "https://tools.cityvizor.cz/demo",
+  "repository": "otevrena-data-mfcr/CityVizor-demo",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "ng serve --watch --aot --disable-host-check",
+    "build": "npm run build-worker && npm run build-app",
+    "build-app": "ng build --prod",
+    "build-worker": "ng run import-worker:build"
+  },
+  "keywords": [
+    "opendata",
+    "cityvizor",
+    "faktury"
+  ],
+  "dependencies": {
+    "@angular-devkit/build-angular": "^0.13.6",
+    "@angular/animations": "^7.2.10",
+    "@angular/common": "^7.2.10",
+    "@angular/compiler": "^7.2.10",
+    "@angular/core": "^7.2.10",
+    "@angular/forms": "^7.2.10",
+    "@angular/http": "^7.2.10",
+    "@angular/platform-browser": "^7.2.10",
+    "@angular/platform-browser-dynamic": "^7.2.10",
+    "@angular/platform-server": "^7.2.10",
+    "@angular/router": "^7.2.10",
+    "@types/papaparse": "^4.5.9",
+    "classlist.js": "^1.1.20150312",
+    "core-js": "^2.6.5",
+    "intl": "^1.2.5",
+    "kxx-reader-browser": "^1.5.0",
+    "moment": "^2.24.0",
+    "ngx-bootstrap": "^3.2.0",
+    "ngx-papaparse": "^3.0.2",
+    "ngx-web-worker": "^7.0.0",
+    "papaparse": "^4.6.3",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.4.0",
+    "rxjs-compat": "^6.4.0",
+    "tslib": "^1.9.0",
+    "web-animations-js": "^2.3.1",
+    "zone.js": "^0.8.29"
+  },
+  "devDependencies": {
+    "@angular/cli": "^7.3.5",
+    "@angular/compiler-cli": "^7.2.8",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.2.4"
+  },
+  "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
+  "license": "GPL-3.0"
+}
