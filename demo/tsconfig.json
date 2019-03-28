@@ -9,6 +9,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "paths": {
+      "cityvizor":[
+        "../client/src"
+      ]
+    },
     "typeRoots": [
       "node_modules/@types"
     ]
