@@ -4,6 +4,7 @@
   "description": "Vizualization platform for municipalities",
   "homepage": "https://cityvizor.cz/",
   "repository": "CityVizor/CityVizor",
+  "private": true,
   "keywords": [
     "opendata",
     "cityvizor",
