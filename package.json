@@ -4,16 +4,11 @@
   "description": "Vizualization platform for municipalities",
   "homepage": "https://cityvizor.cz/",
   "repository": "CityVizor/CityVizor",
-  "scripts": {
-    "start": "ng serve --prod",
-    "build": "ng build --prod",
-    "dev": "ng serve --configuration=local"
-  },
   "keywords": [
     "opendata",
     "cityvizor",
     "faktury"
   ],
   "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
 }
