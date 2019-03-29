@@ -207,7 +207,7 @@ export class ImporterGinis implements Importer {
       counterpartyId: record.meta["IC"],
       counterpartyName: record.meta["DICT"],
       amount: this.getAmount(balance),
-      comment: record.meta["EVKT"] || record.comments.join("\n").split(/\r?\n/)[0],
+      description: record.meta["EVKT"] || record.comments.join("\n").split(/\r?\n/)[0],
       paragraph: balance.odpa,
       item: balance.pol,
       event: balance.org || null

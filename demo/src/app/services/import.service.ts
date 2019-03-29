@@ -18,8 +18,8 @@ export class ImportService {
 		this.worker = new Worker("worker.js");
 	}
 
-	async importCityVizor(files: { events: File, data: File }): Promise<ImportedData> {
-		return this.runImport("cityvizor", files)
+	async importCityVizor(files: { events: File, data: File }, options?: any): Promise<ImportedData> {
+		return this.runImport("cityvizor", files, options)
 	}
 
 
@@ -28,10 +28,10 @@ export class ImportService {
 	}
 
 
-	runImport(importer: string, files: { [key: string]: File }): Promise<ImportedData> {
+	runImport(importer: string, files: { [key: string]: File }, options?: any): Promise<ImportedData> {
 		return new Promise((resolve, reject) => {
 
-			this.worker.postMessage({ "type": "import", "importer": importer, files })
+			this.worker.postMessage({ "type": "import", "importer": importer, files, options })
 
 			this.worker.onmessage = (event: MessageEvent) => {
 
@@ -40,7 +40,7 @@ export class ImportService {
 						this.progress.next(event.data.data);
 						break;
 					case "data":
-						resolve(event.data.data);						
+						resolve(event.data.data);
 						break;
 				}
 			};
