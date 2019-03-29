@@ -14,14 +14,25 @@
           <input [(ngModel)]="importType" [ngModelOptions]="{standalone:true}" type="radio" value="ginis" id="importTypeRadio_ginis">
           &nbsp;
           <label for="importTypeRadio_ginis" class="control-label">Gordic 56G (BETA)</label>
-          <p>Jedná se o základní exportní formát systému Ginis od společnosti Gordic. Import z tohoto formátu je zatím ve zkušební verzi.</p>
+          <p>Jedná se o základní exportní formát systému Ginis od společnosti Gordic. Import z tohoto formátu je zatím ve zkušební verzi. <a href="https://drive.google.com/file/d/1nuDG8rPvo9jonUvDCdc1GG7LCELveV9l/view">Návod na získání těchto souborů</a>.</p>
         </div>
       </div>
     </form>
 
     <ng-container [ngSwitch]="importType">
 
-      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
+      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorForm,cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
+
+        <div class="form-group">
+          <label for="input-file" class="col-sm-2 control-label">Kódování souboru</label>
+          <div class="col-sm-10">
+            <select name="encoding" ngModel="win1250" class="form-control" required>
+              <option value="win1250">Windows 1250 (používá MS Excel)</option>
+              <option value="utf8">UTF-8</option>
+            </select>
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="input-file" class="col-sm-2 control-label">Číselník akcí</label>
           <div class="col-sm-10">
@@ -91,6 +102,15 @@
   <section *ngSwitchCase="'confirmation'">
     <h2>Kontrola</h2>
 
+    <h3>Stažení dat</h3>
+    Formát CityVizor:
+    <ul>
+      <li><a (click)="exportCityVizorData('win1250',';')">Datový soubor oddělený středníkem v kódování Windows 1250 (pro MS Excel)</a></li>
+      <li><a (click)="exportCityVizorEvents('win1250',';')">Číselník akcí oddělený středníkem v kódování Windows 1250 (pro MS Excel)</a></li>
+      <li><a (click)="exportCityVizorData('utf8',',')">Datový soubor oddělený čárkou v kódování UTF-8 (pro ostatní)</a></li>
+      <li><a (click)="exportCityVizorEvents('utf8',',')">Číselník akcí oddělený čárkou v kódování UTF-8 (pro ostatní)</a></li>
+    </ul>
+
     <h3>Varování</h3>
     <ng-container *ngIf="warnings.length;else noWarnings">
       <ul>
@@ -102,6 +122,8 @@
     </ng-template>
 
     <h3>Rozpočtová skladba</h3>
+    
+    <a (click)="exportRecords('win1250')">Otevřít v MS Excel</a>
 
     <div class="records">
       <table class="table" *ngIf="data">
@@ -123,6 +145,9 @@
     </div>
 
     <h3>Doklady</h3>
+
+    <a (click)="exportPayments('win1250')">Otevřít v MS Excel</a>
+
     <div class="records">
       <table class="table" *ngIf="data">
         <tr>
@@ -139,13 +164,16 @@
           </td>
           <td>{{payment.counterpartyId}}</td>
           <td>{{payment.counterpartyName}}</td>
-          <td>{{payment.comment}}</td>
+          <td>{{payment.description}}</td>
           <td class="text-right">{{payment.amount | money:2:false}}&nbsp;Kč</td>
         </tr>
       </table>
     </div>
 
     <h3>Akce</h3>
+
+    <a (click)="exportEvents('win1250')">Otevřít v MS Excel</a>
+
     <div class="records">
       <table class="table" *ngIf="data">
         <tr>

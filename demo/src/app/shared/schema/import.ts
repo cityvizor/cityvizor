@@ -15,7 +15,7 @@ export class ImportedPayment {
 	counterpartyId: string;
 	counterpartyName: string;
 	amount: number;
-	comment: string;
+	description: string;
 	paragraph: number;
 	item: number;
 	event: number;

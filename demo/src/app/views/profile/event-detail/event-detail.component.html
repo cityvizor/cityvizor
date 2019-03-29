@@ -252,7 +252,7 @@
 												<span *ngIf="payment.item >= 5000" class="label label-red">Výdaj</span>
 											</td>
 											<td>{{payment.date | date:"d. M. y"}}</td>
-											<td>{{payment.comment}}</td>
+											<td>{{payment.description}}</td>
 											<td class="text-right font-number">{{payment.amount | money:0:false}} Kč</td>
 										</tr>
 										<tr *ngIf="counterparty.payments.length == 0">

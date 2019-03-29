@@ -12,11 +12,13 @@ const importers: { [key: string]: any } = {
 
 onmessage = function (e) {
 
-  var importer: Importer;
+
 
   switch (e.data.type) {
 
     case "import":
+
+      var importer: Importer;
 
       switch (e.data.importer) {
         case "cityvizor":
@@ -29,13 +31,15 @@ onmessage = function (e) {
           throw new Error("Invalid importer type")
       }
 
+      importer
+        .import(e.data.files, e.data.options)
+        .then((data: ImportedData) => postMessage({ type: "data", data: data }));
+
       break;
 
     default:
       throw new Error("Invalid event type")
   }
 
-  importer
-    .import(e.data.files)
-    .then((data: ImportedData) => postMessage({ type: "data", data: data }));
+
 }

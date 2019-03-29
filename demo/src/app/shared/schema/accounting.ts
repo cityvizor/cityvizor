@@ -7,7 +7,7 @@ export class AccountingPayment {
 	counterpartyId: string;
 	counterpartyName: string;
 	amount: number;
-	comment: string;
+	description: string;
 	paragraph: number;
 	item: number;
 	event: string;
