@@ -1,7 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 
 import { DataService } from 'app/services/data.service';
 import { ImportService } from 'app/services/import.service';
