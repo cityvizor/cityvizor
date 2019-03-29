@@ -1,0 +1,21 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "paths": {
+      "cityvizor":[
+        "../client/src"
+      ]
+    },
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  }
+}
