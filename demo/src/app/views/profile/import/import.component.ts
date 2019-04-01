@@ -40,9 +40,7 @@ export class ImportComponent {
 		});
 	}
 
-	async importCityVizor(form: NgForm, inputData: HTMLInputElement, inputEvents: HTMLInputElement, encoding: string) {
-
-		const options = form.value;
+	async importCityVizor(inputData: HTMLInputElement, inputEvents: HTMLInputElement) {
 
 		const files = {
 			data: inputData.files[0],
@@ -51,7 +49,7 @@ export class ImportComponent {
 
 		this.step = "progress";
 
-		this.data = await this.importService.importCityVizor(files, options.encoding);
+		this.data = await this.importService.importCityVizor(files);
 
 		this.step = "confirmation";
 
@@ -106,10 +104,10 @@ export class ImportComponent {
 	}
 
 	exportCityVizorData(optionsName: string) {
-		this.exportService.exportCityVizorData(this.data, this.exportOptions[optionsName])
+		this.exportService.exportCityVizorData(this.data)
 	}
 	exportCityVizorEvents(optionsName: string) {
-		this.exportService.exportCityVizorEvents(this.data, this.exportOptions[optionsName])
+		this.exportService.exportCityVizorEvents(this.data)
 	}
 	exportRecords() {
 		this.exportService.exportRecords(this.data.records, {

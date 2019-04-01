@@ -21,17 +21,7 @@
 
     <ng-container [ngSwitch]="importType">
 
-      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorForm,cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
-
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Kódování souboru</label>
-          <div class="col-sm-10">
-            <select name="encoding" ngModel="win1250" class="form-control" required>
-              <option value="win1250">Windows 1250 (používá MS Excel)</option>
-              <option value="utf8">UTF-8</option>
-            </select>
-          </div>
-        </div>
+      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
 
         <div class="form-group">
           <label for="input-file" class="col-sm-2 control-label">Číselník akcí</label>
@@ -105,10 +95,8 @@
     <h3>Stažení dat</h3>
     Formát CityVizor:
     <ul>
-      <li><a (click)="exportCityVizorData('win1250',';')">Datový soubor oddělený středníkem v kódování Windows 1250 (pro MS Excel)</a></li>
-      <li><a (click)="exportCityVizorEvents('win1250',';')">Číselník akcí oddělený středníkem v kódování Windows 1250 (pro MS Excel)</a></li>
-      <li><a (click)="exportCityVizorData('utf8',',')">Datový soubor oddělený čárkou v kódování UTF-8 (pro ostatní)</a></li>
-      <li><a (click)="exportCityVizorEvents('utf8',',')">Číselník akcí oddělený čárkou v kódování UTF-8 (pro ostatní)</a></li>
+      <li><a (click)="exportCityVizorData()">Datový soubor</a></li>
+      <li><a (click)="exportCityVizorEvents()">Číselník akcí</a></li>
     </ul>
 
     <h3>Varování</h3>

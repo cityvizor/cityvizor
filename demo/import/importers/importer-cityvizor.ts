@@ -16,11 +16,11 @@ export class ImporterCityVizor implements Importer {
 
   constructor() { }
 
-  async import(files: { data: File, events: File }, options?: { encoding: string }): Promise<ImportedData> {
+  async import(files: { data: File, events: File }, options?: any): Promise<ImportedData> {
 
     this.bytesTotal = (files.data ? files.data.size : 0) + (files.events ? files.events.size : 0);
 
-    await this.readCSV(files.events, options.encoding, result => {
+    await this.readCSV(files.events, result => {
       this.updateProgress(this.bytesRead + result.meta.cursor);
       this.events.push(...result.data
         .filter((row: { srcId: string, name: string }) => row["srcId"] && row["name"])
@@ -28,7 +28,7 @@ export class ImporterCityVizor implements Importer {
       );
     });
 
-    await this.readCSV(files.data, options.encoding, result => {
+    await this.readCSV(files.data, result => {
       this.updateProgress(this.bytesRead + result.meta.cursor);
       this.records.push(...result.data.map(row => ({
         paragraph: Number(row["paragraph"]),
@@ -67,12 +67,12 @@ export class ImporterCityVizor implements Importer {
     postMessage({ type: "progress", data: bytesRead / this.bytesTotal })
   }
 
-  readCSV(file: File, encoding: string, callback: (result: Papa.ParseResult) => void) {
+  readCSV(file: File, callback: (result: Papa.ParseResult) => void) {
     return new Promise((resolve, reject) => {
 
       Papa.parse(file, {
         header: true,
-        encoding: encoding || "utf-8",
+        encoding: "utf-8",
         chunk: callback,
         complete: (results, file) => resolve(),
         error: (err, file) => reject(err)

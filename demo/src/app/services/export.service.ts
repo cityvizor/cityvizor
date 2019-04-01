@@ -28,7 +28,7 @@ export class ExportService {
   async exportEvents(events: (ImportedEvent | AccountingEvent)[], options: ExportOptions) {
     await this.downloadFile(this.createCSV(events, options), "events.csv", options.encoding);
   }
-  async exportCityVizorData(data: ImportedData | AccountingData, options: ExportOptions) {
+  async exportCityVizorData(data: ImportedData | AccountingData) {
     const records = [];
     records.push(...(<(ImportedRecord | AccountingRecord)[]>data.records).map(record => ({
       type: null,
@@ -49,14 +49,16 @@ export class ExportService {
       counterpartyName: payment.counterpartyName,
       description: payment.description
     })));
+    const options: ExportOptions = { delimiter: ",", encoding: "utf8", newline: "\r\n" };
     await this.downloadFile(this.createCSV(records, options), "data.csv", options.encoding);
   }
 
-  async exportCityVizorEvents(data: ImportedData | AccountingData, options: ExportOptions) {
+  async exportCityVizorEvents(data: ImportedData | AccountingData) {
     const events = (<(ImportedEvent | AccountingEvent)[]>data.events).map(event => ({
       srcId: event.srcId,
       name: event.name
     }));
+    const options: ExportOptions = { delimiter: ",", encoding: "utf8", newline: "\r\n" };
     await this.downloadFile(this.createCSV(events, options), "events.csv", options.encoding);
   }
 
