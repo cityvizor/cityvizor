@@ -40,6 +40,7 @@ export class ExportService {
     })));
     records.push(...(<(ImportedPayment | AccountingPayment)[]>data.payments).map(payment => ({
       type: payment.type === "invoice_incoming" ? "KDF" : "KOF",
+      id: payment.id,
       paragraph: payment.paragraph,
       item: payment.item,
       event: payment.event,
@@ -85,8 +86,8 @@ export class ExportService {
         .map(key => {
           const value = row[key];
           if (typeof value === "string") return "\"" + value + "\"";
-          if (typeof value === "number") return String(value).replace(".", ",");
-          if (value instanceof Date) return value.toISOString();
+          if (typeof value === "number") return String(value);
+          if (value instanceof Date) return "\"" + value.toISOString() + "\"";
           if (!value) return "";
           return "[Invalid value]";
         })
