@@ -93,6 +93,7 @@ export class ImportComponent {
 
 	async deleteData() {
 		await this.dataService.deleteData();
+		this.warnings = [];
 		this.step = "input";
 	}
 
