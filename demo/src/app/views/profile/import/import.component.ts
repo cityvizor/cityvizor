@@ -134,7 +134,7 @@ export class ImportComponent {
 	}
 
 	getHighlightedWarnings(text: string, warnings: PersonalDataCheckWarning[]): string {
-		warnings.forEach(warning => text = text.replace(warning.value, "<span class=\"bg-danger\">" + warning.value + "</span>"));
+		warnings.forEach(warning => text = text.replace(warning.value, "<span class=\"bg-warning\">" + warning.value + "</span>"));
 		return text;
 	}
 
