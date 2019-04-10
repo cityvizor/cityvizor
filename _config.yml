@@ -9,7 +9,7 @@
 title: CityVizor
 email: cityvizor@otevrenamesta.cz
 description: CityVizor je aplikace na přehledné zveřejnění výdajů obcí!
-baseurl: "/CityVizor"
+baseurl: "/cityvizor"
 url: ""
 
 # Build settings
