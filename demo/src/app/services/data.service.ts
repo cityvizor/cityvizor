@@ -24,6 +24,8 @@ export class DataService {
 
 	data: AccountingData = new AccountingData();
 
+	loaded: boolean = false;
+
 	constructor(private papa: Papa, private toastService:ToastService) {
 	}
 
@@ -40,7 +42,16 @@ export class DataService {
 		this.data.payments = data.payments.map((payment, i) => ({ _id: "payment_" + i, ...this.profileYear, ...payment, event: payment.event ? String(payment.event) : null }));
 		this.data.events = data.events.map((event, i) => ({ _id: String(event.srcId), ...this.profileYear, ...event }));		
     
-    this.toastService.toast("Data uložena v prohlížeči. Nic nebylo odesláno mimo tento počítač.","notice");
+		this.toastService.toast("Data uložena v prohlížeči. Nic nebylo odesláno mimo tento počítač.","notice");
+		
+		this.loaded = true;
+	}
+
+	async deleteData(){
+		this.data = new AccountingData();
+		this.loaded = false;
+
+		this.toastService.toast("Data byla vymazána z paměti prohlížeče.","notice");
 	}
 
 	async getProfileBudget(profileId, year): Promise<TreeBudget> {
