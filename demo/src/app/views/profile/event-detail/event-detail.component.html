@@ -59,7 +59,7 @@
 		<tab heading="Roční srovnání">
 			<div class="container-fluid">
 				<div class="historychart row">
-					<div class="col-xs-2 header">
+					<div class="col-2 header">
 						<table class="table">
 							<thead>
 								<tr style="height:30px;"><th>Rok</th></tr>
@@ -70,7 +70,7 @@
 							</thead>
 						</table>
 					</div>
-					<div class="col-xs-10 data">
+					<div class="col-10 data">
 						<table class="table table-hover">
 							<thead>
 								<tr style="height:30px;">
@@ -86,10 +86,10 @@
 								<tr style="height:123px;">
 									<td *ngFor="let historyEvent of history">
 										<div class="row">
-												<div class="col-xs-6">
+												<div class="col-6">
 													<chart-budget [data]="historyEvent" [type]="'expenditure'" [max]="maxHistoryAmount"></chart-budget>
 												</div>
-												<div class="col-xs-6">
+												<div class="col-6">
 													<chart-budget [data]="historyEvent" [type]="'income'" [max]="maxHistoryAmount"></chart-budget>
 												</div>
 										</div>
@@ -121,7 +121,7 @@
 
 			<p *ngIf="!event.budgetExpenditureAmount && !event.expenditureAmount">Tato akce nemá žádné rozpočtované ani uskutečněné výdaje.</p>
 
-			<table *ngIf="event.budgetExpenditureAmount || event.expenditureAmount" class="table table-responsive table-title-number-number">
+			<table *ngIf="event.budgetExpenditureAmount || event.expenditureAmount" class="table table-title-number-number">
 				<thead>
 					<tr>
 						<th>Rozpočtové paragrafy</th>
@@ -136,7 +136,7 @@
 				<tbody>
 					<tr>
 						<td colspan="3" class="td-zerosidepadding">
-							<table class="table table-responsive borderless small table-title-number-number-td table-nobottommargin">
+							<table class="table borderless table-title-number-number-td table-nobottommargin">
 								<tbody>
 									<tr *ngFor="let paragraph of event.paragraphs; let i = index">
 										<td>§ {{paragraph.id}} - {{paragraphNames[paragraph.id]}}</td>
@@ -173,7 +173,7 @@
 				<p>Tato akce nemá žádné rozpočtované ani uskutečněné příjmy.</p>
 			</div>
 
-			<table *ngIf="event.budgetIncomeAmount || event.incomeAmount" class="table table-responsive table-title-number-number">
+			<table *ngIf="event.budgetIncomeAmount || event.incomeAmount" class="table table-title-number-number">
 				<thead>
 					<tr>
 						<th>Rozpočtové položky</th>
@@ -184,7 +184,7 @@
 				<tbody>
 					<tr>
 						<td colspan="3" class="td-zerosidepadding">
-							<table class="table table-responsive borderless small table-title-number-number-td table-nobottommargin">
+							<table class="table borderless table-title-number-number-td table-nobottommargin">
 								<tbody>
 									<tr *ngFor="let item of event.items">
 										<td># {{item.id}} - {{itemNames[item.id]}}</td>
@@ -222,7 +222,7 @@
 				<p>Žádné faktury či výdaje k zobrazení.</p>
 			</div>
 			
-			<table *ngIf="counterparties.length" class="table table-responsive table-hover payments">
+			<table *ngIf="counterparties.length" class="table table-hover payments">
 				<thead>
 					<tr>
 						<th>Dodavatel</th>
@@ -234,7 +234,7 @@
 						<tr (click)="openPayments(counterparty)" [class.opened]="counterparty.open" class="counterparty">
 							<td>
 								<i class="fa fa-chevron-circle-right"></i> {{counterparty.name}}
-								<a *ngIf="counterparty.id" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+counterparty.id+'&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES" class="text-muted small">IČO {{counterparty.id}}</a>
+								<a *ngIf="counterparty.id" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+counterparty.id+'&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES" class="text-muted">IČO {{counterparty.id}}</a>
 							</td>
 							<td class="text-right">
 								<strong [class.text-success]="counterparty.total > 0" [class.text-red]="counterparty.total < 0" class="font-number">
@@ -245,11 +245,11 @@
 						<tr class="list">
 							<td colspan="3">
 								<div [@paymentsState]="counterparty.open ? 'open' : 'closed'">
-									<table class="table table-responsive borderless small table-label-date-title-number table-nobottommargin">
+									<table class="table borderless table-label-date-title-number table-nobottommargin">
 										<tr *ngFor="let payment of counterparty.payments">
 											<td>
-												<span *ngIf="payment.item < 5000" class="label label-success">Příjem</span>
-												<span *ngIf="payment.item >= 5000" class="label label-red">Výdaj</span>
+												<span *ngIf="payment.item < 5000" class="badge bg-success">Příjem</span>
+												<span *ngIf="payment.item >= 5000" class="badge bg-danger text-light">Výdaj</span>
 											</td>
 											<td>{{payment.date | date:"d. M. y"}}</td>
 											<td>{{payment.description}}</td>
