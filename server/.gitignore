@@ -1,6 +1,6 @@
 # sensitive data
-/server/config/config.production.js
-/server/config/config.development.js
+src/config/config.production.js
+src/config/config.development.js
 
 # dependencies
 /node_modules
