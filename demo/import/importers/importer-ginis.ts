@@ -74,7 +74,7 @@ export class ImporterGinis implements Importer {
             if (row["ORG"] && row["NAZEV"]) {
               this.events.push({
                 srcId: Number(row["ORG"].replace(".", "")),
-                name: row["NAZEV"]
+                name: row["NAZEV"] !== "." ? row["NAZEV"] : null
               })
             }
           });
