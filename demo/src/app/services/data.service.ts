@@ -25,10 +25,6 @@ export class DataService {
 	data: AccountingData = new AccountingData();
 
 	constructor(private papa: Papa, private toastService:ToastService) {
-		try {
-			this.data = JSON.parse(localStorage.getItem("data"));
-		}
-		catch (e) { }
 	}
 
 
@@ -42,11 +38,9 @@ export class DataService {
 		// save data and create new IDs. Here data are duplicated for some time, FIX if causes memory problems
 		this.data.records = data.records.map((record, i) => ({ _id: "record_" + i, ...this.profileYear, ...record, event: record.event ? String(record.event) : null }));
 		this.data.payments = data.payments.map((payment, i) => ({ _id: "payment_" + i, ...this.profileYear, ...payment, event: payment.event ? String(payment.event) : null }));
-		this.data.events = data.events.map((event, i) => ({ _id: String(event.srcId), ...this.profileYear, ...event }));
-
-		localStorage.setItem("data", JSON.stringify(this.data));
+		this.data.events = data.events.map((event, i) => ({ _id: String(event.srcId), ...this.profileYear, ...event }));		
     
-    this.toastService.toast("Data uložena v prohlížeči.","notice");
+    this.toastService.toast("Data uložena v prohlížeči. Nic nebylo odesláno mimo tento počítač.","notice");
 	}
 
 	async getProfileBudget(profileId, year): Promise<TreeBudget> {
