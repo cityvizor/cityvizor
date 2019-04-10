@@ -2,9 +2,9 @@
 
   <section *ngSwitchCase="'input'">
     <h2>Vstupní data</h2>
-    <form class="form-horizontal">
-      <div class="form-group">
-        <label for="input-file" class="col-sm-2 control-label">Formát dat</label>
+    <form>
+      <div class="form-group row">
+        <label for="input-file" class="col-sm-2 col-form-label">Formát dat</label>
         <div class="col-sm-10">
           <input [(ngModel)]="importType" [ngModelOptions]="{standalone:true}" type="radio" value="cityvizor" id="importTypeRadio_cityvizor">
           &nbsp;
@@ -23,22 +23,22 @@
 
       <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Číselník akcí</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Číselník akcí</label>
           <div class="col-sm-10">
-            <input type="file" accept=".csv" class="form-control" id="input-file" required #cityvizorInputEvents>
+            <input type="file" accept=".csv" class="form-control-file" id="input-file" required #cityvizorInputEvents>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Datový soubor</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Datový soubor</label>
           <div class="col-sm-10">
-            <input type="file" accept=".csv" class="form-control" id="input-file" required #cityvizorInputData>
+            <input type="file" accept=".csv" class="form-control-file" id="input-file" required #cityvizorInputData>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label"></label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label"></label>
           <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Nahrát data</button>
           </div>
@@ -47,28 +47,28 @@
 
       <form *ngSwitchCase="'ginis'" (ngSubmit)="importGinis(ginisInputBudget, ginisInputAccounting, ginisInputEvents)" class="form-horizontal">
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Data rozpočtu (UCR)</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Data rozpočtu (UCR)</label>
           <div class="col-sm-10">
-            <input type="file" accept=".kxx" class="form-control" id="input-file" required #ginisInputBudget>
+            <input type="file" accept=".kxx" class="form-control-file" id="input-file" required #ginisInputBudget>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Data účetnictví (UCT)</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Data účetnictví (UCT)</label>
           <div class="col-sm-10">
-            <input type="file" accept=".kxx" class="form-control" id="input-file" required #ginisInputAccounting>
+            <input type="file" accept=".kxx" class="form-control-file" id="input-file" required #ginisInputAccounting>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Číselník akcí (ORG)</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Číselník akcí (ORG)</label>
           <div class="col-sm-10">
-            <input type="file" accept=".csv" class="form-control" id="input-file" required #ginisInputEvents>
+            <input type="file" accept=".csv" class="form-control-file" id="input-file" required #ginisInputEvents>
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group row">
           <label for="input-file" class="col-sm-2 control-label"></label>
           <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Nahrát data</button>
@@ -100,18 +100,19 @@
     </p>
 
     <ul class="nav nav-tabs">
-      <li class="nav-item" [class.active]="confirmationTab === 'warnings'">
-        <a class="nav-link" (click)="confirmationTab = 'warnings'">Varování</a>
+      <li class="nav-item">
+        <a class="nav-link" (click)="confirmationTab = 'warnings'" [class.active]="confirmationTab === 'warnings'">Varování<span class="badge badge-warning align-middle ml-1">{{warnings.length}}</span></a>
       </li>
-      <li class="nav-item" [class.active]="confirmationTab === 'data'">
-        <a class="nav-link" (click)="confirmationTab = 'data'">Všechna data</a>
+      <li class="nav-item">
+        <a class="nav-link" (click)="confirmationTab = 'data'" [class.active]="confirmationTab === 'data'">Všechna data</a>
       </li>
     </ul>
 
     <ng-container [ngSwitch]="confirmationTab">
 
       <ng-container *ngSwitchCase="'warnings'">
-        <div class="alert alert-warning" role="alert">
+
+        <div class="alert alert-warning my-3" role="alert">
           <p>Výsledky níže zobrazují záznamy, které mohou tedy indikovat nechtěné osobní údaje. Záznamy jsou zde zobrazeny, pokud platí alespoň jedno z následujících pravidel:</p>
           <ul>
             <li>Popis dokladu bsahuje křestní jméno z naší databáze jmen</li>
@@ -120,6 +121,7 @@
           </ul>
           <p>Z techického hlediska však nelze vyloučit výskyt osobních údajů u záznamů zde nezobrazených.</p>
         </div>
+
         <table class="table" *ngIf="warnings.length;else noWarnings">
           <thead>
             <tr>
@@ -216,18 +218,27 @@
 
   <section *ngSwitchCase="'status'">
 
+
     <h2>Data jsou nahrána!</h2>
-    <p>Data jsou v paměti internetového prohlížeče na tomto počítači. Zavřením nebo obnovením stránky budou vymazána. Vymazat je také můžete ručně tlačítkem níže.</p>
+    <p>Data jsou v načtena do aplikace CityVizor Demo na tomto počítači. Pokud data neuložíte volbou níže, zavřením nebo obnovením stránky budou vymazána.</p>
 
-    <h3>Stažení dat ve formátu pro import do CityVizoru</h3>
-    <p>Tato data si můžete stáhnout, prohlídnout v editoru CSV a následně nahrát do ostré verze aplikace CityVizor.</p>
-    <ul>
-      <li><a (click)="exportCityVizorData()">Datový soubor</a></li>
-      <li><a (click)="exportCityVizorEvents()">Číselník akcí</a></li>
-    </ul>
-
-    <h3>Reset dat</h3>
-    <p>Data budou smazána z paměti prohlížeče</p>
-    <button type="button" (click)="deleteData()" class="btn btn-danger">Smazat</button>
+    <div class="my-5">
+      <h3>Stažení dat ve formátu pro import do CityVizoru</h3>
+      <p>Tato data si můžete stáhnout, prohlídnout v editoru CSV a následně nahrát do ostré verze aplikace CityVizor.</p>
+      <p>
+        <a class="btn btn-primary text-light mr-3" (click)="exportCityVizorData()">Datový soubor</a>
+        <a class="btn btn-primary text-light" (click)="exportCityVizorEvents()">Číselník akcí</a>
+      </p>
+    </div>
+    <div class="my-5">
+      <h3>Uložit data na tomto počítači</h3>
+      <p>Data budou uložena v paměti prohlížeče v tomto počítači. Když příště otevřete demo.cityvizor.cz, zobrazí se.</p>
+      <button type="button" (click)="persistData()" class="btn btn-primary">Uložit na tomto počítači</button>
+    </div>
+    <div class="my-5">
+      <h3>Smazat data z tohoto počítače</h3>
+      <p>Načtená data budou smazána z paměti prohlížeče na tomto počítači.</p>
+      <button type="button" (click)="deleteData()" class="btn btn-danger">Smazat data</button>
+    </div>
   </section>
 </ng-container>

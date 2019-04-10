@@ -96,6 +96,10 @@ export class ImportComponent {
 		this.step = "input";
 	}
 
+	persistData(){
+		this.dataService.persistData();
+	}
+
 	checkData() {
 		this.updateTotals();
 		this.sortData();

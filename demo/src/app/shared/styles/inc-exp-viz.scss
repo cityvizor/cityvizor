@@ -179,7 +179,7 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 .btn-group-selected .btn-blue {
   min-width: 130px;
 }
-.btn-group-selected ul {
+.btn-group-selected .dropdown-menu {
 	width: 100%;
 	-webkit-column-count: 2;
 	-moz-column-count: 2;
@@ -187,13 +187,13 @@ budgets-list{position:absolute;top:0;left:0;z-index:200;}
 	column-count: 2;
 }
 @media (max-width: 991px) {
-	.btn-group-selected ul {
+	.btn-group-selected .dropdown-menu {
 		-webkit-column-count: 1; /* Chrome, Safari, Opera */
     -moz-column-count: 1; /* Firefox */
     column-count: 1;
 	}
 }
-.dropdown-menu > li > a {
+.dropdown-menu > .dropdown-item > a {
     padding: 1px 5px;
 }
 

@@ -37,6 +37,7 @@ header .btn:hover {
 header h1 {
 	font-size: 2em;
 	display: inline-block;
+	margin:0;
 }
 header nav {
 	display: inline-block;
@@ -76,7 +77,7 @@ nav li a:hover {
 	background-color: white;
 	color: black;
 }
-nav li a.active {
+nav li.active a {
 	background-color: #2581C4;
 	color: white;
 }
