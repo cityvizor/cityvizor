@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 	profile: any = {};
 	
-	isMenuCollapsed:boolean = false;
+	isMenuCollapsed:boolean = true;
 	
 	activeModule:string;
 	
