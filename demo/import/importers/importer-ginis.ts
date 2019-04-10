@@ -163,7 +163,7 @@ export class ImporterGinis implements Importer {
 
   filterBalances(balances: KxxRecordBalance[]) {
     return balances
-      .filter(balance => balance.pol > 1000 && balance.pol < 9000 && balance.odpa !== 6330);
+      .filter(balance => balance.pol > 1000 && balance.pol < 9000);
   }
 
   getAmount(balance: KxxRecordBalance): number {
