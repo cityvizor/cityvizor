@@ -75,6 +75,7 @@ body.modal-open {
 
 /* Generic tag styles */
 a {outline: 0; cursor: pointer; color: $linkBlue; }
+a:hover{color:$linkBlue;}
 
 h1,h2,h3,h4 {font-weight: 700;cursor:default;}
 
