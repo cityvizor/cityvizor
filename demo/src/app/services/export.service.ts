@@ -30,14 +30,22 @@ export class ExportService {
   }
   async exportCityVizorData(data: ImportedData | AccountingData) {
     const records = [];
-    records.push(...(<(ImportedRecord | AccountingRecord)[]>data.records).map(record => ({
-      type: null,
-      paragraph: record.paragraph,
-      item: record.item,
-      event: record.event,
-      amount: record.amount,
-      budgetAmount: record.budgetAmount
-    })));
+    (<(ImportedRecord | AccountingRecord)[]>data.records).forEach(record => {
+      records.push({
+        type: "ROZ",
+        paragraph: record.paragraph,
+        item: record.item,
+        event: record.event,
+        amount: record.budgetAmount
+      });
+      records.push({
+        type: null,
+        paragraph: record.paragraph,
+        item: record.item,
+        event: record.event,
+        amount: record.amount
+      });
+    });
     records.push(...(<(ImportedPayment | AccountingPayment)[]>data.payments).map(payment => ({
       type: payment.type === "invoice_incoming" ? "KDF" : "KOF",
       id: payment.id,

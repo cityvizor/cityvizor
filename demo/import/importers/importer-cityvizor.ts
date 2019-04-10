@@ -36,8 +36,8 @@ export class ImporterCityVizor implements Importer {
           paragraph: Number(row["paragraph"]),
           item: Number(row["item"]),
           event: Number(row["event"]),
-          budgetAmount: Number(row["budgetAmount"]) || 0,
-          amount: Number(row["amount"]) || 0
+          budgetAmount: row["type"] === "ROZ" ? Number(row["amount"]) || 0 : 0,
+          amount: row["type"] === "ROZ" ? 0 : Number(row["amount"]) || 0
         })));
         this.payments.push(...result.data
           .filter(row => row["type"] === "KDF" || row["type"] === "KOF")
