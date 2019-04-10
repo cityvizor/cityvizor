@@ -18,7 +18,7 @@ export class ImportService {
 		this.worker = new Worker("worker.js");
 	}
 
-	async importCityVizor(files: { events: File, data: File }, options?: any): Promise<ImportedData> {
+	async importCityvizor(files: { events: File, data: File }, options?: any): Promise<ImportedData> {
 		return this.runImport("cityvizor", files, options)
 	}
 

@@ -16,7 +16,7 @@ import { ExportService } from 'app/services/export.service';
 })
 export class ImportComponent {
 
-	step: string = "input";
+	step: "input" | "progress" | "confirmation" | "status";
 
 	importType: string = "cityvizor";
 
@@ -34,13 +34,16 @@ export class ImportComponent {
 	};
 
 	constructor(private importService: ImportService, private exportService: ExportService, private dataService: DataService, private toastService: ToastService, private router: Router, cdRef: ChangeDetectorRef) {
+		
+		this.step = dataService.loaded ? "status" : "input";
+
 		this.importService.progress.subscribe(progress => {
 			this.progress = Math.floor(progress * 100);
 			cdRef.markForCheck();
 		});
 	}
 
-	async importCityVizor(inputData: HTMLInputElement, inputEvents: HTMLInputElement) {
+	async importCityvizor(inputData: HTMLInputElement, inputEvents: HTMLInputElement) {
 
 		const files = {
 			data: inputData.files[0],
@@ -49,7 +52,7 @@ export class ImportComponent {
 
 		this.step = "progress";
 
-		this.data = await this.importService.importCityVizor(files);
+		this.data = await this.importService.importCityvizor(files);
 
 		this.step = "confirmation";
 
@@ -79,11 +82,14 @@ export class ImportComponent {
 	async saveData() {
 		await this.dataService.saveData(this.data);
 
-		this.step = "input";
+		this.step = "status";
 
 		delete this.data;
+	}
 
-		this.router.navigate(["/profil/vydaje"]);
+	async deleteData(){
+		await this.dataService.deleteData();
+		this.step = "input";
 	}
 
 	updateTotals() {
@@ -104,10 +110,10 @@ export class ImportComponent {
 	}
 
 	exportCityVizorData(optionsName: string) {
-		this.exportService.exportCityVizorData(this.data)
+		this.exportService.exportCityVizorData(this.dataService.data)
 	}
 	exportCityVizorEvents(optionsName: string) {
-		this.exportService.exportCityVizorEvents(this.data)
+		this.exportService.exportCityVizorEvents(this.dataService.data)
 	}
 	exportRecords() {
 		this.exportService.exportRecords(this.data.records, {
