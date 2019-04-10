@@ -26,7 +26,7 @@ export class AccountingRecord {
 	_id: string;
 	paragraph: number;
 	item: number;
-	event: string;
+	event: number;
 	budgetAmount: number = 0;
 	amount: number = 0;
 }

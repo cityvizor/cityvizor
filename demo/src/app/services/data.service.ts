@@ -29,7 +29,7 @@ export class DataService {
 	constructor(private papa: Papa, private toastService: ToastService) {
 		try {
 			const savedData = localStorage.getItem("data");
-			if(savedData) {
+			if (savedData) {
 				this.data = JSON.parse(savedData);
 				this.loaded = true;
 			}
@@ -46,7 +46,7 @@ export class DataService {
 		this.data = new AccountingData();
 
 		// save data and create new IDs. Here data are duplicated for some time, FIX if causes memory problems
-		this.data.records = data.records.map((record, i) => ({ _id: "record_" + i, ...this.profileYear, ...record, event: record.event ? String(record.event) : null }));
+		this.data.records = data.records.map((record, i) => ({ _id: "record_" + i, ...this.profileYear, ...record }));
 		this.data.payments = data.payments.map((payment, i) => ({ _id: "payment_" + i, ...this.profileYear, ...payment, event: payment.event ? String(payment.event) : null }));
 		this.data.events = data.events.map((event, i) => ({ _id: String(event.srcId), ...this.profileYear, ...event }));
 
@@ -144,7 +144,7 @@ export class DataService {
 		const eventInfo = this.data.events.find(event => event._id === String(eventId));
 		const event = {
 			...eventInfo,
-			...this.sumBalances((record) => record.event === String(eventId)),
+			...this.sumBalances((record) => record.event === eventId),
 			paragraphs: [],
 			items: [],
 			payments: this.data.payments.filter(payment => payment.event === String(eventId))
@@ -153,11 +153,11 @@ export class DataService {
 		const paragraphIndex = {};
 		const itemIndex = {};
 		this.data.records
-			.filter(record => record.event === String(eventId))
+			.filter(record => record.event === eventId)
 			.forEach(record => {
 				if (!record.amount && !record.budgetAmount) return;
 
-				if (record.paragraph) {
+				if (record.paragraph !== null) {
 					var paragraph = paragraphIndex[record.paragraph];
 					if (!paragraph) {
 						paragraph = paragraphIndex[record.paragraph] = new TreeBudgetParagraph(record.paragraph);
@@ -181,8 +181,14 @@ export class DataService {
 		return this.data.payments.filter(payment => payment.event === eventId);
 	}
 
-	async getProfileEvents(profileId, options?) {
-		return this.data.events.filter(item => options.srcId ? item.srcId === options.srcId : true);
+	async getProfileEvents(profileId: string, options: { srcId?: number, sort?: string, year?: number }) {
+		console.log(this.data.records.filter(r => r.item === 8115).slice(0,10));
+		const events = this.data.events.filter(item => options.srcId ? item.srcId === options.srcId : true);
+		if(options.srcId) events.forEach(event => {
+			Object.assign(event, this.sumBalances(r => r.event === event.srcId))
+		});
+		
+		return events;
 	}
 
 	async getProfilePaymentsMonths(profileId) {
