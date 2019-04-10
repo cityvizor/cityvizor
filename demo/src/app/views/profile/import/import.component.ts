@@ -5,9 +5,12 @@ import { DataService } from 'app/services/data.service';
 import { ImportService } from 'app/services/import.service';
 import { ToastService } from 'app/services/toast.service';
 
-import { ImportedData } from 'app/shared/schema';
+import { ImportedData, ImportedPayment } from 'app/shared/schema';
 import { Router } from '@angular/router';
 import { ExportService } from 'app/services/export.service';
+
+import { PersonalDataCheck, PersonalDataCheckWarning } from "@smallhillcz/personal-data-check";
+import { cs } from "@smallhillcz/personal-data-check/lib/regional/cs";
 
 @Component({
 	selector: 'import',
@@ -17,10 +20,11 @@ import { ExportService } from 'app/services/export.service';
 export class ImportComponent {
 
 	step: "input" | "progress" | "confirmation" | "status";
+	confirmationTab: "warnings" | "data" = "warnings";
 
 	importType: string = "cityvizor";
 
-	warnings: string[] = [];
+	warnings: { payment: ImportedPayment, messages: PersonalDataCheckWarning[] }[] = [];
 
 	progress: number;
 
@@ -34,7 +38,7 @@ export class ImportComponent {
 	};
 
 	constructor(private importService: ImportService, private exportService: ExportService, private dataService: DataService, private toastService: ToastService, private router: Router, cdRef: ChangeDetectorRef) {
-		
+
 		this.step = dataService.loaded ? "status" : "input";
 
 		this.importService.progress.subscribe(progress => {
@@ -56,8 +60,7 @@ export class ImportComponent {
 
 		this.step = "confirmation";
 
-		this.updateTotals();
-		this.sortData();
+		this.checkData();
 	}
 
 	async importGinis(inputBudget: HTMLInputElement, inputAccounting: HTMLInputElement, inputEvents: HTMLInputElement) {
@@ -74,10 +77,11 @@ export class ImportComponent {
 
 		this.step = "confirmation";
 
-		this.updateTotals();
-		this.sortData();
+		this.checkData();
 
 	}
+
+
 
 	async saveData() {
 		await this.dataService.saveData(this.data);
@@ -87,9 +91,15 @@ export class ImportComponent {
 		delete this.data;
 	}
 
-	async deleteData(){
+	async deleteData() {
 		await this.dataService.deleteData();
 		this.step = "input";
+	}
+
+	checkData() {
+		this.updateTotals();
+		this.sortData();
+		this.checkPayments();
 	}
 
 	updateTotals() {
@@ -109,6 +119,20 @@ export class ImportComponent {
 		this.data.records.sort((a, b) => a.paragraph - b.paragraph || a.item - b.item || Number(a.event) - Number(b.event));
 	}
 
+	checkPayments() {
+		const gdpr = new PersonalDataCheck(cs);
+
+		this.data.payments.forEach(payment => {
+			const messages = gdpr.check(payment.description);
+			if (messages.length) this.warnings.push({ payment, messages })
+		});
+	}
+
+	getHighlightedWarnings(text: string, warnings: PersonalDataCheckWarning[]): string {
+		warnings.forEach(warning => text = text.replace(warning.value, "<span class=\"bg-danger\">" + warning.value + "</span>"));
+		return text;
+	}
+
 	exportCityVizorData(optionsName: string) {
 		this.exportService.exportCityVizorData(this.dataService.data)
 	}
@@ -118,7 +142,7 @@ export class ImportComponent {
 	exportRecords() {
 		this.exportService.exportRecords(this.data.records, {
 			...this.exportOptions["excel"],
-			header: {				
+			header: {
 				paragraph: "Paragraf",
 				item: "Položka",
 				event: "Akce",
@@ -129,9 +153,9 @@ export class ImportComponent {
 	}
 	exportPayments() {
 		const data = this.data.payments.map(payment => ({
-      ...payment,
-      type: payment.type === "invoice_incoming" ? "Přijatá faktura" : "Vydaná faktura"
-    }));
+			...payment,
+			type: payment.type === "invoice_incoming" ? "Přijatá faktura" : "Vydaná faktura"
+		}));
 		this.exportService.exportPayments(data, {
 			...this.exportOptions["excel"],
 			header: {
