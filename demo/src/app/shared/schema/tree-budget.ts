@@ -9,7 +9,7 @@ export class TreeBudgetEvent implements Balances {
   expenditureAmount: number = 0;
   budgetExpenditureAmount: number = 0;
 
-  constructor(public event: string) { }
+  constructor(public event: number) { }
 }
 
 export class TreeBudgetParagraph implements Balances {

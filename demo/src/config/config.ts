@@ -29,11 +29,11 @@ export const AppConfigData: IAppConfig = {
 
   title: "CityVizor.cz",
   // root directory for static documents referenced in various links throughout the site
-  docsUrl: "https://otevrena-data-mfcr.github.io/CityVizor",
+  docsUrl: "https://cityvizor.github.io/cityvizor",
 
   avatarsUrl: "/data/uploads/avatars",
   
-  GitHub: {url: "https://github.com/otevrena-data-mfcr/CityVizor"},
+  GitHub: {url: "https://github.com/cityvizor/cityvizor"},
 
   // infomail used in texts
   mail: "cityvizor@otevrenamesta.cz",

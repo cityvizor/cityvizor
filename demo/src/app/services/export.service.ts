@@ -28,18 +28,27 @@ export class ExportService {
   async exportEvents(events: (ImportedEvent | AccountingEvent)[], options: ExportOptions) {
     await this.downloadFile(this.createCSV(events, options), "events.csv", options.encoding);
   }
-  async exportCityVizorData(data: ImportedData | AccountingData, options: ExportOptions) {
+  async exportCityVizorData(data: ImportedData | AccountingData) {
     const records = [];
-    records.push(...(<(ImportedRecord | AccountingRecord)[]>data.records).map(record => ({
-      type: null,
-      paragraph: record.paragraph,
-      item: record.item,
-      event: record.event,
-      amount: record.amount,
-      budgetAmount: record.budgetAmount
-    })));
+    (<(ImportedRecord | AccountingRecord)[]>data.records).forEach(record => {
+      records.push({
+        type: "ROZ",
+        paragraph: record.paragraph,
+        item: record.item,
+        event: record.event,
+        amount: record.budgetAmount
+      });
+      records.push({
+        type: null,
+        paragraph: record.paragraph,
+        item: record.item,
+        event: record.event,
+        amount: record.amount
+      });
+    });
     records.push(...(<(ImportedPayment | AccountingPayment)[]>data.payments).map(payment => ({
       type: payment.type === "invoice_incoming" ? "KDF" : "KOF",
+      id: payment.id,
       paragraph: payment.paragraph,
       item: payment.item,
       event: payment.event,
@@ -49,14 +58,16 @@ export class ExportService {
       counterpartyName: payment.counterpartyName,
       description: payment.description
     })));
+    const options: ExportOptions = { delimiter: ",", encoding: "utf8", newline: "\r\n" };
     await this.downloadFile(this.createCSV(records, options), "data.csv", options.encoding);
   }
 
-  async exportCityVizorEvents(data: ImportedData | AccountingData, options: ExportOptions) {
+  async exportCityVizorEvents(data: ImportedData | AccountingData) {
     const events = (<(ImportedEvent | AccountingEvent)[]>data.events).map(event => ({
       srcId: event.srcId,
       name: event.name
     }));
+    const options: ExportOptions = { delimiter: ",", encoding: "utf8", newline: "\r\n" };
     await this.downloadFile(this.createCSV(events, options), "events.csv", options.encoding);
   }
 
@@ -83,8 +94,8 @@ export class ExportService {
         .map(key => {
           const value = row[key];
           if (typeof value === "string") return "\"" + value + "\"";
-          if (typeof value === "number") return String(value).replace(".", ",");
-          if (value instanceof Date) return value.toISOString();
+          if (typeof value === "number") return String(value);
+          if (value instanceof Date) return "\"" + value.toISOString() + "\"";
           if (!value) return "";
           return "[Invalid value]";
         })

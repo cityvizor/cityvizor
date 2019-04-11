@@ -22,11 +22,17 @@ export class DataService {
 
 	profileYear = { profile: this.profile._id, year: this.year };
 
-	data: AccountingData = new AccountingData();
+	data: AccountingData;
 
-	constructor(private papa: Papa, private toastService:ToastService) {
+	loaded: boolean = false;
+
+	constructor(private papa: Papa, private toastService: ToastService) {
 		try {
-			this.data = JSON.parse(localStorage.getItem("data"));
+			const savedData = localStorage.getItem("data");
+			if (savedData) {
+				this.data = JSON.parse(savedData);
+				this.loaded = true;
+			}
 		}
 		catch (e) { }
 	}
@@ -40,13 +46,27 @@ export class DataService {
 		this.data = new AccountingData();
 
 		// save data and create new IDs. Here data are duplicated for some time, FIX if causes memory problems
-		this.data.records = data.records.map((record, i) => ({ _id: "record_" + i, ...this.profileYear, ...record, event: record.event ? String(record.event) : null }));
+		this.data.records = data.records.map((record, i) => ({ _id: "record_" + i, ...this.profileYear, ...record }));
 		this.data.payments = data.payments.map((payment, i) => ({ _id: "payment_" + i, ...this.profileYear, ...payment, event: payment.event ? String(payment.event) : null }));
 		this.data.events = data.events.map((event, i) => ({ _id: String(event.srcId), ...this.profileYear, ...event }));
 
+		this.toastService.toast("Data byla načtena. Nic nebylo odesláno mimo tento počítač.", "notice");
+
+		this.loaded = true;
+	}
+
+	deleteData() {
+		this.data = new AccountingData();
+		this.loaded = false;
+
+		localStorage.removeItem("data");
+
+		this.toastService.toast("Data byla vymazána z paměti prohlížeče.", "notice");
+	}
+
+	persistData() {
 		localStorage.setItem("data", JSON.stringify(this.data));
-    
-    this.toastService.toast("Data uložena v prohlížeči.","notice");
+		this.toastService.toast("Data byla uložena do paměti prohlížeče na tomto počítači.", "notice");
 	}
 
 	async getProfileBudget(profileId, year): Promise<TreeBudget> {
@@ -124,7 +144,7 @@ export class DataService {
 		const eventInfo = this.data.events.find(event => event._id === String(eventId));
 		const event = {
 			...eventInfo,
-			...this.sumBalances((record) => record.event === String(eventId)),
+			...this.sumBalances((record) => record.event === eventId),
 			paragraphs: [],
 			items: [],
 			payments: this.data.payments.filter(payment => payment.event === String(eventId))
@@ -133,11 +153,11 @@ export class DataService {
 		const paragraphIndex = {};
 		const itemIndex = {};
 		this.data.records
-			.filter(record => record.event === String(eventId))
+			.filter(record => record.event === eventId)
 			.forEach(record => {
 				if (!record.amount && !record.budgetAmount) return;
 
-				if (record.paragraph) {
+				if (record.paragraph !== null) {
 					var paragraph = paragraphIndex[record.paragraph];
 					if (!paragraph) {
 						paragraph = paragraphIndex[record.paragraph] = new TreeBudgetParagraph(record.paragraph);
@@ -161,8 +181,14 @@ export class DataService {
 		return this.data.payments.filter(payment => payment.event === eventId);
 	}
 
-	async getProfileEvents(profileId, options?) {
-		return this.data.events.filter(item => options.srcId ? item.srcId === options.srcId : true);
+	async getProfileEvents(profileId: string, options: { srcId?: number, sort?: string, year?: number }) {
+		console.log(this.data.records.filter(r => r.item === 8115).slice(0,10));
+		const events = this.data.events.filter(item => options.srcId ? item.srcId === options.srcId : true);
+		if(options.srcId) events.forEach(event => {
+			Object.assign(event, this.sumBalances(r => r.event === event.srcId))
+		});
+		
+		return events;
 	}
 
 	async getProfilePaymentsMonths(profileId) {

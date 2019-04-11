@@ -1,6 +1,6 @@
 # compiled output
 /dist
-/dist-embed
+/dist-www
 
 # sensitive data
 /server/config/config.production.js

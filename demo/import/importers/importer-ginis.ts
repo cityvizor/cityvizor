@@ -74,7 +74,7 @@ export class ImporterGinis implements Importer {
             if (row["ORG"] && row["NAZEV"]) {
               this.events.push({
                 srcId: Number(row["ORG"].replace(".", "")),
-                name: row["NAZEV"]
+                name: row["NAZEV"] !== "." ? row["NAZEV"] : null
               })
             }
           });
@@ -163,7 +163,7 @@ export class ImporterGinis implements Importer {
 
   filterBalances(balances: KxxRecordBalance[]) {
     return balances
-      .filter(balance => balance.pol > 1000 && balance.pol < 9000 && balance.odpa !== 6330);
+      .filter(balance => balance.pol > 1000 && balance.pol < 9000);
   }
 
   getAmount(balance: KxxRecordBalance): number {

@@ -2,9 +2,9 @@
 
   <section *ngSwitchCase="'input'">
     <h2>Vstupní data</h2>
-    <form class="form-horizontal">
-      <div class="form-group">
-        <label for="input-file" class="col-sm-2 control-label">Formát dat</label>
+    <form>
+      <div class="form-group row">
+        <label for="input-file" class="col-sm-2 col-form-label">Formát dat</label>
         <div class="col-sm-10">
           <input [(ngModel)]="importType" [ngModelOptions]="{standalone:true}" type="radio" value="cityvizor" id="importTypeRadio_cityvizor">
           &nbsp;
@@ -21,34 +21,24 @@
 
     <ng-container [ngSwitch]="importType">
 
-      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorForm,cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
+      <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Kódování souboru</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Číselník akcí</label>
           <div class="col-sm-10">
-            <select name="encoding" ngModel="win1250" class="form-control" required>
-              <option value="win1250">Windows 1250 (používá MS Excel)</option>
-              <option value="utf8">UTF-8</option>
-            </select>
+            <input type="file" accept=".csv" class="form-control-file" id="input-file" required #cityvizorInputEvents>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Číselník akcí</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Datový soubor</label>
           <div class="col-sm-10">
-            <input type="file" accept=".csv" class="form-control" id="input-file" required #cityvizorInputData>
+            <input type="file" accept=".csv" class="form-control-file" id="input-file" required #cityvizorInputData>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Datový soubor</label>
-          <div class="col-sm-10">
-            <input type="file" accept=".csv" class="form-control" id="input-file" required #cityvizorInputEvents>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label"></label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label"></label>
           <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Nahrát data</button>
           </div>
@@ -57,28 +47,28 @@
 
       <form *ngSwitchCase="'ginis'" (ngSubmit)="importGinis(ginisInputBudget, ginisInputAccounting, ginisInputEvents)" class="form-horizontal">
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Data rozpočtu (UCR)</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Data rozpočtu (UCR)</label>
           <div class="col-sm-10">
-            <input type="file" accept=".kxx" class="form-control" id="input-file" required #ginisInputBudget>
+            <input type="file" accept=".kxx" class="form-control-file" id="input-file" required #ginisInputBudget>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Data účetnictví (UCT)</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Data účetnictví (UCT)</label>
           <div class="col-sm-10">
-            <input type="file" accept=".kxx" class="form-control" id="input-file" required #ginisInputAccounting>
+            <input type="file" accept=".kxx" class="form-control-file" id="input-file" required #ginisInputAccounting>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="input-file" class="col-sm-2 control-label">Číselník akcí (ORG)</label>
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Číselník akcí (ORG)</label>
           <div class="col-sm-10">
-            <input type="file" accept=".csv" class="form-control" id="input-file" required #ginisInputEvents>
+            <input type="file" accept=".csv" class="form-control-file" id="input-file" required #ginisInputEvents>
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group row">
           <label for="input-file" class="col-sm-2 control-label"></label>
           <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Nahrát data</button>
@@ -100,95 +90,155 @@
   </section>
 
   <section *ngSwitchCase="'confirmation'">
+
     <h2>Kontrola</h2>
 
-    <h3>Stažení dat</h3>
-    Formát CityVizor:
-    <ul>
-      <li><a (click)="exportCityVizorData('win1250',';')">Datový soubor oddělený středníkem v kódování Windows 1250 (pro MS Excel)</a></li>
-      <li><a (click)="exportCityVizorEvents('win1250',';')">Číselník akcí oddělený středníkem v kódování Windows 1250 (pro MS Excel)</a></li>
-      <li><a (click)="exportCityVizorData('utf8',',')">Datový soubor oddělený čárkou v kódování UTF-8 (pro ostatní)</a></li>
-      <li><a (click)="exportCityVizorEvents('utf8',',')">Číselník akcí oddělený čárkou v kódování UTF-8 (pro ostatní)</a></li>
+    <p>
+      <button type="button" class="btn btn-danger" (click)="deleteData()">Smazat data</button>
+      &nbsp;
+      <button type="button" class="btn btn-primary" (click)="saveData()">Nahrát data do aplikace</button>
+    </p>
+
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" (click)="confirmationTab = 'warnings'" [class.active]="confirmationTab === 'warnings'">Varování<span class="badge badge-warning align-middle ml-1">{{warnings.length}}</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="confirmationTab = 'data'" [class.active]="confirmationTab === 'data'">Všechna data</a>
+      </li>
     </ul>
 
-    <h3>Varování</h3>
-    <ng-container *ngIf="warnings.length;else noWarnings">
-      <ul>
-        <li *ngFor="let message of warnings">{{message}}</li>
-      </ul>
+    <ng-container [ngSwitch]="confirmationTab">
+
+      <ng-container *ngSwitchCase="'warnings'">
+
+        <div class="alert alert-warning my-3" role="alert">
+          <p>Výsledky níže zobrazují záznamy, které mohou tedy indikovat nechtěné osobní údaje. Záznamy jsou zde zobrazeny, pokud platí alespoň jedno z následujících pravidel:</p>
+          <ul>
+            <li>Popis dokladu bsahuje křestní jméno z naší databáze jmen</li>
+            <li>Popis dokladu obsahuje datum v minulosti (mohlo by být datum narození)</li>
+            <li>Popis dokladu obsahuje rodné číslo (s lomítkem nebo bez)</li>
+          </ul>
+          <p>Z techického hlediska však nelze vyloučit výskyt osobních údajů u záznamů zde nezobrazených.</p>
+        </div>
+
+        <table class="table" *ngIf="warnings.length;else noWarnings">
+          <thead>
+            <tr>
+              <th>Číslo dokladu</th>
+              <th>IČO</th>
+              <th>Protistrana</th>
+              <th>Popis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let warning of warnings">
+              <td>{{warning.payment.id}}</td>
+              <td>{{warning.payment.counterpartyId}}</td>
+              <td>{{warning.payment.counterpartyName}}</td>
+              <td>
+                <p [innerHTML]="getHighlightedWarnings(warning.payment.description,warning.messages)"></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #noWarnings>
+          <p>Žádná varování</p>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngSwitchCase="'data'">
+        <h3>Rozpočtová skladba</h3>
+
+        <a (click)="exportRecords('win1250')">Otevřít v MS Excel</a>
+
+        <div class="records">
+          <table class="table" *ngIf="data">
+            <tr>
+              <th>Paragraf</th>
+              <th>Položka</th>
+              <th>Akce</th>
+              <th>Rozpočet</th>
+              <th>Čerpání</th>
+            </tr>
+            <tr *ngFor="let record of data.records">
+              <td>{{record.paragraph}}</td>
+              <td>{{record.item}}</td>
+              <td>{{record.event}}</td>
+              <td class="text-right">{{record.budgetAmount | money:2:false}}&nbsp;</td>
+              <td class="text-right">{{record.amount | money:2:false}}&nbsp;</td>
+            </tr>
+          </table>
+        </div>
+
+        <h3>Doklady</h3>
+
+        <a (click)="exportPayments('win1250')">Otevřít v MS Excel</a>
+
+        <div class="records">
+          <table class="table" *ngIf="data">
+            <tr>
+              <th>Typ dokladu</th>
+              <th>IČO</th>
+              <th>Protistrana</th>
+              <th>Popis</th>
+              <th>Částka</th>
+            </tr>
+            <tr *ngFor="let payment of data.payments">
+              <td [ngSwitch]="payment.type" class="text-nowrap">
+                <ng-container *ngSwitchCase="'invoice_incoming'">Přijatá faktura</ng-container>
+                <ng-container *ngSwitchCase="'invoice_outgoing'">Vydaná faktura</ng-container>
+              </td>
+              <td>{{payment.counterpartyId}}</td>
+              <td>{{payment.counterpartyName}}</td>
+              <td>{{payment.description}}</td>
+              <td class="text-right text-nowrap">{{payment.amount | money:2:false}}&nbsp;Kč</td>
+            </tr>
+          </table>
+        </div>
+
+        <h3>Akce</h3>
+
+        <a (click)="exportEvents('win1250')">Otevřít v MS Excel</a>
+
+        <div class="records">
+          <table class="table" *ngIf="data">
+            <tr>
+              <th>Číslo akce</th>
+              <th>Název akce</th>
+            </tr>
+            <tr *ngFor="let event of data.events">
+              <td>{{event.srcId}}</td>
+              <td>{{event.name}}</td>
+            </tr>
+          </table>
+        </div>
+      </ng-container>
     </ng-container>
-    <ng-template #noWarnings>
-      <p>Žádná varování</p>
-    </ng-template>
+  </section>
 
-    <h3>Rozpočtová skladba</h3>
-    
-    <a (click)="exportRecords('win1250')">Otevřít v MS Excel</a>
+  <section *ngSwitchCase="'status'">
 
-    <div class="records">
-      <table class="table" *ngIf="data">
-        <tr>
-          <th>Paragraf</th>
-          <th>Položka</th>
-          <th>Akce</th>
-          <th>Rozpočet</th>
-          <th>Čerpání</th>
-        </tr>
-        <tr *ngFor="let record of data.records">
-          <td>{{record.paragraph}}</td>
-          <td>{{record.item}}</td>
-          <td>{{record.event}}</td>
-          <td class="text-right">{{record.budgetAmount | money:2:false}}&nbsp;</td>
-          <td class="text-right">{{record.amount | money:2:false}}&nbsp;</td>
-        </tr>
-      </table>
+
+    <h2>Data jsou nahrána!</h2>
+    <p>Data jsou v načtena do aplikace CityVizor Demo na tomto počítači. Pokud data neuložíte volbou níže, zavřením nebo obnovením stránky budou vymazána.</p>
+
+    <div class="my-5">
+      <h3>Stažení dat ve formátu pro import do CityVizoru</h3>
+      <p>Tato data si můžete stáhnout, prohlídnout v editoru CSV a následně nahrát do ostré verze aplikace CityVizor.</p>
+      <p>
+        <a class="btn btn-primary text-light mr-3" (click)="exportCityVizorData()">Datový soubor</a>
+        <a class="btn btn-primary text-light" (click)="exportCityVizorEvents()">Číselník akcí</a>
+      </p>
     </div>
-
-    <h3>Doklady</h3>
-
-    <a (click)="exportPayments('win1250')">Otevřít v MS Excel</a>
-
-    <div class="records">
-      <table class="table" *ngIf="data">
-        <tr>
-          <th>Typ dokladu</th>
-          <th>IČO</th>
-          <th>Protistrana</th>
-          <th>Popis</th>
-          <th>Částka</th>
-        </tr>
-        <tr *ngFor="let payment of data.payments">
-          <td [ngSwitch]="payment.type">
-            <ng-container *ngSwitchCase="'invoice_incoming'">Přijatá faktura</ng-container>
-            <ng-container *ngSwitchCase="'invoice_outgoing'">Vydaná faktura</ng-container>
-          </td>
-          <td>{{payment.counterpartyId}}</td>
-          <td>{{payment.counterpartyName}}</td>
-          <td>{{payment.description}}</td>
-          <td class="text-right">{{payment.amount | money:2:false}}&nbsp;Kč</td>
-        </tr>
-      </table>
+    <div class="my-5">
+      <h3>Uložit data na tomto počítači</h3>
+      <p>Data budou uložena v paměti prohlížeče v tomto počítači. Když příště otevřete demo.cityvizor.cz, zobrazí se.</p>
+      <button type="button" (click)="persistData()" class="btn btn-primary">Uložit na tomto počítači</button>
     </div>
-
-    <h3>Akce</h3>
-
-    <a (click)="exportEvents('win1250')">Otevřít v MS Excel</a>
-
-    <div class="records">
-      <table class="table" *ngIf="data">
-        <tr>
-          <th>Číslo akce</th>
-          <th>Název akce</th>
-        </tr>
-        <tr *ngFor="let event of data.events">
-          <td>{{event.srcId}}</td>
-          <td>{{event.name}}</td>
-        </tr>
-      </table>
-    </div>
-
-    <div class="text-right">
-      <button type="button" class="btn btn-primary" (click)="saveData()">Nahrát data</button>
+    <div class="my-5">
+      <h3>Smazat data z tohoto počítače</h3>
+      <p>Načtená data budou smazána z paměti prohlížeče na tomto počítači.</p>
+      <button type="button" (click)="deleteData()" class="btn btn-danger">Smazat data</button>
     </div>
   </section>
 </ng-container>

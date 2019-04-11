@@ -16,43 +16,46 @@ export class ImporterCityVizor implements Importer {
 
   constructor() { }
 
-  async import(files: { data: File, events: File }, options?: { encoding: string }): Promise<ImportedData> {
+  async import(files: { data: File, events: File }, options?: any): Promise<ImportedData> {
 
     this.bytesTotal = (files.data ? files.data.size : 0) + (files.events ? files.events.size : 0);
 
-    await this.readCSV(files.events, options.encoding, result => {
-      this.updateProgress(this.bytesRead + result.meta.cursor);
-      this.events.push(...result.data
-        .filter((row: { srcId: string, name: string }) => row["srcId"] && row["name"])
-        .map(row => ({ srcId: Number(row["srcId"]), name: row["name"] }))
-      );
-    });
-
-    await this.readCSV(files.data, options.encoding, result => {
-      this.updateProgress(this.bytesRead + result.meta.cursor);
-      this.records.push(...result.data.map(row => ({
-        paragraph: Number(row["paragraph"]),
-        item: Number(row["paragraph"]),
-        event: Number(row["paragraph"]),
-        budgetAmount: Number(row["budgetAmount"]) || 0,
-        amount: Number(row["amount"]) || 0
-      })));
-      this.payments.push(...result.data
-        .filter(row => row["type"] === "KDF" || row["type"] === "KOF")
-        .map(row => ({
-          type: row["type"],
-          id: row["id"],
-          date: new Date(row["date"]),
-          counterpartyId: row["counterpartyId"],
-          counterpartyName: row["counterpartyName"],
-          amount: Number(row["amount"]),
-          description: row["description"],
+    if (files.events) {
+      await this.readCSV(files.events, result => {
+        this.updateProgress(this.bytesRead + result.meta.cursor);
+        this.events.push(...result.data
+          .filter((row: { srcId: string, name: string }) => row["srcId"] && row["name"])
+          .map(row => ({ srcId: Number(row["srcId"]), name: row["name"] }))
+        );
+      });
+    }
+    if (files.data) {
+      await this.readCSV(files.data, result => {
+        this.updateProgress(this.bytesRead + result.meta.cursor);
+        this.records.push(...result.data.map(row => ({
           paragraph: Number(row["paragraph"]),
           item: Number(row["item"]),
-          event: Number(row["event"])
-        }))
-      );
-    });
+          event: Number(row["event"]),
+          budgetAmount: row["type"] === "ROZ" ? Number(row["amount"]) || 0 : 0,
+          amount: row["type"] === "ROZ" ? 0 : Number(row["amount"]) || 0
+        })));
+        this.payments.push(...result.data
+          .filter(row => row["type"] === "KDF" || row["type"] === "KOF")
+          .map(row => ({
+            type: row["type"],
+            id: row["id"],
+            date: new Date(row["date"]),
+            counterpartyId: row["counterpartyId"],
+            counterpartyName: row["counterpartyName"],
+            amount: Number(row["amount"]),
+            description: row["description"],
+            paragraph: Number(row["paragraph"]),
+            item: Number(row["item"]),
+            event: Number(row["event"])
+          }))
+        );
+      });
+    }
 
     return {
       payments: this.payments,
@@ -67,12 +70,12 @@ export class ImporterCityVizor implements Importer {
     postMessage({ type: "progress", data: bytesRead / this.bytesTotal })
   }
 
-  readCSV(file: File, encoding: string, callback: (result: Papa.ParseResult) => void) {
+  readCSV(file: File, callback: (result: Papa.ParseResult) => void) {
     return new Promise((resolve, reject) => {
 
       Papa.parse(file, {
         header: true,
-        encoding: encoding || "utf-8",
+        encoding: "utf-8",
         chunk: callback,
         complete: (results, file) => resolve(),
         error: (err, file) => reject(err)
