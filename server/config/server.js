@@ -22,8 +22,8 @@ module.exports = {
   },
 
   server: {
-    host: "localhost",
-    port: 4300
+    host: environment.host,
+    port: environment.port
   },
 
   static: {
