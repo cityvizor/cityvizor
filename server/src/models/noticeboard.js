@@ -26,4 +26,4 @@ var noticeBoardSchema = mongoose.Schema({
 	
 });
 
-var NoticeBoard = module.exports = mongoose.model('NoticeBoard', noticeBoardSchema);
+module.exports = mongoose.model('Noticeboard', noticeBoardSchema);
