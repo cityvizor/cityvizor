@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var config = require("../config/config");
+var config = require("../../config");
 
 module.exports = async function(){
   

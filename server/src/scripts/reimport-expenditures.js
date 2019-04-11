@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/cityvizor');
 
-var fs = require("fs");
+var fs = require("fs-extra");
 
 var config = require("../config/config.js");
 

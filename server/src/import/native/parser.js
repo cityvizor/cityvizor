@@ -1,5 +1,5 @@
 
-const fs = require("fs");
+const fs = require("fs-extra");
 
 var EventEmitter = require('events');
 

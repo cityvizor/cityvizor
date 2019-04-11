@@ -5,7 +5,7 @@ var cheerio = require("cheerio");
 var Profile = require("../models/profile");
 var NoticeBoard = require("../models/noticeboard");
 
-var config = require("../config/config");
+var config = require("../../config");
 
 // how many contracts per profile should be downloaded
 var limit = 20;

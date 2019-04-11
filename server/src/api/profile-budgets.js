@@ -6,12 +6,12 @@ var router = express.Router({mergeParams: true});
 var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
-var config = require("../config/config");
+var config = require("../../config");
 
 var multer = require('multer');
-var upload = multer({ dest: config.storage.tmpDir });
+var upload = multer({ dest: config.storage.tmp });
 
-var fs = require("fs");
+var fs = require("fs-extra");
 var path = require("path");
 
 var etlFilter = require("../middleware/etl-filter");

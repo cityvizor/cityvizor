@@ -1,13 +1,13 @@
 const request = require('request');
 const EventEmitter = require('events');
-const fs = require('fs');
+const fs = require("fs-extra");
 const path = require("path");
 const extractZip = require("extract-zip");
 const rimraf = require("rimraf");
 const async = require("async");
 const csvparse = require("csv-parse");
 
-var config = require("../../config/config");
+var config = require("../../../config");
 
 class Importer extends EventEmitter {
   
@@ -22,7 +22,7 @@ class Importer extends EventEmitter {
     this.etag = etl.etag;
     
     // temp folder to work in
-    this.folder = path.join(config.storage.tmpDir,"autoImport_" + this.etl._id);
+    this.folder = path.join(config.storage.tmp,"autoImport_" + this.etl._id);
     //saved ZIP file
     this.zipFile = path.join(this.folder,"source.zip");
     

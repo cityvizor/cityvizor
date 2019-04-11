@@ -1,13 +1,13 @@
 var express = require('express');	
 var async = require("async");
-var fs = require("fs");
+var fs = require("fs-extra");
 
 var router = module.exports = express.Router({mergeParams: true});
 
 var schema = require('express-jsonschema');
 var acl = require("express-dynacl");
 
-var config = require("../config/config");
+var config = require("../../config");
 
 var Budget = require("../models/budget");
 var Event = require("../models/payment");
