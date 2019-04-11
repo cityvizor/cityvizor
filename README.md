@@ -40,6 +40,8 @@ $end:NODE_ENV="production" # Windows PowerShell
 set NODE_ENV=production    # Windows Command Prompt
 ```
 
+Přednastavené je pouze prostředí `local`.
+
 ##### Obecná nastavení
 
 Složka `server/config`.
