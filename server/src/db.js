@@ -1,6 +1,6 @@
 const config = require("../config");
 
-var mongoose = require('mongoose');
+var mongoose = module.exports = require('mongoose');
 mongoose.plugin(require('mongoose-write-stream'));
 mongoose.plugin(require('mongoose-paginate'));
 mongoose.Promise = global.Promise;
@@ -19,3 +19,5 @@ function connect() {
 }
 
 connect();
+
+require("./models")
