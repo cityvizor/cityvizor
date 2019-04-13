@@ -9,7 +9,7 @@ console.log("Setting up CityVizor cron job at " + config.cron.cronTime);
 var job = new CronJob({
   cronTime: config.cron.cronTime, //'00 00 01 * * *',
   start: true, /* Set the job right now */
-  runOnInit: config.cron.runOnInit, /* Start the job right now */
+  runOnInit: config.cron.runOnInit, /* Run the tasks right now */
   timezone: 'Europe/Prague', /* Time zone of this job. */
   onTick: () => runCron()
 });
