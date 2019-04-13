@@ -6,31 +6,37 @@ var Importer = require("../import/importer");
 
 module.exports = async function(){
 
-	console.log("Autoimport started!");
-	
-	var etls = await ETL.find({ "enabled": true }).populate("profile","_id name");
-	
-	for(let i in etls){
-		
-		let etl = etls[i];
+  console.log("Autoimport started!");
 
-		console.log("=====");
-		console.log("Starting autoimport for profile " + etl.profile.name + ", year " + etl.year);
+  var etls = await ETL.find({ "enabled": true }).populate("profile","_id name");
 
-		var importer = new Importer(etl);
-		importer.autoImport = true;
+  for(let etl of etls){
 
-		var options = {};
+    console.log("=====");
+    console.log("Starting autoimport for profile " + etl.profile.name + ", year " + etl.year);
 
-		await new Promise((resolve,reject) => {
-			importer.importUrl((err,result) => {
-				if(err) console.log("Error: " + err.message);
-				else console.log(result);
-				resolve();
-			});		
-		});
-	}
+    try{
+      var importer = new Importer(etl);
+      importer.autoImport = true;
+    }
+    catch(e) {
+      console.log("Couldn't create Importer:", e.message);
+      continue;
+    }
 
-	console.log("======");
-	console.log("Finished all!");
+
+
+    var options = {};
+
+    await new Promise((resolve,reject) => {
+      importer.importUrl((err,result) => {
+        if(err) console.log("Error: " + err.message);
+        else console.log(result);
+        resolve();
+      });		
+    });
+  }
+
+  console.log("======");
+  console.log("Finished all!");
 }
