@@ -4,8 +4,7 @@ module.exports = {
   
   port: 4300,
   host: "localhost",
-
-  storageDir: path.resolve(__dirname, "../../data"),
+  
   tmpDir: path.resolve(__dirname, "../../data/tmp"),
 
   staticFiles: path.resolve(__dirname, "../../client/dist"),

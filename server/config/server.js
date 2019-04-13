@@ -13,7 +13,7 @@ module.exports = {
 
   cron: {
     cronTime: "00 00 07 * * *",
-    runOnInit: true
+    runOnInit: false
   },
 
   database: {
@@ -31,8 +31,7 @@ module.exports = {
     index: path.join(environment.staticFiles,"index.html")
   },
 
-  storage: {
-    data: path.resolve(environment.storageDir),
+  storage: {    
     tmp: path.resolve(environment.tmpDir)
   },
 

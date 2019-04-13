@@ -1,14 +1,9 @@
 const fs = require("fs-extra");
 const config = require("../config");
 
-const dirs = [
-  config.storage.data,
+const dirs = [  
   config.storage.tmp
 ];
-
-async function clearTemp() {
-  await fs.remove(config.storage.tmp)
-}
 
 async function ensureDirs() {
   for (let dir of dirs) {
@@ -18,6 +13,4 @@ async function ensureDirs() {
   }
 }
 
-Promise.resolve()
-  .then(() => clearTemp())
-  .then(() => ensureDirs());
+module.exports = ensureDirs();
