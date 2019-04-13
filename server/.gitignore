@@ -1,6 +1,6 @@
-# sensitive data
-src/config/config.production.js
-src/config/config.development.js
+# include only local environment, other are irrelevant for users
+environment/environment.*
+!environment/environment.local.js
 
 # dependencies
 /node_modules

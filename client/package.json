@@ -6,9 +6,7 @@
   "repository": "otevrena-data-mfcr/CityVizor",
   "main": "server/server.js",
   "scripts": {
-    "start": "ng serve --prod",
-    "build": "ng build --prod",
-    "dev": "ng serve --configuration=local"
+    "build": "ng build --prod"
   },
   "keywords": [
     "opendata",

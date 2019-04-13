@@ -2,30 +2,82 @@
 
 Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalšími funkcemi pro samosprávy. Aplikace byla vytvořena zaměstnanci [Ministerstva financí ČR](http://www.mfcr.cz), [Otevřená Města](http://www.otevrenamesta.cz/) vám poskytují tuto aplikaci jako služba. Data jsou poskytována obcemi dobrovolně.
 
-Toto je front end aplikace. Serverovou část najdete v repozitáři [CityVizor Server](https://github.com/otevrena-data-mfcr/CityVizor-server).
+## Spuštění na serveru
 
-## Instalace
+### Instalace
 
-Instalace závislostí
+#### Potřebné aplikace
+
+ - [NodeJS](https://nodejs.org)
+ - [MongoDB](https://www.mongodb.com/download-center/community)
+ 
+#### Instalace a kompilace
+
+```sh
+npm install     # instalace balíčků
+npm run build   # kompilace kódu
+```
+
+### Nastavení
+
+#### Vytvoření admin přístupu
 
 ```
-npm install
+npm run create-admin
 ```
 
-Kompilace kódu
+#### Konfigurace
 
+##### Prostředí
+
+Konfigurační soubory `server/environment.<prostředí>.js`
+
+Prostředí nastavíme pomocí globální proměnné `NODE_ENV`:
+
+```sh
+NODE_ENV=production        # Linux & Mac
+$end:NODE_ENV="production" # Windows PowerShell
+set NODE_ENV=production    # Windows Command Prompt
 ```
-npm run build
+
+Přednastavené je pouze prostředí `local`.
+
+##### Obecná nastavení
+
+Složka `server/config`.
+
+##### Řízení přístupů
+
+Složka `server/src/acl`.
+
+#### Konfigurace klienta
+
+Složka `client/src/config`
+
+### Spuštění
+
+```sh
+npm start
 ```
 
-## Nastavení
+## Lokální vývoj
 
-Nastavit CityVizor je možné v souboru config.js:
-- ```/src/config/config.js```
+### Klient
+```sh
+cd client
+ng serve --configuration=local-server
+```
 
-## Přispívání
+### Server
+```sh
+$env:NODE_ENV="local" # ve Windows v PowerShellu
+set NODE_ENV=local    # ve Windows v příkazovém řádku
+NODE_ENV=local        # v Linuxu nebo na Macu v terminálu
 
- - Uvítáme jak PR, tak Issues
- - Konvence pro pojmenovávání souborů komponent je <název komponenty>.<component|style|template>.<formát>, nikoliv <název komponenty>.component.<formát>, jak je běžné v Angular CLI. Přijde nám nelogické odlišovat typ souboru formátem.
- - Neobsahové popisky vždy v angličtině (názvy proměnných, metod apod.)
- - Commity vždy v angličtině
+cd server
+npm run dev
+```
+### Pravidla přispívání
+
+- kód **v angličtině**, commity **v angličtině**, pull requesty **v angličtině**, issues **v češtině**
+- struktura souborů na klientu dle [Angular Style Guide](https://angular.io/guide/styleguide)

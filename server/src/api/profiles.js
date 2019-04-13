@@ -2,13 +2,13 @@ var express = require('express');
 
 var router = module.exports = express.Router();
 
-var config = require("../config/config");
+var config = require("../../config");
 
 var multer = require('multer');
-var upload = multer({ dest: config.storage.tmpDir });
+var upload = multer({ dest: config.storage.tmp });
 var mime = require('mime-types')
 
-var fs = require("fs");
+var fs = require("fs-extra");
 var path = require("path");
 
 var acl = require("express-dynacl");

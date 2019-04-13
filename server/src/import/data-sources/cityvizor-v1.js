@@ -1,6 +1,6 @@
 const request = require('request');
 const EventEmitter = require('events');
-const fs = require('fs');
+const fs = require("fs-extra");
 const path = require("path");
 
 const async = require("async");
@@ -8,7 +8,7 @@ const csvparse = require("csv-parse");
 
 const { Writable } = require('stream');
 
-var config = require("../../config/config");
+var config = require("../../../config");
 
 const headerNames = {
   type: ["type","recordType","MODUL","DOKLAD_AGENDA"],

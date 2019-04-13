@@ -1,7 +1,5 @@
-
 var async = require("async");
 
-var ETL = require("../models/etl");
 var ETLLog = require("../models/etl-log");
 
 var ImportTransformer = require("../import/transformer");

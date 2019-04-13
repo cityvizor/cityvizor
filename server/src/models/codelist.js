@@ -12,4 +12,4 @@ var codeListSchema = mongoose.Schema({
 });
 codeListSchema.index({ name: 1, description: 1 });
 
-var CodeList = module.exports = mongoose.model('CodeList', codeListSchema);
+module.exports = mongoose.model('Codelist', codeListSchema);

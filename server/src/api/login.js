@@ -9,7 +9,7 @@ var User = require("../models/user");
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
 
-var config = require("../config/config.js");
+var config = require("../../config");
 
 function createToken(user,validity,callback){
 	

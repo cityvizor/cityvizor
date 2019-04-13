@@ -10,4 +10,4 @@ var contractSchema = mongoose.Schema({
 	url: String
 });
 
-var Contract = module.exports = mongoose.model('Contract', contractSchema);
+module.exports = mongoose.model('Contract', contractSchema);

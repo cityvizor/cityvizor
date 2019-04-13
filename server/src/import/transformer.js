@@ -1,10 +1,6 @@
-const fs = require("fs");
-const parse = require("csv-parse");
 const EventEmitter = require('events');
 
 const mongoose = require("mongoose");
-
-const importConfig = require("../config/import-config.js");
 
 class ImportTransformer extends EventEmitter {
 

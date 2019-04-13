@@ -4,10 +4,10 @@ var router = module.exports = express.Router({mergeParams: true});
 var multer = require('multer');
 var acl = require("express-dynacl");
 var schema = require('express-jsonschema');
-var fs = require("fs");
+var fs = require("fs-extra");
 var async = require("async");
 
-var config = require("../config/config");
+var config = require("../../config");
 
 var Importer = require("../import/importer");
 
@@ -20,7 +20,7 @@ var importUploadSchema = {
 	}
 };
 
-var upload = multer({ dest: config.storage.tmpDir });
+var upload = multer({ dest: config.storage.tmp });
 
 router.put("/:etl/upload", schema.validate({body: importUploadSchema}), upload.fields([{name:"dataFile",maxCount:1},{name:"eventsFile",maxCount:1}]), acl("profile-import","write"), (req,res,next) => {
 	

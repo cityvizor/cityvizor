@@ -2,19 +2,19 @@ console.log("Starting CityVizor Server");
 console.log("Node version: " + process.version);
 
 var http = require('http');
-var https = require('https');
-var fs = require('fs');
 var express = require('express');
 
-var config = require("./config/config.js");
+var config = require("../config");
 
 /* SET UP ROUTING */
 var app = express();
-console.log("Express running in " + app.get('env') + " environment");
 
-// set cors so that we can access from localhost
-var cors = require("cors");
-app.use(cors());
+/* CORS FOR DEVELOPMENT */
+if(config.cors.enabled){
+  const cors = require("cors");
+  app.use(cors(config.cors));  
+  console.log("[SERVER] CORS enabled");
+}
 
 // polyfill before express allows for async middleware
 require('express-async-errors');
@@ -32,33 +32,17 @@ app.use(bodyParser.urlencoded({
 	limit: "10000kb"
 })); // support urlencoded bodies
 
-var mongoose = require('mongoose');
-mongoose.plugin(require('mongoose-write-stream'));
-mongoose.plugin(require('mongoose-paginate'));
-mongoose.Promise = global.Promise;
+/* FILE STORAGE */
+require("./file-storage");
 
-mongoose.connect(config.database.uri, { useNewUrlParser: true })
-	.then(() => console.log("Connected to database " + config.database.db))
-	.catch(err => {
-		console.error("Error when connectiong to DB " + config.database.db + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
-    
-    console.log("Will retry connection in 10s...");
-    setTimeout(() => {
-      mongoose.connect(config.database.uri, { useNewUrlParser: true })
-        .then(() => console.log("Connected to database " + config.database.db))
-	      .catch(err => console.error("Error when reconnectiong to DB " + config.database.db + ": " + err.message));
-    }, 10000);
-    
-	});
+/* DATABASE */
+require("./db");
 
-
-
-
-// configure express-jwt
+/* AUTHENTICATION */
 var jwt = require('express-jwt');
 app.use(jwt(config.jwt));
 
-// configure DynACL
+/* ACCESS CONTROL */
 var acl = require("express-dynacl");
 var aclOptions = {
 	roles: {
@@ -74,20 +58,8 @@ var aclOptions = {
 }
 acl.config(aclOptions);
 
-/* Mongo Express Database viewer */
-if (config.mongoExpress.enable) {
-	var mongo_express = require('mongo-express/lib/middleware');
-	var mongo_express_config = require('./config/mongo-express-config.js');
-	app.use('/db', mongo_express(mongo_express_config))
-	console.log("Mongo Express accessible at /db");
-}
-
-/* SET UP ROUTES */
-app.use("/api", require("./routers/api"));
-
-app.use("/api/search",require("./routers/search"));
-
-app.use("/exports/v1", require("./routers/exports-v1"));
+/* ROUTING */
+app.use(require("./routers"));
 
 // error handling
 app.use(require("./middleware/error-handler"));
@@ -97,31 +69,6 @@ app.use(require("./middleware/error-handler"));
 let host = config.server.host || "127.0.0.1";
 let port = config.server.port || 80;
 
-if (config.ssl.enable) {
-
-	// start https server
-	https.createServer(config.ssl, app).listen(443, host, function() {
-		console.log('CityVizor Server listening on ' + host + ':443!')
-	});
-
-	let redirectPort = config.ssl.redirectPort || port || 80;
-
-	// Redirect to https
-	if (config.ssl.redirect && redirectPort) {
-		http.createServer(function(req, res) {
-			res.writeHead(301, {
-				"Location": "https://" + req.headers.host + req.url
-			});
-			res.end();
-		}).listen(redirectPort, host, function() {
-			console.log('CityVizor Server redirecting from ' + host + ':' + port + ' to ' + host + ':443!')
-		});
-	}
-
-} else {
-
-	http.createServer(app).listen(port, host, function() {
-		console.log('CityVizor Server listening on ' + host + ':' + port + '!');
-	});
-
-}
+http.createServer(app).listen(port, host, function() {
+	console.log('[SERVER] Listening on ' + host + ':' + port + '!');
+});

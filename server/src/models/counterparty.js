@@ -20,4 +20,4 @@ counterpartySchema.set('collection', 'counterparties');
 counterpartySchema.index({ counterpartyId: 1, name: 1, amount: 1 });
 counterpartySchema.index({ name: "text" });
 
-var Counterparty = module.exports = mongoose.model('Counterparty', counterpartySchema);
+module.exports = mongoose.model('Counterparty', counterpartySchema);
