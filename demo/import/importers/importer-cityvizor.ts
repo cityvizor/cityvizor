@@ -56,12 +56,12 @@ export class ImporterCityVizor implements Importer {
       await this.readCSV(files.data, result => {
         this.updateProgress(this.bytesRead + result.meta.cursor);
         this.records.push(...result.data.map((row: CityVizorDataFile) => ({
-          paragraph: Number(row.paragraph),
-          item: Number(row.item),
-          event: Number(row.event),
-          unit: Number(row.unit),
+          paragraph: row.paragraph ? Number(row.paragraph) : null,
+          item: row.item ? Number(row.item) : null,
+          event: row.event ? Number(row.event) : null,
+          unit: row.unit ? Number(row.unit) : null,
           budgetAmount: row.type === "ROZ" ? Number(row.amount) || 0 : 0,
-          amount: row.type === "ROZ" ? 0 : Number(row.amount) || 0
+          amount: row.type !== "ROZ" ? Number(row.amount) || 0 : 0
         })));
         this.payments.push(...result.data
           .filter(row => row["type"] === "KDF" || row["type"] === "KOF")
