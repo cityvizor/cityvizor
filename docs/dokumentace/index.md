@@ -62,6 +62,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <th>paragraph</th>
     <th>item</th>
     <th>event</th>
+    <th>unit</th>
     <th>amount</th>
     <th>date</th>
     <th>counterpartyId</th>
@@ -72,6 +73,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>ROZ</td>
     <td>0</td>
     <td>1111</td>
+    <td></td>
     <td></td>
     <td>120000</td>
     <td></td>
@@ -84,6 +86,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>5512</td>
     <td>5169</td>
     <td>1</td>
+    <td></td>
     <td>66000</td>
     <td></td>
     <td></td>
@@ -95,6 +98,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>2212</td>
     <td>5139</td>
     <td>2</td>
+    <td>1</td>
     <td>85000</td>
     <td></td>
     <td></td>
@@ -106,6 +110,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>2212</td>
     <td>5139</td>
     <td>2</td>
+    <td></td>
     <td>20000</td>
     <td>2017-01-05</td>
     <td>12345678</td>
@@ -117,6 +122,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>2212</td>
     <td>5139</td>
     <td>2</td>
+    <td></td>
     <td>40000</td>
     <td>2017-02-01</td>
     <td>22345678</td>
@@ -128,6 +134,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>2212</td>
     <td>5139</td>
     <td>2</td>
+    <td></td>
     <td>20000</td>
     <td>2017-03-01</td>
     <td>22345678</td>
@@ -139,6 +146,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>5512</td>
     <td>5169</td>
     <td>1</td>
+    <td></td>
     <td>50000</td>
     <td></td>
     <td></td>
@@ -149,6 +157,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td></td>
     <td>0</td>
     <td>1111</td>
+    <td></td>
     <td></td>
     <td>95000</td>
     <td></td>
@@ -161,6 +170,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>0</td>
     <td>1340</td>
     <td>3</td>
+    <td></td>
     <td>520</td>
     <td>2017-01-08</td>
     <td></td>
@@ -172,6 +182,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>3612</td>
     <td>2132</td>
     <td>126</td>
+    <td></td>
     <td>25000</td>
     <td></td>
     <td></td>
@@ -183,6 +194,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>3612</td>
     <td>2132</td>
     <td>126</td>
+    <td></td>
     <td>30000</td>
     <td>2017-09-29</td>
     <td>32345678</td>
@@ -194,6 +206,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>3612</td>
     <td>5152</td>
     <td>126</td>
+    <td></td>
     <td>11000</td>
     <td>2017-01-11</td>
     <td>42345678</td>
@@ -205,6 +218,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>3612</td>
     <td>5152</td>
     <td>126</td>
+    <td></td>
     <td>60000</td>
     <td></td>
     <td></td>
@@ -216,6 +230,7 @@ Zde uvádíme několik účetních záznamů v požadované struktuře. Pokud V�
     <td>3612</td>
     <td>2132</td>
     <td>126</td>
+    <td></td>
     <td>70000</td>
     <td></td>
     <td></td>
