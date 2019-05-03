@@ -156,7 +156,8 @@
             <tr>
               <th>Paragraf</th>
               <th>Položka</th>
-              <th>Akce</th>
+              <th>Akce (ORG)</th>
+              <th>Jednotka (ORJ)</th>
               <th>Rozpočet</th>
               <th>Čerpání</th>
             </tr>
@@ -164,6 +165,7 @@
               <td>{{record.paragraph}}</td>
               <td>{{record.item}}</td>
               <td>{{record.event}}</td>
+              <td>{{record.unit}}</td>
               <td class="text-right">{{record.budgetAmount | money:2:false}}&nbsp;</td>
               <td class="text-right">{{record.amount | money:2:false}}&nbsp;</td>
             </tr>

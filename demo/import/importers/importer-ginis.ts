@@ -149,7 +149,7 @@ export class ImporterGinis implements Importer {
     }
   }
 
-  writeRecord(record: KxxRecord) {
+  writeRecord(record: KxxRecord) {    
 
     const payment = record.meta["EVK"] && (record.meta["EVK"]["KDF"] || record.meta["EVK"]["KOF"] /*|| record.meta["EVK"]["UCT"]*/);
 
@@ -171,15 +171,16 @@ export class ImporterGinis implements Importer {
   }
 
   writeBalance(balanceType: number, balance: KxxRecordBalance) {
-    const id = [balance.odpa, balance.pol, balance.org].join("-");
-
+    const id = [balance.odpa, balance.pol, balance.org, balance.orj].join("-");
+    
     var record = this.recordIndex[id];
 
-    if (!record) {
+    if (!record) {      
       record = {
         paragraph: balance.odpa,
         item: balance.pol,
         event: balance.org || null,
+        unit: balance.orj,
         budgetAmount: 0,
         amount: 0
       };

@@ -150,7 +150,8 @@ export class ImportComponent {
 			header: {
 				paragraph: "Paragraf",
 				item: "Položka",
-				event: "Akce",
+				event: "Akce (ORG)",
+				unit: "Jednotka (ORJ)",
 				budgetAmount: "Rozpočet",
 				amount: "Plnění"
 			}

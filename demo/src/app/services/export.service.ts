@@ -36,6 +36,7 @@ export class ExportService {
         paragraph: record.paragraph,
         item: record.item,
         event: record.event,
+        unit: record.unit,
         amount: record.budgetAmount
       });
       records.push({

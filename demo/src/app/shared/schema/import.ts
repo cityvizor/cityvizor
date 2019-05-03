@@ -4,6 +4,7 @@ export class ImportedRecord {
 	paragraph: number;
 	item: number;
 	event: number;
+	unit: number;
 	budgetAmount: number = 0;
 	amount: number = 0;
 }
