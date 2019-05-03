@@ -23,12 +23,14 @@ async function runCron() {
   console.log("\nNode version: " + process.version);
   console.log("Started at " + moment().format("D. M. YYYY, H:mm:ss") + ".\n");
   
-  const mongoose = require("./db");
+  const { mongoose, connect } = require("./db");
+  
+  await connect();
 
   // set the tasks
   var tasks = [];
 
-  tasks.push({exec: require("./tasks/download-contracts"), name: "Download contacts from https://smlouvy.gov.cz/"});
+  tasks.push({exec: require("./tasks/download-contracts"), name: "Download contracts from https://smlouvy.gov.cz/"});
   tasks.push({exec: require("./tasks/download-noticeboard"), name: "Download notice board documents from https://eDesky.cz/"});
   tasks.push({exec: require("./tasks/autoimports"), name: "Process auto imports of data"});
   tasks.push({exec: () => mongoose.disconnect(), name: "Disconnect database"});
