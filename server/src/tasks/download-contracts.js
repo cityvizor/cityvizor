@@ -15,11 +15,11 @@ module.exports = async function(){
 	var profiles = await Profile.find({})
 	console.log("Found " + profiles.length + " profiles to download contracts for.");
 
-	for(let i in profiles){
+	for(let profile of profiles){
 		try{
-			await downloadContracts(profiles[i]);
+			await downloadContracts(profile);
 		}catch(err){
-			console.error("Couldn't download contracts for " + profiles[i].name + ": " + err.message);
+			console.error("Couldn't download contracts for " + profile.name + ": " + err.message);
 		}
 	}
 
