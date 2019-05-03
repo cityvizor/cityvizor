@@ -22,18 +22,19 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
 
 <table class="table table-condensed table-hover table-striped">
   <thead>
-    <tr><th>Název</th><th>Alternativní názvy</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
+    <tr><th>Název</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
   </thead>
   <tbody>
-    <tr><td>type</td><td>recordType, MODUL, DOKLAD_AGENDA</td><td>ROZ/KDF/KOF/jiné nebo prázdné</td><td>Ano</td><td>Typ záznamu. ROZ = upravený rozpočet, KDF = došlá faktura, KOF = odešlá faktura, jiné nebo prázdné = ostatní záznamy</td></tr>
-    <tr><td>paragraph</td><td>PARAGRAF</td><td>číslo</td><td>Ano</td><td>Rozpočtový paragraf</td></tr>
-    <tr><td>item</td><td>POLOZKA</td><td>číslo</td><td>Ano</td><td>Rozpočtová položka</td></tr>
-    <tr><td>event</td><td>AKCE, ORG</td><td>číslo</td><td>Ne</td><td>Číslo akce dle číselníku</td></tr>
-    <tr><td>amount</td><td>CASTKA</td><td>částka</td><td>Ano</td><td>Částka v Kč. Pro příjmy: má dáti - dal; pro výdaje: dal - má dáti</td></tr>
-    <tr><td>date</td><td>DATUM, DOKLAD_DATUM</td><td>datum ve formátu YYYY-MM-DD</td><td>Ne</td><td>Datum, pouze u faktur</td></tr>
-    <tr><td>counterpartyId</td><td>SUBJEKT_IC</td><td>text</td><td>Ne</td><td>IČO protistrany, pouze u faktur</td></tr>
-    <tr><td>counterpartyName</td><td>SUBJEKT_NAZEV</td><td>text</td><td>Ne</td><td>Jméno protistrany, pouze u faktur</td></tr>
-    <tr><td>description</td><td>POZNAMKA</td><td>text</td><td>Ne</td><td>Popis faktury, pouze u faktur</td></tr>
+    <tr><td>type</td><td>text</td><td>Ano</td><td>Typ záznamu. ROZ = upravený rozpočet, KDF = došlá faktura, KOF = odešlá faktura, jiné nebo prázdné = ostatní záznamy</td></tr>
+    <tr><td>paragraph</td><td>číslo</td><td>Ano</td><td>Rozpočtový paragraf</td></tr>
+    <tr><td>item</td><td>číslo</td><td>Ano</td><td>Rozpočtová položka</td></tr>
+    <tr><td>event</td><td>číslo</td><td>Ne</td><td>Číslo akce dle číselníku</td></tr>
+    <tr><td>unit</td><td>číslo</td><td>Ne</td><td>Číslo akce dle číselníku</td></tr>
+    <tr><td>amount</td><td>částka</td><td>Ano</td><td>Částka v Kč. Pro příjmy: má dáti - dal; pro výdaje: dal - má dáti</td></tr>
+    <tr><td>date</td><td>datum ve formátu ISO 8601 (YYYY-MM-DD)</td><td>Ne</td><td>Datum, pouze u faktur</td></tr>
+    <tr><td>counterpartyId</td><td>text</td><td>Ne</td><td>IČO protistrany, pouze u faktur</td></tr>
+    <tr><td>counterpartyName</td><td>text</td><td>Ne</td><td>Jméno protistrany, pouze u faktur</td></tr>
+    <tr><td>description</td><td>text</td><td>Ne</td><td>Popis faktury, pouze u faktur</td></tr>
   </tbody>
 </table>
         
