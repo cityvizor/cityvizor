@@ -42,7 +42,7 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
 
 <table class="table table-condensed table-hover table-striped">
   <thead>
-    <tr><th>Pole</th><th>Alternativní názvy</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
+    <tr><th>Pole</th><th>Typ</th><th>Povinné?</th><th>Popis</th></tr>    
   </thead>
   <tbody>
   <tr><td>srcId</td><td>text</td><td>Ano</td><td>Číslo akce</td></tr>
