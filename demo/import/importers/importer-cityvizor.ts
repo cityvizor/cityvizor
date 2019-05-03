@@ -3,6 +3,28 @@ import { ImportedData, ImportedRecord, ImportedPayment, ImportedEvent } from "ap
 import * as Papa from "papaparse";
 import { Importer } from "../schema/importer";
 
+export interface CityVizorDataFile {
+  type: string;
+  paragraph: number;
+  item: number;
+  amount: number;
+
+  event?: number;
+  unit?: number;
+
+  date?: string;
+  counterpartyId?: string;
+  counterpartyName?: string;
+  description?: string;
+}
+
+export interface CityVizorEventsFile {
+  srcId: number;
+  name: string;
+  description?: string;
+}
+
+
 export class ImporterCityVizor implements Importer {
 
   bytesRead = 0;
@@ -23,30 +45,37 @@ export class ImporterCityVizor implements Importer {
     if (files.events) {
       await this.readCSV(files.events, result => {
         this.updateProgress(this.bytesRead + result.meta.cursor);
-        this.events.push(...result.data
-          .filter((row: { srcId: string, name: string }) => row["srcId"] && row["name"])
-          .map(row => ({ srcId: Number(row["srcId"]), name: row["name"] }))
+        this.events.push(
+          ...result.data
+            .filter((row: CityVizorEventsFile) => row.srcId && row.name)
+            .map((row: CityVizorEventsFile) => ({ srcId: Number(row.srcId), name: row.name }))
         );
       });
     }
     if (files.data) {
       await this.readCSV(files.data, result => {
         this.updateProgress(this.bytesRead + result.meta.cursor);
+        this.records.push(...result.data.map((row: CityVizorDataFile) => ({
+          paragraph: Number(row.paragraph),
+          item: Number(row.item),
+          event: Number(row.event),
           unit: Number(row.unit),
+          budgetAmount: row.type === "ROZ" ? Number(row.amount) || 0 : 0,
+          amount: row.type === "ROZ" ? 0 : Number(row.amount) || 0
         })));
         this.payments.push(...result.data
           .filter(row => row["type"] === "KDF" || row["type"] === "KOF")
           .map(row => ({
-            type: row["type"],
-            id: row["id"],
-            date: new Date(row["date"]),
-            counterpartyId: row["counterpartyId"],
-            counterpartyName: row["counterpartyName"],
-            amount: Number(row["amount"]),
-            description: row["description"],
-            paragraph: Number(row["paragraph"]),
-            item: Number(row["item"]),
-            event: Number(row["event"])
+            type: row.type,
+            id: row.id,
+            date: new Date(row.date),
+            counterpartyId: row.counterpartyId,
+            counterpartyName: row.counterpartyName,
+            amount: Number(row.amount),
+            description: row.description,
+            paragraph: Number(row.paragraph),
+            item: Number(row.item),
+            event: Number(row.event)
           }))
         );
       });
