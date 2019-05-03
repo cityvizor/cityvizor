@@ -36,7 +36,8 @@ app.use(bodyParser.urlencoded({
 require("./file-storage");
 
 /* DATABASE */
-require("./db");
+const { mongoose, connect } = require("./db");
+connect();
 
 /* AUTHENTICATION */
 var jwt = require('express-jwt');

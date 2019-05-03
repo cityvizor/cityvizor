@@ -1,17 +1,17 @@
 var mongoose = require('mongoose');
 var async = require("async");
 
-var mongoose = require("./db");
+var { mongoose, connect } = require("./db");
+
 
 var tasks = process.argv.slice(2).map(task => require("./tasks/" + task));
 
-runTasks(tasks)
+Promise.resolve()
+  .then(() => connect())
+  .then(() => runTasks(tasks))
   .then(() => {
     console.log("Disconnecting DB");
-
-    mongoose.disconnect(() => {
-      process.exit();
-    });
+    mongoose.disconnect( () => process.exit() );
   });
 
 async function runTasks(tasks){
