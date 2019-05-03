@@ -223,14 +223,14 @@ export class ExpenditureVizComponent {
 
 			paragraph.events.forEach(event => {
 				// assign name from event index
-				event.name = eventIndex[event.event] ? eventIndex[event.event].name : ("Nepojmenovaná akce (č. " + event.event + ")")
+				event.name = eventIndex[event.event] && eventIndex[event.event].name ? eventIndex[event.event].name : ("Nepojmenovaná akce (č. " + event.event + ")")
 				// sum events to get the Other value
 				eventAmount += event.expenditureAmount;
 				eventBudgetAmount += event.budgetExpenditureAmount;
 			});
 
 			// sort events in paragraphs
-			paragraph.events.sort((a, b) => a.name.localeCompare(b.name));
+			paragraph.events.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : -1);
 
 			// add Other if necessary
 			if (paragraph.expenditureAmount !== eventAmount || paragraph.budgetExpenditureAmount !== eventBudgetAmount) {

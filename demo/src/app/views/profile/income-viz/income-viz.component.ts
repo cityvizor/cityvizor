@@ -247,7 +247,7 @@ export class IncomeVizComponent {
 			});
 
 			// sort events in paragraphs
-			item.events.sort((a, b) => a.name.localeCompare(b.name));
+			item.events.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : -1);
 
 			// add Other if necessary
 			if (item.incomeAmount !== eventAmount || item.budgetIncomeAmount !== eventBudgetAmount) {
