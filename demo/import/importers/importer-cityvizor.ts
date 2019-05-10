@@ -75,7 +75,8 @@ export class ImporterCityVizor implements Importer {
             description: row.description,
             paragraph: Number(row.paragraph),
             item: Number(row.item),
-            event: Number(row.event)
+            event: Number(row.event),
+            unit: Number(row.unit)
           }))
         );
       });

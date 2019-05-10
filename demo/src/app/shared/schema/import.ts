@@ -20,6 +20,7 @@ export class ImportedPayment {
 	paragraph: number;
 	item: number;
 	event: number;
+	unit: number;
 }
 
 export class ImportedEvent {

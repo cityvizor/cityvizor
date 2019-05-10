@@ -23,7 +23,7 @@ export class ExportService {
     await this.downloadFile(this.createCSV(records, options), "records.csv", options.encoding);
   }
   async exportPayments(payments: (ImportedPayment | AccountingPayment)[], options: ExportOptions) {
-    await this.downloadFile(this.createCSV(payments, options), "records.csv", options.encoding);
+    await this.downloadFile(this.createCSV(payments, options), "payments.csv", options.encoding);
   }
   async exportEvents(events: (ImportedEvent | AccountingEvent)[], options: ExportOptions) {
     await this.downloadFile(this.createCSV(events, options), "events.csv", options.encoding);
@@ -44,6 +44,7 @@ export class ExportService {
         paragraph: record.paragraph,
         item: record.item,
         event: record.event,
+        unit: record.unit,
         amount: record.amount
       });
     });
@@ -53,6 +54,7 @@ export class ExportService {
       paragraph: payment.paragraph,
       item: payment.item,
       event: payment.event,
+      unit: payment.unit,
       amount: payment.amount,
       date: payment.date,
       counterpartyId: payment.counterpartyId,
