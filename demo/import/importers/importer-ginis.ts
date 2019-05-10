@@ -211,7 +211,8 @@ export class ImporterGinis implements Importer {
       description: record.meta["EVKT"] || record.comments.join("\n").split(/\r?\n/)[0],
       paragraph: balance.odpa,
       item: balance.pol,
-      event: balance.org || null
+      event: balance.org || null,
+      unit: balance.orj || null
     })
   }
 }

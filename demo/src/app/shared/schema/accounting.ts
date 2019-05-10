@@ -11,6 +11,7 @@ export class AccountingPayment {
 	paragraph: number;
 	item: number;
 	event: string;
+	unit: number;
 }
 
 export class AccountingEvent {
