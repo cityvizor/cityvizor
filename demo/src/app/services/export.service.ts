@@ -96,7 +96,7 @@ export class ExportService {
       csv += Object.keys(header)
         .map(key => {
           const value = row[key];
-          if (typeof value === "string") return "\"" + value + "\"";
+          if (typeof value === "string") return "\"" + value.replace("\"","\"\"") + "\"";
           if (typeof value === "number") return String(value);
           if (value instanceof Date) return "\"" + value.toISOString() + "\"";
           if (!value) return "";
