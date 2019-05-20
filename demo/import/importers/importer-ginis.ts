@@ -64,6 +64,10 @@ export class ImporterGinis implements Importer {
       Papa.parse(file, {
         header: true,
 
+        delimiter: ";",
+
+        quoteChar: "@$^&*(",
+
         encoding: "windows-1250",
 
         chunk: (result, parser) => {
