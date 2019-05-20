@@ -17,11 +17,9 @@ Vývoj probíhal v odboru 47 – Centrální harmonizační jednotka pod zášti
 
 ### Zdrojové kódy aplikace
 
-Ministerstvo financí uvolnilo zdrojové kódy aplikace pod volnou licencí GNU GPL v3, což znamená mimo jiné, že každý nabyvatel licence, který akceptuje její podmínky, získává právo modifikovat dílo, kopírovat ho a dál rozšiřovat toto dílo i jakoukoli odvozenou verzi.
+Ministerstvo financí uvolnilo zdrojové kódy aplikace pod volnou licencí GNU AGPL v3, což znamená mimo jiné, že každý nabyvatel licence, který akceptuje její podmínky, získává právo modifikovat dílo, kopírovat ho a dál rozšiřovat toto dílo i jakoukoli odvozenou verzi. Také ale, že každý, kdo provozuje aplikaci po síti, musí nabídnout zdrojové kódy (včetně všech úprav) k opět k dispozici pod stejnou licencí.
 
-Plný text licence naleznete na této adrese: [https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)
-
-Neoficiální a nezávazný český překlad licence najdete na této adrese: [https://jxself.org/translations/gpl-3.cz.shtml](https://jxself.org/translations/gpl-3.cz.shtml)
+Plný text licence naleznete na této adrese: [https://www.gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html)
 
 ### Data
 
