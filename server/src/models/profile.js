@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var profileSchema = mongoose.Schema({
 	
-	"status": String,
+	"status": { type: String, required: true, default: "hidden" },
 	
 	"hiddenModules": [String],
 	
