@@ -14,8 +14,11 @@
   "keywords": [
     "opendata",
     "cityvizor",
-    "faktury"
+    "invoices"
   ],
-  "contributors": ["Martin Kopecek <martin.kopecek@smallhill.cz>", "Jan Vlasatý <jan.vlasaty@hotmail.com>"],
-  "license": "GPL-3.0"
+  "contributors": [
+    "Martin Kopecek <martin.kopecek@smallhill.cz>",
+    "Jan Vlasatý <jan.vlasaty@hotmail.com>"
+  ],
+  "license": "AGPL-3.0-or-later"
 }
