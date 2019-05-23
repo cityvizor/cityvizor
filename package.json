@@ -16,6 +16,6 @@
     "cityvizor",
     "faktury"
   ],
-  "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
+  "contributors": ["Martin Kopecek <martin.kopecek@smallhill.cz>", "Jan Vlasatý <jan.vlasaty@hotmail.com>"],
   "license": "GPL-3.0"
 }
