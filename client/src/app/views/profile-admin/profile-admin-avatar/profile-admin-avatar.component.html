@@ -14,8 +14,8 @@
     <label for="avatar" class="col-sm-2 control-label">Nahrát znak</label>
     <div class="col-sm-10">
       <input name="avatar" type="file" accept=".jpg,.jpeg,.png,.svg, image/jpeg,image/png,image/gif,image/svg+xml" class="form-control" required #avatarFile (change)="save(avatarFile)">
-      <span *ngIf="tooBig" class="text-danger">Soubor je příliš velký. Maximální velikost je 100kB.</span>
-      <span id="help-avatar" class="help-block">Obrázek musí být čtercový a pouze v jednom z těchto formátů: PNG, JPG, GIF, SVG. Maximální velikost je 100kB.</span>
+      <span *ngIf="tooBig" class="text-danger">Soubor je příliš velký. Maximální velikost je 1 MB.</span>
+      <span id="help-avatar" class="help-block">Obrázek musí být čtercový a pouze v jednom z těchto formátů: PNG, JPG, GIF, SVG. Maximální velikost je 1 MB.</span>
     </div>
   </div>
 

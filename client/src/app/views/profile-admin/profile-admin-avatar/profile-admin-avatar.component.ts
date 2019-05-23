@@ -38,7 +38,7 @@ export class ProfileAdminAvatarComponent {
     
     formData.set("avatar",file,file.name);
     
-    if(file.size && file.size / 1024 >= 100) {
+    if(file.size && file.size / 1024 / 1024 > 1) {
       this.tooBig = true;
       return;
     }
