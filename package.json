@@ -6,6 +6,7 @@
   "repository": "cityvizor/cityvizor",
   "private": true,
   "scripts": {
+    "install": "cd server && npm install && cd ../client && npm install",
     "start": "cd server && npm start",
     "build": "cd client && npm run build",
     "create-admin": "cd server && node npm run create-admin"
