@@ -23,6 +23,7 @@
             ],
             "styles": [
               "./node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",
+              "./node_modules/font-awesome/scss/font-awesome.scss",
               "src/styles/styles.scss"
             ],
             "scripts": []
