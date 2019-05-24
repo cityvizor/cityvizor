@@ -135,8 +135,8 @@ class ImportTransformer extends EventEmitter {
 		
 		let id = r.id || ("#" + this.i);
 
-		let isIncome = Number(r.item) < 5000;
-		let isOutcome = Number(r.item) >= 5000;
+		let isIncome = (Number(r.item) >= 1000 && Number(r.item) < 5000) || (Number(r.item) >= 8000 && Number(r.item) < 9000);
+		let isOutcome = Number(r.item) >= 5000 && Number(r.item) < 8000;
 
 		r.amount = this.string2number(r.amount);
 		
