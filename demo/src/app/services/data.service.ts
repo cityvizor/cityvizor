@@ -182,7 +182,6 @@ export class DataService {
 	}
 
 	async getProfileEvents(profileId: string, options: { srcId?: number, sort?: string, year?: number }) {
-		console.log(this.data.records.filter(r => r.item === 8115).slice(0,10));
 		const events = this.data.events.filter(item => options.srcId ? item.srcId === options.srcId : true);
 		if(options.srcId) events.forEach(event => {
 			Object.assign(event, this.sumBalances(r => r.event === event.srcId))
@@ -243,11 +242,11 @@ export class DataService {
 	}
 
 	addBalances(record: AccountingRecord, target: Balances) {
-		if (record.item > 5000) {
+		if (record.item >= 5000 && record.item < 8000) {
 			target.expenditureAmount += record.amount;
 			target.budgetExpenditureAmount += record.budgetAmount;
 		}
-		else {
+		else if ((record.item >= 1000 && record.item < 5000) || (record.item >= 8000 && record.item < 9000)) {
 			target.incomeAmount += record.amount;
 			target.budgetIncomeAmount += record.budgetAmount;
 		}

@@ -112,7 +112,7 @@ export class ImporterGinis implements Importer {
 
     const td_transform = new TransformStream<Uint8Array, string>(transformer);
 
-    var fileReadable:ReadableStream;
+    var fileReadable: ReadableStream;
 
     if (self.streamsPolyfill) {
       /* This could be done by new Response(file).body, but conflicts with polyfill */
@@ -153,7 +153,7 @@ export class ImporterGinis implements Importer {
     }
   }
 
-  writeRecord(record: KxxRecord) {    
+  writeRecord(record: KxxRecord) {
 
     const payment = record.meta["EVK"] && (record.meta["EVK"]["KDF"] || record.meta["EVK"]["KOF"] /*|| record.meta["EVK"]["UCT"]*/);
 
@@ -167,19 +167,19 @@ export class ImporterGinis implements Importer {
 
   filterBalances(balances: KxxRecordBalance[]) {
     return balances
-      .filter(balance => balance.pol > 1000 && balance.pol < 9000);
+      .filter(balance => balance.pol > 1000 && balance.pol < 9000); // omezeni na rozpoctovou skladbu - zbytek jsou technicke      
   }
 
   getAmount(balance: KxxRecordBalance): number {
-    return Number(balance.pol) < 5000 ? balance.md - balance.d : balance.d - balance.md;
+    return (Number(balance.pol) >= 5000 && Number(balance.pol) < 8000) ? balance.d - balance.md : balance.md - balance.d;
   }
 
   writeBalance(balanceType: number, balance: KxxRecordBalance) {
     const id = [balance.odpa, balance.pol, balance.org, balance.orj].join("-");
-    
+
     var record = this.recordIndex[id];
 
-    if (!record) {      
+    if (!record) {
       record = {
         paragraph: balance.odpa,
         item: balance.pol,
@@ -198,7 +198,9 @@ export class ImporterGinis implements Importer {
       case 0:
         this.recordIndex[id].amount += amount;
         break;
-      case 2:
+
+      case 2: // approved budget
+      case 3: // edited budget
         this.recordIndex[id].budgetAmount += amount;
         break;
     }
