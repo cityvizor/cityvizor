@@ -48,33 +48,34 @@ export class ExportService {
         amount: record.amount
       });
     });
-    records.push(...(<(ImportedPayment | AccountingPayment)[]>data.payments).map(payment => [
-      // the payment
-      {
-        type: payment.type === "invoice_incoming" ? "KDF" : "KOF",
-        id: payment.id,
-        paragraph: payment.paragraph,
-        item: payment.item,
-        event: payment.event,
-        unit: payment.unit,
-        amount: payment.amount,
-        date: payment.date,
-        counterpartyId: payment.counterpartyId,
-        counterpartyName: payment.counterpartyName,
-        description: payment.description
-      },
-      // substract the payment from the total sum
-      {
-        type: null,
-        paragraph: payment.paragraph,
-        item: payment.item,
-        event: payment.event,
-        unit: payment.unit,
-        amount: (-1) * payment.amount
-      }
-    ]));
-    
+
+    // the payment
+    records.push(...(<(ImportedPayment | AccountingPayment)[]>data.payments).map(payment => ({
+      type: payment.type === "invoice_incoming" ? "KDF" : "KOF",
+      id: payment.id,
+      paragraph: payment.paragraph,
+      item: payment.item,
+      event: payment.event,
+      unit: payment.unit,
+      amount: payment.amount,
+      date: payment.date,
+      counterpartyId: payment.counterpartyId,
+      counterpartyName: payment.counterpartyName,
+      description: payment.description
+    })));
+
+    // substract the payments from the total sums
+    records.push(...(<(ImportedPayment | AccountingPayment)[]>data.payments).map(payment => ({
+      type: null,
+      paragraph: payment.paragraph,
+      item: payment.item,
+      event: payment.event,
+      unit: payment.unit,
+      amount: (-1) * payment.amount
+    })));
+
     const options: ExportOptions = { delimiter: ",", encoding: "utf8", newline: "\r\n" };
+    
     await this.downloadFile(this.createCSV(records, options), "data.csv", options.encoding);
   }
 
