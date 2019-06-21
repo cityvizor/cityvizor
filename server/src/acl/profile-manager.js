@@ -42,6 +42,10 @@ module.exports = {
 	"profile-image": {
 		"write": req => isManagedProfile(req)
 	},
+
+	"profile-import": {
+		"write": req => isManagedProfile(req)
+	},
 	
 	"profile-managers": {
 		"list": req => isManagedProfile(req)
