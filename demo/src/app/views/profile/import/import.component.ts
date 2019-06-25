@@ -81,6 +81,23 @@ export class ImportComponent {
 
 	}
 
+	async importVera(inputAccounting: HTMLInputElement, inputBudget: HTMLInputElement) {
+
+		const files = {
+			accounting: inputAccounting.files[0],
+			budget: inputBudget.files[0]
+		}
+
+		this.step = "progress";
+
+		this.data = await this.importService.importVera(files);
+
+		this.step = "confirmation";
+
+		this.checkData();
+
+	}
+
 
 
 	async saveData() {
@@ -97,7 +114,7 @@ export class ImportComponent {
 		this.step = "input";
 	}
 
-	persistData(){
+	persistData() {
 		this.dataService.persistData();
 	}
 

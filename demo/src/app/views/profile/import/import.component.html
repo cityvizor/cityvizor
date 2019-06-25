@@ -15,6 +15,11 @@
           &nbsp;
           <label for="importTypeRadio_ginis" class="control-label">Gordic 56G (BETA)</label>
           <p>Jedná se o základní exportní formát systému Ginis od společnosti Gordic. Import z tohoto formátu je zatím ve zkušební verzi. <a href="https://drive.google.com/file/d/1nuDG8rPvo9jonUvDCdc1GG7LCELveV9l/view">Návod na získání těchto souborů</a>.</p>
+          <br>
+          <input [(ngModel)]="importType" [ngModelOptions]="{standalone:true}" type="radio" value="vera" id="importTypeRadio_vera">
+          &nbsp;
+          <label for="importTypeRadio_vera" class="control-label">Vera (BETA)</label>
+          <p>Jedná se o sadu exportů ze systému Vera. Import z tohoto formátu je zatím ve zkušební verzi.</p>
         </div>
       </div>
     </form>
@@ -24,14 +29,14 @@
       <form #cityvizorForm="ngForm" *ngSwitchCase="'cityvizor'" (ngSubmit)="importCityvizor(cityvizorInputData,cityvizorInputEvents)" class="form-horizontal">
 
         <div class="form-group row">
-          <label for="input-file" class="col-sm-2 col-form-label">Číselník akcí</label>
+          <label for="input-file" class="col-sm-2 col-form-label">Číselník akcí (CSV)</label>
           <div class="col-sm-10">
             <input type="file" accept=".csv" class="form-control-file" id="input-file" required #cityvizorInputEvents>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="input-file" class="col-sm-2 col-form-label">Datový soubor</label>
+          <label for="input-file" class="col-sm-2 col-form-label">Datový soubor (CSV)</label>
           <div class="col-sm-10">
             <input type="file" accept=".csv" class="form-control-file" id="input-file" required #cityvizorInputData>
           </div>
@@ -48,23 +53,47 @@
       <form *ngSwitchCase="'ginis'" (ngSubmit)="importGinis(ginisInputBudget, ginisInputAccounting, ginisInputEvents)" class="form-horizontal">
 
         <div class="form-group row">
-          <label for="input-file" class="col-sm-2 col-form-label">Data rozpočtu (UCR)</label>
+          <label for="input-file" class="col-sm-2 col-form-label">Data rozpočtu (KXX)</label>
           <div class="col-sm-10">
             <input type="file" accept=".kxx" class="form-control-file" id="input-file" required #ginisInputBudget>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="input-file" class="col-sm-2 col-form-label">Data účetnictví (UCT)</label>
+          <label for="input-file" class="col-sm-2 col-form-label">Data účetnictví (KXX)</label>
           <div class="col-sm-10">
             <input type="file" accept=".kxx" class="form-control-file" id="input-file" required #ginisInputAccounting>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="input-file" class="col-sm-2 col-form-label">Číselník akcí (ORG)</label>
+          <label for="input-file" class="col-sm-2 col-form-label">Číselník akcí (CSV)</label>
           <div class="col-sm-10">
             <input type="file" accept=".csv" class="form-control-file" id="input-file" required #ginisInputEvents>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 control-label"></label>
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Nahrát data</button>
+          </div>
+        </div>
+      </form>
+
+      <form *ngSwitchCase="'vera'" (ngSubmit)="importVera(veraInputAccounting, veraInputBudget)" class="form-horizontal">
+
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Účetní deník (CSV)</label>
+          <div class="col-sm-10">
+            <input type="file" accept=".csv" class="form-control-file" id="input-file" required #veraInputAccounting>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="input-file" class="col-sm-2 col-form-label">Rozpočet (KXX)</label>
+          <div class="col-sm-10">
+            <input type="file" accept=".kxx" class="form-control-file" id="input-file" required #veraInputBudget>
           </div>
         </div>
 

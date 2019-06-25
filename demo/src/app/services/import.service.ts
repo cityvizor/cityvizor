@@ -27,6 +27,10 @@ export class ImportService {
 		return this.runImport("ginis", files)
 	}
 
+	async importVera(files: { accounting: File, budget: File }): Promise<ImportedData> {
+		return this.runImport("vera", files)
+	}
+
 
 	runImport(importer: string, files: { [key: string]: File }, options?: any): Promise<ImportedData> {
 		return new Promise((resolve, reject) => {
