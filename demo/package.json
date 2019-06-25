@@ -46,7 +46,7 @@
     "ngx-bootstrap": "^4.0.0",
     "ngx-papaparse": "^3.0.2",
     "ngx-web-worker": "^7.0.0",
-    "papaparse": "^4.6.3",
+    "papaparse": "^5.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.4.0",
