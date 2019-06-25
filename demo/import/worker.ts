@@ -2,13 +2,9 @@ import "./polyfills";
 
 import { ImporterCityVizor } from "./importers/importer-cityvizor";
 import { ImporterGinis } from "./importers/importer-ginis";
+import { ImporterVera } from "./importers/importer-vera";
 import { Importer } from "./schema/importer";
 import { ImportedData } from "app/shared/schema";
-
-const importers: { [key: string]: any } = {
-  "cityvizor": ImporterCityVizor,
-  "ginis": ImporterGinis
-}
 
 onmessage = function (e) {
 
@@ -26,6 +22,9 @@ onmessage = function (e) {
           break;
         case "ginis":
           importer = new ImporterGinis();
+          break;
+        case "vera":
+          importer = new ImporterVera();
           break;
         default:
           throw new Error("Invalid importer type")
