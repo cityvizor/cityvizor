@@ -1,17 +1,17 @@
 const path = require("path");
 
 module.exports = {
-  
-  port: 4300,
-  host: "localhost",
-  
+
+  port: 3000,
+  host: "0.0.0.0",
+
   tmpDir: path.resolve(__dirname, "../../data/tmp"),
 
   staticFiles: path.resolve(__dirname, "../../client/dist"),
 
   databaseUri: "mongodb://localhost/cityvizor",
 
-  cors: true,
+  cors: false,
 
   keys: {
     edesky: { api_key: null },
