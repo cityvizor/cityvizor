@@ -25,7 +25,7 @@ export class ProfileSearchComponent implements OnInit {
 	constructor(private dataService: DataService, private toastService: ToastService, private router: Router) { }
 
 	ngOnInit() {
-
+		this.loadProfiles();
 	}
 
 	async loadProfiles() {
