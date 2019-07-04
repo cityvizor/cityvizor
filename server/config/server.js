@@ -8,7 +8,8 @@ module.exports = {
     origin: environment.corsOrigin,
     methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
-    exposedHeaders: ["Location"]
+    exposedHeaders: ["Location"],
+    allowedHeaders: ["Authorization", "Content-Type"]
   },
 
   cron: {
@@ -28,16 +29,27 @@ module.exports = {
 
   static: {
     dir: environment.staticFiles,
-    index: path.join(environment.staticFiles,"index.html")
+    index: path.join(environment.staticFiles, "index.html")
   },
 
-  storage: {    
+  storage: {
     tmp: path.resolve(environment.tmpDir)
   },
 
   jwt: {
     secret: environment.keys.jwt.secret,
-    credentialsRequired: false
+    expiration: "1d",
+    credentialsRequired: false,
+    getToken: (req) => {
+      if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        return req.headers.authorization.split(' ')[1];
+      } else if (req.cookies && req.cookies["access_token"]) {
+        return req.cookies.access_token;
+      }
+      return null;
+    },
+    cookieName: "access_token",
+    cookieMaxAge: 1000 * 60 * 60 * 24
   },
 
 

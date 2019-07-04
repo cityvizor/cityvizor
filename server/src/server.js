@@ -41,7 +41,7 @@ connect();
 
 /* AUTHENTICATION */
 var jwt = require('express-jwt');
-app.use(jwt(config.jwt));
+app.use(jwt(config.jwt), (err, req, res, next) => (err.code === 'invalid_token') ? next() : next(err));
 
 /* ACCESS CONTROL */
 var acl = require("express-dynacl");
