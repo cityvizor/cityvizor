@@ -13,7 +13,7 @@ var app = express();
 if(config.cors.enabled){
   const cors = require("cors");
   app.use(cors(config.cors));  
-  console.log("[SERVER] CORS enabled");
+  console.log("[SERVER] CORS enabled" + (config.cors.origin ? " for origin " + config.cors.origin : ""));
 }
 
 // polyfill before express allows for async middleware
