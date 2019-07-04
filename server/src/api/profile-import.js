@@ -1,95 +1,72 @@
-var express = require('express');	
-var router = module.exports = express.Router({mergeParams: true});
+const express = require('express');
+const router = module.exports = express.Router({ mergeParams: true });
 
-var multer = require('multer');
-var acl = require("express-dynacl");
-var schema = require('express-jsonschema');
-var fs = require("fs-extra");
-var async = require("async");
+const multer = require('multer');
+const acl = require("express-dynacl");
+const schema = require('express-jsonschema');
+const fs = require("fs-extra");
+const async = require("async");
 
-var config = require("../../config");
+const config = require("../../config");
 
-var Importer = require("../import/importer");
+const { Importer } = require("./import");
 
-var ETL = require("../models/etl");
+const ETL = require("../models/etl");
 
-var importUploadSchema = {
-	type: "object",
-	properties: {
-		"validity": {type: "string"}
+const importAccountingSchema = {
+	body: {
+		type: "object",
+		properties: {
+			"year": { type: "string", pattern: "^\d{4}$", required: true },
+			"validity": { type: "string", format: "date" }
+		},
+		additionalProperties: false
+	},
+	files: {
+		type: "object",
+		properties: {
+			"dataFile": { type: "object", required: true },
+			"eventsFile": { type: "object", required: false },
+			"paymentsFile": { type: "object", required: false }
+		}
 	}
 };
 
-var upload = multer({ dest: config.storage.tmp });
+const upload = multer({ dest: config.storage.tmp });
 
-router.put("/:etl/upload", schema.validate({body: importUploadSchema}), upload.fields([{name:"dataFile",maxCount:1},{name:"eventsFile",maxCount:1}]), acl("profile-import","write"), (req,res,next) => {
-	
-	// When file missing throw error immediately
-	if(!req.files.dataFile) return next(new Error("Missing data file"));
+router.post("/accounting",
+	upload.fields([{ name: "dataFile", maxCount: 1 }, { name: "eventsFile", maxCount: 1 }, { name: "paymentsFile", maxCount: 1 }]),
+	schema.validate(importAccountingSchema),
+	acl("profile-import", "write"),
+	async (req, res, next) => {
 
-	ETL.findOne({_id: req.params.etl})
-		.then(etl => {
-		
-			// in case of wrong/old etl we return 404 and stop processing the import
-			if(!etl) return res.sendStatus(404);
+		// When file missing throw error immediately
+		if (!req.files || !req.files.dataFile) return res.status(400).send("Missing data file");
 
-			// here we deal with the import
-			var importer = new Importer(etl);
-			importer.validity = req.body.validity;
-			importer.userId = req.user ? req.user._id : null;
-		
-			var files = {
+		var etl = await ETL.findOne({ profile: req.params.profile, year: req.body.year });
+
+		if (!etl) etl = await ETL.create({ profile: req.params.profile, year: req.body.year })
+
+		// here we deal with the import
+		var importer = new Importer(etl);
+
+		var importData = {
+			validity: req.query.validity,
+			userId: req.user ? req.user._id : null,
+			files: {
 				dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,
-				eventsFile: req.files.eventsFile ? req.files.eventsFile[0].path : null
-			};
+				eventsFile: req.files.eventsFile ? req.files.eventsFile[0].path : null,
+				paymentsFile: req.files.paymentsFile ? req.files.paymentsFile[0].path : null
+			}
+		};
+
+		etl.status = "queued";
+		await etl.save();
 		
-			var tasks = [
+		importer.import(etl,importData);
 
-				cb => importer.importFile(files,(err,result) => cb(err)),
+		// response sent immediately, the import is in queue
+		res.json(etl);
 
-				(cb) => fs.unlink(req.files.dataFile[0].path,err => (!err || err.code == 'ENOENT' ? cb() : cb(err))),
-				
-				(cb) => !req.files.eventsFile || fs.unlink(req.files.eventsFile[0].path,err => (!err || err.code == 'ENOENT' ? cb() : cb(err)))
-
-			];
-
-			async.waterfall(tasks, err => {
-				if(err) console.error(err);
-			});
-		
-				
-			// we send response immediately, while the import may take longer
-			res.sendStatus(200);
-
-		})
-		.catch(err => next(err));
-});
-
-var importStartSchema = {
-	type: "object",
-	properties: {
 	}
-};
-
-router.get("/:etl/start", schema.validate({body: importStartSchema}), acl("profile-import","write"), (req,res,next) => {
-
-	ETL.findOne({_id: req.params.etl})
-		.then(etl => {
-		
-			// in case of wrong/old etl we return 404 and stop processing the import
-			if(!etl) return res.sendStatus(404);
-
-			// here we deal with the import
-			var importer = new Importer(etl);
-			importer.userId = req.user ? req.user._id : null;
-
-			importer.importUrl(err => {
-				if(err) console.error(err.message);
-			});
-		
-			// we send response immediately, while the import may take longer
-			res.sendStatus(200);
-
-		})
-		.catch(err => next(err));
-});
+);

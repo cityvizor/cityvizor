@@ -4,23 +4,13 @@ const mongoose = require("mongoose");
 
 class ImportTransformer extends EventEmitter {
 
-	constructor(etl, dataSource) {
+	constructor() {
 
 		super();
-
-		this.etl = etl;
-
-		dataSource.on("event", event => this.writeEvent(event));
-		dataSource.on("counterparty", counterparty => this.writeCounterparty(counterparty));
-		dataSource.on("balance", balance => this.writeBalance(balance));
-		dataSource.on("payment", payment => this.writePayment(payment));
 
 		this.i = 0;
 
 		this.budget = {
-			etl: etl._id,
-			profile: this.etl.profile,
-			year: etl.year,
 			budgetExpenditureAmount: 0,
 			expenditureAmount: 0,
 			budgetIncomeAmount: 0,
@@ -49,7 +39,7 @@ class ImportTransformer extends EventEmitter {
 	}
 
 
-	finish(cb) {
+	finish() {
 
 		if (!this.budget.budgetExpenditureAmount) this.emit("warning", "Celková výše rozpočtovaných výdajů je nulová");
 		if (!this.budget.expenditureAmount) this.emit("warning", "Celková výše výdajů je nulová");
@@ -63,9 +53,9 @@ class ImportTransformer extends EventEmitter {
 			events: this.events,
 			counterparties: this.counterparties,
 			payments: this.payments
-		}
+		};
 
-		cb(null, data);
+		return data;
 	}
 
 
@@ -81,9 +71,6 @@ class ImportTransformer extends EventEmitter {
 
 		this.eventIndex[event.id] = {
 			_id: mongoose.Types.ObjectId(),
-			profile: this.etl.profile,
-			year: this.etl.year,
-			etl: this.etl._id,
 			srcId: event.id,
 			name: event.name,
 			description: event.description,
@@ -108,9 +95,6 @@ class ImportTransformer extends EventEmitter {
 
 		this.counterpartyIndex[counterparty.counterpartyId] = {
 			_id: mongoose.Types.ObjectId(),
-			profile: this.etl.profile,
-			year: this.etl.year,
-			etl: this.etl._id,
 			counterpartyId: counterparty.counterpartyId,
 			name: counterparty.counterpartyName,
 			budgetExpenditureAmount: 0,
@@ -192,9 +176,6 @@ class ImportTransformer extends EventEmitter {
 		let description = String(payment.description).replace("\\n", "\n").split(/[\r\n]+/)[0];
 
 		this.payments.push({
-			profile: this.etl.profile,
-			year: this.etl.year,
-			etl: this.etl._id,
 			event: event ? event._id : null,
 			type: payment.type,
 			item: payment.item,

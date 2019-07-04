@@ -1,29 +1,31 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 
-var router = express.Router();
+const router = express.Router();
 module.exports = router;
 
-var schema = require('express-jsonschema');
-var acl = require("express-dynacl");
+const schema = require('express-jsonschema');
+const acl = require("express-dynacl");
 
-var CodeList = require("../models/codelist.js");
+const path = require("path");
 
+const codelists = {
+	"item-names": require("../../assets/codelists/item-names.json"),
+	"item-groups": require("../../assets/codelists/item-groups.json"),
+	"paragraph-names": require("../../assets/codelists/paragraph-names.json"),
+	"paragraph-groups": require("../../assets/codelists/paragraph-groups.json")
+}
 
-router.get("/", acl("codelists","list"), (req,res,next) => {
-	
-	CodeList.find().select("_id description")
-		.then(codelists => res.json(codelists))
-		.catch(err => next(err));
-	
+router.get("/", acl("codelists", "list"), (req, res, next) => {
+
+	res.json(Object.keys(codelists));
+
 });
 
-router.get("/:name", acl("codelists","read"), (req,res,next) => {
-	
-	CodeList.findOne({_id: req.params.name})
-		.then(codelist => {
-			if(!codelist) return res.sendStatus(404);
-			res.json(codelist);
-		})
-		.catch(err => next(err));
+router.get("/:name", acl("codelists", "read"), (req, res, next) => {
+	if (codelists[req.params.name]) res.json({
+		_id: req.params.name,
+		codelist: codelists[req.params.name]
+	});
+	else res.sendStatus(404);
 });

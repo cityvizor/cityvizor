@@ -1,0 +1,137 @@
+[
+  {
+    "id": "10",
+    "name": "Zemědělství, lesní hospodářství a rybářství",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "21",
+    "name": "Průmysl, stavebnictví, obchod a služby",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "22",
+    "name": "Doprava",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "23",
+    "name": "Vodní hospodářství",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "24",
+    "name": "Spoje",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "25",
+    "name": "Všeobecné hospodářské záležitosti a ostatní ekonomické funkce",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "31",
+    "name": "Vzdělávání a školské služby",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "32",
+    "name": "Vzdělávání a školské služby",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "33",
+    "name": "Kultura, církve a sdělovací prostředky",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "34",
+    "name": "Tělovýchova a zájmová činnost",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "35",
+    "name": "Zdravotnictví",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "36",
+    "name": "Bydlení, komunální služby a územní rozvoj",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "37",
+    "name": "Ochrana životního prostředí",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "38",
+    "name": "Ostatní výzkum a vývoj",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "39",
+    "name": "Ostatní činnosti související se službami pro obyvatelstvo",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "41",
+    "name": "Dávky a podpory v sociálním zabezpečení",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "42",
+    "name": "Politika zaměstnanosti",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "43",
+    "name": "Sociální služby a společné činnosti v sociálním zabezpečení a politice zaměstnanosti",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "51",
+    "name": "Obrana",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "52",
+    "name": "Civilní připravenost na krizové stavy",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "53",
+    "name": "Bezpečnost a veřejný pořádek",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "54",
+    "name": "Právní ochrana",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "55",
+    "name": "Požární ochrana a integrovaný záchranný systém",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "61",
+    "name": "Státní moc, státní správa, územní samospráva a politické strany",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "62",
+    "name": "Jiné veřejné služby a činnosti",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "63",
+    "name": "Finanční operace",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "64",
+    "name": "Ostatní činnosti",
+    "validFrom": "1990-01-01T00:00:00.000Z"
+  }
+]

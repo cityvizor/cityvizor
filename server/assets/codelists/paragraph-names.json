@@ -1,0 +1,2662 @@
+[
+  {
+    "id": "1011",
+    "name": "Udržování výrobního potenciálu zemědělství, zemědělský půdní fond a mimoprodukční funkce zemědělství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1012",
+    "name": "Podnikání a restrukturalizace v zemědělství a potravinářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1013",
+    "name": "Genetický potenciál hospodářských zvířat, osiv a sádí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1014",
+    "name": "Ozdravování hospodářských zvířat, polních a speciálních plodin a zvláštní veterinární péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1019",
+    "name": "Ostatní zemědělská a potravinářská činnost a rozvoj",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1021",
+    "name": "Organizace trhu s produkty rostlinné výroby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1022",
+    "name": "Organizace trhu s výrobky vzniklými zpracováním produktů rostlinné výroby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1023",
+    "name": "Organizace trhu s produkty živočišné výroby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1024",
+    "name": "Organizace trhu s výrobky vzniklými zpracováním produktů živočišné výroby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1029",
+    "name": "Ostatní záležitosti regulace zemědělské produkce, organizace zemědělského trhu a poskytování podpor",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1031",
+    "name": "Pěstební činnost",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1032",
+    "name": "Podpora ostatních produkčních činností",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1036",
+    "name": "Správa v lesním hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1037",
+    "name": "Celospolečenské funkce lesů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1039",
+    "name": "Ostatní záležitosti lesního hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1061",
+    "name": "Činnost ústředního orgánu státní správy v zemědělství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1062",
+    "name": "Činnost ostatních orgánů státní správy v zemědělství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1063",
+    "name": "Správa zemědělského majetku",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1069",
+    "name": "Ostatní správa v zemědělství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1070",
+    "name": "Rybářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1081",
+    "name": "Zemědělský výzkum a vývoj",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1082",
+    "name": "Lesnický výzkum",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1091",
+    "name": "Mezinárodní spolupráce v zemědělství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1092",
+    "name": "Mezinárodní spolupráce v lesním hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1098",
+    "name": "Ostatní výdaje na zemědělství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "1099",
+    "name": "Ostatní výdaje na lesní hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2111",
+    "name": "Uhelné hornictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2112",
+    "name": "Těžba nerostných surovin kromě paliv",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2113",
+    "name": "Zpracování ropy a zemního plynu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2114",
+    "name": "Jaderné elektrárny",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2115",
+    "name": "Úspora energie a obnovitelné zdroje",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2116",
+    "name": "Jaderné palivo a ochrana před ionizujícím zářením",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2117",
+    "name": "Elektrická energie",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2118",
+    "name": "Energie jiná než elektrická",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2119",
+    "name": "Ostatní záležitosti těžebního průmyslu a energetiky",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2121",
+    "name": "Stavebnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2122",
+    "name": "Sběr a zpracování druhotných surovin",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2123",
+    "name": "Podpora rozvoje průmyslových zón",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2124",
+    "name": "Opatření ke zvýšení konkurenceschopnosti průmyslových odvětví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2125",
+    "name": "Podpora podnikání a inovací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2129",
+    "name": "Ostatní odvětvová a oborová opatření",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2131",
+    "name": "Přímá podpora exportu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2139",
+    "name": "Ostatní záležitosti zahraničního obchodu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2141",
+    "name": "Vnitřní obchod",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2142",
+    "name": "Ubytování a stravování",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2143",
+    "name": "Cestovní ruch",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2144",
+    "name": "Ostatní služby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2161",
+    "name": "Činnost ústředního orgánu státní správy v odvětví energetiky, průmyslu, stavebnictví, obchodu a služeb",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2162",
+    "name": "Činnost ostatních orgánů státní správy v průmyslu, stavebnictví, obchodu a službách",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2169",
+    "name": "Ostatní správa v průmyslu, stavebnictví, obchodu a službách",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2181",
+    "name": "Výzkum a vývoj v palivech a energetice",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2182",
+    "name": "Výzkum a vývoj v průmyslu kromě paliv a energetiky",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2183",
+    "name": "Výzkum a vývoj ve službách",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2184",
+    "name": "Výzkum a vývoj v obchodu a cestovním ruchu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2185",
+    "name": "Výzkum a vývoj ve stavebnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2191",
+    "name": "Mezinárodní spolupráce v průmyslu, stavebnictví, obchodu a službách",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2199",
+    "name": "Záležitosti průmyslu, stavebnictví, obchodu a služeb jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2211",
+    "name": "Dálnice",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2212",
+    "name": "Silnice",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2219",
+    "name": "Ostatní záležitosti pozemních komunikací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2221",
+    "name": "Provoz veřejné silniční dopravy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2222",
+    "name": "Kontrola technické způsobilosti vozidel",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2223",
+    "name": "Bezpečnost silničního provozu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2229",
+    "name": "Ostatní záležitosti v silniční dopravě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2231",
+    "name": "Vodní cesty",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2232",
+    "name": "Provoz vnitrozemské plavby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2233",
+    "name": "Záležitosti námořní dopravy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2239",
+    "name": "Ostatní záležitosti vnitrozemské plavby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2241",
+    "name": "Železniční dráhy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2242",
+    "name": "Provoz veřejné železniční dopravy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2243",
+    "name": "Drážní vozidla",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2249",
+    "name": "Ostatní záležitosti železniční dopravy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2251",
+    "name": "Letiště",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2252",
+    "name": "Zabezpečení letového provozu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2253",
+    "name": "Provoz civilní letecké dopravy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2259",
+    "name": "Ostatní záležitosti civilní letecké dopravy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2261",
+    "name": "Činnost ústředních orgánů státní správy v dopravě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2262",
+    "name": "Činnost ostatních orgánů státní správy v dopravě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2269",
+    "name": "Ostatní správa v dopravě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2271",
+    "name": "Ostatní dráhy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2272",
+    "name": "Provoz ostatních drah",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2279",
+    "name": "Záležitosti ostatních drah jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2280",
+    "name": "Výzkum a vývoj v dopravě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2291",
+    "name": "Mezinárodní spolupráce v dopravě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2292",
+    "name": "Dopravní obslužnost veřejnými službami",
+    "validFrom": "2017-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2293",
+    "name": "Dopravní obslužnost mimo veřejnou službu",
+    "validFrom": "2018-01-24T00:00:00.000Z"
+  },
+  {
+    "id": "2299",
+    "name": "Ostatní záležitosti v dopravě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2310",
+    "name": "Pitná voda",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2321",
+    "name": "Odvádění a čištění odpadních vod a nakládání s kaly",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2322",
+    "name": "Prevence znečišťování vody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2329",
+    "name": "Odvádění a čištění odpadních vod jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2331",
+    "name": "Úpravy vodohospodářsky významných a vodárenských toků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2332",
+    "name": "Vodní díla na vodohospodářsky významných a vodárenských tocích",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2333",
+    "name": "Úpravy drobných vodních toků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2334",
+    "name": "Revitalizace říčních systémů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2339",
+    "name": "Záležitosti vodních toků a vodohospodářských děl jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2341",
+    "name": "Vodní díla v zemědělské krajině",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2342",
+    "name": "Protierozní ochrana",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2349",
+    "name": "Ostatní záležitosti vody v zemědělské krajině",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2361",
+    "name": "Činnost ústředních orgánů státní správy ve vodním hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2362",
+    "name": "Činnost ostatních orgánů státní správy ve vodním hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2369",
+    "name": "Ostatní správa ve vodním hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2380",
+    "name": "Vodohospodářský výzkum a vývoj",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2391",
+    "name": "Mezinárodní spolupráce v oblasti vodního hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2399",
+    "name": "Ostatní záležitosti vodního hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2411",
+    "name": "Záležitosti pošt",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2412",
+    "name": "Záležitosti telekomunikací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2413",
+    "name": "Záležitosti radiokomunikací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2419",
+    "name": "Ostatní záležitosti spojů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2461",
+    "name": "Činnost ústředních orgánů státní správy ve spojích",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2462",
+    "name": "Činnost ostatních orgánů státní správy ve spojích",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2469",
+    "name": "Ostatní správa ve spojích",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2480",
+    "name": "Výzkum a vývoj ve spojích",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2491",
+    "name": "Mezinárodní spolupráce ve spojích",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2499",
+    "name": "Ostatní záležitosti spojů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2510",
+    "name": "Podpora podnikání",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2521",
+    "name": "Bezpečnost práce",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2529",
+    "name": "Všeobecné pracovní záležitosti jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2531",
+    "name": "Centrální banka a měna",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2532",
+    "name": "Úřad Národní rozpočtové rady",
+    "validFrom": "2018-01-24T00:00:00.000Z"
+  },
+  {
+    "id": "2539",
+    "name": "Všeobecné finanční záležitosti jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2541",
+    "name": "Geologie",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2542",
+    "name": "Meteorologie",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2549",
+    "name": "Všeobecné hospodářské služby jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2561",
+    "name": "Činnost ústředních orgánů státní správy v oblasti hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2562",
+    "name": "Činnost ostatních orgánů a organizací v oblasti normalizace, standardizace a metrologie",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2563",
+    "name": "Činnost ostatních orgánů státní správy v zeměměřictví a katastru",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2564",
+    "name": "Správa národního majetku",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2565",
+    "name": "Činnost ostatních orgánů státní správy v oblasti bezpečnosti práce",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2569",
+    "name": "Všeobecná hospodářská správa jinde nezařazená",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2580",
+    "name": "Výzkum a vývoj v oblasti všeobecných hospodářských záležitostí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "2590",
+    "name": "Mezinárodní spolupráce ve všeobecných hospodářských záležitostech.",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3111",
+    "name": "Mateřské školy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3112",
+    "name": "Mateřské školy pro děti se speciálními vzdělávacími potřebami",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3113",
+    "name": "Základní školy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3114",
+    "name": "Základní školy pro žáky se speciálními vzdělávacími potřebami",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3115",
+    "name": "Ostatní záležitosti předškolního vzdělávání",
+    "validFrom": "2015-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3117",
+    "name": "První stupeň základních škol",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3118",
+    "name": "Druhý stupeň základních škol",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3119",
+    "name": "Ostatní záležitosti základního vzdělávání",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3121",
+    "name": "Gymnazia",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3122",
+    "name": "Střední odborné školy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3123",
+    "name": "Střední školy poskytující střední vzdělání s výučním listem",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3124",
+    "name": "Střední školy a konzervatoře pro žáky se speciálními vzdělávacími potřebami",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3125",
+    "name": "Střediska praktického vyučování a školní hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3126",
+    "name": "Konzervatoře",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3127",
+    "name": "Střední školy",
+    "validFrom": "2015-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3128",
+    "name": "Sportovní školy - gymnázia",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3129",
+    "name": "Ostatní zařízení středního vzdělávání",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3131",
+    "name": "Výchovné ústavy a dětské domovy se školou",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3132",
+    "name": "Diagnostické ústavy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3133",
+    "name": "Dětské domovy",
+    "validFrom": "2015-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3139",
+    "name": "Ostatní školská zařízení pro výkon ústavní a ochranné výchovy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3141",
+    "name": "Školní stravování",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3143",
+    "name": "Školní družiny a kluby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3144",
+    "name": "Školy v přírodě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3145",
+    "name": "Internáty",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3146",
+    "name": "Zařízení výchovného poradenství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3147",
+    "name": "Domovy mládeže",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3148",
+    "name": "Střediska výchovné péče",
+    "validFrom": "2015-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3149",
+    "name": "Ostatní zařízení související s výchovou a vzděláváním mládeže",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3150",
+    "name": "Vyšší odborné školy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3211",
+    "name": "Vysoké školy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3212",
+    "name": "Výzkum, vývoj a inovace na vysokých školách",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3213",
+    "name": "Bakalářské studium",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3214",
+    "name": "Magisterské a doktorské studium",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3221",
+    "name": "Vysokoškolské koleje a menzy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3229",
+    "name": "Ostatní zařízení související s vysokoškolským vzděláváním",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3231",
+    "name": "Základní umělecké školy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3232",
+    "name": "Jazykové školy s právem státní jazykové zkoušky",
+    "validFrom": "2015-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3233",
+    "name": "Střediska volného času",
+    "validFrom": "2015-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3239",
+    "name": "Záležitosti zájmového vzdělávání jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3261",
+    "name": "Činnost ústředního orgánu státní správy ve vzdělávání",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3262",
+    "name": "Činnost ostatních orgánů státní správy ve vzdělávání",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3269",
+    "name": "Ostatní správa ve vzdělávání jinde nezařazená",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3280",
+    "name": "Výzkum školství a vzdělávání",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3291",
+    "name": "Mezinárodní spolupráce ve vzdělávání",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3292",
+    "name": "Vzdělávání národnostních menšin a multikulturní výchova",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3293",
+    "name": "Vzdělávací akce k integraci Romů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3294",
+    "name": "Zařízení pro další vzdělávání pedagogických pracovníků",
+    "validFrom": "2015-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3299",
+    "name": "Ostatní záležitosti vzdělávání",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3311",
+    "name": "Divadelní činnost",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3312",
+    "name": "Hudební činnost",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3313",
+    "name": "Filmová tvorba, distribuce, kina a shromažďování audiovizuálních archiválií",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3314",
+    "name": "Činnosti knihovnické",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3315",
+    "name": "Činnosti muzeí a galerií",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3316",
+    "name": "Vydavatelská činnost",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3317",
+    "name": "Výstavní činnosti v kultuře",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3319",
+    "name": "Ostatní záležitosti kultury",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3321",
+    "name": "Činnosti památkových ústavů, hradů a zámků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3322",
+    "name": "Zachování a obnova kulturních památek",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3324",
+    "name": "Výkup předmětů kulturní hodnoty",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3325",
+    "name": "Pražský hrad",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3326",
+    "name": "Pořízení, zachování a obnova hodnot místního kulturního, národního a historického povědomí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3329",
+    "name": "Ostatní záležitosti ochrany památek a péče o kulturní dědictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3330",
+    "name": "Činnosti registrovaných církví a náboženských společností",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3341",
+    "name": "Rozhlas a televize",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3349",
+    "name": "Ostatní záležitosti sdělovacích prostředků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3361",
+    "name": "Činnost ústředního orgánu státní správy v oblasti kultury a církví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3362",
+    "name": "Činnost ostatních orgánů státní správy v oblasti kultury, církví a sdělovacích prostředků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3369",
+    "name": "Ostatní správa v oblasti kultury, církví a sdělovacích prostředků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3380",
+    "name": "Výzkum a vývoj v oblasti kultury, církví a sdělovacích prostředků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3391",
+    "name": "Mezinárodní spolupráce v kultuře, církvích a sdělovacích prostředcích",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3392",
+    "name": "Zájmová činnost v kultuře",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3399",
+    "name": "Ostatní záležitosti kultury, církví a sdělovacích prostředků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3411",
+    "name": "Státní sportovní reprezentace",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3412",
+    "name": "Sportovní zařízení v majetku obcí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3419",
+    "name": "Ostatní tělovýchovná činnost",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3421",
+    "name": "Využití volného času dětí a mládeže",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3429",
+    "name": "Ostatní zájmová činnost a rekreace",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3480",
+    "name": "Výzkum v oblasti tělovýchovy, zájmové činnosti a rekreace",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3511",
+    "name": "Všeobecná ambulantní péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3512",
+    "name": "Stomatologická péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3513",
+    "name": "Lékařská služba první pomoci",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3514",
+    "name": "Transfúzní služba a tkáňová zařízení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3515",
+    "name": "Specializovaná ambulantní zdravotní péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3516",
+    "name": "Péče v mateřství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3519",
+    "name": "Ostatní ambulantní péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3521",
+    "name": "Fakultní nemocnice",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3522",
+    "name": "Ostatní nemocnice",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3523",
+    "name": "Odborné léčebné ústavy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3524",
+    "name": "Léčebny dlouhodobě nemocných",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3525",
+    "name": "Hospice",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3526",
+    "name": "Lázeňské léčebny, ozdravovny, sanatoria",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3527",
+    "name": "Vysoce specializovaná pracoviště a jednooborové zařízení lůžkové péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3529",
+    "name": "Ostatní ústavní péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3531",
+    "name": "Hygienická služba a ochrana veřejného zdraví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3532",
+    "name": "Lékárenská služba (léky, protézy a přístroje pro užití vně zdravotnických zařízení)",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3533",
+    "name": "Zdravotnická záchranná služba",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3534",
+    "name": "Doprava ve zdravotnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3539",
+    "name": "Ostatní zdravotnická zařízení a služby pro zdravotnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3541",
+    "name": "Prevence před drogami, alkoholem, nikotinem aj. závislostmi",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3542",
+    "name": "Prevence HIV/AIDS",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3543",
+    "name": "Pomoc zdravotně postiženým a chronicky nemocným",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3544",
+    "name": "Národní program zdraví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3545",
+    "name": "Programy paliativní péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3549",
+    "name": "Ostatní speciální zdravotnická péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3561",
+    "name": "Činnost ústředního orgánu státní správy ve zdravotnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3562",
+    "name": "Činnost ostatních orgánů státní správy ve zdravotnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3569",
+    "name": "Ostatní správa ve zdravotnictví jinde nezařazená",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3581",
+    "name": "Organizace výzkumu a střediska vědeckých informací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3589",
+    "name": "Ostatní výzkum a vývoj ve zdravotnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3591",
+    "name": "Mezinárodní spolupráce ve zdravotnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3592",
+    "name": "Další vzdělávání pracovníků ve zdravotnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3599",
+    "name": "Ostatní činnost ve zdravotnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3611",
+    "name": "Podpora individuální bytové výstavby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3612",
+    "name": "Bytové hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3613",
+    "name": "Nebytové hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3614",
+    "name": "Bytové služby pro vlastní zaměstnance",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3615",
+    "name": "Podpora stavebního spoření a hypotečních úvěrů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3619",
+    "name": "Ostatní rozvoj bydlení a bytového hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3631",
+    "name": "Veřejné osvětlení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3632",
+    "name": "Pohřebnictví",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3633",
+    "name": "Výstavba a údržba místních inženýrských sítí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3634",
+    "name": "Lokální zásobování teplem",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3635",
+    "name": "Územní plánování",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3636",
+    "name": "Územní rozvoj",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3639",
+    "name": "Komunální služby a územní rozvoj jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3661",
+    "name": "Činnost ústředního orgánu státní správy v oblasti bydlení, komunálních služeb a územního rozvoje",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3662",
+    "name": "Činnost ostatních orgánů státní správy v oblasti bydlení, komunálních služeb a územního rozvoje",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3669",
+    "name": "Ostatní správa v oblasti v oblasti bydlení, komunálních služeb a územního rozvoje jinde nezařazená",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3680",
+    "name": "Výzkum a vývoj v oblasti bydlení, komunálních služeb a územního rozvoje",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3691",
+    "name": "Mezinárodní spolupráce v oblasti bydlení, komunálních služeb a územního rozvoje",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3699",
+    "name": "Ostatní záležitosti bydlení, komunálních služeb a územního rozvoje",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3711",
+    "name": "Odstraňování tuhých emisí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3712",
+    "name": "Odstraňování plynných emisí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3713",
+    "name": "Změny technologií vytápění",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3714",
+    "name": "Opatření ke snižování produkce skleníkových plynů a plynů poškozujících ozónovou vrstvu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3715",
+    "name": "Změny výrobních technologií za účelem výrazného odstranění emisí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3716",
+    "name": "Monitoring ochrany ovzduší",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3719",
+    "name": "Ostatní činnosti k ochraně ovzduší",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3721",
+    "name": "Sběr a svoz nebezpečných odpadů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3722",
+    "name": "Sběr a svoz komunálních odpadů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3723",
+    "name": "Sběr a svoz ostatních odpadů (jiných než nebezpečných a komunálních)",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3724",
+    "name": "Využívání a zneškodňování nebezpečných odpadů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3725",
+    "name": "Využívání a zneškodňování komunálních odpadů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3726",
+    "name": "Využívání a zneškodňování ostatních odpadů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3727",
+    "name": "Prevence vzniku odpadů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3728",
+    "name": "Monitoring nakládání s odpady",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3729",
+    "name": "Ostatní nakládání s odpady",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3731",
+    "name": "Ochrana půdy a podzemní vody proti znečišťujícím infiltracím",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3732",
+    "name": "Dekontaminace půd a čištění spodní vody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3733",
+    "name": "Monitoring půdy a podzemní vody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3734",
+    "name": "Předcházení a sanace zasolení půd",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3739",
+    "name": "Ostatní ochrana půdy a spodní vody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3741",
+    "name": "Ochrana druhů a stanovišť",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3742",
+    "name": "Chráněné části přírody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3743",
+    "name": "Rekultivace půdy v důsledku těžební a důlní činnosti, po skládkách odpadů apod.",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3744",
+    "name": "Protierozní, protilavinová a protipožární ochrana",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3745",
+    "name": "Péče o vzhled obcí a veřejnou zeleň",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3749",
+    "name": "Ostatní činnosti k ochraně přírody a krajiny",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3751",
+    "name": "Konstrukce a uplatnění protihlukových zařízení (protihlukové stěny a bariéry, okna, zapouzdření strojů apod.)",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3753",
+    "name": "Monitoring ke zjišťování úrovně hluku a vibrací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3759",
+    "name": "Ostatní činnosti k omezení hluku a vibrací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3761",
+    "name": "Činnost ústředního orgánu státní správy v ochraně životního prostředí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3762",
+    "name": "Činnost ostatních orgánů státní správy v ochraně životního prostředí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3769",
+    "name": "Ostatní správa v ochraně životního prostředí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3771",
+    "name": "Protiradonová opatření",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3772",
+    "name": "Přeprava a nakládání s radioaktivním odpadem",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3773",
+    "name": "Monitoring k zajišťování úrovně radioaktivního záření",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3779",
+    "name": "Ostatní činnosti k ochraně proti záření",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3780",
+    "name": "Výzkum životního prostředí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3791",
+    "name": "Mezinárodní spolupráce v životním prostředí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3792",
+    "name": "Ekologická výchova a osvěta",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3793",
+    "name": "Ekologie v dopravě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3799",
+    "name": "Ostatní ekologické záležitosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3801",
+    "name": "Akademie věd České republiky",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3802",
+    "name": "Grantová agentura České republiky",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3803",
+    "name": "Technologická agentura České republiky",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3809",
+    "name": "Ostatní výzkum a vývoj odvětvově nespecifikovaný",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "3900",
+    "name": "Ostatní činnosti související se službami pro obyvatelstvo",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4111",
+    "name": "Starobní důchody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4112",
+    "name": "Invalidní důchody pro invaliditu třetího stupně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4113",
+    "name": "Invalidní důchody pro invaliditu druhého stupně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4114",
+    "name": "Vdovské důchody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4115",
+    "name": "Vdovecké důchody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4116",
+    "name": "Sirotčí důchody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4117",
+    "name": "Invalidní důchody pro invaliditu prvního stupně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4119",
+    "name": "Ostatní dávky důchodového pojištění",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4121",
+    "name": "Nemocenské",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4122",
+    "name": "Ošetřovné",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4123",
+    "name": "Vyrovnávací příspěvek v těhotenství a mateřství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4124",
+    "name": "Peněžitá pomoc v mateřství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4125",
+    "name": "Dávky otcovské poporodní péče",
+    "validFrom": "2018-01-24T00:00:00.000Z"
+  },
+  {
+    "id": "4126",
+    "name": "Dlouhodobé ošetřovné",
+    "validFrom": "2018-01-24T00:00:00.000Z"
+  },
+  {
+    "id": "4129",
+    "name": "Dávky nemocenského pojištění jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4131",
+    "name": "Přídavek na dítě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4132",
+    "name": "Sociální příplatek",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4133",
+    "name": "Porodné",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4134",
+    "name": "Rodičovský příspěvek",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4136",
+    "name": "Dávky pěstounské péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4138",
+    "name": "Pohřebné",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4141",
+    "name": "Příspěvek na bydlení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4142",
+    "name": "Příspěvek na školní pomůcky",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4149",
+    "name": "Dávky státní sociální podpory jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4151",
+    "name": "Odchodné",
+    "validFrom": "2012-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4152",
+    "name": "Výsluhový příspěvek",
+    "validFrom": "2012-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4153",
+    "name": "Úmrtné a příspěvek na pohřeb příslušníka",
+    "validFrom": "2012-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4154",
+    "name": "Odbytné",
+    "validFrom": "2012-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4159",
+    "name": "Ostatní sociální dávky příslušníků ozbrojených sil při skončení služebního poměru",
+    "validFrom": "2012-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4171",
+    "name": "Příspěvek na živobytí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4172",
+    "name": "Doplatek na bydlení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4173",
+    "name": "Mimořádná okamžitá pomoc",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4174",
+    "name": "Dávky sociální péče pro staré občany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4175",
+    "name": "Dávky sociální péče pro rodinu a děti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4176",
+    "name": "Dávky sociální péče pro sociálně vyloučené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4177",
+    "name": "Mimořádná okamžitá pomoc osobám ohroženým sociálním vyloučením",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4179",
+    "name": "Ostatní dávky sociální pomoci",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4182",
+    "name": "Příspěvek na zvláštní pomůcky",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4183",
+    "name": "Příspěvek na úpravu a provoz bezbariérového bytu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4184",
+    "name": "Příspěvky na zakoupení, opravu a zvláštní úpravu motorového vozidla",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4185",
+    "name": "Příspěvek na provoz motorového vozidla",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4186",
+    "name": "Příspěvek na individuální dopravu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4187",
+    "name": "Příspěvek na mobilitu",
+    "validFrom": "2012-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4188",
+    "name": "Příspěvek na zvláštní pomůcku",
+    "validFrom": "2012-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4189",
+    "name": "Ostatní dávky zdravotně postiženým občanům",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4191",
+    "name": "Státní příspěvky na důchodové připojištění",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4192",
+    "name": "Úrokové příspěvky mladým manželstvím",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4193",
+    "name": "Dávky a odškodnění válečným veteránům a perzekvovaným osobám",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4194",
+    "name": "Zvýšení důchodů pro bezmocnost",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4195",
+    "name": "Příspěvek na péči",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4199",
+    "name": "Ostatní dávky povahy sociálního zabezpečení jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4210",
+    "name": "Podpory v nezaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4221",
+    "name": "Rekvalifikace",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4222",
+    "name": "Veřejně prospěšné práce",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4223",
+    "name": "Společensky účelná pracovní místa",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4225",
+    "name": "Podpora zaměstnanosti zdravotně postižených občanů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4226",
+    "name": "Ostatní podpora zaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4227",
+    "name": "Cílené programy k řešení zaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4229",
+    "name": "Aktivní politika zaměstnanosti jinde nezařazená",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4230",
+    "name": "Ochrana zaměstnanců při platební neschopnosti zaměstnavatelů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4240",
+    "name": "Příspěvek na podporu zaměstnávání osob se zdravotním postižením na chráněném trhu práce",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4250",
+    "name": "Příspěvky na sociální důsledky restrukturalizace",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4280",
+    "name": "Výzkum a vývoj v politice zaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4311",
+    "name": "Základní sociální poradenství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4312",
+    "name": "Odborné sociální poradenství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4313",
+    "name": "Sociální ústavy pro zdravotně postiženou mládež včetně diagnostických ústavů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4314",
+    "name": "Pečovatelská služba",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4315",
+    "name": "Sociální hospitalizace",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4316",
+    "name": "Domovy důchodců",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4317",
+    "name": "Domovy - penziony pro staré občany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4318",
+    "name": "Ostatní sociální péče a pomoc starým občanům (kromě ústavní)",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4319",
+    "name": "Ostatní výdaje související se sociálním poradenstvím",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4324",
+    "name": "Zařízení pro děti vyžadující okamžitou pomoc",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4329",
+    "name": "Ostatní sociální péče a pomoc dětem a mládeži",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4333",
+    "name": "Domovy-penzióny pro matky s dětmi",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4334",
+    "name": "Pečovatelská služba pro rodinu a děti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4339",
+    "name": "Ostatní sociální péče a pomoc rodině a manželství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4341",
+    "name": "Sociální pomoc osobám v hmotné nouzi a občanům sociálně nepřizpůsobivým",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4342",
+    "name": "Sociální péče a pomoc přistěhovalcům a vybraným etnikům",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4343",
+    "name": "Sociální pomoc osobám v souvislosti s živelní pohromou nebo požárem",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4344",
+    "name": "Sociální poradenství pro staré občany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4345",
+    "name": "Centra sociálně rehabilitačních služeb",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4349",
+    "name": "Ostatní sociální péče a pomoc ostatním skupinám obyvatelstva",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4350",
+    "name": "Domovy pro seniory",
+    "validFrom": "2013-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4351",
+    "name": "Osobní asistence, pečovatelská služba a podpora samostatného bydlení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4352",
+    "name": "Tísňová péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4353",
+    "name": "Průvodcovské a předčitatelské služby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4354",
+    "name": "Chráněné bydlení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4355",
+    "name": "Týdenní stacionáře",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4356",
+    "name": "Denní stacionáře a centra denních služeb",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4357",
+    "name": "Domovy pro osoby se zdravotním postižením a domovy se zvláštním režimem",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4358",
+    "name": "Sociální služby poskytované ve zdravotnických zařízeních ústavní péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4359",
+    "name": "Ostatní služby a činnosti v oblasti sociální péče",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4361",
+    "name": "Činnost ústředního orgánu státní správy v sociálním zabezpečení, politice zaměstnanosti a rodinné politice",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4362",
+    "name": "Činnost ostatních orgánů státní správy v sociálním zabezpečení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4363",
+    "name": "Ostatní orgány státní správy v oblasti politiky zaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4369",
+    "name": "Ostatní správa v sociálním zabezpečení a politice zaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4371",
+    "name": "Raná péče a sociálně aktivizační služby pro rodiny s dětmi",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4372",
+    "name": "Krizová pomoc",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4373",
+    "name": "Domy na půl cesty",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4374",
+    "name": "Azylové domy, nízkoprahová denní centra a noclehárny",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4375",
+    "name": "Nízkoprahová zařízení pro děti a mládež",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4376",
+    "name": "Služby následné péče, terapeutické komunity a kontaktní centra",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4377",
+    "name": "Sociálně terapeutické dílny",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4378",
+    "name": "Terénní programy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4379",
+    "name": "Ostatní služby a činnosti v oblasti sociální prevence",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4380",
+    "name": "Výzkum v sociálním zabezpečení a politice zaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4391",
+    "name": "Mezinárodní spolupráce v sociálním zabezpečení a podpoře zaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4392",
+    "name": "Inspekce poskytování sociálních služeb",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "4399",
+    "name": "Ostatní záležitosti sociálních věcí a politiky zaměstnanosti",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5111",
+    "name": "Armáda",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5112",
+    "name": "Ostatní ozbrojené síly",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5113",
+    "name": "Bezpečnostní složky ozbrojených sil",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5119",
+    "name": "Podpůrné složky ozbrojených sil",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5161",
+    "name": "Činnost ústředního orgánu státní správy ve vojenské obraně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5162",
+    "name": "Činnost ostatních orgánů státní správy ve vojenské obraně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5169",
+    "name": "Ostatní správa ve vojenské obraně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5171",
+    "name": "Zabezpečení potřeb ozbrojených sil",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5172",
+    "name": "Operační příprava státního území",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5179",
+    "name": "Ostatní činnosti pro zabezpečení potřeb ozbrojených sil",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5180",
+    "name": "Výzkum a vývoj v oblasti obrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5191",
+    "name": "Mezinárodní spolupráce v obraně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5192",
+    "name": "Zahraniční vojenská pomoc",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5199",
+    "name": "Ostatní záležitosti obrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5211",
+    "name": "Civilní ochrana-vojenská část",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5212",
+    "name": "Ochrana obyvatelstva",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5219",
+    "name": "Ostatní záležitosti ochrany obyvatelstva",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5220",
+    "name": "Hospodářská opatření pro krizové stavy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5261",
+    "name": "Státní správa v oblasti hospodářských opatření pro krizové stavy a v oblasti krizového řízení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5262",
+    "name": "Činnost ostatních orgánů státní správy v oblasti civilního nouzového hospodářství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5269",
+    "name": "Ostatní správa v oblasti hospodářských opatření pro krizové stavy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5271",
+    "name": "Činnost orgánů krizového řízení na ústřední úrovni a dalších správních úřadů v oblasti krizového řízení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5272",
+    "name": "Činnost orgánů krizového řízení na územní úrovni a dalších územních správních úřadů v oblasti krizového řízení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5273",
+    "name": "Ostatní správa v oblasti krizového řízení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5274",
+    "name": "Podpora krizového řízení a nouzového plánování",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5279",
+    "name": "Záležitosti krizového řízení jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5281",
+    "name": "Výzkum a vývoj v oblasti ochrany obyvatelstva",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5289",
+    "name": "Výzkum a vývoj v oblasti krizového řízení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5291",
+    "name": "Mezinárodní spolupráce v oblasti krizového řízení",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5292",
+    "name": "Poskytnutí vzájemné zahraniční pomoci podle mezinárodních smluv",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5299",
+    "name": "Ostatní záležitosti civilní připravenosti na krizové stavy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5311",
+    "name": "Bezpečnost a veřejný pořádek",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5312",
+    "name": "Opatření proti legalizaci výnosů z trestné činnosti a proti financování terorismu",
+    "validFrom": "2017-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5316",
+    "name": "Činnost ústředního orgánu státní správy v oblasti bezpečnosti a veřejného pořádku",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5317",
+    "name": "Hraniční přechody",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5319",
+    "name": "Ostatní záležitosti bezpečnosti a veřejného pořádku",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5380",
+    "name": "Výzkum týkající se bezpečnosti a veřejného pořádku",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5391",
+    "name": "Mezinárodní spolupráce v oblasti bezpečnosti a veřejného pořádku",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5399",
+    "name": "Ostatní záležitosti bezpečnosti,veřejného pořádku",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5410",
+    "name": "Ústavní soud",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5420",
+    "name": "Soudy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5430",
+    "name": "Státní zastupitelství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5441",
+    "name": "Činnost Generálního ředitelství Vězeňské služby a věznic",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5442",
+    "name": "Ostatní správa ve vězeňství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5449",
+    "name": "Ostatní záležitosti vězeňství",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5450",
+    "name": "Činnost probační a mediační služby",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5461",
+    "name": "Činnost ústředního orgánu státní správy v oblasti právní ochrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5462",
+    "name": "Činnost ostatních orgánů státní správy v oblasti právní ochrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5469",
+    "name": "Ostatní správa v oblasti právní ochrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5470",
+    "name": "Kancelář Veřejného ochránce práv",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5471",
+    "name": "Kancelář finančního arbitra",
+    "validFrom": "2012-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5480",
+    "name": "Výzkum v oblasti právní ochrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5491",
+    "name": "Mezinárodní spolupráce v oblasti právní ochrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5499",
+    "name": "Ostatní záležitosti právní ochrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5511",
+    "name": "Požární ochrana - profesionální část",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5512",
+    "name": "Požární ochrana - dobrovolná část",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5517",
+    "name": "Vzdělávací a technická zařízení požární ochrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5519",
+    "name": "Ostatní záležitosti požární ochrany",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5521",
+    "name": "Operační a informační střediska integrovaného záchranného systému.",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5522",
+    "name": "Ostatní činnosti v integrovaném záchranném systému",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5529",
+    "name": "Ostatní složky a činnosti integrovaného záchranného systému",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5561",
+    "name": "Činnost ústředního orgánu státní správy v požární ochraně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5562",
+    "name": "Činnost ústředních orgánů státní správy v integrovaném záchranném systému",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5563",
+    "name": "Činnost ostatních orgánů státní správy v integrovaném záchranném systému",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5580",
+    "name": "Výzkum a vývoj v požární ochraně a integrovaném záchranném systému",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5591",
+    "name": "Mezinárodní spolupráce v oblasti požární ochrany a integrovaném záchranném systému",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5592",
+    "name": "Poskytnutí vzájemné zahraniční pomoci podle mezinárodních smluv",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "5599",
+    "name": "Ostatní záležitosti požární ochrany a integrovaného záchranného systému",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6111",
+    "name": "Parlament",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6112",
+    "name": "Zastupitelstva obcí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6113",
+    "name": "Zastupitelstva krajů",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6114",
+    "name": "Volby do Parlamentu ČR",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6115",
+    "name": "Volby do zastupitelstev územních samosprávných celků",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6116",
+    "name": "Celostátní referendum",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6117",
+    "name": "Volby do Evropského parlamentu",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6118",
+    "name": "Volba prezidenta republiky",
+    "validFrom": "2013-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6119",
+    "name": "Ostatní zastupitelské orgány a volby",
+    "validFrom": "2013-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6120",
+    "name": "Kancelář prezidenta republiky",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6130",
+    "name": "Nejvyšší kontrolní úřad",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6141",
+    "name": "Ústřední orgány vnitřní státní správy a jejich dislokovaná pracoviště (nezařazené v jiných funkcích)",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6142",
+    "name": "Finanční správa",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6143",
+    "name": "Celní správa",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6145",
+    "name": "Úřad vlády",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6146",
+    "name": "Český statistický úřad",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6148",
+    "name": "Plánování a statistika",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6149",
+    "name": "Ostatní všeobecná vnitřní správa jinde nezařazená",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6151",
+    "name": "Činnost ústředního orgánu státní správy v zahraniční službě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6152",
+    "name": "Zastupitelství a stálé mise ČR v zahraničí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6153",
+    "name": "Ostatní účast v mezinárodních vládních organizacích",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6159",
+    "name": "Zahraniční služba a záležitosti jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6171",
+    "name": "Činnost místní správy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6172",
+    "name": "Činnost regionální správy",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6173",
+    "name": "Místní referendum",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6174",
+    "name": "Činnost regionálních rad",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6180",
+    "name": "Výzkum ve státní správě a samosprávě",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6190",
+    "name": "Politické strany a hnutí",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6211",
+    "name": "Archivní činnost",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6219",
+    "name": "Ostatní veřejné služby jinde nezařazené.",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6221",
+    "name": "Humanitární zahraniční pomoc přímá",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6222",
+    "name": "Rozvojová zahraniční pomoc",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6223",
+    "name": "Mezinárodní spolupráce (jinde nezařazená)",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6224",
+    "name": "Humanitární zahraniční pomoc poskytovaná prostřednictvím mezinárodních organizací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6229",
+    "name": "Ostatní zahraniční pomoc",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6310",
+    "name": "Obecné příjmy a výdaje z finančních operací",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6320",
+    "name": "Pojištění funkčně nespecifikované",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6330",
+    "name": "Převody vlastním fondům v rozpočtech územní úrovně",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6391",
+    "name": "Soudní a mimosoudní rehabilitace",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6399",
+    "name": "Ostatní finanční operace",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6401",
+    "name": "Transfery všeobecné povahy jiným úrovním vlády",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6402",
+    "name": "Finanční vypořádání minulých let",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "6409",
+    "name": "Ostatní činnosti jinde nezařazené",
+    "validFrom": "1900-01-01T00:00:00.000Z"
+  }
+]
