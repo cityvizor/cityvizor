@@ -26,26 +26,33 @@ export class ProfileSearchComponent implements OnInit {
 
 	ngOnInit() {
 
+	}
+
+	async loadProfiles() {
+
 		this.loading = true;
 
-		this.dataService.getProfiles().then(profiles => {
+		try {
+			const profiles = await this.dataService.getProfiles();
 
 			this.loading = false;
 
 			profiles.forEach(profile => {
 				profile.searchString = this.cleanString(profile.name);
 			});
+			
 			profiles.sort((a, b) => {
 				if (a.status === "pending" && b.status !== "pending") return 1;
 				if (a.status !== "pending" && b.status === "pending") return -1;
 				return a.searchString.localeCompare(b.searchString);
 			});
+
 			this.profiles = profiles;
-		})
-			.catch(err => {
-				this.loading = false;
-				this.toastService.toast("Nastala chyba při načítání obcí.", "error");
-			});
+		}
+		catch (err) {
+			this.loading = false;
+			this.toastService.toast("Nastala chyba při načítání obcí.", "error");
+		}
 	}
 
 	gps2css(gps) {
