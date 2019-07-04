@@ -72,10 +72,14 @@ import { ProfileHeaderComponent } from 'app/shared/components/profile-header/pro
 // Routes
 import { routing } from './app-routing.module';
 
+// HTTP Interceptors
+import { httpInterceptorProviders } from './http-interceptors';
+
 // App Config
 import { environment } from 'environments/environment';
 import { AppConfig, AppConfigData } from "../config/config";
 import { CounterpartyViewDashboardComponent } from './views/counterparty-view/counterparty-view-dashboard/counterparty-view-dashboard.component';
+
 
 // settings for JWT
 export function tokenGetter(): string {
@@ -119,7 +123,8 @@ var jwtOptions = {
 	providers: [
 		/* Angular Services */ Title,
 		/* Custom Services */ DataService, CodelistService, ToastService, AuthService, ACLService,
-		/* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
+		/* Config Providers */ { provide: AppConfig, useValue: AppConfigData },
+		httpInterceptorProviders
 	],
 	bootstrap: [AppComponent]
 })
