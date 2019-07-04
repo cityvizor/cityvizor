@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+  cityvizor:
+    build: .
+    container_name: cityvizor
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: cityvizor
+      MONGO_INITDB_ROOT_PASSWORD: pass

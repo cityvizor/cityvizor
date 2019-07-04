@@ -7,9 +7,9 @@ function isManagedProfile(req){
 	if(!user) return false;
 	
 	if(!user.managedProfiles || !user.managedProfiles.length) return false;
-	
+		
 	// if any of the profile ids is NOT found in managed profiles, some() returns true, then we return false;
-	return (profileId && user.managedProfiles.indexOf(profileId) < 0);
+	return (profileId && user.managedProfiles.indexOf(profileId) !== -1);
 }
 
 module.exports = {
@@ -40,6 +40,10 @@ module.exports = {
 	},
 	
 	"profile-image": {
+		"write": req => isManagedProfile(req)
+	},
+
+	"profile-import": {
 		"write": req => isManagedProfile(req)
 	},
 	
