@@ -5,7 +5,7 @@ module.exports = {
 
   cors: {
     enabled: environment.cors,
-    origin: "http://localhost:4200",
+    origin: environment.corsOrigin,
     methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
     exposedHeaders: ["Location"]
