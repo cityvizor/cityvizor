@@ -12,7 +12,7 @@ module.exports = {
   databaseUri: "mongodb://localhost/cityvizor",
 
   cors: true,
-  corsOrigin: "http://localhost:3000",
+  corsOrigin: "http://localhost:4200",
 
   keys: {
     edesky: { api_key: null },
