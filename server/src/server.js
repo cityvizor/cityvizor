@@ -51,6 +51,7 @@ var aclOptions = {
 		"user": require("./acl/user"),
 		"profile-manager": require("./acl/profile-manager"),
 		"profile-admin": require("./acl/profile-admin"),
+		"importer": require("./acl/importer"),
 		"admin": require("./acl/admin")
 	},
 	defaultRoles: ["guest"],
