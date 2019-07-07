@@ -5,10 +5,6 @@ const multer = require('multer');
 const acl = require("express-dynacl");
 const schema = require('express-jsonschema');
 
-// remove when import of ZIP sorted out
-const unzip = require("unzip");
-const fs = require("fs-extra");
-
 const config = require("../../config");
 
 const { Importer } = require("./import");
