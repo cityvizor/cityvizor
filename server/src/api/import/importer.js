@@ -1,3 +1,9 @@
+// remove when import of ZIP sorted out
+const unzip = require("unzip");
+const fs = require("fs-extra");
+const path = require("path");
+const config = require("../../../config");
+
 var ETLLog = require("../../models/etl-log");
 
 var ImportParser = require("./parser");
@@ -63,7 +69,10 @@ class Importer {
 
       await writer.save(data);
     }
-    catch (e) { err = e; }
+    catch (e) {
+      err = e;
+      console.error(e);
+    }
 
     await this.logResults(etl, err);
   }
@@ -81,7 +90,7 @@ class Importer {
     await fs.ensureDir(unzipDir);
 
     await new Promise((resolve, reject) => {
-      const stream = fs.createReadStream(req.files.dataFile[0].path).pipe(unzip.Extract({ path: unzipDir }));
+      const stream = fs.createReadStream(zipFile).pipe(unzip.Extract({ path: unzipDir }));
       stream.on("close", () => resolve());
       stream.on("error", err => reject(err));
     });
