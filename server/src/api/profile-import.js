@@ -66,7 +66,8 @@ router.post("/accounting",
 		etl.status = "queued";
 		await etl.save();
 
-		importer.import(etl, importData);
+		// TODO: add to qqueue instead of direct execution
+		await importer.import(etl, importData);
 
 		// response sent immediately, the import is in queue
 		res.json(etl);
