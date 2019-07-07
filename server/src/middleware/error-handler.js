@@ -6,9 +6,8 @@ module.exports = (err, req, res, next) => {
 	}
 
 	else if (err.name === 'JsonSchemaValidation') {
-		console.log("API Error: " + err.message);
-		console.log(JSON.stringify(err.validations));
-		res.status(400).send("API Error: " + err.message);
+		console.log("Request validation failed. Validation output: " + JSON.stringify(err.validations));
+		res.status(400).send("Request validation failed. Validation output: " + JSON.stringify(err.validations));
 	}
 
 	else if (err.name === 'MulterError') {

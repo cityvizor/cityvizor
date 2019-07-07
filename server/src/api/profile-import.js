@@ -15,20 +15,14 @@ const importAccountingSchema = {
 	body: {
 		type: "object",
 		properties: {
-			"year": { type: "string", pattern: "^\d{4}$", required: true },
+			"year": { type: "string" },
 			"validity": { type: "string", format: "date" }
 		},
+		required: ["year"],
 		additionalProperties: false
-	},
-	files: {
-		type: "object",
-		properties: {
-			"dataFile": { type: "object", required: false },
-			"eventsFile": { type: "object", required: false },
-			"paymentsFile": { type: "object", required: false }
-		}
 	}
 };
+
 
 const upload = multer({ dest: config.storage.tmp });
 
@@ -40,6 +34,10 @@ router.post("/accounting",
 
 		// When file missing throw error immediately
 		if (!req.files || (!req.files.dataFile && !req.files.zipFile)) return res.status(400).send("Missing data file or zip file");
+		if(isNaN(req.body.year)) return res.status(400).send("Invalid year value");
+		
+		const validity = new Date(req.body.validity);
+		if(!validity instanceof Date || isNaN(validity.getTime())) return res.status(400).send("Invalid validity date value");
 
 		var etl = await ETL.findOne({ profile: req.params.profile, year: req.body.year });
 
@@ -49,7 +47,7 @@ router.post("/accounting",
 		var importer = new Importer(etl);
 
 		var importData = {
-			validity: req.query.validity,
+			validity: validity,
 			userId: req.user ? req.user._id : null,
 			files: {
 				zipFile: req.files.zipFile ? req.files.zipFile[0].path : null,
