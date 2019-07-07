@@ -27,7 +27,7 @@ const importAccountingSchema = {
 	files: {
 		type: "object",
 		properties: {
-			"dataFile": { type: "object", required: true },
+			"dataFile": { type: "object", required: false },
 			"eventsFile": { type: "object", required: false },
 			"paymentsFile": { type: "object", required: false }
 		}
@@ -42,48 +42,8 @@ router.post("/accounting",
 	acl("profile-import", "write"),
 	async (req, res, next) => {
 
-		var files = {};
-
-		// TODO: redo after testing with Gordic
-		if (req.body.zip) {
-
-			const unzipDir = path.join(config.storage.tmp, "import-zip");
-			await fs.ensureDir(unzipDir);
-
-			await new Promise((resolve, reject) => {
-				const stream = fs.createReadStream(req.files.dataFile[0].path).pipe(unzip.Extract({ path: unzipDir }));
-				stream.on("close", () => resolve());
-				stream.on("error", err => reject(err));
-			});
-
-			const csvFiles = (await fs.readdir(unzipDir))
-				.filter(file => file.match(/\.csv$/i))
-				.map(file => {
-					const csvPath = path.join(unzipDir, file);
-					return {
-						path: csvPath,
-						size: fs.statSync(csvPath).size
-					};
-				});
-
-			csvFiles.sort((a, b) => b.size - a.size);
-
-			files = {
-				dataFile: csvFiles[0] ? csvFiles[0].path : null,
-				eventsFile: csvFiles[1] ? csvFiles[1].path : null
-			}
-
-		}
-		else {
-			// When file missing throw error immediately
-			if (!req.files || !req.files.dataFile) return res.status(400).send("Missing data file");
-
-			files = {
-				dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,
-				eventsFile: req.files.eventsFile ? req.files.eventsFile[0].path : null,
-				paymentsFile: req.files.paymentsFile ? req.files.paymentsFile[0].path : null
-			}
-		}
+		// When file missing throw error immediately
+		if (!req.files || (!req.files.dataFile && !req.files.zipFile)) return res.status(400).send("Missing data file or zip file");
 
 		var etl = await ETL.findOne({ profile: req.params.profile, year: req.body.year });
 
@@ -95,7 +55,12 @@ router.post("/accounting",
 		var importData = {
 			validity: req.query.validity,
 			userId: req.user ? req.user._id : null,
-			files
+			files: {
+				zipFile: req.files.zipFile ? req.files.zipFile[0].path : null,
+				dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,
+				eventsFile: req.files.eventsFile ? req.files.eventsFile[0].path : null,
+				paymentsFile: req.files.paymentsFile ? req.files.paymentsFile[0].path : null
+			}
 		};
 
 		etl.status = "queued";

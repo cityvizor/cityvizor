@@ -22,10 +22,12 @@ class Importer {
 
   async import(etl, options) {
 
+    // parse arguments
     if (options && options.validity) {
       this.validity = new Date(options.validity) || null
     }
 
+    // prepare stream
     const parser = new ImportParser();
     parser.on("warning", warning => this.warnings.push(warning));
 
@@ -42,10 +44,20 @@ class Importer {
 
     var err;
 
+    // import data
     try {
       await this.init(etl);
 
-      await parser.parseImport(options.files);
+      var importfiles = {};
+
+      if (options.files.zipFile) {
+        const extractedfiles = await this.extractZip(options.files.zipFile);
+        Object.assign(importfiles, extractedfiles);
+      }
+
+      Object.assign(importfiles, options.files);
+
+      await parser.parseImport(importfiles);
 
       const data = transformer.finish();
 
@@ -59,6 +71,38 @@ class Importer {
   async init(etl) {
     etl.status = "processing";
     await etl.save();
+  }
+
+  async extractZip(zipFile) {
+    // TODO: redo after testing with Gordic
+    // If zip file provided choose the largest CSV as dataFile and second largest as 
+    const unzipDir = path.join(config.storage.tmp, "import-zip");
+    await fs.remove(unzipDir);
+    await fs.ensureDir(unzipDir);
+
+    await new Promise((resolve, reject) => {
+      const stream = fs.createReadStream(req.files.dataFile[0].path).pipe(unzip.Extract({ path: unzipDir }));
+      stream.on("close", () => resolve());
+      stream.on("error", err => reject(err));
+    });
+
+    const csvFiles = (await fs.readdir(unzipDir))
+      .filter(file => file.match(/\.csv$/i))
+      .map(file => {
+        const csvPath = path.join(unzipDir, file);
+        return {
+          path: csvPath,
+          size: fs.statSync(csvPath).size
+        };
+      });
+
+    csvFiles.sort((a, b) => b.size - a.size);
+
+    return {
+      dataFile: csvFiles[0] ? csvFiles[0].path : null,
+      eventsFile: csvFiles[1] ? csvFiles[1].path : null
+    }
+
   }
 
   async logResults(etl, err) {
