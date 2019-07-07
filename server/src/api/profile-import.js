@@ -33,7 +33,7 @@ const importAccountingSchema = {
 const upload = multer({ dest: config.storage.tmp });
 
 router.post("/accounting",
-	upload.fields([{ name: "dataFile", maxCount: 1 }, { name: "eventsFile", maxCount: 1 }, { name: "paymentsFile", maxCount: 1 }]),
+	upload.fields([{ name: "dataFile", maxCount: 1 }, { name: "zipFile", maxCount: 1 }, { name: "eventsFile", maxCount: 1 }, { name: "paymentsFile", maxCount: 1 }]),
 	schema.validate(importAccountingSchema),
 	acl("profile-import", "write"),
 	async (req, res, next) => {
