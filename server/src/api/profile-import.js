@@ -4,8 +4,10 @@ const router = module.exports = express.Router({ mergeParams: true });
 const multer = require('multer');
 const acl = require("express-dynacl");
 const schema = require('express-jsonschema');
+
+// remove when import of ZIP sorted out
+const unzip = require("unzip");
 const fs = require("fs-extra");
-const async = require("async");
 
 const config = require("../../config");
 
@@ -40,8 +42,48 @@ router.post("/accounting",
 	acl("profile-import", "write"),
 	async (req, res, next) => {
 
-		// When file missing throw error immediately
-		if (!req.files || !req.files.dataFile) return res.status(400).send("Missing data file");
+		var files = {};
+
+		// TODO: redo after testing with Gordic
+		if (req.body.zip) {
+
+			const unzipDir = path.join(config.storage.tmp, "import-zip");
+			await fs.ensureDir(unzipDir);
+
+			await new Promise((resolve, reject) => {
+				const stream = fs.createReadStream(req.files.dataFile[0].path).pipe(unzip.Extract({ path: unzipDir }));
+				stream.on("close", () => resolve());
+				stream.on("error", err => reject(err));
+			});
+
+			const csvFiles = (await fs.readdir(unzipDir))
+				.filter(file => file.match(/\.csv$/i))
+				.map(file => {
+					const csvPath = path.join(unzipDir, file);
+					return {
+						path: csvPath,
+						size: fs.statSync(csvPath).size
+					};
+				});
+
+			csvFiles.sort((a, b) => b.size - a.size);
+
+			files = {
+				dataFile: csvFiles[0] ? csvFiles[0].path : null,
+				eventsFile: csvFiles[1] ? csvFiles[1].path : null
+			}
+
+		}
+		else {
+			// When file missing throw error immediately
+			if (!req.files || !req.files.dataFile) return res.status(400).send("Missing data file");
+
+			files = {
+				dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,
+				eventsFile: req.files.eventsFile ? req.files.eventsFile[0].path : null,
+				paymentsFile: req.files.paymentsFile ? req.files.paymentsFile[0].path : null
+			}
+		}
 
 		var etl = await ETL.findOne({ profile: req.params.profile, year: req.body.year });
 
@@ -53,17 +95,13 @@ router.post("/accounting",
 		var importData = {
 			validity: req.query.validity,
 			userId: req.user ? req.user._id : null,
-			files: {
-				dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,
-				eventsFile: req.files.eventsFile ? req.files.eventsFile[0].path : null,
-				paymentsFile: req.files.paymentsFile ? req.files.paymentsFile[0].path : null
-			}
+			files
 		};
 
 		etl.status = "queued";
 		await etl.save();
-		
-		importer.import(etl,importData);
+
+		importer.import(etl, importData);
 
 		// response sent immediately, the import is in queue
 		res.json(etl);
