@@ -4,7 +4,10 @@ function isManagedProfile(req){
 	let profileId = req.params.profile;
 	
 	// we need logged user
-	if(!user) return false;
+  if(!user) return false;
+
+  // we need profile id
+  if(!profileId) return false;
 	
 	if(!user.managedProfiles || !user.managedProfiles.length) return false;
 		

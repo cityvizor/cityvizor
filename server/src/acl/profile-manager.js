@@ -5,6 +5,9 @@ function isManagedProfile(req){
 	
 	// we need logged user
 	if(!user) return false;
+
+	// we need profile id
+  if(!profileId) return false;
 	
 	if(!user.managedProfiles || !user.managedProfiles.length) return false;
 		
