@@ -18,7 +18,7 @@ module.exports = {
   },
 
   database: {
-    uri: environment.databaseUri,
+    ...environment.database,
     reconnectTimeout: 10000
   },
 

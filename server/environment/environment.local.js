@@ -9,7 +9,12 @@ module.exports = {
 
   staticFiles: path.resolve(__dirname, "../../client/dist"),
 
-  databaseUri: "mongodb://localhost/cityvizor",
+  database: {
+    user: "cityvizor",
+    database: "cityvizor",
+    host: '127.0.0.1',
+    password: "cityvizor"
+  },
 
   cors: true,
   corsOrigin: "http://localhost:4200",
