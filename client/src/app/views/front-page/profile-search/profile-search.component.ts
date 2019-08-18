@@ -52,16 +52,17 @@ export class ProfileSearchComponent implements OnInit {
 			});
 	}
 
-	gps2css(gps) {
+	gps2css(gps_x, gps_y) {
 		let bounds = this.czechRepublicGPSBounds;
 		return {
-			bottom: (gps[1] - bounds.lat.min) / (bounds.lat.max - bounds.lat.min) * 100 + "%",
-			left: (gps[0] - bounds.lng.min) / (bounds.lng.max - bounds.lng.min) * 100 + "%"
+			bottom: (gps_y - bounds.lat.min) / (bounds.lat.max - bounds.lat.min) * 100 + "%",
+			left: (gps_x - bounds.lng.min) / (bounds.lng.max - bounds.lng.min) * 100 + "%"
 		};
 	}
 
-	gps2string(gps): string {
-		if (!gps) return "";
+	gps2string(gps_x, gps_y): string {
+		if (!gps_x || !gps_y) return "";
+		let gps = [gps_x, gps_y];
 		let dg = gps.map(n => Math.round(n)); // get degrees
 		let mn = gps.map(n => Math.round((n % 1) * 60 * 1000) / 1000); // get minutes
 		let st = [0, 1].map(i => dg[i] + "° " + mn[i] + "'"); // get string
@@ -98,9 +99,9 @@ export class ProfileSearchComponent implements OnInit {
 		this.router.navigate(['/' + profile.url]);
 	}
 
-	openPending(profile, modal, event) {
+	openPending(profile, event:MouseEvent) {
 		if (event.shiftKey) this.router.navigate(["/" + profile.url]);
-		else modal.show();
+		event.preventDefault();
 	}
 
 	getProfileAvatarUrl(profile) {

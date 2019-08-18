@@ -24,7 +24,7 @@
   <!-- MĚSTA -->
   <div class="mesta">
     <ng-container *ngFor="let profile of profiles">
-      <div *ngIf="(!search || search.exec(profile.searchString)) && (profile.gps[0]!=null || profile.gps[1]!=null) && profile.status!='pending'" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.gps)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
+      <div *ngIf="(!search || search.exec(profile.searchString)) && (profile.gps_x!=null || profile.gps_y!=null) && profile.status!='pending'" class="mesto" [class.hover]="hoverProfile==profile" [ngStyle]="gps2css(profile.gps_x, profile.gps_y)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
         <span class="name">{{profile.name}}</span>
         <span class="gps">{{gps2string(profile.gps)}}</span>
       </div>
@@ -39,7 +39,7 @@
   
   <div *ngFor="let profile of profiles" class="profile" [class.profile-pending]="profile.status == 'pending'" [class.dimmed]="search && !search.exec(profile.searchString)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
     <div class="pending-box text-center" *ngIf="profile.status == 'pending'">
-      <a (click)="openPending(profile,projectInfoModal,$event)" class="pending-box-title">Připravujeme data</a>
+      <a (click)="openPending(profile,$event)" class="pending-box-title">Připravujeme data</a>
     </div>	
     <a [routerLink]="profile.status != 'pending' ? '/' + profile.url : '/'">
       <div class="text-center" _ngcontent-c1="">

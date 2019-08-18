@@ -64,10 +64,10 @@ export class DataService {
 
 	/* BUDGETS */
 	getProfileBudget(profileId, year) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/budgets/" + year).toPromise();
+		return this.http.get<any>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
 	}
 	getProfileBudgets(profileId, options?) {
-		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/budgets" + toParams(options)).toPromise();
+		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/years" + toParams(options)).toPromise();
 	}
 
 	/* CONTRACTS */
