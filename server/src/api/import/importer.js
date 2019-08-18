@@ -7,7 +7,6 @@ const config = require("../../../config");
 var ETLLog = require("../../models/etl-log");
 
 var ImportParser = require("./parser");
-var ImportTransformer = require("./transformer");
 var ImportWriter = require("./writer");
 
 class Importer {
@@ -37,22 +36,21 @@ class Importer {
     const parser = new ImportParser();
     parser.on("warning", warning => this.warnings.push(warning));
 
-    const transformer = new ImportTransformer(etl);
-    transformer.on("warning", warning => this.warnings.push(warning));
-
     const writer = new ImportWriter(etl);
     writer.on("warning", warning => this.warnings.push(warning));
 
-    parser.on("event", event => transformer.writeEvent(event));
-    parser.on("counterparty", counterparty => transformer.writeCounterparty(counterparty));
-    parser.on("balance", balance => transformer.writeBalance(balance));
-    parser.on("payment", payment => transformer.writePayment(payment));
+    parser.on("event", event => writer.writeEvent(event));
+    //parser.on("counterparty", counterparty => writer.writeCounterparty(counterparty));
+    parser.on("balance", balance => writer.writeBalance(balance));
+    parser.on("payment", payment => writer.writePayment(payment));
 
     var err;
 
     // import data
     try {
       await this.init(etl);
+
+      await writer.clear();
 
       var importfiles = {};
 
@@ -63,13 +61,9 @@ class Importer {
         importfiles = options.files
       }
 
-      console.log(importfiles);
-
       await parser.parseImport(importfiles);
 
-      const data = transformer.finish();
-
-      await writer.save(data);
+      
     }
     catch (e) {
       err = e;

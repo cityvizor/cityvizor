@@ -10,10 +10,11 @@ module.exports = {
   staticFiles: path.resolve(__dirname, "../../client/dist"),
 
   database: {
-    user: "cityvizor",
-    database: "cityvizor",
+    client: 'pg',
     host: '127.0.0.1',
-    password: "cityvizor"
+    user: 'cityvizor',
+    password: 'cityvizor',
+    database: 'cityvizor'
   },
 
   cors: true,

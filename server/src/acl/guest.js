@@ -20,7 +20,7 @@ module.exports = {
 		"list": true
 	},
 	
-	"profile-budgets": {
+	"profile-years": {
 		"read": true,
 		"list": true
 	},

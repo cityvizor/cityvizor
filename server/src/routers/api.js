@@ -17,46 +17,9 @@ router.use((req, res, next) => {
   next();
 });
 
-
 /* GENERAL API */
+router.use(require("../api"));
 
-router.use("/counterparties",require("../api/counterparties"));
-
-router.use("/etls",require("../api/etls"));
-
-router.use("/events",require("../api/events"));
-
-router.use("/profiles",require("../api/profiles"));
-
-router.use("/login",require("../api/login"));
-
-router.use("/users",require("../api/users"));
-
-router.use("/codelists",require("../api/codelists"));
-
-
-/* PROFILE DATA */
-router.use("/profiles/:profile/budgets",require("../api/profile-budgets"));
-
-router.use("/profiles/:profile/contracts",require("../api/profile-contracts"));
-
-router.use("/profiles/:profile/dashboard",require("../api/profile-dashboard"));
-
-router.use("/profiles/:profile/etls",require("../api/profile-etls"));
-
-router.use("/profiles/:profile/events",require("../api/profile-events"));
-
-router.use("/profiles/:profile/import",require("../api/profile-import"));
-
-router.use("/profiles/:profile/payments",require("../api/profile-payments"));
-
-router.use("/profiles/:profile/managers",require("../api/profile-managers"));
-
-router.use("/profiles/:profile/noticeboard",require("../api/profile-noticeboard"));
-
-router.get('/favicon.ico',(req,res) => {
-	res.set('Cache-Control', 'public, max-age=3600'); // cache 1 hour
-	res.sendFile("assets/img/favicon/favicon.ico", { root: root });	
-});
+/* OTHER REQUESTS TO /api AS 404 */
 
 router.use("**", (req,res) => res.sendStatus(404));

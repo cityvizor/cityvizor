@@ -1,35 +1,77 @@
-var express = require('express');	
-var router = module.exports = express.Router({mergeParams: true});
-
-var schema = require('express-jsonschema');
-var acl = require("express-dynacl");
-
-var etlFilter = require("../middleware/etl-filter");
-
-var Event = require("../models/expenditures").Event;
-
-var eventSchema = {
-	type: "object",
-	properties: {
-		"srcId": {type: "string"},
-		"sort": {type: "string"},
-		"year": {type: "number"},
-		"fields": {type: "string"}
-	}	
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
-
-router.get("/", etlFilter({visible:true}), schema.validate({body: eventSchema}), acl("profile-events", "list"), (req,res) => {
-	
-	var query = Event.find({profile:req.params.profile, etl: {$in: req.etls}});
-	
-	query.select(req.query.fields || "srcId name year incomeAmount budgetIncomeAmount expenditureAmount budgetExpenditureAmount");
-	
-	if(req.query.srcId) query.where({srcId: req.query.srcId});
-	if(req.query.sort) query.sort(req.query.sort);
-	if(req.query.year) query.where({year: req.query.year});
-
-	query
-		.then(events => res.json(events ? events : []))
-		.catch(err => res.status(500).send(err));
-	
-});
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var _this = this;
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = __importDefault(require("express"));
+var express_jsonschema_1 = __importDefault(require("express-jsonschema"));
+var express_dynacl_1 = __importDefault(require("express-dynacl"));
+var db_1 = require("../db");
+exports.router = express_1.default.Router({ mergeParams: true });
+var eventSchema = {
+    type: "object",
+    properties: {
+        "srcId": { type: "string" },
+        "sort": { type: "string" },
+        "year": { type: "number" },
+        "fields": { type: "string" }
+    }
+};
+exports.router.get("/", express_jsonschema_1.default.validate({ body: eventSchema }), express_dynacl_1.default("profile-events", "list"), function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var events;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, db_1.db("events AS e")
+                    .leftJoin("accounting AS a", { "a.profile_id": "e.profile_id", "a.year": "e.year" })
+                    .select("e.id", "e.name")
+                    .sum("a.budgetAmount AS budgetAmount")
+                    .sum("a.amount AS amount")
+                    .where({ "e.profile_id": req.params.profile })
+                    .modify(function () {
+                    if (req.query.year)
+                        this.where({ "e.year": req.query.year });
+                })
+                    .groupBy("e.id", "e.name")];
+            case 1:
+                events = _a.sent();
+                res.json(events);
+                return [2 /*return*/];
+        }
+    });
+}); });

@@ -17,10 +17,7 @@ module.exports = {
     runOnInit: false
   },
 
-  database: {
-    ...environment.database,
-    reconnectTimeout: 10000
-  },
+  database: environment.database,
 
   server: {
     host: environment.host,
