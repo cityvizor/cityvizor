@@ -43,7 +43,7 @@ var express_1 = __importDefault(require("express"));
 var express_dynacl_1 = __importDefault(require("express-dynacl"));
 var db_1 = require("../db");
 exports.router = express_1.default.Router({ mergeParams: true });
-exports.router.get("/", express_dynacl_1.default("profile-budgets", "list"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+exports.router.get("/", express_dynacl_1.default("profile-accounting", "list"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     var years;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -61,16 +61,12 @@ exports.router.get("/", express_dynacl_1.default("profile-budgets", "list"), fun
         }
     });
 }); });
-exports.router.get("/:year", express_dynacl_1.default("profile-budgets", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-    var query, accounting;
+exports.router.get("/:year", express_dynacl_1.default("profile-accounting", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+    var accounting;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                query = "SELECT type, item, paragraph, unit, SUM(amount) AS amount\n\t\t\t\t\t\t\t\t FROM accounting\n\t\t\t\t\t\t\t\t WHERE profile_id = %L AND year = %L\n\t\t\t\t\t\t\t\t GROUP BY type, item, paragraph, unit";
-                return [4 /*yield*/, db_1.db("accounting")
-                        .select("type", "item", "paragraph", "unit").sum({ amount: "amount" })
-                        .where({ profile_id: req.params.id })
-                        .groupBy("type", "item", "paragraph", "unit")];
+            case 0: return [4 /*yield*/, db_1.db("accounting")
+                    .where({ profileId: req.params.profile, year: req.params.year })];
             case 1:
                 accounting = _a.sent();
                 res.json(accounting);

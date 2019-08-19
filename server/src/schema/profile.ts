@@ -1,5 +1,7 @@
 export interface ProfileRecord {
 	
+	id:number;
+
 	hidden: boolean;
 	
 	url: string;
@@ -14,5 +16,9 @@ export interface ProfileRecord {
   gpsX:number;
   gpsY:number;
 	
-	
+}
+
+export interface ManagedProfileRecord {
+  profileId: number;
+  userId: number;
 }

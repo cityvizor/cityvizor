@@ -5,9 +5,9 @@ router.use("/counterparties",require("../api/counterparties").router);
 
 router.use("/profiles",require("../api/profiles").router);
 
-router.use("/login",require("../api/login"));
+router.use("/login",require("../api/login").router);
 
-router.use("/users",require("../api/users"));
+router.use("/users",require("../api/users").router);
 
 router.use("/codelists",require("../api/codelists").router);
 
@@ -23,8 +23,8 @@ router.use("/profiles/:profile/years",require("../api/profile-years").router);
 
 router.use("/profiles/:profile/events",require("../api/profile-events").router);
 
-router.use("/profiles/:profile/import",require("../api/profile-import"));
+router.use("/profiles/:profile/import",require("../api/profile-import").router);
 
 router.use("/profiles/:profile/payments",require("../api/profile-payments").router);
 
-router.use("/profiles/:profile/noticeboard",require("../api/profile-noticeboard"));
+router.use("/profiles/:profile/noticeboard",require("../api/profile-noticeboard").router);

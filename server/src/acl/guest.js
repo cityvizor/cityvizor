@@ -19,6 +19,11 @@ module.exports = {
 		"read": true,
 		"list": true
 	},
+
+	"profile-accounting": {
+		"read": true,
+		"list": true
+	},
 	
 	"profile-years": {
 		"read": true,

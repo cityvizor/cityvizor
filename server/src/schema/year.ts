@@ -1,4 +1,6 @@
 export interface YearRecord {
-  profile_id: number;
+  profileId: number;
   year: number;
+  validity: string;
+  hidden?: boolean;
 }

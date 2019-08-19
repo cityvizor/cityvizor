@@ -63,7 +63,7 @@ exports.router.get("/", express_dynacl_1.default("profile-years", "list"), funct
         }
     });
 }); });
-exports.router.post("/", express_dynacl_1.default("profile-etls", "write"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+exports.router.post("/", express_dynacl_1.default("profile-years", "write"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     var data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -77,7 +77,7 @@ exports.router.post("/", express_dynacl_1.default("profile-etls", "write"), func
         }
     });
 }); });
-exports.router.get("/:year", express_dynacl_1.default("profile-etls", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+exports.router.get("/:year", express_dynacl_1.default("profile-years", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     var year;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -90,7 +90,7 @@ exports.router.get("/:year", express_dynacl_1.default("profile-etls", "read"), f
         }
     });
 }); });
-exports.router.patch("/:year", express_dynacl_1.default("profile-etls", "write"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+exports.router.patch("/:year", express_dynacl_1.default("profile-years", "write"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, db_1.db("years")
@@ -103,7 +103,7 @@ exports.router.patch("/:year", express_dynacl_1.default("profile-etls", "write")
         }
     });
 }); });
-exports.router.delete("/:etl", express_dynacl_1.default("profile-etls", "write"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+exports.router.delete("/:etl", express_dynacl_1.default("profile-years", "write"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     var yearId;
     return __generator(this, function (_a) {
         switch (_a.label) {

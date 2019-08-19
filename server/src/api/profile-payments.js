@@ -54,6 +54,10 @@ exports.router.get("/", express_dynacl_1.default("profile-payments", "list"), fu
                     .modify(function () {
                     if (req.query.sort)
                         this.orderBy(db_1.sort2order(req.query.sort));
+                    if (req.query.dateFrom)
+                        this.where("date", ">=", req.query.dateFrom);
+                    if (req.query.dateTo)
+                        this.where("date", "<", req.query.dateTo);
                 })];
             case 1:
                 payments = _a.sent();
@@ -90,7 +94,7 @@ exports.router.get("/:year/csv", express_dynacl_1.default("profile-payments", "l
                 res.statusCode = 200;
                 res.setHeader("Content-disposition", "attachment; filename=" + req.params.profile + "-" + req.params.year + ".payments.csv");
                 res.setHeader('Content-Type', 'text/csv');
-                header = ['profile_id', 'year', 'paragraph', 'item', 'unit', 'event', 'eventName', 'date', 'amount', 'counterpartyId', 'counterpartyName', 'description'];
+                header = ['profileId', 'year', 'paragraph', 'item', 'unit', 'eventId', 'eventName', 'date', 'amount', 'counterpartyId', 'counterpartyName', 'description'];
                 // UTF BOM for MS EXCEL
                 res.write("\ufeff");
                 // write header
@@ -100,7 +104,7 @@ exports.router.get("/:year/csv", express_dynacl_1.default("profile-payments", "l
                     res.write(makeCSVLine(header.map(function (field) {
                         switch (field) {
                             case "eventName":
-                                return eventIndex[String(payment.event_id)];
+                                return eventIndex[String(payment.eventId)];
                             default:
                                 return payment[field];
                         }

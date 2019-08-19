@@ -26,7 +26,7 @@ router.get("/", acl("profile-years", "list"), async (req, res, next) => {
 	res.json(years);
 });
 
-router.post("/", acl("profile-etls", "write"), async (req, res, next) => {
+router.post("/", acl("profile-years", "write"), async (req, res, next) => {
 	var data = { profile_id: req.params.profile, year: req.body.year };
 
 	await db("data.years").insert(data);
@@ -34,7 +34,7 @@ router.post("/", acl("profile-etls", "write"), async (req, res, next) => {
 	res.sendStatus(201);
 });
 
-router.get("/:year", acl("profile-etls", "read"), async (req, res, next) => {
+router.get("/:year", acl("profile-years", "read"), async (req, res, next) => {
 
 	const year = await db<YearRecord>("years")
 		.where({ profile_id: req.params.profile, year: Number(req.params.year) });
@@ -43,7 +43,7 @@ router.get("/:year", acl("profile-etls", "read"), async (req, res, next) => {
 
 });
 
-router.patch("/:year", acl("profile-etls", "write"), async (req, res, next) => {
+router.patch("/:year", acl("profile-years", "write"), async (req, res, next) => {
 
 	await db<YearRecord>("years")
 		.where({ profile_id: req.params.profile, year: Number(req.params.year) })
@@ -53,7 +53,7 @@ router.patch("/:year", acl("profile-etls", "write"), async (req, res, next) => {
 
 });
 
-router.delete("/:etl", acl("profile-etls", "write"), async (req, res, next) => {
+router.delete("/:etl", acl("profile-years", "write"), async (req, res, next) => {
 
 	const yearId = { profile_id: req.params.profile, year: Number(req.params.year) };
 

@@ -1,5 +1,5 @@
 export interface ContractRecord {
-	profile_id: number;
+	profileId: number;
 	date: string,
 	title: string,
 	counterparty: string,

@@ -8,7 +8,7 @@ module.exports = {
 		"write": true
 	},
 	
-	"profile-etls": {
+	"profile-years": {
 		"list": true
 	},
 	

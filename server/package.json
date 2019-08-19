@@ -17,7 +17,9 @@
     "faktury"
   ],
   "dependencies": {
-    "@types/fs-extra": "^8.0.0",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^8.3.3",
+    "@types/luxon": "^1.15.2",
     "agenda": "^2.0.2",
     "archiver": "^2.1.1",
     "batch-stream": "^0.1.3",
@@ -38,13 +40,9 @@
     "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.2",
+    "luxon": "^1.17.2",
     "mime-types": "^2.1.22",
     "minimist": "^1.2.0",
-    "moment": "^2.23.0",
-    "mongodb": "^3.2.3",
-    "mongoose": "^5.5.0",
-    "mongoose-paginate": "^5.0.3",
-    "mongoose-write-stream": "0.0.0",
     "multer": "^1.4.1",
     "path": "^0.12.7",
     "pg": "^7.12.1",
@@ -59,6 +57,8 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
+    "@types/request-promise-native": "^1.0.16",
     "nodemon": "^1.18.11",
     "cors": "^2.8.5"
   },

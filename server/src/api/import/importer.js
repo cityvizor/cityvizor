@@ -4,8 +4,6 @@ const fs = require("fs-extra");
 const path = require("path");
 const config = require("../../../config");
 
-var ETLLog = require("../../models/etl-log");
-
 var ImportParser = require("./parser");
 var ImportWriter = require("./writer");
 

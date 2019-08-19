@@ -2,8 +2,8 @@ export interface CodelistRecord {
   codelist: string;
   id: string;
   name: string;
-  description: string;
+  description?: string;
 
-  validFrom: string;
-  validTill: string;
+  validFrom?: string;
+  validTill?: string;
 }

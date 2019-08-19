@@ -14,6 +14,8 @@ router.get("/", acl("profile-payments", "list"), async (req, res, next) => {
 		.offset(req.query.offset || 0)
 		.modify(function(){
 			if(req.query.sort) this.orderBy(sort2order(req.query.sort));
+			if(req.query.dateFrom) this.where("date",">=",req.query.dateFrom);
+			if(req.query.dateTo) this.where("date","<",req.query.dateTo);			
 		})
 
 	res.json(payments);
@@ -41,7 +43,7 @@ router.get("/:year/csv", acl("profile-payments", "list"), async (req, res, next)
 	res.setHeader("Content-disposition", "attachment; filename=" + req.params.profile + "-" + req.params.year + ".payments.csv");
 	res.setHeader('Content-Type', 'text/csv');
 
-	var header = ['profile_id', 'year', 'paragraph', 'item', 'unit', 'event', 'eventName', 'date', 'amount', 'counterpartyId', 'counterpartyName', 'description'];
+	var header = ['profileId', 'year', 'paragraph', 'item', 'unit', 'eventId', 'eventName', 'date', 'amount', 'counterpartyId', 'counterpartyName', 'description'];
 
 	// UTF BOM for MS EXCEL
 	res.write("\ufeff");
@@ -54,7 +56,7 @@ router.get("/:year/csv", acl("profile-payments", "list"), async (req, res, next)
 		res.write(makeCSVLine(header.map(field => {
 			switch (field) {
 				case "eventName":
-					return eventIndex[String(payment.event_id)];
+					return eventIndex[String(payment.eventId)];
 				default:
 					return payment[field];
 			}

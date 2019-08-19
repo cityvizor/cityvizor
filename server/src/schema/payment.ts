@@ -5,7 +5,7 @@ export interface PaymentRecord {
   paragraph: number;
   item: number;
   unit: number;
-  event_id: number;
+  eventId: number;
   
   amount: number;
   

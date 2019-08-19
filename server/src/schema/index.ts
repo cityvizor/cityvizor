@@ -6,4 +6,5 @@ export * from "./dashboard";
 export * from "./event";
 export * from "./payment";
 export * from "./profile";
+export * from "./user";
 export * from "./year";

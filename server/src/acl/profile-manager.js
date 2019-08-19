@@ -27,7 +27,7 @@ module.exports = {
 		"write": req => isManagedProfile(req)
 	},
 	
-	"profile-etls": {
+	"profile-years": {
 		"list": req => isManagedProfile(req),
 		"read": req => isManagedProfile(req),
 		"write": req => isManagedProfile(req)

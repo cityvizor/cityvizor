@@ -17,7 +17,7 @@ function isManagedProfile(req){
 
 module.exports = {
 
-	"profile-etls": {
+	"profile-years": {
 		"list": req => isManagedProfile(req),
 		"read": req => isManagedProfile(req)
 	},
