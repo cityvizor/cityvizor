@@ -8,6 +8,17 @@ import { DataService } from '../../../services/data.service';
 import { CodelistService } from '../../../services/codelist.service';
 import { ToastService } from '../../../services/toast.service';
 
+interface BigBangViewSettings {
+	amount: string;
+	budgetAmount: string;
+	subGroup: {
+		type: string,
+		name: string,
+		codelist: string
+	},
+	groupsCodelist: string
+}
+
 @Component({
 	moduleId: module.id,
 	selector: 'bigbang-viz',
@@ -26,14 +37,14 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 	@Input()
 	type: string = "exp";
 
-	settings = {
+	settings: { [type: string]: BigBangViewSettings } = {
 		"exp": {
 			amount: "expenditureAmount",
 			budgetAmount: "budgetExpenditureAmount",
 			subGroup: {
-				type: "paragraphs",
+				type: "paragraph",
 				name: "Paragraf",
-				codelist: "paragraph-names"
+				codelist: "paragraphs"
 			},
 			groupsCodelist: "paragraph-groups"
 		},
@@ -42,9 +53,9 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 			amount: "incomeAmount",
 			budgetAmount: "budgetIncomeAmount",
 			subGroup: {
-				type: "items",
+				type: "item",
 				name: "Položka",
-				codelist: "item-names"
+				codelist: "items"
 			},
 			groupsCodelist: "item-groups"
 		}
@@ -61,10 +72,10 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 		group: string,
 		event: string
 	} = {
-		year: null,
-		group: null,
-		event: null
-	};
+			year: null,
+			group: null,
+			event: null
+		};
 
 	codelistDate: Date;
 
@@ -87,12 +98,12 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 	// store siubscription to unsubscribe on destroy
 	paramsSubscription: Subscription;
 
-	constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService, private codelistService: CodelistService, private toastService: ToastService) {}
+	constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService, private codelistService: CodelistService, private toastService: ToastService) { }
 
-	getConf(){
+	getConf(): BigBangViewSettings {
 		return this.settings[this.type];
 	}
-	
+
 	ngOnChanges(changes: SimpleChanges) {
 		if (changes.type) this.loadGroups().then(() => this.setData());
 	}
@@ -213,7 +224,7 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 	loadGroups() {
 
 		let conf = this.getConf();
-		
+
 		return this.codelistService.getCodelist(conf.groupsCodelist)
 			.then(codelist => {
 				this.groups = codelist.getNames(new Date());
@@ -224,43 +235,56 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 					group.subGroups = [];
 					this.groupIndex[group.id] = group;
 				});
+				this.groups.sort((a, b) => a.name.localeCompare(b.name));
 			})
-			.catch(err => this.toastService.toast("Nastala chyba při načítání grafu.", "error"));
+			.catch(err => {
+				this.toastService.toast("Nastala chyba při načítání grafu.", "error");
+				console.error(err);
+			});
 	}
-	
+
 	/* PROCESS DATA */
-	loadData() {
-		
+	async loadData() {
+
 		this.data = {};
 
-		let queue = [
-			this.dataService.getProfileBudget(this.profile._id, this.state.year).then(budget => this.data.budget = budget),
-			this.dataService.getProfileEvents(this.profile._id, { year: this.state.year }).then(events => {
-				this.data.events = events;
-				// create event index
-				this.data.eventIndex = {};
-				this.data.events.forEach(event => this.data.eventIndex[event._id] = event);
-			})
-		];
+		try {
+			let queue = [
+				this.dataService.getProfileAccounting(this.profile.id, this.state.year).then(accounting => this.data.accounting = accounting),
 
+				this.dataService.getProfileEvents(this.profile.id, { year: this.state.year }).then(events => {
+					this.data.events = events;
+					// create event index
+					this.data.eventIndex = {};
+					this.data.events.forEach(event => this.data.eventIndex[event.id] = event);
+				})
+			];
 
-		Promise.all(queue)
-			.then(() => this.setData())
-			.catch((err) => {
-				if (err.status === 404) this.toastService.toast("Data nejsou k dispozici", "warning");
-				else if (err.status === 503) this.toastService.toast("Služba je momentálně nedostupná", "warning");
-				else this.toastService.toast("Nastala neočekávaná chyba " + err, "error");
-			});
+			await Promise.all(queue);
+
+			this.setData();
+
+		}
+		catch (err) {
+			if (err.status === 404) this.toastService.toast("Data nejsou k dispozici", "warning");
+			else if (err.status === 503) this.toastService.toast("Služba je momentálně nedostupná", "warning");
+			else {
+				this.toastService.toast("Nastala neočekávaná chyba " + err, "error");
+				console.error(err);
+			}
+		}
 
 	}
 
 	setData() {
-		
-		if(!this.groups.length) return;
 
-		let budget = this.data.budget;
+		if (!this.groups.length) return;
+
+		let accounting = this.data.accounting;
 		let events = this.data.events;
 		let eventIndex = this.data.eventIndex;
+
+		let budget = this.data.budget = {};
 
 		if (!budget || !events) return;
 
@@ -272,78 +296,96 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 
 		let conf = this.getConf();
 
-		budget[conf.subGroup.type].forEach(budgetSG => {
+		const subGroupIndex = {};
+		const subGroupEventsIndex = {};
 
-			let groupId = budgetSG.id.substring(0, 2);
+		accounting.forEach(row => {
+
+			if (!row[conf.subGroup.type]) return;
+
+			let sgId = String(row[conf.subGroup.type]);
+
+			let groupId = sgId.substring(0, 2);
 			let group = this.groupIndex[groupId];
 
+			let amount = row[conf.amount] || 0;
+			let budgetAmount = row[conf.budgetAmount] || 0;
+
 			// this shouldnt happen, but in case
-			if (!group) { console.log("MISSING GROUP!"); return; }
-			
+			if (!group) { console.log("MISSING GROUP!", sgId, groupId); return; }
+
 			// create the subgroup for view (do not modify source data)
-			let sg = {
-				id: budgetSG.id,
-				name: "",
-				events:[],
-				amount: budgetSG[conf.amount],
-				budgetAmount: budgetSG[conf.budgetAmount]
-			};
-			
-			let eventsAmount = 0;
-			let eventsBudgetAmount = 0;
-
-			budgetSG.events.forEach(budgetSGevent => {
-				let event = {
-					_id: budgetSGevent.event,
-					// assign name from event index
-					name: eventIndex[budgetSGevent.event] ? eventIndex[budgetSGevent.event].name : "Nepojmenovaná investiční akce",
-					// get correct amounts by inc or exp
-					amount: budgetSGevent[conf.amount],
-					budgetAmount: budgetSGevent[conf.budgetAmount]
+			if (!subGroupIndex[sgId]) {
+				subGroupIndex[sgId] = {
+					id: sgId,
+					name: "",
+					events: [],
+					amount: 0,
+					budgetAmount: 0,
 				};
-				
-				sg.events.push(event);
-				
-				// sum events to get the Other value
-				eventsAmount += event.amount;
-				eventsBudgetAmount += event.budgetAmount;
-			});
-
-			// sort events in sg
-			sg.events.sort((a, b) => a.name.localeCompare(b.name));
-
-			// add Other if necessary
-			if (sg.amount !== eventsAmount || sg.budgetAmount !== eventsBudgetAmount) {
-				let event = {
-					name: "Ostatní",
-					amount: sg.amount - eventsAmount,
-					budgetAmount: sg.budgetAmount - eventsBudgetAmount
-				};
-				sg.events.push(event);
+				group.subGroups.push(subGroupIndex[sgId]);
 			}
-			
-			
-			/* integrate the subgroup to the parent group */
 
-			group.amount += sg.amount;
-			group.budgetAmount += sg.budgetAmount;
+			let sg = subGroupIndex[sgId];
 
-			// add the subGroup to the subGroup list
-			group.subGroups.push(sg);
+			sg.amount += amount;
+			sg.budgetAmount += budgetAmount;
 
+			if (!subGroupEventsIndex[sgId + "%" + row.event]) {
+				console.log(eventIndex, eventIndex[row.event], row.event);
+				subGroupEventsIndex[sgId + "%" + row.event] = {
+					id: row.event,
+					// assign name from event index
+					name: eventIndex[row.event] ? eventIndex[row.event].name : "Nepojmenovaná investiční akce",
+					// get correct amounts by inc or exp
+					amount: 0,
+					budgetAmount: 0,
+				};
+				sg.events.push(subGroupEventsIndex[sgId + "%" + row.event]);
+			}
+
+			let event = subGroupEventsIndex[sgId + "%" + row.event];
+
+			event.amount += amount;
+			event.budgetAmount += budgetAmount;
+
+
+			/* add totals higher */
+			group.amount += amount;
+			group.budgetAmount += budgetAmount;
+
+		});
+
+		this.groups.forEach(group => {
+			group.subGroups.forEach(sg => {
+				sg.events.sort((a, b) => a.name.localeCompare(b.name));
+
+				let eventsAmount = sg.events.reduce((acc, cur) => cur.amount + acc, 0);
+				let eventsBudgetAmount = sg.events.reduce((acc, cur) => cur.budgetAmount + acc, 0);
+
+				// add Other if necessary
+				if (sg.amount !== eventsAmount || sg.budgetAmount !== eventsBudgetAmount) {
+					let event = {
+						name: "Ostatní",
+						amount: sg.amount - eventsAmount,
+						budgetAmount: sg.budgetAmount - eventsBudgetAmount
+					};
+					sg.events.push(event);
+				}
+			});
 		});
 
 		// assign names to subGroups
 		this.codelistService.getCodelist(conf.subGroup.codelist)
 			.then(codelist => {
 				// get the index of names
-				let index = codelist.getIndex(new Date(budget.year, 0, 1));
+				let index = codelist.getIndex(new Date(this.state.year, 0, 1));
 				// assign all the names
 				this.groups.forEach(group => {
 					group.subGroups.forEach(sg => sg.name = index[sg.id] || (conf.subGroup.name + " č. " + sg.id));
 				});
 			})
-			.catch(err => this.toastService.toast("Nepodařilo se načíst názvy položek a paragrafů.","error"));
+			.catch(err => this.toastService.toast("Nepodařilo se načíst názvy položek a paragrafů.", "error"));
 
 		this.maxAmount = 0;
 		this.groups.forEach(group => {

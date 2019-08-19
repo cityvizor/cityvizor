@@ -62,7 +62,11 @@ export class DataService {
 		return this.http.delete(this.root + "/profiles/" + profileId + "/avatar", { responseType: 'text' }).toPromise();
 	}
 
-	/* BUDGETS */
+	getProfileAccounting(profileId, year) {
+		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year).toPromise();
+	}
+
+	/* YEARS */
 	getProfileBudget(profileId, year) {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
 	}

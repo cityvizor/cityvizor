@@ -16,8 +16,8 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
 	/* DATA */
 	@Input()
 	set profile(profile: any){
-		if(profile && this.profileId !== profile._id) {
-			this.profileId = profile._id;
+		if(profile && this.profileId !== profile.id) {
+			this.profileId = profile.id;
 			this.loadMonths();
 		}
 	}
@@ -95,17 +95,8 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
     
 		this.loading = true;
 		this.dataService.getProfilePayments(this.profileId,params)
-			.then(data => {
-			
-				this.invoices = data.docs;
-			
-				this.pager = {
-					pages: [],
-					total: data.total,
-					page: data.page
-				};
-				for(let i = 1; i <= data.pages; i++) this.pager.pages.push(i);
-			
+			.then(invoices => {
+				this.invoices = invoices;
 				this.loading = false;
 			})
 			.catch(err => this.toastService.toast("Nastala chyba při získávání faktur","error"));
