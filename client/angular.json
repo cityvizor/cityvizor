@@ -15,7 +15,7 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "tsConfig": "tsconfig.json",
             "polyfills": "src/polyfills.ts",
             "i18nLocale": "cs",
             "assets": [
@@ -87,15 +87,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "cityvizor-app:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "ui/tsconfig.app.json"
-            ],
-            "exclude": []
           }
         }
       }
