@@ -2,7 +2,7 @@ import express from 'express';
 import acl from "express-dynacl";
 
 import { db } from "../db";
-import { AccountingRecord } from 'src/schema/database/accountingccounting';
+import { AccountingRecord } from 'src/schema';
 
 export const router = express.Router({ mergeParams: true });
 

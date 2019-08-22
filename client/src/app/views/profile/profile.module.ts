@@ -1,21 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ProfileViewComponent } from 'app/views/profile-view/profile-view.component';
+import { SharedModule } from 'app/shared/shared.module';
+import { ProfileRoutingModule } from './profile-routing.module';
+
+import { ProfileComponent } from 'app/views/profile/profile.component';
 
 // Data viz components
-import { DashboardComponent } from "app/views/profile-view/components/dash-board/dash-board.component";
-import { BigBangVizComponent } from 'app/views/profile-view/components/bigbang-viz/bigbang-viz.component';
-import { InvoiceListComponent } from 'app/views/profile-view/components/invoice-list/invoice-list.component';
-import { NoticeBoardComponent } from "app/views/profile-view/components/notice-board/notice-board.component";
-import { ContractListComponent } from "app/views/profile-view/components/contract-list/contract-list.component";
+import { DashboardComponent } from "./components/dash-board/dash-board.component";
+import { BigBangVizComponent } from "./components/bigbang-viz/bigbang-viz.component";
+import { InvoiceListComponent } from "./components/invoice-list/invoice-list.component";
+import { NoticeBoardComponent } from "./components/notice-board/notice-board.component";
+import { ContractListComponent } from "./components/contract-list/contract-list.component";
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule,
+    ProfileRoutingModule
   ],
   declarations: [
-    ProfileViewComponent,
+    ProfileComponent,
     
     DashboardComponent,
     BigBangVizComponent,
@@ -24,4 +29,4 @@ import { ContractListComponent } from "app/views/profile-view/components/contrac
     ContractListComponent
   ]
 })
-export class ProfileViewModule { }
+export class ProfileModule { }

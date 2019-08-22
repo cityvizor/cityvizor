@@ -31,7 +31,7 @@ const appRoutes: Routes = [
 	
 	{
 		path: ':profile',
-		loadChildren: () => import('./views/profile/profile.module').then(mod => mod.ProfileViewModule)
+		loadChildren: () => import('./views/profile/profile.module').then(mod => mod.ProfileModule)
 	}	
 ];
 

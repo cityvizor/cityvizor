@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
+import { Accounting } from 'app/schema';
+
 @Component({
 	moduleId: module.id,
 	selector: 'chart-bigbang',
@@ -8,7 +10,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 })
 export class ChartBigbangComponent {
 
-	@Input() data:AccountingRecord[];
+	@Input() data:Accounting;
 	@Input() max:number;
 	
 	@Input() rotation:any = 0;

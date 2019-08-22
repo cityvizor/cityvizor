@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
 export class HeaderMenuComponent {
 
   @Input()
-	config;
+	config:any;
 	 
 	public isMenuCollapsed: boolean = true;
 

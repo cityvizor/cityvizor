@@ -3,7 +3,7 @@ import { ReplaySubject } from 'rxjs';
 
 import * as WordCloud from "wordcloud";
 
-export type Word = [string,number];
+export type Word = [string, number];
 
 @Component({
   selector: 'word-cloud',
@@ -12,38 +12,38 @@ export type Word = [string,number];
 })
 export class WordCloudComponent {
 
-  @ViewChild("wordcloud") wordcloudEl: ElementRef<HTMLElement>;
+  @ViewChild("wordcloud", { static: false }) wordcloudEl: ElementRef<HTMLElement>;
 
-  @Input() minSize:number = 10;
-  @Input() maxSize:number = 70;
-  @Input() minOpacity:number = 0.2;
-  @Input() maxOpacity:number = 1;
+  @Input() minSize: number = 10;
+  @Input() maxSize: number = 70;
+  @Input() minOpacity: number = 0.2;
+  @Input() maxOpacity: number = 1;
 
-  @Output() click:EventEmitter<Word> = new EventEmitter<Word>();
+  @Output() click: EventEmitter<Word> = new EventEmitter<Word>();
 
   @Input("words")
-  set setWords(words:Word[]){
+  set setWords(words: Word[]) {
     this.words.next(words);
   }
 
-  words:ReplaySubject<Word[]> = new ReplaySubject(1);
+  words: ReplaySubject<Word[]> = new ReplaySubject(1);
 
   constructor() { }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.words.subscribe(words => this.createWordcloud(words));
   }
-    
-  createWordcloud(words:Word[]) {    
+
+  createWordcloud(words: Word[]) {
 
     // if words is null or undefined, do nothing. Note: empty array will pass as expected
-    if(!words) return;
+    if (!words) return;
 
     const max = words.reduce((acc, cur) => Math.max(cur[1], acc), 0);
 
     words.forEach(word => word[1] = word[1] / max);
 
-    const options:WordCloud.Options = {
+    const options: WordCloud.Options = {
       list: words,
       weightFactor: size => (1 - size) * this.minSize + size * this.maxSize,
       rotateRatio: 0,

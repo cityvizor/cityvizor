@@ -1,5 +1,6 @@
-export interface Dashboard {
-  profileId: number;
+export type Dasboard = DashboardRow[];
+
+export interface DashboardRow {
   category: string;
   amount: number;
   budgetAmount: number;

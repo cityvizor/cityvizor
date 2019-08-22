@@ -6,8 +6,6 @@ import { ToastService } 		from 'app/services/toast.service';
 
 import { AppConfig } from "config/config";
 
-import {Http} from '@angular/http';
-
 @Component({
 	moduleId: module.id,
 	selector: 'notice-board',

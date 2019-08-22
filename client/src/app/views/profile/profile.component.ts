@@ -10,11 +10,11 @@ import { AppConfig, IAppConfig, Module } from 'config/config';
 
 @Component({
 	moduleId: module.id,
-	selector: 'profile-view',
-	templateUrl: 'profile-view.component.html',
-	styleUrls: ['profile-view.component.scss'],
+	selector: 'profile',
+	templateUrl: 'profile.component.html',
+	styleUrls: ['profile.component.scss'],
 })
-export class ProfileViewComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
 
 	profile: any;
 	

@@ -1,4 +1,4 @@
-export interface Dashboard {
+export interface DashboardRecord {
   profileId: number;
   category: string;
   amount: number;

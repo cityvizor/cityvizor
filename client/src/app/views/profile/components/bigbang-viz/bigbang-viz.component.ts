@@ -63,7 +63,7 @@ export class BigBangVizComponent implements OnInit, OnChanges {
 
 	data: any = {};
 
-	@ViewChild('eventReceiptsModal')
+	@ViewChild('eventReceiptsModal', { static: false })
 	public eventReceiptsModal: ModalDirective;
 	modalLoaded: boolean = false;
 
