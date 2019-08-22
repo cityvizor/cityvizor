@@ -57,7 +57,7 @@
 					<a (click)="loginModal.show()">Přihlásit se</a>
 				</ng-container>
 				<ng-container *ngIf="authService.logged">
-					{{authService.user._id}}
+					{{authService.user.login}}
 					| <a routerLink="/ucet">Nastavení</a>
 					| <a (click)="logout()">Odhlásit</a>
 				</ng-container>

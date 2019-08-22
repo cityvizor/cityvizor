@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Codelist, CodelistEntry } from "app/shared/schema/codelist";
+import { Codelist, CodelistEntry } from "app/schema/codelist";
 import { environment } from 'environments/environment';
 
 @Injectable()

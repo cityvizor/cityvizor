@@ -8,7 +8,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 })
 export class ChartBigbangComponent {
 
-	@Input() data:any;
+	@Input() data:AccountingRecord[];
 	@Input() max:number;
 	
 	@Input() rotation:any = 0;

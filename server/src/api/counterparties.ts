@@ -4,7 +4,7 @@ import acl from "express-dynacl";
 
 import { db } from "../db";
 import { PaymentRecord } from 'src/schema/payment';
-import { AccountingRecord } from 'src/schema/accounting';
+import { AccountingRecord } from 'src/schema/database/accountingccounting';
 
 export const router = express.Router();
 

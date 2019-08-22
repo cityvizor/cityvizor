@@ -3,7 +3,7 @@ import schema from 'express-jsonschema';
 import acl from "express-dynacl";
 
 import { db } from "../db";
-import { EventRecord } from 'src/schema';
+import { EventRecord } from 'src/schema/database';
 
 export const router = express.Router({ mergeParams: true });
 

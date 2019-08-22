@@ -3,16 +3,14 @@
 <table class="table table-responsive table-striped">
   <thead>
     <tr>
-      <th>Jméno</th>
-      <th>Organizace</th>
-      <th>Kontakt</th>
+      <th>Login</th>      
+      <th>ID</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let manager of managers">
-      <td>{{manager.name}}</td>
-      <td>{{manager.organization}}</td>
-      <td>{{manager._id}}</td>
+      <td>{{manager.login}}</td>
+      <td>{{manager.id}}</td>
     </tr>
   </tbody>
 </table>

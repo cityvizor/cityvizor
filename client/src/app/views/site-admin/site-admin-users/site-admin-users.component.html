@@ -12,17 +12,15 @@
   <table class="table table-condensed table-hover table-striped">
 
     <thead>
-      <th>ID/Email</th>
-      <th>Jméno</th>
-      <th>Organizace</th>
+      <th>ID</th>
+      <th>Login</th>
       <th>Role</th>
     </thead>
 
     <tbody>
-      <tr *ngFor="let user of users" class="user" [class.info]="currentUser?._id === user._id" (click)="selectUser(user._id)">
-        <td>{{user._id}}</td>
-        <td>{{user.name}}</td>
-        <td>{{user.organization}}</td>
+      <tr *ngFor="let user of users" class="user" [class.info]="currentUser?.id === user.id" (click)="selectUser(user.id)">
+        <td>{{user.id}}</td>
+        <td>{{user.login}}</td>
         <td>{{user.roles | concat:', '}}</td>
       </tr>
   </table>

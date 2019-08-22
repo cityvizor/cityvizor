@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { User } from "app/shared/schema/user";
+import { User } from "app/schema/user";
 
 import { AuthService } 		from 'app/services/auth.service';
 import { ToastService } 		from 'app/services/toast.service';

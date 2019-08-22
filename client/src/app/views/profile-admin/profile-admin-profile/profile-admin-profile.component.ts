@@ -29,7 +29,7 @@ export class ProfileAdminProfileComponent {
 			
 			var formData = form.value;
 			var profileData = {
-				_id: this.profile._id,
+				_id: this.profile.id,
 				name: formData.name,
 				url: formData.url,
 				ico: formData.ico,

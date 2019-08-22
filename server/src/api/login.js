@@ -69,9 +69,9 @@ exports.router.post("/", express_jsonschema_1.default.validate({ body: loginSche
     var user, same, tokenData, _a, token;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, db_1.db("users")
+            case 0: return [4 /*yield*/, db_1.db("app.users")
                     .select("id", "login", "password")
-                    .where({ id: req.body.login.toLowerCase() })
+                    .where({ login: req.body.login.toLowerCase() })
                     .first()];
             case 1:
                 user = _b.sent();
@@ -82,12 +82,13 @@ exports.router.post("/", express_jsonschema_1.default.validate({ body: loginSche
                 same = _b.sent();
                 if (!same) return [3 /*break*/, 6];
                 _a = {
-                    _id: user.id
+                    id: user.id,
+                    login: user.login
                 };
-                return [4 /*yield*/, db_1.db("managed_profiles").where({ userId: user.id }).then(function (rows) { return rows.map(function (row) { return row.profileId; }); })];
+                return [4 /*yield*/, db_1.db("app.user_profiles").where({ userId: user.id }).then(function (rows) { return rows.map(function (row) { return row.profileId; }); })];
             case 3:
                 _a.managedProfiles = _b.sent();
-                return [4 /*yield*/, db_1.db("user_roles").where({ userId: user.id }).then(function (rows) { return rows.map(function (row) { return row.role; }); })];
+                return [4 /*yield*/, db_1.db("app.user_roles").where({ userId: user.id }).then(function (rows) { return rows.map(function (row) { return row.role; }); })];
             case 4:
                 tokenData = (_a.roles = _b.sent(),
                     _a);
@@ -107,7 +108,7 @@ exports.router.get("/renew", express_dynacl_1.default("login", "renew"), functio
     var user, tokenData, _a, token;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, db_1.db("users")
+            case 0: return [4 /*yield*/, db_1.db("app.users")
                     .select("id", "login", "password")
                     .where({ id: req.body.login.toLowerCase() })
                     .first()];
@@ -118,10 +119,10 @@ exports.router.get("/renew", express_dynacl_1.default("login", "renew"), functio
                 _a = {
                     _id: user.id
                 };
-                return [4 /*yield*/, db_1.db("managed_profiles").where({ userId: user.id }).then(function (rows) { return rows.map(function (row) { return row.profileId; }); })];
+                return [4 /*yield*/, db_1.db("app.user_profiles").where({ userId: user.id }).then(function (rows) { return rows.map(function (row) { return row.profileId; }); })];
             case 2:
                 _a.managedProfiles = _b.sent();
-                return [4 /*yield*/, db_1.db("user_roles").where({ userId: user.id }).then(function (rows) { return rows.map(function (row) { return row.role; }); })];
+                return [4 /*yield*/, db_1.db("app.user_roles").where({ userId: user.id }).then(function (rows) { return rows.map(function (row) { return row.role; }); })];
             case 3:
                 tokenData = (_a.roles = _b.sent(),
                     _a);

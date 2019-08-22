@@ -8,7 +8,7 @@ import config from "../../config";
 
 import { Importer } from "./import";
 import { db } from '../db';
-import { YearRecord } from '../schema';
+import { YearRecord } from '../schema/database';
 
 export const router = express.Router({ mergeParams: true });
 
@@ -51,7 +51,7 @@ router.post("/accounting",
 
 		var importData = {
 			validity: validity,
-			userId: req.user ? req.user._id : null,
+			userId: req.user ? req.user.id : null,
 			files: {
 				zipFile: req.files.zipFile ? req.files.zipFile[0].path : null,
 				dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,

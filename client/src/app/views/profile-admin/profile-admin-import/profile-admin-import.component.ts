@@ -3,8 +3,8 @@ import { Component, Input, ViewChild, OnChanges, SimpleChanges } from '@angular/
 import { ToastService } 		from 'app/services/toast.service';
 import { DataService } 		from 'app/services/data.service';
 
-import { Pager } from "app/shared/schema/pager";
-import { ETL, ETLLog } from "app/shared/schema/etl";
+import { Pager } from "app/schema/pager";
+import { ETL, ETLLog } from "app/schema/etl";
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -50,7 +50,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 	/* MAIN PAGE */
 	loadETLs(){
 		this.loading = true;
-		this.dataService.getProfileETLs(this.profile._id, {sort: "year"})
+		this.dataService.getProfileETLs(this.profile.id, {sort: "year"})
 			.then(etls => (this.etls = etls, this.loading = false))
 			.catch(err => (this.toastService.toast("Nastala chyba při načítání přehledu importů: " + err.message,"error"), this.loading = false));
 	}
@@ -59,7 +59,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 		var old_visible = etl.visible;
 		etl.visible = visible;
 		
-		this.dataService.saveProfileETL(this.profile._id,etl._id,{"visible":visible})
+		this.dataService.saveProfileETL(this.profile.id,etl.id,{"visible":visible})
 			.then(() => this.toastService.toast(visible ? "Rozpočtový rok je viditelný" : "Rozpočtový rok je skrytý","notice"))
 			.catch(err => {
 				etl.visible = old_visible;
@@ -71,7 +71,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 		var old_enabled = etl.enabled;
 		etl.enabled = enabled;
 		
-		this.dataService.saveProfileETL(this.profile._id,etl._id,{"enabled":enabled})
+		this.dataService.saveProfileETL(this.profile.id,etl.id,{"enabled":enabled})
 			.then(() => this.toastService.toast(enabled ? "Automatický import je zapnutý" : "Automatický import je vypnutý","notice"))
 			.catch(err => {
 				etl.enabled = old_enabled;
@@ -85,7 +85,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 		
 		if(!year) return;
 		
-		this.dataService.createProfileETL(this.profile._id,{year:Number(year)})
+		this.dataService.createProfileETL(this.profile.id,{year:Number(year)})
 			.then(etl => {
 				this.etls.push(etl);
 				this.toastService.toast("Rozpočtový rok vytvořen.","notice");
@@ -99,7 +99,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 			return;
 		}
 		
-		this.dataService.startProfileImport(this.profile._id,etl._id)
+		this.dataService.startProfileImport(this.profile.id,etl.id)
 			.then(() => {
 				etl.status = "pending";
 				this.toastService.toast("Automatický import zahájen, pro zjištění stavu klikněte na odkaz \"obnovit\".","notice");
@@ -124,7 +124,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 	
 		
 		
-		return this.dataService.getProfileETLLogs(this.profile._id,etl._id,{sort:"-timestamp", limit:10,page:page || 1})
+		return this.dataService.getProfileETLLogs(this.profile.id,etl.id,{sort:"-timestamp", limit:10,page:page || 1})
 			.then(etllogs => {
 				this.history.pager = new Pager();
 				let pager = this.history.pager;
@@ -157,7 +157,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 		
 		var data = form.value;
 		
-		this.dataService.saveProfileETL(this.profile._id,this.settings.etl._id,data)
+		this.dataService.saveProfileETL(this.profile.id,this.settings.etl.id,data)
 			.then(etl_new => {
 				Object.assign(etl,etl_new);
 				this.modalRef.hide();
@@ -173,7 +173,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 	}
 
 	deleteETL(etl){
-		this.dataService.deleteProfileETL(this.profile._id,etl._id,{type: this.delete.type})
+		this.dataService.deleteProfileETL(this.profile.id,etl.id,{type: this.delete.type})
 			.then(() => {
 				this.modalRef.hide();
 				this.toastService.toast("Smazáno.","notice");
@@ -200,7 +200,7 @@ export class ProfileAdminImportComponent implements OnChanges {
 		formData.set("dataFile",dataFile,dataFile.name);
 		if(etl.importer === "cityvizor-v1") formData.set("eventsFile",eventsFile,eventsFile.name);
 		
-		this.dataService.uploadProfileImport(this.profile._id,etl._id,formData)
+		this.dataService.uploadProfileImport(this.profile.id,etl.id,formData)
 			.then(() => {
 				this.toastService.toast("Data byla nahrána na server, nyní jsou zpracovávána.", "notice");
 				etl.status = "pending";

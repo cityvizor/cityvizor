@@ -105,7 +105,7 @@ export class ProfileSearchComponent implements OnInit {
 	}
 
 	getProfileAvatarUrl(profile) {
-		return `url(${environment.api_root}/profiles/${profile._id}/avatar)`;
+		return `url(${environment.api_root}/profiles/${profile.id}/avatar)`;
 	}
 
 }

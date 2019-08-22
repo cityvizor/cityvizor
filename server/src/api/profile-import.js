@@ -86,7 +86,7 @@ exports.router.post("/accounting", upload.fields([{ name: "dataFile", maxCount: 
                 importer = new import_1.Importer(year);
                 importData = {
                     validity: validity,
-                    userId: req.user ? req.user._id : null,
+                    userId: req.user ? req.user.id : null,
                     files: {
                         zipFile: req.files.zipFile ? req.files.zipFile[0].path : null,
                         dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,

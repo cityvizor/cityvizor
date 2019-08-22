@@ -27,5 +27,5 @@
 </form>
 
 <div *ngIf="authService.logged">
-  <p>Již jste přihlášen jako {{authService.user._id}}. <a (click)="logout()">Odhlásit</a>?</p>
+  <p>Již jste přihlášen jako {{authService.user.id}}. <a (click)="logout()">Odhlásit</a>?</p>
 </div>

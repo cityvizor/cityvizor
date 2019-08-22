@@ -58,7 +58,7 @@ async function downloadNoticeboards(profile){
 	// variable to write to DB
 	var noticeBoard = {
 		edesky: profile.edesky,
-		profile: profile._id,
+		profile: profile.id,
 		documents: []
 	};
 
@@ -66,7 +66,7 @@ async function downloadNoticeboards(profile){
 	$("document").slice(0,25).each((i,document) => {
 
 		let nbDocument = {
-			profile: profile._id,
+			profile: profile.id,
 
 			date: new Date($(document).attr("created_at")),
 			title: $(document).attr("name"),
@@ -91,7 +91,7 @@ async function downloadNoticeboards(profile){
 		noticeBoard.documents.push(nbDocument);
 	});
 
-	await NoticeBoard.remove({profile:profile._id});
+	await NoticeBoard.remove({profile:profile.id});
 		// insert all the contracts to DB
 	await NoticeBoard.create(noticeBoard);
 

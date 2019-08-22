@@ -3,6 +3,8 @@ const environment = require("../environment");
 
 module.exports = {
 
+  apiRoot: environment.apiRoot,
+  
   cors: {
     enabled: environment.cors,
     origin: environment.corsOrigin,
@@ -30,7 +32,8 @@ module.exports = {
   },
 
   storage: {
-    tmp: path.resolve(environment.tmpDir)
+    tmp: path.resolve(environment.tmpDir),
+    avatars: path.resolve(environment.storageDir,"avatars")
   },
 
   jwt: {

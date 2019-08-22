@@ -7,7 +7,7 @@ import acl from "express-dynacl";
 import config from "../../config";
 
 import { db } from "../db";
-import { YearRecord } from 'src/schema';
+import { YearRecord } from 'src/schema/database';
 
 export const router = express.Router({ mergeParams: true });
 

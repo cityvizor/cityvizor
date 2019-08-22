@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DataService } 		from '../../../services/data.service';
 import { ToastService } 		from '../../../services/toast.service';
 
-import { Profile } from "../../../shared/schema/profile";
+import { Profile } from "../../../schema/profile";
 
 //00006947
 @Component({
@@ -31,9 +31,9 @@ export class SiteAdminProfileComponent {
 	}
 	 
 	deleteProfile(){
-		window.alert("Profil může smazat pouze admin v databázi. To je proto, aby nikdo nesmazal profil omylem.");
+		const confirmation = window.confirm("Opravdu chcete smazat profil " + this.profile.name + "?");
 
-		//if(confirmation) this.delete.emit(this.profile._id);
+		if(confirmation) this.delete.emit(this.profile.id);
 	}
 	 
 	saveProfile(form){
@@ -41,11 +41,7 @@ export class SiteAdminProfileComponent {
 			
 			let profileData = form.value;
 			
-			profileData._id = this.profile._id;
-			
-			profileData.gps = [profileData.gps0, profileData.gps1];
-			delete profileData.gps0;
-			delete profileData.gps1;
+			profileData.id = this.profile.id;
 			
 			this.save.emit(profileData)
 		}

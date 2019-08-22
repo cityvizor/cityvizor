@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { DataService } 		from '../../../services/data.service';
-import { ToastService } 		from '../../../services/toast.service';
+import { DataService } from '../../../services/data.service';
+import { ToastService } from '../../../services/toast.service';
 
-import { User } from "../../../shared/schema/user";
+import { User } from "../../../schema/user";
 
 //00006947
 @Component({
@@ -14,115 +14,116 @@ import { User } from "../../../shared/schema/user";
 	styleUrls: ['site-admin-users.component.scss']
 })
 export class SiteAdminUsersComponent {
-  
-  // variable to store users
-  users:User[] = [];
 
-	currentUser:User = null;
+	// variable to store users
+	users: User[] = [];
 
-	roles:string[] = ["admin","profile-manager"];
+	currentUser: User = null;
 
-	newUser:boolean = false;
+	roles: string[] = ["admin", "profile-manager"];
 
-	userLoading:boolean = false;
+	newUser: boolean = false;
+
+	userLoading: boolean = false;
 
 	constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService, private toastService: ToastService) {
 	}
-  
-  ngOnInit(){
-		
+
+	ngOnInit() {
+
 		this.loadUsers();
 
-		this.route.params.forEach((params: Params) => {		
-			
-			if(params["user"]) this.loadUser(params["user"]);
+		this.route.params.forEach((params: Params) => {
+
+			if (params["user"]) this.loadUser(params["user"]);
 			else this.currentUser = null;
-			
+
 		});
 	}
-	
-	loadUsers(){
+
+	loadUsers() {
 		this.dataService.getUsers()
-      .then(users => {
-        this.users = users;
-        this.users.sort((a,b) => a._id > b._id ? 1 : (a._id < b._id ? -1 : 0));
-      })
+			.then(users => {
+				this.users = users;
+				this.users.sort((a, b) => a.id > b.id ? 1 : (a.id < b.id ? -1 : 0));
+			})
 			.catch(err => {
-				this.toastService.toast("Nastala neznámá chyba při načítání uživatelů.","error");
+				this.toastService.toast("Nastala neznámá chyba při načítání uživatelů.", "error");
 			});
 	}
-	
-	loadUser(userId){
-		
-		if(!userId) return;
-		
+
+	loadUser(userId) {
+
+		if (!userId) return;
+
 		this.userLoading = true;
 		this.currentUser = null;
-		
+
 		this.dataService.getUser(userId)
-      .then(user => {
-        this.currentUser = user;
+			.then(user => {
+				this.currentUser = user;
 				this.newUser = false;
 				this.userLoading = false;
-      })
+			})
 			.catch(err => {
 				this.userLoading = false;
-				this.toastService.toast("Nastala neznámá chyba při načítání uživatele.","error");
+				this.toastService.toast("Nastala neznámá chyba při načítání uživatele.", "error");
 			});
 	}
 
-	createUser(){
-		
-		var id = window.prompt("Zadejte e-mail nového uživatele:");
-		
-		if(id){
-			// check if username does not exist
-			this.dataService.getUser(id)
-				.then(user => {
-					if(user){
-						this.toastService.toast("Uživatel s tímto e-mailem již existuje.","notice");
-						this.selectUser(user._id);
-						return;
-					}
-					else{
-						let newUser = new User(id);
-						this.dataService.saveUser(newUser)
-							.then(user => {
-								this.toastService.toast("Uživatel vytvořen.","notice");
-								this.loadUsers();
-								this.selectUser(user._id);
-							})
-							.catch(err => this.toastService.toast("Nastala chyba při vytváření uživatele.","notice"));
-					}
-				})
-				.catch(err => this.toastService.toast("Nastala chyba při kontrole e-mailu.","notice"));
+	async createUser() {
+
+		var login = window.prompt("Zadejte login nového uživatele:");
+
+		if (!login) return;
+
+		// check if username does not exist
+		try {
+			const existingUser = await this.dataService.getUser(login)
+
+			if (existingUser) {
+				this.toastService.toast("Uživatel s tímto e-mailem již existuje.", "notice");
+				this.selectUser(existingUser.id);
+				return;
+			}
 		}
+		catch (err) {
+			if(err.status !== 404) throw err; // ignore not found, that is what we want
+		}
+
+		let userData = { login };
+
+		const user = await this.dataService.createUser(userData);
+
+		this.toastService.toast("Uživatel vytvořen.", "notice");
+		this.loadUsers();
+		this.selectUser(user.id);
 	}
 
-	saveUser(userData){
+	saveUser(userData) {
 		this.dataService.saveUser(userData)
 			.then(() => {
-			this.toastService.toast("Uloženo.","notice");
-			this.loadUsers();
-		});
+				this.toastService.toast("Uloženo.", "notice");
+				this.loadUsers();
+			});
 	}
 
-	deleteUser(userId){
+	deleteUser(userId) {
 		this.dataService.deleteUser(userId)
 			.then(() => {
-			if(this.currentUser._id === userId) this.selectUser(null);
-			this.loadUsers();
-			this.toastService.toast("Uživatel smazán.","notice");
-		})
-			.catch(err => this.toastService.toast("Nastala chyba při mazání uživatele.","notice"));
+				if (this.currentUser.id === userId) this.selectUser(null);
+				this.loadUsers();
+				this.toastService.toast("Uživatel smazán.", "notice");
+			})
+			.catch(err => this.toastService.toast("Nastala chyba při mazání uživatele.", "notice"));
 	}
 
-	getUserLink(userId){
-		return userId ? ["./",{user:userId}] : ["./",{}];
+	getUserLink(userId) {
+		return userId ? ["./", { user: userId }] : ["./", {}];
 	}
 
-	selectUser(userId){
-		this.router.navigate(this.getUserLink(userId),{relativeTo:this.route});
+	selectUser(userId) {
+		this.router.navigate(this.getUserLink(userId), { relativeTo: this.route });
 	}
 
 }

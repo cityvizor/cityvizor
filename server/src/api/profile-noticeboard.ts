@@ -1,7 +1,7 @@
 import express from 'express';
 import acl from "express-dynacl";
 import { db } from '../db';
-import { NoticeboardRecord } from 'src/schema/noticeboard';
+import { NoticeboardRecord } from 'src/schema/database/noticeboard';
 
 export const router = express.Router({ mergeParams: true });
 

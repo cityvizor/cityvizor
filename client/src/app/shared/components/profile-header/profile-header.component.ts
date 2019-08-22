@@ -53,7 +53,7 @@ export class ProfileHeaderComponent {
 	}
 	
 	isAdmin(){
-		return this.aclService.checkRoute(this.getAdminLink(),{profile:this.profile._id})
+		return this.aclService.checkRoute(this.getAdminLink(),{profile:this.profile.id})
 	}
 
 }

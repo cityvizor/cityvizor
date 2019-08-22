@@ -6,7 +6,7 @@ import { DataService } from './services/data.service';
 import { ToastService } 		from './services/toast.service';
 import { AuthService } 		from './services/auth.service';
 import { ACLService } 		from './services/acl.service';
-import { User } from './shared/schema/user';
+import { User } from './schema/user';
 
 import { AppConfig, IAppConfig } from 'config/config';
 

@@ -1,0 +1,20 @@
+export class Counterparty {
+	id: string;
+	name: string;
+	profiles: CounterpartyProfile[];
+	amount:number;
+}
+
+export class CounterpartyProfile {
+	id: string;
+	name: string;
+	budgets: CounterpartyProfileBudget[];
+	averageAmount?: number;
+}
+
+
+export class CounterpartyProfileBudget {
+	year: number;
+	etl?: string;
+	amount: number;
+}

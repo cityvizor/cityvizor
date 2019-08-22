@@ -1,7 +1,7 @@
 import EventEmitter from "events";
 
 import { db } from "../../db";
-import { AccountingRecord, PaymentRecord, EventRecord } from "src/schema";
+import { AccountingRecord, PaymentRecord, EventRecord } from "src/schema/database";
 
 class ImportWriter extends EventEmitter {
 

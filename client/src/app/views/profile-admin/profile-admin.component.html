@@ -23,9 +23,6 @@
 					<a [routerLink]="getModuleLink('datovy-katalog')" class="list-group-item hidden" routerLinkActive="active">
 						Datový katalog
 					</a>
-					<a [routerLink]="getModuleLink('sprava-modulu')" class="list-group-item" routerLinkActive="active">
-						Správa modulů
-					</a>
 					<a [routerLink]="getModuleLink('spravci-profilu')" class="list-group-item" routerLinkActive="active">
 						Správci profilu
 					</a>
@@ -43,8 +40,6 @@
 				<profile-admin-profile *ngSwitchCase="'profil'" [profile]="profile" (saved)="updateProfile($event)"></profile-admin-profile>
 				
 				<profile-admin-avatar *ngSwitchCase="'logo'" [profile]="profile" (saved)="updateProfile($event)"></profile-admin-avatar>
-
-				<profile-admin-modules *ngSwitchCase="'sprava-modulu'" [profile]="profile"></profile-admin-modules>
 
 				<profile-admin-import *ngSwitchCase="'import-dat'" [profile]="profile"></profile-admin-import>
 				

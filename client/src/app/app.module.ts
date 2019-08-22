@@ -9,34 +9,22 @@ import { AppComponent } from './app.component';
 
 // Views components
 import { FrontPageComponent } from 'app/views/front-page/front-page.component';
-import { ProfileViewComponent } from 'app/views/profile-view/profile-view.component';
 import { ProfileAdminComponent } from "app/views/profile-admin/profile-admin.component";
 import { SiteAdminComponent } from "app/views/site-admin/site-admin.component";
 import { UserAdminComponent } from "app/views/user-admin/user-admin.component";
-import { EventDetailComponent } from "app/views/event-detail/event-detail.component";
-import { CounterpartyViewComponent } from "app/views/counterparty-view/counterparty-view.component";
+import { CounterpartyComponent } from "app/views/counterparty/counterparty.component";
 
 // Front page components
 import { ProfileSearchComponent } from "app/views/front-page/profile-search/profile-search.component";
 import { CounterpartySearchComponent } from "app/views/front-page/counterparty-search/counterparty-search.component";
 
-
 // Couterparty components
-import { CounterpartyViewProfilesComponent } from "app/views/counterparty-view/counterparty-view-profiles/counterparty-view-profiles.component";
-import { CounterpartyViewPaymentsComponent } from "app/views/counterparty-view/counterparty-view-payments/counterparty-view-payments.component";
-
-// Data viz components
-import { DashboardComponent } from "app/views/profile-view/dash-board/dash-board.component";
-import { BigBangVizComponent } from 'app/views/profile-view/bigbang-viz/bigbang-viz.component';
-import { InvoiceListComponent } from 'app/views/profile-view/invoice-list/invoice-list.component';
-import { NoticeBoardComponent } from "app/views/profile-view/notice-board/notice-board.component";
-import { ContractListComponent } from "app/views/profile-view/contract-list/contract-list.component";
-import { DataSourcesComponent } from "app/views/profile-view/data-sources/data-sources.component";
+import { CounterpartyProfilesComponent } from "app/views/counterparty/counterparty-profiles/counterparty-profiles.component";
+import { CounterpartyPaymentsComponent } from "app/views/counterparty/counterparty-payments/counterparty-payments.component";
 
 // Data viz components for data administration
 import { ProfileAdminProfileComponent } from "app/views/profile-admin/profile-admin-profile/profile-admin-profile.component";
 import { ProfileAdminAvatarComponent } from "app/views/profile-admin/profile-admin-avatar/profile-admin-avatar.component";
-import { ProfileAdminModulesComponent } from "app/views/profile-admin/profile-admin-modules/profile-admin-modules.component";
 import { ProfileAdminImportComponent } from "app/views/profile-admin/profile-admin-import/profile-admin-import.component";
 import { ProfileAdminUsersComponent } from "app/views/profile-admin/profile-admin-users/profile-admin-users.component";
 
@@ -78,7 +66,7 @@ import { httpInterceptorProviders } from './http-interceptors';
 // App Config
 import { environment } from 'environments/environment';
 import { AppConfig, AppConfigData } from "../config/config";
-import { CounterpartyViewDashboardComponent } from './views/counterparty-view/counterparty-view-dashboard/counterparty-view-dashboard.component';
+import { CounterpartyDashboardComponent } from './views/counterparty/counterparty-dashboard/counterparty-dashboard.component';
 
 
 // settings for JWT
@@ -108,15 +96,14 @@ var jwtOptions = {
 	],
 	declarations: [
 		AppComponent,
-		/* VIEWS */ FrontPageComponent, ProfileViewComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent, CounterpartyViewComponent,
+		/* VIEWS */ FrontPageComponent, ProfileAdminComponent, SiteAdminComponent, UserAdminComponent, CounterpartyComponent,
 		/* FRONT PAGE */ ProfileSearchComponent, CounterpartySearchComponent,
-    	/* COUNTERPSRTY */ CounterpartyViewProfilesComponent, CounterpartyViewPaymentsComponent,
-		/* VIZ */ BigBangVizComponent, InvoiceListComponent, ContractListComponent, DashboardComponent, NoticeBoardComponent, EventDetailComponent, DataSourcesComponent,
-		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminModulesComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
+    	/* COUNTERPSRTY */ CounterpartyProfilesComponent, CounterpartyPaymentsComponent,		
+		/* VIZ ADMIN */ ProfileAdminAvatarComponent, ProfileAdminProfileComponent, ProfileAdminImportComponent, ProfileAdminUsersComponent,
 		/* ADMIN */ SiteAdminProfilesComponent, SiteAdminProfileComponent, SiteAdminUsersComponent, SiteAdminUserComponent,
     	/* Equaliser Component */ EasterEggEqualiserComponent,
 		/* Service Desk */ UserAdminAccountComponent,
-		/* Shared Components */ LoginFormComponent, HeaderMenuComponent, ProfileHeaderComponent, CounterpartyViewDashboardComponent,
+		/* Shared Components */ LoginFormComponent, HeaderMenuComponent, ProfileHeaderComponent, CounterpartyDashboardComponent,
 	],
 	entryComponents: [
 	],

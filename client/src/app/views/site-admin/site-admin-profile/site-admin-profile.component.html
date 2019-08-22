@@ -33,8 +33,6 @@
             <div class="input-group">
               <span class="input-group-addon">IČO</span>
               <input type="text" class="form-control" id="ico" name="ico" [ngModel]="profile.ico" aria-describedby="help-ico">
-              <span class="input-group-addon">ZÚJ</span>
-              <input type="text" class="form-control" name="zuj" [ngModel]="profile.zuj" aria-describedby="help-ico">
             </div>
           </div>
         </div>
@@ -56,28 +54,18 @@
           <div class="col-sm-9">
             <div class="input-group">
               <span class="input-group-addon">N</span>
-              <input type="number" step="0.000001" class="form-control" id="gps" name="gps1" [ngModel]="profile.gps[1]" aria-describedby="help-gps">
+              <input type="number" step="0.000001" class="form-control" id="gps" name="gpsY" [ngModel]="profile.gpsY" aria-describedby="help-gps">
               <span class="input-group-addon">E</span>
-              <input type="number" step="0.000001" class="form-control" name="gps0" [ngModel]="profile.gps[0]" aria-describedby="help-gps">
+              <input type="number" step="0.000001" class="form-control" name="gpsX" [ngModel]="profile.gpsX" aria-describedby="help-gps">
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label for="email" class="col-sm-3 control-label">Kontaktní email</label>
+          <label class="col-sm-3 control-label">Viditelnost</label>
           <div class="col-sm-9">
-            <input type="email" class="form-control" id="email" name="email" [ngModel]="profile.email" aria-describedby="help-email">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-sm-3 control-label">Stav</label>
-          <div class="col-sm-9">
-            <select name="status" [ngModel]="profile.status">
-              <option value="active">Veřejný</option>
-              <option value="pending">Připravujeme</option>
-              <option value="hidden">Skrytý</option>
-            </select>
+            <input type="checkbox" name="hidden" [ngModel]="profile.hidden" id="input_profile_hidden">
+            <label for="input_profile_hidden">Skrytý</label>
           </div>
         </div>
         

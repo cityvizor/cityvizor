@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Paginator } from 'app/shared/schema/paginator';
-import { ETL } from "app/shared/schema/etl";
-import { Counterparty } from "app/shared/schema/counterparty";
-import { Dashboard } from "app/shared/schema/dashboard";
+import { Paginator } from 'app/schema/paginator';
+import { ETL } from "app/schema/etl";
+import { Counterparty } from "app/schema/counterparty";
+import { Dashboard } from "app/schema/dashboard";
 
 import { environment } from "environments/environment";
 
@@ -46,12 +46,18 @@ export class DataService {
 		return this.http.get<any>(this.root + "/profiles/" + profileId).toPromise();
 	}
 
-	createProfile(profile) {
-		return this.http.post<any>(this.root + "/profiles", profile).toPromise();
+	async createProfile(profile) {
+		const response = await this.http.post(this.root + "/profiles", profile, { observe: "response", responseType: "text" }).toPromise();
+		console.log(response);
+		return this.http.get<any>(this.root + response.headers.get("location")).toPromise();
 	}
 
 	saveProfile(profile) {
-		return this.http.put<any>(this.root + "/profiles/" + profile._id, profile).toPromise();
+		return this.http.patch<any>(this.root + "/profiles/" + profile.id, profile).toPromise();
+	}
+
+	deleteProfile(profileId) {
+		return this.http.delete<any>(this.root + "/profiles/" + profileId).toPromise();
 	}
 
 	/* AVATARS */
@@ -149,7 +155,7 @@ export class DataService {
 		return this.http.get<any[]>(this.root + "/counterparties" + toParams(options)).toPromise();
 	}
 
-	getCounterpartiesTop(){
+	getCounterpartiesTop() {
 		return this.http.get<Counterparty[]>(this.root + "/counterparties/top").toPromise();
 	}
 
@@ -157,11 +163,11 @@ export class DataService {
 		return this.http.get<any[]>(this.root + "/counterparties/search" + toParams({ query: query })).toPromise();
 	}
 
-	getCounterpartyBudgets(counterpartyId:string){
+	getCounterpartyBudgets(counterpartyId: string) {
 		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/budgets").toPromise();
 	}
 
-	getCounterpartyPayments(counterpartyId:string){
+	getCounterpartyPayments(counterpartyId: string) {
 		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/payments").toPromise();
 	}
 
@@ -172,8 +178,12 @@ export class DataService {
 	getUser(userId) {
 		return this.http.get<any>(this.root + "/users/" + userId).toPromise();
 	}
+	async createUser(userData) {
+		const response = await this.http.post(this.root + "/users", userData, { observe: "response", responseType: "text" }).toPromise();
+		return this.http.get<any>(this.root + response.headers.get("location")).toPromise();
+	}
 	saveUser(userData) {
-		return this.http.post<any>(this.root + "/users/" + userData._id, userData).toPromise();
+		return this.http.patch<any>(this.root + "/users/" + userData.id, userData).toPromise();
 	}
 	deleteUser(userId) {
 		return this.http.delete(this.root + "/users/" + userId, { responseType: 'text' }).toPromise();

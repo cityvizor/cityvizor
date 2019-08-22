@@ -14,7 +14,7 @@ export class ProfileAdminAvatarComponent {
   @Input()
 	set profile(profile: any){
     this._profile = profile;
-    this.updateAvatar(profile._id);
+    this.updateAvatar(profile.id);
   }
   
   _profile:any;
@@ -45,10 +45,10 @@ export class ProfileAdminAvatarComponent {
     else this.tooBig = false;
       
     
-    this.dataService.saveProfileAvatar(this._profile._id,formData)
+    this.dataService.saveProfileAvatar(this._profile.id,formData)
 			.then(result => {
         this.toastService.toast("Logo obce uloženo","check");
-        this.updateAvatar(this._profile._id);
+        this.updateAvatar(this._profile.id);
         avatarFile.value = "";
       })
 			.catch(response => {
@@ -58,10 +58,10 @@ export class ProfileAdminAvatarComponent {
 	}
   
   delete(){
-    this.dataService.deleteProfileAvatar(this._profile._id)
+    this.dataService.deleteProfileAvatar(this._profile.id)
 			.then(result => {
         this.toastService.toast("Logo obce smazáno","check");
-        this.updateAvatar(this._profile._id);
+        this.updateAvatar(this._profile.id);
       })
 			.catch(err => {
         this.toastService.toast("Nastala chyba při mazání loga: " + err.message,"error");

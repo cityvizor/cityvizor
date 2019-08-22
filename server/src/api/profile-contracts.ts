@@ -2,7 +2,7 @@ import express from 'express';
 import acl from "express-dynacl";
 
 import { db, sort2order } from "../db";
-import { ContractRecord } from 'src/schema';
+import { ContractRecord } from 'src/schema/database';
 
 export const router = express.Router({ mergeParams: true });
 

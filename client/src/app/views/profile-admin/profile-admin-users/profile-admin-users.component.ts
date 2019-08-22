@@ -20,7 +20,7 @@ export class ProfileAdminUsersComponent {
 	}
 	 
 	ngOnInit(){
-    this.dataService.getProfileManagers(this.profile._id)
+    this.dataService.getProfileManagers(this.profile.id)
 			.then(managers => this.managers = managers);
 	}
 	 

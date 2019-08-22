@@ -3,26 +3,12 @@
 
   <a (click)="close.emit()" class="close"><i class="fa fa-times fa-lg" aria-hidden="true"></i></a>
 
-  <h3>{{user._id}}</h3>
+  <h3>{{user.login}} (#{{user.id}})</h3>
 
   <div class="row">
 
     <div class="col-sm-9 useredit">
       <form class="form-horizontal" (submit)="saveUser()" #userForm="ngForm">
-
-        <div class="form-group">
-          <label for="name" class="col-sm-3 control-label">Jméno</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="name" name="name" [ngModel]="user.name" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="organization" class="col-sm-3 control-label">Organizace</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="organization" name="organization" [ngModel]="user.organization" required>
-          </div>
-        </div>
 
         <div class="form-group">
           <label for="organization" class="col-sm-3 control-label">Role</label>
@@ -49,12 +35,12 @@
             <span *ngFor="let profile of user.managedProfiles" class="label label-primary">
               {{profile.name}}
               <br>
-              <small>{{profile._id}}</small>
+              <small>{{profile.id}}</small>
               <a (click)="removeProfile(profile)" class="remove"><i class="fa fa-times fa-2x" aria-hidden="true"></i></a>
             </span>
             
             <div class="add input-group">
-              <input #inputProfile type="text" placeholder="např. 586c306447d31f11fdda05cb" pattern="[a-hA-H0-9]{24}" class="form-control">
+              <input #inputProfile type="text" placeholder="číslo profilu" pattern="[a-hA-H0-9]{24}" class="form-control">
               <div class="input-group-addon"><button type="button" (click)="addProfile(inputProfile.value)">Přidat</button></div>
             </div>            
 

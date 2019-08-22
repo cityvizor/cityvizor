@@ -10,6 +10,9 @@ console.log(`[DB] Connecting to ${config.database.user}@${config.database.databa
 // would be better before executing just for identifiers, but not possible currrently by knex
 // https://github.com/tgriesser/knex/issues/2084
 function convertRow2CamelCase(row: any): any {
+  
+  if(!row) return row;
+  
   return Object.entries(row).reduce((acc, cur) => {
     acc[changeCase.camelCase(cur[0])] = cur[1];
     return acc;

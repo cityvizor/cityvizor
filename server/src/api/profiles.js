@@ -55,15 +55,22 @@ var profileSchema = {
     }
 };
 exports.router.get("/", express_dynacl_1.default("profiles", "list"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-    var profiles;
+    var profiles, profiles;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.db("profiles")
-                    .select("id", "name", "url", "gpsX", "gpsY")];
+            case 0:
+                if (!req.query.hidden) return [3 /*break*/, 2];
+                return [4 /*yield*/, db_1.db("app.profiles").select("id", "hidden", "name", "url", "gpsX", "gpsY")];
             case 1:
                 profiles = _a.sent();
                 res.json(profiles);
-                return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, db_1.db("profiles").select("id", "name", "url", "gpsX", "gpsY")];
+            case 3:
+                profiles = _a.sent();
+                res.json(profiles);
+                _a.label = 4;
+            case 4: return [2 /*return*/];
         }
     });
 }); });
@@ -71,11 +78,11 @@ exports.router.get("/:profile", express_dynacl_1.default("profiles", "read"), fu
     var profile;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.db("profiles")
+            case 0: return [4 /*yield*/, db_1.db("app.profiles")
                     .modify(function () {
                     this.where({ url: String(req.params.profile) });
                     if (!isNaN(Number(req.params.profile)))
-                        this.orWhere({ url: Number(req.params.profile) });
+                        this.orWhere({ id: Number(req.params.profile) });
                 })
                     .first()];
             case 1:
@@ -91,23 +98,43 @@ exports.router.post("/", express_dynacl_1.default("profiles", "write"), function
     var id;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.db("profiles")
+            case 0: return [4 /*yield*/, db_1.db("app.profiles")
                     .insert(req.body, ["id"])
                     .then(function (result) { return result[0].id; })];
             case 1:
                 id = _a.sent();
-                res.location(config_1.default.apiRoot + "/profiles/" + id);
+                res.location("/profiles/" + id);
                 res.sendStatus(201);
                 return [2 /*return*/];
         }
     });
 }); });
-exports.router.put("/:profile", express_dynacl_1.default("profiles", "write"), function (req, res) {
-    db_1.db("profiles")
-        .where({ id: req.params.profile })
-        .update(req.body);
-    res.sendStatus(204);
-});
+exports.router.patch("/:profile", express_dynacl_1.default("profiles", "write"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, db_1.db("app.profiles")
+                    .where({ id: req.params.profile })
+                    .update(req.body)];
+            case 1:
+                _a.sent();
+                res.sendStatus(204);
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.router.delete("/:profile", express_dynacl_1.default("profiles", "write"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, db_1.db("app.profiles")
+                    .where({ id: req.params.profile })
+                    .delete()];
+            case 1:
+                _a.sent();
+                res.sendStatus(204);
+                return [2 /*return*/];
+        }
+    });
+}); });
 exports.router.get("/:profile/avatar", express_dynacl_1.default("profile-image", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     var profile;
     return __generator(this, function (_a) {

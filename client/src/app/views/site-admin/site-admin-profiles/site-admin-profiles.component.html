@@ -17,11 +17,11 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let profile of profiles" class="profile" [class.info]="currentProfile?._id === profile._id" (click)="selectProfile(profile._id)">
+      <tr *ngFor="let profile of profiles" class="profile" [class.info]="currentProfile?.id === profile.id" (click)="selectProfile(profile.id)">
         <td>{{profile.name}}</td>
         <td>{{profile.url}}</td>
-        <td>{{profile._id}}</td>
-        <td>{{profile.status}}</td>
+        <td>{{profile.id}}</td>
+        <td>{{profile.hidden ? "skrytý" : "veřejný"}}</td>
         <td><a [routerLink]="getProfileLink(profile)">otevřít profil</a></td>
       </tr>
   </table>

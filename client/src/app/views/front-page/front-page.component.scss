@@ -3,10 +3,10 @@
 
 #headerVyberObce {
   display: block;  padding: 70px 0px 20px 0px;
-  background: url('/assets/img/polepozadi5.jpg') no-repeat; 
-  background-size: cover; background-position: center -10px; 
+  background: url('/assets/img/pozadi.jpg') no-repeat; 
+  background-size: cover; background-position: center center; 
   border-bottom: 10px solid #2581c4;
-  max-height: 340px;
+  height: 50vh;
 }
 @media (max-width: 1200px) {
   #headerVyberObce {

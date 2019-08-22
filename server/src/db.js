@@ -11,6 +11,8 @@ console.log("[DB] Connecting to " + config.database.user + "@" + config.database
 // would be better before executing just for identifiers, but not possible currrently by knex
 // https://github.com/tgriesser/knex/issues/2084
 function convertRow2CamelCase(row) {
+    if (!row)
+        return row;
     return Object.entries(row).reduce(function (acc, cur) {
         acc[change_case_1.default.camelCase(cur[0])] = cur[1];
         return acc;

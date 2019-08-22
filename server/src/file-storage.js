@@ -2,7 +2,8 @@ const fs = require("fs-extra");
 const config = require("../config");
 
 const dirs = [  
-  config.storage.tmp
+  config.storage.tmp,
+  config.storage.avatars
 ];
 
 async function ensureDirs() {

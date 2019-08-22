@@ -10,7 +10,7 @@ export const router = express.Router();
 
 import config from "../../config";
 import { db } from '../db';
-import { UserRecord, ManagedProfileRecord, UserRoleRecord } from 'src/schema';
+import { UserRecord, UserProfileRecord, UserRoleRecord } from 'src/schema/database';
 
 async function createToken(tokenData: any, validity): Promise<string> {
 
@@ -33,9 +33,9 @@ var loginSchema = {
 
 router.post("/", schema.validate({ body: loginSchema }), acl("login", "login"), async (req, res, next) => {
 
-	const user = await db<UserRecord>("users")
+	const user = await db<UserRecord>("app.users")
 		.select("id", "login", "password")
-		.where({ id: req.body.login.toLowerCase() })
+		.where({ login: req.body.login.toLowerCase() })
 		.first();
 
 	if (!user) return res.status(404).send("User not found");
@@ -45,9 +45,10 @@ router.post("/", schema.validate({ body: loginSchema }), acl("login", "login"), 
 	if (same) {
 
 		var tokenData = {
-			_id: user.id,
-			managedProfiles: await db<ManagedProfileRecord>("managed_profiles").where({ userId: user.id }).then(rows => rows.map(row => row.profileId)),
-			roles: await db<UserRoleRecord>("user_roles").where({ userId: user.id }).then(rows => rows.map(row => row.role)),
+			id: user.id,
+			login: user.login,
+			managedProfiles: await db<UserProfileRecord>("app.user_profiles").where({ userId: user.id }).then(rows => rows.map(row => row.profileId)),
+			roles: await db<UserRoleRecord>("app.user_roles").where({ userId: user.id }).then(rows => rows.map(row => row.role)),
 		};
 
 		const token = await createToken(tokenData, "1 day");
@@ -63,7 +64,7 @@ router.post("/", schema.validate({ body: loginSchema }), acl("login", "login"), 
 
 router.get("/renew", acl("login", "renew"), async (req, res, next) => {
 
-	const user = await db<UserRecord>("users")
+	const user = await db<UserRecord>("app.users")
 		.select("id", "login", "password")
 		.where({ id: req.body.login.toLowerCase() })
 		.first();
@@ -72,8 +73,8 @@ router.get("/renew", acl("login", "renew"), async (req, res, next) => {
 
 	var tokenData = {
 		_id: user.id,
-		managedProfiles: await db<ManagedProfileRecord>("managed_profiles").where({ userId: user.id }).then(rows => rows.map(row => row.profileId)),
-		roles: await db<UserRoleRecord>("user_roles").where({ userId: user.id }).then(rows => rows.map(row => row.role)),
+		managedProfiles: await db<UserProfileRecord>("app.user_profiles").where({ userId: user.id }).then(rows => rows.map(row => row.profileId)),
+		roles: await db<UserRoleRecord>("app.user_roles").where({ userId: user.id }).then(rows => rows.map(row => row.role)),
 	};
 
 	const token = await createToken(tokenData, "1 day");

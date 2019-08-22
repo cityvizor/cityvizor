@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DataService } 		from '../../../services/data.service';
 import { ToastService } 		from '../../../services/toast.service';
 
-import { Profile } from "../../../shared/schema/profile";
+import { Profile } from "../../../schema/profile";
 
 //00006947
 @Component({
@@ -84,12 +84,18 @@ export class SiteAdminProfilesComponent {
 			.then(profile => {
 				this.toastService.toast("Profil vytvořen.","notice");
 				this.loadProfiles();
-				this.selectProfile(profile._id);
+				this.selectProfile(profile.id);
 			})
-			.catch(err => this.toastService.toast("Nastala chyba při vytváření profilu.","notice"));
+			.catch(err => {
+				this.toastService.toast("Nastala chyba při vytváření profilu.","notice");
+				console.error(err);
+			});
 	}
 
-	deleteProfile(profileId){
+	async deleteProfile(profileId){
+		await this.dataService.deleteProfile(profileId);
+		this.loadProfiles();
+		this.selectProfile(null);
 	}
 
 	getDetailLink(profileId){
@@ -101,7 +107,7 @@ export class SiteAdminProfilesComponent {
 	}
 
 	getProfileLink(profile){
-		return "/" + (profile.url || profile._id);
+		return "/" + (profile.url || profile.id);
 	}
 
 }

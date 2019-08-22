@@ -2,7 +2,7 @@ import express from 'express';
 import acl from "express-dynacl";
 
 import { db, sort2order } from "../db";
-import { PaymentRecord, EventRecord } from "src/schema";
+import { PaymentRecord, EventRecord } from "src/schema/database";
 
 export const router = express.Router({ mergeParams: true });
 

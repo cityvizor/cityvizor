@@ -1,0 +1,44 @@
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div *ngIf="!infoWindowClosed" class="alert alert-info alert-dismissable fade in">
+			<span class="close" data-dismiss="alert" aria-label="close" (click)="infoWindowClosed=true">&times;</span>
+			<strong>Informace:</strong> Na úřední desce jsou veřejně přístupné právní předpisy, rozhodnutí a jiné dokumenty správních orgánů a soudů. S pomocí přední desky se můžete například dozvědět, že se plánuje uzavírka důležité komunikace, obec zrovna výhodně prodává pozemky nebo probíhá stavební řízení na nový supermarket. Cityvizor využívá data z aplikace edesky.cz, která harvestuje data z jednotlivých úředních desek.
+		</div>
+	</div>
+</div>
+
+<div class="notice-board-map hidden">
+	<div class="notice-board-item well">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe *ngIf="mapURL" class="embed-responsive-item" [src]="mapURL"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-container *ngIf="noticeBoard">
+	<div class="notice-board-list">
+		<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of noticeBoard.documents">
+			<div class="row">
+				<div class="col-sm-10">
+					<strong>{{document.title}}</strong>
+					<br>
+					<div class="small text-muted margin-top-md">
+						<i class="fa fa-clock-o"></i> Datum zveřejnění: {{document.date | date:"d. M. y"}}, <i class="fa fa-paperclip"></i> Počet příloh: {{document.attachments.length}}
+					</div>
+				</div>
+				<div class="col-sm-2 buttons">
+					<a *ngIf="document.edeskyUrl" class="btn btn-xs btn-primary" [href]="document.edeskyUrl" target="_blank">eDesky</a>
+					<a *ngIf="document.documentUrl" class="btn btn-xs btn-primary" [href]="document.documentUrl" target="_blank">Dokument</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="text-center more">
+		<a [href]="'https://edesky.cz/desky/' + noticeBoard.edesky" target="_blank">Zobrazit všechny dokumenty</a>
+	</div>
+</ng-container>

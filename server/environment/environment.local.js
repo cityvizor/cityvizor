@@ -5,7 +5,10 @@ module.exports = {
   port: 3000,
   host: "0.0.0.0",
 
+  apiRoot: "/api",
+
   tmpDir: path.resolve(__dirname, "../../data/tmp"),
+  storageDir: path.resolve(__dirname, "../../data"),
 
   staticFiles: path.resolve(__dirname, "../../client/dist"),
 

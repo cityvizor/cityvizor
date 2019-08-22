@@ -7,13 +7,14 @@ import { RouterModule } from '@angular/router';
 import { ButtonsModule, CollapseModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 
 // Shared coremponents
+import { BudgetsListComponent } 		from './components/budgets-list/budgets-list.component';
 import { ChartBigbangComponent } 		from './components/chart-bigbang/chart-bigbang.component';
 import { ChartDonutComponent } 		from './components/chart-donut/chart-donut.component';
 import { ChartBudgetComponent } 		from './components/chart-budget/chart-budget.component';
 import { ChartEventOverviewComponent } 		from './components/chart-event-overview/chart-event-overview.component';
-import { BudgetsListComponent } 		from './components/budgets-list/budgets-list.component';
-import { HelpModalComponent } 		from './components/help-modal/help-modal.component';
 import { ChartHistoryComponent } 		from './components/chart-history/chart-history.component';
+import { EventDetailComponent } from './components/event-detail/event-detail.component';
+import { HelpModalComponent } 		from './components/help-modal/help-modal.component';
 import { WordCloudComponent } from "./components/word-cloud/word-cloud.component";
 
 // Pipes
@@ -29,7 +30,7 @@ import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pi
     ButtonsModule.forRoot(), CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot()
   ],
   declarations: [
-    /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent, ChartHistoryComponent, WordCloudComponent,
+    /* Shared Components */ EventDetailComponent, ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent, ChartHistoryComponent, WordCloudComponent,
     /* Shared Pipes */ MoneyPipe, IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ],
   exports: [

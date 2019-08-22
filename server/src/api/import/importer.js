@@ -122,7 +122,7 @@ class Importer {
     // create etl log entry
     var etllog = new ETLLog({
       profile: etl.profile,
-      etl: etl._id,
+      etl: etl.id,
       timestamp: new Date(),
       user: this.userId,
 

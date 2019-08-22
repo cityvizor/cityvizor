@@ -6,7 +6,7 @@ import { debounceTime } from "rxjs/operators";
 import { DataService } from '../../../services/data.service';
 import { ToastService } from '../../../services/toast.service';
 
-import { Counterparty } from 'app/shared/schema/counterparty';
+import { Counterparty } from 'app/schema/counterparty';
 
 import { Word } from 'app/shared/components/word-cloud/word-cloud.component';
 
@@ -54,7 +54,7 @@ export class CounterpartySearchComponent implements OnInit {
 
 	openWord(word:Word){
 		const counterparty = this.wordcloudCounterparties.find(counterparty => counterparty.name === word[0]);
-		if(counterparty) this.openCounterparty(counterparty._id)
+		if(counterparty) this.openCounterparty(counterparty.id)
 	}
 
 	openCounterparty(counterpartyId:string){

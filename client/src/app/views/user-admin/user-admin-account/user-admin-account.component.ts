@@ -6,7 +6,7 @@ import { AuthService } 		from '../../../services/auth.service';
 import { DataService } 		from '../../../services/data.service';
 import { ToastService } 		from '../../../services/toast.service';
 
-import { User } from "../../../shared/schema/user";
+import { User } from "../../../schema/user";
 
 //00006947
 @Component({
@@ -29,14 +29,14 @@ export class UserAdminAccountComponent implements OnInit {
   }
 	 
   loadUser(){
-    this.dataService.getUser(this.authService.user._id)
+    this.dataService.getUser(this.authService.user.id)
       .then(user => this.user = user);
   }
    
 	saveUser(form){
 		
 		let formData = form.value;
-		formData._id = this.user._id;
+		formData.id = this.user.id;
 		
 		this.dataService.saveUser(formData)
 			.then(user => {
@@ -56,11 +56,11 @@ export class UserAdminAccountComponent implements OnInit {
 		 }
 		 
 		 let data = {
-			 _id: this.user._id,
+			 id: this.user.id,
 			 password: formData.password
 		 };
 		 
-		 data._id = this.user._id;
+		 data.id = this.user.id;
 		 
 		 this.dataService.saveUser(data)
 		 	.then(user => {

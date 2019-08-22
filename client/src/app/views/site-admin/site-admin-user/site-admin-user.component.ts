@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import { DataService } 		from '../../../services/data.service';
 import { ToastService } 		from '../../../services/toast.service';
 
-import { User } from "../../../shared/schema/user";
+import { User } from "../../../schema/user";
 
 //00006947
 @Component({
@@ -50,7 +50,7 @@ export class SiteAdminUserComponent {
 		if(!profileId) return;		
 		
 		//check if profile already in list
-		if(this.user.managedProfiles.some(profile => profile._id === profileId)) {
+		if(this.user.managedProfiles.some(profile => profile.id === profileId)) {
 			this.toastService.toast("Tento profil je již v seznamu.","notice");
 			return;
 		}
@@ -65,28 +65,28 @@ export class SiteAdminUserComponent {
 	}
 
 	removeProfile(profile){
-		this.user.managedProfiles = this.user.managedProfiles.filter(item => item._id !== profile._id);
+		this.user.managedProfiles = this.user.managedProfiles.filter(item => item.id !== profile.id);
 	}
 	 
 	setPassword(){
 		var password = window.prompt("Zadejte nové heslo:");
 		
-		if(password) this.save.emit({_id:this.user._id,password:password});
+		if(password) this.save.emit({_id:this.user.id,password:password});
 			
 	}
 	 
 	saveUser(){
 		var userData = this.form.value;
-		userData._id = this.user._id;
-		userData.managedProfiles = this.user.managedProfiles.map(profile => profile._id);
+		userData.id = this.user.id;
+		userData.managedProfiles = this.user.managedProfiles.map(profile => profile.id);
 		userData.roles = this.user.roles;
 		this.save.emit(userData);
 	}
 	 
 	deleteUser(){
-		var confirmation = window.confirm("Opravdu chcete smazat uživatele " + this.user._id + "?");
+		var confirmation = window.confirm("Opravdu chcete smazat uživatele " + this.user.id + "?");
 
-		if(confirmation) this.delete.emit(this.user._id);
+		if(confirmation) this.delete.emit(this.user.id);
 	}
 
 }
