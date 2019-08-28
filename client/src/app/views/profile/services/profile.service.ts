@@ -6,7 +6,7 @@ import { Profile } from 'app/schema/profile';
 import { ReplaySubject } from 'rxjs';
 
 @Injectable({
-  providedIn: ProfileModule
+  providedIn: "root"
 })
 export class ProfileService {
 

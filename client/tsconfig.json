@@ -1,6 +1,6 @@
 {
   "compileOnSave": false,
-  "compilerOptions": {
+  "compilerOptions": {    
     "baseUrl": "./src",
     "outDir": "./dist",
     "sourceMap": true,
@@ -19,5 +19,8 @@
       "dom"
     ],
     "strictNullChecks": true
+  },
+  "angularCompilerOptions": {
+    "enableIvy": true
   }
 }
