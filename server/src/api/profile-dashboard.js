@@ -41,10 +41,42 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var express_dynacl_1 = __importDefault(require("express-dynacl"));
+var db_1 = require("../db");
 exports.router = express_1.default.Router({ mergeParams: true });
 exports.router.get("/", express_dynacl_1.default("profile-dashboard", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        res.json([]);
-        return [2 /*return*/];
+    var categoriesDef, categoriesNames, categoriesAccounting, amounts, _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                categoriesDef = [
+                    { name: "transportation", where: "paragraph >= 2200 AND paragraph <= 2299" },
+                    { name: "schools", where: "paragraph >= 3100 AND paragraph <= 3299" },
+                    { name: "housing", where: "paragraph = 3612" },
+                    { name: "culture", where: "paragraph >= 3300 AND paragraph <= 3399" },
+                    { name: "sports", where: "paragraph >= 3400 AND paragraph <= 3499" },
+                    { name: "government", where: "" }
+                ];
+                categoriesNames = db_1.db.unionAll(categoriesDef.map(function (category) {
+                    return db_1.db.raw("SELECT '" + category.name + "' AS category");
+                }));
+                categoriesAccounting = db_1.db.unionAll(categoriesDef.map(function (category) {
+                    return db_1.db("accounting")
+                        .select("profile_id", "year", db_1.db.raw("'" + category.name + "' AS category"), "expenditureAmount", "budgetExpenditureAmount")
+                        .whereRaw(category.where);
+                }));
+                amounts = db_1.db("years AS y")
+                    .crossJoin(categoriesNames.as("n"), {})
+                    .leftJoin(categoriesAccounting.as("a"), { "a.year": "y.year", "a.category": "n.category", "a.profileId": "y.profileId" })
+                    .select("y.year", "n.category")
+                    .sum("a.expenditureAmount AS amount")
+                    .sum("a.budgetExpenditureAmount AS budgetAmount")
+                    .where({ "y.profileId": req.params.profile })
+                    .groupBy("y.year", "n.category");
+                _b = (_a = res).send;
+                return [4 /*yield*/, amounts];
+            case 1:
+                _b.apply(_a, [_c.sent()]);
+                return [2 /*return*/];
+        }
     });
 }); });
