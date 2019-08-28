@@ -35,21 +35,14 @@
       
       <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
         
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" (click)="isMenuCollapsed = true">
 
-          <li>
-            <a [routerLink]="['/' + profile.url + '/prehled']" routerLinkActive="active" (click)="isMenuCollapsed = true">
-              Přehled
-            </a>
-          </li>
-
-          <ng-container *ngFor="let viz of vizModules">
-            <li *ngIf="!isHiddenModule(viz)">
-              <a [routerLink]="getVizLink(viz)" routerLinkActive="active" (click)="isMenuCollapsed = true">
-                {{viz.name}}
-              </a>
-            </li>
-          </ng-container>
+          <li><a routerLink="prehled" routerLinkActive="active">Přehled</a></li>
+          <li><a routerLink="hospodareni/vydaje" routerLinkActive="active">Výdaje</a></li>
+          <li><a routerLink="hospodareni/prijmy" routerLinkActive="active">Příjmy</a></li>
+          <li><a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
+          <li><a routerLink="uredni-deska" routerLinkActive="active">Úřední deska</a></li>
+          <li><a routerLink="registr-smluv" routerLinkActive="active">Registr smluv</a></li>
           
         </ul>
 

@@ -11,7 +11,9 @@ import { AppConfig, IAppConfig } from "config/config";
 /**
 	* Service to save user information and commnicate user data with server
 	*/
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ACLService implements CanActivate {
 	
   routes:any = [];

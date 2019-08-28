@@ -1,5 +1,5 @@
 <div *ngIf="event">
-	<h2>{{event.name}} ({{event.year}})</h2>
+	<h2>{{event.name}} ({{year}})</h2>
 
 	<tabset #detailTabs>
 		<tab heading="Přehled">
@@ -25,7 +25,7 @@
 						</tr>
 					</table>
 
-					<chart-event-overview *ngIf="event.expenditureAmount > 0 || event.budgetExpenditureAmount > 0" type="expenditure" [data]="event"></chart-event-overview>
+					<chart-event-overview *ngIf="event.expenditureAmount > 0 || event.budgetExpenditureAmount > 0" type="expenditure" [event]="event"></chart-event-overview>
 					
 				</ng-container>
 				
@@ -48,7 +48,7 @@
 						</tr>
 					</table>
 
-					<chart-event-overview *ngIf="event.incomeAmount > 0 || event.budgetIncomeAmount > 0" type="income" [data]="event"></chart-event-overview>
+					<chart-event-overview *ngIf="event.incomeAmount > 0 || event.budgetIncomeAmount > 0" type="income" [event]="event"></chart-event-overview>
 					
 				</ng-container>
 				
@@ -74,7 +74,7 @@
 						<table class="table table-hover">
 							<thead>
 								<tr style="height:30px;">
-									<th *ngFor="let historyEvent of history">{{historyEvent.year}} <a class="open" (click)="selectEvent.emit(historyEvent.id)">otevřít</a></th>
+									<th *ngFor="let historyEvent of history">{{historyEvent.year}} <a class="open" (click)="openYear(historyEvent.year)">otevřít</a></th>
 									<th></th>
 								</tr>
 							</thead>

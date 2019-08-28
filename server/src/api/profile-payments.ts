@@ -14,6 +14,7 @@ router.get("/", acl("profile-payments", "list"), async (req, res, next) => {
 		.offset(req.query.offset || 0)
 		.modify(function(){
 			if(req.query.sort) this.orderBy(sort2order(req.query.sort));
+			if(req.query.event) this.where({event: req.query.event});
 			if(req.query.dateFrom) this.where("date",">=",req.query.dateFrom);
 			if(req.query.dateTo) this.where("date","<",req.query.dateTo);			
 		})

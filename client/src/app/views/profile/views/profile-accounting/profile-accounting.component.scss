@@ -1,0 +1,113 @@
+.container {
+	margin-top: -20px;	
+}
+
+h4{font-weight:normal !important;}
+
+/* BIG BANG CHART */
+#bigbang{
+	position: relative;
+}
+#bigbang .box:before{
+	content: "";
+	display: block;
+	padding-top: 100%; 	/* initial ratio of 1:1*/
+}
+#bigbang .content{
+	position:  absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	overflow: hidden;
+}
+/* Other ratios */
+#bigbang .ratio2_1:before{padding-top: 50%;}
+#bigbang .ratio1_2:before{padding-top: 200%;}
+#bigbang .ratio4_3:before{padding-top: 75%;}
+#bigbang .ratio16_9:before{padding-top: 56.25%;}
+
+budget-select{position:absolute;top:0;left:0;z-index:200;}
+
+#bigbang .whiteTransitions div {
+	width: 100%;
+	position: absolute;
+	z-index: 100;
+}
+#bigbang .topTransition {
+	top:0px;
+	height: 10%;
+	background: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+#bigbang .bottomTransition {
+	bottom:0px;
+	height: 5%;
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+#selectedGroup {
+	margin-top: 1em;
+	min-height: 330px;
+}
+
+.skupina-label .label {
+	margin: 1em 0em 0em 0em;
+}
+
+.selectedGroupTitle {
+	line-height: 2em;
+	text-align: center;
+}
+.selectedGroupTitle label {
+	background: #E73431;
+	border: 3px solid #E73431;
+	border-bottom: none;
+	color: white;
+	font-size: 1.3em;
+	padding-top: 2px;
+	padding-right: 6px;
+	padding-bottom: 3px;
+	padding-left: 6px;
+	margin-bottom: 0px;
+}
+.selectedGroupTitle label.label-default {
+	background: #888;
+	border: 3px solid #888;
+	border-bottom: none;
+}
+
+.selectedGroupTitle button {
+	background: white;
+	border: 3px solid #2581C4;
+	border-bottom: none;
+	color: #2581C4;
+	font-size: 1.3em;
+	margin-bottom: 0px;
+	padding: 2px 6px 3px;
+}
+.selectedGroupTitle button.active {
+	background: #2581C4;
+	border: 3px solid #2581C4;
+	border-bottom: none;
+	color: white;
+	margin-bottom: 0px;
+}
+
+/* TABLE */
+.viztable, .graftable {margin-top: 1em;}
+.viztable tbody td, .graftable tbody td {padding: 2px 8px;}
+.graftable svg {max-width:100px!important;}
+.graftable td {vertical-align: middle};
+.graftable tbody tr:nth-child(1) td:nth-child(1) {width:30%;}
+.graftable tbody tr:nth-child(1) td:nth-child(2) {width:25%;}
+.graftable tbody tr:nth-child(1) td:nth-child(3) {width:45%;}
+.viztable th:nth-child(1), .viztable td:nth-child(1) {width:50%;text-align:left;}
+.viztable th:nth-child(2), .viztable td:nth-child(2) {width:25%;text-align:right;}
+.viztable th:nth-child(3), .viztable td:nth-child(3) {width:25%;text-align:right;}
+
+
+.modal-body {
+	overflow: hidden;	
+}
+
+.showMore{margin:30px;}

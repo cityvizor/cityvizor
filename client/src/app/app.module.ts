@@ -92,8 +92,7 @@ var jwtOptions = {
 	entryComponents: [
 	],
 	providers: [
-		/* Angular Services */ Title,
-		/* Custom Services */ DataService, CodelistService, ToastService, AuthService, ACLService,
+		/* Angular Services */ Title,		
 		/* Config Providers */ { provide: AppConfig, useValue: AppConfigData },
 		httpInterceptorProviders
 	],

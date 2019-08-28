@@ -47,7 +47,7 @@ exports.router.get("/", express_dynacl_1.default("codelists", "list"), function 
     var codelists;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.db("codelists").distinct("name").then(function (rows) { return rows.map(function (row) { return row.name; }); })];
+            case 0: return [4 /*yield*/, db_1.db("codelists").distinct("codelist").then(function (rows) { return rows.map(function (row) { return row.codelist; }); })];
             case 1:
                 codelists = _a.sent();
                 res.json(codelists);

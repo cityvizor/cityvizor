@@ -1,21 +1,9 @@
-<div id="entity" *ngIf="profile">
+<div id="entity">
 
-	<profile-header [profile]="profile"></profile-header>
+	<profile-header [profile]="profile | async"></profile-header>
 
-	<div *ngIf="activeModule" id="content" class="container">
-			<div id="vizmodules">
-
-				<dash-board *ngIf="activeModule === 'dash-board'" [profile]="profile"></dash-board>
-
-				<bigbang-viz *ngIf="activeModule === 'expenditure-viz' || activeModule === 'income-viz'" [type]="activeModule === 'income-viz' ? 'inc' : 'exp'" [profile]="profile"></bigbang-viz>
-				
-				<invoice-list *ngIf="activeModule === 'invoice-list'" [profile]="profile"></invoice-list>
-
-				<notice-board *ngIf="activeModule === 'notice-board'" [profile]="profile"></notice-board>
-
-				<contract-list *ngIf="activeModule === 'contract-list'" [profile]="profile"></contract-list>
-
-			</div>
-		</div>
+	<div id="content" class="container">
+		<router-outlet></router-outlet>
+	</div>
 
 </div>

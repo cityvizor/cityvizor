@@ -6,12 +6,18 @@ import { ProfileRoutingModule } from './profile-routing.module';
 
 import { ProfileComponent } from 'app/views/profile/profile.component';
 
-// Data viz components
-import { DashboardComponent } from "./components/dash-board/dash-board.component";
-import { BigBangVizComponent } from "./components/bigbang-viz/bigbang-viz.component";
-import { InvoiceListComponent } from "./components/invoice-list/invoice-list.component";
-import { NoticeBoardComponent } from "./components/notice-board/notice-board.component";
-import { ContractListComponent } from "./components/contract-list/contract-list.component";
+// Views
+import { ProfileDashboardComponent } from "./views/profile-dashboard/profile-dashboard.component";
+import { ProfileAccountingComponent } from "./views/profile-accounting/profile-accounting.component";
+import { ProfileInvoicesComponent } from "./views/profile-invoices/profile-invoices.component";
+import { ProfileNoticeboardComponent } from "./views/profile-noticeboard/profile-noticeboard.component";
+import { ProfileContractsComponent } from "./views/profile-contracts/profile-contracts.component";
+import { BudgetSelectComponent } from './components/budget-select/budget-select.component';
+import { GroupSelectComponent } from './components/group-select/group-select.component';
+
+// Components
+
+// Components
 
 @NgModule({
   imports: [
@@ -22,11 +28,14 @@ import { ContractListComponent } from "./components/contract-list/contract-list.
   declarations: [
     ProfileComponent,
     
-    DashboardComponent,
-    BigBangVizComponent,
-    InvoiceListComponent,
-    NoticeBoardComponent,
-    ContractListComponent
+    ProfileDashboardComponent,
+    ProfileAccountingComponent,
+    ProfileInvoicesComponent,
+    ProfileNoticeboardComponent,
+    ProfileContractsComponent,
+
+    BudgetSelectComponent,
+    GroupSelectComponent
   ]
 })
 export class ProfileModule { }

@@ -7,6 +7,7 @@ import { Counterparty } from "app/schema/counterparty";
 import { Dashboard } from "app/schema/dashboard";
 
 import { environment } from "environments/environment";
+import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts } from 'app/schema';
 
 function toParams(options) {
 	if (!options) return "";
@@ -29,7 +30,9 @@ function toParams(options) {
 	* getDashboard - returns Promise with dashboard data
 	* getExpenditures - returns Promise with expenditures data for entity and year
 	**/
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class DataService {
 
 	root = environment.api_root;
@@ -48,7 +51,6 @@ export class DataService {
 
 	async createProfile(profile) {
 		const response = await this.http.post(this.root + "/profiles", profile, { observe: "response", responseType: "text" }).toPromise();
-		console.log(response);
 		return this.http.get<any>(this.root + response.headers.get("location")).toPromise();
 	}
 
@@ -70,6 +72,15 @@ export class DataService {
 
 	getProfileAccounting(profileId, year) {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year).toPromise();
+	}
+	getProfileAccountingGroups(profileId: string, year: number, field: string) {
+		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/groups/" + field).toPromise();
+	}
+	getProfileAccountingEvents(profileId, year, field: string, groupId: string) {
+		return this.http.get<Array<Pick<BudgetGroupEvent, "id" | "name" | "items"> & BudgetTypedAmounts>>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/groups/" + field + "/" + groupId + "/events").toPromise();
+	}
+	getProfileAccountingPayments(profileId, year, options?) {
+		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/payments", { params: options }).toPromise();
 	}
 
 	/* YEARS */
@@ -112,8 +123,14 @@ export class DataService {
 	}
 
 	/* EVENTS */
-	getProfileEvents(profileId, options?) {
-		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/events" + toParams(options)).toPromise();
+	getProfileEvents(profileId, year:number, options?) {
+		return this.http.get<BudgetEvent[]>(this.root + "/profiles/" + profileId + "/events/" + year + toParams(options)).toPromise();
+	}
+	getProfileEvent(profileId: string, eventId: number, year: number) {
+		return this.http.get<BudgetEvent>(this.root + "/profiles/" + profileId + "/events/" + year + "/" + eventId).toPromise();
+	}
+	getProfileEventHistory(profileId: string, eventId: number) {
+		return this.http.get<BudgetEvent[]>(this.root + "/profiles/" + profileId + "/events/history/" + eventId).toPromise();
 	}
 
 	/* PAYMENTS */
@@ -121,7 +138,7 @@ export class DataService {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/payments" + toParams(options)).toPromise();
 	}
 	getProfilePaymentsMonths(profileId) {
-		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/payments/months").toPromise();
+		return this.http.get<{ month: number, year: number }[]>(this.root + "/profiles/" + profileId + "/payments/months").toPromise();
 	}
 
 	/* MANAGERS */

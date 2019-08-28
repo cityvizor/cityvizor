@@ -1,13 +1,7 @@
-export class DashboardYear{
-	year:number;
-	amount:number;
-}
+export type Dashboard = DashboardRow[];
 
-export class Dashboard {
-	transportation:DashboardYear[];
-	schools:DashboardYear[];
-	housing:DashboardYear[];
-	culture:DashboardYear[];
-	sports:DashboardYear[];
-	government:DashboardYear[];
+export interface DashboardRow {
+  category: string;
+  amount: number;
+  budgetAmount: number;
 }

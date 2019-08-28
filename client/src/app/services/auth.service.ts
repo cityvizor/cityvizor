@@ -12,7 +12,9 @@ import { environment } from 'environments/environment';
 /**
 	* Service to save user information and commnicate user data with server
 	*/
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
 	public onLogin = new Subject<any>();

@@ -74,3 +74,89 @@ exports.router.get("/:year", express_dynacl_1.default("profile-accounting", "rea
         }
     });
 }); });
+exports.router.get("/:year/groups/:field", express_dynacl_1.default("profile-accounting", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+    var field, groups;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                field = req.params.field;
+                if (["paragraph", "item"].indexOf(field) === -1)
+                    return [2 /*return*/, res.status(400).send("Parameter field can only have values paragraph or item.")];
+                return [4 /*yield*/, db_1.db("accounting")
+                        .select(db_1.db.raw("SUBSTRING(" + field + "::varchar, 1, 2) AS id"))
+                        .sum("incomeAmount as incomeAmount")
+                        .sum("budgetIncomeAmount as budgetIncomeAmount")
+                        .sum("expenditureAmount as expenditureAmount")
+                        .sum("budgetExpenditureAmount as budgetExpenditureAmount")
+                        .where({ profileId: req.params.profile, year: req.params.year })
+                        .groupBy("id")];
+            case 1:
+                groups = _a.sent();
+                res.json(groups);
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.router.get("/:year/groups/:field/:group/events", express_dynacl_1.default("profile-accounting", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+    var field, group, events, eventIndex, items, _i, items_1, row, item;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                field = req.params.field;
+                group = req.params.group;
+                if (["paragraph", "item"].indexOf(field) === -1)
+                    return [2 /*return*/, res.status(400).send("Parameter field is mandatory and can only have values paragraph or item.")];
+                return [4 /*yield*/, db_1.db("accounting AS a")
+                        .leftJoin("events AS e", { "e.profileId": "a.profileId", "e.year": "a.year", "e.id": "a.event" })
+                        .select("e.id AS id")
+                        .max("e.name AS name")
+                        .sum("a.incomeAmount as incomeAmount")
+                        .sum("a.budgetIncomeAmount as budgetIncomeAmount")
+                        .sum("a.expenditureAmount as expenditureAmount")
+                        .sum("a.budgetExpenditureAmount as budgetExpenditureAmount")
+                        .where({ "a.profileId": req.params.profile, "a.year": req.params.year })
+                        .andWhereRaw("SUBSTRING(a." + field + "::varchar, 1, 2) = ?", [group])
+                        .groupBy("id")];
+            case 1:
+                events = _a.sent();
+                eventIndex = {};
+                events.forEach(function (event) {
+                    event.items = [];
+                    eventIndex[event.id] = {
+                        event: event,
+                        itemIndex: {}
+                    };
+                });
+                return [4 /*yield*/, db_1.db("accounting AS a")
+                        .leftJoin("events AS e", { "e.profileId": "a.profileId", "e.year": "a.year", "e.id": "a.event" })
+                        .select("e.id AS id", "item")
+                        .sum("a.incomeAmount as incomeAmount")
+                        .sum("a.budgetIncomeAmount as budgetIncomeAmount")
+                        .sum("a.expenditureAmount as expenditureAmount")
+                        .sum("a.budgetExpenditureAmount as budgetExpenditureAmount")
+                        .where({ "a.profileId": req.params.profile, "a.year": req.params.year })
+                        .andWhereRaw("SUBSTRING(a." + field + "::varchar, 1, 2) = ?", [group])
+                        .groupBy("id", "item")];
+            case 2:
+                items = _a.sent();
+                // assign item amounts to each event
+                for (_i = 0, items_1 = items; _i < items_1.length; _i++) {
+                    row = items_1[_i];
+                    if (!eventIndex[row.id])
+                        continue;
+                    item = eventIndex[row.id].itemIndex[row.item];
+                    if (!item) {
+                        item = { id: row.item };
+                        eventIndex[row.id].itemIndex[row.item] = item;
+                        eventIndex[row.id].event.items.push(item);
+                    }
+                    item.incomeAmount = row.incomeAmount;
+                    item.budgetIncomeAmount = row.budgetIncomeAmount;
+                    item.expenditureAmount = row.expenditureAmount;
+                    item.budgetExpenditureAmount = row.budgetExpenditureAmount;
+                }
+                res.json(events);
+                return [2 /*return*/];
+        }
+    });
+}); });

@@ -54,6 +54,8 @@ exports.router.get("/", express_dynacl_1.default("profile-payments", "list"), fu
                     .modify(function () {
                     if (req.query.sort)
                         this.orderBy(db_1.sort2order(req.query.sort));
+                    if (req.query.event)
+                        this.where({ event: req.query.event });
                     if (req.query.dateFrom)
                         this.where("date", ">=", req.query.dateFrom);
                     if (req.query.dateTo)

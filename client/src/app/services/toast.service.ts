@@ -6,7 +6,9 @@ import {Injectable} from '@angular/core';
 	* 
 	* toast() - create new toast
 	*/
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ToastService {
 	
 	/**

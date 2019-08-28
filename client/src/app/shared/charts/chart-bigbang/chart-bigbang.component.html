@@ -1,0 +1,15 @@
+<div [style.height]="height + 'px'">
+	<svg width="100%" viewBox="-500 -500 1000 1000" id="chart-bigbang">
+		<g [style.transform]="'rotate(' + (360 * this.alpha) + 'deg)'" class="stripes">
+
+			<g *ngFor="let item of data; let i = index">
+				<path [attr.d]="getStripePath(i,innerR,getStripeSize(item.outerAmount))" class="stripe outerStripe" [class.selected]="item.id==selected" [class.zeroStripe]="(item.innerAmount+item.outerAmount)==0" />
+				<path *ngIf="item.innerAmount>0" [attr.d]="getStripePath(i,innerR,getStripeSize(item.innerAmount))" class="stripe innerStripe" [class.selected]="item.id==selected" />
+
+				<path [attr.d]="getStripePath(i,0,1)" class="stripe bgstripe" [class.selected]="item.id==selected" [class.hovered]="item.id==hovered" (click)="selectGroup(item.id)" (mouseover)="hover.emit(item.id)" (mouseout)="hover.emit(null)" />
+			</g>
+
+		</g>
+		<circle [attr.r]="getCircleR()" [attr.cx]="cx" [attr.cy]="cy" fill="#F3F3F3" stroke-width="10" stroke="#fff" (click)="selectGroup(null)" class="circle" />
+	</svg>
+</div>

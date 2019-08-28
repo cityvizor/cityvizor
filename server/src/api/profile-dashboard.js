@@ -41,19 +41,10 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var express_dynacl_1 = __importDefault(require("express-dynacl"));
-var db_1 = require("../db");
 exports.router = express_1.default.Router({ mergeParams: true });
 exports.router.get("/", express_dynacl_1.default("profile-dashboard", "read"), function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-    var dashboard;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, db_1.db("dashboard")
-                    .select("year", "category", "amount", "budgetAmount")
-                    .where({ profile_id: req.params.profile })];
-            case 1:
-                dashboard = _a.sent();
-                res.json(dashboard);
-                return [2 /*return*/];
-        }
+        res.json([]);
+        return [2 /*return*/];
     });
 }); });

@@ -7,7 +7,7 @@ import { CodelistRecord } from 'src/schema/database';
 export const router = express.Router();
 
 router.get("/", acl("codelists", "list"), async (req, res, next) => {
-	const codelists = await db<CodelistRecord>("codelists").distinct("name").then(rows => rows.map(row => row.name));
+	const codelists = await db<CodelistRecord>("codelists").distinct("codelist").then(rows => rows.map(row => row.codelist));
 	res.json(codelists);
 });
 

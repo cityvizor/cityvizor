@@ -1,0 +1,38 @@
+.legend{margin:10px 0;}
+.legend .invoices i{color:#2581c4;}
+.legend .other i{color:#adf;}
+.legend .budget i{color:#ccc;}
+.legend .over-expenditure i{color:#E73431;}
+.legend .over-income i{color:#5cb85c;}
+
+.chart{height:80px;}
+.bar{height:30px;position:relative;float:left;}
+.bar.invoices{background-color:#2581c4;}
+.bar.other{background-color:#adf;}
+.bar.budget{background-color:#ccc;margin-left:-1px;}
+.bar.budget.over-expenditure{background-color:#E73431;}
+.bar.budget.over-income{background-color:#5cb85c;}
+
+.chart2{clear:left;height:80px;}
+.bar2{position:relative;float:left;height:1px;}
+
+.desc{position: absolute;top: 100%;left: 0;right: 0;height: 50px;margin-top: 5px;}
+
+.desc .line{position: absolute;border: 1px solid #999;}
+
+.desc .lines1{height: 10px;overflow: hidden;position: relative;}
+.desc .lines1 .line{height: 30px;width: 100%;top: -20px;border-radius: 20px;}
+
+.desc .lines2{height: 10px;overflow: hidden;position: relative;top:-1px;margin:0 20px; background-color:#fff;}
+.desc .lines2 .line{top: 0;height: 10px;}
+.desc .lines2 .left{left:0;right:50%;border-radius: 0 20px 0 0;border-width: 1px 1px 0 0;margin-right: -1px;}
+.desc .lines2 .right{left:50%;right:0;border-radius: 20px 0 0 0;border-width: 1px 0 0 1px;}
+
+.desc .small{height:20px;}
+.desc .small .line{top: 0;left: 50%;height: 20px;border-width: 0 0 0 1px;}
+
+.desc p{text-align:center;color: #333;white-space:nowrap;}
+.desc p.small-left{text-align:left;position:absolute;left:0;}
+.desc p.small-right{text-align:right;position:absolute;right:0;}
+
+.clear{clear:both;}
