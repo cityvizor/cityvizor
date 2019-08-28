@@ -20,7 +20,7 @@ export class ProfileSearchComponent implements OnInit {
 	hoverProfile: Profile | null;
 	search: RegExp;
 
-	czechRepublicGPSBounds = { "lat": { "min": 48.5525, "max": 51.0556 }, "lng": { "min": 12.0914, "max": 18.8589 } };
+	mapGPSBounds = { "lat": { "min": 49.9476767, "max": 50.1774944 }, "lng": { "min": 14.2244208, "max": 14.7070583 } };
 
 	loading: boolean = false;
 
@@ -51,11 +51,11 @@ export class ProfileSearchComponent implements OnInit {
 
 	}
 
-	gps2css(gps_x, gps_y) {
-		let bounds = this.czechRepublicGPSBounds;
+	gps2css(gpsX, gpsY) {
+		let bounds = this.mapGPSBounds;
 		return {
-			bottom: (gps_y - bounds.lat.min) / (bounds.lat.max - bounds.lat.min) * 100 + "%",
-			left: (gps_x - bounds.lng.min) / (bounds.lng.max - bounds.lng.min) * 100 + "%"
+			bottom: (gpsY - bounds.lat.min) / (bounds.lat.max - bounds.lat.min) * 100 + "%",
+			left: (gpsX - bounds.lng.min) / (bounds.lng.max - bounds.lng.min) * 100 + "%"
 		};
 	}
 
