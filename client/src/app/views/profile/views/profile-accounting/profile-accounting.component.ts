@@ -44,7 +44,7 @@ export class ProfileAccountingComponent implements OnInit {
 
 	budget: Budget | null;
 	group: BudgetGroup | null;
-	groupEvents: BudgetGroupEvent[];
+	groupEvents: BudgetGroupEvent[] = [];
 
 	hoveredGroup: string | null;
 	selectedEvent: number | null;
@@ -134,13 +134,13 @@ export class ProfileAccountingComponent implements OnInit {
 	selectBudget(year: string | number | null, replace: boolean = false): void {
 		console.log("selectBudget", year);
 		if (!year) return;
-		this.modifyParams({ rok: year }, true)
+		this.modifyParams({ rok: year, skupina: null, akce: null }, true)
 	}
 
 	selectGroup(groupId: string | null): void {
 		console.log("selectGroup", groupId);
 		if (groupId === undefined) return;
-		this.modifyParams({ skupina: groupId }, true)
+		this.modifyParams({ skupina: groupId, akce: null }, true)
 	}
 
 	selectEvent(eventId: number | null): void {
@@ -149,16 +149,16 @@ export class ProfileAccountingComponent implements OnInit {
 		this.modifyParams({ akce: eventId }, false)
 	}
 
-	modifyParams(params: any, replace: boolean): void {
+	modifyParams(modificationParams: any, replace: boolean): void {
 		const routeParams = Object.assign({}, this.route.snapshot.params)
 		delete routeParams.type;
 
-		Object.entries(([key, value]) => {
-			if (value !== null) params[key] = value;
-			else delete params.akce;
+		Object.entries(modificationParams).forEach(([key, value]) => {
+			if (value !== null) routeParams[key] = value;
+			else delete routeParams[key];
 		});
 
-		this.router.navigate(["./", params], { relativeTo: this.route, replaceUrl: replace })
+		this.router.navigate(["./", routeParams], { relativeTo: this.route, replaceUrl: replace })
 	}
 
 	setHoveredGroup(groupId: string) {
