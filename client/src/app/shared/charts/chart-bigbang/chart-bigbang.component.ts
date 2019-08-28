@@ -25,11 +25,11 @@ export class ChartBigbangComponent {
 
 	@Input() rotation: any = 0;
 
-	@Input() selected: string;
-	@Input() hovered: string;
+	@Input() selected: string | null;
+	@Input() hovered: string | null;
 
-	@Output() select = new EventEmitter<any>();
-	@Output() hover = new EventEmitter<any>();
+	@Output() select = new EventEmitter<string | null>();
+	@Output() hover = new EventEmitter<string | null>();
 
 	// the dimensions of the drawing	
 	@Input() r: number = 500;
@@ -108,7 +108,7 @@ export class ChartBigbangComponent {
 
 		var outerArc = (size > 0.5 ? 1 : 0); // decides which way will the arc go
 
-		var properties = [];
+		var properties: string[] = [];
 		properties.push("M" + startX1 + "," + startY1);
 		properties.push("A" + outerRadius + "," + outerRadius + " 0 " + outerArc + ",1 " + endX1 + "," + endY1);
 		properties.push("L" + startX2 + "," + startY2);
@@ -146,7 +146,7 @@ export class ChartBigbangComponent {
 
 	}
 
-	selectGroup(groupId: string) {
+	selectGroup(groupId: string | null) {
 		this.select.emit(groupId);
 	}
 }

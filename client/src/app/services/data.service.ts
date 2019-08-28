@@ -4,10 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Paginator } from 'app/schema/paginator';
 import { ETL } from "app/schema/etl";
 import { Counterparty } from "app/schema/counterparty";
-import { Dashboard } from "app/schema/dashboard";
+import { Dashboard, DashboardRow } from "app/schema/dashboard";
 
 import { environment } from "environments/environment";
-import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts } from 'app/schema';
+import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts, Budget, Profile } from 'app/schema';
 
 function toParams(options) {
 	if (!options) return "";
@@ -42,11 +42,11 @@ export class DataService {
 
 	/* PROFILES */
 	getProfiles(options?) {
-		return this.http.get<any>(this.root + "/profiles" + toParams(options)).toPromise();
+		return this.http.get<Profile[]>(this.root + "/profiles" + toParams(options)).toPromise();
 	}
 
 	getProfile(profileId) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId).toPromise();
+		return this.http.get<Profile>(this.root + "/profiles/" + profileId).toPromise();
 	}
 
 	async createProfile(profile) {
@@ -85,10 +85,10 @@ export class DataService {
 
 	/* YEARS */
 	getProfileBudget(profileId, year) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
+		return this.http.get<Budget>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
 	}
 	getProfileBudgets(profileId, options?) {
-		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/years" + toParams(options)).toPromise();
+		return this.http.get<Budget[]>(this.root + "/profiles/" + profileId + "/years" + toParams(options)).toPromise();
 	}
 
 	/* CONTRACTS */
@@ -98,7 +98,7 @@ export class DataService {
 
 	/* DASHBOARD */
 	getProfileDashboard(profileId: string) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/dashboard").toPromise();
+		return this.http.get<DashboardRow[]>(this.root + "/profiles/" + profileId + "/dashboard").toPromise();
 	}
 
 	/* ETL */

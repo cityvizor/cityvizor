@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 
-import { ToastService } 		from '../../../../services/toast.service';
-import { DataService } 		from '../../../../services/data.service';
+import { ToastService } 		from 'app/services/toast.service';
+import { DataService } 		from 'app/services/data.service';
 
 @Component({
-	moduleId: module.id,
 	selector: 'profile-contracts',
 	templateUrl: 'profile-contracts.component.html',
 	styleUrls: ['profile-contracts.component.scss'],

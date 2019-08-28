@@ -44,7 +44,7 @@ export class ChartEventOverviewComponent {
 		// the amount spent/received minus overdraft if any
 		this.amount = overdraft ? ((event[keys.amount] - overdraft) / event[keys.amount]) : (event[keys.amount] / event[keys.budgetAmount]);
 
-		const paymentsAmount = event.payments.reduce((acc, cur) => acc + cur.amount, 0);
+		const paymentsAmount = event.payments ? event.payments.reduce((acc, cur) => acc + cur.amount, 0) : 0;
 
 		// part of amount that is covered by invoices
 		this.invoices = Math.min(1, paymentsAmount / (event[keys.amount] - overdraft));

@@ -1,9 +1,9 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router, ActivatedRoute, RouterLink, UrlTree } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { BsModalService } from 'ngx-bootstrap';
-import { Subscription, Observable, combineLatest, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { map, filter, withLatestFrom, distinctUntilChanged } from 'rxjs/operators';
+import { Subscription, combineLatest, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { map, filter, distinctUntilChanged } from 'rxjs/operators';
 
 import { DataService } from 'app/services/data.service';
 import { CodelistService } from 'app/services/codelist.service';
@@ -14,6 +14,7 @@ import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent } from '
 
 import { ChartBigbangData, ChartBigbangDataRow } from 'app/shared/charts/chart-bigbang/chart-bigbang.component';
 import { EventDetailModalComponent } from "app/shared/components/event-detail-modal/event-detail-modal.component";
+import { HttpParams } from '@angular/common/http';
 
 @Component({
 	selector: 'profile-accounting',
@@ -26,12 +27,12 @@ import { EventDetailModalComponent } from "app/shared/components/event-detail-mo
 export class ProfileAccountingComponent implements OnInit {
 
 	// type of view (expenditures/income)
-	type = new BehaviorSubject<string>(null);
+	type = new BehaviorSubject<string | null>(null);
 
 	// state
-	year = new ReplaySubject<number>(1);
-	groupId = new ReplaySubject<string>(1);
-	eventId = new ReplaySubject<number>(1);
+	year = new ReplaySubject<number | null>(1);
+	groupId = new ReplaySubject<string | null>(1);
+	eventId = new ReplaySubject<number | null>(1);
 
 	// view data
 	profile = this.profileService.profile;
@@ -41,12 +42,12 @@ export class ProfileAccountingComponent implements OnInit {
 	events = new Subject<BudgetEvent[]>();
 	groups = new BehaviorSubject<BudgetGroup[]>([]);
 
-	budget: Budget;
-	group: BudgetGroup;
+	budget: Budget | null;
+	group: BudgetGroup | null;
 	groupEvents: BudgetGroupEvent[];
 
-	hoveredGroup: string;
-	selectedEvent: number;
+	hoveredGroup: string | null;
+	selectedEvent: number | null;
 
 	eventsLimit: number = 20;
 
@@ -80,7 +81,7 @@ export class ProfileAccountingComponent implements OnInit {
 		combineLatest(this.year, this.budgets)
 			.subscribe(([year, budgets]) => {
 				if (year) {
-					this.budget = budgets.find(budget => budget.year === year);
+					this.budget = budgets.find(budget => budget.year === year) || null;
 					if (!this.budget) this.selectBudget(budgets[0] ? budgets[0].year : null, true);
 				}
 				else this.selectBudget(budgets[0] ? budgets[0].year : null, true);
@@ -88,10 +89,10 @@ export class ProfileAccountingComponent implements OnInit {
 
 		// download groups
 		combineLatest(this.profile, this.type, this.year)
-			.pipe(filter(values => values.every(value => !!value))) // only if all not null
 			.subscribe(async ([profile, type, year]) => {
+				if (!profile || !type || !year) return;
 				const groups = await this.accountingService.getGroups(profile.id, type, year);
-				groups.sort((a, b) => a.name.localeCompare(b.name));
+				groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
 				this.groups.next(groups)
 			});
 
@@ -102,7 +103,7 @@ export class ProfileAccountingComponent implements OnInit {
 
 				this.resetEventsLimit();
 
-				if (!groupId) this.groupEvents = []
+				if (!groupId) { this.groupEvents = []; return; }
 
 				const groupEvents = await this.accountingService.getGroupEvents(profile.id, year, type, groupId);
 				groupEvents.sort((a, b) => b.budgetAmount - a.budgetAmount);
@@ -110,7 +111,7 @@ export class ProfileAccountingComponent implements OnInit {
 			})
 
 		combineLatest(this.groupId, this.groups)
-			.subscribe(([groupId, groups]) => this.group = groups.find(group => group.id === groupId))
+			.subscribe(([groupId, groups]) => this.group = groups.find(group => "id" in group && group.id === groupId) || null)
 
 		this.groups.subscribe(groups => {
 			this.chartBigbangData = groups.map(group => ({
@@ -120,44 +121,44 @@ export class ProfileAccountingComponent implements OnInit {
 			} as ChartBigbangDataRow))
 		});
 
-		combineLatest(this.eventId, this.profile, this.year)
+		combineLatest(this.eventId, this.profile.pipe(map(profile => profile.id)), this.year)
 			.pipe(filter(values => values.every(value => !!value))) // only if all not null
-			.subscribe(([eventId, profile, year]) => {
-				this.modalService.show(EventDetailModalComponent, { initialState: { eventId, profileId: profile.id, year }, class: "modal-lg" });
+			.subscribe(([eventId, profileId, year]) => {
+				this.modalService.show(EventDetailModalComponent, { initialState: { eventId, profileId, year }, class: "modal-lg" });
 			})
 
 		this.modalService.onHide.subscribe(() => this.selectEvent(null));
 
 	}
 
-	selectBudget(year: string | number, replace: boolean = false): void {
+	selectBudget(year: string | number | null, replace: boolean = false): void {
 		console.log("selectBudget", year);
 		if (!year) return;
-		const params = Object.assign({}, this.route.snapshot.params, { rok: String(year) });
-		delete params.type;
-		this.router.navigate(["./", params], { relativeTo: this.route, replaceUrl: replace })
+		this.modifyParams({ rok: year }, true)
 	}
 
-	selectGroup(groupId: string): void {
+	selectGroup(groupId: string | null): void {
 		console.log("selectGroup", groupId);
 		if (groupId === undefined) return;
-		const params = Object.assign({}, this.route.snapshot.params, { skupina: groupId || undefined });
-		delete params.type;
-		this.router.navigate(["./", params], { relativeTo: this.route })
+		this.modifyParams({ skupina: groupId }, true)
 	}
 
-	selectEvent(eventId: string): void {
+	selectEvent(eventId: number | null): void {
 		console.log("selectEvent", eventId);
 		if (eventId === undefined) return;
+		this.modifyParams({ akce: eventId }, false)
+	}
 
-		const params = Object.assign({}, this.route.snapshot.params)
+	modifyParams(params: any, replace: boolean): void {
+		const routeParams = Object.assign({}, this.route.snapshot.params)
+		delete routeParams.type;
 
-		if (eventId) params.akce = eventId;
-		else delete params.akce;
+		Object.entries(([key, value]) => {
+			if (value !== null) params[key] = value;
+			else delete params.akce;
+		});
 
-		delete params.type;
-
-		this.router.navigate(["./", params], { relativeTo: this.route })
+		this.router.navigate(["./", params], { relativeTo: this.route, replaceUrl: replace })
 	}
 
 	setHoveredGroup(groupId: string) {

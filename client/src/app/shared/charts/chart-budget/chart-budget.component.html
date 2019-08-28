@@ -1,4 +1,4 @@
-<svg style="width: 100%; max-height: 100px;" viewBox="0 0 100 150" (click)="click.emit(null);$event.stopPropagation();">
+<svg style="width: 100%; max-height: 100px;" viewBox="0 0 100 150" (click)="$event.stopPropagation();">
 	
 	<!-- Expenditures -->
 	<g *ngIf="type=='expenditure'" (click)="click.emit('exp');$event.stopPropagation();" style="cursor:pointer;">

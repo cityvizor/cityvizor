@@ -5,7 +5,6 @@ import { DateTime } from "luxon";
 
 import { Codelist, CodelistRow } from "app/schema/codelist";
 import { environment } from 'environments/environment';
-import { RouterLinkWithHref } from '@angular/router';
 
 @Injectable({
 	providedIn: 'root'
@@ -36,7 +35,7 @@ export class CodelistService {
 
 	}
 
-	async getCurrentItem(codelistName: string, id: string, date: Date | DateTime): Promise<CodelistRow> {
+	async getCurrentItem(codelistName: string, id: string, date: Date | DateTime): Promise<CodelistRow | null | undefined> {
 		const codelist = await this.getCodelist(codelistName);
 
 		if (!codelist) return undefined;
@@ -44,7 +43,9 @@ export class CodelistService {
 		if (!date) date = DateTime.local();
 		if (date instanceof Date) date = DateTime.fromJSDate(date);
 
-		return codelist.find(row => row.id === id && (!row.validFromDate || row.validFromDate <= date) && (!row.validTillDate || row.validTillDate >= date));
+		const item = codelist.find(row => row.id === id && (!row.validFromDate || row.validFromDate <= date) && (!row.validTillDate || row.validTillDate >= date));
+
+		return item || null;
 	}
 
 	async getCurrentName(codelistName: string, id: string, date: Date | DateTime): Promise<string> {
@@ -57,8 +58,8 @@ export class CodelistService {
 		const codelist = await this.http.get<Codelist>(environment.api_root + "/codelists/" + id).toPromise()
 
 		codelist.forEach(row => {
-			row.validFromDate = row.validFrom ? DateTime.fromISO(row.validFrom) : null;
-			row.validTillDate = row.validTill ? DateTime.fromISO(row.validTill) : null;
+			row.validFromDate = row.validFrom ? DateTime.fromISO(row.validFrom) : undefined;
+			row.validTillDate = row.validTill ? DateTime.fromISO(row.validTill) : undefined;
 		});
 
 		return codelist;

@@ -10,7 +10,7 @@ import { ReplaySubject } from 'rxjs';
 })
 export class ProfileService {
 
-  profile = new ReplaySubject<Profile>(null);
+  profile = new ReplaySubject<Profile>(1);
 
   constructor(private dataService: DataService) { }
 

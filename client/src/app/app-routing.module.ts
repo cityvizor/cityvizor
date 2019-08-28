@@ -1,38 +1,28 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { FrontPageComponent } from './views/front-page/front-page.component';
-
-import { SiteAdminComponent } from './views/site-admin/site-admin.component';
-
-import { UserAdminComponent } from './views/user-admin/user-admin.component';
-
 import { ACLService } from "./services/acl.service";
+import { NgModule } from '@angular/core';
 
-const appRoutes: Routes = [
-	{ path: '', component: FrontPageComponent },
+import { FrontpageComponent } from './views/frontpage/frontpage.component';
 
-	/* ADMINISTRATION */
-
-	{ path: 'admin/:cat', component: SiteAdminComponent, canActivate: [ACLService] },
-	{ path: 'admin', redirectTo: 'admin/profily', pathMatch: 'full' },
-
-	/* USER ACCOUNT */
-
-	{ path: 'ucet/:cat', component: UserAdminComponent },
-	{ path: 'ucet', redirectTo: 'ucet/nastaveni', pathMatch: 'full' },
-
-	/* COUNTERPARTIES */
-	{
-		path: 'dodavatele',
-		loadChildren: () => import("./views/counterparty/counterparty.module").then(mod => mod.CounterpartyModule) 
-	},
-
-	/* PROFILES */
+const routes: Routes = [
 	
-	{
-		path: ':profile',
-		loadChildren: () => import('./views/profile/profile.module').then(mod => mod.ProfileModule)
-	}	
+	/* FRONT PAGE */
+	{ path: '', component: FrontpageComponent },
+
+	/* PROFILE */
+	{ path: ':profile', loadChildren: () => import('./views/profile/profile.module').then(mod => mod.ProfileModule) },
+	
+	/* COUNTERPARTIES */
+	{ path: 'dodavatele', loadChildren: () => import("./views/counterparty/counterparty.module").then(mod => mod.CounterpartyModule) },
+	
+	/* ADMIN */
+	{ path: 'admin', loadChildren: () => import('./views/admin/admin.module').then(mod => mod.AdminModule), canActivate: [ACLService] },
+
 ];
 
-export const routing = RouterModule.forRoot(appRoutes);
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

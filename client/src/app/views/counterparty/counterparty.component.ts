@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../services/data.service";
+import { DataService } from "app/services/data.service";
 
-import { Counterparty } from "../../schema/counterparty";
+import { Counterparty } from "app/schema/counterparty";
 
 @Component({
   moduleId: module.id,

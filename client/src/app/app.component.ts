@@ -1,12 +1,10 @@
 import { Component, ViewContainerRef, ViewChild, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
-import { DataService } from './services/data.service';
 import { ToastService } from './services/toast.service';
 import { AuthService } from './services/auth.service';
 import { ACLService } from './services/acl.service';
-import { User } from './schema/user';
 
 import { AppConfig, IAppConfig } from 'config/config';
 

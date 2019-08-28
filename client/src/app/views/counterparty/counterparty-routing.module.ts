@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CounterpartyComponent } from './counterparty.component';
 
-import { CounterpartyProfilesComponent } from './counterparty-profiles/counterparty-profiles.component';
-import { CounterpartyPaymentsComponent } from './counterparty-payments/counterparty-payments.component';
-import { CounterpartyDashboardComponent } from './counterparty-dashboard/counterparty-dashboard.component';
+import { CounterpartyProfilesComponent } from './views/counterparty-profiles/counterparty-profiles.component';
+import { CounterpartyPaymentsComponent } from './views/counterparty-payments/counterparty-payments.component';
+import { CounterpartyDashboardComponent } from './views/counterparty-dashboard/counterparty-dashboard.component';
 
 const routes: Routes = [
   {

@@ -18,9 +18,9 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
 
   @Input() groups: BudgetGroup[];
 
-  @Input("hovered") hoveredGroup: BudgetGroup;
+  @Input("hovered") hoveredGroup: BudgetGroup | null;
 
-  selectedGroup: BudgetGroup;
+  selectedGroup: BudgetGroup | null;
 
   onChange: any = () => { };
   onTouch: any = () => { };
@@ -35,7 +35,7 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
   writeValue(group: BudgetGroup) {
     this.selectedGroup = group;
   }
-  
+
   selectGroup(group: BudgetGroup) {
     this.selectedGroup = group;
     this.onTouch();
@@ -47,7 +47,7 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
   }
 
   updateMax() {
-    if(!this.groups) return;
+    if (!this.groups) return;
     this.maxAmount = this.groups.reduce((acc, cur) => Math.max(acc, cur.amount, cur.budgetAmount), 0);
   }
 

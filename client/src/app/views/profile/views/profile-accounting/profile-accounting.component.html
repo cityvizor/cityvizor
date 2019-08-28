@@ -88,7 +88,7 @@
 											<td class="text-right font-number">{{event.budgetAmount - event.amount | money:0:false}} Kč</td>
 										</tr>
 										<tr *ngIf="event.amount > event.budgetAmount">
-											<td colspan=3>
+											<td colspan="3">
 												<span class="label label-warning font-number">Překročeno o {{event.amount - event.budgetAmount | money:0:false}} Kč</span>
 											</td>
 										</tr>

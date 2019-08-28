@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 
-import { DataService } from '../../../../services/data.service';
+import { DataService } from 'app/services/data.service';
 
-import { Dashboard } from "../../../../schema/dashboard";
+import { Dashboard } from "app/schema/dashboard";
 import { ProfileService } from '../../services/profile.service';
+
+import { Budget } from 'app/schema';
 
 @Component({
 	selector: 'profile-dashboard',
@@ -19,7 +20,7 @@ export class ProfileDashboardComponent {
 
 	payments = [];
 	contracts = [];
-	budgets = [];
+	budgets:Budget[] = [];
 
 	maxBudgetAmount: number = 0;
 
@@ -54,10 +55,11 @@ export class ProfileDashboardComponent {
 		const dashboard = await this.dataService.getProfileDashboard(profileId)
 		
 		this.dashboard = dashboard.reduce((acc, cur) => {
-			if (!acc[cur.category]) acc[cur.category] = [];
-			acc[cur.category].push(cur);
+			acc[cur.category].amount = cur.amount;
+			acc[cur.category].budgetAmount = cur.budgetAmount;
 			return acc;
-		}, {})
+		}, new Dashboard());
+		
 	}
 
 	async loadBudgets(profileId: string) {

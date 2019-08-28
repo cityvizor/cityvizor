@@ -62,7 +62,7 @@ export class BudgetGroup implements BudgetTypedAmounts {
   amount: number = 0;
   budgetAmount: number = 0;
 
-  constructor(public id: string, public name?: string) { }
+  constructor(public id: string | null, public name?: string) { }
 }
 
 export class BudgetItem implements BudgetAmounts {

@@ -1,8 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
 
-import { ToastService } 		from '../../../services/toast.service';
-import { AuthService } 		from '../../../services/auth.service';
+import { ToastService } 		from 'app/services/toast.service';
+import { AuthService } 		from 'app/services/auth.service';
 
 @Component({
 	moduleId: module.id,

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { User } from "../schema/user";
+import { User } from "app/schema/user";
 
 import { DataService } from './data.service';
 import { environment } from 'environments/environment';
@@ -13,7 +13,7 @@ import { environment } from 'environments/environment';
 	* Service to save user information and commnicate user data with server
 	*/
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class AuthService {
 
@@ -24,7 +24,7 @@ export class AuthService {
 	logged: boolean = false;
 
 	// current token
-	token: String = null;
+	token: String | null = null;
 
 	// current user (use blank user as default)
 	user: User;

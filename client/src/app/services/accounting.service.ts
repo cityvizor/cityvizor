@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Accounting, BudgetGroup, AccountingRow, BudgetAmounts, BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts } from 'app/schema';
+import { Accounting, BudgetGroup, AccountingRow, BudgetAmounts, BudgetGroupEvent, BudgetTypedAmounts } from 'app/schema';
 import { CodelistService } from './codelist.service';
 import { DataService } from './data.service';
 
@@ -28,10 +28,10 @@ export class AccountingService {
 
     const typeConfig = this.typeConfig[type];
 
-    const groups = (await this.codelistService.getCurrentCodelist(typeConfig.codelist, new Date(year, 0, 1)))
+    const groups: BudgetGroup[] = (await this.codelistService.getCurrentCodelist(typeConfig.codelist, new Date(year, 0, 1)))
       .map(group => new BudgetGroup(group.id, group.name));
 
-    const groupIndex = groups.reduce((acc, cur) => (acc[cur.id] = cur, acc), {} as { [id: string]: BudgetGroup });
+    const groupIndex = groups.reduce((acc, cur) => (acc[cur.id!] = cur, acc), {} as { [id: string]: BudgetGroup }); // not null bcs "other" group is not present yet
 
     const other = new BudgetGroup(null, "Ostatní");
 
@@ -43,9 +43,7 @@ export class AccountingService {
       group.budgetAmount = row[typeConfig.budgetAmount];
     }
 
-    if (other.amount || other.budgetAmount) groups.push(other);
-
-    return groups;
+    return other.amount || other.budgetAmount ? [...groups, other] : groups;
   }
 
   async getGroupEvents(profileId: string, year: number, type: string, groupId: string): Promise<BudgetGroupEvent[]> {
@@ -57,13 +55,17 @@ export class AccountingService {
 
     const events: BudgetGroupEvent[] = (await this.dataService.getProfileAccountingEvents(profileId, year, typeConfig.field, groupId))
       .filter(row => row[typeConfig.amount] && row[typeConfig.budgetAmount])
-      .map(row => ({
-        id: row.id,
-        name: row.name,
-        amount: row[typeConfig.amount],
-        budgetAmount: row[typeConfig.budgetAmount],
+      .map(row => {
 
-        items: row.items
+        const event: BudgetGroupEvent = {
+          id: row.id,
+          name: row.name,
+          amount: row[typeConfig.amount],
+          budgetAmount: row[typeConfig.budgetAmount],
+          items: []
+        };
+
+        if (row.items) event.items = row.items
           .filter(row => row[typeConfig.amount] && row[typeConfig.budgetAmount])
           .map(item => ({
             id: item.id,
@@ -72,7 +74,9 @@ export class AccountingService {
             budgetAmount: item[typeConfig.budgetAmount]
           }))
           .sort((a, b) => b.budgetAmount - a.budgetAmount)
-      }));
+
+        return event;
+      });
 
     return events;
   }
