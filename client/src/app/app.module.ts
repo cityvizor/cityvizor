@@ -21,7 +21,6 @@ import { AppConfig, AppConfigData } from "../config/config";
 
 /* Third Party */
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { FileUploadModule } from 'ng2-file-upload';
 import { JwtModule } from '@auth0/angular-jwt';
 
 
@@ -52,7 +51,6 @@ var jwtOptions = {
 		FrontpageModule,
 
 		ModalModule.forRoot(),
-		FileUploadModule,
 		JwtModule.forRoot(jwtOptions)
 	],
 	declarations: [
