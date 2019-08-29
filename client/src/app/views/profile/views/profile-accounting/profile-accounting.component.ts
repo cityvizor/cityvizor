@@ -33,6 +33,7 @@ export class ProfileAccountingComponent implements OnInit {
 	year = new ReplaySubject<number | null>(1);
 	groupId = new ReplaySubject<string | null>(1);
 	eventId = new ReplaySubject<number | null>(1);
+	sort = new ReplaySubject<string>(1);
 
 	// view data
 	profile = this.profileService.profile;
@@ -64,7 +65,7 @@ export class ProfileAccountingComponent implements OnInit {
 		private codelistService: CodelistService,
 		private dataService: DataService,
 		private modalService: BsModalService,
-		private modalService: BsModalService
+		private cdRef: ChangeDetectorRef
 	) { }
 
 	ngOnInit() {
@@ -75,7 +76,7 @@ export class ProfileAccountingComponent implements OnInit {
 		this.route.params.pipe(map(params => Number(params.rok) || null), distinctUntilChanged()).subscribe(this.year);
 		this.route.params.pipe(map(params => params.skupina || null), distinctUntilChanged()).subscribe(this.groupId);
 		this.route.params.pipe(map(params => Number(params.akce) || null), distinctUntilChanged()).subscribe(this.eventId);
-		this.route.params.pipe(map(params => params.type === "vydaje" ? "exp" : "inc"), distinctUntilChanged()).subscribe(this.type);
+		this.route.params.pipe(map(params => params.razeni || "nejvetsi"), distinctUntilChanged()).subscribe(this.sort);
 
 		// load budgets based on profile
 		this.profile.subscribe(profile => this.dataService.getProfileBudgets(profile.id).then(budgets => this.budgets.next(budgets)));
@@ -101,17 +102,20 @@ export class ProfileAccountingComponent implements OnInit {
 
 		// download events
 		combineLatest(this.profile, this.year, this.type, this.groupId)
-			.subscribe(async ([profile, year, type, groupId]) => {
+			.pipe(withLatestFrom(this.sort))
+			.subscribe(async ([[profile, year, type, groupId], sort]) => {
 				if (!profile || !year || !type) return;
 
 				this.resetEventsLimit();
 
 				if (!groupId) { this.groupEvents = []; return; }
 
-				const groupEvents = await this.accountingService.getGroupEvents(profile.id, year, type, groupId);
-				groupEvents.sort((a, b) => b.budgetAmount - a.budgetAmount);
-				this.groupEvents = groupEvents;
+				this.groupEvents = await this.accountingService.getGroupEvents(profile.id, year, type, groupId);
+
+				this.sortEvents(sort);
 			})
+
+		this.sort.subscribe(sort => this.sortEvents(sort));
 
 		combineLatest(this.groupId, this.groups)
 			.subscribe(([groupId, groups]) => this.group = groups.find(group => "id" in group && group.id === groupId) || null)
@@ -150,6 +154,13 @@ export class ProfileAccountingComponent implements OnInit {
 		console.log("selectEvent", eventId);
 		if (eventId === undefined) return;
 		this.modifyParams({ akce: eventId }, false)
+	}
+
+
+	selectSort(sort: string) {
+		console.log("selectSort", sort);
+		if (sort === undefined) return;
+		this.modifyParams({ "razeni": sort }, false);
 	}
 
 	modifyParams(modificationParams: any, replace: boolean): void {
@@ -196,6 +207,22 @@ export class ProfileAccountingComponent implements OnInit {
 
 	getItemName(item: number, year: number) {
 		return this.codelistService.getCurrentName("items", String(item), new Date(year, 0, 1));
+	}
+
+	sortEvents(sort: string) {
+		console.log("sort", sort);
+		switch (sort) {
+
+			case "abecedne":
+				this.groupEvents.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
+				break;
+
+			case "nejvetsi":
+				this.groupEvents.sort((a, b) => b.budgetAmount - a.budgetAmount);
+				break;
+		}
+
+		this.cdRef.detectChanges(); // sorting would not be detected by change detector
 	}
 
 	isMoreEvents(): boolean {

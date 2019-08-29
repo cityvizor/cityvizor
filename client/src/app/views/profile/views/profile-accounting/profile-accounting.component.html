@@ -28,7 +28,21 @@
 	<!-- VYBER SKUPINY -->
 	<group-select [groups]="(groups | async) || []" [ngModel]="group" [hovered]="hoveredGroup" (hover)="hoveredGroup = $event.id" (ngModelChange)="selectGroup($event?.id)"></group-select>
 
-		<div id="selectedGroup">
+	<div *ngIf="groupEvents.length > 0" id="selectedGroup">
+		<form class="filter">
+			<div class="row">
+
+				<div class="col-xs-8">
+				</div>
+				<div class="col-xs-4 text-right">
+					Řazení:
+					<div class="btn-group">
+						<button type="button" class="btn btn-sm btn-default" [class.active]="(sort | async) === 'abecedne'" [class.btn-primary]="(sort | async) === 'abecedne'" (click)="selectSort('abecedne')">Abecedně</button>
+						<button type="button" class="btn btn-sm btn-default" [class.active]="(sort | async) === 'nejvetsi'" [class.btn-primary]="(sort | async) === 'nejvetsi'" (click)="selectSort('nejvetsi')">Největší</button>
+					</div>
+				</div>
+			</div>
+		</form>
 
 		<div *ngFor=" let event of (groupEvents | slice:0:eventsLimit)">
 
