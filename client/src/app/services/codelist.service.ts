@@ -35,6 +35,11 @@ export class CodelistService {
 
 	}
 
+	async getCurrentIndex(codelistName: string, date: Date | DateTime): Promise<{ [id: string]: string }> {
+		return this.getCurrentCodelist(codelistName, date)
+			.then(codelist => codelist.reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string }));
+	}
+
 	async getCurrentItem(codelistName: string, id: string, date: Date | DateTime): Promise<CodelistRow | null | undefined> {
 		const codelist = await this.getCodelist(codelistName);
 

@@ -53,7 +53,7 @@ export class CounterpartySearchComponent implements OnInit {
 
 	openWord(word:Word){
 		const counterparty = this.wordcloudCounterparties.find(counterparty => counterparty.name === word[0]);
-		if(counterparty) this.openCounterparty(counterparty.id)
+		if(counterparty && counterparty.id) this.openCounterparty(counterparty.id);
 	}
 
 	openCounterparty(counterpartyId:string){

@@ -30,8 +30,9 @@ export class BudgetEvent implements BudgetAmounts {
 
   year?: number;
   items?: BudgetItem[] = [];
-  paragraph?: BudgetParagraph[] = [];
+  paragraphs?: BudgetParagraph[] = [];
   payments?: BudgetPayment[] = [];
+  description: string;
 
   constructor(public id: number, public name?: string) { }
 }
@@ -50,7 +51,8 @@ export class BudgetPayment {
   item: number;
   unit: number;
   eventId: number;
-  amount: number;
+  incomeAmount: number;
+  expenditureAmount: number;
   date: string;
   counterpartyId: string;
   counterpartyName: string;

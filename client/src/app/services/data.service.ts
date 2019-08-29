@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Paginator } from 'app/schema/paginator';
 import { ETL } from "app/schema/etl";
 import { Counterparty } from "app/schema/counterparty";
 import { Dashboard, DashboardRow } from "app/schema/dashboard";
@@ -106,8 +105,8 @@ export class DataService {
 		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/etls" + toParams(options)).toPromise();
 	}
 	getProfileETLLogs(profileId, etlId, options?) {
-		if (typeof etlId === "string") return this.http.get<Paginator>(this.root + "/profiles/" + profileId + "/etls/" + etlId + "/logs" + toParams(options)).toPromise();
-		else return this.http.get<Paginator>(this.root + "/profiles/" + profileId + "/etllogs" + toParams(etlId || options)).toPromise();
+		if (typeof etlId === "string") return this.http.get<any>(this.root + "/profiles/" + profileId + "/etls/" + etlId + "/logs" + toParams(options)).toPromise();
+		else return this.http.get<any>(this.root + "/profiles/" + profileId + "/etllogs" + toParams(etlId || options)).toPromise();
 	}
 	getProfileETL(profileId, etlId, options?) {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/etls/" + etlId + toParams(options)).toPromise();

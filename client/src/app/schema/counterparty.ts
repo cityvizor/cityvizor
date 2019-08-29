@@ -1,11 +1,15 @@
+import { BudgetPayment } from './budget';
+
 export class Counterparty {
-	id: string;
-	name: string;
-	profiles: CounterpartyProfile[];
-	amount:number;
+	amount: number = 0;
+	payments: BudgetPayment[] = [];
+	profiles: CounterpartyProfile[] = [];
+
+	constructor(public id: string | null, public name: string) { }
+
 }
 
-export class CounterpartyProfile {
+export interface CounterpartyProfile {
 	id: string;
 	name: string;
 	budgets: CounterpartyProfileBudget[];
@@ -13,7 +17,7 @@ export class CounterpartyProfile {
 }
 
 
-export class CounterpartyProfileBudget {
+export interface CounterpartyProfileBudget {
 	year: number;
 	etl?: string;
 	amount: number;
