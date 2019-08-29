@@ -43,15 +43,15 @@ export class ProfileDashboardComponent {
 
 	}
 
-	async loadPayments(profileId: string) {
+	async loadPayments(profileId: number) {
 		this.payments = await this.dataService.getProfilePayments(profileId, { limit: 5, sort: "-date" })
 	}
 
-	async loadContracts(profileId: string) {
+	async loadContracts(profileId: number) {
 		this.contracts = await this.dataService.getProfileContracts(profileId, { limit: 5, sort: "-date" })
 	}
 	
-	async loadDashboard(profileId: string) {
+	async loadDashboard(profileId: number) {
 		const dashboard = await this.dataService.getProfileDashboard(profileId)
 		
 		this.dashboard = dashboard.reduce((acc, cur) => {
@@ -63,7 +63,7 @@ export class ProfileDashboardComponent {
 		
 	}
 
-	async loadBudgets(profileId: string) {
+	async loadBudgets(profileId: number) {
 		this.budgets = await this.dataService.getProfileBudgets(profileId, { limit: 3 });
 		this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
 			return Math.max(acc, budget.budgetIncomeAmount, budget.incomeAmount, budget.budgetExpenditureAmount, budget.expenditureAmount);

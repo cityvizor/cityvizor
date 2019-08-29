@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { ToastService } 		from 'app/services/toast.service';
 import { DataService } 		from 'app/services/data.service';
+import { Profile } from 'app/schema';
 
 @Component({
 	selector: 'profile-contracts',
@@ -12,7 +13,7 @@ export class ProfileContractsComponent {
 
 	/* DATA */
 	@Input()
-	set profile(profile: any){
+	set profile(profile: Profile){
 		if(profile && this.ico !== profile.ico) {
 			this.profileId = profile.id;
 			this.ico = profile.ico;
@@ -20,7 +21,7 @@ export class ProfileContractsComponent {
 		}
 	}
 	
-	profileId:string;
+	profileId:number;
 	
 	ico:string;
 

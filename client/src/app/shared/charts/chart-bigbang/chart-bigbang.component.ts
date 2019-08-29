@@ -43,7 +43,7 @@ export class ChartBigbangComponent {
 	minR: number = 0.22; // relative to radius
 
 	@Input()
-	height: number = 780;
+	height: number;
 
 	constructor() {
 	}
@@ -148,5 +148,10 @@ export class ChartBigbangComponent {
 
 	selectGroup(groupId: string | null) {
 		this.select.emit(groupId);
+	}
+
+	setHoveredGroup(groupId: string) {
+		this.hovered = groupId;
+		this.hover.emit(groupId);
 	}
 }

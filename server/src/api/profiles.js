@@ -74,6 +74,22 @@ exports.router.get("/", express_dynacl_1.default("profiles", "list"), function (
         }
     });
 }); });
+exports.router.get("/main", express_dynacl_1.default("profiles", "read"), function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+    var profile;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, db_1.db("app.profiles")
+                    .where({ main: true })
+                    .first()];
+            case 1:
+                profile = _a.sent();
+                if (!profile)
+                    return [2 /*return*/, res.sendStatus(404)];
+                res.json(profile);
+                return [2 /*return*/];
+        }
+    });
+}); });
 exports.router.get("/:profile", express_dynacl_1.default("profiles", "read"), function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     var profile;
     return __generator(this, function (_a) {

@@ -44,8 +44,12 @@ export class DataService {
 		return this.http.get<Profile[]>(this.root + "/profiles" + toParams(options)).toPromise();
 	}
 
-	getProfile(profileId) {
+	getProfile(profileId: number | string) {
 		return this.http.get<Profile>(this.root + "/profiles/" + profileId).toPromise();
+	}
+
+	getMainProfile() {
+		return this.http.get<Profile>(this.root + "/profiles/main").toPromise();
 	}
 
 	async createProfile(profile) {
@@ -57,25 +61,25 @@ export class DataService {
 		return this.http.patch<any>(this.root + "/profiles/" + profile.id, profile).toPromise();
 	}
 
-	deleteProfile(profileId) {
+	deleteProfile(profileId: number) {
 		return this.http.delete<any>(this.root + "/profiles/" + profileId).toPromise();
 	}
 
 	/* AVATARS */
-	saveProfileAvatar(profileId, data: FormData) {
+	saveProfileAvatar(profileId: number, data: FormData) {
 		return this.http.put(this.root + "/profiles/" + profileId + "/avatar", data, { responseType: 'text' }).toPromise();
 	}
-	deleteProfileAvatar(profileId) {
+	deleteProfileAvatar(profileId: number) {
 		return this.http.delete(this.root + "/profiles/" + profileId + "/avatar", { responseType: 'text' }).toPromise();
 	}
 
-	getProfileAccounting(profileId, year) {
+	getProfileAccounting(profileId: number, year: number) {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year).toPromise();
 	}
-	getProfileAccountingGroups(profileId: string, year: number, field: string) {
+	getProfileAccountingGroups(profileId: number, year: number, field: string) {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/groups/" + field).toPromise();
 	}
-	getProfileAccountingEvents(profileId, year, field: string, groupId: string) {
+	getProfileAccountingEvents(profileId: number, year: number, field: string, groupId: string) {
 		return this.http.get<Array<Pick<BudgetGroupEvent, "id" | "name" | "items"> & BudgetTypedAmounts>>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/groups/" + field + "/" + groupId + "/events").toPromise();
 	}
 	getProfileAccountingPayments(profileId, year, options?) {
@@ -83,25 +87,25 @@ export class DataService {
 	}
 
 	/* YEARS */
-	getProfileBudget(profileId, year) {
+	getProfileBudget(profileId: number, year) {
 		return this.http.get<Budget>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
 	}
-	getProfileBudgets(profileId, options?) {
+	getProfileBudgets(profileId: number, options?) {
 		return this.http.get<Budget[]>(this.root + "/profiles/" + profileId + "/years" + toParams(options)).toPromise();
 	}
 
 	/* CONTRACTS */
-	getProfileContracts(profileId, options?) {
+	getProfileContracts(profileId: number, options?) {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/contracts" + toParams(options)).toPromise();
 	}
 
 	/* DASHBOARD */
-	getProfileDashboard(profileId: string) {
+	getProfileDashboard(profileId: number) {
 		return this.http.get<DashboardRow[]>(this.root + "/profiles/" + profileId + "/dashboard").toPromise();
 	}
 
 	/* ETL */
-	getProfileETLs(profileId, options?) {
+	getProfileETLs(profileId: number, options?) {
 		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/etls" + toParams(options)).toPromise();
 	}
 	getProfileETLLogs(profileId, etlId, options?) {
@@ -122,7 +126,7 @@ export class DataService {
 	}
 
 	/* EVENTS */
-	getProfileEvents(profileId, year:number, options?) {
+	getProfileEvents(profileId: number, year: number, options?) {
 		return this.http.get<BudgetEvent[]>(this.root + "/profiles/" + profileId + "/events/" + year + toParams(options)).toPromise();
 	}
 	getProfileEvent(profileId: string, eventId: number, year: number) {
@@ -133,7 +137,7 @@ export class DataService {
 	}
 
 	/* PAYMENTS */
-	getProfilePayments(profileId, options?) {
+	getProfilePayments(profileId: number, options?) {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/payments" + toParams(options)).toPromise();
 	}
 	getProfilePaymentsMonths(profileId) {
@@ -141,25 +145,25 @@ export class DataService {
 	}
 
 	/* MANAGERS */
-	getProfileManagers(profileId) {
+	getProfileManagers(profileId: number) {
 		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/managers").toPromise();
 	}
 
 	/* NOTICE BOARD */
-	getProfileNoticeBoard(profileId, options?) {
+	getProfileNoticeBoard(profileId: number, options?) {
 		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/noticeboard" + toParams(options)).toPromise();
 	}
 
 	/* IMPORT DATA */
-	uploadProfileImport(profileId, etlId, data: FormData) {
+	uploadProfileImport(profileId: number, etlId, data: FormData) {
 		return this.http.put(this.root + "/profiles/" + profileId + "/import/" + etlId + "/upload", data, { responseType: 'text' }).toPromise();
 	}
-	startProfileImport(profileId, etlId) {
+	startProfileImport(profileId: number, etlId) {
 		return this.http.get(this.root + "/profiles/" + profileId + "/import/" + etlId + "/start", { responseType: 'text' }).toPromise();
 	}
 
 	/* EVENTS */
-	getEvent(eventId) {
+	getEvent(eventId: number) {
 		return this.http.get<any>(this.root + "/events/" + eventId).toPromise();
 	}
 

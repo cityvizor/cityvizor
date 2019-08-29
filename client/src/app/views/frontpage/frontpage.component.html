@@ -52,11 +52,12 @@
 		<div class="row">
 
 			<div class="col-md-6">
-				<h2>Výdaje magistrátu</h2>
+				<h2 class="text-center">Výdaje magistrátu</h2>
+				<profile-expenditures-widget *ngIf="mainProfile" [profileId]="mainProfile.id" [year]="mainProfileLatestYear" (openGroup)="openGroup($event)"></profile-expenditures-widget>
 			</div>
 
 			<div class="col-md-6">
-				<h2>Městské části</h2>
+				<h2 class="text-center">Městské části</h2>
 				<profile-search></profile-search>
 			</div>
 			

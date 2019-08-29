@@ -26,6 +26,7 @@ import { MoneyPipe } from './pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './pipes/address.pipe';
 import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pipes/utils.pipe';
 import { ProfileHeaderComponent } from './components/profile-header/profile-header.component';
+import { ProfileExpendituresWidgetComponent } from './widgets/profile-expenditures-widget/profile-expenditures-widget.component';
 
 @NgModule({
   imports: [
@@ -51,10 +52,13 @@ import { ProfileHeaderComponent } from './components/profile-header/profile-head
     HeaderMenuComponent,
 
     ProfileHeaderComponent,
+
+    /* Widgets */
+    ProfileExpendituresWidgetComponent,
     
     /* Pipes */
     MoneyPipe,
-    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
+    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe,
   ],
   entryComponents: [
     EventDetailModalComponent
@@ -82,6 +86,9 @@ import { ProfileHeaderComponent } from './components/profile-header/profile-head
     HeaderMenuComponent,
 
     ProfileHeaderComponent,
+
+    /* Widgets */
+    ProfileExpendituresWidgetComponent,
 
     /* Pipes */ 
     MoneyPipe,

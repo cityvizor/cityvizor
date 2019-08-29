@@ -6,7 +6,7 @@ export class Profile {
 	/** 
 		* profile indentification 
 		*/
-	id: string;
+	id: number;
 
 	status: "visible" | "hidden" | "pending";
 

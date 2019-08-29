@@ -8,7 +8,7 @@ import { map, filter, distinctUntilChanged, withLatestFrom } from 'rxjs/operator
 import { DataService } from 'app/services/data.service';
 import { CodelistService } from 'app/services/codelist.service';
 import { ProfileService } from '../../services/profile.service';
-import { AccountingService } from 'app/services/accounting.service';
+import { AccountingService, AccountingGroupType } from 'app/services/accounting.service';
 
 import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent } from 'app/schema';
 
@@ -27,7 +27,7 @@ import { HttpParams } from '@angular/common/http';
 export class ProfileAccountingComponent implements OnInit {
 
 	// type of view (expenditures/income)
-	type = new BehaviorSubject<string | null>(null);
+	type = new BehaviorSubject<AccountingGroupType | null>(null);
 
 	// state
 	year = new ReplaySubject<number | null>(1);
@@ -54,6 +54,8 @@ export class ProfileAccountingComponent implements OnInit {
 
 	chartBigbangData: ChartBigbangData;
 
+	typeLocalParams = { "vydaje": "exp", "prijmy": "inc" };
+
 	// store subscriptions to unsubscribe on destroy
 	subscriptions: Subscription[] = [];
 
@@ -71,7 +73,7 @@ export class ProfileAccountingComponent implements OnInit {
 	ngOnInit() {
 
 		// route params
-		this.route.params.pipe(map(params => params.type === "vydaje" ? "exp" : "inc"), distinctUntilChanged()).subscribe(this.type);
+		this.route.params.pipe(map(params => this.typeLocalParams[params.type] || null), distinctUntilChanged()).subscribe(this.type);
 
 		this.route.params.pipe(map(params => Number(params.rok) || null), distinctUntilChanged()).subscribe(this.year);
 		this.route.params.pipe(map(params => params.skupina || null), distinctUntilChanged()).subscribe(this.groupId);
@@ -94,6 +96,7 @@ export class ProfileAccountingComponent implements OnInit {
 		// download groups
 		combineLatest(this.profile, this.type, this.year)
 			.subscribe(async ([profile, type, year]) => {
+				console.log(profile, type, year);
 				if (!profile || !type || !year) return;
 				const groups = await this.accountingService.getGroups(profile.id, type, year);
 				groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
@@ -210,7 +213,6 @@ export class ProfileAccountingComponent implements OnInit {
 	}
 
 	sortEvents(sort: string) {
-		console.log("sort", sort);
 		switch (sort) {
 
 			case "abecedne":

@@ -5,6 +5,8 @@ import { DataService } from './data.service';
 
 type AmountField = "expenditureAmount" | "budgetExpenditureAmount" | "incomeAmount" | "budgetIncomeAmount";
 
+export type AccountingGroupType = "exp" | "inc";
+
 interface TypeConfig {
   codelist: string,
   field: "paragraph" | "item",
@@ -17,14 +19,14 @@ interface TypeConfig {
 })
 export class AccountingService {
 
-  typeConfig: { [type: string]: TypeConfig } = {
+  typeConfig: { [type in AccountingGroupType]: TypeConfig } = {
     "exp": { codelist: "paragraph-groups", field: "paragraph", amount: "expenditureAmount", budgetAmount: "budgetExpenditureAmount" },
     "inc": { codelist: "item-groups", field: "item", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" }
   };
 
   constructor(private codelistService: CodelistService, private dataService: DataService) { }
 
-  async getGroups(profileId: string, type: string, year: number): Promise<BudgetGroup[]> {
+  async getGroups(profileId: number, type: AccountingGroupType, year: number): Promise<BudgetGroup[]> {
 
     const typeConfig = this.typeConfig[type];
 
@@ -46,7 +48,7 @@ export class AccountingService {
     return other.amount || other.budgetAmount ? [...groups, other] : groups;
   }
 
-  async getGroupEvents(profileId: string, year: number, type: string, groupId: string): Promise<BudgetGroupEvent[]> {
+  async getGroupEvents(profileId: number, year: number, type: AccountingGroupType, groupId: string): Promise<BudgetGroupEvent[]> {
 
     const typeConfig = this.typeConfig[type];
 
@@ -88,7 +90,7 @@ export class AccountingService {
     item.budgetExpenditureAmount += row.budgetExpenditureAmount;
   }
 
-  assignTypedAmounts(item: BudgetTypedAmounts, row: AccountingRow, type: string): void {
+  assignTypedAmounts(item: BudgetTypedAmounts, row: AccountingRow, type: AccountingGroupType): void {
     const typeConfig = this.typeConfig[type];
     item.amount += row[typeConfig.amount];
     item.budgetAmount += row[typeConfig.budgetAmount];

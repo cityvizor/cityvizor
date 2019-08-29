@@ -22,7 +22,6 @@ router.get("/", acl("profile-payments", "list"), async (req, res, next) => {
 	res.json(payments);
 });
 
-
 router.get("/months", acl("profile-payments", "list"), async (req, res, next) => {
 
 	const months = await db("payments")

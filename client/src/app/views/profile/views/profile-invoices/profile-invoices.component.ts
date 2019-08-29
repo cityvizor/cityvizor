@@ -83,7 +83,7 @@ export class ProfileInvoicesComponent implements OnInit {
 
 	}
 
-	async loadData(profileId: string, year: number, month: number, page: number) {
+	async loadData(profileId: number, year: number, month: number, page: number) {
 
 		const date = DateTime.fromObject({year, month, day: 1});
 

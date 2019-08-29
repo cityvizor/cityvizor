@@ -36,6 +36,16 @@ router.get("/", acl("profiles", "list"), async (req, res, next) => {
 
 });
 
+router.get("/main", acl("profiles", "read"), async (req, res) => {
+
+  const profile = await db<ProfileRecord>("app.profiles")
+    .where({main: true})
+    .first()
+
+  if (!profile) return res.sendStatus(404);
+  res.json(profile);
+});
+
 router.get("/:profile", acl("profiles", "read"), async (req, res) => {
 
   const profile = await db<ProfileRecord>("app.profiles")
