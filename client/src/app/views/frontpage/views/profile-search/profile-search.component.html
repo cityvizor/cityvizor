@@ -8,7 +8,7 @@
   <!-- MĚSTA -->
   <div class="mesta">
     <ng-container *ngFor="let profile of profiles">
-      <div *ngIf="(!search || search.exec(profile.searchString)) && profile.gpsX && profile.gpsY && profile.status!='pending'" class="mesto" [class.hover]="hoverProfile === profile" [ngStyle]="gps2css(profile.gpsX, profile.gpsY)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
+      <div *ngIf="profile.gpsX && profile.gpsY && profile.status!='pending'" class="mesto" [class.hover]="hoverProfile === profile" [ngStyle]="gps2css(profile.gpsX, profile.gpsY)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
         <span class="name">{{profile.name}}</span>
         <span class="gps">{{gps2string(profile.gpsX, profile.gpsY)}}</span>
       </div>
@@ -21,7 +21,7 @@
   
   <p *ngIf="loading">Načítání obcí...</p>
   
-  <div *ngFor="let profile of profiles" class="profile" [class.profile-pending]="profile.status === 'pending'" [class.dimmed]="search && !search.exec(profile.searchString)" (mouseover)="hoverProfile = profile" (mouseout)="hoverProfile = null">
+  <div *ngFor="let profile of profiles" class="profile" [class.profile-pending]="profile.status === 'pending'" (mouseover)="hoverProfile = profile" (mouseout)="hoverProfile = null">
     <div class="pending-box text-center" *ngIf="profile.status == 'pending'">
       <a (click)="openPending(profile,$event)" class="pending-box-title">Připravujeme data</a>
     </div>	

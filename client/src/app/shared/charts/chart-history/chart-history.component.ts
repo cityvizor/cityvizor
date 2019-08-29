@@ -71,7 +71,7 @@ export class ChartHistoryComponent implements OnChanges {
       this.chartPathString = "";
       this.chartBudgetPathString = "";
 
-      if (changes.data.currentValue) {
+      if (!changes.data.currentValue) {
         return;
       }
       // end 

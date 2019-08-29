@@ -7,8 +7,6 @@ import { ToastService } from "app/services/toast.service";
 import { environment } from "environments/environment";
 import { Profile } from 'app/schema';
 
-type ProfileWithSearchString = (Profile & { searchString?: string });
-
 @Component({
 	selector: 'profile-search',
 	templateUrl: 'profile-search.component.html',
@@ -16,9 +14,8 @@ type ProfileWithSearchString = (Profile & { searchString?: string });
 })
 export class ProfileSearchComponent implements OnInit {
 
-	profiles: ProfileWithSearchString[] = [];
+	profiles: Profile[] = [];
 	hoverProfile: Profile | null;
-	search: RegExp;
 
 	mapGPSBounds = { "lat": { "min": 49.9476767, "max": 50.1774944 }, "lng": { "min": 14.2244208, "max": 14.7070583 } };
 
@@ -34,18 +31,14 @@ export class ProfileSearchComponent implements OnInit {
 
 		this.loading = true;
 
-		const profiles: ProfileWithSearchString[] = await this.dataService.getProfiles()
+		const profiles: Profile[] = await this.dataService.getProfiles()
 
 		this.loading = false;
-
-		profiles.forEach(profile => {
-			profile.searchString = this.cleanString(profile.name);
-		});
 
 		profiles.sort((a, b) => {
 			if (a.status === "pending" && b.status !== "pending") return 1;
 			if (a.status !== "pending" && b.status === "pending") return -1;
-			return a.searchString!.localeCompare(b.searchString!); // cant be null, added searchString few lines before
+			return a.name.localeCompare(b.name); // cant be null, added searchString few lines before
 		});
 		this.profiles = profiles;
 
@@ -67,33 +60,7 @@ export class ProfileSearchComponent implements OnInit {
 		let st = [0, 1].map(i => dg[i] + "° " + mn[i] + "'"); // get string
 		return "N " + st[1] + ", E " + st[0]; // concatenate
 	}
-
-	cleanString(value: string): string {
-
-		if (!value) return "";
-
-		var sdiak = "áäčďéěíĺľňóôőöŕšťúůűüýřžÁÄČĎÉĚÍĹĽŇÓÔŐÖŔŠŤÚŮŰÜÝŘŽ";
-		var bdiak = "aacdeeillnoooorstuuuuyrzAACDEEILLNOOOORSTUUUUYRZ";
-
-		var searchString = "";
-
-		for (var p = 0; p < value.length; p++) {
-			if (sdiak.indexOf(value.charAt(p)) !== -1) searchString += bdiak.charAt(sdiak.indexOf(value.charAt(p)));
-			else searchString += value.charAt(p);
-		}
-
-		searchString = searchString.toLowerCase();
-
-		return searchString;
-
-	}
-
-	makeSearchString(value: string): RegExp {
-
-		return new RegExp("(?:^| )" + this.cleanString(value));
-
-	}
-
+	
 	openProfile(profile) {
 		this.router.navigate(['/' + profile.url]);
 	}

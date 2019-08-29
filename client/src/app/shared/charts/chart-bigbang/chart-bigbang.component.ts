@@ -38,7 +38,7 @@ export class ChartBigbangComponent {
 	cx: number = 0;
 	cy: number = 0;
 	alpha: number = 0; // default rotation of the chart
-	alphaCenter: number = 4;
+	alphaCenter: number = 3;
 	innerR: number = 0.2; // relative to radius
 	minR: number = 0.22; // relative to radius
 

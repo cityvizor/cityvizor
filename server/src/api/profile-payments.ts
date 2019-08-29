@@ -10,13 +10,13 @@ router.get("/", acl("profile-payments", "list"), async (req, res, next) => {
 
 	const payments = await db<PaymentRecord>("payments")
 		.where({ profile_id: req.params.profile })
-		.limit(req.query.limit ? Math.min(Number(req.query.limit), 100) : req.query.limit)
+		.limit(req.query.limit ? Math.min(Number(req.query.limit), 10000) : 10000)
 		.offset(req.query.offset || 0)
-		.modify(function(){
-			if(req.query.sort) this.orderBy(sort2order(req.query.sort));
-			if(req.query.event) this.where({event: req.query.event});
-			if(req.query.dateFrom) this.where("date",">=",req.query.dateFrom);
-			if(req.query.dateTo) this.where("date","<",req.query.dateTo);			
+		.modify(function () {
+			if (req.query.sort) this.orderBy(sort2order(req.query.sort));
+			if (req.query.event) this.where({ event: req.query.event });
+			if (req.query.dateFrom) this.where("date", ">=", req.query.dateFrom);
+			if (req.query.dateTo) this.where("date", "<", req.query.dateTo);
 		})
 
 	res.json(payments);

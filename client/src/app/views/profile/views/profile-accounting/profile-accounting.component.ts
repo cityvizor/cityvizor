@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { BsModalService } from 'ngx-bootstrap';
 import { Subscription, combineLatest, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { map, filter, distinctUntilChanged } from 'rxjs/operators';
+import { map, filter, distinctUntilChanged, withLatestFrom } from 'rxjs/operators';
 
 import { DataService } from 'app/services/data.service';
 import { CodelistService } from 'app/services/codelist.service';
@@ -63,12 +63,15 @@ export class ProfileAccountingComponent implements OnInit {
 		private accountingService: AccountingService,
 		private codelistService: CodelistService,
 		private dataService: DataService,
+		private modalService: BsModalService,
 		private modalService: BsModalService
 	) { }
 
 	ngOnInit() {
 
 		// route params
+		this.route.params.pipe(map(params => params.type === "vydaje" ? "exp" : "inc"), distinctUntilChanged()).subscribe(this.type);
+
 		this.route.params.pipe(map(params => Number(params.rok) || null), distinctUntilChanged()).subscribe(this.year);
 		this.route.params.pipe(map(params => params.skupina || null), distinctUntilChanged()).subscribe(this.groupId);
 		this.route.params.pipe(map(params => Number(params.akce) || null), distinctUntilChanged()).subscribe(this.eventId);

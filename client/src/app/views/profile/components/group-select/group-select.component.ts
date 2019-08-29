@@ -18,7 +18,7 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
 
   @Input() groups: BudgetGroup[];
 
-  @Input("hovered") hoveredGroup: BudgetGroup | null;
+  @Input("hovered") hoveredGroupId: string | null;
 
   selectedGroup: BudgetGroup | null;
 
@@ -32,7 +32,7 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
   registerOnChange(fn: any) { this.onChange = fn; }
   registerOnTouched(fn: any) { this.onTouch = fn; }
 
-  writeValue(group: BudgetGroup) {
+  writeValue(group: BudgetGroup | null) {
     this.selectedGroup = group;
   }
 

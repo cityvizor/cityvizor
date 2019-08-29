@@ -4,7 +4,7 @@
   <p>Načítám...</p>  
 </div>
 
-<site-admin-profile [profile]="currentProfile" (save)="saveProfile($event)" (delete)="deleteProfile($event)" (close)="selectProfile(null)"></site-admin-profile>
+<site-admin-profile *ngIf="currentProfile" [profile]="currentProfile" (save)="saveProfile($event)" (delete)="deleteProfile($event)" (close)="selectProfile(null)"></site-admin-profile>
 
 <div class="profiles">
   <table class="table table-condensed table-hover table-striped">
@@ -21,7 +21,7 @@
         <td>{{profile.name}}</td>
         <td>{{profile.url}}</td>
         <td>{{profile.id}}</td>
-        <td>{{profile.hidden ? "skrytý" : "veřejný"}}</td>
+        <td>{{profile.status}}</td>
         <td><a [routerLink]="getProfileLink(profile)">otevřít profil</a></td>
       </tr>
   </table>

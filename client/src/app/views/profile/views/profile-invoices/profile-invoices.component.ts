@@ -91,7 +91,6 @@ export class ProfileInvoicesComponent implements OnInit {
 			dateFrom: date.toISODate(),
 			dateTo: date.plus({month: 1}).toISODate(),
 			sort: "date",
-			limit: 20,
 			page: page
 		};
 

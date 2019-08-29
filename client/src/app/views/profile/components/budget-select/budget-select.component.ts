@@ -19,7 +19,7 @@ export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
 
 	@Input() budgets: Budget[] = [];
 
-	@Input() type: string;
+	@Input() type: string | null;
 
 	@Input("selected") selectedBudget: Budget;
 

@@ -1,55 +1,51 @@
-
-<div class="row selector">
-	<div class="col-12">
-		<div class="btn-group" dropdown>
-			<button type="button" class="btn btn-sm btn-primary">{{currentYear}}</button>
-			<button type="button" dropdownToggle class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split">
-				<span class="caret"></span>
-			</button>
-			<ul *dropdownMenu class="dropdown-menu" role="menu">
-				<li *ngFor="let year of years" role="menuitem"><a class="dropdown-item" [routerLink]="getYearLink(year)">{{year}}</a></li>
-			</ul>
-		</div>
-		&nbsp;
-		<div class="btn-group">
-			<a *ngFor="let name of monthNames; let i = index" [routerLink]="getMonthLink(currentYear,i + 1)" class="btn btn-sm btn-default" [class.btn-primary]="i + 1 == currentMonth" [class.disabled]="isMonthDisabled(currentYear, i + 1)">{{name}}</a>
+<div class="container">
+	<div class="row selector">
+		<div class="col-12">
+			<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-sm btn-primary">{{currentYear}}</button>
+				<button type="button" dropdownToggle class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split">
+					<span class="caret"></span>
+				</button>
+				<ul *dropdownMenu class="dropdown-menu" role="menu">
+					<li *ngFor="let year of years" role="menuitem"><a class="dropdown-item" [routerLink]="getYearLink(year)">{{year}}</a></li>
+				</ul>
+			</div>
+			&nbsp;
+			<div class="btn-group">
+				<a *ngFor="let name of monthNames; let i = index" [routerLink]="getMonthLink(currentYear,i + 1)" class="btn btn-sm btn-default" [class.btn-primary]="i + 1 == currentMonth" [class.disabled]="isMonthDisabled(currentYear, i + 1)">{{name}}</a>
+			</div>
 		</div>
 	</div>
+
+
+	<br><br>
+
+	<div class="invoices" [class.loading]="loading">
+		<table class="table table-condensed table-responsive table-hover table-striped small">
+			<thead>
+				<tr>
+					<th>Datum publikace</th>
+					<th>Typ</th>
+					<th>IČO</th>
+					<th>Protistrana</th>
+					<th>Popis</th>
+					<th class="text-right">Částka</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let invoice of invoices">
+					<td>{{invoice.date | date:"d. M. y"}}</td>
+					<td>
+						<span *ngIf="invoice.type == 'KOF'">vydaná</span>
+						<span *ngIf="invoice.type == 'KDF'">přijatá</span>
+					</td>
+					<td><a *ngIf="invoice.counterpartyId" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' + (invoice.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank">{{invoice.counterpartyId | ico}}</a></td>
+					<td><span class="counterparty">{{invoice.counterpartyName}}</span></td>
+					<td><span class="description">{{invoice.description}}</span></td>
+					<td class="text-right font-number">{{(invoice.incomeAmount + invoice.expenditureAmount) | money:0:false}} Kč</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 </div>
-
-
-<br><br>
-
-<div class="invoices" [class.loading]="loading">
-	<table class="table table-condensed table-responsive table-hover table-striped small">
-		<thead>
-			<tr>
-				<th>Datum publikace</th>
-				<th>Typ</th>
-				<th>IČO</th>
-				<th>Protistrana</th>
-				<th>Popis</th>
-				<th class="text-right">Částka</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let invoice of invoices">
-				<td>{{invoice.date | date:"d. M. y"}}</td>
-				<td>
-					<span *ngIf="invoice.type == 'KOF'">vydaná</span>
-					<span *ngIf="invoice.type == 'KDF'">přijatá</span>
-				</td>
-				<td><a *ngIf="invoice.counterpartyId" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' + (invoice.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank">{{invoice.counterpartyId | ico}}</a></td>
-				<td><span class="counterparty">{{invoice.counterpartyName}}</span></td>
-				<td><span class="description">{{invoice.description}}</span></td>
-				<td class="text-right font-number">{{(invoice.amount === null ? "-" : invoice.amount | money:0:false)}} Kč</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<nav class="text-center">
-  <ul class="pagination">
-    <li *ngFor="let i of pager.pages" [class.active]="pager.page == i"><a [routerLink]="getPageLink(i)">{{i}}</a></li>
-  </ul>
-</nav>

@@ -6,7 +6,7 @@ import { DataService } from 'app/services/data.service';
 import { Dashboard } from "app/schema/dashboard";
 import { ProfileService } from '../../services/profile.service';
 
-import { Budget } from 'app/schema';
+import { Budget, BudgetPayment, Counterparty, Contract } from 'app/schema';
 
 @Component({
 	selector: 'profile-dashboard',
@@ -18,8 +18,8 @@ export class ProfileDashboardComponent {
 	@Input()
 	profile: any;
 
-	payments = [];
-	contracts = [];
+	payments:BudgetPayment[] = [];
+	contracts:Contract[] = [];
 	budgets:Budget[] = [];
 
 	maxBudgetAmount: number = 0;
@@ -55,10 +55,11 @@ export class ProfileDashboardComponent {
 		const dashboard = await this.dataService.getProfileDashboard(profileId)
 		
 		this.dashboard = dashboard.reduce((acc, cur) => {
-			acc[cur.category].amount = cur.amount;
-			acc[cur.category].budgetAmount = cur.budgetAmount;
+			acc[cur.category].push(cur);
 			return acc;
 		}, new Dashboard());
+
+		console.log(this.dashboard);
 		
 	}
 

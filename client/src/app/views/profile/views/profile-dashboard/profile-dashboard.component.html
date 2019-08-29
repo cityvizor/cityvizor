@@ -1,151 +1,165 @@
-
-<div *ngIf="!!dashboard">
-	<h3>Přehled výdajů obce</h3>
-	<div class="row dashboard">
-		<div class="col-sm-6 col-md-4 text-center"><chart-history id="22" name="Doprava" icon="fa-automobile" [data]="dashboard.transportation"></chart-history></div>
-		<div class="col-sm-6 col-md-4 text-center"><chart-history id="31" name="Školy" icon="fa-book" [data]="dashboard.schools"></chart-history></div>
-		<div class="col-sm-6 col-md-4 text-center"><chart-history id="34" name="Sport" icon="fa-bicycle" [data]="dashboard.sports"></chart-history></div>
-		<div class="col-sm-6 col-md-4 text-center"><chart-history id="36" name="Bydlení" icon="fa-home" [data]="dashboard.housing"></chart-history></div>
-		<div class="col-sm-6 col-md-4 text-center"><chart-history id="33" name="Kultura" icon="fa-picture-o" [data]="dashboard.culture"></chart-history></div>
-		<div class="col-sm-6 col-md-4 text-center"><chart-history id="61" name="Samospráva" icon="fa-institution" [data]="dashboard.government"></chart-history></div>
-	</div>
-</div>
-
-<div class="row">
-
-	<div class="col-sm-6">
-		<div class="row">
-			<div class="col-xs-12">
-				<h3>Poslední faktury</h3>
+<div class="container">
+	<div *ngIf="!!dashboard">
+		<h3>Přehled výdajů obce</h3>
+		<div class="row dashboard">
+			<div class="col-sm-6 col-md-4 text-center">
+				<chart-history id="22" name="Doprava" icon="fa-automobile" [data]="dashboard.transportation"></chart-history>
+			</div>
+			<div class="col-sm-6 col-md-4 text-center">
+				<chart-history id="31" name="Školy" icon="fa-book" [data]="dashboard.schools"></chart-history>
+			</div>
+			<div class="col-sm-6 col-md-4 text-center">
+				<chart-history id="34" name="Sport" icon="fa-bicycle" [data]="dashboard.sports"></chart-history>
+			</div>
+			<div class="col-sm-6 col-md-4 text-center">
+				<chart-history id="36" name="Bydlení" icon="fa-home" [data]="dashboard.housing"></chart-history>
+			</div>
+			<div class="col-sm-6 col-md-4 text-center">
+				<chart-history id="33" name="Kultura" icon="fa-picture-o" [data]="dashboard.culture"></chart-history>
+			</div>
+			<div class="col-sm-6 col-md-4 text-center">
+				<chart-history id="61" name="Samospráva" icon="fa-institution" [data]="dashboard.government"></chart-history>
 			</div>
 		</div>
-		<div class="bg-timeline">
-			<div class="row news" *ngFor="let payment of payments">
+	</div>
+
+	<div class="row">
+
+		<div class="col-sm-6">
+			<div class="row">
 				<div class="col-xs-12">
-					<div class="row">
-						<div class="col-xs-9">
-							<h5 class="service-heading">
-								{{payment.counterpartyName || "Protistrana neuvedena"}}
-								<small *ngIf="payment.counterpartyId">
-									<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+ (payment.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES">ARES</a>
-								</small>
-							</h5>
+					<h3>Poslední faktury</h3>
+				</div>
+			</div>
+			<div class="bg-timeline">
+				<div class="row news" *ngFor="let payment of payments">
+					<div class="col-xs-12">
+						<div class="row">
+							<div class="col-xs-9">
+								<h5 class="service-heading">
+									{{payment.counterpartyName || "Protistrana neuvedena"}}
+									<small *ngIf="payment.counterpartyId">
+										<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+ (payment.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES">ARES</a>
+									</small>
+								</h5>
+							</div>
+							<div class="col-xs-3 small text-right">
+								<h5>
+									<small *ngIf="payment.date">{{payment.date | date:"d. M. y"}}</small>
+								</h5>
+							</div>
 						</div>
-						<div class="col-xs-3 small text-right">
-							<h5>
-								<small *ngIf="payment.date">{{payment.date | date:"d. M. y"}}</small>
-							</h5>
-						</div>
-					</div>
-					<div class="row vertical-align">
-						<div class="col-xs-9">
-							<p class="text-muted" *ngIf="payment.description">
-								{{payment.description}}
-							</p>
-							<p class="text-muted small" *ngIf="!payment.description">
-								(bez popisu)
-							</p>
-						</div>
-						<div class="col-xs-3 text-right vertical-align-end">
-							<p><strong>
-								{{payment.amount | money:0:false}} Kč
-							</strong></p>
+						<div class="row vertical-align">
+							<div class="col-xs-9">
+								<p class="text-muted" *ngIf="payment.description">
+									{{payment.description}}
+								</p>
+								<p class="text-muted small" *ngIf="!payment.description">
+									(bez popisu)
+								</p>
+							</div>
+							<div class="col-xs-3 text-right vertical-align-end">
+								<p><strong>
+										{{(payment.incomeAmount + payment.expenditureAmount) | money:0:false}} Kč
+										<!-- one of amounts is always zero -->
+									</strong></p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="text-center more">
-				<a routerLink="../faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+				<div class="text-center more">
+					<a routerLink="../faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="col-sm-6">
-		<div class="row">
-			<div class="col-xs-12">
-				<h3>Poslední smlouvy</h3>
-			</div>
-		</div>
-		<div class="bg-timeline">
-			<div class="row news" *ngFor="let contract of contracts">
+		<div class="col-sm-6">
+			<div class="row">
 				<div class="col-xs-12">
-					<div class="row">
-						<div class="col-xs-9">
-							<h5 class="service-heading">
-								{{contract.counterparty}}
-								<small>
+					<h3>Poslední smlouvy</h3>
+				</div>
+			</div>
+			<div class="bg-timeline">
+				<div class="row news" *ngFor="let contract of contracts">
+					<div class="col-xs-12">
+						<div class="row">
+							<div class="col-xs-9">
+								<h5 class="service-heading">
+									{{contract.counterparty}}
+									<small>
 										<a [href]="contract.url" target="_blank" title="Výpis smlouvy v Registru smluv">
 											Rejstřík smluv
 										</a>
-								</small>
-							</h5>
+									</small>
+								</h5>
+							</div>
+							<div class="col-xs-3 text-right">
+								<h5>
+									<small>{{contract.date | date:"d. M. y"}}</small>
+								</h5>
+							</div>
 						</div>
-						<div class="col-xs-3 text-right">
-							<h5>
-								<small>{{contract.date | date:"d. M. y"}}</small>
-							</h5>
-						</div>
-					</div>
-					<div class="row vertical-align">
-						<div class="col-xs-9">
-							<p class="text-muted" *ngIf="contract.title">
-								{{contract.title}}
-							</p>
-							<p class="text-muted small" *ngIf="!contract.title">
-								(bez popisu)
-							</p>
-						</div>
-						<div class="col-xs-3 text-right vertical-align-end">
-							<p>
-								<strong *ngIf="contract.amount">{{contract.amount | money:0:false}} Kč</strong>
-								<strong *ngIf="!contract.amount">Neuvedeno</strong>
-							</p>
+						<div class="row vertical-align">
+							<div class="col-xs-9">
+								<p class="text-muted" *ngIf="contract.title">
+									{{contract.title}}
+								</p>
+								<p class="text-muted small" *ngIf="!contract.title">
+									(bez popisu)
+								</p>
+							</div>
+							<div class="col-xs-3 text-right vertical-align-end">
+								<p>
+									<strong *ngIf="contract.amount">{{contract.amount | money:0:false}} {{contract.currency}}</strong>
+									<strong *ngIf="!contract.amount">Neuvedeno</strong>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="text-center more">
-				<a routerLink="../registr-smluv" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+				<div class="text-center more">
+					<a routerLink="../registr-smluv" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="row">
-	<div class="col-xs-12">
-		<h3>Rozpočty</h3>
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>Rozpočty</h3>
+		</div>
 	</div>
-</div>
-<div class="row budgets">
-	<div class="col-xs-12 col-sm-6 col-lg-4" *ngFor="let budget of budgets">
-		<div class="budget">
-			<h4>Rok {{budget.year}}</h4>
-			<table class="table table-responsive">
-				<thead>
-					<tr>
-						<th></th>
-						<th class="text-center">
-							<chart-budget [data]="budget" [type]="'expenditure'" [max]="maxBudgetAmount" (click)="openBudget($event,budget.year)"></chart-budget>
-							<span class="label label-red" (click)="openBudget($event,budget.year)">Výdaje</span>
-						</th>
-						<th class="text-center" (click)="openBudget($event,budget.year)">
-							<chart-budget [data]="budget" [type]="'income'" [max]="maxBudgetAmount" (click)="openBudget($event,budget.year)"></chart-budget>
-							<span class="label label-blue" (click)="openBudget($event,budget.year)">Příjmy</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody class="small">
-					<tr>
-						<td class="text-strong">Rozpočet</td>
-						<td class="font-number">{{budget.budgetExpenditureAmount | money:0:false}} Kč</td>
-						<td class="font-number">{{budget.budgetIncomeAmount | money:0:false}} Kč</td>
-					</tr>
-					<tr>
-						<td class="text-strong">Čerpáno</td>
-						<td class="font-number">{{budget.expenditureAmount | money:0:false}} Kč</td>
-						<td class="font-number">{{budget.incomeAmount | money:0:false}} Kč</td>
-					</tr>
-				</tbody>
-			</table>
+	<div class="row budgets">
+		<div class="col-xs-12 col-sm-6 col-lg-4" *ngFor="let budget of budgets">
+			<div class="budget">
+				<h4>Rok {{budget.year}}</h4>
+				<table class="table table-responsive">
+					<thead>
+						<tr>
+							<th></th>
+							<th class="text-center">
+								<chart-budget [data]="budget" [type]="'expenditure'" [max]="maxBudgetAmount" (click)="openBudget($event,budget.year)"></chart-budget>
+								<span class="label label-red" (click)="openBudget($event,budget.year)">Výdaje</span>
+							</th>
+							<th class="text-center" (click)="openBudget($event,budget.year)">
+								<chart-budget [data]="budget" [type]="'income'" [max]="maxBudgetAmount" (click)="openBudget($event,budget.year)"></chart-budget>
+								<span class="label label-blue" (click)="openBudget($event,budget.year)">Příjmy</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody class="small">
+						<tr>
+							<td class="text-strong">Rozpočet</td>
+							<td class="font-number">{{budget.budgetExpenditureAmount | money:0:false}} Kč</td>
+							<td class="font-number">{{budget.budgetIncomeAmount | money:0:false}} Kč</td>
+						</tr>
+						<tr>
+							<td class="text-strong">Čerpáno</td>
+							<td class="font-number">{{budget.expenditureAmount | money:0:false}} Kč</td>
+							<td class="font-number">{{budget.incomeAmount | money:0:false}} Kč</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

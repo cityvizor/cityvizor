@@ -49,7 +49,7 @@ exports.router.get("/", express_dynacl_1.default("profile-payments", "list"), fu
         switch (_a.label) {
             case 0: return [4 /*yield*/, db_1.db("payments")
                     .where({ profile_id: req.params.profile })
-                    .limit(req.query.limit ? Math.min(Number(req.query.limit), 100) : req.query.limit)
+                    .limit(req.query.limit ? Math.min(Number(req.query.limit), 10000) : 10000)
                     .offset(req.query.offset || 0)
                     .modify(function () {
                     if (req.query.sort)

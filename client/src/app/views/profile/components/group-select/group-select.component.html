@@ -3,7 +3,7 @@
     
     <div class="btn-group" dropdown>
       <button dropdownToggle type="button" class="btn btn-lg btn-red dropdown-toggle">
-        <strong *ngIf="selectedGroup">{{selectedGroup.name}}</strong>
+        <strong *ngIf="selectedGroup">{{selectedGroup?.name}}</strong>
         <strong *ngIf="!selectedGroup">Vybrat skupinu</strong> <span class="caret"></span>
         
         <div class="arrow_groupselecthint" *ngIf="!selectedGroup">
@@ -12,7 +12,7 @@
       </button>
       <ul *dropdownMenu class="dropdown-menu groupList" role="menu">
 
-        <li role="menuitem" *ngFor="let group of groups" (mouseover)="hoveredGroup=group.id" (mouseout)="hoveredGroup=null" (click)="selectGroup(group)" [attr.class]="(hoveredGroup === group || selectedGroup === group) ? 'group group-focus' : 'group'">
+        <li role="menuitem" *ngFor="let group of groups" (mouseover)="hoveredGroupId = group.id" (mouseout)="hoveredGroupId = null" (click)="selectGroup(group)" [attr.class]="(hoveredGroupId === group.id || selectedGroup === group) ? 'group group-focus' : 'group'">
           <a>
             <div class="row">
               <div class="col-xs-2">
@@ -37,7 +37,7 @@
           <strong>Rozpočet</strong>
         </div>
         <div *ngIf="selectedGroup" class="col-xs-9 text-right font-number">
-          {{selectedGroup.budgetAmount | money:0:false}} Kč
+          {{selectedGroup!.budgetAmount | money:0:false}} Kč
         </div>
         <div *ngIf="!selectedGroup" class="col-xs-9 text-right font-number">... Kč</div>
       </div>
@@ -46,7 +46,7 @@
           <strong>Plnění</strong>
         </div>
         <div *ngIf="selectedGroup"  class="col-xs-9 text-right font-number">
-          {{selectedGroup.amount | money:0:false}} Kč
+          {{selectedGroup!.amount | money:0:false}} Kč
         </div>
         <div *ngIf="!selectedGroup" class="col-xs-9 text-right font-number">... Kč</div>
       </div>
