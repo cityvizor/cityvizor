@@ -7,7 +7,8 @@ h4{font-weight:normal !important;}
 /* BIG BANG CHART */
 #bigbang{
 	position: relative;
-	margin-top: 5vh;
+	margin-top: 0;
+	overflow:hidden;
 }
 #bigbang .box:before{
 	content: "";
@@ -28,7 +29,7 @@ h4{font-weight:normal !important;}
 #bigbang .ratio4_3:before{padding-top: 75%;}
 #bigbang .ratio16_9:before{padding-top: 56.25%;}
 
-budget-select{position:absolute;top:0;left:0;z-index:200;}
+budget-select{position:absolute;top:3vh;left:0;z-index:200;}
 
 #bigbang .whiteTransitions div {
 	width: 100%;
