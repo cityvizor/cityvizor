@@ -30,8 +30,6 @@ export class ProfileInvoicesComponent implements OnInit {
 	currentYear: number;
 	currentMonth: number;
 
-	pager: { pages: number[], page: number, total: number } = { pages: [1], page: 1, total: 0 };
-
 	loading: boolean = false;
 
 
@@ -52,12 +50,11 @@ export class ProfileInvoicesComponent implements OnInit {
 
 				let year = Number(params["rok"]);
 				let month = Number(params["mesic"]);
-				let page = Number(params["strana"]);
 
 				this.currentYear = year;
 				this.currentMonth = month;
 
-				if (year && month) this.loadData(profile.id, year, month, page || 1);
+				if (year && month) this.loadData(profile.id, year, month);
 
 			});
 	}
@@ -83,15 +80,14 @@ export class ProfileInvoicesComponent implements OnInit {
 
 	}
 
-	async loadData(profileId: number, year: number, month: number, page: number) {
+	async loadData(profileId: number, year: number, month: number) {
 
 		const date = DateTime.fromObject({year, month, day: 1});
 
 		let params = {
 			dateFrom: date.toISODate(),
 			dateTo: date.plus({month: 1}).toISODate(),
-			sort: "date",
-			page: page
+			sort: "date"			
 		};
 
 		this.loading = true;
@@ -110,10 +106,7 @@ export class ProfileInvoicesComponent implements OnInit {
 		return this.getMonthLink(year, Math.min(...this.months[year]));
 	}
 	getMonthLink(year: number, month: number): any {
-		return ["./", { "rok": year, "mesic": month, "strana": 1 }];
-	}
-	getPageLink(page: number): any {
-		return ["./", { "rok": this.currentYear, "mesic": this.currentMonth, "strana": page }];
+		return ["./", { "rok": year, "mesic": month }];
 	}
 
 	isMonthDisabled(year: number, month: number) {
