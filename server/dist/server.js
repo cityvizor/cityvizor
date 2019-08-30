@@ -47,22 +47,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = __importDefault(require("http"));
 var express_1 = __importDefault(require("express"));
-(function startServer() {
+var config_1 = __importDefault(require("./config"));
+function startServer() {
     return __awaiter(this, void 0, void 0, function () {
-        var config, app, cors, compression, bodyParser, db, jwt, acl, aclOptions, _a, _b, _c, _d, host, port;
+        var app, cors, compression, bodyParser, jwt, acl, aclOptions, _a, _b, _c, _d, host, port;
         return __generator(this, function (_e) {
             switch (_e.label) {
                 case 0:
-                    console.log("Starting CityVizor Server");
-                    console.log("Node version: " + process.version);
-                    config = require("./config").default;
                     app = express_1.default();
-                    if (!config.cors.enabled) return [3 /*break*/, 2];
+                    if (!config_1.default.cors.enabled) return [3 /*break*/, 2];
                     return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require("cors")); })];
                 case 1:
                     cors = (_e.sent()).default;
-                    app.use(cors(config.cors));
-                    console.log("[SERVER] CORS enabled" + (config.cors.origin ? " for origin " + config.cors.origin : ""));
+                    app.use(cors(config_1.default.cors));
+                    console.log("[SERVER] CORS enabled" + (config_1.default.cors.origin ? " for origin " + config_1.default.cors.origin : ""));
                     _e.label = 2;
                 case 2: 
                 // polyfill before express allows for async middleware
@@ -70,7 +68,7 @@ var express_1 = __importDefault(require("express"));
                 case 3:
                     // polyfill before express allows for async middleware
                     _e.sent();
-                    if (!config.server.compression) return [3 /*break*/, 5];
+                    if (!config_1.default.server.compression) return [3 /*break*/, 5];
                     return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require('compression')); })];
                 case 4:
                     compression = _e.sent();
@@ -84,29 +82,15 @@ var express_1 = __importDefault(require("express"));
                         extended: true,
                         limit: "10000kb"
                     })); // support urlencoded bodies
-                    /* FILE STORAGE */
-                    return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require("./file-storage")); })];
-                case 7:
-                    /* FILE STORAGE */
-                    _e.sent();
-                    return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require("./db")); })];
-                case 8:
-                    db = (_e.sent()).db;
                     return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require('express-jwt')); })];
-                case 9:
+                case 7:
                     jwt = (_e.sent()).default;
-                    app.use(jwt(config.jwt), function (err, req, res, next) { return (err.code === 'invalid_token') ? next() : next(err); });
+                    app.use(jwt(config_1.default.jwt), function (err, req, res, next) { return (err.code === 'invalid_token') ? next() : next(err); });
                     return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require("express-dynacl")); })];
-                case 10:
+                case 8:
                     acl = _e.sent();
                     aclOptions = {
-                        roles: {
-                            "guest": require("./acl/guest").default,
-                            "user": require("./acl/user").default,
-                            "profile-manager": require("./acl/profile-manager").default,
-                            "importer": require("./acl/importer").default,
-                            "admin": require("./acl/admin").default
-                        },
+                        roles: config_1.default.acl.roles,
                         defaultRoles: ["guest"],
                         userRoles: ["user"],
                         logConsole: true
@@ -115,17 +99,17 @@ var express_1 = __importDefault(require("express"));
                     /* ROUTING */
                     _b = (_a = app).use;
                     return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require("./routers")); })];
-                case 11:
+                case 9:
                     /* ROUTING */
                     _b.apply(_a, [(_e.sent()).router]);
                     // error handling
                     _d = (_c = app).use;
                     return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(require("./middleware/error-handler")); })];
-                case 12:
+                case 10:
                     // error handling
                     _d.apply(_c, [(_e.sent()).errorHandler]);
-                    host = config.server.host || "127.0.0.1";
-                    port = config.server.port || 80;
+                    host = config_1.default.server.host || "127.0.0.1";
+                    port = config_1.default.server.port || 80;
                     http_1.default.createServer(app).listen(port, host, function () {
                         console.log('[SERVER] Listening on ' + host + ':' + port + '!');
                     });
@@ -133,4 +117,5 @@ var express_1 = __importDefault(require("express"));
             }
         });
     });
-})();
+}
+exports.startServer = startServer;

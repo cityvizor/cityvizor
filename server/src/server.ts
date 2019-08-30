@@ -1,12 +1,9 @@
 import http from "http";
 import express from "express";
 
-(async function startServer() {
+import config from "./config";
 
-	console.log("Starting CityVizor Server");
-	console.log("Node version: " + process.version);
-
-	var config = require("./config").default;
+export async function startServer() {
 
 	/* SET UP ROUTING */
 	var app = express();
@@ -34,12 +31,6 @@ import express from "express";
 		limit: "10000kb"
 	})); // support urlencoded bodies
 
-	/* FILE STORAGE */
-	await import("./file-storage");
-
-	/* DATABASE */
-	const { db } = await import("./db");
-
 	/* AUTHENTICATION */
 	const jwt = (await import('express-jwt')).default;
 	app.use(jwt(config.jwt), (err, req, res, next) => (err.code === 'invalid_token') ? next() : next(err));
@@ -47,13 +38,7 @@ import express from "express";
 	/* ACCESS CONTROL */
 	var acl = await import("express-dynacl");
 	var aclOptions = {
-		roles: {
-			"guest": require("./acl/guest").default,
-			"user": require("./acl/user").default,
-			"profile-manager": require("./acl/profile-manager").default,
-			"importer": require("./acl/importer").default,
-			"admin": require("./acl/admin").default 
-		},
+		roles: config.acl.roles,
 		defaultRoles: ["guest"],
 		userRoles: ["user"],
 		logConsole: true
@@ -74,4 +59,4 @@ import express from "express";
 	http.createServer(app).listen(port, host, function () {
 		console.log('[SERVER] Listening on ' + host + ':' + port + '!');
 	});
-})();
+}
