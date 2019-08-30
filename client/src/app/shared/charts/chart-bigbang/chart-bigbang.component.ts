@@ -150,7 +150,7 @@ export class ChartBigbangComponent {
 		this.select.emit(groupId);
 	}
 
-	setHoveredGroup(groupId: string) {
+	setHoveredGroup(groupId: string | null) {
 		this.hovered = groupId;
 		this.hover.emit(groupId);
 	}
