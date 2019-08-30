@@ -25,7 +25,7 @@
 						</tr>
 					</table>
 
-					<chart-event-overview *ngIf="event.expenditureAmount > 0 || event.budgetExpenditureAmount > 0" type="expenditure" [event]="event"></chart-event-overview>
+					<chart-event-overview *ngIf="event.expenditureAmount > 0 || event.budgetExpenditureAmount > 0" type="expenditure" [event]="event" [isCurrentYear]="isCurrentYear"></chart-event-overview>
 
 				</ng-container>
 
@@ -50,7 +50,7 @@
 						</tr>
 					</table>
 
-					<chart-event-overview *ngIf="event.incomeAmount > 0 || event.budgetIncomeAmount > 0" type="income" [event]="event"></chart-event-overview>
+					<chart-event-overview *ngIf="event.incomeAmount > 0 || event.budgetIncomeAmount > 0" type="income" [event]="event" [isCurrentYear]="isCurrentYear"></chart-event-overview>
 
 				</ng-container>
 

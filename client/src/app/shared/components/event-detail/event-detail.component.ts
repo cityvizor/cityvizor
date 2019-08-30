@@ -47,6 +47,8 @@ export class EventDetailComponent implements OnChanges {
 	history: any[];
 	maxHistoryAmount: number = 0;
 
+	isCurrentYear: boolean;
+
 	expenditureItems: BudgetItem[] = [];
 	incomeItems: BudgetItem[] = [];
 	expenditureParagraphs: BudgetItem[] = [];
@@ -58,7 +60,10 @@ export class EventDetailComponent implements OnChanges {
 
 	ngOnChanges(changes: SimpleChanges) {
 
-		if (changes.year) this.loadCodelists(this.year);
+		if (changes.year) {
+			this.loadCodelists(this.year);
+			this.isCurrentYear = this.year === (new Date()).getFullYear();
+		}
 
 		if ((changes.profileId || changes.eventId || changes.year) && this.profileId && this.eventId && this.year) {
 			this.loadEvent(this.profileId, this.eventId, this.year);

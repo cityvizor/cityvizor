@@ -14,8 +14,6 @@ export class ChartEventOverviewComponent {
 	other: number;
 	over: boolean;
 
-	currentYear: boolean;
-
 	keys: any = {
 		"expenditure": {
 			amount: "expenditureAmount",
@@ -29,13 +27,12 @@ export class ChartEventOverviewComponent {
 		}
 	};
 
+	@Input() isCurrentYear: boolean;
 
 	@Input() type: any;
 
 	@Input()
 	set event(event: BudgetEvent) {
-
-		this.currentYear = (event.year === (new Date()).getFullYear());
 
 		let keys = this.keys[this.type];
 

@@ -27,10 +27,10 @@
 			</div>
 
 			<p [class.small-left]="amount < 0.17">
-				<span *ngIf="currentYear && type=='expenditure'">Již utraceno z rozpočtu</span>
-				<span *ngIf="currentYear && type=='income'">Již přijato do rozpočtu</span>
-				<span *ngIf="!currentYear && type=='expenditure'">Utraceno z rozpočtu</span>
-				<span *ngIf="!currentYear && type=='income'">Přijato do rozpočtu</span>
+				<span *ngIf="isCurrentYear && type=='expenditure'">Již utraceno z rozpočtu</span>
+				<span *ngIf="isCurrentYear && type=='income'">Již přijato do rozpočtu</span>
+				<span *ngIf="!isCurrentYear && type=='expenditure'">Utraceno z rozpočtu</span>
+				<span *ngIf="!isCurrentYear && type=='income'">Přijato do rozpočtu</span>
 			</p>
 
 		</div>
@@ -55,10 +55,10 @@
 
 			<p [class.small-right]="1 - amount < 0.17">
 				<ng-container *ngIf="!over">
-					<span *ngIf="currentYear && type=='expenditure'">Ještě zbývá v rozpočtu</span>
-					<span *ngIf="currentYear && type=='income'">Ještě očekáváme do rozpočtu</span>
-					<span *ngIf="!currentYear && type=='expenditure'">Ještě zbývalo v rozpočtu</span>
-					<span *ngIf="!currentYear && type=='income'">Ještě jsme očekávali do rozpočtu</span>
+					<span *ngIf="isCurrentYear && type=='expenditure'">Ještě zbývá v rozpočtu</span>
+					<span *ngIf="isCurrentYear && type=='income'">Ještě očekáváme do rozpočtu</span>
+					<span *ngIf="!isCurrentYear && type=='expenditure'">Ještě zbývalo v rozpočtu</span>
+					<span *ngIf="!isCurrentYear && type=='income'">Ještě jsme očekávali do rozpočtu</span>
 				</ng-container>
 				<span *ngIf="over">Překročený rozpočet</span>
 			</p>
