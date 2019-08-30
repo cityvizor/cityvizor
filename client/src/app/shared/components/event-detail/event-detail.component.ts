@@ -5,7 +5,7 @@ import { DataService } from 'app/services/data.service';
 import { CodelistService } from 'app/services/codelist.service';
 import { ToastService } from 'app/services/toast.service';
 
-import { BudgetEvent, BudgetPayment, Counterparty } from 'app/schema';
+import { BudgetEvent, BudgetPayment, Counterparty, BudgetItem } from 'app/schema';
 
 type CounterpartyOpenable = (Counterparty & { open: boolean });
 
@@ -33,6 +33,8 @@ export class EventDetailComponent implements OnChanges {
 	@Output()
 	selectEvent: EventEmitter<string> = new EventEmitter();
 
+	budgetView: string = "expenditureParagraphs";
+
 	event: BudgetEvent;
 
 	payments: BudgetPayment[] = [];
@@ -45,12 +47,28 @@ export class EventDetailComponent implements OnChanges {
 	history: any[];
 	maxHistoryAmount: number = 0;
 
+	expenditureItems: BudgetItem[] = [];
+	incomeItems: BudgetItem[] = [];
+	expenditureParagraphs: BudgetItem[] = [];
+
+	itemNames: { [id: string]: string } = {};
+	paragraphNames: { [id: string]: string } = {};
+
 	constructor(private dataService: DataService, private codelistService: CodelistService, private toastService: ToastService) { }
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (this.profileId && this.eventId && this.year) {
+
+		if (changes.year) this.loadCodelists(this.year);
+
+		if ((changes.profileId || changes.eventId || changes.year) && this.profileId && this.eventId && this.year) {
 			this.loadEvent(this.profileId, this.eventId, this.year);
 		}
+	}
+
+	async loadCodelists(year: number) {
+		const date = new Date(year, 0, 1);
+		this.itemNames = await this.codelistService.getCurrentIndex("items", date);
+		this.paragraphNames = await this.codelistService.getCurrentIndex("paragraphs", date);
 	}
 
 	async loadEvent(profileId: string, eventId: number, year: number) {
@@ -66,25 +84,23 @@ export class EventDetailComponent implements OnChanges {
 
 		this.maxHistoryAmount = this.history.reduce((acc, cur) => Math.max(acc, cur.expenditureAmount, cur.incomeAmount, cur.budgetExpenditureAmount, cur.budgetIncomeAmount), -Infinity);
 
-		const date = new Date(this.year, 0, 1);
 
 		if (this.event.items) {
-			this.event.items = this.event.items.filter(item => item.incomeAmount > 0 || item.budgetIncomeAmount > 0)
+			this.expenditureItems = this.event.items.filter(item => item.expenditureAmount > 0 || item.budgetExpenditureAmount > 0);
+			this.incomeItems = this.event.items.filter(item => item.incomeAmount > 0 || item.budgetIncomeAmount > 0);
 
-			const itemNames = await this.codelistService.getCurrentIndex("items", date);
-			this.event.items.forEach(item => item.name = itemNames[item.id]);
+			this.expenditureItems.sort((a, b) => b.budgetExpenditureAmount - a.budgetExpenditureAmount);
+			this.incomeItems.sort((a, b) => b.budgetIncomeAmount - a.budgetIncomeAmount);
 		}
 
 		if (this.event.paragraphs) {
-			this.event.paragraphs = this.event.paragraphs.filter(paragraph => paragraph.expenditureAmount > 0 || paragraph.budgetExpenditureAmount > 0)
-
-			const paragraphNames = await this.codelistService.getCurrentIndex("paragraphs", date);
-			this.event.paragraphs.forEach(paragraph => paragraph.name = paragraphNames[paragraph.id]);
+			this.expenditureParagraphs = this.event.paragraphs.filter(paragraph => paragraph.expenditureAmount > 0 || paragraph.budgetExpenditureAmount > 0)
+			this.expenditureParagraphs.sort((a, b) => b.budgetExpenditureAmount - a.budgetExpenditureAmount);
 		}
 
 		if (this.event.payments) {
 
-			this.event.payments.sort((a,b) => a.date && b.date ? a.date.localeCompare(b.date) : 0);
+			this.event.payments.sort((a, b) => a.date && b.date ? a.date.localeCompare(b.date) : 0);
 
 			const counterparties: Counterparty[] = [];
 			const counterpartyIndex: { [id: string]: Counterparty } = {}
@@ -101,9 +117,9 @@ export class EventDetailComponent implements OnChanges {
 				counterparty.payments.push(payment);
 			});
 
-			counterparties.sort((a,b) => Math.abs(b.amount) - Math.abs(a.amount));
+			counterparties.sort((a, b) => Math.abs(b.amount) - Math.abs(a.amount));
 
-			if(noCounterparty.payments.length) counterparties.push(noCounterparty);
+			if (noCounterparty.payments.length) counterparties.push(noCounterparty);
 
 			this.counterparties = counterparties.map(counterparty => Object.assign(counterparty, { open: false }));
 		}
