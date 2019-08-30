@@ -3,7 +3,7 @@ import request from 'request-promise-native';
 
 import cheerio from "cheerio";
 import { db } from '../db';
-import { ProfileRecord, ContractRecord } from 'src/schema/database';
+import { ProfileRecord, ContractRecord } from '../schema/database';
 
 import { DateTime } from "luxon";
 

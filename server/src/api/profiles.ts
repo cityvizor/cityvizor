@@ -1,6 +1,6 @@
 import express from 'express';
 
-import config from "../../config";
+import config from "../config";
 import multer from 'multer';
 
 import mime from 'mime-types';
@@ -9,7 +9,7 @@ import path from "path";
 import acl from "express-dynacl";
 
 import { db } from "../db";
-import { ProfileRecord } from 'src/schema/database';
+import { ProfileRecord } from '../schema/database';
 
 export const router = express.Router();
 

@@ -4,7 +4,7 @@ import schema from 'express-jsonschema';
 import acl from "express-dynacl";
 import bcrypt from "bcryptjs";
 
-import config from "../../config";
+import config from "../config";
 import { db } from '../db';
 import { UserRecord, UserRoleRecord, UserProfileRecord } from '../schema/database';
 

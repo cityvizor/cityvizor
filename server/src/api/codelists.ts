@@ -2,7 +2,7 @@ import express from 'express';
 import acl from "express-dynacl";
 
 import { db } from "../db";
-import { CodelistRecord } from 'src/schema/database';
+import { CodelistRecord } from '../schema/database';
 
 export const router = express.Router();
 

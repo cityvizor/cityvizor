@@ -4,7 +4,7 @@ import multer from 'multer';
 import acl from "express-dynacl";
 import schema from 'express-jsonschema';
 
-import config from "../../config";
+import config from "../config";
 
 import { Importer } from "./import";
 import { db } from '../db';
@@ -34,7 +34,7 @@ router.post("/accounting",
 	async (req, res, next) => {
 
 		// When file missing throw error immediately
-		if (!req.files || (!req.files.dataFile && !req.files.zipFile)) return res.status(400).send("Missing data file or zip file");
+		if (!req.files || (!req.files["dataFile"] && !req.files["zipFile"])) return res.status(400).send("Missing data file or zip file");
 		if (isNaN(req.body.year)) return res.status(400).send("Invalid year value");
 
 		const validity = new Date(req.body.validity);
@@ -44,7 +44,7 @@ router.post("/accounting",
 			.where({ profile: req.params.profile, year: req.body.year })
 			.first();
 
-		if (!year) year = await db<YearRecord>("data.years").insert({ profileId: req.params.profile, year: req.body.year, hidden: false }, ["id", "profile", "year"]);
+		if (!year) year = await db<YearRecord>("data.years").insert({ profileId: Number(req.params.profile), year: req.body.year, hidden: false }, ["id", "profile", "year"]);
 
 		// here we deal with the import
 		var importer = new Importer(year);
@@ -53,10 +53,10 @@ router.post("/accounting",
 			validity: validity,
 			userId: req.user ? req.user.id : null,
 			files: {
-				zipFile: req.files.zipFile ? req.files.zipFile[0].path : null,
-				dataFile: req.files.dataFile ? req.files.dataFile[0].path : null,
-				eventsFile: req.files.eventsFile ? req.files.eventsFile[0].path : null,
-				paymentsFile: req.files.paymentsFile ? req.files.paymentsFile[0].path : null
+				zipFile: req.files["zipFile"] ? req.files["zipFile"][0].path : null,
+				dataFile: req.files["dataFile"] ? req.files["dataFile"][0].path : null,
+				eventsFile: req.files["eventsFile"] ? req.files["eventsFile"][0].path : null,
+				paymentsFile: req.files["paymentsFile"] ? req.files["paymentsFile"][0].path : null
 			}
 		};
 

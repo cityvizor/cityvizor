@@ -1,4 +1,4 @@
-const config = require("../config");
+const config = require("./config").default;
 
 import Knex from 'knex';
 

@@ -2,7 +2,7 @@ import express from 'express';
 import acl from "express-dynacl";
 
 import { db } from "../db";
-import { DashboardRecord } from 'src/schema/database';
+import { DashboardRecord } from '../schema/database';
 
 export const router = express.Router({ mergeParams: true });
 

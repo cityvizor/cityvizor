@@ -1,10 +1,10 @@
 import express from 'express';
 import acl from "express-dynacl";
 
-import config from "../../config";
+import config from "../config";
 
 import { db } from "../db";
-import { AccountingRecord, PaymentRecord, EventRecord } from 'src/schema';
+import { AccountingRecord, PaymentRecord, EventRecord } from '../schema';
 
 export const router = express.Router({ mergeParams: true });
 

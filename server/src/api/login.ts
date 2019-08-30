@@ -8,9 +8,9 @@ import jwt from 'jsonwebtoken';
 
 export const router = express.Router();
 
-import config from "../../config";
+import config from "../config";
 import { db } from '../db';
-import { UserRecord, UserProfileRecord, UserRoleRecord } from 'src/schema/database';
+import { UserRecord, UserProfileRecord, UserRoleRecord } from '../schema/database';
 
 async function createToken(tokenData: any, validity): Promise<string> {
 

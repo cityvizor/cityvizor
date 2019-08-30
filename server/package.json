@@ -4,12 +4,11 @@
   "description": "",
   "homepage": "https://cityvizor.cz/",
   "repository": "otevrena-data-mfcr/CityVizor",
-  "main": "server/server.js",
+  "types": "./src/index.d.ts",
   "scripts": {
-    "start": "node src/server.js",
-    "cron": "node server/cron.js",
-    "dev": "nodemon src/server.js",
-    "create-admin": "node src/scripts/create-admin.js"
+    "start": "node dist/server.js",
+    "cron": "node dist/cron.js",
+    "create-admin": "node dist/scripts/create-admin.js"
   },
   "keywords": [
     "opendata",
@@ -57,10 +56,12 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
+    "@types/express": "^4.17.1",
     "@types/fs-extra": "^8.0.0",
+    "@types/multer": "^1.3.9",
     "@types/request-promise-native": "^1.0.16",
-    "nodemon": "^1.18.11",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "nodemon": "^1.18.11"
   },
   "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
   "license": "GPL-3.0"

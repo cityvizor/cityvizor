@@ -4,10 +4,10 @@ import fs from "fs-extra";
 import schema from 'express-jsonschema';
 import acl from "express-dynacl";
 
-import config from "../../config";
+import config from "../config";
 
 import { db } from "../db";
-import { YearRecord } from 'src/schema/database';
+import { YearRecord } from '../schema/database';
 
 export const router = express.Router({ mergeParams: true });
 
