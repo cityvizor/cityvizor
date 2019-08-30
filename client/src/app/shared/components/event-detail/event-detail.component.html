@@ -131,7 +131,7 @@
 			</div>
 		</tab>
 
-		<tab [heading]="'Faktury (' + ((event && event.payments) ? event.payments.length : 0) + ')'">
+		<tab [heading]="'Faktury (' + ((event && event.payments) ? event.payments!.length : 0) + ')'">
 
 			<div *ngIf="!counterparties || !counterparties.length" class="text-muted text-center info-box">
 				<i class="fa fa-exclamation-circle fa-2x"></i>
