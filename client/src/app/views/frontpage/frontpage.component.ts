@@ -35,7 +35,8 @@ export class FrontpageComponent implements OnInit {
 	}
 
 	openGroup(groupId: string) {
-		this.router.navigate(["/" + this.mainProfile.url + "/hospodareni/vydaje", { rok: this.mainProfileLatestYear, skupina: groupId }]);
+		const params = groupId ? { rok: this.mainProfileLatestYear, skupina: groupId } : { rok: this.mainProfileLatestYear };
+		this.router.navigate(["/" + this.mainProfile.url + "/hospodareni/vydaje", params]);
 	}
 
 }
