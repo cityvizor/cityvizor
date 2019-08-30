@@ -96,7 +96,6 @@ export class ProfileAccountingComponent implements OnInit {
 		// download groups
 		combineLatest(this.profile, this.type, this.year)
 			.subscribe(async ([profile, type, year]) => {
-				console.log(profile, type, year);
 				if (!profile || !type || !year) return;
 				const groups = await this.accountingService.getGroups(profile.id, type, year);
 				groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);

@@ -58,8 +58,6 @@ export class ProfileDashboardComponent {
 			acc[cur.category].push(cur);
 			return acc;
 		}, new Dashboard());
-
-		console.log(this.dashboard);
 		
 	}
 
