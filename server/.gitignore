@@ -5,5 +5,11 @@ environment/environment.*
 # dependencies
 /node_modules
 
+# compiled output
+/dist
+
+# runtime data
+/data
+
 # misc
 npm-debug.log

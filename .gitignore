@@ -1,4 +1,3 @@
-keys
-data
-
-node_modules
+/keys
+/data
+/node_modules
