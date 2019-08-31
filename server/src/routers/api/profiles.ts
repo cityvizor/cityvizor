@@ -26,11 +26,11 @@ var profileSchema = {
 router.get("/", acl("profiles", "list"), async (req, res, next) => {
 
   if (req.query.hidden) {
-    const profiles = await db<ProfileRecord>("app.profiles").select("id", "hidden", "name", "url", "gpsX", "gpsY");
+    const profiles = await db<ProfileRecord>("app.profiles").select("id", "status", "name", "url", "gpsX", "gpsY", "main");
     res.json(profiles);
   }
   else {
-    const profiles = await db<ProfileRecord>("profiles").select("id", "name", "url", "gpsX", "gpsY");
+    const profiles = await db<ProfileRecord>("profiles").select("id", "name", "url", "gpsX", "gpsY", "main");
     res.json(profiles);
   }
 
@@ -39,7 +39,7 @@ router.get("/", acl("profiles", "list"), async (req, res, next) => {
 router.get("/main", acl("profiles", "read"), async (req, res) => {
 
   const profile = await db<ProfileRecord>("app.profiles")
-    .where({main: true})
+    .where({ main: true })
     .first()
 
   if (!profile) return res.sendStatus(404);

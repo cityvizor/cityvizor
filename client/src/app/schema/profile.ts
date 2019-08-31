@@ -10,6 +10,8 @@ export class Profile {
 
 	status: "visible" | "hidden" | "pending";
 
+	main: boolean;
+
 	url: string;
 	name: string;
 	entity: any;

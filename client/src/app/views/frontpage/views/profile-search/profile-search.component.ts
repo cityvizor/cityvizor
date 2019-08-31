@@ -32,6 +32,7 @@ export class ProfileSearchComponent implements OnInit {
 		this.loading = true;
 
 		const profiles: Profile[] = await this.dataService.getProfiles()
+			.then(profiles => profiles.filter(profile => !profile.main));
 
 		this.loading = false;
 
