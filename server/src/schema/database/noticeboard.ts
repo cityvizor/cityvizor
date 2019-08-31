@@ -9,5 +9,7 @@ export interface NoticeboardRecord {
   documentUrl: string;
   edeskyUrl: string;
   previewUrl: string;
-  
+
+  attachments: number;
+
 }
