@@ -38,8 +38,6 @@ ApiRouter.use("/profiles/:profile/years", require("../api/profile-years").router
 
 ApiRouter.use("/profiles/:profile/events", require("../api/profile-events").router);
 
-ApiRouter.use("/profiles/:profile/import", require("../api/profile-import").router);
-
 ApiRouter.use("/profiles/:profile/payments", require("../api/profile-payments").router);
 
 ApiRouter.use("/profiles/:profile/noticeboard", require("../api/profile-noticeboard").router);

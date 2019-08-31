@@ -1,7 +1,17 @@
 import http from "http";
 import express from "express";
 
+/* CONFIG */
 import config from "./config";
+
+/* ROUTING */
+import { Routers } from "./routers";
+
+/* MIDDLEWARE */
+import { ErrorHandler } from "./middleware/error-handler";
+import bodyParser from "body-parser";
+
+import * as acl from "express-dynacl";
 
 export async function startServer() {
 
@@ -24,7 +34,6 @@ export async function startServer() {
 	}
 
 	// parse body
-	const bodyParser = await import("body-parser");
 	app.use(bodyParser.json({})); // support json encoded bodies
 	app.use(bodyParser.urlencoded({
 		extended: true,
@@ -36,7 +45,6 @@ export async function startServer() {
 	app.use(jwt(config.jwt), (err, req, res, next) => (err.code === 'invalid_token') ? next() : next(err));
 
 	/* ACCESS CONTROL */
-	var acl = await import("express-dynacl");
 	var aclOptions = {
 		roles: config.acl.roles,
 		defaultRoles: ["guest"],
@@ -46,10 +54,10 @@ export async function startServer() {
 	acl.config(aclOptions);
 
 	/* ROUTING */
-	app.use((await import("./routers")).router);
+	app.use(Routers);
 
 	// error handling
-	app.use((await import("./middleware/error-handler")).errorHandler);
+	app.use(ErrorHandler);
 
 
 	/* SET UP SERVER */

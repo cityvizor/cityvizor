@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, Request, Response, NextFunction } from "express";
 
-export const errorHandler: ErrorRequestHandler = function (err: any, req: Request, res: Response, next: NextFunction) {
+export const ErrorHandler: ErrorRequestHandler = function (err: any, req: Request, res: Response, next: NextFunction) {
 
 	if (err.name === 'UnauthorizedError') {
 		res.status(err.status);
