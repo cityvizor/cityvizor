@@ -10,7 +10,7 @@
 
 	<ng-container *ngIf="noticeBoard">
 		<div class="notice-board-list">
-			<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of noticeBoard.documents">
+			<div class="notice-board-item well margin-bottom-xs" *ngFor="let document of noticeBoard">
 				<div class="row">
 					<div class="col-sm-10">
 						<strong>{{document.title}}</strong>
@@ -28,7 +28,7 @@
 		</div>
 
 		<div class="text-center more">
-			<a [href]="'https://edesky.cz/desky/' + noticeBoard.edesky" target="_blank">Zobrazit všechny dokumenty</a>
+			<a [href]="'https://edesky.cz/desky/' + edeskyId" target="_blank">Zobrazit všechny dokumenty</a>
 		</div>
 	</ng-container>
 </div>

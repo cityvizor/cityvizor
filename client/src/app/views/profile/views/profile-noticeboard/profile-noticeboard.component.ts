@@ -1,43 +1,37 @@
-import { Component, Input } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 
 import { DataService } from 'app/services/data.service';
-import { ToastService } 		from 'app/services/toast.service';
 
 import { AppConfig } from "config/config";
+import { ProfileService } from '../../services/profile.service';
+import { Noticeboard } from 'app/schema/noticeboard';
 
 @Component({
 	selector: 'profile-noticeboard',
 	templateUrl: 'profile-noticeboard.component.html',
 	styleUrls: ['profile-noticeboard.component.scss']
 })
-export class ProfileNoticeboardComponent {
-	
-	config:any = AppConfig;
+export class ProfileNoticeboardComponent implements OnInit {
 
-	@Input()
-	set profile(profile) {
-		if(profile && this.profileId !== profile.id){
-			
-			this.profileId = profile.id;
-			
-			this.mapURL = this.sanitizer.bypassSecurityTrustResourceUrl("https://mapasamospravy.cz/embed?q[lau_id_eq]=" + profile.mapasamospravy + "#14/" + profile.gps[1] + "/" + profile.gps[0]);
-
-			this.dataService.getProfileNoticeBoard(profile.id)
-				.then(noticeBoard => this.noticeBoard = noticeBoard)
-				.catch(err => this.toastService.toast("Nepodařilo se stáhnout dokumenty z úředních desek.","error"));
-		}
-	}
-	
-	profileId:any;
-	
-	noticeBoard:any;
+	noticeBoard: Noticeboard;
 
 	infoWindowClosed: boolean;
 
-	mapURL: SafeResourceUrl;
+	edeskyId:number;
 
-	constructor(private dataService:DataService, private sanitizer:DomSanitizer, private toastService:ToastService) {
+	constructor(private profileService: ProfileService, private dataService: DataService) {
+	}
+
+	ngOnInit() {
+		this.profileService.profile.subscribe(profile => {
+			console.log(profile);
+			this.loadData(profile.id)
+			this.edeskyId = profile.edesky;
+		});
+	}
+
+	async loadData(profileId:number){
+		this.noticeBoard = await this.dataService.getProfileNoticeBoard(profileId);
 	}
 
 }
