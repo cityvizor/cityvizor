@@ -8,3 +8,15 @@ export interface EventRecord {
   budgetAmount: number;
   amount: number;
 }
+
+export interface EventDescriptionRecord {
+  profileId: number;
+  eventId: number
+  year: number;
+
+  description: string;
+  
+  category?: string;
+  eventName?: string;
+  organizationName?: string;
+}
