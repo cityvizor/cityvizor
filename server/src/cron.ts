@@ -1,64 +1,36 @@
-var CronJob = require('cron').CronJob;
-var moment = require("moment");
-var async = require("async");
+import { CronJob } from 'cron';
 
-var config = require("../config");
+import config from "./config";
+import { DateTime } from 'luxon';
 
-console.log("Setting up CityVizor cron job at " + config.cron.cronTime);
+import { db, dbDisconnect, dbConnect } from "./db";
+import { runTasks } from './tasks';
 
 var job = new CronJob({
   cronTime: config.cron.cronTime, //'00 00 01 * * *',
   start: true, /* Set the job right now */
   runOnInit: config.cron.runOnInit, /* Run the tasks right now */
-  timezone: 'Europe/Prague', /* Time zone of this job. */
+  timeZone: 'Europe/Prague', /* Time zone of this job. */
   onTick: () => runCron()
 });
 
+console.log("[CRON] CityVizor cron job set at " + config.cron.cronTime);
+
 async function runCron() {
 
-  console.log("\n=============================");
-  console.log("##### MIDNIGHT CRON RUN #####");
-  console.log("=============================");
-  
-  console.log("\nNode version: " + process.version);
-  console.log("Started at " + moment().format("D. M. YYYY, H:mm:ss") + ".\n");
-  
-  const { mongoose, connect } = require("./db");
-  
-  await connect();
+  console.log("\n[CRON] =============================");
+  console.log("[CRON] ##### CRON RUN #####");
+  console.log("[CRON] =============================");
 
-  // set the tasks
-  var tasks = [];
+  console.log(`[CRON] Started at ${DateTime.local().toLocaleString()}.\n`);
 
-  tasks.push({exec: require("./tasks/download-contracts"), name: "Download contracts from https://smlouvy.gov.cz/"});
-  tasks.push({exec: require("./tasks/download-noticeboard"), name: "Download notice board documents from https://eDesky.cz/"});
-  tasks.push({exec: require("./tasks/autoimports"), name: "Process auto imports of data"});
-  tasks.push({exec: () => mongoose.disconnect(), name: "Disconnect database"});
+  await dbConnect();
 
-  // function to run each task
+  await runTasks();
 
-  console.log("Starting tasks...");
+  await dbDisconnect();
 
-  while(tasks.length){
-
-    let task = tasks.shift();
-
-    console.log("\n===================================");
-    console.log("Task: " + task.name);
-    console.log("===================================");
-
-    try{
-      await task.exec()
-      console.log("Task finished.");
-    }catch(err){
-      console.error("Error: " + err.message);
-    }
-
-    await new Promise((resolve,reject) => setTimeout(resolve,config.cron.jobDelay * 1000));
-    
-  }
-
-  console.log("===================================\n\n");
-  console.log("Finished all at " + moment().format("D. M. YYYY, H:mm:ss") + "!");
+  console.log("[CRON] ===================================\n\n");
+  console.log(`[CRON] Finished at ${DateTime.local().toLocaleString()}.\n`);
 
 }

@@ -13,7 +13,7 @@ import bodyParser from "body-parser";
 
 import * as acl from "express-dynacl";
 
-export async function startServer() {
+(async function () {
 
 	/* SET UP ROUTING */
 	var app = express();
@@ -67,4 +67,4 @@ export async function startServer() {
 	http.createServer(app).listen(port, host, function () {
 		console.log('[SERVER] Listening on ' + host + ':' + port + '!');
 	});
-}
+})();

@@ -4,7 +4,7 @@ import Knex from 'knex';
 
 import changeCase from "change-case";
 
-console.log(`[DB] Connecting to ${config.database.user}@${config.database.database}...`);
+console.log(`[DB] DB set to ${config.database.user}@${config.database.database}`);
 
 // rather ineffective way of converting case for a finished row :(
 // would be better before executing just for identifiers, but not possible currrently by knex
@@ -46,6 +46,14 @@ export const db = Knex({
     }
   }
 });
+
+export async function dbConnect(){
+  return db.raw("SELECT 1+1 AS result")
+}
+
+export async function dbDisconnect(){
+  return db.destroy()
+}
 
 const sortReg = /^(\-?)(.+)$/;
 

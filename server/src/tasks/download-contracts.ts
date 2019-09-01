@@ -6,26 +6,31 @@ import { db } from '../db';
 import { ProfileRecord, ContractRecord } from '../schema/database';
 
 import { DateTime } from "luxon";
+import { CronTask } from '../schema/cron';
 
 // how many contracts per profile should be downloaded
-var limit = 20;
+const limit = 20;
 
-module.exports = async function () {
+export const TaskDownloadContracts: CronTask = {
+	id: "download-contracts",
+	name: "Download contracts from https://smlouvy.gov.cz/",
+	exec: async () => {
 
-	// get all the profiles
-	var profiles = await db<ProfileRecord>("profiles");
+		// get all the profiles
+		var profiles = await db<ProfileRecord>("profiles");
 
-	console.log("Found " + profiles.length + " profiles to download contracts for.");
+		console.log("Found " + profiles.length + " profiles to download contracts for.");
 
-	for (let profile of profiles) {
-		try {
-			await downloadContracts(profile);
+		for (let profile of profiles) {
+			try {
+				await downloadContracts(profile);
+			}
+			catch (err) {
+				console.error("Couldn't download contracts for " + profile.name + ": " + err.message);
+			}
 		}
-		catch (err) {
-			console.error("Couldn't download contracts for " + profile.name + ": " + err.message);
-		}
+
 	}
-
 }
 
 async function downloadContracts(profile) {

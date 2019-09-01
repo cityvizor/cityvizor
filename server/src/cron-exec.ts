@@ -1,26 +1,23 @@
-var tasks = process.argv.slice(2).map(task => require("./tasks/" + task));
 
-runTasks(tasks).then(() => console.log("Finished"));
+import { runTasks } from "./tasks";
+import { dbConnect, dbDisconnect } from "./db";
 
-async function runTasks(tasks){
-  
 
-  console.log("=========");
-  
-  for(let task of tasks){
+(async function () {
 
-    
-    if(typeof task !== "function") {
-      console.error("Task must be a function. Instead: " + (typeof task));
-      continue;
-    }
-    
-    try{
-      await task();      
-      console.log("Task finished.");
-    }catch(err){
-      console.error("Error: " + err.message);
-    }
-  }
-   
-}
+
+  var tasks = process.argv.slice(2);
+
+  if (!tasks.length) tasks = undefined;
+
+  await dbConnect();
+
+  console.log(`Running ${tasks.length} tasks...`);
+
+  await runTasks(tasks);
+
+  console.log("All tasks finished.")
+
+  await dbDisconnect();
+
+})();

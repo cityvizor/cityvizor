@@ -1,8 +1,6 @@
 
 import environment from "./environment";
 
-import { startServer } from "./server";
-
 (async function(){
 
   console.log("Starting CityVizor");
@@ -15,6 +13,9 @@ import { startServer } from "./server";
   await import("./db");
   
   /* SERVER */
-  startServer();
+  await import("./server");
+
+  /* CRON */
+  await import("./cron");
 
 })();

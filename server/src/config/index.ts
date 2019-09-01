@@ -24,7 +24,8 @@ export default {
 
   cron: {
     cronTime: "00 00 07 * * *",
-    runOnInit: false
+    runOnInit: false,
+    jobDelay: 5
   },
 
   database: environment.database,
