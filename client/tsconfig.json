@@ -21,7 +21,7 @@
     "strictNullChecks": true
   },
   "angularCompilerOptions": {
-    "enableIvy": false,
+    "enableIvy": true,
     "fullTemplateTypeCheck": true    
   }
 }

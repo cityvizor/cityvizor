@@ -7,7 +7,7 @@ import changeCase from "change-case";
 console.log(`[DB] DB set to ${config.database.user}@${config.database.database}`);
 
 // rather ineffective way of converting case for a finished row :(
-// would be better before executing just for identifiers, but not possible currrently by knex
+// would be better before executing just for identifiers, but not possible currrently by Knex
 // https://github.com/tgriesser/knex/issues/2084
 function convertRow2CamelCase(row: any): any {
   

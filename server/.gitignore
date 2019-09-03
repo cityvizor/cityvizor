@@ -8,8 +8,5 @@ environment/environment.*
 # compiled output
 /dist
 
-# runtime data
-/data
-
 # misc
 npm-debug.log

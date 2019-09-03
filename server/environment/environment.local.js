@@ -1,16 +1,18 @@
 const path = require("path");
 
+const cityvizorPath = path.resolve(__dirname,"../../../");
+
 module.exports = {
 
   port: 3000,
-  host: "0.0.0.0",
+  host: "127.0.0.1",
 
   apiRoot: "/api",
 
-  tmpDir: path.resolve(__dirname, "../../data/tmp"),
-  storageDir: path.resolve(__dirname, "../../data"),
+  tmpDir: path.resolve(cityvizorPath, "data/tmp"),
+  storageDir: path.resolve(cityvizorPath, "data"),
 
-  staticFiles: path.resolve(__dirname, "../../client/dist"),
+  staticFiles: path.resolve(cityvizorPath, "client/dist"),
 
   database: {
     client: 'pg',

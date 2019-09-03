@@ -1,6 +1,6 @@
 import path from "path";
 
-import environment from "../environment";
+import environment from "../../environment";
 
 import { aclRoles } from "./roles";
 import { serverConfig } from "./server";
