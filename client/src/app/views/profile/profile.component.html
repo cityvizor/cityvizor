@@ -1,6 +1,13 @@
 <div id="entity">
 
-	<profile-header [profile]="profile | async"></profile-header>
+	<header-menu [title]="(profile | async)?.name" backLink="/">
+		<li><a routerLink="prehled" routerLinkActive="active">Přehled</a></li>
+		<li><a routerLink="hospodareni/vydaje" routerLinkActive="active">Výdaje</a></li>
+		<li><a routerLink="hospodareni/prijmy" routerLinkActive="active">Příjmy</a></li>
+		<li><a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
+		<li><a routerLink="uredni-deska" routerLinkActive="active">Úřední deska</a></li>
+		<li><a routerLink="registr-smluv" routerLinkActive="active">Registr smluv</a></li>
+	</header-menu>
 
 	<div id="content">
 		<router-outlet></router-outlet>

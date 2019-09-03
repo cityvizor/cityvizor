@@ -1,89 +1,96 @@
 header {
-	display: block;  
-	background: #2581C4;
-	background-size: 100% auto; background-position: center -212px; 
-	text-align: left;
-	color: white;
-	font-weight: bold;
-	border-bottom: 5px solid #2581C4;
+  display: block;
+  background: #2581c4;
+  background-size: 100% auto;
+  background-position: center -212px;
+  text-align: left;
+  color: white;
+  font-weight: bold;
+  border-bottom: 5px solid #2581c4;
 }
-header .btn, header .btn:link, header .btn:active {    
-	color: #FFF;
-	box-shadow: none;
-	margin-top: 16px;
-	margin-bottom: 10px;
-	border: 1px solid #FFF;
-	border-radius: 3px;
+header .btn,
+header .btn:link,
+header .btn:active {
+  color: #fff;
+  box-shadow: none;
+  margin-top: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #fff;
+  border-radius: 3px;
 }
 header .btn:hover {
-	color: #2581C4;
-	background: white;
+  color: #2581c4;
+  background: white;
 }
 
 header h1 {
-	font-size: 2em;
-	display: inline-block;
+  font-size: 2em;
+  display: inline-block;
 }
 header nav {
-	display: inline-block;
+  display: inline-block;
 }
 
-header a, header a:hover {color:white;}
+header a,
+header a:hover {
+  color: white;
+}
 
 @media (max-width: 1400px) {
-		header {
-				background-size: 1400px auto; /* Force the image to its minimum width */
-		}
+  header {
+    background-size: 1400px auto; /* Force the image to its minimum width */
+  }
 }
-
 
 .list-group {
-	position: relative;
-	z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
-
-nav .container-fluid, nav, nav-collapse {
-	margin: 0px;
-	padding: 0px;
-	border: none;
+nav .container-fluid,
+nav,
+nav-collapse {
+  margin: 0px;
+  padding: 0px;
+  border: none;
 }
 nav {
-	background: #eee;
-	margin-bottom: 20px;
+  background: #eee;
+  margin-bottom: 20px;
 }
-nav li a {
-	line-height: 24px;
-	font-size: 1.2em;
-	color: #333;
-	transition-duration: 400ms;
+::ng-deep nav {
+  li a {
+    line-height: 24px;
+    font-size: 1.2em;
+    color: #333;
+    transition-duration: 400ms;
+  }
+  li a:hover {
+    background-color: white;
+    color: black;
+  }
+  li a.active {
+    background-color: #2581c4 !important;
+    color: white;
+  }
 }
-nav li a:hover {
-	background-color: white;
-	color: black;
-}
-nav li a.active {
-	background-color: #2581C4;
-	color: white;
-}
-
 
 .navbar-right {
   margin-right: 0px !important;
 }
 .navbar-toggle {
-	float:none;
+  float: none;
 }
 .icon-bar {
-	margin-top: 5px;
-	height: 3px;
-	background: #2581C4;
-	float: left;
-	clear: left;
+  margin-top: 5px;
+  height: 3px;
+  background: #2581c4;
+  float: left;
+  clear: left;
 }
 .toggle-title {
-	font-size: 1.2em;
-	font-weight: bold;
-	color: #2581C4;
-	margin-left: 12px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #2581c4;
+  margin-left: 12px;
 }

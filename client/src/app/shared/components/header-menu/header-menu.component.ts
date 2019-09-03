@@ -8,12 +8,12 @@ import { Component, Input } from '@angular/core';
 })
 export class HeaderMenuComponent {
 
-  @Input()
-	config:any;
-	 
+	@Input() title: string;
+	@Input() backLink: string;
+
 	public isMenuCollapsed: boolean = true;
 
 	constructor() {
-		
+
 	}
 }

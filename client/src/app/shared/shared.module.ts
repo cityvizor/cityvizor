@@ -20,13 +20,12 @@ import { HelpModalComponent } from './components/help-modal/help-modal.component
 import { WordCloudComponent } from "./components/word-cloud/word-cloud.component";
 import { LoginFormComponent } from 'app/shared/components/login-form/login-form.component';
 import { HeaderMenuComponent } from 'app/shared/components/header-menu/header-menu.component';
+import { ProfileExpendituresWidgetComponent } from './widgets/profile-expenditures-widget/profile-expenditures-widget.component';
 
 // Pipes
 import { MoneyPipe } from './pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './pipes/address.pipe';
 import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pipes/utils.pipe';
-import { ProfileHeaderComponent } from './components/profile-header/profile-header.component';
-import { ProfileExpendituresWidgetComponent } from './widgets/profile-expenditures-widget/profile-expenditures-widget.component';
 
 @NgModule({
   imports: [
@@ -50,8 +49,6 @@ import { ProfileExpendituresWidgetComponent } from './widgets/profile-expenditur
     WordCloudComponent,
     LoginFormComponent,
     HeaderMenuComponent,
-
-    ProfileHeaderComponent,
 
     /* Widgets */
     ProfileExpendituresWidgetComponent,
@@ -84,8 +81,6 @@ import { ProfileExpendituresWidgetComponent } from './widgets/profile-expenditur
     WordCloudComponent,
     LoginFormComponent,
     HeaderMenuComponent,
-
-    ProfileHeaderComponent,
 
     /* Widgets */
     ProfileExpendituresWidgetComponent,
