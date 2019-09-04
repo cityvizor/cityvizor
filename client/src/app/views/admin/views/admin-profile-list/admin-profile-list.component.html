@@ -1,1 +1,46 @@
-<p>admin-profile-list works!</p>
+<div class="container">
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Název</th>
+        <th>Url</th>
+        <th>Poslední aktualizace</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let profile of profiles" [routerLink]="'./' + profile.id">
+        <th>{{profile.name}} {{profile.main ? "(hlavní profil)" : ""}}</th>
+        <td><a [routerLink]="'/' + profile.url">{{config.siteUrl}}/{{profile.url}}</a></td>
+        <td></td>
+      </tr>
+      <tr *ngIf="loading"><td colspan="3">Načítání&hellip;</td></tr>
+    </tbody>
+  </table>
+  
+  <button (click)="openCreateProfile(createProfileModal)" class="btn btn-primary">Vytvořit profil</button>
+</div>
+
+<ng-template #createProfileModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Vytvořit nový profil</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #createProfileForm="ngForm" (ngSubmit)="createProfile(createProfileForm)">
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Název</label>
+        <input type="text" name="name" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Adresa</label>
+        <input type="text" name="name" class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Vytvořit</button>
+    </div>
+  </form>
+</ng-template>

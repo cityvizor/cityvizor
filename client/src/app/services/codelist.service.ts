@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
 import { DateTime } from "luxon";
 
+import { DataService } from './data.service';
+
 import { Codelist, CodelistRow } from "app/schema/codelist";
-import { environment } from 'environments/environment';
 
 @Injectable({
 	providedIn: 'root'
@@ -13,7 +12,7 @@ export class CodelistService {
 
 	codelists: { [key: string]: Promise<Codelist> } = {};
 
-	constructor(private http: HttpClient) { }
+	constructor(private dataService:DataService) { }
 
 	getCodelist(id: string): Promise<Codelist> {
 
@@ -60,7 +59,7 @@ export class CodelistService {
 
 	async loadCodelist(id: string): Promise<Codelist> {
 
-		const codelist = await this.http.get<Codelist>(environment.api_root + "/codelists/" + id).toPromise()
+		const codelist = await this.dataService.getCodelist(id);
 
 		codelist.forEach(row => {
 			row.validFromDate = row.validFrom ? DateTime.fromISO(row.validFrom) : undefined;

@@ -1,5 +1,6 @@
 import http from "http";
 import express from "express";
+import "express-async-errors";
 
 /* CONFIG */
 import config from "./config";

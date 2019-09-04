@@ -5,7 +5,7 @@ import { DataService } from 'app/services/data.service';
 import { Profile } from 'app/schema';
 import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from 'app/services/profile.service';
 
 @Component({
 	selector: 'profile-contracts',

@@ -7,7 +7,7 @@ import { map, filter, distinctUntilChanged, withLatestFrom } from 'rxjs/operator
 
 import { DataService } from 'app/services/data.service';
 import { CodelistService } from 'app/services/codelist.service';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from 'app/services/profile.service';
 import { AccountingService, AccountingGroupType } from 'app/services/accounting.service';
 
 import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent } from 'app/schema';

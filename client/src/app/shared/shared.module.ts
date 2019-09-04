@@ -26,6 +26,7 @@ import { ProfileExpendituresWidgetComponent } from './widgets/profile-expenditur
 import { MoneyPipe } from './pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './pipes/address.pipe';
 import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pipes/utils.pipe';
+import { Gps2stringPipe } from './pipes/gps2string.pipe';
 
 @NgModule({
   imports: [
@@ -55,7 +56,7 @@ import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pi
     
     /* Pipes */
     MoneyPipe,
-    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe,
+    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe, Gps2stringPipe,
   ],
   entryComponents: [
     EventDetailModalComponent
@@ -87,7 +88,7 @@ import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pi
 
     /* Pipes */ 
     MoneyPipe,
-    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
+    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe, Gps2stringPipe
   ]
 })
 export class SharedModule { }

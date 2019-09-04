@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription, Observable, combineLatest } from 'rxjs';
 
 import { DataService } from 'app/services/data.service';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from 'app/services/profile.service';
 import { Profile } from 'app/schema';
 import { filter, distinctUntilChanged } from 'rxjs/operators';
 import { DateTime } from 'luxon';

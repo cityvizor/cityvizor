@@ -21,4 +21,7 @@ export class Profile {
 	edesky: number;
 	mapasamospravy: number;
 
+	avatarType: string;
+	avatarUrl: string;
+
 }

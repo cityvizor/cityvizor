@@ -1,5 +1,5 @@
 export interface PaymentRecord {
-  profileid: string,
+  profileId: number,
   year: number;
 
   paragraph: number;

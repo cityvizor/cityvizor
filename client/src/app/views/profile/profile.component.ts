@@ -7,8 +7,9 @@ import { DataService } from 'app/services/data.service';
 import { ToastService } from 'app/services/toast.service';
 
 import { AppConfig, IAppConfig, Module } from 'config/config';
-import { ProfileService } from './services/profile.service';
+import { ProfileService } from 'app/services/profile.service';
 import { Profile } from 'app/schema/profile';
+import { TitleService } from 'app/services/title.service';
 
 @Component({
 	moduleId: module.id,
@@ -24,9 +25,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private profileService: ProfileService,
-		private titleService: Title,
-		private route: ActivatedRoute,
-		@Inject(AppConfig) private config: IAppConfig
+		private titleService: TitleService,
+		private route: ActivatedRoute
 	) { }
 
 	ngOnInit() {
@@ -37,13 +37,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		this.profile = this.profileService.profile;
 
 		this.profile.subscribe(profile => {
-			this.titleService.setTitle(profile.name + " :: " + this.config.title);
+			this.titleService.setTitle(profile.name)
 		});
 	}
 
 	ngOnDestroy() {
 		this.paramsSubscription.unsubscribe();
-		this.titleService.setTitle(this.config.title);
+		this.titleService.setTitle(null);
 	}
 
 }

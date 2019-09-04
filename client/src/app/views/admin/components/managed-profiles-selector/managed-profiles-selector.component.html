@@ -1,0 +1,11 @@
+<table class="table table-hover">
+  <tbody>
+    <tr *ngFor="let profile of profiles">
+      <th>{{profile.name}}</th>
+      <td class="text-right">
+        <button *ngIf="!hasProfile(profile.id)" class="btn btn-primary btn-sm" (click)="addProfile(profile.id)">Přidat</button>
+        <button *ngIf="hasProfile(profile.id)" class="btn btn-default btn-sm" (click)="removeProfile(profile.id)">Odebrat</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

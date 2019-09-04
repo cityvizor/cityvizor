@@ -5,3 +5,5 @@ export * from "./contract";
 export * from "./counterparty";
 export * from "./dashboard";
 export * from "./profile";
+export * from "./year";
+export * from "./user";

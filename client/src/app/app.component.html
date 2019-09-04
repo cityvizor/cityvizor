@@ -37,7 +37,7 @@
 						<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
 					</span>
 				</a>
-				<a [href]="config.GitHub.url">
+				<a [href]="config.githubUrl">
 					<span class="fa-stack fa-md">
 						<i class="fa fa-circle fa-stack-2x"></i>
 						<i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -49,8 +49,7 @@
 				&nbsp;|&nbsp;<a [attr.href]="config.docsUrl + '/data'">Data</a>
 				&nbsp;|&nbsp;<a [attr.href]="config.docsUrl + '/o-aplikaci/#licenční-podmínky'">Licence</a>
 				&nbsp;|&nbsp;<a [attr.href]="config.docsUrl + '/kontakt'">Kontakt</a>
-				<ng-container *ngIf="aclService.checkRoute('/admin')">&nbsp;|&nbsp;<a routerLink="/admin">Administrace</a></ng-container>
-				
+
 				<br>
 
 				<ng-container *ngIf="!authService.logged">
@@ -58,7 +57,8 @@
 				</ng-container>
 				<ng-container *ngIf="authService.logged">
 					{{authService.user.login}}
-					| <a routerLink="/ucet">Nastavení</a>
+					<ng-container *ngIf="aclService.checkRoute('/admin')">&nbsp;|&nbsp;<a routerLink="/admin">Administrace</a></ng-container>
+					| <a routerLink="/ucet">Účet</a>
 					| <a (click)="logout()">Odhlásit</a>
 				</ng-container>
 			</div>

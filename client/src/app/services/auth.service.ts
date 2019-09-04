@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { User } from "app/schema/user";
+import { UserToken } from "app/schema/user";
 
 import { DataService } from './data.service';
 import { environment } from 'environments/environment';
@@ -27,7 +27,9 @@ export class AuthService {
 	token: String | null = null;
 
 	// current user (use blank user as default)
-	user: User;
+	user: UserToken;
+
+	root = environment.api_root + "/account";
 
 	constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
 
@@ -59,7 +61,7 @@ export class AuthService {
 		return new Promise((resolve, reject) => {
 
 			// query the web api to get the token
-			return this.http.post(environment.api_root + "/login", credentials, { responseType: 'text' }).toPromise()
+			return this.http.post(this.root + "/login", credentials, { responseType: 'text' }).toPromise()
 
 				.then(token => {
 
@@ -150,11 +152,7 @@ export class AuthService {
 	}
 
 	setUser(userData: any) {
-
-		this.user = userData || { roles: ["guest"], managedProfiles: [] };
-
-		// add role user for logged users
-		if (userData) this.user.roles.push("user");
+		this.user = userData || { role: "guest", managedProfiles: [] };
 	}
 
 }

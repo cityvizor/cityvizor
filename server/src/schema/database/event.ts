@@ -1,12 +1,9 @@
 export interface EventRecord {
-  profile_id: number;
+  profileId: number;
   year: number;
 
   id: number;
   name: string;
-
-  budgetAmount: number;
-  amount: number;
 }
 
 export interface EventDescriptionRecord {

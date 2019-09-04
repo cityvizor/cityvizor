@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from 'app/services/data.service';
 
 import { Dashboard } from "app/schema/dashboard";
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from 'app/services/profile.service';
 
 import { Budget, BudgetPayment, Counterparty, Contract } from 'app/schema';
 

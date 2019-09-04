@@ -1,6 +1,8 @@
 export interface AccountingRecord {
-  profileid: string,
+  
+  profileId: number;
   year: number;
+  
   type:string;
   paragraph:number;
   item:number;

@@ -53,15 +53,6 @@ export class ProfileSearchComponent implements OnInit {
 		};
 	}
 
-	gps2string(gpsX, gpsY): string {
-		if (!gpsX || !gpsY) return "";
-		let gps = [gpsX, gpsY];
-		let dg = gps.map(n => Math.round(n)); // get degrees
-		let mn = gps.map(n => Math.round((n % 1) * 60 * 1000) / 1000); // get minutes
-		let st = [0, 1].map(i => dg[i] + "° " + mn[i] + "'"); // get string
-		return "N " + st[1] + ", E " + st[0]; // concatenate
-	}
-	
 	openProfile(profile) {
 		this.router.navigate(['/' + profile.url]);
 	}
@@ -71,8 +62,9 @@ export class ProfileSearchComponent implements OnInit {
 		event.preventDefault();
 	}
 
-	getProfileAvatarUrl(profile) {
-		return `url(${environment.api_root}/profiles/${profile.id}/avatar)`;
+	getProfileAvatarUrl(profile: Profile) {
+		console.log(profile,this.dataService.getProfileAvatarUrl(profile))
+		return this.dataService.getProfileAvatarUrl(profile);
 	}
 
 }

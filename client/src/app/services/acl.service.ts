@@ -1,8 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { User } from "app/schema/user";
-
 import { AuthService } 		from 'app/services/auth.service';
 import { ToastService } 		from 'app/services/toast.service';
 
@@ -35,7 +33,7 @@ export class ACLService implements CanActivate {
     
   }
 
-	// function to get user roles and evaluate permissions
+	// function to get user role and evaluate permissions
 	checkRoute(routeString:string, params?:any):boolean{
     
     var route = this.findRoute(routeString);

@@ -1,0 +1,43 @@
+<div *ngFor="let year of years" class="panel" [class.panel-primary]="!year.hidden" [class.panel-default]="year.hidden">
+  <div class="panel-heading">
+
+    <div class="btn-group pull-right" dropdown>
+      <a dropdownToggle [class.text-white]="!year.hidden">Akce <span class="caret"></span></a>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
+        <li><a class="dropdown-item" (click)="currentYear = year.year; openModal(uploadModal)">Nahrát data z CSV</a></li>
+        <li *ngIf="!year.hidden"><a class="dropdown-item" (click)="hideYear(year)">Skrýt</a></li>
+        <li *ngIf="year.hidden"><a class="dropdown-item" (click)="publishYear(year)">Zveřejnit</a></li>
+        <li class="divider dropdown-divider"></li>
+        <li><a class="dropdown-item" (click)="currentYear = year.year; openModal(deleteYearModal)"><span class="text-danger">Smazat</span></a>
+        </li>
+      </ul>
+    </div>
+
+    <h3 class="panel-title">{{year.year}}&nbsp;<ng-container *ngIf="year.hidden">(skrytý)</ng-container>
+    </h3>
+
+  </div>
+  <div class="panel-body">
+    Validita dat: {{year.validity}}
+
+  </div>
+</div>
+
+<p *ngIf="loading">Náčítání&hellip;</p>
+<p *ngIf="(profile$ | async) && !years.length && !loading">Nejsou vytvořeny žádné rozpočtové roky.</p>
+
+<div>
+  <button type="button" class="btn btn-primary" (click)="openModal(createYearModal)">+ Přidat rozpočtový rok</button>
+</div>
+
+<ng-template #uploadModal>
+  <data-upload-modal [profileId]="profileId" [year]="currentYear" (close)="closeModal($event)"></data-upload-modal>
+</ng-template>
+
+<ng-template #createYearModal>
+  <create-year-modal [profileId]="profileId" (close)="closeModal($event)"></create-year-modal>
+</ng-template>
+
+<ng-template #deleteYearModal>
+  <delete-year-modal [profileId]="profileId" [currentYear]="currentYear" (close)="closeModal($event)"></delete-year-modal>
+</ng-template>

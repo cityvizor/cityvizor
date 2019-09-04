@@ -4,14 +4,20 @@ const router = express.Router();
 
 export const Routers = router;
 
-import { ApiRouter } from "./api";
+import { PublicRouter } from "./public";
 import { SearchRouter } from "./search";
 import { StaticRouter } from "./static";
 import { ImportRouter } from "./import";
+import { AdminRouter } from "./admin";
+import { AccountRouter } from "./account";
 
-router.use("/api", ApiRouter);
+router.use("/api/account", AccountRouter);
 
-router.use("/import", ImportRouter)
+router.use("/api/admin", AdminRouter);
+
+router.use("/api/public", PublicRouter);
+
+router.use("/api/import", ImportRouter)
 
 router.use("/api/search", SearchRouter);
 

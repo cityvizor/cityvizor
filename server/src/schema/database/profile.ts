@@ -8,7 +8,8 @@ export interface ProfileRecord {
 	url: string;
 	name: string;
 	email: string;
-	avatar: Buffer;
+	avatarType: string | null;
+	avatarUrl?: string;
 
 	ico: string;
 	dataBox: string;
@@ -16,5 +17,7 @@ export interface ProfileRecord {
 	mapasamospravy: number;
 	gpsX: number;
 	gpsY: number;
+
+	tokenCode: number;
 
 }

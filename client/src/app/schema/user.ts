@@ -1,20 +1,26 @@
+import { Profile } from './profile';
+
 /**
 	* User object to save data concerning current (or other) user
 	*/
 export interface User {
 
-	id: string;
+	id: number;
 
-	login:string;
+	login: string;
 
-	/**
-		* list of all the entities user has rights to manage
-		*/
-	managedProfiles: any[];
-	
-	/**
-		* list of all the roles user has
-		*/
-	roles: Array<string>;	
+	role: string;
+	managedProfiles: Profile["id"][];
 
+	name: string;
+	email: string;
+	lastLogin: string;
+
+}
+
+export interface UserToken {
+	id: number;
+	login: string;
+	roles: string[];
+	managedProfiles: Profile["id"][];
 }

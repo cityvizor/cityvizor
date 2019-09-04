@@ -1,1 +1,30 @@
-<p>admin-user-list works!</p>
+<div class="container">
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Jméno</th>
+          <th>E-mail</th>
+          <th>Login</th>
+          <th>Role</th>
+          <th>Poslední přihlášení</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users" [routerLink]="'./' + user.id">
+          <th>{{user.name}}</th>
+          <td>{{user.email}}</td>
+          <td>{{user.login}}</td>
+          <td>{{user.role}}</td>
+          <td>{{user.lastLogin | date:"d. M. y H:mm"}}</td>
+        </tr>
+        <tr *ngIf="loading"><td colspan="3">Načítání&hellip;</td></tr>
+      </tbody>
+    </table>
+    
+    <button (click)="openModal(createUserModal)" class="btn btn-primary">Přidat správce</button>
+  </div>
+  
+  <ng-template #createUserModal>
+    <create-user-modal (close)="closeModal($event)"></create-user-modal>
+  </ng-template>

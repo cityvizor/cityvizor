@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
-import { ETL } from "app/schema/etl";
 import { Counterparty } from "app/schema/counterparty";
-import { Dashboard, DashboardRow } from "app/schema/dashboard";
+import { DashboardRow } from "app/schema/dashboard";
 
 import { environment } from "environments/environment";
-import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts, Budget, Profile } from 'app/schema';
+import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts, Budget, Profile, Codelist } from 'app/schema';
 
 function toParams(options) {
 	if (!options) return "";
@@ -34,10 +33,13 @@ function toParams(options) {
 })
 export class DataService {
 
-	root = environment.api_root;
+	root = environment.api_root + "/public";
 
 	constructor(private http: HttpClient) { }
 
+	getCodelist(id: string) {
+		return this.http.get<Codelist>(this.root + "/codelists/" + id).toPromise();
+	}
 
 	/* PROFILES */
 	getProfiles(options?) {
@@ -52,25 +54,10 @@ export class DataService {
 		return this.http.get<Profile>(this.root + "/profiles/main").toPromise();
 	}
 
-	async createProfile(profile) {
-		const response = await this.http.post(this.root + "/profiles", profile, { observe: "response", responseType: "text" }).toPromise();
-		return this.http.get<any>(this.root + response.headers.get("location")).toPromise();
-	}
-
-	saveProfile(profile) {
-		return this.http.patch<any>(this.root + "/profiles/" + profile.id, profile).toPromise();
-	}
-
-	deleteProfile(profileId: number) {
-		return this.http.delete<any>(this.root + "/profiles/" + profileId).toPromise();
-	}
-
 	/* AVATARS */
-	saveProfileAvatar(profileId: number, data: FormData) {
-		return this.http.put(this.root + "/profiles/" + profileId + "/avatar", data, { responseType: 'text' }).toPromise();
-	}
-	deleteProfileAvatar(profileId: number) {
-		return this.http.delete(this.root + "/profiles/" + profileId + "/avatar", { responseType: 'text' }).toPromise();
+	getProfileAvatarUrl(profile: Profile): string | null {
+		if (profile.avatarType) return this.root + "/profiles/" + profile.id + "/avatar";
+		else return null;
 	}
 
 	getProfileAccounting(profileId: number, year: number) {
@@ -87,7 +74,7 @@ export class DataService {
 	}
 
 	/* YEARS */
-	getProfileBudget(profileId: number, year) {
+	getProfileBudget(profileId: number, year: number) {
 		return this.http.get<Budget>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
 	}
 	getProfileBudgets(profileId: number, options?) {
@@ -102,27 +89,6 @@ export class DataService {
 	/* DASHBOARD */
 	getProfileDashboard(profileId: number) {
 		return this.http.get<DashboardRow[]>(this.root + "/profiles/" + profileId + "/dashboard").toPromise();
-	}
-
-	/* ETL */
-	getProfileETLs(profileId: number, options?) {
-		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/etls" + toParams(options)).toPromise();
-	}
-	getProfileETLLogs(profileId, etlId, options?) {
-		if (typeof etlId === "string") return this.http.get<any>(this.root + "/profiles/" + profileId + "/etls/" + etlId + "/logs" + toParams(options)).toPromise();
-		else return this.http.get<any>(this.root + "/profiles/" + profileId + "/etllogs" + toParams(etlId || options)).toPromise();
-	}
-	getProfileETL(profileId, etlId, options?) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/etls/" + etlId + toParams(options)).toPromise();
-	}
-	createProfileETL(profileId, data) {
-		return this.http.post<ETL>(this.root + "/profiles/" + profileId + "/etls/", data).toPromise();
-	}
-	saveProfileETL(profileId, etlId, data) {
-		return this.http.put<any>(this.root + "/profiles/" + profileId + "/etls/" + etlId, data).toPromise();
-	}
-	deleteProfileETL(profileId, etlId, options?) {
-		return this.http.delete(this.root + "/profiles/" + profileId + "/etls/" + etlId + toParams(options), { responseType: 'text' }).toPromise();
 	}
 
 	/* EVENTS */
@@ -154,14 +120,6 @@ export class DataService {
 		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/noticeboard" + toParams(options)).toPromise();
 	}
 
-	/* IMPORT DATA */
-	uploadProfileImport(profileId: number, etlId, data: FormData) {
-		return this.http.put(this.root + "/profiles/" + profileId + "/import/" + etlId + "/upload", data, { responseType: 'text' }).toPromise();
-	}
-	startProfileImport(profileId: number, etlId) {
-		return this.http.get(this.root + "/profiles/" + profileId + "/import/" + etlId + "/start", { responseType: 'text' }).toPromise();
-	}
-
 	/* EVENTS */
 	getEvent(eventId: number) {
 		return this.http.get<any>(this.root + "/events/" + eventId).toPromise();
@@ -191,21 +149,4 @@ export class DataService {
 		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/payments").toPromise();
 	}
 
-	/* USERS */
-	getUsers() {
-		return this.http.get<any>(this.root + "/users").toPromise();
-	}
-	getUser(userId) {
-		return this.http.get<any>(this.root + "/users/" + userId).toPromise();
-	}
-	async createUser(userData) {
-		const response = await this.http.post(this.root + "/users", userData, { observe: "response", responseType: "text" }).toPromise();
-		return this.http.get<any>(this.root + response.headers.get("location")).toPromise();
-	}
-	saveUser(userData) {
-		return this.http.patch<any>(this.root + "/users/" + userData.id, userData).toPromise();
-	}
-	deleteUser(userId) {
-		return this.http.delete(this.root + "/users/" + userId, { responseType: 'text' }).toPromise();
-	}
 }
