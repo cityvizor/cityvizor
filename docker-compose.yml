@@ -9,8 +9,12 @@ services:
     ports:
       - 3000:3000
 
-  mongo:
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: cityvizor
-      MONGO_INITDB_ROOT_PASSWORD: pass
+postgres:
+  image: postgres:11
+  environment:
+    POSTGRES_PASSWORD: pass
+  volumes:
+    - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
