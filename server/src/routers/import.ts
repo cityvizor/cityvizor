@@ -4,13 +4,15 @@ import multer from 'multer';
 import acl from "express-dynacl";
 import schema from 'express-jsonschema';
 
-import config from "../../config";
+import config from "../config";
 
-import { Importer } from ".";
-import { db } from '../../db';
-import { YearRecord } from '../../schema/database';
+import { Importer } from "../import";
+import { db } from '../db';
+import { YearRecord, ProfileRecord } from '../schema';
 
-export const ImportRouter = express.Router();
+const router = express.Router();
+
+export const ImportRouter = router;
 
 const importAccountingSchema = {
 	body: {
@@ -27,7 +29,12 @@ const importAccountingSchema = {
 
 const upload = multer({ dest: config.storage.tmp });
 
-ImportRouter.post("/:profile/accounting",
+router.use((req, res, next) => {
+	console.log(req.user);
+	next();
+})
+
+router.post("/profiles/:profile/accounting",
 	upload.fields([{ name: "dataFile", maxCount: 1 }, { name: "zipFile", maxCount: 1 }, { name: "eventsFile", maxCount: 1 }, { name: "paymentsFile", maxCount: 1 }]),
 	schema.validate(importAccountingSchema),
 	acl("profile-import", "write"),
@@ -38,18 +45,24 @@ ImportRouter.post("/:profile/accounting",
 		if (isNaN(req.body.year)) return res.status(400).send("Invalid year value");
 
 		const validity = new Date(req.body.validity);
-		if (!(validity instanceof Date) || isNaN(validity.getTime())) return res.status(400).send("Invalid validity date value");
+		if (req.body.validity && (!(validity instanceof Date) || isNaN(validity.getTime()))) return res.status(400).send("Invalid validity date value");
 
-		var year = await db<YearRecord>("data.years")
-			.where({ profile: req.params.profile, year: req.body.year })
+		const profile = await db<ProfileRecord>("app.profiles").select("id", "tokenCode").where({ id: req.params.profile }).first();
+
+		if (req.user.tokenCode && req.user.tokenCode !== profile.tokenCode) return res.status(403).send("Token revoked.");
+
+		var year = await db<YearRecord>("app.years")
+			.where({ profileId: req.params.profile, year: req.body.year })
 			.first();
 
-		if (!year) year = await db<YearRecord>("data.years").insert({ profileId: Number(req.params.profile), year: req.body.year, hidden: false }, ["id", "profile", "year"]);
+		if (!year) year = await db<YearRecord>("app.years").insert({ profileId: Number(req.params.profile), year: req.body.year }, ["id", "profile", "year"]);
 
 		// here we deal with the import
 		var importer = new Importer(year);
 
-		var importData = {
+		var importData: Importer.Options = {
+			profileId: year.profileId,
+			year: year.year,
 			validity: validity,
 			userId: req.user ? req.user.id : null,
 			files: {
@@ -60,8 +73,8 @@ ImportRouter.post("/:profile/accounting",
 			}
 		};
 
-		// TODO: add to qqueue instead of direct execution
-		await importer.import(year, importData);
+		// TODO: add to queue instead of direct execution
+		await importer.import(importData);
 
 		// response sent immediately, the import is in queue
 		// TODO

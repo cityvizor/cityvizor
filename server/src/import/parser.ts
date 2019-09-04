@@ -6,16 +6,16 @@ import path from "path";
 import async from "async";
 import csvparse from "csv-parse";
 
-import { Writable } from 'stream';
+import { Writable, Readable } from 'stream';
 
-import config from "../../config";
+import config from "../config";
 
 const headerNames = {
   type: ["type", "recordType", "MODUL", "DOKLAD_AGENDA"],
   paragraph: ["paragraph", "PARAGRAF"],
   item: ["item", "POLOZKA"],
-  eventId: ["eventId", "event", "AKCE", "ORG"],
-  eventName: ["event", "AKCE_NAZEV"],
+  unit: ["unit", "ORJ"],
+  event: ["eventId", "event", "AKCE", "ORG"],
   amount: ["amount", "CASTKA"],
   date: ["date", "DATUM", "DOKLAD_DATUM"],
   counterpartyId: ["counterpartyId", "SUBJEKT_IC"],
@@ -28,14 +28,16 @@ const eventHeaderNames = {
   "name": ["name", "eventName", "AKCE_NAZEV"]
 }
 
-export class ImportParser extends EventEmitter {
+export class ImportParser extends Readable {
 
   modified = false;
 
   result = {};
 
-  constructor(private etl) {
-    super();
+  constructor() {
+    super({
+      objectMode: true
+    });
   }
 
   async parseImport(files) {
@@ -73,7 +75,7 @@ export class ImportParser extends EventEmitter {
 
       var error = false;
 
-      var parser = csvparse({ delimiter: this.etl.delimiter, columns: line => this.parseHeader(line, eventHeaderNames) });
+      var parser = csvparse({ delimiter: ",", columns: line => this.parseHeader(line, eventHeaderNames) });
       parser.on("error", err => (error = true, reject(err)));
       parser.on("end", () => !error && resolve());
 
@@ -101,13 +103,13 @@ export class ImportParser extends EventEmitter {
   readLine(record) {
 
     // emit balance
-    var balance = ["type", "paragraph", "item", "eventId", "amount"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
-    this.emit("balance", balance);
+    var balance = ["type", "paragraph", "item", "event", "amount"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
+    this.push({ type: "balance", data: balance });
 
     // emit payment
     if (balance.type === "KDF" || balance.type === "KOF") {
-      let payment = ["type", "paragraph", "item", "eventId", "amount", "date", "counterpartyId", "counterpartyName", "description"].reduce((bal, key) => (bal[key] = record[key], bal), {});
-      this.emit("payment", payment);
+      let payment = ["type", "paragraph", "item", "event", "amount", "date", "counterpartyId", "counterpartyName", "description"].reduce((bal, key) => (bal[key] = record[key], bal), {});
+      this.push({ type: "payment", data: payment });
     }
   }
 
@@ -116,7 +118,7 @@ export class ImportParser extends EventEmitter {
     var reader = new Writable({
       objectMode: true,
       write: (line, enc, callback) => {
-        this.emit("event", { id: line.id, name: line.name });
+        this.push({ type: "event", data: { id: line.id, name: line.name } });
         callback();
       }
     });

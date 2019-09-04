@@ -2,10 +2,11 @@
 import unzip from "unzip";
 import fs from "fs-extra";
 import path from "path";
-import config from "../../config";
+import config from "../config";
 
-var ImportParser = require("./parser");
-var ImportWriter = require("./writer");
+import { ImportParser } from "./parser";
+import { ImportWriter } from "./writer";
+import { YearRecord, UserRecord } from "../schema";
 
 export class Importer {
 
@@ -25,44 +26,43 @@ export class Importer {
     this.autoImport = options ? !!options.autoImport : false;
   }
 
-  async import(etl, options) {
+  async import(importOptions) {
 
     // parse arguments
-    if (options && options.validity) {
-      this.validity = new Date(options.validity) || null
+    if (importOptions && importOptions.validity) {
+      this.validity = new Date(importOptions.validity) || null
     }
+
+    if (!importOptions.profileId) throw new Error("Missing profileId");
+    if (!importOptions.year) throw new Error("Missing year");
 
     // prepare stream
     const parser = new ImportParser();
     parser.on("warning", warning => this.warnings.push(warning));
 
-    const writer = new ImportWriter(etl);
+    const writer = new ImportWriter(importOptions);
     writer.on("warning", warning => this.warnings.push(warning));
 
-    parser.on("event", event => writer.writeEvent(event));
-    //parser.on("counterparty", counterparty => writer.writeCounterparty(counterparty));
-    parser.on("balance", balance => writer.writeBalance(balance));
-    parser.on("payment", payment => writer.writePayment(payment));
+    parser.pipe(writer);
 
-    var err;
+    var err: Error;
 
     // import data
     try {
-      await this.init(etl);
+      await this.init(importOptions);
 
       await writer.clear();
 
       var importfiles = {};
 
-      if (options.files.zipFile) {
-        importfiles = await this.extractZip(options.files.zipFile);
+      if (importOptions.files.zipFile) {
+        importfiles = await this.extractZip(importOptions.files.zipFile);
       }
       else {
-        importfiles = options.files
+        importfiles = importOptions.files
       }
 
       await parser.parseImport(importfiles);
-
 
     }
     catch (e) {
@@ -70,12 +70,11 @@ export class Importer {
       console.error(e);
     }
 
-    await this.logResults(etl, err);
+    await this.logResults(importOptions, err);
   }
 
-  async init(etl) {
-    etl.status = "processing";
-    await etl.save();
+  async init(importOptions: Importer.Options) {
+
   }
 
   async extractZip(zipFile) {
@@ -118,10 +117,31 @@ export class Importer {
 
   }
 
-  async logResults(etl, err) {
+  async logResults(importOptions: Importer.Options, err?: Error) {
 
-
+    console.log(err);
 
   }
 
+}
+
+export namespace Importer {
+
+  export interface OptionsFilesCSV {
+    dataFile: string;
+    eventsFile?: string;
+    paymentsFile?: string;
+  }
+
+  export interface OptionsFilesZIP {
+    zipFile: string;
+  }
+
+  export interface Options {
+    profileId: YearRecord["profileId"];
+    year: YearRecord["year"];
+    validity: Date | string;
+    userId?: UserRecord["id"];
+    files: OptionsFilesCSV | OptionsFilesZIP;
+  }
 }
