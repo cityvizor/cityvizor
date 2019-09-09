@@ -63,7 +63,6 @@ export class ProfileSearchComponent implements OnInit {
 	}
 
 	getProfileAvatarUrl(profile: Profile) {
-		console.log(profile,this.dataService.getProfileAvatarUrl(profile))
 		return this.dataService.getProfileAvatarUrl(profile);
 	}
 
