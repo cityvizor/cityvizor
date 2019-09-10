@@ -13,8 +13,22 @@ import { ErrorHandler } from "./middleware/error-handler";
 import bodyParser from "body-parser";
 
 import * as acl from "express-dynacl";
+import { ensureDirs } from "./file-storage";
+import { dbConnect } from "./db";
 
 (async function () {
+
+
+
+	// init environment
+	await ensureDirs();
+
+	await dbConnect();
+	console.log("Connected to the database.");
+
+
+
+	// start the server
 
 	/* SET UP ROUTING */
 	var app = express();

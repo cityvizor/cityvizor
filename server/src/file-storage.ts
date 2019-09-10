@@ -1,5 +1,5 @@
 import { ensureDir } from  "fs-extra";
-import config from "../config";
+import config from "./config";
 
 const dirs = [  
   config.storage.tmp,

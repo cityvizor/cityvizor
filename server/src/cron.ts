@@ -5,16 +5,23 @@ import { DateTime } from 'luxon';
 
 import { db, dbDisconnect, dbConnect } from "./db";
 import { runTasks } from './tasks';
+import { ensureDirs } from './file-storage';
 
-var job = new CronJob({
-  cronTime: config.cron.cronTime, //'00 00 01 * * *',
-  start: true, /* Set the job right now */
-  runOnInit: config.cron.runOnInit, /* Run the tasks right now */
-  timeZone: 'Europe/Prague', /* Time zone of this job. */
-  onTick: () => runCron()
-});
+(async function () {
 
-console.log("[CRON] CityVizor cron job set at " + config.cron.cronTime);
+  await ensureDirs();
+
+  var job = new CronJob({
+    cronTime: config.cron.cronTime, //'00 00 01 * * *',
+    start: true, /* Set the job right now */
+    runOnInit: config.cron.runOnInit, /* Run the tasks right now */
+    timeZone: 'Europe/Prague', /* Time zone of this job. */
+    onTick: () => runCron()
+  });
+
+  console.log("[CRON] CityVizor cron job set at " + config.cron.cronTime);
+  
+})();
 
 async function runCron() {
 
