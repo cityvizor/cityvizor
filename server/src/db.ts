@@ -1,57 +1,21 @@
-const config = require("./config").default;
-
 import Knex from 'knex';
 
-import changeCase from "change-case";
+import * as knexConfig from "./config/knexfile";
 
-console.log(`[DB] DB set to ${config.database.user}@${config.database.database}`);
-
-// rather ineffective way of converting case for a finished row :(
-// would be better before executing just for identifiers, but not possible currrently by Knex
-// https://github.com/tgriesser/knex/issues/2084
-function convertRow2CamelCase(row: any): any {
-  
-  if(!row) return row;
-  
-  return Object.entries(row).reduce((acc, cur) => {
-    acc[changeCase.camelCase(cur[0])] = cur[1];
-    return acc;
-  }, {});
-};
+console.log(`[DB] DB set to ${(<any>knexConfig).connection.user}@${(<any>knexConfig).connection.database}`);
 
 // fix parsing numeric fields, https://github.com/tgriesser/knex/issues/387
-var types = require('pg').types
+var types = require('pg').types;
 types.setTypeParser(1700, 'text', parseFloat);
 
 // Initialize knex.
-export const db = Knex({
+export const db = Knex(knexConfig);
 
-  client: config.database.client,
-  connection: {
-    host: config.database.host,
-    user: config.database.user,
-    database: config.database.database,
-    password: config.database.password
-  },
-
-  // convert camelCase names to snake_case
-  wrapIdentifier: (value, origImpl, queryContext) => origImpl(changeCase.snakeCase(value)),
-
-  // convert snake_case names to camelCase
-  postProcessResponse: (result, queryContext) => {
-    if (Array.isArray(result)) {
-      return result.map(row => convertRow2CamelCase(row));
-    } else {
-      return convertRow2CamelCase(result);
-    }
-  }
-});
-
-export async function dbConnect(){
+export async function dbConnect() {
   return db.raw("SELECT 1+1 AS result")
 }
 
-export async function dbDisconnect(){
+export async function dbDisconnect() {
   return db.destroy()
 }
 
