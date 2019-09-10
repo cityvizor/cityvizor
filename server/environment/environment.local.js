@@ -1,6 +1,6 @@
 const path = require("path");
 
-const cityvizorPath = path.resolve(__dirname,"../../../");
+const cityvizorPath = path.resolve(__dirname,"../../");
 
 module.exports = {
 
@@ -19,7 +19,7 @@ module.exports = {
     host: '127.0.0.1',
     user: 'cityvizor',
     password: 'cityvizor',
-    database: 'cityvizor'
+    database: 'cityvizor2'
   },
 
   cors: true,
