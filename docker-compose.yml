@@ -4,24 +4,22 @@ services:
   cityvizor-server:
     image: cityvizor
     build: .     
-    command: node dist/server.js
+    command: node server/dist/server.js
     environment:
-      NODE_ENV: local
+      NODE_ENV: production
     ports:
       - 3000:3000
+    depends_on: 
+      - postgres
 
   cityvizor-cron:
     image: cityvizor
     environment:
-      NODE_ENV: local
-    command: node dist/cron.js
+      NODE_ENV: production
+    command: node server/dist/cron.js
+    depends_on: 
+      - postgres
 
-  # cityvizor-client:
-  #   image: cityvizor
-  #   environment:
-  #     NODE_ENV: production
-  #   command: node dist/importer.js
-  
   # cityvizor-importer:
   #   image: cityvizor
   #   environment:
@@ -34,7 +32,6 @@ services:
       POSTGRES_PASSWORD: pass
     volumes:
       - pg_data:/var/lib/postgresql/data
-      - ./server/environment/environment.local.js:/home/node/app/server/environment/environment.local.js:ro
 
 volumes:
   pg_data:
