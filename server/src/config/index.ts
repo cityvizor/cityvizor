@@ -12,7 +12,7 @@ export default {
   acl: {
     roles: aclRoles,
   },
-  
+
   cors: {
     enabled: environment.cors,
     origin: environment.corsOrigin,
@@ -28,8 +28,6 @@ export default {
     jobDelay: 5
   },
 
-  database: environment.database,
-
   server: serverConfig,
 
   static: {
@@ -39,7 +37,8 @@ export default {
 
   storage: {
     tmp: path.resolve(environment.tmpDir),
-    avatars: path.resolve(environment.storageDir,"avatars")
+    avatars: path.resolve(environment.storageDir, "avatars"),
+    imports: path.resolve(environment.storageDir, "imports")
   },
 
   jwt: {
