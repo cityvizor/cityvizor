@@ -28,9 +28,8 @@ const knexConfig: Knex.Config = {
     database: environment.database.database
   },
   migrations: {
-    extension: 'ts',
-    tableName: 'app.migrations',
-    directory: path.resolve(__dirname, "../../migrations")
+    extension: 'ts',    
+    directory: path.resolve(__dirname, "../migrations")
   },  
 
   wrapIdentifier: (value, origImpl, queryContext) => origImpl(changeCase.snakeCase(value)),
