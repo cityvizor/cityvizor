@@ -6,16 +6,12 @@
   "repository": "otevrena-data-mfcr/CityVizor",
   "types": "./src/index.d.ts",
   "scripts": {
-    
     "start": "node dist/index.js",
-    
-    "install": "npm run build && knex migrate:latest --knexfile dist/config/knexfile.js && node dist/install.js",
     "build": "tsc",
-    
+    "migrate": "knex migrate:latest --knexfile dist/config/knexfile.js",
     "server": "node dist/server.js",
     "cron": "node dist/cron.js",
     "cron-exec": "node dist/cron-exec.js",
-    
     "create-admin": "node dist/scripts/create-admin.js"
   },
   "keywords": [
