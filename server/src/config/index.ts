@@ -39,7 +39,8 @@ export default {
 
   storage: {
     tmp: path.resolve(environment.tmpDir),
-    avatars: path.resolve(environment.storageDir,"avatars")
+    avatars: path.resolve(environment.storageDir,"avatars"),
+    imports: path.resolve(environment.storageDir,"imports")
   },
 
   jwt: {

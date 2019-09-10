@@ -8,7 +8,7 @@
   "scripts": {
     "install": "cd server && npm install && cd ../client && npm install",
     "start": "cd server && npm start",
-    "build": "cd client && npm run build",
+    "build": "cd server && npm run build && cd ../client && npm run build",
     "create-admin": "cd server && npm run create-admin"    
   },
   "keywords": [
