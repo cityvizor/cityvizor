@@ -4,7 +4,9 @@ import acl from "express-dynacl";
 import { db, sort2order } from "../../db";
 import { PaymentRecord, EventRecord } from "../../schema/database";
 
-export const router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
+
+export const ProfilePaymentsRouter = router;
 
 router.get("/", async (req, res, next) => {
 

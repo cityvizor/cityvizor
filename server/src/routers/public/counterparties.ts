@@ -5,8 +5,9 @@ import acl from "express-dynacl";
 import { db } from "../../db";
 import { PaymentRecord } from '../../schema';
 
-export const router = express.Router();
+const router = express.Router();
 
+export const CounterpartiesRouter = router;
 
 // REQUEST: get event
 

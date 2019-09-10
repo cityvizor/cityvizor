@@ -1,21 +1,11 @@
 import express from 'express';
-import schema from 'express-jsonschema';
-import acl from "express-dynacl";
 
 import { db } from "../../db";
 import { EventRecord, AccountingRecord, PaymentRecord } from '../../schema/database';
 
-export const router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
 
-var eventSchema = {
-	type: "object",
-	properties: {
-		"srcId": { type: "string" },
-		"sort": { type: "string" },
-		"year": { type: "number" },
-		"fields": { type: "string" }
-	}
-};
+export const ProfileEventsRouter = router;
 
 router.get("/history/:event", async (req, res) => {
 

@@ -6,7 +6,9 @@ import config from "../../config";
 import { db } from "../../db";
 import { AccountingRecord, PaymentRecord, EventRecord } from '../../schema';
 
-export const router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
+
+export const ProfileAccountingRouter = router;
 
 router.get("/", async (req, res, next) => {
 

@@ -1,5 +1,15 @@
 import express from "express";
+
 import { ProfilesRouter } from "./profiles";
+import { CounterpartiesRouter } from "./counterparties";
+import { CodelistsRouter } from "./codelists";
+import { ProfileAccountingRouter } from "./profile-accounting";
+import { ProfileContractsRouter } from "./profile-contracts";
+import { ProfileYearsRouter } from "./profile-years";
+import { ProfileDashboardRouter } from "./profile-dashboard";
+import { ProfileEventsRouter } from "./profile-events";
+import { ProfileNoticeboardRouter } from "./profile-noticeboard";
+import { ProfilePaymentsRouter } from "./profile-payments";
 
 const router = express.Router();
 
@@ -19,29 +29,27 @@ router.use((req, res, next) => {
   next();
 });
 
-router.use("/counterparties", require("../api/counterparties").router);
+router.use("/counterparties", CounterpartiesRouter);
 
 router.use("/profiles", ProfilesRouter);
 
-router.use("/users", require("../api/users").router);
-
-router.use("/codelists", require("../api/codelists").router);
+router.use("/codelists", CodelistsRouter);
 
 
 /* PROFILE DATA */
-router.use("/profiles/:profile/accounting", require("../api/profile-accounting").router);
+router.use("/profiles/:profile/accounting", ProfileAccountingRouter);
 
-router.use("/profiles/:profile/contracts", require("../api/profile-contracts").router);
+router.use("/profiles/:profile/contracts", ProfileContractsRouter);
 
-router.use("/profiles/:profile/dashboard", require("../api/profile-dashboard").router);
+router.use("/profiles/:profile/dashboard", ProfileDashboardRouter);
 
-router.use("/profiles/:profile/years", require("../api/profile-years").router);
+router.use("/profiles/:profile/years", ProfileYearsRouter);
 
-router.use("/profiles/:profile/events", require("../api/profile-events").router);
+router.use("/profiles/:profile/events", ProfileEventsRouter);
 
-router.use("/profiles/:profile/payments", require("../api/profile-payments").router);
+router.use("/profiles/:profile/payments", ProfilePaymentsRouter);
 
-router.use("/profiles/:profile/noticeboard", require("../api/profile-noticeboard").router);
+router.use("/profiles/:profile/noticeboard", ProfileNoticeboardRouter);
 
 /* OTHER REQUESTS TO /api AS 404 */
 

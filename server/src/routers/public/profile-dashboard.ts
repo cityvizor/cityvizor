@@ -4,7 +4,9 @@ import acl from "express-dynacl";
 import { db } from "../../db";
 import { DashboardRecord } from '../../schema/database';
 
-export const router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
+
+export const ProfileDashboardRouter = router;
 
 router.get("/", async (req, res, next) => {
 

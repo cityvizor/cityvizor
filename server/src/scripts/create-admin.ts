@@ -10,11 +10,12 @@ var bcrypt = require("bcryptjs");
 
   const hash = await bcrypt.hash("admin", 10);
 
-  console.log("Deleting admin user data form database...");
-  const oldId:number = await db<UserRecord>("app.users").where({login: "admin"}).first().then(user => user.id);
-
-  await db("app.user_roles").where({userId: oldId}).delete();
-  await db("app.users").where({id: oldId}).delete();
+  console.log("Deleting admin user data from database...");
+  const oldAdmin: UserRecord = await db<UserRecord>("app.users").where({ login: "admin" }).first();
+  if (oldAdmin) {
+    await db("app.user_roles").where({ userId: oldAdmin.id }).delete();
+    await db("app.users").where({ id: oldAdmin.id }).delete();
+  }
 
   console.log("Saving admin user data to database...");
 
@@ -24,7 +25,7 @@ var bcrypt = require("bcryptjs");
   };
 
   const id = await db("app.users").insert(userData, ["id"]).then(rows => rows[0].id)
-  
+
   const roleData = {
     "userId": id,
     "role": "admin"

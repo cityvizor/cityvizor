@@ -3,7 +3,9 @@ import acl from "express-dynacl";
 import { db } from '../../db';
 import { NoticeboardRecord } from '../../schema/database/noticeboard';
 
-export const router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
+
+export const ProfileNoticeboardRouter = router;
 
 router.get("/", async (req, res, next) => {
 

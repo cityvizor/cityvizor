@@ -4,7 +4,9 @@ import acl from "express-dynacl";
 import { db } from "../../db";
 import { CodelistRecord } from '../../schema/database';
 
-export const router = express.Router();
+const router = express.Router();
+
+export const CodelistsRouter = router;
 
 router.get("/", async (req, res, next) => {
 	const codelists = await db<CodelistRecord>("codelists").distinct("codelist").then(rows => rows.map(row => row.codelist));

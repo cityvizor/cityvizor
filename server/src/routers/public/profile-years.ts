@@ -9,7 +9,9 @@ import config from "../../config";
 import { db } from "../../db";
 import { YearRecord } from '../../schema/database';
 
-export const router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
+
+export const ProfileYearsRouter = router;
 
 router.get("/", async (req, res, next) => {
 
