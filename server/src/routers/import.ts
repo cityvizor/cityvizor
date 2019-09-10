@@ -1,14 +1,21 @@
 import express from 'express';
 
+import path from "path";
 import multer from 'multer';
 import acl from "express-dynacl";
 import schema from 'express-jsonschema';
+
+import unzip from "unzip";
+import fs from "fs-extra";
 
 import config from "../config";
 
 import { Importer } from "../import";
 import { db } from '../db';
 import { YearRecord, ProfileRecord } from '../schema';
+import { ImportRecord } from '../schema/database/import';
+import { ensureDir, move, remove } from 'fs-extra';
+import { DateTime } from 'luxon';
 
 const router = express.Router();
 
@@ -26,13 +33,12 @@ const importAccountingSchema = {
 	}
 };
 
-
 const upload = multer({ dest: config.storage.tmp });
 
 router.use((req, res, next) => {
 	console.log(req.user);
 	next();
-})
+});
 
 router.post("/profiles/:profile/accounting",
 	upload.fields([{ name: "dataFile", maxCount: 1 }, { name: "zipFile", maxCount: 1 }, { name: "eventsFile", maxCount: 1 }, { name: "paymentsFile", maxCount: 1 }]),
@@ -43,9 +49,6 @@ router.post("/profiles/:profile/accounting",
 		// When file missing throw error immediately
 		if (!req.files || (!req.files["dataFile"] && !req.files["zipFile"])) return res.status(400).send("Missing data file or zip file");
 		if (isNaN(req.body.year)) return res.status(400).send("Invalid year value");
-
-		const validity = new Date(req.body.validity);
-		if (req.body.validity && (!(validity instanceof Date) || isNaN(validity.getTime()))) return res.status(400).send("Invalid validity date value");
 
 		const profile = await db<ProfileRecord>("app.profiles").select("id", "tokenCode").where({ id: req.params.profile }).first();
 
@@ -60,27 +63,65 @@ router.post("/profiles/:profile/accounting",
 		// here we deal with the import
 		var importer = new Importer(year);
 
-		var importData: Importer.Options = {
+		var importData: Partial<ImportRecord> = {
 			profileId: year.profileId,
 			year: year.year,
-			validity: validity,
-			userId: req.user ? req.user.id : null,
-			files: {
-				zipFile: req.files["zipFile"] ? req.files["zipFile"][0].path : null,
-				dataFile: req.files["dataFile"] ? req.files["dataFile"][0].path : null,
-				eventsFile: req.files["eventsFile"] ? req.files["eventsFile"][0].path : null,
-				paymentsFile: req.files["paymentsFile"] ? req.files["paymentsFile"][0].path : null
-			}
+
+			userId: req.user ? req.user.id : undefined,
+
+			created: DateTime.local().toISO(),
+
+			status: "pending",
+			error: null,
+
+			validity: req.body.validity || undefined,
 		};
 
-		// TODO: add to queue instead of direct execution
-		await importer.import(importData);
+		const result = await db<ImportRecord>("app.imports").insert(importData, ["id"]);
 
-		// response sent immediately, the import is in queue
-		// TODO
-		res.json({
+		const importId = result ? result[0].id : null;
 
-		});
+		if (!importId) return res.status(500).send("Failed to create import record in database.");
 
+		const importDir = path.join(config.storage.imports, "import_" + importId);
+
+		await ensureDir(importDir);
+
+
+		if (req.files["zipFile"]) {
+			extractZip(req.files["zipFile"].path, importDir);
+		}
+		else {
+			if (req.files["dataFile"] && req.files["dataFile"][0]) await move(req.files["dataFile"][0].path, path.join(importDir, "data.csv"));
+			if (req.files["eventsFile"] && req.files["eventsFile"][0]) await move(req.files["eventsFile"][0].path, path.join(importDir, "events.csv"));
+			if (req.files["paymentsFile"] && req.files["paymentsFile"][0]) await move(req.files["paymentsFile"][0].path, path.join(importDir, "payments.csv"));
+		}
+
+		const importDataFull = await db<ImportRecord>("app.imports").where({ id: importId }).first();
+		
+		res.json(importDataFull);
 	}
 );
+
+async function extractZip(zipFile: string, unzipDir: string) {
+
+	try {
+		await new Promise((resolve, reject) => {
+			const stream = fs.createReadStream(zipFile).pipe(unzip.Extract({ path: unzipDir }));
+			stream.on("close", () => resolve());
+			stream.on("error", (err: Error) => reject(err));
+		});
+	}
+	catch (e) {
+		throw new Error("Unable to extract ZIP file: " + e.message);
+	}
+
+	const extractedFiles = await fs.readdir(unzipDir);
+
+	return {
+		dataFile: extractedFiles.filter(file => file.match(/data/i))[0],
+		eventsFile: extractedFiles.filter(file => file.match(/events/i))[0],
+		paymentsFile: extractedFiles.filter(file => file.match(/payments/i))[0]
+	};
+
+}

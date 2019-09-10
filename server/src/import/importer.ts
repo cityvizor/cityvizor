@@ -1,9 +1,4 @@
 // remove when import of ZIP sorted out
-import unzip from "unzip";
-import fs from "fs-extra";
-import path from "path";
-import config from "../config";
-
 import { ImportParser } from "./parser";
 import { ImportWriter } from "./writer";
 import { YearRecord, UserRecord } from "../schema";
@@ -53,16 +48,7 @@ export class Importer {
 
       await writer.clear();
 
-      var importfiles = {};
-
-      if (importOptions.files.zipFile) {
-        importfiles = await this.extractZip(importOptions.files.zipFile);
-      }
-      else {
-        importfiles = importOptions.files
-      }
-
-      await parser.parseImport(importfiles);
+      await parser.parseImport(importOptions.files);
 
     }
     catch (e) {
@@ -74,46 +60,6 @@ export class Importer {
   }
 
   async init(importOptions: Importer.Options) {
-
-  }
-
-  async extractZip(zipFile) {
-
-    const unzipDir = path.join(config.storage.tmp, "import-zip");
-
-    try {
-      // TODO: redo after testing with Gordic
-      // If zip file provided choose the largest CSV as dataFile and second largest as 
-      await fs.remove(unzipDir);
-      await fs.ensureDir(unzipDir);
-
-      await new Promise((resolve, reject) => {
-        const stream = fs.createReadStream(zipFile).pipe(unzip.Extract({ path: unzipDir }));
-        stream.on("close", () => resolve());
-        stream.on("error", err => reject(err));
-      });
-    }
-    catch (e) {
-      throw new Error("Unable to extract ZIP file: " + e.message);
-    }
-
-    const csvFiles = (await fs.readdir(unzipDir))
-      .filter(file => file.match(/\.csv$/i))
-      .map(file => {
-        const csvPath = path.join(unzipDir, file);
-        return {
-          path: csvPath,
-          size: fs.statSync(csvPath).size
-        };
-      });
-
-    csvFiles.sort((a, b) => b.size - a.size);
-
-    return {
-      dataFile: csvFiles[0] ? csvFiles[0].path : null,
-      eventsFile: csvFiles[1] ? csvFiles[1].path : null
-    }
-
 
   }
 
