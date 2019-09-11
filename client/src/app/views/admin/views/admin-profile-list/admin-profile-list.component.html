@@ -32,15 +32,15 @@
     <div class="modal-body">
       <div class="form-group">
         <label>Název</label>
-        <input type="text" name="name" class="form-control">
+        <input type="text" name="name" class="form-control" ngModel required>
       </div>
       <div class="form-group">
         <label>Adresa</label>
-        <input type="text" name="name" class="form-control">
+        <input type="text" name="url" class="form-control" ngModel required>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="submit" class="btn btn-primary">Vytvořit</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!createProfileForm.valid">Vytvořit</button>
     </div>
   </form>
 </ng-template>

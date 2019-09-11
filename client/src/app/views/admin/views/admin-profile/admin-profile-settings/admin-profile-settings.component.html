@@ -31,6 +31,15 @@
         <input type="number" name="edesky" [ngModel]="profile?.edesky" class="form-control">
       </div>
 
+      <div class="form-group">
+        <label>Viditelnost</label>
+        <select name="status" [ngModel]="profile?.status" class="form-control">
+          <option value="visible">veřejný</option>
+          <option value="hidden">skrytý</option>
+          <option value="pending">připravujeme</option>
+        </select>
+      </div>
+
       <button type="submit" class="btn btn-primary">Uložit</button>
 
     </form>
@@ -42,7 +51,7 @@
         <label>Současný znak</label>
         <br>
         <img [src]="getProfileAvatarUrl(profile)" class="avatar" alt="Znak obce">
-        
+
       </div>
       <div class="form-group">
         <label>Nahrát nový znak</label>
@@ -54,10 +63,10 @@
         </div>
       </div>
       <div class="form-group">
-          <label>Smazat znak</label>
-          <br>
-          <button type="button" (click)="deleteAvatar()" class="btn btn-danger">Smazat</button>
-        </div>
+        <label>Smazat znak</label>
+        <br>
+        <button type="button" (click)="deleteAvatar()" class="btn btn-danger">Smazat</button>
+      </div>
     </form>
   </div>
 </div>

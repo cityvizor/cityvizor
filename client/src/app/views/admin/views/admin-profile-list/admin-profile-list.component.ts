@@ -39,6 +39,11 @@ export class AdminProfileListComponent implements OnInit {
 
   async createProfile(form: NgForm) {
 
+    const data = form.value;
+
+    const profile = await this.adminService.createProfile(data);
+
+    this.loadProfiles();
   }
 
   openCreateProfile(template: TemplateRef<any>) {
