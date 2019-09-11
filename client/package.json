@@ -26,7 +26,6 @@
     "ajv": "^6.10.2",
     "bootstrap-sass": "^3.4.1",
     "classlist.js": "^1.1.20150312",
-    "core-js": "^3.2.1",
     "font-awesome": "^4.7.0",
     "intl": "^1.2.5",
     "luxon": "^1.17.2",
