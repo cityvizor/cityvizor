@@ -9,6 +9,8 @@ services:
       NODE_ENV: production
     ports:
       - 3000:3000
+    volumes: 
+      - ./server/environment/environment.production.js:/home/node/app/server/environment/environment.production.js:ro
     depends_on: 
       - postgres
 
