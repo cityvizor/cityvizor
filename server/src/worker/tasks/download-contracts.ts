@@ -2,11 +2,11 @@
 import request from 'request-promise-native';
 
 import cheerio from "cheerio";
-import { db } from '../db';
-import { ProfileRecord, ContractRecord } from '../schema/database';
+import { db } from '../../db';
+import { ProfileRecord, ContractRecord } from '../../schema/database';
 
 import { DateTime } from "luxon";
-import { CronTask } from '../schema/cron';
+import { CronTask } from '../../schema/cron';
 
 // how many contracts per profile should be downloaded
 const limit = 20;

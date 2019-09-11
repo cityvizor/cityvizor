@@ -1,7 +1,6 @@
 
-import { runTasks } from "./tasks";
-import { dbConnect, dbDisconnect } from "./db";
-
+import { dbConnect, dbDestroy } from "../db";
+import { runTasks } from "./run-tasks";
 
 (async function () {
 
@@ -18,6 +17,6 @@ import { dbConnect, dbDisconnect } from "./db";
 
   console.log("All tasks finished.")
 
-  await dbDisconnect();
+  await dbDestroy();
 
 })();

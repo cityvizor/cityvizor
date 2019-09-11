@@ -2,12 +2,12 @@
 import request from "request-promise-native";
 import cheerio from "cheerio";
 
-import config from "../config";
+import config from "../../config";
 
-import { ProfileRecord } from "../schema";
-import { db } from "../db";
-import { NoticeboardRecord } from "../schema/database/noticeboard";
-import { CronTask } from "../schema/cron";
+import { ProfileRecord } from "../../schema";
+import { db } from "../../db";
+import { NoticeboardRecord } from "../../schema/database/noticeboard";
+import { CronTask } from "../../schema/cron";
 
 // how many contracts per profile should be downloaded
 var limit = 20;

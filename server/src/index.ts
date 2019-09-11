@@ -7,7 +7,7 @@
   /* SERVER */
   await import("./server");
 
-  /* CRON */
-  await import("./cron");
+  /* WORKER */
+  await import("./worker");
 
 })();

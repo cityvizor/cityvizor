@@ -10,11 +10,10 @@ import fs from "fs-extra";
 
 import config from "../config";
 
-import { Importer } from "../import";
 import { db } from '../db';
 import { YearRecord, ProfileRecord } from '../schema';
 import { ImportRecord } from '../schema/database/import';
-import { ensureDir, move, remove } from 'fs-extra';
+import { ensureDir, move } from 'fs-extra';
 import { DateTime } from 'luxon';
 
 const router = express.Router();
@@ -59,9 +58,6 @@ router.post("/profiles/:profile/accounting",
 			.first();
 
 		if (!year) year = await db<YearRecord>("app.years").insert({ profileId: Number(req.params.profile), year: req.body.year }, ["id", "profile", "year"]);
-
-		// here we deal with the import
-		var importer = new Importer(year);
 
 		var importData: Partial<ImportRecord> = {
 			profileId: year.profileId,

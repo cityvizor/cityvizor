@@ -10,8 +10,8 @@
     "build": "tsc",
     "migrate": "knex migrate:latest --knexfile dist/config/knexfile.js",
     "server": "node dist/server.js",
-    "cron": "node dist/cron.js",
-    "cron-exec": "node dist/cron-exec.js",
+    "worker": "node dist/worker.js",
+    "task-exec": "node dist/worker/run-tasks-cli.js",
     "create-admin": "node dist/scripts/create-admin.js"
   },
   "keywords": [

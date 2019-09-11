@@ -1,7 +1,5 @@
-import EventEmitter from "events";
-
-import { db } from "../db";
-import { AccountingRecord, PaymentRecord, EventRecord, ProfileRecord, YearRecord } from "../schema/database";
+import { db } from "../../db";
+import { AccountingRecord, PaymentRecord, EventRecord, ProfileRecord, YearRecord } from "../../schema/database";
 import { Writable } from "stream";
 
 export class ImportWriter extends Writable {
@@ -43,7 +41,6 @@ export class ImportWriter extends Writable {
     catch (err) {
       callback(err);
     }
-
 
   }
 

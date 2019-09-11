@@ -8,7 +8,7 @@ import csvparse from "csv-parse";
 
 import { Writable, Readable } from 'stream';
 
-import config from "../config";
+import config from "../../config";
 
 const headerNames = {
   type: ["type", "recordType", "MODUL", "DOKLAD_AGENDA"],

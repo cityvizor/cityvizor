@@ -1,13 +1,7 @@
-
-import config from "../config";
-import { TaskDownloadContracts } from "./download-contracts";
-import { TaskDownloadNoticeboards } from "./download-noticeboards";
 import { CronTask } from "../schema/cron";
 
-export const cronTasks: CronTask[] = [
-  TaskDownloadContracts,
-  TaskDownloadNoticeboards
-];
+import { cronTasks } from "./tasks";
+import config from "../config";
 
 export async function runTasks(tasks?: (string | CronTask)[]) {
 
@@ -15,10 +9,10 @@ export async function runTasks(tasks?: (string | CronTask)[]) {
 
   for (let task of tasks) {
 
-    if (typeof task === "string"){
+    if (typeof task === "string") {
       let taskName = task;
       task = cronTasks.find(cronTask => cronTask.id === task);
-      if(!task) throw new Error(`Task ${taskName} not found.`);
+      if (!task) throw new Error(`Task ${taskName} not found.`);
     }
 
     console.log("\n===================================");

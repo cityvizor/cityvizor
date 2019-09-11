@@ -1,17 +1,19 @@
-import { CronJob } from 'cron';
+import { DateTime } from "luxon";
+import { CronJob } from "cron";
 
-import config from "./config";
-import { DateTime } from 'luxon';
+import { ensureDirs } from "../file-storage";
+import { dbConnect } from "../db";
 
-import { db, dbDisconnect, dbConnect } from "./db";
-import { runTasks } from './tasks';
-import { ensureDirs } from './file-storage';
+import config from "../config";
+import { runTasks } from "./run-tasks";
 
-(async function () {
+export async function cronInit() {
 
   await ensureDirs();
 
-  var job = new CronJob({
+  await dbConnect();
+
+  var dailyJob = new CronJob({
     cronTime: config.cron.cronTime, //'00 00 01 * * *',
     start: true, /* Set the job right now */
     runOnInit: config.cron.runOnInit, /* Run the tasks right now */
@@ -19,9 +21,9 @@ import { ensureDirs } from './file-storage';
     onTick: () => runCron()
   });
 
-  console.log("[CRON] CityVizor cron job set at " + config.cron.cronTime);
-  
-})();
+  console.log("[CRON] CityVizor daily job set at " + config.cron.cronTime);
+
+}
 
 async function runCron() {
 
@@ -31,11 +33,7 @@ async function runCron() {
 
   console.log(`[CRON] Started at ${DateTime.local().toLocaleString()}.\n`);
 
-  await dbConnect();
-
   await runTasks();
-
-  await dbDisconnect();
 
   console.log("[CRON] ===================================\n\n");
   console.log(`[CRON] Finished at ${DateTime.local().toLocaleString()}.\n`);

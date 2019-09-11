@@ -12,20 +12,14 @@ services:
     depends_on: 
       - postgres
 
-  cityvizor-cron:
+  cityvizor-worker:
     image: cityvizor
     environment:
       NODE_ENV: production
-    command: node server/dist/cron.js
+    command: node server/dist/worker.js
     depends_on: 
       - postgres
-
-  # cityvizor-importer:
-  #   image: cityvizor
-  #   environment:
-  #     NODE_ENV: production
-  #   command: node dist/importer.js
-
+      
   postgres:
     image: postgres:11
     environment:
