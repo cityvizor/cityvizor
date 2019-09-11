@@ -32,7 +32,7 @@ export async function checkImportQueue() {
 
   if (!currentJob) return;
 
-  console.log("Found a new job, staring import.");
+  console.log("Found a new job, starting import.");
 
   await db<ImportRecord>("app.imports").where({ id: currentJob.id }).update({ status: "processing", started: DateTime.local().toJSDate() });
 
