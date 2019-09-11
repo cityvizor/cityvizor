@@ -9,8 +9,6 @@ import { YearRecord } from "../../schema";
 
 export async function checkImportQueue() {
 
-  console.log("tick");
-
   const runningJob = await db<ImportRecord>("app.imports").where({ status: "processing" }).first();
 
   if (runningJob) {
