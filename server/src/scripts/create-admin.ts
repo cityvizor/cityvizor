@@ -1,6 +1,6 @@
 import { UserRecord } from "../schema/database";
 
-import { db, dbDisconnect } from "../db";
+import { db, dbDestroy } from "../db";
 
 var bcrypt = require("bcryptjs");
 
@@ -36,6 +36,6 @@ var bcrypt = require("bcryptjs");
 
   console.log("Created user admin with password admin.");
 
-  dbDisconnect();
+  dbDestroy();
 
 })();

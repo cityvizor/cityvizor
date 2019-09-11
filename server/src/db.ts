@@ -15,7 +15,7 @@ export async function dbConnect() {
   return db.raw("SELECT 1+1 AS result")
 }
 
-export async function dbDisconnect() {
+export async function dbDestroy() {
   return db.destroy()
 }
 
