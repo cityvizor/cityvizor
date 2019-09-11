@@ -1,3 +1,4 @@
+// @ts-check
 const path = require("path");
 
 const cityvizorPath = path.resolve(__dirname,"../../");
@@ -19,7 +20,7 @@ module.exports = {
     host: '127.0.0.1',
     user: 'cityvizor',
     password: 'cityvizor',
-    database: 'cityvizor2'
+    database: 'cityvizor'
   },
 
   cors: true,

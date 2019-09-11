@@ -4,6 +4,8 @@ import { Writable } from "stream";
 
 export class ImportWriter extends Writable {
 
+  c = 0;
+
   constructor(private options: ImportWriter.Options) {
     super({
       objectMode: true
@@ -48,12 +50,12 @@ export class ImportWriter extends Writable {
     return {
       "profileId": this.options.profileId,
       "year": this.options.year,
-      "type": balance["type"] ? String(balance["type"]) : null,
-      "paragraph": balance["paragraph"] ? Number(balance["paragraph"]) : null,
-      "item": balance["item"] ? Number(balance["item"]) : null,
-      "unit": balance["unit"] ? Number(balance["unit"]) : null,
-      "event": balance["event"] ? Number(balance["event"]) : null,
-      "amount": balance["amount"] ? Number(balance["amoun"]) : null
+      "type": balance.type ? String(balance.type) : null,
+      "paragraph": balance.paragraph ? Number(balance.paragraph) : null,
+      "item": balance.item ? Number(balance.item) : null,
+      "unit": balance.unit ? Number(balance.unit) : null,
+      "event": balance.event ? Number(balance.event) : null,
+      "amount": balance.amount ? Number(balance.amount) : null
     };
   }
 
@@ -61,19 +63,19 @@ export class ImportWriter extends Writable {
     return {
       "profileId": this.options.profileId,
       "year": this.options.year,
-      "paragraph": payment["paragraph"] ? Number(payment["paragraph"]) : null,
-      "item": payment["item"] ? Number(payment["item"]) : null,
-      "unit": payment["unit"] ? Number(payment["unit"]) : null,
-      "eventId": payment["eventId"] ? Number(payment["eventId"]) : null,
-      "amount": payment["amount"] ? Number(payment["amount"]) : null,
-      "date": payment["date"] ? String(payment["date"]) : null,
-      "counterpartyId": payment["counterpartyId"] ? String(payment["counterpartyId"]) : null,
-      "counterpartyName": payment["counterpartyName"] ? String(payment["counterpartyName"]) : null,
-      "description": payment["description"] ? String(payment["description"]) : null,
+      "paragraph": payment.paragraph ? Number(payment.paragraph) : null,
+      "item": payment.item ? Number(payment.item) : null,
+      "unit": payment.unit ? Number(payment.unit) : null,
+      "event": payment.event ? Number(payment.event) : null,
+      "amount": payment.amount ? Number(payment.amount) : null,
+      "date": payment.date ? String(payment.date) : null,
+      "counterpartyId": payment.counterpartyId ? String(payment.counterpartyId) : null,
+      "counterpartyName": payment.counterpartyName ? String(payment.counterpartyName) : null,
+      "description": payment.description ? String(payment.description) : null,
     }
   }
 
-  prepareEvent(payment: Partial<EventRecord>): EventRecord {
+  prepareEvent(event: Partial<EventRecord>): EventRecord {
     return {
       "profileId": this.options.profileId,
       "year": this.options.year,

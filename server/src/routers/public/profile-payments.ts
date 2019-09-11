@@ -45,7 +45,7 @@ router.get("/:year/csv", async (req, res, next) => {
 	res.setHeader("Content-disposition", "attachment; filename=" + req.params.profile + "-" + req.params.year + ".payments.csv");
 	res.setHeader('Content-Type', 'text/csv');
 
-	var header = ['profileId', 'year', 'paragraph', 'item', 'unit', 'eventId', 'eventName', 'date', 'amount', 'counterpartyId', 'counterpartyName', 'description'];
+	var header = ['profileId', 'year', 'paragraph', 'item', 'unit', 'event', 'eventName', 'date', 'amount', 'counterpartyId', 'counterpartyName', 'description'];
 
 	// UTF BOM for MS EXCEL
 	res.write("\ufeff");
@@ -58,7 +58,7 @@ router.get("/:year/csv", async (req, res, next) => {
 		res.write(makeCSVLine(header.map(field => {
 			switch (field) {
 				case "eventName":
-					return eventIndex[String(payment.eventId)];
+					return eventIndex[String(payment.event)];
 				default:
 					return payment[field];
 			}

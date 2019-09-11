@@ -65,7 +65,7 @@ router.post("/profiles/:profile/accounting",
 
 			userId: req.user ? req.user.id : undefined,
 
-			created: DateTime.local().toISO(),
+			created: DateTime.local().toJSDate(),
 
 			status: "pending",
 			error: null,

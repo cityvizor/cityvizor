@@ -29,8 +29,10 @@ export class Importer {
     const writer = new ImportWriter(this.options);
     writer.on("warning", warning => this.warnings.push(warning));
 
-    parser.pipe(writer);
+    parser.readable.pipe(writer);
 
+    await writer.clear();
+    
     // import data
     await parser.parseImport(files);
 

@@ -7,7 +7,10 @@ import { runTasks } from "./run-tasks";
 
   var tasks = process.argv.slice(2);
 
-  if (!tasks.length) tasks = undefined;
+  if (!tasks.length) {
+    console.log(`Task name not specified`);
+    process.exit(1);
+  }
 
   await dbConnect();
 

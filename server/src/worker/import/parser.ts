@@ -3,10 +3,12 @@ import EventEmitter from 'events';
 import fs from "fs-extra";
 import path from "path";
 
+import mergeStream from "merge-stream";
+
 import async from "async";
 import csvparse from "csv-parse";
 
-import { Writable, Readable } from 'stream';
+import { Writable, Readable, Transform } from 'stream';
 
 import config from "../../config";
 
@@ -28,70 +30,87 @@ const eventHeaderNames = {
   "name": ["name", "eventName", "AKCE_NAZEV"]
 }
 
-export class ImportParser extends Readable {
+export class ImportParser extends EventEmitter {
 
   modified = false;
 
   result = {};
 
+  eventReader: Transform;
+  dataReader: Transform;
+
+  readable: NodeJS.ReadWriteStream;
+
+  error: Error;
+
   constructor() {
-    super({
-      objectMode: true
-    });
+
+    super();
+
+    this.dataReader = this.createDataReader();
+
+    this.eventReader = this.createEventsReader();
+
+    this.readable = mergeStream(this.dataReader, this.eventReader)
   }
 
   async parseImport(files) {
 
     if (files.eventsFile) {
       var eventsFile = fs.createReadStream(files.eventsFile);
-      await this.parseEvents(eventsFile);
+      await this.parseEvents(eventsFile, this.eventReader);
     }
 
     if (files.dataFile) {
       var dataFile = fs.createReadStream(files.dataFile);
-      await this.parseData(dataFile);
+      await this.parseData(dataFile, this.dataReader);
     }
 
   }
 
-  async parseData(dataFile) {
+  async parseData(dataFile, reader) {
     return new Promise((resolve, reject) => {
 
       var error = false;
 
-      var parser = csvparse({ delimiter: ",", columns: line => this.parseHeader(line, headerNames) });
+      var parser = csvparse({ delimiter: ";", columns: line => this.parseHeader(line, headerNames), relax_column_count: true });
       parser.on("error", err => (error = true, reject(err)));
       parser.on("end", () => !error && resolve());
-
-      var reader = this.createReader();
-      reader.on("error", err => (error = true, reject(err)));
 
       dataFile.pipe(parser).pipe(reader);
     });
   }
 
-  async parseEvents(eventsFile) {
+  async parseEvents(eventsFile, reader: Readable) {
     return new Promise((resolve, reject) => {
 
       var error = false;
 
-      var parser = csvparse({ delimiter: ",", columns: line => this.parseHeader(line, eventHeaderNames) });
+      var parser = csvparse({ delimiter: ";", columns: line => this.parseHeader(line, eventHeaderNames), relax_column_count: true });
       parser.on("error", err => (error = true, reject(err)));
       parser.on("end", () => !error && resolve());
-
-      var reader = this.createEventsReader();
-      reader.on("error", err => (error = true, reject(err)));
 
       eventsFile.pipe(parser).pipe(reader);
     });
   }
 
-  createReader() {
+  createDataReader() {
 
-    var reader = new Writable({
-      objectMode: true,
-      write: (line, enc, callback) => {
-        this.readLine(line);
+    var reader = new Transform({
+      writableObjectMode: true,
+      readableObjectMode: true,
+      transform: function (record, enc, callback) {
+
+        // emit balance
+        var balance = ["type", "paragraph", "item", "event", "amount"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
+        this.push({ type: "balance", data: balance });
+
+        // emit payment
+        if (balance.type === "KDF" || balance.type === "KOF") {
+          let payment = ["type", "paragraph", "item", "event", "amount", "date", "counterpartyId", "counterpartyName", "description"].reduce((bal, key) => (bal[key] = record[key], bal), {});
+          this.push({ type: "payment", data: payment });
+        }
+
         callback();
       }
     });
@@ -99,26 +118,14 @@ export class ImportParser extends Readable {
     return reader;
   }
 
-
-  readLine(record) {
-
-    // emit balance
-    var balance = ["type", "paragraph", "item", "event", "amount"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
-    this.push({ type: "balance", data: balance });
-
-    // emit payment
-    if (balance.type === "KDF" || balance.type === "KOF") {
-      let payment = ["type", "paragraph", "item", "event", "amount", "date", "counterpartyId", "counterpartyName", "description"].reduce((bal, key) => (bal[key] = record[key], bal), {});
-      this.push({ type: "payment", data: payment });
-    }
-  }
-
   createEventsReader() {
 
-    var reader = new Writable({
-      objectMode: true,
-      write: (line, enc, callback) => {
-        this.push({ type: "event", data: { id: line.id, name: line.name } });
+    var reader = new Transform({
+      writableObjectMode: true,
+      readableObjectMode: true,
+      transform: function (line, enc, callback) {
+        if (line.id && line.name) this.push({ type: "event", data: { id: line.id, name: line.name } });
+        else this.emit("warning", "Missing event id");
         callback();
       }
     });

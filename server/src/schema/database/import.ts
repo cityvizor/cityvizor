@@ -5,9 +5,9 @@ export interface ImportRecord {
 
   userId: number;
 
-  created: string;
-  started?: string;
-  finished?: string;
+  created: Date;
+  started?: Date;
+  finished?: Date;
 
   status: "pending" | "processing" | "success" | "error";
   error?: string;
