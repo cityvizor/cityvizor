@@ -23,7 +23,7 @@ import 'classlist.js';  // Run `npm install --save classlist.js`.
 
 
 // Added for "Object doesn't support property or method 'entries'"
-import 'core-js/es7/object';
+import 'core-js/es/object';
 
 /**
  * Web Animations `@angular/platform-browser/animations`
