@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { environment } from "environments/environment";
 import { Profile, BudgetYear, User } from 'app/schema';
+import { Import } from 'app/schema/import';
 
 @Injectable({
   providedIn: 'root'
@@ -58,11 +59,19 @@ export class AdminService {
     return this.http.delete(this.root + "/profiles/" + profileId + "/years/" + year, { responseType: "text" }).toPromise();
   }
 
+  /* IMPORTS */
+
   generateProfileImportToken(profileId: Profile["id"]) {
     return this.http.get(this.root + "/profiles/" + profileId + "/import-token", { responseType: "text" }).toPromise();
   }
   resetProfileImportToken(profileId: Profile["id"]) {
     return this.http.delete(this.root + "/profiles/" + profileId + "/import-token", { responseType: "text" }).toPromise();
+  }
+
+  /* IMPORT LOGS */
+
+  getProfileImports(profileId: Profile["id"]) {
+    return this.http.get<Import[]>(this.root + "/profiles/" + profileId + "/imports").toPromise();
   }
 
   /* USERS */

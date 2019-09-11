@@ -1,1 +1,3 @@
-<p>admin-profile-logs works!</p>
+<div *ngFor="let log of logs">
+  <h4>{{log.created | date:"d. m. Y"}}</h4>
+</div>
