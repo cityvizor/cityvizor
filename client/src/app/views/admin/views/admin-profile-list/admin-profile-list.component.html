@@ -58,3 +58,19 @@
     </div>
   </form>
 </ng-template>
+
+<ng-template #deleteProfileModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Smazat profil</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Opravdu chcete smazat profil {{currentProfile.name}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" (click)="closeModal();">Zrušit</button>
+    <button class="btn btn-danger" (click)="deleteProfile(currentProfile.id);closeModal();">Smazat</button>
+  </div>
+</ng-template>

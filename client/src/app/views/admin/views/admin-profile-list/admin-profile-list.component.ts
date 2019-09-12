@@ -17,6 +17,8 @@ export class AdminProfileListComponent implements OnInit {
 
   loading: boolean = false;
 
+  currentProfile: Profile;
+
   modalRef: BsModalRef;
 
   constructor(
@@ -46,8 +48,17 @@ export class AdminProfileListComponent implements OnInit {
     this.loadProfiles();
   }
 
-  openCreateProfile(template: TemplateRef<any>) {
+  async deleteProfile(profileId: Profile["id"]) {
+    await this.adminService.deleteProfile(profileId);
+    this.loadProfiles();
+  }
+
+  openModal(template: TemplateRef<any>) {
     if (this.modalRef) this.modalRef.hide();
     this.modalRef = this.modalService.show(template);
+  }
+
+  closeModal() {
+    if (this.modalRef) this.modalRef.hide();
   }
 }
