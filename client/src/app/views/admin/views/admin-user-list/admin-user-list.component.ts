@@ -12,6 +12,8 @@ export class AdminUserListComponent implements OnInit {
 
   users: User[];
 
+  currentUser: User;
+
   loading: boolean = false;
 
   modalRef: BsModalRef;
@@ -30,6 +32,11 @@ export class AdminUserListComponent implements OnInit {
     this.loading = true;
     this.users = await this.adminService.getUsers();
     this.loading = false;
+  }
+
+  async deleteUser(userId: User["id"]) {
+    await this.adminService.deleteUser(userId);
+    this.loadUsers();
   }
 
   openModal(template: TemplateRef<any>) {
