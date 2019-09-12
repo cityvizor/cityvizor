@@ -44,4 +44,4 @@ const knexConfig: Knex.Config = {
   }
 };
 
-module.exports = knexConfig;
+export default knexConfig;

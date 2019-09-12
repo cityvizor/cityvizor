@@ -1,8 +1,14 @@
 import Knex from 'knex';
 
-import * as knexConfig from "./config/knexfile";
+import knexConfig from "./config/knexfile";
 
-console.log(`[DB] DB set to ${(<any>knexConfig).connection.user}@${(<any>knexConfig).connection.database}`);
+let connectionString:string;
+if(typeof knexConfig.connection === "string") connectionString = knexConfig.connection;
+else if("user" in knexConfig.connection && "database" in knexConfig.connection) connectionString = knexConfig.connection.user + "@" + knexConfig.connection.database;
+else if("filename" in knexConfig.connection) connectionString = knexConfig.connection.filename;
+else connectionString = knexConfig.connection.user;
+
+console.log(`[DB] DB connection set to ${connectionString}`);
 
 // fix parsing numeric fields, https://github.com/tgriesser/knex/issues/387
 var types = require('pg').types;
@@ -10,6 +16,12 @@ types.setTypeParser(1700, 'text', parseFloat);
 
 // Initialize knex.
 export const db = Knex(knexConfig);
+
+(async function(){
+  console.log("[DB] Running migrations");
+  await db.migrate.latest(knexConfig.migrations);
+  console.log("[DB] Migrations finished");
+})();
 
 export async function dbConnect() {
   return db.raw("SELECT 1+1 AS result")
