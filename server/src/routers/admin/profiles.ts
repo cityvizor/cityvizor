@@ -9,20 +9,22 @@ import * as fs from "fs-extra";
 import { db } from "../../db";
 import { ProfileRecord } from '../../schema/database';
 
+import acl from "express-dynacl";
+
 const router = express.Router();
 
 export const AdminProfilesRouter = router;
 
 const upload = multer({ dest: config.storage.tmp });
 
-router.get("/", async (req, res, next) => {
+router.get("/", acl("profiles","list"), async (req, res, next) => {
 
   const profiles = await db<ProfileRecord>("app.profiles").select("id", "status", "name", "url", "gpsX", "gpsY", "main");
 
   res.json(profiles);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", acl("profiles","write"), async (req, res) => {
 
   const id = await db<ProfileRecord>("app.profiles")
     .insert(req.body, ["id"])
@@ -33,7 +35,7 @@ router.post("/", async (req, res) => {
   res.sendStatus(201);
 });
 
-router.get("/:profile", async (req, res, next) => {
+router.get("/:profile", acl("profiles","read"), async (req, res, next) => {
 
   const profile = await db<ProfileRecord>("app.profiles").where({ id: req.params.profile }).first();
 
@@ -42,7 +44,7 @@ router.get("/:profile", async (req, res, next) => {
   res.json(profile);
 });
 
-router.patch("/:profile", async (req, res, next) => {
+router.patch("/:profile", acl("profiles","write"), async (req, res, next) => {
 
   await db("app.profiles")
     .where({ id: req.params.profile })
@@ -51,14 +53,14 @@ router.patch("/:profile", async (req, res, next) => {
   res.sendStatus(204);
 });
 
-router.delete("/:profile", async (req, res, next) => {
+router.delete("/:profile", acl("profiles","write"), async (req, res, next) => {
   await db("app.profiles")
     .where({ id: req.params.profile })
     .delete();
   res.sendStatus(204);
 });
 
-router.put("/:profile/avatar", upload.single("avatar"), async (req, res, next) => {
+router.put("/:profile/avatar", acl("profiles","write"), upload.single("avatar"), async (req, res, next) => {
 
   if (!req.file) return res.status(400).send("Missing file.");
 
@@ -80,7 +82,7 @@ router.put("/:profile/avatar", upload.single("avatar"), async (req, res, next) =
   res.sendStatus(204);
 });
 
-router.delete("/:profile/avatar", async (req, res, next) => {
+router.delete("/:profile/avatar", acl("profiles","write"), async (req, res, next) => {
 
   const profile = await db<ProfileRecord>("app.profiles").select("id", "avatarType").where({ id: req.params.profile }).first();
   if (!profile) return res.sendStatus(404);

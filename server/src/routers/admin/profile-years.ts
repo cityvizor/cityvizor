@@ -9,9 +9,9 @@ const router = express.Router({ mergeParams: true });
 
 export const AdminProfileYearsRouter = router;
 
-export type YearRecordWithImportStatus = YearRecord & Pick<ImportRecord,"status"|"created">;
+export type YearRecordWithImportStatus = YearRecord & Pick<ImportRecord, "status" | "created">;
 
-router.get("/", acl("admin-years","list"), async (req, res, next) => {
+router.get("/", acl("profile-years", "list"), async (req, res, next) => {
 
   // select status and last time for the latest import
   const years = await db<YearRecordWithImportStatus[]>("app.years AS y")
@@ -25,7 +25,7 @@ router.get("/", acl("admin-years","list"), async (req, res, next) => {
 });
 
 
-router.put("/:year", async (req, res, next) => {
+router.put("/:year", acl("profile-years", "read"), async (req, res, next) => {
   var data = { profile_id: req.params.profile, year: req.params.year };
 
   try {
@@ -40,7 +40,7 @@ router.put("/:year", async (req, res, next) => {
 });
 
 
-router.patch("/:year", async (req, res, next) => {
+router.patch("/:year", acl("profile-years", "list"), async (req, res, next) => {
 
   await db<YearRecord>("app.years")
     .where({ profile_id: req.params.profile, year: Number(req.params.year) })
@@ -50,7 +50,7 @@ router.patch("/:year", async (req, res, next) => {
 
 });
 
-router.delete("/:year", async (req, res, next) => {
+router.delete("/:year", acl("profile-years", "write"), async (req, res, next) => {
 
   await db<YearRecord>("app.years")
     .where({ profile_id: req.params.profile, year: Number(req.params.year) })

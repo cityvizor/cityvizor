@@ -9,6 +9,8 @@ const router = express.Router();
 
 export const AccountLoginRouter = router;
 
+import acl from "express-dynacl";
+
 import config from "../../config";
 import { db } from '../../db';
 import { UserRecord, UserProfileRecord } from '../../schema/database';
@@ -34,7 +36,7 @@ var loginSchema = {
 	}
 };
 
-router.post("/", schema.validate({ body: loginSchema }), async (req, res, next) => {
+router.post("/", acl("login", "login"), schema.validate({ body: loginSchema }), async (req, res, next) => {
 
 	const user = await db<UserRecord>("app.users")
 		.select("id", "login", "password", "role")
@@ -67,7 +69,7 @@ router.post("/", schema.validate({ body: loginSchema }), async (req, res, next) 
 
 });
 
-router.get("/renew", async (req, res, next) => {
+router.get("/renew", acl("login", "renew"), async (req, res, next) => {
 
 	const userId = req.user.id;
 

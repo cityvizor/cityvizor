@@ -1,7 +1,7 @@
 function isManagedProfile(req) {
 
   let user = req.user;
-  let profileId = req.params.profile;
+  let profileId = Number(req.params.profile);
 
   // we need logged user
   if (!user) return false;
@@ -15,58 +15,44 @@ function isManagedProfile(req) {
   return (profileId && user.managedProfiles.indexOf(profileId) !== -1);
 }
 
+function isLoggedUser(req) {
+  let user = req.user;
+  let userId = Number(req.params.user);
+
+  return user.id === userId;
+
+}
+
 export const aclRoles = {
-  "admin": {
-    // access all
-    "*": true
-  },
 
   "guest": {
-
-    "budgets": { "read": true, "list": true },
-    "codelists": { "read": true, "list": true },
-    "counterparty": { "read": true, "list": true },
-    "entity": { "read": true, "list": true },
-    "events": { "read": true, "list": true },
-    "etls": { "read": true, "list": true },
-    "profiles": { "read": true, "list": true },
-
-    "profile-accounting": { "read": true, "list": true },
-    "profile-contracts": { "list": true },
-    "profile-dashboard": { "read": true },
-    "profile-etls": { "read": false, "list": true },
-    "profile-events": { "read": true, "list": true },
-    "profile-image": { "read": true },
-    "profile-noticeboard": { "read": true },
-    "profile-payments": { "list": true },
-    "profile-years": { "read": true, "list": true },
-
-    "login": { "login": true },
-
-    "payments": { "read": true, "list": true },
-
-  },
-
-  "importer": {
-    "profile-years": { "list": req => isManagedProfile(req), "read": req => isManagedProfile(req) },
-    "profile-import": { "write": req => isManagedProfile(req) }
-  },
-
-  "profile-manager": {
-
-    "profiles": { "read": true, "list": true, "write": req => isManagedProfile(req) },
-    "profile-budgets": { "write": req => isManagedProfile(req) },
-    "profile-years": { "list": req => isManagedProfile(req), "read": req => isManagedProfile(req), "write": req => isManagedProfile(req) },
-    "profile-events": { "list": req => isManagedProfile(req), "write": req => isManagedProfile(req) },
-    "profile-expenditures": { "write": req => isManagedProfile(req) },
-    "profile-image": { "write": req => isManagedProfile(req) },
-    "profile-import": { "write": req => isManagedProfile(req) },
-    "profile-managers": { "list": req => isManagedProfile(req) },
-    "etl": { "list": false }
+    "login": { "login": true }
   },
 
   "user": {
-    "users": { "read": (req) => req.user.id === req.params.id, "write": (req) => req.user.id === req.params.id },
+    "users": { "list": true, "read": req => isLoggedUser(req), "write": req => isLoggedUser(req) },
     "login": { "renew": true }
-  }
+  },
+
+
+  "admin": {
+    "profiles": { "list": true, "read": true, "write": true },
+    "profile-years": { "list": true, "read": true, "write": true },
+    "profile-imports": { "list": true },
+    "profile-accounting": { "list": true },
+    "users": { "list": true, "read": true, "write": true }
+  },
+
+  "importer": {
+    "profile-accounting": { "write": req => isManagedProfile(req) }
+  },
+
+  "profile-admin": {
+    "profiles": { "list": true, "read": true, "write": req => isManagedProfile(req) },
+    "profile-years": { "list": true, "read": true, "write": req => isManagedProfile(req) },
+    "profile-imports": { "list": true },
+    "profile-accounting": { "list": true }    
+  },
+
+
 }

@@ -5,11 +5,13 @@ import config from "../../config";
 import { ProfileRecord } from "../../schema";
 import { db } from "../../db";
 
+import acl from "express-dynacl";
+
 const router = express.Router({ mergeParams: true });
 
 export const AdminProfileImportTokenRouter = router;
 
-router.get("/", async (req, res, next) => {
+router.get("/", acl("profile-accounting","write"), async (req, res, next) => {
 
   const profile = await db<ProfileRecord>("app.profiles").select("id", "tokenCode").where({ id: req.params.profile }).first();
   // set validity
