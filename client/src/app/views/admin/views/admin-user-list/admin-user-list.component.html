@@ -22,6 +22,8 @@
           <div class="btn-group pull-right" dropdown>
             <a dropdownToggle>Akce <span class="caret"></span></a>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="currentUser = user; openModal(changePasswordModal)">Nastavit heslo</a></li>
+              <li class="divider dropdown-divider"></li>
               <li><a class="dropdown-item" (click)="currentUser = user; openModal(deleteUserModal)"><span class="text-danger">Smazat</span></a></li>
             </ul>
           </div>
@@ -40,6 +42,9 @@
   <create-user-modal (close)="closeModal($event)"></create-user-modal>
 </ng-template>
 
+<ng-template #changePasswordModal>
+  <user-set-password-modal [user]="currentUser" (close)="closeModal($event)"></user-set-password-modal>
+</ng-template>
 
 <ng-template #deleteUserModal>
   <div class="modal-header">

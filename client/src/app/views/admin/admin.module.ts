@@ -21,6 +21,7 @@ import { CreateUserModalComponent } from './components/create-user-modal/create-
 import { AdminUserComponent } from './views/admin-user/admin-user.component';
 import { ManagedProfilesSelectorComponent } from './components/managed-profiles-selector/managed-profiles-selector.component';
 import { AdminProfileApiComponent } from './views/admin-profile/admin-profile-api/admin-profile-api.component';
+import { UserSetPasswordModalComponent } from './components/user-set-password-modal/user-set-password-modal.component';
 
 
 @NgModule({
@@ -48,6 +49,8 @@ import { AdminProfileApiComponent } from './views/admin-profile/admin-profile-ap
     ManagedProfilesSelectorComponent,
     
     AdminProfileApiComponent,
+    
+    UserSetPasswordModalComponent,
     
   ],
   entryComponents: [

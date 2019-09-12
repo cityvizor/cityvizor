@@ -19,8 +19,6 @@ export class AdminUserComponent implements OnInit, OnDestroy {
 
   managedProfiles: Profile["id"][];
 
-  passwordMatch: boolean | null = null;
-
   modalRef: BsModalRef;
 
   constructor(
@@ -60,12 +58,6 @@ export class AdminUserComponent implements OnInit, OnDestroy {
 
   closeModal() {
     if (this.modalRef) this.modalRef.hide();
-  }
-
-  checkPasswordMatch(password1: string, password2: string) {
-    if (password1 && password2 && password1 === password2) this.passwordMatch = true;
-    if (password1 && password2 && password1 !== password2) this.passwordMatch = false;
-    if (!password1 || !password2) this.passwordMatch = null;
   }
 
 }
