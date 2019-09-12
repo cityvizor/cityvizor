@@ -8,7 +8,7 @@ export const AdminProfileImportsRouter = router;
 
 router.get("/", async (req, res, next) => {
 
-  const records = db<ImportRecord>("app.imports").where({ profileId: req.params.profile });
+  const records = await db<ImportRecord>("app.imports").where({ profileId: req.params.profile });
 
   res.json(records);
 });

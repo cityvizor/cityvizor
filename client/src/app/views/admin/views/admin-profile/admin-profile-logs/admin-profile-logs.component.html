@@ -1,3 +1,26 @@
-<div *ngFor="let log of logs">
-  <h4>{{log.created | date:"d. m. Y"}}</h4>
-</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Rok</th>
+      <th>Stav</th>
+      <th>Vytvořen</th>
+      <th>Spuštěn</th>
+      <th>Dokončen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let log of logs">
+      <td>{{log.year}}</td>
+      <td [ngSwitch]="log.status">
+        <ng-container *ngSwitchCase="'pending'">čeká ve frontě</ng-container>
+        <ng-container *ngSwitchCase="'processing'">probíhá</ng-container>
+        <ng-container *ngSwitchCase="'success'">dokončen</ng-container>
+        <ng-container *ngSwitchCase="'error'">chyba</ng-container>
+        <ng-container *ngSwitchDefault>{{log.status}}</ng-container>
+      </td>
+      <td>{{log.created | date:"d. M. y H:mm:ss"}}</td>
+      <td>{{log.started | date:"d. M. y H:mm:ss"}}</td>
+      <td>{{log.finished | date:"d. M. y H:mm:ss"}}</td>
+    </tr>
+  </tbody>
+</table>
