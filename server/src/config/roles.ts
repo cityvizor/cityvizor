@@ -39,7 +39,7 @@ export const aclRoles = {
     "profiles": { "list": true, "read": true, "write": true },
     "profile-years": { "list": true, "read": true, "write": true },
     "profile-imports": { "list": true },
-    "profile-accounting": { "list": true },
+    "profile-accounting": { "list": true, "write": true },
     "users": { "list": true, "read": true, "write": true }
   },
 
@@ -51,7 +51,7 @@ export const aclRoles = {
     "profiles": { "list": true, "read": true, "write": req => isManagedProfile(req) },
     "profile-years": { "list": true, "read": true, "write": req => isManagedProfile(req) },
     "profile-imports": { "list": true },
-    "profile-accounting": { "list": true }    
+    "profile-accounting": { "list": true, "write": req => isManagedProfile(req) }    
   },
 
 
