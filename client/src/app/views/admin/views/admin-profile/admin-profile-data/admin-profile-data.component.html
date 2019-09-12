@@ -16,13 +16,15 @@
         &nbsp;
         {{year.year}}&nbsp;<ng-container *ngIf="year.hidden">(skrytý)</ng-container>
       </td>
-      <td [ngSwitch]="year.status">
-        <ng-container *ngSwitchCase="'pending'">čeká ve frontě</ng-container>
-        <ng-container *ngSwitchCase="'processing'">probíhá import</ng-container>
-        <ng-container *ngSwitchCase="'success'">úspěšný import</ng-container>
-        <ng-container *ngSwitchCase="'error'">chyba</ng-container>
-        <ng-container *ngSwitchDefault>{{year.status}}</ng-container>
-        ({{year.statusTime | date:"d. M. y H:mm:ss"}})
+      <td>
+        <ng-container *ngIf="year.status" [ngSwitch]="year.status">
+          <ng-container *ngSwitchCase="'pending'">čeká ve frontě</ng-container>
+          <ng-container *ngSwitchCase="'processing'">probíhá import</ng-container>
+          <ng-container *ngSwitchCase="'success'">úspěšný import</ng-container>
+          <ng-container *ngSwitchCase="'error'">chyba</ng-container>
+          <ng-container *ngSwitchDefault>{{year.status}}</ng-container>
+          ({{year.statusTime | date:"d. M. y H:mm:ss"}})
+        </ng-container>
       </td>
       <td>{{year.validity | date:"d. M. y"}}</td>
       <td>
@@ -46,7 +48,7 @@
 
 <div>
   <button type="button" class="btn btn-primary" (click)="openModal(createYearModal)">+ Přidat rozpočtový rok</button>
-&nbsp;
+  &nbsp;
   <button type="button" class="btn btn-secondary" (click)="loadYears(profileId)"><i class="fa fa-refresh" aria-hidden="true"></i> Obnovit</button>
 </div>
 
