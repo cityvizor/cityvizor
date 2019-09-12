@@ -9,7 +9,7 @@ Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalš�
 #### Potřebné aplikace
 
  - [NodeJS](https://nodejs.org) 10+
- - [MongoDB](https://www.mongodb.com/download-center/community) 4+
+ - [PostgreSQL](https://www.postgresql.org/download/) 11+
 
 #### Instalace a kompilace
 
