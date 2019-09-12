@@ -26,8 +26,14 @@
         </div>
         <button type="submit" class="btn btn-primary">Uložit</button>
       </form>
-    </div>
 
+      <br><br>
+
+      <button type="button" class="btn btn-primary" (click)="openModal(changePasswordModal)">Nastavit heslo</button>
+    </div>
+    <div class="col-md-6">
+
+    </div>
 
   </div>
 </div>
@@ -45,4 +51,30 @@
   <div class="modal-footer">
     <button class="btn btn-default" (click)="closeModal()">Zavřít</button>
   </div>
+</ng-template>
+
+<ng-template #changePasswordModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Nastavit heslo pro účet {{user?.name || user?.login}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #passwordForm="ngForm" (ngSubmit)="saveUser(passwordForm);closeModal();">
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Heslo</label>
+        <input type="password" name="password" ngModel required class="form-control" #inputPassword>
+      </div>
+      <div class="form-group">
+        <label>Kontrola hesla</label>
+        <input type="password" class="form-control novalidate" ngModel [ngModelOptions]="{ standalone: true }" (ngModelChange)="checkPasswordMatch($event,inputPassword.value)">
+        <p *ngIf="passwordMatch === false" class="help-block text-danger">Hesla se neshodují.</p>
+        <p *ngIf="passwordMatch === true" class="help-block text-success">Hesla se shodují.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" [disabled]="!passwordForm.valid || !passwordMatch">Nastavit</button>
+    </div>
+  </form>
 </ng-template>
