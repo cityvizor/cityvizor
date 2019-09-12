@@ -1,33 +1,53 @@
-<div *ngFor="let year of years" class="panel" [class.panel-primary]="!year.hidden" [class.panel-default]="year.hidden">
-  <div class="panel-heading">
+<table class="table">
 
-    <div class="btn-group pull-right" dropdown>
-      <a dropdownToggle [class.text-white]="!year.hidden">Akce <span class="caret"></span></a>
-      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
-        <li><a class="dropdown-item" (click)="currentYear = year.year; openModal(uploadModal)">Nahrát data z CSV</a></li>
-        <li *ngIf="!year.hidden"><a class="dropdown-item" (click)="hideYear(year)">Skrýt</a></li>
-        <li *ngIf="year.hidden"><a class="dropdown-item" (click)="publishYear(year)">Zveřejnit</a></li>
-        <li class="divider dropdown-divider"></li>
-        <li><a class="dropdown-item" (click)="currentYear = year.year; openModal(deleteYearModal)"><span class="text-danger">Smazat</span></a>
-        </li>
-      </ul>
-    </div>
-
-    <h3 class="panel-title">{{year.year}}&nbsp;<ng-container *ngIf="year.hidden">(skrytý)</ng-container>
-    </h3>
-
-  </div>
-  <div class="panel-body">
-    Validita dat: {{year.validity}}
-
-  </div>
-</div>
+  <thead>
+    <tr>
+      <th>Rok</th>
+      <th>Stav</th>
+      <th>Validita</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let year of years">
+      <td>
+        <i *ngIf="!year.hidden" class="fa fa-eye text-success" aria-hidden="true"></i>
+        <i *ngIf="year.hidden" class="fa fa-eye-slash text-danger" aria-hidden="true"></i>
+        &nbsp;
+        {{year.year}}&nbsp;<ng-container *ngIf="year.hidden">(skrytý)</ng-container>
+      </td>
+      <td [ngSwitch]="year.status">
+        <ng-container *ngSwitchCase="'pending'">čeká ve frontě</ng-container>
+        <ng-container *ngSwitchCase="'processing'">probíhá import</ng-container>
+        <ng-container *ngSwitchCase="'success'">úspěšný import</ng-container>
+        <ng-container *ngSwitchCase="'error'">chyba</ng-container>
+        <ng-container *ngSwitchDefault>{{year.status}}</ng-container>
+        ({{year.statusTime | date:"d. M. y H:mm:ss"}})
+      </td>
+      <td>{{year.validity | date:"d. M. y"}}</td>
+      <td>
+        <div class="btn-group pull-right" dropdown>
+          <a dropdownToggle>Akce <span class="caret"></span></a>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
+            <li><a class="dropdown-item" (click)="currentYear = year.year; openModal(uploadModal)">Nahrát data z CSV</a></li>
+            <li *ngIf="!year.hidden"><a class="dropdown-item" (click)="hideYear(year)">Skrýt</a></li>
+            <li *ngIf="year.hidden"><a class="dropdown-item" (click)="publishYear(year)">Zveřejnit</a></li>
+            <li class="divider dropdown-divider"></li>
+            <li><a class="dropdown-item" (click)="currentYear = year.year; openModal(deleteYearModal)"><span class="text-danger">Smazat</span></a>
+            </li>
+          </ul>
+        </div>
+      </td>
+  </tbody>
+</table>
 
 <p *ngIf="loading">Náčítání&hellip;</p>
 <p *ngIf="(profile$ | async) && !years.length && !loading">Nejsou vytvořeny žádné rozpočtové roky.</p>
 
 <div>
   <button type="button" class="btn btn-primary" (click)="openModal(createYearModal)">+ Přidat rozpočtový rok</button>
+&nbsp;
+  <button type="button" class="btn btn-secondary" (click)="loadYears(profileId)"><i class="fa fa-refresh" aria-hidden="true"></i> Obnovit</button>
 </div>
 
 <ng-template #uploadModal>
