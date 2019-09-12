@@ -4,7 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form #uploadForm="ngForm" (ngSubmit)="uploadData(dataFileInput, eventsFileInput)">
+<form #uploadForm="ngForm" (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput)">
   <div class="modal-body">
     <div class="form-group">
       <label>Datový soubor</label>
@@ -14,6 +14,11 @@
     <div class="form-group">
       <label>Číselník akcí</label>
       <input type="file" name="dataFile" accept=".csv" class="form-control" ngModel #eventsFileInput>
+    </div>
+
+    <div class="form-group">
+      <label>Validita dat</label>
+      <input type="date" name="validity" class="form-control" ngModel required>
     </div>
   </div>
   <div class="modal-footer">

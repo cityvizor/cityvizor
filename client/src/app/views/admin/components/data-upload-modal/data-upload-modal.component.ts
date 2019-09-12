@@ -25,7 +25,7 @@ export class DataUploadModalComponent implements OnInit {
   }
 
 
-  async uploadData(dataFileInput: HTMLInputElement, eventsFileInput: HTMLInputElement) {
+  async uploadData(form, dataFileInput: HTMLInputElement, eventsFileInput: HTMLInputElement) {
 
     if (!dataFileInput.files || !dataFileInput.files[0]) {
       this.toastService.toast("Datový soubor je povinný.", "notice");
@@ -33,9 +33,12 @@ export class DataUploadModalComponent implements OnInit {
     }
     if (!this.year) return;
 
+    const formData = form.value;
     const data = new FormData();
 
     data.set("year", String(this.year));
+
+    data.set("validity", formData.validity);
 
     const file = dataFileInput.files[0]
     data.set("dataFile", file, file.name);
@@ -47,6 +50,7 @@ export class DataUploadModalComponent implements OnInit {
 
     await this.importService.importAccounting(this.profileId, data);
 
+    this.close.emit(true);
 
   }
 
