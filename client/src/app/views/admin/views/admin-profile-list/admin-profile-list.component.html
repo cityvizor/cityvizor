@@ -10,15 +10,29 @@
     </thead>
     <tbody>
       <tr *ngFor="let profile of profiles" [routerLink]="'./' + profile.id">
-        <th>{{profile.name}} {{profile.main ? "(hlavní profil)" : ""}}</th>
+        <th>
+          {{profile.name}}
+          <span *ngIf="profile.status === 'hidden'" class="label label-danger">skrytý</span>
+          <span *ngIf="profile.status === 'pending'" class="label label-warning">připravovaný</span>          
+          <span *ngIf="profile.main" class="label label-primary">{{profile.main ? "hlavní profil" : ""}}</span>
+        </th>
         <td><a [routerLink]="'/' + profile.url">{{config.siteUrl}}/{{profile.url}}</a></td>
-        <td></td>
+        <td (click)="$event.stopImmediatePropagation()">
+          <div class="btn-group pull-right" dropdown>
+            <a dropdownToggle>Akce <span class="caret"></span></a>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="currentProfile = profile; openModal(deleteProfileModal)"><span class="text-danger">Smazat</span></a></li>
+            </ul>
+          </div>
+        </td>
       </tr>
-      <tr *ngIf="loading"><td colspan="3">Načítání&hellip;</td></tr>
+      <tr *ngIf="loading">
+        <td colspan="3">Načítání&hellip;</td>
+      </tr>
     </tbody>
   </table>
-  
-  <button (click)="openCreateProfile(createProfileModal)" class="btn btn-primary">Vytvořit profil</button>
+
+  <button (click)="openModal(createProfileModal)" class="btn btn-primary">Vytvořit profil</button>
 </div>
 
 <ng-template #createProfileModal>
@@ -28,7 +42,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form #createProfileForm="ngForm" (ngSubmit)="createProfile(createProfileForm)">
+  <form #createProfileForm="ngForm" (ngSubmit)="createProfile(createProfileForm); closeModal();">
     <div class="modal-body">
       <div class="form-group">
         <label>Název</label>
