@@ -53,7 +53,8 @@
 
 			<div class="col-md-6">
 				<h2 class="text-center">Výdaje magistrátu</h2>
-				<profile-expenditures-widget *ngIf="mainProfile" [profileId]="mainProfile.id" [year]="mainProfileLatestYear" (openGroup)="openGroup($event)"></profile-expenditures-widget>
+				<profile-expenditures-widget *ngIf="mainProfile && mainProfileLatestYear" [profileId]="mainProfile.id" [year]="mainProfileLatestYear" (openGroup)="openGroup($event)"></profile-expenditures-widget>
+				<p *ngIf="mainProfile === null">Není zvolen hlavní profil.</p>
 			</div>
 
 			<div class="col-md-6">
