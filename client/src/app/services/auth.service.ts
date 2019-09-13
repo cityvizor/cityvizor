@@ -90,7 +90,7 @@ export class AuthService {
 		if (!this.token) return;
 
 		// get the new token. as an authorization, we use current token
-		this.http.get(environment.api_root + "/login/renew", { responseType: 'text' }).toPromise()
+		this.http.get(this.root + "/login/renew", { responseType: 'text' }).toPromise()
 
 			.then(token => {
 
