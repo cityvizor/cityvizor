@@ -19,7 +19,13 @@ function convertRow2CamelCase(row: any): any {
   }, {});
 };
 
-const knexConfig: Knex.Config = {
+type KnexConfigWithPropegateCreateError = Knex.Config & {
+  pool: {
+    propagateCreateError: boolean
+  }
+};
+
+const knexConfig: KnexConfigWithPropegateCreateError = {
   client: environment.database.client,
   connection: {
     host: environment.database.host,
@@ -28,9 +34,12 @@ const knexConfig: Knex.Config = {
     database: environment.database.database
   },
   migrations: {
-    extension: 'ts',    
+    extension: 'ts',
     directory: path.resolve(__dirname, "../migrations")
-  },  
+  },
+  pool: {
+    propagateCreateError: false
+  },
 
   wrapIdentifier: (value, origImpl, queryContext) => origImpl(changeCase.snakeCase(value)),
 
