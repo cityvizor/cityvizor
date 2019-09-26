@@ -39,7 +39,7 @@ export class ProfileSearchComponent implements OnInit {
 		profiles.sort((a, b) => {
 			if (a.status === "pending" && b.status !== "pending") return 1;
 			if (a.status !== "pending" && b.status === "pending") return -1;
-			return a.name.localeCompare(b.name); // cant be null, added searchString few lines before
+			return a.name.localeCompare(b.name, undefined, { numeric: true });
 		});
 		this.profiles = profiles;
 

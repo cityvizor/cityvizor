@@ -8,7 +8,7 @@
   <!-- MĚSTA -->
   <div class="mesta">
     <ng-container *ngFor="let profile of profiles">
-      <div *ngIf="profile.gpsX && profile.gpsY && profile.status!='pending'" class="mesto" [class.hover]="hoverProfile === profile" [ngStyle]="gps2css(profile.gpsX, profile.gpsY)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
+      <div *ngIf="profile.gpsX && profile.gpsY" class="mesto" [class.pending]="profile.status === 'pending'" [class.hover]="hoverProfile === profile" [ngStyle]="gps2css(profile.gpsX, profile.gpsY)" (click)="openProfile(profile)" (mouseover)="hoverProfile=profile" (mouseout)="hoverProfile=null">
         <span class="name">{{profile.name}}</span>
         <span class="gps">{{[profile.gpsX, profile.gpsY] | gps2string}}</span>
       </div>
@@ -23,7 +23,7 @@
   
   <div *ngFor="let profile of profiles" class="profile" [class.profile-pending]="profile.status === 'pending'" (mouseover)="hoverProfile = profile" (mouseout)="hoverProfile = null">
     <div class="pending-box text-center" *ngIf="profile.status == 'pending'">
-      <a (click)="openPending(profile,$event)" class="pending-box-title">Připravujeme data</a>
+      <a (click)="openPending(profile,$event)" class="pending-box-title">Připravujeme</a>
     </div>	
     <a [routerLink]="profile.status != 'pending' ? '/' + profile.url : '/'">
       <div class="text-center" _ngcontent-c1="">
