@@ -22,7 +22,7 @@ export async function checkImportQueue() {
     else {
       console.log("[WORKER] Found a stale job in queue, removing.");
       const updateData: Partial<ImportRecord> = { status: "error", error: "Job timed out without proper finish.", finished: DateTime.local().toJSDate() };
-      db<ImportRecord>("app.imports").where({ id: runningJob.id }).update(updateData)
+      await db<ImportRecord>("app.imports").where({ id: runningJob.id }).update(updateData)
     }
 
   }
