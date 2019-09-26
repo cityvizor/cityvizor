@@ -2,40 +2,36 @@ import * as Knex from "knex";
 
 export async function up(knex: Knex): Promise<any> {
 
+  // drop depending objects
   await dropViews(knex);
-
-  await knex.schema.alterTable("data.accounting", table => {
-    table.bigInteger("event").alter();
-  });
-
   await knex.schema.raw("ALTER TABLE data.events DROP CONSTRAINT events_pkey;");
 
-  await knex.schema.alterTable("data.events", table => {
-    table.bigInteger("id").alter();
-  });
+  // alter columns
+  await knex.schema.alterTable("data.accounting", table => { table.bigInteger("event").alter(); });
+  await knex.schema.alterTable("data.payments", table => { table.bigInteger("event").alter(); });
+  await knex.schema.alterTable("data.events", table => { table.bigInteger("id").alter(); });
 
+  // recreate depending objects
   await knex.schema.raw("ALTER TABLE data.events ADD CONSTRAINT events_pkey PRIMARY KEY (profile_id, year, id)")
-
   await buildViews(knex);
+
 }
 
 export async function down(knex: Knex): Promise<any> {
 
+  // drop depending objects
   await dropViews(knex);
-
-  await knex.schema.alterTable("data.accounting", table => {
-    table.integer("event").alter();
-  });
-
   await knex.schema.raw("ALTER TABLE data.events DROP CONSTRAINT events_pkey;");
 
-  await knex.schema.alterTable("data.events", table => {
-    table.integer("id").alter();
-  });
+  // alter columns
+  await knex.schema.alterTable("data.accounting", table => { table.integer("event").alter(); });
+  await knex.schema.alterTable("data.payments", table => { table.integer("event").alter(); });
+  await knex.schema.alterTable("data.events", table => { table.integer("id").alter(); });
 
+  // recreate depending objects
   await knex.schema.raw("ALTER TABLE data.events ADD CONSTRAINT events_pkey PRIMARY KEY (profile_id, year, id)")
-
   await buildViews(knex);
+
 }
 
 export async function dropViews(db: Knex | Knex.SchemaBuilder) {
