@@ -51,4 +51,4 @@ const knexConfig: KnexConfigWithPropegateCreateError = {
   }
 };
 
-export default knexConfig;
+export = knexConfig;
