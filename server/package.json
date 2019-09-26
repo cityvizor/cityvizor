@@ -8,11 +8,14 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsc",
-    "migrate": "knex migrate:latest --knexfile dist/config/knexfile.js",
     "server": "node dist/server.js",
     "worker": "node dist/worker.js",
     "task-exec": "node dist/worker/run-tasks-cli.js",
-    "create-admin": "node dist/scripts/create-admin.js"
+    "create-admin": "node dist/scripts/create-admin.js",
+    "migrate:latest": "knex migrate:latest --knexfile dist/config/knexfile.js",
+    "migrate:up": "knex migrate:up --knexfile dist/config/knexfile.js",
+    "migrate:down": "knex migrate:down --knexfile dist/config/knexfile.js",
+    "migrate:make": "knex migrate:make --knexfile dist/config/knexfile.js"
   },
   "keywords": [
     "opendata",

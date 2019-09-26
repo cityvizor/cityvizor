@@ -1,6 +1,6 @@
-import * as Knex from "knex";
 
-export async function up(knex: Knex): Promise<any> {
+
+exports.up = async function(knex) {
 
   return knex.schema.raw(`CREATE OR REPLACE VIEW public.profiles
  AS
@@ -23,7 +23,7 @@ WHERE profiles.status != 'hidden';`)
 
 }
 
-export async function down(knex: Knex): Promise<any> {
+exports.down = async function(knex) {
 
   return knex.schema.raw(`CREATE OR REPLACE VIEW public.profiles
   AS

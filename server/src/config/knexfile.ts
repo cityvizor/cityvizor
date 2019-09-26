@@ -32,8 +32,8 @@ const knexConfig: KnexConfigWithPropegateCreateError = {
     database: environment.database.database
   },
   migrations: {
-    extension: 'ts',
-    directory: path.resolve(__dirname, "../migrations")
+    //extension: 'ts',
+    directory: path.resolve(__dirname, "../../migrations")
   },
   pool: {
     propagateCreateError: false

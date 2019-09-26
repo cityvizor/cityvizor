@@ -1,6 +1,6 @@
-import * as Knex from "knex";
 
-export async function up(knex: Knex): Promise<any> {
+
+exports.up = async function(knex) {
 
   // drop depending objects
   await dropViews(knex);
@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<any> {
 
 }
 
-export async function down(knex: Knex): Promise<any> {
+exports.down = async function(knex) {
 
   // drop depending objects
   await dropViews(knex);
@@ -34,13 +34,13 @@ export async function down(knex: Knex): Promise<any> {
 
 }
 
-export async function dropViews(db: Knex | Knex.SchemaBuilder) {
+export async function dropViews(db) {
   await db.raw("DROP VIEW public.accounting;");
   await db.raw("DROP VIEW public.events;");
   await db.raw("DROP VIEW public.payments;");
 }
 
-export async function buildViews(db: Knex | Knex.SchemaBuilder) {
+export async function buildViews(db) {
   await db.raw(`CREATE OR REPLACE VIEW public.accounting
   AS
   SELECT p.id AS profile_id,

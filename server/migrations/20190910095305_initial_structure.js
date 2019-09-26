@@ -1,7 +1,5 @@
-import * as Knex from "knex";
-
-export async function up(knex: Knex): Promise<any> {
-  const sql = `
+exports.up = async function(knex) {
+    const sql = `
   --
 -- PostgreSQL database dump
 --
@@ -732,13 +730,13 @@ ALTER TABLE ONLY data.payments
 -- PostgreSQL database dump complete
 --
   `;
-  
-  return knex.raw(sql);
+
+    return knex.raw(sql);
 }
 
 
-export async function down(knex: Knex): Promise<any> {
-  return knex.raw(`
+exports.down = async function(knex) {
+    return knex.raw(`
     DROP SCHEMA app CASCADE;
     DROP SCHEMA data CASCADE;
     DROP SCHEMA public CASCADE;
