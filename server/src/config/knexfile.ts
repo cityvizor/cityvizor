@@ -1,4 +1,4 @@
-import Knex from 'knex';
+import Knex, { PoolConfig } from 'knex';
 
 import path from "path";
 
@@ -19,10 +19,8 @@ function convertRow2CamelCase(row: any): any {
   }, {});
 };
 
-type KnexConfigWithPropegateCreateError = Knex.Config & {
-  pool: {
-    propagateCreateError: boolean
-  }
+interface KnexConfigWithPropegateCreateError extends Knex.Config {
+  pool: PoolConfig & { propagateCreateError: boolean };
 };
 
 const knexConfig: KnexConfigWithPropegateCreateError = {
