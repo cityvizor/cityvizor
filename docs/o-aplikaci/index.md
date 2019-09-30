@@ -65,7 +65,7 @@ Netestováno
  
 #### Frontend
  - TypeScript
- - Angular 5
+ - Angular 7
  - HTML5
  - CSS3
  - Bootstrap v3
