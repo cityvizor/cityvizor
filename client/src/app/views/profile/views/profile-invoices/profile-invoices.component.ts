@@ -75,7 +75,7 @@ export class ProfileInvoicesComponent implements OnInit {
 
 		this.years.sort((a, b) => b - a);
 
-		if (!this.currentYear) this.selectMonth(this.years[this.years.length - 1], Math.max(...this.months[this.years[this.years.length - 1]]));
+		if (!this.currentYear) this.selectMonth(this.years[0], Math.max(...this.months[this.years[0]]));
 		else if (!this.currentMonth) this.selectMonth(this.currentYear, 1);
 
 	}
