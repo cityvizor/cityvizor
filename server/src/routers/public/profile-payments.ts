@@ -14,8 +14,12 @@ router.get("/", async (req, res, next) => {
 		.where({ profile_id: req.params.profile })
 		.limit(req.query.limit ? Math.min(Number(req.query.limit), 10000) : 10000)
 		.offset(req.query.offset || 0)
-		.modify(function () {
-			if (req.query.sort) this.orderBy(sort2order(req.query.sort));
+		.modify(function () {			
+			if (req.query.sort){
+				const order = sort2order(req.query.sort);
+				if(order.some(orderItem => orderItem.column === "date")) this.whereRaw("date IS NOT NULL"); // otherwise null payments would get selected on descending date
+				this.orderBy(order);
+			}
 			if (req.query.event) this.where({ event: req.query.event });
 			if (req.query.dateFrom) this.where("date", ">=", req.query.dateFrom);
 			if (req.query.dateTo) this.where("date", "<", req.query.dateTo);
