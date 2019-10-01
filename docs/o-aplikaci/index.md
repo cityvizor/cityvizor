@@ -58,17 +58,14 @@ Netestováno
 ### Použité technologie
 
 #### Backend
- - JavaScript
+ - TypeScript
+ - ExpressJS
  - NodeJS
- - MongoDB
- - JWT
- - PM2
- - Nginx
- - CentOS 7
+ - Postgre
  
 #### Frontend
  - TypeScript
- - Angular 5
+ - Angular 7
  - HTML5
  - CSS3
  - Bootstrap v3
