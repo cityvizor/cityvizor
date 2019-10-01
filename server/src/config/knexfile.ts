@@ -32,7 +32,7 @@ const knexConfig: Knex.Config = {
     directory: path.resolve(__dirname, "../../migrations")
   },
 
-  debug: true,
+  debug: true,  
 
   wrapIdentifier: (value, origImpl, queryContext) => origImpl(changeCase.snakeCase(value)),
 
