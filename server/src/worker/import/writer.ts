@@ -15,9 +15,9 @@ export class ImportWriter extends Writable {
   async clear() {
 
     var tasks = [
-      db("data.accounting").where({ profile_id: this.options.profileId, year: this.options.year }).delete(),
-      db("data.payments").where({ profile_id: this.options.profileId, year: this.options.year }).delete(),
-      db("data.events").where({ profile_id: this.options.profileId, year: this.options.year }).delete()
+      db("data.accounting").where({ profileId: this.options.profileId, year: this.options.year }).delete(),
+      db("data.payments").where({ profileId: this.options.profileId, year: this.options.year }).delete(),
+      db("data.events").where({ profileId: this.options.profileId, year: this.options.year }).delete()
     ];
 
     await Promise.all(tasks);
