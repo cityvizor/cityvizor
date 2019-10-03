@@ -8,6 +8,8 @@ import { ACLService } from './services/acl.service';
 
 import { AppConfig, IAppConfig } from 'config/config';
 
+import * as packageJSON from "../../../package.json";
+
 class LoginData {
 	login: string = "";
 	password: string = "";
@@ -34,7 +36,7 @@ export class AppComponent {
 	// array to link toasts from toastService
 	toasts: Array<any>;
 
-
+	version = packageJSON.version;
 
 	wrongPassword: boolean = false;
 
