@@ -21,23 +21,11 @@
 	<div class="container text-muted small">
 		<div class="row">
 			<div class="col-sm-5 col-xs-12">
-				CityVizor v{{version}}<br>
-        Vyvinuto na <a href="https://www.mfcr.cz/">Ministerstvu financí</a><br>
-        Provozuje <a href="https://praha.eu/">Magistrát hlavního města Prahy</a>
+				Vyvinuto na <a href="https://www.mfcr.cz/">Ministerstvu financí</a><br>
+				Provozuje <a href="https://praha.eu/">Magistrát hlavního města Prahy</a>
 			</div>
 			<div class="col-sm-2 col-xs-12 text-center">
-				<a href="https://facebook.com/CityVizor" class="hidden">
-					<span class="fa-stack fa-md">
-						<i class="fa fa-circle fa-stack-2x"></i>
-						<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-					</span>
-				</a>
-				<a href="https://twitter.com/CityVizor" class="hidden">
-					<span class="fa-stack fa-md">
-						<i class="fa fa-circle fa-stack-2x"></i>
-						<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-					</span>
-				</a>
+				CityVizor v{{version}}<br>
 				<a [href]="config.githubUrl">
 					<span class="fa-stack fa-md">
 						<i class="fa fa-circle fa-stack-2x"></i>
@@ -79,7 +67,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
-						<login-form (cancel)="loginModal.hide()" (login)="loginModal.hide()"></login-form>						
+						<login-form (cancel)="loginModal.hide()" (login)="loginModal.hide()"></login-form>
 					</div>
 				</div>
 			</div>
