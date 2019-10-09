@@ -34,13 +34,13 @@ exports.down = async function(knex) {
 
 }
 
-export async function dropViews(db) {
+async function dropViews(db) {
   await db.raw("DROP VIEW public.accounting;");
   await db.raw("DROP VIEW public.events;");
   await db.raw("DROP VIEW public.payments;");
 }
 
-export async function buildViews(db) {
+async function buildViews(db) {
   await db.raw(`CREATE OR REPLACE VIEW public.accounting
   AS
   SELECT p.id AS profile_id,
