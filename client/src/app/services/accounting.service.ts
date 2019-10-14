@@ -56,7 +56,7 @@ export class AccountingService {
       .reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string })
 
     const events: BudgetGroupEvent[] = (await this.dataService.getProfileAccountingEvents(profileId, year, typeConfig.field, groupId))
-      .filter(row => row[typeConfig.amount] && row[typeConfig.budgetAmount])
+      .filter(row => row[typeConfig.amount] || row[typeConfig.budgetAmount])
       .map(row => {
 
         const event: BudgetGroupEvent = {
@@ -68,7 +68,7 @@ export class AccountingService {
         };
 
         if (row.items) event.items = row.items
-          .filter(row => row[typeConfig.amount] && row[typeConfig.budgetAmount])
+          .filter(row => row[typeConfig.amount] || row[typeConfig.budgetAmount])
           .map(item => ({
             id: item.id,
             name: itemCodelist[String(item.id)],
