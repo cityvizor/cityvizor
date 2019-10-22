@@ -14,7 +14,7 @@ servers:
 paths:
   '/api/import/profiles/{profileId}/accounting':
     parameters:
-      - type: string
+      - type: integer
         name: profileId
         in: path
         required: true
@@ -30,13 +30,13 @@ paths:
                 type: object
                 properties:
                   id:
-                    type: number
+                    type: integer
                   profileId:
-                    type: number
+                    type: integer
                   year:
-                    type: number
+                    type: integer
                   userId:
-                    type: number
+                    type: integer
                   created:
                     type: string
                   started:
@@ -87,7 +87,7 @@ paths:
                   type: string
                   format: binary
                 year:
-                  type: number
+                  type: integer
               required:
                 - year
 components:
