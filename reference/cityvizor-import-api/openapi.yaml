@@ -15,10 +15,12 @@ servers:
 paths:
   '/api/import/profiles/{profileId}/accounting':
     parameters:
-      - type: integer
+      - schema:
+          type: integer
         name: profileId
         in: path
         required: true
+        description: The profile id of the profile to import data into
     post:
       summary: Import accounting data
       tags: []
@@ -67,12 +69,6 @@ paths:
         This endpoint allows user to import accounting data to CityVizor profile.
 
         Authentication is done by providing access token in a HTTP header. This access token can be obtained from the CityVizor administration interface.
-
-        Either dataFile or zipFile body property is mandatory.
-
-        The dataFile and eventsFile structure is described at https://cityvizor.github.io/cityvizor/dokumentace/
-
-        The zipFile must consist of dataFile, eventsFile (optional) and paymentsFile (optional) files ending _data.csv, _events.csv and _payments.csv respectively.
       requestBody:
         content:
           multipart/form-data:
@@ -95,12 +91,19 @@ paths:
                   type: integer
               required:
                 - year
+        description: |-
+          Either dataFile or zipFile body property is mandatory.
+
+          The dataFile and eventsFile structure is described at https://cityvizor.github.io/cityvizor/dokumentace/
+
+          The zipFile must consist of dataFile, eventsFile (optional) and paymentsFile (optional) files ending _data.csv, _events.csv and _payments.csv respectively.
 components:
   schemas: {}
   securitySchemes:
     apiKey:
       type: http
-      scheme: Bearer
+      scheme: bearer
       bearerFormat: JWT
+      description: This api key can be obtained in the CityVizor administration interface
 security:
   - apiKey: []
