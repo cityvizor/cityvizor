@@ -68,6 +68,10 @@ paths:
         Authentication is done by providing access token in a HTTP header. This access token can be obtained from the CityVizor administration interface.
 
         Either dataFile or zipFile body property is mandatory.
+
+        The dataFile and eventsFile structure is described at https://cityvizor.github.io/cityvizor/dokumentace/
+
+        The zipFile must consist of dataFile, eventsFile (optional) and paymentsFile (optional) files named *_data.csv, *_events.csv and *_payments.csv respectively.
       requestBody:
         content:
           multipart/form-data:
