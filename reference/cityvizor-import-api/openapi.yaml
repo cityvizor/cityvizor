@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: CityVizor Import API
+  version: '1.0'
+  contact:
+    name: Otevřená Města
+    url: 'https://www.otevrenamesta.cz/'
+    email: cityvizor@otevrenamesta.cz
+servers:
+  - url: 'https://cityvizor.cz'
+    description: Global Instance (API being prepared)
+  - description: Prague Instance
+    url: 'https://cityvizor.praha.eu'
+paths:
+  '/api/import/profiles/{profileId}/accounting':
+    parameters:
+      - type: string
+        name: profileId
+        in: path
+        required: true
+    post:
+      summary: Import accounting data
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  profileId:
+                    type: number
+                  year:
+                    type: number
+                  userId:
+                    type: number
+                  created:
+                    type: string
+                  started:
+                    type: string
+                  finished:
+                    type: string
+                  status:
+                    type: string
+                  error:
+                    type: string
+                  validity:
+                    type: string
+                required:
+                  - id
+                  - profileId
+                  - year
+                  - userId
+                  - created
+                  - status
+        '400':
+          description: Missing data file or zip file or Invalid year value
+        '403':
+          description: Token revoked
+        '500':
+          description: Failed to create import record in database
+      description: |-
+        This endpoint allows user to import accounting data to CityVizor profile.
+
+        Authentication is done by providing access token in a HTTP header. This access token can be obtained from the CityVizor administration interface.
+
+        Either dataFile or zipFile body property is mandatory.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                dataFile:
+                  type: string
+                  format: binary
+                eventsFile:
+                  type: string
+                  format: binary
+                paymentsFile:
+                  type: string
+                  format: binary
+                zipFile:
+                  type: string
+                  format: binary
+                year:
+                  type: number
+              required:
+                - year
+components:
+  schemas: {}
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+security:
+  - apiKey: []
