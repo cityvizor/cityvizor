@@ -6,6 +6,7 @@ info:
     name: Otevřená Města
     url: 'https://www.otevrenamesta.cz/'
     email: cityvizor@otevrenamesta.cz
+  description: This is the import interface for importing data to the CityVizor application.
 servers:
   - url: 'https://cityvizor.cz'
     description: Global Instance (API being prepared)
