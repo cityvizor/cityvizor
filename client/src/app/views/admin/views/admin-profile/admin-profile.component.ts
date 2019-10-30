@@ -7,6 +7,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Profile } from 'app/schema';
 
 import { ProfileService } from 'app/services/profile.service';
+import { AdminService } from 'app/services/admin.service';
 
 @Component({
   selector: 'admin-profile',
@@ -17,13 +18,15 @@ export class AdminProfileComponent implements OnInit {
 
   profile: Observable<Profile>;
 
-  constructor(private route: ActivatedRoute, private profileService: ProfileService) { }
+  constructor(private route: ActivatedRoute, private adminService: AdminService, private profileService: ProfileService) { }
 
   ngOnInit() {
 
     this.route.params.pipe(map(params => Number(params["profile"])), distinctUntilChanged())
       .subscribe(profileId => {
-        this.profileService.setProfile(profileId);
+        this.adminService.getProfile(profileId).then(profile => {
+          this.profileService.setProfile(profile);
+        })
       });
 
     this.profile = this.profileService.profile;

@@ -46,7 +46,7 @@ export class AdminProfileSettingsComponent implements OnInit {
     const data = form.value;
 
     await this.adminService.saveProfile(this.profile.id, data)
-    this.profileService.reloadProfile();
+    this.reloadProfile();
 
     this.toastService.toast("Uloženo.", "notice")
 
@@ -66,19 +66,24 @@ export class AdminProfileSettingsComponent implements OnInit {
     }
 
     await this.adminService.saveProfileAvatar(this.profile.id, formData);
-    this.profileService.reloadProfile();
+    this.reloadProfile();
 
     this.toastService.toast("Uloženo.", "notice");
   }
 
   async deleteAvatar() {
     await this.adminService.deleteProfileAvatar(this.profile.id);
-    this.profileService.reloadProfile();
+    this.reloadProfile();
     this.toastService.toast("Uloženo.", "notice");
   }
 
   getProfileAvatarUrl(profile: Profile): string | null {
     return this.dataService.getProfileAvatarUrl(profile);
+  }
+
+  async reloadProfile(){
+    const profile = await this.adminService.getProfile(this.profile.id);
+    this.profileService.setProfile(profile);
   }
 
 }

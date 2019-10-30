@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	paramsSubscription: Subscription;
 
 	constructor(
+		private dataService: DataService,
 		private profileService: ProfileService,
 		private titleService: TitleService,
 		private route: ActivatedRoute
@@ -31,7 +32,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.paramsSubscription = this.route.params.subscribe((params: Params) => {
-			this.profileService.setProfile(params["profile"]);
+			this.dataService.getProfile(params["profile"]).then(profile => {
+				this.profileService.setProfile(profile);
+			});
 		});
 
 		this.profile = this.profileService.profile;

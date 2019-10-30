@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { DataService } from 'app/services/data.service';
 import { Profile } from 'app/schema/profile';
 import { ReplaySubject, BehaviorSubject } from 'rxjs';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root"
@@ -14,15 +13,11 @@ export class ProfileService {
 
   profile = new ReplaySubject<Profile>(1);
 
-  constructor(private dataService: DataService) {
+  constructor() {
     this.profile.pipe(map(profile => profile.id)).subscribe(this.profileId);
   }
 
-  async setProfile(profileId: number): Promise<void> {
-    await this.dataService.getProfile(profileId).then(profile => this.profile.next(profile));
-  }
-
-  async reloadProfile() {
-    if (this.profileId.value) await this.setProfile(this.profileId.value);
+  async setProfile(profile: Profile): Promise<void> {
+    this.profile.next(profile);
   }
 }
