@@ -1,6 +1,6 @@
 export const environment = {
-  name: "local",
+  name: "local-server",
   production: true,
-  api_root: "https://dev.cityvizor.cz/api",
-  jwtDomains: ['cityvizor.cz','dev.cityvizor.cz']
+  api_root: "http://localhost:3000/api",
+  jwtDomains: ['localhost']
 };

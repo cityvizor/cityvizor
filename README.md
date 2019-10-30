@@ -64,18 +64,10 @@ npm start
 
 ## Lokální vývoj
 
-### Pouze frontend (bez lokálního serveru, použije se dev.cityvizor.cz)
-```sh
-cd client
-ng serve --configuration=local
-```
-
-### Frontend i backend
-
 Frontend:
 ```sh
 cd client
-ng serve --configuration=local-server
+ng serve --configuration=local
 ```
 
 Backend:
