@@ -17,7 +17,8 @@ export class ProfileSearchComponent implements OnInit {
 	profiles: Profile[] = [];
 	hoverProfile: Profile | null;
 
-	mapGPSBounds = { "lat": { "min": 49.9476767, "max": 50.1774944 }, "lng": { "min": 14.2244208, "max": 14.7070583 } };
+	// Prague: mapGPSBounds = { "lat": { "min": 49.9476767, "max": 50.1774944 }, "lng": { "min": 14.2244208, "max": 14.7070583 } };
+	mapGPSBounds = { "lat": { "min": 48.5525, "max": 51.0556 }, "lng": { "min": 12.0914, "max": 18.8589 } };
 
 	loading: boolean = false;
 
