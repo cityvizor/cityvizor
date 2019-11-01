@@ -1,6 +1,14 @@
 .profileList {
   margin: 0 -17px;
+  text-align: left;
 }
+
+@media screen and (max-width: 768px) {
+  .profileList {
+    text-align: center;
+  }
+}
+
 .profile {
   display: inline-block;
   position: relative;
