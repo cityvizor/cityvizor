@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: CityVizor Import API
+  version: '1.0'
+  contact:
+    name: Otevřená Města
+    url: 'https://www.otevrenamesta.cz/'
+    email: cityvizor@otevrenamesta.cz
+  description: This is the import interface for importing data to the CityVizor application.
+servers:
+  - url: 'https://cityvizor.cz'
+    description: Global Instance (API being prepared)
+  - description: Prague Instance
+    url: 'https://cityvizor.praha.eu'
+paths:
+  '/api/import/profiles/{profileId}/accounting':
+    parameters:
+      - schema:
+          type: integer
+        name: profileId
+        in: path
+        required: true
+        description: The profile id of the profile to import data into
+    post:
+      summary: Import accounting data
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  profileId:
+                    type: integer
+                  year:
+                    type: integer
+                  userId:
+                    type: integer
+                  created:
+                    type: string
+                  started:
+                    type: string
+                  finished:
+                    type: string
+                  status:
+                    type: string
+                  error:
+                    type: string
+                  validity:
+                    type: string
+                required:
+                  - id
+                  - profileId
+                  - year
+                  - userId
+                  - created
+                  - status
+        '400':
+          description: Missing data file or zip file or Invalid year value
+        '403':
+          description: Token revoked
+        '500':
+          description: Failed to create import record in database
+      description: |-
+        This endpoint allows user to import accounting data to CityVizor profile.
+
+        Authentication is done by providing access token in a HTTP header. This access token can be obtained from the CityVizor administration interface.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                dataFile:
+                  type: string
+                  format: binary
+                eventsFile:
+                  type: string
+                  format: binary
+                paymentsFile:
+                  type: string
+                  format: binary
+                zipFile:
+                  type: string
+                  format: binary
+                year:
+                  type: integer
+              required:
+                - year
+        description: |-
+          Either dataFile or zipFile body property is mandatory.
+
+          The dataFile and eventsFile structure is described at https://cityvizor.github.io/cityvizor/dokumentace/
+
+          The zipFile must consist of dataFile, eventsFile (optional) and paymentsFile (optional) files ending _data.csv, _events.csv and _payments.csv respectively.
+components:
+  schemas: {}
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: This api key can be obtained in the CityVizor administration interface
+security:
+  - apiKey: []
