@@ -21,8 +21,9 @@ export class FrontpageComponent implements OnInit {
 	ngOnInit() {
 		this.titleService.setTitle(this.config.title);
 
-		this.loadMainProfile();
-
+		// this.loadMainProfile();
+		// this was used for Prague frontpage, leaving here as it might get reused while creating custom front pages
+    
 	}
 
 	async loadMainProfile() {
