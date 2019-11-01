@@ -3,7 +3,7 @@ version: '3.1'
 services:
   cityvizor-server:
     image: cityvizor
-    build: .     
+    build: .
     command: node server/dist/server.js
     environment:
       NODE_ENV: production
@@ -17,6 +17,7 @@ services:
 
   cityvizor-worker:
     image: cityvizor
+    build: .
     environment:
       NODE_ENV: production
     command: node server/dist/worker.js
