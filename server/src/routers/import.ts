@@ -48,11 +48,15 @@ router.post("/profiles/:profile/accounting",
 
 		if (req.user.tokenCode && req.user.tokenCode !== profile.tokenCode) return res.status(403).send("Token revoked.");
 
-		var year = await db<YearRecord>("app.years")
+		var year: { profileId: number, year: number } = await db<YearRecord>("app.years")
 			.where({ profileId: req.params.profile, year: req.body.year })
 			.first();
 
-		if (!year) year = await db<YearRecord>("app.years").insert({ profileId: Number(req.params.profile), year: req.body.year }, ["id", "profile", "year"]);
+		if (!year) {
+			const yearInsert = await db<YearRecord>("app.years").insert({ profileId: Number(req.params.profile), year: req.body.year }, ["profileId", "year"]).then()
+			year = yearInsert ? yearInsert[0] : null;
+			if (!year) return res.status(500).send("Failed to create new accounting year in database.");
+		}
 
 		var importData: Partial<ImportRecord> = {
 			profileId: year.profileId,
@@ -69,7 +73,6 @@ router.post("/profiles/:profile/accounting",
 		};
 
 		const result = await db<ImportRecord>("app.imports").insert(importData, ["id"]);
-
 		const importId = result ? result[0].id : null;
 
 		if (!importId) return res.status(500).send("Failed to create import record in database.");
@@ -89,7 +92,7 @@ router.post("/profiles/:profile/accounting",
 		}
 
 		const importDataFull = await db<ImportRecord>("app.imports").where({ id: importId }).first();
-		
+
 		res.json(importDataFull);
 	}
 );
