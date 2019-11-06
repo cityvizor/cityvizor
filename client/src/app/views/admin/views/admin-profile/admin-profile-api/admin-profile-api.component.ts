@@ -4,6 +4,7 @@ import { ProfileService } from 'app/services/profile.service';
 import { Profile } from 'app/schema';
 import { ToastService } from 'app/services/toast.service';
 import { AppConfig, IAppConfig } from 'config/config';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'admin-profile-api',
@@ -16,11 +17,12 @@ export class AdminProfileApiComponent implements OnInit {
 
   token: string;
 
+  apiRoot = environment.api_root;
+
   constructor(
     private adminService: AdminService,
     private profileService: ProfileService,
-    private toastService: ToastService,
-    @Inject(AppConfig) public config: IAppConfig
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {

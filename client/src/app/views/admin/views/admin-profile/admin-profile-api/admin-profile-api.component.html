@@ -1,5 +1,5 @@
 <h4>Adresa API</h4>
-<div *ngIf="profileId$ | async as profileId" class="well">{{config.siteUrl}}/api/import/{{profileId$ | async}}/accounting</div>
+<div *ngIf="profileId$ | async as profileId" class="well">POST {{apiRoot}}/import/profiles/{{profileId$ | async}}/accounting</div>
 
 <h4>Token</h4>
 
