@@ -86,7 +86,7 @@ npm run dev
 
 ### Verzování
 
-Verzování je tvořeno tříčíselným číslem verze: <major>.<minor>.<patch>
+Verzování je tvořeno tříčíselným číslem verze: `<major>.<minor>.<patch>`
 
 Toto číslo se mění následovně:
  - major číslo se zvýší a minor a patch čísla vynulují, pokud s verzí přichází breaking change
