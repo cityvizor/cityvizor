@@ -20,6 +20,13 @@ class ApplicationTest {
                 assertEquals(HttpStatusCode.OK, response.status())
                 assertEquals("HELLO WORLD!", response.content)
             }
+
+
+
+            handleRequest( HttpMethod.Get, "/budget?year=2018" ).apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                assertEquals("<svg xmlns=\"http://www.w3.org/2000/svg\"><a></a></svg>", response.content)
+            }
         }
     }
 }

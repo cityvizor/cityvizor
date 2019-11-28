@@ -25,7 +25,9 @@ sourceSets {
 repositories {
     mavenLocal()
     jcenter()
-    maven { url 'https://kotlin.bintray.com/ktor' }
+    maven { url 'https://kotlin.bintray.com/ktor'
+         }
+    maven { url "https://dl.bintray.com/nwillc/maven" }
 }
 
 dependencies {
@@ -38,4 +40,5 @@ dependencies {
     compile "io.ktor:ktor-client-core-jvm:$ktor_version"
     compile "io.ktor:ktor-client-apache:$ktor_version"
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
+     compile "com.github.nwillc:ksvg:2.3.3"
 }
