@@ -1,7 +1,9 @@
 package cz.cityvizor.svg_char_generator
 
 import com.github.nwillc.ksvg.elements.SVG
+import cz.cityvizor.svg_char_generator.charts.Coordinates
 import cz.cityvizor.svg_char_generator.charts.budgetChart
+import cz.cityvizor.svg_char_generator.charts.getBudgetChart
 import cz.cityvizor.svg_char_generator.pojo.Budget
 import io.ktor.application.*
 import io.ktor.response.*
@@ -41,15 +43,13 @@ fun Application.module() {
         get("/budget") {
             val year = (call.request.queryParameters["year"] ?: "2019").toInt()
 
-            val budget = client.get<List<Budget>>("https://cityvizor.cz/api/profiles/596f24a4124a1f2016550563/budgets?limit=1").first()
 
-            val svg = SVG.svg {
-                attributes["xmlns"] = "http://www.w3.org/2000/svg"
-                width = "100%"
-                height = "100%"
-                viewBox = "0 0 100 150"
-               budgetChart(budget.budgetIncomeAmount, budget.incomeAmount)
-            }
+            val cityId = "596f24a4124a1f2016550563"
+            val numberOfBudgets = 3
+            val budgets = client.get<List<Budget>>("https://cityvizor.cz/api/profiles/$cityId/budgets?limit=$numberOfBudgets&sort=-year")
+            val budget = budgets.find { it.year == year } ?: budgets.first()
+
+            val svg = getBudgetChart(budget)
             val contentType = ContentType.defaultForFileExtension("svg")
             call.respondBytes(svg.toString().toByteArray(), contentType)
         }
