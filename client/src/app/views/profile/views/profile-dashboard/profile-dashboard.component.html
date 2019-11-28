@@ -3,22 +3,22 @@
 		<h3>Přehled výdajů obce</h3>
 		<div class="row dashboard">
 			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history id="22" name="Doprava" icon="fa-automobile" [data]="dashboard.transportation"></chart-history>
+				<chart-history name="Doprava" icon="fa-automobile" [data]="dashboard.transportation" (click)="openExpenditures(22,$event)"></chart-history>
 			</div>
 			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history id="31" name="Školy" icon="fa-book" [data]="dashboard.schools"></chart-history>
+				<chart-history name="Školy" icon="fa-book" [data]="dashboard.schools" (click)="openExpenditures(31,$event)"></chart-history>
 			</div>
 			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history id="34" name="Sport" icon="fa-bicycle" [data]="dashboard.sports"></chart-history>
+				<chart-history name="Sport" icon="fa-bicycle" [data]="dashboard.sports" (click)="openExpenditures(34,$event)"></chart-history>
 			</div>
 			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history id="36" name="Bydlení" icon="fa-home" [data]="dashboard.housing"></chart-history>
+				<chart-history name="Bydlení" icon="fa-home" [data]="dashboard.housing" (click)="openExpenditures(36,$event)"></chart-history>
 			</div>
 			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history id="33" name="Kultura" icon="fa-picture-o" [data]="dashboard.culture"></chart-history>
+				<chart-history name="Kultura" icon="fa-picture-o" [data]="dashboard.culture" (click)="openExpenditures(33,$event)"></chart-history>
 			</div>
 			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history id="61" name="Samospráva" icon="fa-institution" [data]="dashboard.government"></chart-history>
+				<chart-history name="Samospráva" icon="fa-institution" [data]="dashboard.government" (click)="openExpenditures(61,$event)"></chart-history>
 			</div>
 		</div>
 	</div>
