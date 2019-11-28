@@ -9,3 +9,4 @@ build
 *.ipr
 *.iws
 .vscode
+.DS_Store
