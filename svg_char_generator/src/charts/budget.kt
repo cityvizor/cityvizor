@@ -1,15 +1,13 @@
 package cz.cityvizor.svg_char_generator.charts
 
 import com.github.nwillc.ksvg.elements.Container
-import com.github.nwillc.ksvg.elements.G
-import com.github.nwillc.ksvg.elements.SVG
 import java.math.BigDecimal
 data class Coordinates(val x: Int, val y: Int)
 
-fun Container.budgetChart(expectation: Double, reality: Double, coordinates: Coordinates = Coordinates(25, 10)) {
-    val chartHeight = 100
-    val positionX = coordinates.x
-    val positionY = coordinates.y
+fun Container.budgetChart(expectation: BigDecimal, reality: BigDecimal, coordinates: Coordinates = Coordinates(25, 10)) {
+    val chartHeight = BigDecimal(100.0)
+    val positionX = BigDecimal(coordinates.x)
+    val positionY = BigDecimal(coordinates.y)
 
     val offset = (reality / expectation) * chartHeight
     g {

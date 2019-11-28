@@ -41,4 +41,6 @@ dependencies {
     compile "io.ktor:ktor-client-apache:$ktor_version"
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
      compile "com.github.nwillc:ksvg:2.3.3"
+    compile("io.ktor:ktor-client-json:$ktor_version")
+    compile "io.ktor:ktor-client-gson:$ktor_version"
 }
