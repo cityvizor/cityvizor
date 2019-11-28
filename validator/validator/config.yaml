@@ -1,0 +1,19 @@
+region: us-east-1
+
+function_name: cityvizor-validator
+handler: service.handler
+description: Validates uploaded files
+runtime: python3.8
+role: service-role/cityvizor-validator-role-sdtx733v
+
+# if access key and secret are left blank, boto will use the credentials
+# defined in the [default] section of ~/.aws/credentials.
+aws_access_key_id:
+aws_secret_access_key:
+
+environment_variables:
+  BUCKET_NAME: ${BUCKET_NAME}
+
+# Build options
+build:
+  source_directories: lib # a comma delimited list of directories in your project root that contains source to package.
