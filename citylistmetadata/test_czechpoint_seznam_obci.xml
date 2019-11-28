@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SeznamOvmIndex xmlns="http://www.czechpoint.cz/spravadat/p/ovm/datafile/seznamovm/v1">
+    <Subjekt>
+        <Zkratka>lesnima_25</Zkratka>
+        <ICO>02157110</ICO>
+        <Nazev>" Lesní mateřská škola skřítka Pohádky, z.s."</Nazev>
+        <AdresaUradu>
+            <AdresniBod>25308131</AdresniBod>
+            <UliceNazev>Kolmá</UliceNazev>
+            <CisloDomovni>570</CisloDomovni>
+            <ObecNazev>Zvole</ObecNazev>
+            <ObecKod>539902</ObecKod>
+            <CastObceNeboKatastralniUzemi>Zvole</CastObceNeboKatastralniUzemi>
+            <PSC>25245</PSC>
+            <KrajNazev>Středočeský</KrajNazev>
+        </AdresaUradu>
+        <TypSubjektu id="18">PO</TypSubjektu>
+        <PravniForma type="706">Spolek</PravniForma>
+        <PrimarniOvm>Ano</PrimarniOvm>
+        <IdDS>7h52jd4</IdDS>
+        <TypDS>OVM</TypDS>
+        <StavDS>1</StavDS>
+        <StavSubjektu>1</StavSubjektu>
+        <DetailSubjektu>https://www.czechpoint.cz/spravadat/p/ovm/datafile?format=xml&amp;service=seznamovm&amp;id=lesnima_25</DetailSubjektu>
+        <IdentifikatorOvm>02157110</IdentifikatorOvm>
+        <KategorieOvm>KO502,KO507</KategorieOvm>
+    </Subjekt>
+    <Subjekt>
+        <Zkratka>mater_1460</Zkratka>
+        <ICO>70694966</ICO>
+        <Nazev>"Mateřská škola Hrušovany 15, příspěvková organizace"</Nazev>
+        <AdresaUradu>
+            <ObecNazev>Hrušovany 15, 431 43 Chomutov</ObecNazev>
+            <NestrukturovanaAdresa>Hrušovany 15, 431 43 Chomutov</NestrukturovanaAdresa>
+        </AdresaUradu>
+        <TypSubjektu id="18">PO</TypSubjektu>
+        <PravniForma type="331">Příspěvková organizace zřízená územním samosprávným celkem</PravniForma>
+        <PrimarniOvm>Ano</PrimarniOvm>
+        <IdDS>34xuyqg</IdDS>
+        <TypDS>OVM_PO</TypDS>
+        <StavDS>1</StavDS>
+        <StavSubjektu>1</StavSubjektu>
+        <DetailSubjektu>https://www.czechpoint.cz/spravadat/p/ovm/datafile?format=xml&amp;service=seznamovm&amp;id=mater_1460</DetailSubjektu>
+        <IdentifikatorOvm>70694966</IdentifikatorOvm>
+        <KategorieOvm>KO502,KO507,KO518</KategorieOvm>
+    </Subjekt>
+    </SeznamOvmIndex>
