@@ -1,11 +1,12 @@
+import axios from 'axios'
 import { readFileSync, writeFileSync } from "fs";
 import { xml2json } from "xml-js";
-import axios from 'axios'
+
 import { convertCoordinatesJtskToWgs } from "./CoordinatesConversion";
 
-const RUIAN_ENDPOINT = 'https://api.apitalks.store/cuzk.cz/adresni-mista-cr?}'
+const RUIAN_ENDPOINT = 'https://api.apitalks.store/cuzk.cz/adresni-mista-cr?'
 const RUIAN_APIKEY = 'hE3xVpdow96XqblQaQmQO3TWZe0O96Ay8ALKH0hH'
-
+const EDESKY_ENDPOINT = 'https://edesky.cz/desky?'
 
 async function getJTSKCoordinates(addressPoint: string) {
     const response = await axios.get(RUIAN_ENDPOINT, {
@@ -23,10 +24,10 @@ async function getJTSKCoordinates(addressPoint: string) {
     }
 }
 
-async function getEDeskyID(municip){
-    const response = await axios.get('https://edesky.cz/desky?', {
+async function getEDeskyID(input){
+    const response = await axios.get(EDESKY_ENDPOINT, {
         params: {
-            hledat: municip
+            hledat: input
         }
     })
 
@@ -108,4 +109,4 @@ async function main() {
 }
 
 
-main().then(() => { console.log("done") })
+main().then(() => { console.log("done") }).catch((err)=>{console.log(err)})
