@@ -47,7 +47,7 @@
             [attr.width]="config.spacing" [attr.height]="config.height" 
             (mouseenter)="hoverYear = bar.year" (mouseout)="hoverYear = currentYear" 
             style="opacity:0; cursor: pointer;"
-            [routerLink]="getLink(bar.year)"
+            (click)="click.emit(bar.year)"
             ></rect>
         </g>
       </svg>
