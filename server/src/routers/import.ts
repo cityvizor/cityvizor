@@ -82,8 +82,8 @@ router.post("/profiles/:profile/accounting",
 		await ensureDir(importDir);
 
 
-		if (req.files["zipFile"]) {
-			extractZip(req.files["zipFile"].path, importDir);
+		if (req.files["zipFile"] && req.files["zipFile"][0]) {
+			extractZip(req.files["zipFile"][0].path, importDir);
 		}
 		else {
 			if (req.files["dataFile"] && req.files["dataFile"][0]) await move(req.files["dataFile"][0].path, path.join(importDir, "data.csv"));
