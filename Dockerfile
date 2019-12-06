@@ -1,14 +1,12 @@
-FROM node:10.16
+FROM node:12
 
-WORKDIR /home/node/app
+WORKDIR /user/src/app/
 
-RUN chown node .
-
-COPY --chown=node . .
+COPY --chown=node:node . .
 
 USER node
 
-RUN npm install 
+RUN npm install
 
 RUN npm run build
 
