@@ -1,3 +1,93 @@
+import axios from 'axios'
+
+/**
+ * Extract just the page URL from a Wikipedia Open Search API response object
+ *
+ * For a sample of the API response see [here](https://cs.wikipedia.org/w/api.php?action=opensearch&search=Trutnov&limit=1&namespace=0&format=jsonfm).
+ */
+export function extractURLFromWikiAPIResponse(json: any): string | null {
+    return Array.isArray(json) ?
+        json[json.length-1][0] :
+        null
+}
+
+/**
+ * Build an HTTP request for the Wikipedia Open Search API
+ *
+ * When resolved, the promise returns the parsed JSON response.
+ */
+export async function buildOpenSearchRequest(query: string): Promise<any> {
+    const request = axios.get("https://cs.wikipedia.org/w/api.php", {
+        params: {
+            action: "opensearch",
+            search: query,
+            limit: 1,
+            namespace: 0,
+            format: "json",
+        }
+    })
+    return request.then(response => response.data)
+}
+
+/**
+ * Find all references to known coat-of-arms files in a string
+ *
+ * Returns an array of the full coat-of-arms URLs found mentioned in the input string.
+ */
+export function matchCOAList(content: string): string[] {
+    var matches: string[] = []
+    for (const candidate of COA_LIST) {
+        const basename = normalizeCOARecord(candidate)
+        const matchIndex = content.indexOf(basename)
+        if (matchIndex != -1) {
+            matches.push(candidate)
+        }
+    }
+    return matches
+}
+
+/** Turn a full coat-of-arms image URL into just the file name */
+export function normalizeCOARecord(record: string): string {
+    const start = record.lastIndexOf(":")
+    return (start != -1) ?
+        record.substr(start+1) :
+        ""
+}
+
+/** Guess Wikipedia page URL for a given municipality */
+export async function guessMunicipalityWikiPage(municipalityName: string): Promise<string | null> {
+    return buildOpenSearchRequest(municipalityName)
+        .then(extractURLFromWikiAPIResponse)
+}
+
+/**
+ * Guess a URL to the coat of arms of a given municipality
+ *
+ * The basic idea is that we guess the Wikipedia page for the municipality,
+ * then download the page and search its source for known coat-of-arms file
+ * names. Yes, it’s a hack – can we improve it?
+ */
+export async function guessMunicipalityCOA(municipalityName: string): Promise<string | null> {
+    return guessMunicipalityWikiPage(municipalityName)
+        .then(async url => {
+            if (url != null) {
+                return await axios.get(url).then(response => {
+                    return matchCOAList(response.data)[0]
+                })
+            } else {
+                return null
+            }
+        })
+}
+
+/**
+ * A static list of some of the coats of arms available on Wikimedia Commons.
+ *
+ * This is dumb, we should be able to get this list dynamically. Also, these
+ * are only the SVG coats of arms we could find, which means we are missing many
+ * more available as PNG or JPG.
+ */
+const COA_LIST = `
 https://commons.wikimedia.org/wiki/File:%C4%8C%C3%AD%C5%BEkovice_CoA_CZ.svg
 https://commons.wikimedia.org/wiki/File:%C4%8Celadn%C3%A1_CoA.svg
 https://commons.wikimedia.org/wiki/File:%C4%8Cern%C3%BD_D%C5%AFl_CoA_CZ.svg
@@ -549,3 +639,4 @@ https://commons.wikimedia.org/wiki/File:Zarubice_CoA.svg
 https://commons.wikimedia.org/wiki/File:Zderaz_CoA_CZ.svg
 https://commons.wikimedia.org/wiki/File:Zdirec_nad_Doubravou_CoA_CZ.svg
 https://commons.wikimedia.org/wiki/File:Zulova_CZ_CoA.svg
+`.split("\n").filter(s => s !== "")
