@@ -17,7 +17,7 @@ export function extractURLFromWikiAPIResponse(json: any): string | null {
  * When resolved, the promise returns the parsed JSON response.
  */
 export async function buildOpenSearchRequest(query: string): Promise<any> {
-    const request = axios.get("https://cs.wikipedia.org/w/api.php", {
+    const response = await axios.get("https://cs.wikipedia.org/w/api.php", {
         params: {
             action: "opensearch",
             search: query,
@@ -26,7 +26,7 @@ export async function buildOpenSearchRequest(query: string): Promise<any> {
             format: "json",
         }
     })
-    return request.then(response => response.data)
+    return response.data
 }
 
 /**
@@ -68,16 +68,14 @@ export async function guessMunicipalityWikiPage(municipalityName: string): Promi
  * names. Yes, it’s a hack – can we improve it?
  */
 export async function guessMunicipalityCOA(municipalityName: string): Promise<string | null> {
-    return guessMunicipalityWikiPage(municipalityName)
-        .then(async url => {
-            if (url != null) {
-                return await axios.get(url).then(response => {
-                    return matchCOAList(response.data)[0]
-                })
-            } else {
-                return null
-            }
-        })
+    const pageURL = await guessMunicipalityWikiPage(municipalityName)
+    if (pageURL != null) {
+        const response = await axios.get(pageURL)
+        const matchedCOAs = matchCOAList(response.data)
+        return matchedCOAs[0]
+    } else {
+        return null
+    }
 }
 
 /**
