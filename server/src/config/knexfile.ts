@@ -32,6 +32,10 @@ const knexConfig: Knex.Config = {
     directory: path.resolve(__dirname, "../../migrations")
   },
 
+  pool: {
+    min: 0 // discard the unused connections
+  },
+
   debug: !!process.env.KNEX_DEBUG,
 
   wrapIdentifier: (value, origImpl, queryContext) => origImpl(changeCase.snakeCase(value)),
