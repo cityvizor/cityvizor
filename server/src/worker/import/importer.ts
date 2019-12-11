@@ -1,5 +1,6 @@
 // remove when import of ZIP sorted out
 import { ImportParser } from "./parser";
+import { ImportTransformer } from "./transformer";
 import { ImportWriter } from "./writer";
 import { YearRecord } from "../../schema";
 
@@ -26,13 +27,16 @@ export class Importer {
     const parser = new ImportParser();
     parser.on("warning", warning => this.warnings.push(warning));
 
+    const transformer = new ImportTransformer();
+    transformer.on("warning", warning => this.warnings.push(warning));
+
     const writer = new ImportWriter(this.options);
     writer.on("warning", warning => this.warnings.push(warning));
 
-    parser.readable.pipe(writer);
+    parser.readable.pipe(transformer).pipe(writer);
 
     await writer.clear();
-    
+
     // import data
     await parser.parseImport(files);
 

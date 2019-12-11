@@ -11,6 +11,7 @@ import csvparse from "csv-parse";
 import { Writable, Readable, Transform } from 'stream';
 
 import config from "../../config";
+import { AccountingRecord } from '../../schema';
 
 const headerNames = {
   type: ["type", "recordType", "MODUL", "DOKLAD_AGENDA"],
@@ -28,6 +29,40 @@ const headerNames = {
 const eventHeaderNames = {
   "id": ["id", "eventId", "srcId", "AKCE", "ORG"],
   "name": ["name", "eventName", "AKCE_NAZEV"]
+}
+
+export interface BalanceChunk {
+  type: "balance";
+  data: {
+    type: string,
+    paragraph: string,
+    item: string,
+    event: string,
+    amount: string
+  };
+}
+
+export interface PaymentChunk {
+  type: "payment";
+  data: {
+    type: string,
+    paragraph: string,
+    item: string,
+    event: string,
+    amount: string,
+    date: string,
+    counterpartyId: string,
+    counterpartyName: string,
+    description: string
+  }
+}
+
+export interface EventChunk {
+  type: "event";
+  data: {
+    id: string,
+    name: string
+  };
 }
 
 export class ImportParser extends EventEmitter {
@@ -102,12 +137,12 @@ export class ImportParser extends EventEmitter {
       transform: function (record, enc, callback) {
 
         // emit balance
-        var balance = ["type", "paragraph", "item", "event", "amount"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
+        var balance: BalanceChunk["data"] = ["type", "paragraph", "item", "event", "amount"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
         this.push({ type: "balance", data: balance });
 
         // emit payment
         if (balance.type === "KDF" || balance.type === "KOF") {
-          let payment = ["type", "paragraph", "item", "event", "amount", "date", "counterpartyId", "counterpartyName", "description"].reduce((bal, key) => (bal[key] = record[key], bal), {});
+          let payment: PaymentChunk["data"] = ["type", "paragraph", "item", "event", "amount", "date", "counterpartyId", "counterpartyName", "description"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
           this.push({ type: "payment", data: payment });
         }
 
@@ -124,7 +159,8 @@ export class ImportParser extends EventEmitter {
       writableObjectMode: true,
       readableObjectMode: true,
       transform: function (line, enc, callback) {
-        if (line.id && line.name) this.push({ type: "event", data: { id: line.id, name: line.name } });
+        let event: EventChunk = { type: "event", data: { id: line.id, name: line.name } }
+        if (line.id && line.name) this.push(event);
         else this.emit("warning", "Missing event id");
         callback();
       }
