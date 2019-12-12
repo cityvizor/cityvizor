@@ -8,6 +8,8 @@ module.exports = {
   port: 3000,
   host: "127.0.0.1",
 
+  url: "http://localhost:4200",
+
   apiRoot: "/api",
 
   tmpDir: path.resolve(cityvizorPath, "data/tmp"),
