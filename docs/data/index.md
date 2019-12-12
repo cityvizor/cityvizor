@@ -12,32 +12,25 @@ menu: data
 CityVizor nabízí jednoduché API pro stahování exportů dat. Toto API bude postupně vylepšováno dle požadavků uživatelů dat.
 
 Vlastnosti dat:
-- v současnosti neexistuje limit na stažení dat, v případě zneužívání exportů bude zaveden
-- data jsou s maximálně hodinovým zpožděním
-- data jsou exportována ve formát JSON
-
-Všechny žádosti jsou na hostname ```cityvizor.cz```.
+- data můžou být až s hodinovým zpožděním
+- formát dat lze zvolit hlavičkou Accept, dostupné jsou formáty application/json a text/csv 
 
 ### Profily obcí
 
-```GET /exports/profiles```
+```GET /api/exports/profiles```
 
-### Profil obce
+### Dostupné roky
 
-```GET /exports/profiles/:profile```
+```GET /api/exports/profiles/:profile_id/years```
 
-### Datové sady profilu obce
+### Účetnictví
 
-```GET /exports/profiles/:profile/etls```
+```GET /api/exports/profiles/:profile_id/accounting/:year```
 
-### Rozpočty obce
+### Doklady
 
-```GET /exports/profiles/:profile/budgets```
+```GET /api/exports/profiles/:profile_id/payments/:year```
 
-### Rozpočet obce za rok
+### Akce
 
-```GET /exports/profiles/:profile/budgets/:year```
-
-### Faktury obce za rok
-
-```GET /exports/profiles/:profile/payments/:year```
+```GET /api/exports/profiles/:profile_id/events/:year```
