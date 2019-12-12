@@ -4,11 +4,10 @@
   "license": "GPL-3.0",
   "scripts": {
     "start:watch": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' ./src/index.ts",
-    "start": "ts-node ./src/index.ts"
-
+    "start": "ts-node ./src/index.ts",
+    "test": "jest"
   },
   "dependencies": {
-    "@types/axios": "0.14.0",
     "@types/node": "12.12.14",
     "axios": "0.19.0",
     "nodemon": "2.0.1",
