@@ -28,6 +28,8 @@ export default {
     jobDelay: 5
   },
 
+  url: environment.url,
+
   server: serverConfig,
 
   static: {
