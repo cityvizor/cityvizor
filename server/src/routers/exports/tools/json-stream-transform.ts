@@ -2,7 +2,7 @@ import { Transform, TransformCallback } from "stream";
 
 export class JSONStreamTransform extends Transform {
 
-  private first = true;
+  private counter = 0;
 
   constructor() {
     super({
@@ -12,20 +12,25 @@ export class JSONStreamTransform extends Transform {
   }
 
   _transform(chunk: any, encoding: string, callback: TransformCallback) {
+
+    if (!this.counter) this.push("[");
     
-    if (this.first){
-      this.push("[");
-      this.first = false;
-    }
-    else this.push(",");
-    
+    if (this.counter) this.push(",");
+
+    this.counter++;
+
     this.push(JSON.stringify(chunk));
-    
+
     callback();
   }
 
   _flush(callback: TransformCallback) {
+
+    if (!this.counter) this.push("[");
+
     this.push("]");
+
     callback();
   }
+  
 }
