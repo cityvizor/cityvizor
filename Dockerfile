@@ -4,17 +4,26 @@ WORKDIR /user/src/app/
 
 USER node
 
-# Install client dependencies (make separate layer from source code changes)
-COPY --chown=node client/package.json client/package.json
-RUN cd client && npm install
+## Install and build steps separated and orderer by assumed change frequency to leverage Docker build caching
 
-# Install server dependencies (make separate layer from source code changes)
+# Install server dependencies
 COPY --chown=node server/package.json server/package.json
 RUN cd server && npm install
 
-# Copy source code and build it
-COPY --chown=node:node . .
-RUN npm run build
+# Install client dependencies
+COPY --chown=node client/package.json client/package.json
+RUN cd client && npm install
+
+# Copy main package definition file
+COPY --chown=node:node package.json package.json
+
+# Copy server source code and build it
+COPY --chown=node:node ./server ./server
+RUN cd server && npm run build
+
+# Copy client source code and build it
+COPY --chown=node:node ./client ./client
+RUN cd client && npm run build
 
 ENV NODE_ENV="production"
 
