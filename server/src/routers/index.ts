@@ -18,7 +18,7 @@ router.use("/api/admin", AdminRouter);
 
 router.use("/api/public", PublicRouter);
 
-router.use("/api/import", ImportRouter)
+router.use("/api/import", ImportRouter);
 
 router.use("/api/search", SearchRouter);
 
