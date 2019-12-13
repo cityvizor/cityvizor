@@ -2,8 +2,6 @@ FROM node:12
 
 WORKDIR /user/src/app
 
-USER node
-
 ## Install and build steps separated and orderer by assumed change frequency to leverage Docker build caching
 
 # Install server dependencies
