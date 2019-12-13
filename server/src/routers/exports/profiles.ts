@@ -34,8 +34,6 @@ router.get("/:profile/years", async (req, res, next) => {
     .where({ "y.profile_id": req.params.profile })
     .groupBy("y.profileId", "y.year", "y.validity");
 
-  if (!await years.count()) return res.sendStatus(404);
-
   exportQuery(req, res, years, `profile-${req.params.profile}-years`);
 });
 
