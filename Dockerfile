@@ -1,6 +1,6 @@
-FROM node:12
+FROM node:10
 
-WORKDIR /user/src/app/
+WORKDIR /home/node/app
 
 USER node
 
