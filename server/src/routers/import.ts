@@ -5,7 +5,7 @@ import multer from 'multer';
 import acl from "express-dynacl";
 import schema from 'express-jsonschema';
 
-import unzip from "unzip";
+import extract from "extract-zip";
 import fs from "fs-extra";
 
 import config from "../config";
@@ -101,9 +101,7 @@ async function extractZip(zipFile: string, unzipDir: string) {
 
 	try {
 		await new Promise((resolve, reject) => {
-			const stream = fs.createReadStream(zipFile).pipe(unzip.Extract({ path: unzipDir }));
-			stream.on("close", () => resolve());
-			stream.on("error", (err: Error) => reject(err));
+			extract(zipFile, { dir: unzipDir }, err => err ? reject(err) : resolve());
 		});
 	}
 	catch (e) {

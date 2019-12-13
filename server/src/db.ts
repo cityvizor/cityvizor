@@ -7,7 +7,7 @@ let connectionString: string;
 if (typeof knexConfig.connection === "string") connectionString = knexConfig.connection;
 else if ("user" in knexConfig.connection && "database" in knexConfig.connection) connectionString = knexConfig.connection.user + "@" + knexConfig.connection.database;
 else if ("filename" in knexConfig.connection) connectionString = knexConfig.connection.filename;
-else connectionString = knexConfig.connection.user;
+else connectionString = "custom connection (see knexfile)";
 
 console.log(`[DB] DB connection set to ${connectionString}`);
 

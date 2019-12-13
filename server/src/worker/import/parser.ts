@@ -5,13 +5,9 @@ import path from "path";
 
 import mergeStream from "merge-stream";
 
-import async from "async";
 import csvparse from "csv-parse";
 
-import { Writable, Readable, Transform } from 'stream';
-
-import config from "../../config";
-import { AccountingRecord } from '../../schema';
+import { Readable, Transform } from 'stream';
 
 const headerNames = {
   type: ["type", "recordType", "MODUL", "DOKLAD_AGENDA"],
