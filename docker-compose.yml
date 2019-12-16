@@ -11,7 +11,7 @@ services:
       - 3000:3000
     volumes: 
       - ./server/environment/environment.production.js:/user/src/app/server/environment/environment.production.js:ro
-      - ./data:/home/node/app/data
+      - ./data:/user/src/app/data
     depends_on: 
       - postgres
 
@@ -23,7 +23,7 @@ services:
     command: node server/dist/worker.js
     volumes:
       - ./server/environment/environment.production.js:/user/src/app/server/environment/environment.production.js:ro
-      - ./data:/home/node/app/data
+      - ./data:/user/src/app/data
     depends_on: 
       - postgres
       
