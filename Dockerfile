@@ -1,16 +1,27 @@
-FROM node:10.16
+FROM node:12
 
-WORKDIR /home/node/app
+WORKDIR /user/src/app
 
-RUN chown node .
+## Install and build steps separated and orderer by assumed change frequency to leverage Docker build caching
 
-COPY --chown=node . .
+# Install server dependencies
+COPY --chown=node server/package.json server/package.json
+RUN cd server && npm install
 
-USER node
+# Install client dependencies
+COPY --chown=node client/package.json client/package.json
+RUN cd client && npm install
 
-RUN npm install 
+# Copy main package definition file
+COPY --chown=node:node package.json package.json
 
-RUN npm run build
+# Copy server source code and build it
+COPY --chown=node:node ./server ./server
+RUN cd server && npm run build
+
+# Copy client source code and build it
+COPY --chown=node:node ./client ./client
+RUN cd client && npm run build
 
 ENV NODE_ENV="production"
 

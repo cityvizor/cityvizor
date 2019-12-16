@@ -20,9 +20,16 @@ export async function checkImportQueue() {
 
     // clear the old job with timeout
     else {
+
       console.log("[WORKER] Found a stale job in queue, removing.");
+
       const updateData: Partial<ImportRecord> = { status: "error", error: "Job timed out without proper finish.", finished: DateTime.local().toJSDate() };
+
       await db<ImportRecord>("app.imports").where({ id: runningJob.id }).update(updateData)
+
+      // remove used import data
+      const importDir = path.resolve(config.storage.imports, "import_" + runningJob.id)
+      await remove(importDir);
     }
 
   }
@@ -69,8 +76,8 @@ export async function checkImportQueue() {
       .where({ profileId: currentJob.profileId, year: currentJob.year })
       .update({ validity: currentJob.validity });
 
-    // leave data for testing TODO: uncomment
-    // await remove(importDir)
+    // remove used import data
+    await remove(importDir)
 
   }
   catch (err) {

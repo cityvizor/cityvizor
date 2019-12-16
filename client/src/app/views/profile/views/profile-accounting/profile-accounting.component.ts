@@ -81,7 +81,9 @@ export class ProfileAccountingComponent implements OnInit {
 		this.route.params.pipe(map(params => params.razeni || "nejvetsi"), distinctUntilChanged()).subscribe(this.sort);
 
 		// load budgets based on profile
-		this.profile.subscribe(profile => this.dataService.getProfileBudgets(profile.id).then(budgets => this.budgets.next(budgets)));
+		this.profile.subscribe(profile => this.dataService.getProfileBudgets(profile.id)
+			.then(budgets => budgets.sort((a, b) => b.year - a.year))
+			.then(budgets => this.budgets.next(budgets)));
 
 		// set selected budget on year change
 		combineLatest(this.year, this.budgets)

@@ -62,7 +62,11 @@ export class ProfileDashboardComponent {
 	}
 
 	async loadBudgets(profileId: number) {
+		
 		this.budgets = await this.dataService.getProfileBudgets(profileId, { limit: 3 });
+
+		this.budgets.sort((a,b) => b.year - a.year);
+
 		this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
 			return Math.max(acc, budget.budgetIncomeAmount, budget.incomeAmount, budget.budgetExpenditureAmount, budget.expenditureAmount);
 		}, 0);

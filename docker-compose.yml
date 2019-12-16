@@ -46,8 +46,8 @@ services:
     ports:
       - 3000:3000
     volumes: 
-      - ./server/environment/environment.production.js:/home/node/app/server/environment/environment.production.js:ro
-      - ./data:/home/node/app/data
+      - ./server/environment/environment.production.js:/user/src/app/server/environment/environment.production.js:ro
+      - ./data:/user/src/app/data
     depends_on: 
       - postgres
     networks:
@@ -60,8 +60,8 @@ services:
       NODE_ENV: local
     command: node server/dist/worker.js
     volumes:
-      - ./server/environment/environment.production.js:/home/node/app/server/environment/environment.production.js:ro
-      - ./data:/home/node/app/data
+      - ./server/environment/environment.production.js:/user/src/app/server/environment/environment.production.js:ro
+      - ./data:/user/src/app/data
     depends_on: 
       - postgres
     networks:
