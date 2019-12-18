@@ -18,9 +18,9 @@ export class ProfileDashboardComponent {
 	@Input()
 	profile: any;
 
-	payments:BudgetPayment[] = [];
-	contracts:Contract[] = [];
-	budgets:Budget[] = [];
+	payments: BudgetPayment[] = [];
+	contracts: Contract[] = [];
+	budgets: Budget[] = [];
 
 	maxBudgetAmount: number = 0;
 
@@ -50,15 +50,15 @@ export class ProfileDashboardComponent {
 	async loadContracts(profileId: number) {
 		this.contracts = await this.dataService.getProfileContracts(profileId, { limit: 5, sort: "-date" })
 	}
-	
+
 	async loadDashboard(profileId: number) {
 		const dashboard = await this.dataService.getProfileDashboard(profileId)
-		
+
 		this.dashboard = dashboard.reduce((acc, cur) => {
 			acc[cur.category].push(cur);
 			return acc;
 		}, new Dashboard());
-		
+
 	}
 
 	async loadBudgets(profileId: number) {
@@ -73,8 +73,12 @@ export class ProfileDashboardComponent {
 	}
 
 	openBudget(type: string, year: number): void {
-		if (type === 'inc') this.router.navigate(["../prijmy", { rok: year }], { relativeTo: this.route });
-		if (type === 'exp') this.router.navigate(["../vydaje", { rok: year }], { relativeTo: this.route });
+		if (type === 'inc') this.router.navigate(["../hospodareni/prijmy", { rok: year }], { relativeTo: this.route });
+		if (type === 'exp') this.router.navigate(["../hospodareni/vydaje", { rok: year }], { relativeTo: this.route });
+	}
+
+	openExpenditures(group: number, year: number) {
+		this.router.navigate(["../hospodareni/vydaje", { rok: year, skupina: group }], { relativeTo: this.route });
 	}
 
 }

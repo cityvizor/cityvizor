@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MinLengthValidator } from '@angular/forms';
 
 class ChartHistoryBar {
@@ -18,9 +18,6 @@ class ChartHistoryBar {
 export class ChartHistoryComponent implements OnChanges {
 
   @Input()
-  id: string;
-
-  @Input()
   name: string;
 
   @Input()
@@ -28,6 +25,9 @@ export class ChartHistoryComponent implements OnChanges {
 
   @Input()
   data: ChartHistoryBar[] = [];
+
+  @Output()
+  click = new EventEmitter<number>();
 
   config: any = {
     visibleYears: 4,
@@ -105,10 +105,6 @@ export class ChartHistoryComponent implements OnChanges {
       this.chartPathString = this.getChartPathString('amount');
       this.chartBudgetPathString = this.getChartPathString('budgetAmount');
     }
-  }
-
-  getLink(year: number) {
-    return ["../vydaje", { rok: year, skupina: this.id }];
   }
 
   getChartPathString(type: string): string {
