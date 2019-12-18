@@ -81,5 +81,14 @@ npm run dev
 ```
 ### Pravidla přispívání
 
-- kód **v angličtině**, commity **v angličtině**, pull requesty **v angličtině**, issues **v češtině**
-- struktura souborů na klientu dle [Angular Style Guide](https://angular.io/guide/styleguide)
+ - kód **v angličtině**, commity **v angličtině**, pull requesty **v angličtině**, issues **v češtině**
+ - struktura souborů na klientu dle [Angular Style Guide](https://angular.io/guide/styleguide)
+
+### Verzování
+
+Verzování je tvořeno tříčíselným číslem verze: `<major>.<minor>.<patch>`
+
+Toto číslo se mění následovně:
+ - major číslo se zvýší a minor a patch čísla vynulují, pokud s verzí přichází breaking change
+ - minor číslo se zvýší a patch číslo vynuluje, pokud s verzí přichází nová funkcionalita
+ - patch číslo se zvýší, pokud s verzí přichází drobná oprava chyby 
