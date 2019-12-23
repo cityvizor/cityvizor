@@ -1,8 +1,8 @@
-package cz.cityvizor.svg_char_generator.charts
+package chart_generator.charts
 
+import chart_generator.pojo.Budget
 import com.github.nwillc.ksvg.elements.Container
 import com.github.nwillc.ksvg.elements.SVG
-import cz.cityvizor.svg_char_generator.pojo.Budget
 import java.math.BigDecimal
 
 data class Coordinates(val x: Int, val y: Int)

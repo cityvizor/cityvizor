@@ -1,45 +1,30 @@
-package cz.cityvizor.svg_char_generator
+package digital.cesko.routers
 
-import com.github.nwillc.ksvg.elements.SVG
-import cz.cityvizor.svg_char_generator.charts.Coordinates
-import cz.cityvizor.svg_char_generator.charts.budgetChart
-import cz.cityvizor.svg_char_generator.charts.getBudgetChart
-import cz.cityvizor.svg_char_generator.pojo.Budget
-import io.ktor.application.*
-import io.ktor.response.*
+import chart_generator.charts.getBudgetChart
+import chart_generator.pojo.Budget
+import io.ktor.application.call
+import io.ktor.client.HttpClient
+import io.ktor.http.ContentType
+import io.ktor.http.defaultForFileExtension
+import io.ktor.response.respondBytes
+import io.ktor.response.respondText
 import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.client.*
 import io.ktor.client.features.json.GsonSerializer
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.request.get
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
 
-fun main(args: Array<String>) {
-    //io.ktor.server.netty.main(args) // Manually using Netty's EngineMain
-    embeddedServer(
-            Netty, watchPaths = listOf("svg_char_generator"), port = 8080,
-            module = Application::module
-    ).apply {
-        start(wait = true)
-    }
-}
-
-fun Application.module() {
+fun Routing.chartGeneratorRouter(): Route {
     val client = HttpClient {
         install(JsonFeature) {
             serializer = GsonSerializer()
         }
     }
 
-
-    routing {
+    return route("/api/v2/service/chartgenerator") {
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
 
-        // /budget - year
         get("/budget") {
             val year = (call.request.queryParameters["year"] ?: "2019").toInt()
 
@@ -55,4 +40,3 @@ fun Application.module() {
         }
     }
 }
-
