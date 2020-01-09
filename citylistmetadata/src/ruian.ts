@@ -1,6 +1,41 @@
-//all credits to http://martin.hinner.info/geo/
+import axios from 'axios'
 
-export function convertCoordinatesJtskToWgs(X, Y, H) {
+export type WGS84 = { _type: "WGS84" }
+export type S_JTSK = { _type: "S-JTSK" }
+export type CoordinateSystem = WGS84 | S_JTSK
+export type Location<T extends CoordinateSystem> = [number, number] & T
+
+const ENDPOINT = 'https://api.apitalks.store/cuzk.cz/adresni-mista-cr?'
+
+export async function getLocation(addressPoint: string, apiKey: string): Promise<Location<WGS84> | null> {
+
+    const response = await axios.get(ENDPOINT, {
+        headers: {
+            'x-api-key': apiKey
+        },
+        params: {
+            filter: `{"where":{"KOD_ADM": ${addressPoint}}}`
+        }
+    })
+
+    const items = response.data.data
+
+    if (Array.isArray(items) && items.length > 0) {
+        const x = parseFloat(items[0].SOURADNICE_X)
+        const y = parseFloat(items[0].SOURADNICE_Y)
+        if (x != null && y != null) {
+            return convertCoordinatesJtskToWgs(x, y, 0)
+        } else {
+            return null
+        }
+    } else {
+        return null
+    }
+}
+
+// TODO: Switch to proj4js instead.
+export function convertCoordinatesJtskToWgs(X: number, Y: number, H: number): Location<WGS84> {
+
     if (X < 0 && Y < 0) { X = -X; Y = -Y; }
     var coord = { wgs84_latitude: "", wgs84_longitude: "", lat: 0, lon: 0, vyska: 0 };
 
@@ -85,5 +120,5 @@ export function convertCoordinatesJtskToWgs(X, Y, H) {
 
     coord.vyska = Math.round((H) * 100) / 100;
 
-    return coord;
+    return [coord.lat, coord.lon] as Location<WGS84>
 }

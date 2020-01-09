@@ -1,32 +1,11 @@
-import { Element } from 'libxmljs'
+import { Document, Element } from 'libxmljs'
+import { Subjekt, PravniForma, Adresa } from './types'
 
 export const namespace = "http://www.czechpoint.cz/spravadat/p/ovm/datafile/seznamovm/v1"
 
-export interface Adresa {
-    ulice: string | null
-    cisloDomovni: string | null
-    cisloOrientacni: string | null
-    obec: string | null
-    obecKod: string | null
-    PSC: string | null
-    castObce: string | null
-    kraj: string | null
-    adresniBod: string | null
-}
-
-export interface PravniForma {
-    type: number
-    label: string
-}
-
-export interface Subjekt {
-    zkratka: string
-    ICO: string | null
-    nazev: string
-    datovaSchrankaID: string | null
-    pravniForma: PravniForma
-    mail: string[]
-    adresaUradu: Adresa | null
+export function parseAllValidSubjects(doc: Document): Subjekt[] {
+    const subjects = doc.find('//xmlns:Subjekt', namespace).map(parseSubjekt)
+    return subjects.filter(s => s != null) as Subjekt[]
 }
 
 export function parseSubjekt(elem: Element): Subjekt | null {

@@ -1,112 +1,62 @@
-import axios from 'axios'
-import { readFileSync, writeFileSync } from "fs";
-import { xml2json } from "xml-js";
+import { getEDeskyID } from './edesky';
+import { getLocation } from './ruian'
+import { guessMunicipalityCOA } from './coa'
+import { DataSource, addExtraData } from './sources'
+import { parseXml } from 'libxmljs';
+import { parseAllValidSubjects } from './parsing';
+import { readFileSync, writeFileSync } from 'fs';
+import { Subjekt } from './types'
 
-import { convertCoordinatesJtskToWgs } from "./CoordinatesConversion";
-
-const RUIAN_ENDPOINT = 'https://api.apitalks.store/cuzk.cz/adresni-mista-cr?'
-const RUIAN_APIKEY = 'hE3xVpdow96XqblQaQmQO3TWZe0O96Ay8ALKH0hH'
-const EDESKY_ENDPOINT = 'https://edesky.cz/desky?'
-
-async function getJTSKCoordinates(addressPoint: string) {
-    const response = await axios.get(RUIAN_ENDPOINT, {
-        headers: {
-            'x-api-key': RUIAN_APIKEY
-        },
-        params: {
-            filter: `{"where":{"KOD_ADM": ${addressPoint}}}`
-        }
-    })
-
-    return {
-        "souradniceX": response.data.data[0].SOURADNICE_X,
-        "souradniceY": response.data.data[0].SOURADNICE_Y
+function simplifiedSubjectName(name: string): string {
+    const prefixes = [/obec\s*/i, /město\s*/i, /statutární město\s*/i, /městys\s*/i]
+    for (const pattern of prefixes) {
+        name = name.replace(pattern, "")
     }
+    return name
 }
 
-async function getEDeskyID(input){
-    const response = await axios.get(EDESKY_ENDPOINT, {
-        params: {
-            hledat: input
-        }
-    })
-
-    const regex = /href="\/desky\/(\d+)-/gsm
-    const match = regex.exec(response.data)
-    if (match) {
-        return match[1]
-    } else {
-        return null
-    }
+function isInterestingSubject(s: Subjekt): boolean {
+    return s.pravniForma.type === 801 || s.pravniForma.type === 811
 }
 
-
-
-async function main() {
-    const rawdata = readFileSync("czechpoint_seznam_obci.xml");
-    var xml = rawdata.toString()
-
-    var jsonstring = xml2json(xml, { compact: true, spaces: 0 });
-
-    const data = JSON.parse(jsonstring);
-
-    const subjekty = data["SeznamOvmIndex"]['Subjekt']
-
-    const result = []
-
-    for (const subjekt of subjekty) {
-        try {
-            if (subjekt["PravniForma"]["_attributes"]["type"] === "801") {
-
-                const adresaUradu = {}
-                for (let [key, value] of Object.entries<any>(subjekt["AdresaUradu"])) {
-                    const lowerCaseKey = key.charAt(0).toLowerCase() + key.slice(1)
-                    adresaUradu[lowerCaseKey] = value["_text"]
-                }
-
-                const emails = []
-                if(subjekt["Email"] && subjekt["Email"]["Polozka"]){
-                for (let entry of (subjekt["Email"]["Polozka"])) {
-                    emails.push({ "email": entry["Email"]["_text"], "typ": entry["Typ"]["_attributes"]["text"] })
-                }
-                }   
-
-                const nazev = subjekt["Nazev"] && subjekt["Nazev"]["_text"] ? subjekt["Nazev"]["_text"]: null
-
-                const [coordinatesJTSK, eDeskyId] = await Promise.all([getJTSKCoordinates(adresaUradu["adresniBod"]), getEDeskyID(nazev)])
-
-                const coordinatesWGS = convertCoordinatesJtskToWgs(parseFloat(coordinatesJTSK.souradniceX), parseFloat(coordinatesJTSK.souradniceY), 0)
-                
-                result.push({
-                    "nazev": nazev,
-                    "ICO": subjekt["ICO"] && subjekt["ICO"]["_text"] ? subjekt["ICO"]["_text"]: null ,
-                    "datovaSchranka": subjekt["IdDS"] && subjekt["IdDS"]["_text"] ? subjekt["IdDS"]["_text"]: null,
-                    "zkratka": subjekt["Zkratka"] && subjekt["Zkratka"]["_text"] ? subjekt["Zkratka"]["_text"]: null,
-                    "eDeskyId": eDeskyId ,
-                    "adresaUradu": adresaUradu,
-                    "emails": emails,
-                    "souradniceJTSK": { ...coordinatesJTSK },
-                    "souradniceWGS": { ...coordinatesWGS }
-
-                })
-
-                if(result.length % 10 === 0){
-                    console.log(result.length);
-                    
-                }
-            }
-            // if (result.length === 100) {
-            //     break;
-            // }
-        }
-        catch (e) {
-            console.log(e, subjekt);
-        }
-
-    }
-
-    writeFileSync("./result.json", JSON.stringify((result)));
+async function convertData(dataSources: DataSource<any>[], inputName: string, outputName: string = 'obce.json') {
+    console.info(`Parsing ${inputName}, this can take a while.`)
+    const doc = parseXml(readFileSync(inputName).toString())
+    const subjects = parseAllValidSubjects(doc).filter(isInterestingSubject)
+    console.info(`Parsed ${subjects.length} items, downloading extra data.`)
+    const data = await addExtraData(subjects, dataSources)
+    writeFileSync(outputName, JSON.stringify(data, null, 2))
+    console.info(`Output written to ${outputName}.`)
 }
 
+function envOrDie(key: string): string {
+    const val = process.env[key]
+    if (val == null) {
+        throw `Please define the ${key} env variable.`
+    }
+    return val
+}
 
-main().then(() => { console.log("done") }).catch((err)=>{console.log(err)})
+const RUIAN_API_KEY = envOrDie('RUIAN_API_KEY')
+
+const dataSources: DataSource<any>[] = [
+    {
+        id: 'souradnice',
+        fetch: async s => {
+            const addressPoint = s.adresaUradu?.adresniBod
+            return (addressPoint != null) ?
+                await getLocation(addressPoint, RUIAN_API_KEY) :
+                Promise.resolve(null)
+        }
+    },
+    {
+        id: 'eDeskyID',
+        fetch: async s => getEDeskyID(simplifiedSubjectName(s.nazev))
+    },
+    {
+        id: 'erb',
+        fetch: async s => guessMunicipalityCOA(simplifiedSubjectName(s.nazev))
+    }
+]
+
+convertData(dataSources, "all.xml")
