@@ -165,7 +165,10 @@ export class ImportParser extends EventEmitter {
     return reader;
   }
 
-  parseHeader(headerLine, names) {
+  parseHeader(headerLine: string[], names: { [name: string]: string[] }) {
+
+    // remove possible BOM at the beginning of file, also removes extra whitespaces
+    headerLine = headerLine.map(item => item.trim());
 
     return headerLine.map(originalField => {
 

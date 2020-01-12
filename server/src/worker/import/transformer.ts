@@ -15,6 +15,7 @@ export class ImportTransformer extends Transform {
     if (chunk.type === "event") {
 
       if (this.eventIds.indexOf(chunk.data.id) !== -1) {
+        callback();
         return;
       }
 
