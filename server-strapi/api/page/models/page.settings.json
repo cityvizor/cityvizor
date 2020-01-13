@@ -1,0 +1,22 @@
+{
+  "connection": "default",
+  "collectionName": "pages",
+  "info": {
+    "name": "Page"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "Title": {
+      "type": "string",
+      "required": true
+    },
+    "Block": {
+      "type": "component",
+      "repeatable": true,
+      "component": "block.block"
+    }
+  }
+}

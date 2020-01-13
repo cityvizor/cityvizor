@@ -1,0 +1,20 @@
+/*
+|--------------------------------------------------------------------------
+| Components/Form
+|--------------------------------------------------------------------------
+*/
+
+input {
+    @extend .type-lg;
+    display: inline-block;
+    height: $input-height-base;
+    min-width: 380px;
+    max-width: 100%;
+
+    padding-left: $font-size-md;
+    padding-right: $font-size-md;
+
+    border: 2px solid $primary;
+    border-radius: $border-radius-base;
+    background-color: $body-bg;
+}

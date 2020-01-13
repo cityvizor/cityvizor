@@ -1,0 +1,42 @@
+/*
+|--------------------------------------------------------------------------
+| CityVizor - redesign
+|--------------------------------------------------------------------------
+|
+| @since    1/2020
+*/
+
+/* Common */
+@import 'common/reset';
+@import 'common/variables';
+@import 'common/typeface';
+@import 'common/helpers';
+@import 'common/breakpoints';
+
+/* Fixes */
+@import 'fixes/sizing';
+
+/* Brand */
+@import 'brand/features';
+
+/* Layout */
+@import 'layout/common';
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/grid';
+@import 'layout/page';
+
+/* Components */
+@import 'components/brand';
+@import 'components/buttons';
+@import 'components/form';
+@import 'components/hamburger';
+@import 'components/menu';
+
+body {
+    background-color: $body-bg;
+    color: $body-color;
+    font-family: $font-family-base;
+    font-size: $font-size-md;
+}
+
