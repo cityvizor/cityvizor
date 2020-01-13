@@ -1,0 +1,23 @@
+/*
+|--------------------------------------------------------------------------
+| Components/Buttons
+|--------------------------------------------------------------------------
+*/
+
+.btn {
+    @extend .type-lg;
+    display: inline-block;
+    appearance: none;
+    cursor: pointer;
+    height: $btn-height-base;
+
+    padding-left: $font-size-md;
+    padding-right: $font-size-md;
+
+    border: 2px solid $primary;
+}
+
+.btn-transparent {
+    background-color: transparent;
+    border-color: transparent;
+}
