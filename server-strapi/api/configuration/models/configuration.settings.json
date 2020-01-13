@@ -1,0 +1,21 @@
+{
+  "info": {
+    "name": "Configuration"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "Identifier": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "Value": {
+      "type": "string"
+    }
+  },
+  "connection": "default",
+  "collectionName": "configurations"
+}
