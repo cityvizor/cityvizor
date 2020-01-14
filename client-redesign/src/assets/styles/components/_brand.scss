@@ -11,4 +11,8 @@
         max-width: 100%;
         height: auto;
     }
+
+    @include media-breakpoint-down(md) {
+        padding-right: 20px;
+    }
 }

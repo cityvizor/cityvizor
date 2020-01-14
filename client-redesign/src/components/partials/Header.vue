@@ -21,11 +21,13 @@
             <div class="col-2 col-md-6 text-right">
 
                 <!-- Menu: Primary -->
-                <ul class="c-menu"
-                    :class="[{ 'show' : mobileMenuShow }]">
-                    <li><router-link to="/proc-cityvizor">Proč Cityvizor</router-link></li>
-                    <li><router-link to="/jak-zapojit-obci">Jak zapojit obci</router-link></li>
-                    <li><router-link to="/kontakt">O nás / kontakt</router-link></li>
+                <ul class="c-menu">
+                    <li v-for="item in primaryMenu" 
+                        :key="item.id">
+                        <router-link :to="{ name: 'page', params: { slug: item.page.Slug } }">
+                            {{ item.page.Title }}
+                        </router-link>
+                    </li>
                 </ul>
 
                 <!-- Hamburger -->
@@ -35,7 +37,17 @@
 
             </div>
         </nav>
-        <Hero v-show="isHome"></Hero>
+        <ul class="c-menu--mobile"
+            :class="[{ 'show' : mobileMenuShow }]">
+            <li v-for="item in primaryMenu" 
+                :key="item.id">
+                <router-link :to="{ name: 'page', params: { slug: item.page.Slug } }">
+                    {{ item.page.Title }}
+                </router-link>
+            </li>
+        </ul>
+        <Hero v-show="isHome"
+            :cms="cms"></Hero>
     </header>
 </template>
 
@@ -54,15 +66,34 @@ export default {
             type: Boolean,
             default: false,
         },
-        mobileMenuShow: {
-            type: Boolean,
-            default: false,
+        cms: {
+            type: Object,
+            default() {
+                return {}
+            }
+        }
+    },
+    computed: {
+        primaryMenu() {
+            return this.cms.menus.primary.Menuitem;
+        }
+    },
+    data() {
+        return {
+            mobileMenuShow: false,
         }
     },
     methods: {
         toggleMobileMenu() {
-            console.log(this.mobileMenuShow); // eslint-disable-line
             this.mobileMenuShow = !this.mobileMenuShow;
+        },
+        hideMobileMenu() {
+            this.mobileMenuShow = false;
+        }
+    },
+    watch: {
+        '$route'() {
+            this.hideMobileMenu();
         }
     }
 }
