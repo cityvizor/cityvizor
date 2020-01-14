@@ -8,11 +8,13 @@ Vue.use(Router);
 const routes = [
     {
         path: '/',
-        component: Home
+        component: Home,
+        name: 'home'
     },
     { 
         path: '/:slug', 
         component: Page,
+        name: 'page'
     },
 ]
 

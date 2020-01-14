@@ -4,13 +4,10 @@
 |--------------------------------------------------------------------------
 */
 
-.c-menu {
+.c-menu,
+.c-menu--mobile {
     display: none;
     justify-content: flex-end;
-
-    @include media-breakpoint-up(lg) {
-        display: flex;
-    }
 
     &.show {
         display: block;
@@ -27,6 +24,29 @@
             @include media-breakpoint-up(xl) {
                 padding-left: 25px;
                 padding-right: 25px;
+            }
+        }
+    }
+
+    &.c-menu {
+        @include media-breakpoint-up(lg) {
+            display: flex;
+        }
+    }
+
+    &.c-menu--mobile {
+        position: relative;
+        z-index: 2;
+        background-color: $gray;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        li {
+            a {
+                @extend .unselectable;
+                padding: 10px 25px;
+                &.router-link-exact-active {
+                    font-weight: 700;
+                }
             }
         }
     }
