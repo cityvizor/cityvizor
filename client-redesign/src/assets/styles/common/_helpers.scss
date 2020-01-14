@@ -34,3 +34,8 @@
 .text-black {
     color: $black;
 }
+
+/* Selection */
+.unselectable {
+    user-select: none;
+}

@@ -5,19 +5,30 @@
 */
 
 .c-municipalities {
+    @extend .unselectable;
+    position: relative;
     display: flex;
     padding-left: 10vw;
     padding-right: 10vw;
     max-width: 1280px;
     margin: 0 auto;
+
+    @include media-breakpoint-down(md) {
+        flex-wrap: wrap;
+     }
 }
 
 .c-municipalities__entry {
     text-align: center;
     flex: 0 0 25%;
+    height: 250px;
 
     @include media-breakpoint-up(lg) {
         font-size: $font-size-lg;
+    }
+
+    @include media-breakpoint-down(md) {
+       flex: 0 0 50%;
     }
 }
 
@@ -35,4 +46,32 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
+}
+
+.c-municipalities__arrow--left,
+.c-municipalities__arrow--right {
+    align-self: center;
+    position: absolute;
+    max-width: 40px;
+    cursor: pointer;
+}
+
+.c-municipalities__arrow--left {
+    left: 5vw;
+}
+
+.c-municipalities__arrow--right {
+    right: 5vw;
+}
+
+.c-municipalities__entry__label {
+    strong {
+        font-weight: 700;
+    }
+}
+
+.c-municipalities__entry__cta {
+    font-size: 75%;
+    display: block;
+    margin-top: 0.5em;
 }

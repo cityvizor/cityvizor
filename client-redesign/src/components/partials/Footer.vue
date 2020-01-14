@@ -20,5 +20,13 @@
 <script>
 export default {
   name: 'ComponentsPartialsFooter',
+  props: {
+      cms: {
+          type: Object,
+          default() {
+              return {}
+          }
+      }
+  },
 }
 </script>

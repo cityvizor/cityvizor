@@ -11,6 +11,7 @@
 @import 'common/variables';
 @import 'common/typeface';
 @import 'common/helpers';
+@import 'common/icons';
 @import 'common/breakpoints';
 
 /* Fixes */
@@ -31,7 +32,10 @@
 @import 'components/buttons';
 @import 'components/form';
 @import 'components/hamburger';
+@import 'components/heroclaim';
+@import 'components/herosearch';
 @import 'components/menu';
+@import 'components/municipalities';
 
 body {
     background-color: $body-bg;

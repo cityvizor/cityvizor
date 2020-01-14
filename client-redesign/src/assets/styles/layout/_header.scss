@@ -41,7 +41,7 @@
 
 .is-home {
     .l-header {
-        height: 80vh;
+        min-height: 80vh;
         @include media-breakpoint-up(lg) {
             min-height: 800px;
         }

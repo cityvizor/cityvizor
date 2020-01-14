@@ -17,6 +17,9 @@
       "type": "component",
       "repeatable": true,
       "component": "block.block"
+    },
+    "Slug": {
+      "type": "string"
     }
   }
 }
