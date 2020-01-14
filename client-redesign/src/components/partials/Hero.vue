@@ -1,8 +1,11 @@
 <template>
   <div class="l-partials__hero">
+    <!-- Claim -->
     <h2 class="c-hero__claim">
       <strong>Transparentní</strong> hospodaření obcí do detailu každé faktury
     </h2>
+
+    <!-- Search input -->
     <form class="c-hero__search">
       <input 
         type="search" 
@@ -13,23 +16,31 @@
       <button type="submit" 
         class="btn btn-transparent btn-search">
         Vyhledat
-        </button>
+      </button>
     </form>
+
+    <!-- Results container -->
     <div v-show="showMunicipalities">
       <ul class="c-municipalities">
-        <li v-for="municipality in filteredMunicipalities"
-          :key="municipality.ICO">
-          {{ municipality.adresaUradu.obecNazev }}
-          <span v-if="municipality.adresaUradu.castObceNeboKatastralniUzemi && municipality.adresaUradu.obecNazev !== municipality.adresaUradu.castObceNeboKatastralniUzemi"
-            class="divider">
-            -
-          </span>
-          <span v-if="municipality.adresaUradu.castObceNeboKatastralniUzemi && municipality.adresaUradu.obecNazev !== municipality.adresaUradu.castObceNeboKatastralniUzemi">
-            {{ municipality.adresaUradu.castObceNeboKatastralniUzemi }}
-          </span>
+        <li v-for="municipality in displayedMunicipalities"
+          :key="municipality.zkratka"
+          class="c-municipalities__entry"
+          @click="openMunicipality(municipality)">
+          <img v-if="municipality.urlZnak"
+            :src="municipality.urlZnak"
+            :alt="municipality.nazev"
+            class="c-municipalities__entry__heraldry">
+          <span v-else
+            class="c-municipalities__entry__placeholder"></span>
+          {{ municipality.nazev }}
+        </li>
+        <li v-if="hasNextPage">
+
         </li>
       </ul>
     </div>
+
+    <!-- Counter element -->
     <Counter :number="municipalitiesCount"></Counter>
   </div>
 </template>
@@ -44,32 +55,33 @@ export default {
     Counter,
   },
   computed: {
-    filteredMunicipalities() {
-      if (this.searchPhrase === null) {
-        return [];
-      }
-      const filter = this.searchPhrase.toLowerCase();
-      return this.municipalities.filter(item => {
-        return item.nazev.toLowerCase().indexOf(filter) !== -1;
-      });
+    hasPreviousPage() {
+      return this.page > 0;
+    },
+    hasNextPage() {
+      return this.municipalities.length > this.page * this.perPage;
+    },
+    displayedMunicipalities() {
+      const clone = JSON.parse(JSON.stringify(this.municipalities));
+      return clone.slice(this.page * this.perPage, this.perPage);
     },
     showMunicipalities() {
       if (this.searchPhrase === null) {
         return false;
       }
-      return this.searchPhrase.length > 2;
+      return this.searchPhrase.length > this.searchMinimumLength;
     }
   },
   data() {
     return {
-      apiUrl: 'https://cityvizor.cesko.digital/api/v2/service/citysearch',
       searchTimeout: null,
-      searchDebounce: 300,
+      searchDebounce: 600,
       searchPhrase: null,
+      searchMinimumLength: 2,
       municipalitiesCount: 223423413,
       municipalities: [],
-      municipalitiesLoaded: false,
-      municipalitiesLoading: false,
+      page: 0,
+      perPage: 4,
     }
   },
   watch: {
@@ -82,21 +94,23 @@ export default {
   },
   methods: {
     loadMunicipalities() {
-      this.municipalitiesLoading = true;
-      axios.get(this.apiUrl, {
+      axios.get(this.apiBaseUrl, {
         params: {
           query: this.searchPhrase
         }
       })
-        .then(response => {
-          console.log(response); // eslint-disable-line
-          this.municipalitiesLoading = false;
-          this.municipalitiesLoaded = true;
-          this.municipalities = response.data;
-        })
-        .catch(error => {
-          console.log(error); // eslint-disable-line
-        });
+      .then(response => {
+        this.municipalities = response.data;
+        this.page = 0;
+      })
+      .catch(error => {
+        console.log(error); // eslint-disable-line
+      });
+    },
+    openMunicipality(municipality) {
+      if (municipality.urlCityVizor) {
+        window.location.href = municipality.urlCityVizor;
+      }
     }
   }
 }
