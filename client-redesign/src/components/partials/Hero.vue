@@ -62,6 +62,7 @@ export default {
   },
   data() {
     return {
+      apiUrl: 'https://cityvizor.cesko.digital/api/v2/service/citysearch',
       searchTimeout: null,
       searchDebounce: 300,
       searchPhrase: null,
@@ -76,16 +77,19 @@ export default {
       if (this.searchTimeout) {
         clearTimeout(this.searchTimeout);
       }
-      if (!this.municipalitiesLoaded) {
-        this.searchTimeout = setTimeout(this.loadMunicipalities, this.searchDebounce);
-      }
+      this.searchTimeout = setTimeout(this.loadMunicipalities, this.searchDebounce);
     },
   },
   methods: {
     loadMunicipalities() {
       this.municipalitiesLoading = true;
-      axios.get('/obce.json')
+      axios.get(this.apiUrl, {
+        params: {
+          query: this.searchPhrase
+        }
+      })
         .then(response => {
+          console.log(response); // eslint-disable-line
           this.municipalitiesLoading = false;
           this.municipalitiesLoaded = true;
           this.municipalities = response.data;
