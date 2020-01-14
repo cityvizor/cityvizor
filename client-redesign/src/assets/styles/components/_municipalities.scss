@@ -1,0 +1,38 @@
+/*
+|--------------------------------------------------------------------------
+| Components/Municipalities
+|--------------------------------------------------------------------------
+*/
+
+.c-municipalities {
+    display: flex;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.c-municipalities__entry {
+    text-align: center;
+    flex: 0 0 25%;
+
+    @include media-breakpoint-up(lg) {
+        font-size: $font-size-lg;
+    }
+}
+
+.c-municipalities__entry__heraldry {
+    width: 80px;
+    height: auto;
+}
+
+.c-municipalities__entry__placeholder {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 2em auto;
+    background-image: url(./assets/images/icons/placeholder.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+}
