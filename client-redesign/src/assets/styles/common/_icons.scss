@@ -1,0 +1,20 @@
+/*
+|--------------------------------------------------------------------------
+| Common/Icons
+|--------------------------------------------------------------------------
+*/
+
+.icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    &.icon-arrow-right {
+        background-image: url(./assets/images/icons/arrow-right.svg);
+    }
+    &.icon-arrow-left {
+        background-image: url(./assets/images/icons/arrow-left.svg);
+    }
+}
