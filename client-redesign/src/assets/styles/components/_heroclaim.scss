@@ -1,0 +1,21 @@
+/*
+|--------------------------------------------------------------------------
+| Components/Hero - claim
+|--------------------------------------------------------------------------
+*/
+
+.c-hero__claim {
+    @extend .type-xl;
+    margin: 0 auto;
+    color: $body-hero;
+    max-width: 780px;
+    padding-top: 75px;
+    padding-bottom: 75px;
+
+    @include media-breakpoint-down(md) {
+        font-size: $font-size-lg;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+  
