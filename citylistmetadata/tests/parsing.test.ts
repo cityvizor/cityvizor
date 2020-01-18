@@ -1,5 +1,5 @@
 import { parseXml } from 'libxmljs'
-import { parseAllValidSubjects, normalizeTitleCase } from '../src/parsing'
+import { parseAllValidSubjects, normalizeTitleCase, stripOfficialNamePrefix } from '../src/parsing'
 import { readFileSync } from "fs";
 
 const parseFixture = (name: string) =>
@@ -41,4 +41,10 @@ test('Normalize city name case', () => {
     expect(normalizeTitleCase('FRYŠAVA POD ŽÁKOVOU HOROU')).toBe('Fryšava pod Žákovou horou')
     expect(normalizeTitleCase('PRAHA-ÚJEZD')).toBe('Praha-Újezd')
     expect(normalizeTitleCase('BRŤOV - JENEČ')).toBe('Brťov-Jeneč')
+})
+
+test('Strip official city name prefix', () => {
+    expect(stripOfficialNamePrefix('MĚSTO HRONOV')).toBe('HRONOV')
+    expect(stripOfficialNamePrefix('MĚSTYS Tištín')).toBe('Tištín')
+    expect(stripOfficialNamePrefix('STATUTÁRNÍ MĚSTO LIBEREC')).toBe('LIBEREC')
 })

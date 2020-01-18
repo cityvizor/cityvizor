@@ -34,6 +34,18 @@ export function parseSubjekt(elem: Element): Subjekt | null {
     }
 }
 
+/**
+ * Strip the official name prefix such as “obec” or “městská část” from a municipality name.
+ *
+ * Also strips any whitespace after the prefix, ignores case when matching, does not touch anything else.
+ */
+export function stripOfficialNamePrefix(name: string): string {
+    const prefixes = ['obec', 'město', 'městys', 'městská část', 'městský obvod', 'statutární město']
+    const patterns = prefixes.map(p => RegExp(`^${p}\\s*`, "i"))
+    patterns.forEach(p => name = name.replace(p, ""))
+    return name
+}
+
 export function normalizeTitleCase(name: string): string {
 
     // Remove spaces around hyphens. According to the rules of Czech typography,
