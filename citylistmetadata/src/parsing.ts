@@ -34,6 +34,44 @@ export function parseSubjekt(elem: Element): Subjekt | null {
     }
 }
 
+export function normalizeTitleCase(name: string): string {
+
+    // Remove spaces around hyphens. According to the rules of Czech typography,
+    // spaces should only be used around a regular dash (–), not hyphen (-). We
+    // are assuming that all hyphens in the source data set are really hyphens,
+    // ie. “Rájec - Jestřebí” really means “Rájec-Jestřebí”.
+    const fixHyphens = (s: string) => s.replace(/\s*-\s*/, "-")
+
+    return fixHyphens(name)
+        .split(" ")
+        .map(titleCaseWord)
+        .join(" ")
+}
+
+function titleCaseWord(word: string): string {
+
+    const prepositions = ['v', 'nad', 'pod', 'u', 'na', 'při', 'mezi', 'a']
+    const exceptions = ['horách', 'lesy', 'horou']
+
+    const keepLowercase = (s: string) =>
+        prepositions.indexOf(s) != -1 ||
+        exceptions.indexOf(s) != -1
+
+    const upperCaseFirst = (s: string) =>
+        s.charAt(0).toUpperCase() + s.slice(1)
+
+    const transformCase = (s: string) => {
+        s = s.toLowerCase()
+        if (s === "" || keepLowercase(s)) {
+            return s
+        } else {
+            return upperCaseFirst(s)
+        }
+    }
+
+    return word.split("-").map(transformCase).join("-")
+}
+
 function parsePravniForma(elem: Element): PravniForma | null {
     const type = elem.attr("type")?.value()
     const label = elem.text()

@@ -1,5 +1,5 @@
 import { parseXml } from 'libxmljs'
-import { parseAllValidSubjects } from '../src/parsing'
+import { parseAllValidSubjects, normalizeTitleCase } from '../src/parsing'
 import { readFileSync } from "fs";
 
 const parseFixture = (name: string) =>
@@ -30,4 +30,15 @@ test('Parse single subject', () => {
             ulice: "Masarykovo náměstí",
         },
     })
+})
+
+test('Normalize city name case', () => {
+    expect(normalizeTitleCase('PEC POD SNĚŽKOU')).toBe('Pec pod Sněžkou')
+    expect(normalizeTitleCase('KLÁŠTEREC NAD OHŘÍ')).toBe('Klášterec nad Ohří')
+    expect(normalizeTitleCase('ROKYTNICE V ORLICKÝCH HORÁCH')).toBe('Rokytnice v Orlických horách')
+    expect(normalizeTitleCase('KOSTELEC NAD ČERNÝMI LESY')).toBe('Kostelec nad Černými lesy')
+    expect(normalizeTitleCase('ŽĎÁR NAD SÁZAVOU')).toBe('Žďár nad Sázavou')
+    expect(normalizeTitleCase('FRYŠAVA POD ŽÁKOVOU HOROU')).toBe('Fryšava pod Žákovou horou')
+    expect(normalizeTitleCase('PRAHA-ÚJEZD')).toBe('Praha-Újezd')
+    expect(normalizeTitleCase('BRŤOV - JENEČ')).toBe('Brťov-Jeneč')
 })
