@@ -35,6 +35,15 @@ export function parseSubjekt(elem: Element): Subjekt | null {
 }
 
 /**
+ * Normalize municipality name by stripping official prefix and fixing case.
+ *
+ * This is just a combination of `stripOfficialNamePrefix` and `normalizeTitleCase`.
+ */
+export function normalizeMunicipalityName(name: string): string {
+    return normalizeTitleCase(stripOfficialNamePrefix(name))
+}
+
+/**
  * Strip the official name prefix such as “obec” or “městská část” from a municipality name.
  *
  * Also strips any whitespace after the prefix, ignores case when matching, does not touch anything else.

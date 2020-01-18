@@ -1,5 +1,5 @@
 import { parseXml } from 'libxmljs'
-import { parseAllValidSubjects, normalizeTitleCase, stripOfficialNamePrefix } from '../src/parsing'
+import { parseAllValidSubjects, normalizeTitleCase, stripOfficialNamePrefix, normalizeMunicipalityName } from '../src/parsing'
 import { readFileSync } from "fs";
 
 const parseFixture = (name: string) =>
@@ -47,4 +47,11 @@ test('Strip official city name prefix', () => {
     expect(stripOfficialNamePrefix('MĚSTO HRONOV')).toBe('HRONOV')
     expect(stripOfficialNamePrefix('MĚSTYS Tištín')).toBe('Tištín')
     expect(stripOfficialNamePrefix('STATUTÁRNÍ MĚSTO LIBEREC')).toBe('LIBEREC')
+})
+
+test('Normalize municipality name', () => {
+    expect(normalizeMunicipalityName('STATUTÁRNÍ MĚSTO LIBEREC')).toBe('Liberec')
+    expect(normalizeMunicipalityName('Statutární město Frýdek-Místek')).toBe('Frýdek-Místek')
+    expect(normalizeMunicipalityName('Městská část Brno Řečkovice a Mokrá Hora')).toBe('Brno Řečkovice a Mokrá Hora')
+    expect(normalizeMunicipalityName('MĚSTO SVOBODA NAD ÚPOU')).toBe('Svoboda nad Úpou')
 })
