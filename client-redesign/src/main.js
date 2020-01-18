@@ -16,9 +16,9 @@ Vue.mixin({
   data() {
     return {
       // Citysearch API
-      apiBaseUrl: this.environment === 'production' ? 'https://cityvizor.cesko.digital/api/v2/service/citysearch' : 'http://localhost:1337/citysearch',
+      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:1337/citysearch',
       // CMS API
-      contentApiBaseUrl: this.environment === 'production' ? '{HERE WILL BE PRODUCTION API URL}' : 'http://localhost:1337'
+      contentApiBaseUrl: process.env.CONTENT_API_BASE_URL || 'http://localhost:1337'
     };
   },
   computed: {
