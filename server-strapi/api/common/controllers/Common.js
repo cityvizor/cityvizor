@@ -25,7 +25,7 @@ module.exports = {
     const Identifier = 'apiBaseUrl';  // option identifier references column value on configuration document
     const apiBaseUrl = await strapi.services.configuration.findOne({ Identifier });
 
-    if (apiBaseUrl.length === 0) {
+    if (!apiBaseUrl) {
       ctx.response.badRequest(`apiBaseUrl is not configured (there should be Configuration with Identifier ${Identifier})`);
     }
 
