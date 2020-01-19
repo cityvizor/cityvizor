@@ -16,9 +16,9 @@ Vue.mixin({
   data() {
     return {
       // Citysearch API
-      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:1337/citysearch',
+      apiBaseUrl: process.env.VUE_APP_API_BASE_URL || 'http://localhost:1337/citysearch',
       // CMS API
-      contentApiBaseUrl: process.env.CONTENT_API_BASE_URL || 'http://localhost:1337'
+      contentApiBaseUrl: process.env.VUE_APP_CONTENT_API_BASE_URL || 'http://localhost:1337'
     };
   },
   computed: {
