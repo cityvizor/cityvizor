@@ -75,7 +75,10 @@ export default {
     },
     computed: {
         primaryMenu() {
-            return this.cms.menus.primary.Menuitem;
+            if (this.cms && this.cms.menus && this.cms.menus.primary) {
+                return this.cms.menus.primary.Menuitem;
+            }
+            return [];
         }
     },
     data() {
