@@ -22,20 +22,17 @@ services:
       - internal-net
 
   backend-kotlin:
-    image: openjdk:11.0.1
+    image: backend-kotlin
+    build: server-kotlin/.
+    expose:
+      - 8080
     depends_on:
       - postgres
     container_name: backend.cityvizor.cesko.digital
     networks:
       - internal-net
-    volumes:
-      - ./server-kotlin/build/distributions:/home/server-kotlin/
-      - ./server-kotlin/start_last_local.sh:/home/scripts/start_last_local.sh
-      - ./server-kotlin/citylistmetadata_finalresult.json:/home/data/citylistmetadata_finalresult.json
     environment:
       DATABASE_ADDRESS: db.cityvizor.cesko.digital
-    command:
-      - /home/scripts/start_last_local.sh
 
   cityvizor-server:
     image: cityvizor
@@ -45,8 +42,7 @@ services:
       NODE_ENV: local
     ports:
       - 3000:3000
-    volumes: 
-      - ./server/environment/environment.production.js:/user/src/app/server/environment/environment.production.js:ro
+    volumes:
       - ./data:/user/src/app/data
     depends_on: 
       - postgres
@@ -60,7 +56,6 @@ services:
       NODE_ENV: local
     command: node server/dist/worker.js
     volumes:
-      - ./server/environment/environment.production.js:/user/src/app/server/environment/environment.production.js:ro
       - ./data:/user/src/app/data
     depends_on: 
       - postgres
@@ -79,4 +74,4 @@ services:
     networks:
       - internal-net
     ports:
-      - "5432:5432"
+      - 5432:5432
