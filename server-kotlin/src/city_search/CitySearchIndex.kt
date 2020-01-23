@@ -18,7 +18,6 @@ import org.apache.lucene.queryparser.classic.QueryParser
 import org.apache.lucene.search.IndexSearcher
 import org.apache.lucene.store.Directory
 import org.apache.lucene.store.RAMDirectory
-import java.io.File
 
 
 class AccentInsensitiveAnalyzer(): StopwordAnalyzerBase(CharArraySet.EMPTY_SET) {
@@ -87,9 +86,9 @@ class CitySearchIndex: UntypedAbstractActor() {
         /*
             Read sky to geo mapper
          */
-        val dataJson = File("/home/data/citylistmetadata_finalresult.json")
+        val dataJson = this::class.java.classLoader.getResource("citylistmetadata_finalresult.json")!!.readText()
 
-        resultCities = jacksonObjectMapper().readValue(dataJson.readText())
+        resultCities = jacksonObjectMapper().readValue(dataJson)
 
         directory.close()
         directory = RAMDirectory()

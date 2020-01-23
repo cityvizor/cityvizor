@@ -1,29 +1,28 @@
 package main
 
 import akka.actor.ActorSystem
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.auth.*
-import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.typesafe.config.ConfigFactory
+import digital.cesko.city_request.CityRequestActors
+import digital.cesko.city_request.cityRequestRouter
 import digital.cesko.city_search.CitySearchService
 import digital.cesko.routers.citySearchRouter
-import io.ktor.jackson.*
-import io.ktor.features.*
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.auth.Authentication
+import io.ktor.features.ContentNegotiation
+import io.ktor.jackson.jackson
+import io.ktor.routing.routing
 
 object ApplicationData {
-    lateinit var system: ActorSystem
-        private set
+    private lateinit var system: ActorSystem
 
     fun init() {
-        /*
-            Create ActorSystem
-         */
+        // Create ActorSystem
         system = ActorSystem.create("cdbackend", ConfigFactory.load("application.conf").resolve())
 
         CitySearchService.create(system)
+        CityRequestActors.create(system)
     }
 }
 
@@ -45,6 +44,7 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         citySearchRouter()
+        cityRequestRouter()
     }
 }
 
