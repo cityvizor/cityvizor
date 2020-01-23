@@ -63,7 +63,7 @@ import { dbConnect } from "./db";
 	var aclOptions = {
 		roles: config.acl.roles,
 		defaultRoles: ["guest"],
-		userRoles: ["user"],
+		// userRoles: ["user"],
 		logConsole: true
 	}
 	acl.config(aclOptions);
