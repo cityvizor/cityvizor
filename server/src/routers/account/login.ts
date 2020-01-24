@@ -52,7 +52,7 @@ router.post("/", acl("login", "login"), schema.validate({ body: loginSchema }), 
 		var tokenData: UserToken = {
 			id: user.id,
 			login: user.login,
-			roles: [user.role],
+			roles: ["user", user.role],
 			managedProfiles: await db<UserProfileRecord>("app.user_profiles").where({ userId: user.id }).then(rows => rows.map(row => row.profileId)),
 		};
 
@@ -83,7 +83,7 @@ router.get("/renew", acl("login", "renew"), async (req, res, next) => {
 	var tokenData = {
 		id: user.id,
 		login: user.login,
-		roles: [user.role],
+		roles: ["user", user.role],
 		managedProfiles: await db<UserProfileRecord>("app.user_profiles").where({ userId: user.id }).then(rows => rows.map(row => row.profileId)),
 	};
 
