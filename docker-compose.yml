@@ -1,38 +1,27 @@
 version: '3.6'
-networks:
-  internal-net:
-    name: workbench_subnet
+
 services:
+
   proxy:
     image: nginx:1.15.8-alpine
-    depends_on:
-      - backend-kotlin
-      - cityvizor-server
-      - cityvizor-worker
     container_name: nginx.cityvizor.cesko.digital
     ports:
       - "4200:80"
     volumes:
-      - ./client/dist:/usr/share/nginx/html:ro
       - ./nginx:/etc/nginx:ro
     environment:
       NGINX_HOST: cityvizor.cesko.digital
       NGINX_PORT: 80
-    networks:
-      - internal-net
 
   backend-kotlin:
     image: backend-kotlin
     build: server-kotlin/.
-    expose:
-      - 8080
-    depends_on:
-      - postgres
     container_name: backend.cityvizor.cesko.digital
-    networks:
-      - internal-net
     environment:
       DATABASE_ADDRESS: db.cityvizor.cesko.digital
+    depends_on:
+      - postgres
+      - proxy
 
   cityvizor-server:
     image: cityvizor-server
@@ -45,31 +34,28 @@ services:
       - ./data:/user/src/app/data
     depends_on: 
       - postgres
-    networks:
-      - internal-net
+      - proxy
 
   cityvizor-worker:
     image: cityvizor-server
     build: ./server
-    environment:
-      NODE_ENV: local
     command: node dist/worker.js
     container_name: worker.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: local
     volumes:
       - ./data:/user/src/app/data
     depends_on: 
       - postgres
-    networks:
-      - internal-net
 
   cityvizor-client:
     image: cityvizor-client
     build: ./client   
     container_name: client.cityvizor.cesko.digital
     environment:
-      NODE_ENV: local    
-    networks:
-      - internal-net
+      NODE_ENV: local  
+    depends_on: 
+      - proxy  
       
   postgres:
     image: postgres:11.1
@@ -80,7 +66,5 @@ services:
       POSTGRES_PASSWORD: pass
     volumes:
       - ./database/oict_dump.sql:/docker-entrypoint-initdb.d/oict_dump.sql
-    networks:
-      - internal-net
     ports:
       - 5432:5432
