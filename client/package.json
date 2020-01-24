@@ -1,6 +1,6 @@
 {
   "name": "cityvizor-client",
-  "version": "2.2.0",
+  "version": "4.2.0",
   "description": "",
   "homepage": "https://cityvizor.cz/",
   "repository": "otevrena-data-mfcr/CityVizor",
@@ -45,7 +45,7 @@
     "@types/luxon": "^1.15.2",
     "@types/node": "^12.7.2",
     "@types/wordcloud": "^1.1.1",
-    "typescript": ">=3.4.0 and <3.6.0"
+    "typescript": "~3.5.3"
   },
   "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
   "license": "GPL-3.0"

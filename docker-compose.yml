@@ -35,13 +35,12 @@ services:
       DATABASE_ADDRESS: db.cityvizor.cesko.digital
 
   cityvizor-server:
-    image: cityvizor
-    build: .
-    command: node server/dist/server.js
+    image: cityvizor-server
+    build: ./server
+    command: node dist/server.js
+    container_name: server.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
-    ports:
-      - 3000:3000
     volumes:
       - ./data:/user/src/app/data
     depends_on: 
@@ -50,15 +49,25 @@ services:
       - internal-net
 
   cityvizor-worker:
-    image: cityvizor
-    build: .
+    image: cityvizor-server
+    build: ./server
     environment:
       NODE_ENV: local
-    command: node server/dist/worker.js
+    command: node dist/worker.js
+    container_name: worker.cityvizor.cesko.digital
     volumes:
       - ./data:/user/src/app/data
     depends_on: 
       - postgres
+    networks:
+      - internal-net
+
+  cityvizor-client:
+    image: cityvizor-client
+    build: ./client   
+    container_name: client.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: local    
     networks:
       - internal-net
       

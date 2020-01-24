@@ -4,11 +4,20 @@ on: [push]
 
 jobs:
 
-  build:
+  build-server:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag cityvizor-mhmp:$(date +%s)
+      run: docker build ./server --tag cityvizor-server:$(date +%s)
+
+  build-client:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build ./client --tag cityvizor-client:$(date +%s)

@@ -8,7 +8,7 @@ import { ACLService } from './services/acl.service';
 
 import { AppConfig, IAppConfig } from 'config/config';
 
-import * as packageJSON from "../../../package.json";
+import * as packageJSON from "../../package.json";
 
 class LoginData {
 	login: string = "";
