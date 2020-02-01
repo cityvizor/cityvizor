@@ -1,14 +1,9 @@
 package digital.cesko.city_request.google_sheets
 
 import com.google.api.client.auth.oauth2.Credential
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
-import com.google.api.client.http.HttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
-import com.google.api.client.util.store.FileDataStoreFactory
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.SheetsScopes
 import com.google.api.services.sheets.v4.model.ValueRange
@@ -18,7 +13,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
-import java.io.InputStreamReader
+import java.time.format.DateTimeFormatter
+
 
 /**
  * Google sheets API v4 implementation of CityRequestStore
@@ -30,32 +26,40 @@ import java.io.InputStreamReader
 internal class GoogleSheets(
     private val credentialsFile: String?,
     private val documentId: String,
-    private val listName: String
+    private val listName: String,
+    private val appName: String
 ) : CityRequestStore {
 
     override fun insert(cityRequest: CityRequest) {
 
         // in case of no credentials file (testing env., local development, ...) just fail silently
         if (credentialsFile.isNullOrBlank()) {
-            logger.warn("No credentials file.")
+            logger.warn("No credentials file. Append `-DgoogleCredentials=/path/to/file.json` argument to a process.")
+            return
+        }
+
+        val credentialsFile = File(credentialsFile)
+
+        if (!credentialsFile.exists()) {
+            logger.warn("Credentials file doesn't exist.")
             return
         }
 
         try {
-            val credentials = getCredentials(httpTransport, File(credentialsFile))
-
             val range = "${listName}!A2:E2"
-            val service = Sheets.Builder(httpTransport, jacksonFactory, credentials)
+            val service = Sheets.Builder(httpTransport, jacksonFactory, getCredentials(credentialsFile))
                 .setApplicationName(appName)
                 .build()
 
             val data = listOf(
                 listOf(
+                     cityRequest.time?.format(dateFormatter) ?: "",
                     cityRequest.city,
                     cityRequest.email,
                     cityRequest.name,
                     cityRequest.subscribe,
-                    cityRequest.gdpr
+                    cityRequest.gdpr,
+                    cityRequest.ip ?: ""
                 )
             )
 
@@ -70,36 +74,23 @@ internal class GoogleSheets(
 
             request.execute()
         } catch (e: Exception) {
-            logger.error("Unable to create new city request from $cityRequest", e);
+            logger.error("Unable to create new city request from $cityRequest", e)
+            throw RuntimeException(e)
         }
     }
 
-
     @Throws(IOException::class)
-    private fun getCredentials(httpTransport: HttpTransport, credentialFile: File): Credential? {
-        val clientSecrets = GoogleClientSecrets.load(
-            jacksonFactory,
-            InputStreamReader(credentialFile.inputStream())
-        )
-
-        val flow = GoogleAuthorizationCodeFlow.Builder(
-            httpTransport,
-            jacksonFactory,
-            clientSecrets,
-            listOf(SheetsScopes.SPREADSHEETS)
-        )
-            .setDataStoreFactory(FileDataStoreFactory(File("tokens")))
-            .setAccessType("offline")
-            .build()
-        val receiver = LocalServerReceiver.Builder().setPort(8881).build()
-        return AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
+    private fun getCredentials(credentialFile: File): Credential {
+        return GoogleCredential.fromStream(credentialFile.inputStream())
+            .createScoped(listOf(SheetsScopes.SPREADSHEETS))
     }
 
     companion object {
-        private const val appName = "CityVizor"
         private val logger: Logger = LoggerFactory.getLogger(this::class.java)
         private val jacksonFactory: JacksonFactory = JacksonFactory.getDefaultInstance()
         private val httpTransport = GoogleNetHttpTransport.newTrustedTransport()
+        private val dateFormatter : DateTimeFormatter =  DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+
     }
 }
 
