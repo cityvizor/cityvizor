@@ -25,7 +25,7 @@ class ApplicationTest {
                 )) )
             }.apply {
                 assertEquals(HttpStatusCode.OK, response.status())
-                assertEquals("sent", response.content)
+                assertEquals("ok", response.content)
             }
         }
     }
