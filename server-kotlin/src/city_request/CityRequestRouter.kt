@@ -28,7 +28,7 @@ fun Routing.cityRequestRouter(
                 cityRequestStore.insert(request)
                 call.respond(HttpStatusCode.OK, "ok")
             } catch (e: Exception) {
-                call.respond(HttpStatusCode.OK, "error")
+                call.respond(HttpStatusCode.InternalServerError, "error")
             }
         }
     }
