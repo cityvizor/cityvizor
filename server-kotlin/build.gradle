@@ -9,10 +9,11 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'idea'
 apply plugin: 'application'
 
 group 'digital.cesko'
-version '0.0.3'
+version '0.0.4'
 mainClassName = "io.ktor.server.netty.EngineMain"
 
 sourceSets {
@@ -38,6 +39,11 @@ dependencies {
     compile "io.ktor:ktor-jackson:$ktor_version"
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
 
+    // google docs API
+    compile 'com.google.api-client:google-api-client:1.30.1'
+    compile 'com.google.auth:google-auth-library-oauth2-http:0.20.0'
+    compile 'com.google.apis:google-api-services-sheets:v4-rev604-1.25.0'
+
     //Lucene engine (for search)
     compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.3.0'
     compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.3.0'
@@ -45,9 +51,6 @@ dependencies {
 
     //Akka actor model
     compile group: 'com.typesafe.akka', name: 'akka-actor_2.13', version: '2.6.0'
-
-
-
 }
 
 jar {
