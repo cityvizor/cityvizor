@@ -18,7 +18,6 @@ import org.apache.lucene.queryparser.classic.QueryParser
 import org.apache.lucene.search.IndexSearcher
 import org.apache.lucene.store.Directory
 import org.apache.lucene.store.RAMDirectory
-import java.io.File
 
 
 class AccentInsensitiveAnalyzer(): StopwordAnalyzerBase(CharArraySet.EMPTY_SET) {
@@ -84,12 +83,12 @@ class CitySearchIndex: UntypedAbstractActor() {
     }
 
     fun createCache() {
-        /*
-            Read sky to geo mapper
-         */
-        val dataJson = File("/home/data/citylistmetadata_finalresult.json")
+        // Read sky to geo mapper
+        // once this file is loaded from s3 (where it's auto updated) we can keep local copy
+        // in resources as a fallback for offline development
+        val dataJson = this::class.java.classLoader.getResource("citylistmetadata_finalresult.json")!!.readText()
 
-        resultCities = jacksonObjectMapper().readValue(dataJson.readText())
+        resultCities = jacksonObjectMapper().readValue(dataJson)
 
         directory.close()
         directory = RAMDirectory()
