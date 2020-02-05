@@ -37,6 +37,13 @@ dependencies {
     compile "io.ktor:ktor-auth:$ktor_version"
     compile "io.ktor:ktor-auth-jwt:$ktor_version"
     compile "io.ktor:ktor-jackson:$ktor_version"
+    compile "io.ktor:ktor-client-json-jvm:$ktor_version"
+    compile "io.ktor:ktor-client-jackson:$ktor_version"
+    compile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "org.jetbrains.exposed:exposed:0.17.7"
+    compile "org.postgresql:postgresql:42.2.2"
+    compile "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.7.3"
     testCompile "io.ktor:ktor-server-tests:$ktor_version"
 
     // google docs API
