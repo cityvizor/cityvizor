@@ -1,8 +1,9 @@
-package city_sync.model
+package digital.cekso.city_sync.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer
+import digital.cesko.city_sync.model.*
 import org.jetbrains.exposed.sql.ResultRow
 import org.joda.time.LocalDate
 import java.math.BigDecimal
