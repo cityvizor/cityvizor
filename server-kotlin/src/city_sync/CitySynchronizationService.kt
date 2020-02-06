@@ -1,9 +1,7 @@
 package digital.cesko.city_sync
 
-import city_sync.model.*
 import com.typesafe.config.ConfigFactory
-import city_sync.exception.CitySyncException
-import digital.cekso.city_sync.model.*
+import digital.cesko.city_sync.exception.CitySyncException
 import digital.cesko.city_sync.model.*
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache

@@ -1,4 +1,4 @@
-package city_sync.exception
+package digital.cesko.city_sync.exception
 
 import io.ktor.http.HttpStatusCode
 

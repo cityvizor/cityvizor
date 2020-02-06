@@ -1,4 +1,4 @@
-package digital.cekso.city_sync.model
+package digital.cesko.city_sync.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize

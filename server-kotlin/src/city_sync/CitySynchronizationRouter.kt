@@ -1,6 +1,6 @@
 package digital.cesko.city_sync
 
-import city_sync.exception.CitySyncException
+import digital.cesko.city_sync.exception.CitySyncException
 import digital.cesko.city_sync.model.SyncTask
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
