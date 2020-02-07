@@ -33,6 +33,7 @@ ng serve --configuration="local"
 Spuštění a reload:
 ```sh
 cd server
+npm run-script build
 nodemon dist/index.js
 ```
 - Server běží na http://localhost:3000
