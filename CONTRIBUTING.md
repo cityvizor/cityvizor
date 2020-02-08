@@ -30,6 +30,12 @@ ng serve --configuration="local"
 - [NodeJS](https://nodejs.org/en/)
 
 #### Spuštění
+
+##### Pro zelenáče
+Pokud máte docker a chcete NodeJS server jenom spustit, můžete to snadno udělat pomocí `./docker-compose up --build`
+
+##### Pro pokročilé
+
 Spuštění a reload:
 ```sh
 cd server
@@ -38,6 +44,7 @@ nodemon dist/index.js
 ```
 - Server běží na http://localhost:3000
 - Možnost spustit zvlášť pouze server (```nodemon dist/server.js```) nebo pouze worker (```nodemon dist/worker.js```)
+
 Automatická rekompilace:
 ```sh
 cd server
