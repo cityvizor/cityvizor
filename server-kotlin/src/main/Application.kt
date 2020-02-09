@@ -3,7 +3,6 @@ package main
 import akka.actor.ActorSystem
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.typesafe.config.Config
-import city_sync.CitySynchronizationService
 import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.typesafe.config.ConfigFactory
 import digital.cesko.city_request.cityRequestRouter
@@ -18,7 +17,8 @@ import io.ktor.features.ContentNegotiation
 import io.ktor.features.XForwardedHeaderSupport
 import io.ktor.jackson.jackson
 import io.ktor.routing.routing
-import city_sync.exception.CitySyncException
+import digital.cesko.city_sync.CitySynchronizationService
+import digital.cesko.city_sync.exception.CitySyncException
 import io.ktor.application.call
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
