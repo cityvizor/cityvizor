@@ -69,10 +69,11 @@ fun Application.module(testing: Boolean = false) {
     }
 
     val jdbcUrl = environment.config.property("ktor.database.jdbcUrl").getString()
+    val driver = environment.config.property("ktor.database.driver").getString()
     val dbUser = environment.config.property("ktor.database.dbUser").getString()
     val dbPass = environment.config.property("ktor.database.dbPass").getString()
     Database.connect(
-        jdbcUrl, driver = "org.postgresql.Driver",
+        jdbcUrl, driver = driver,
         user = dbUser, password = dbPass
     )
 
