@@ -29,14 +29,19 @@ fun Routing.chartGeneratorRouter(): Route {
             val year = (call.request.queryParameters["year"] ?: "2019").toInt()
 
 
-            val cityId = "596f24a4124a1f2016550563"
+            val cityId = "1"
             val numberOfBudgets = 3
-            val budgets = client.get<List<Budget>>("https://cityvizor.cz/api/profiles/$cityId/budgets?limit=$numberOfBudgets&sort=-year")
-            val budget = budgets.find { it.year == year } ?: budgets.first()
+            try {
+                val budgets = client.get<List<Budget>>("https://cityvizor.cz/api/public/profiles/$cityId/years?limit=$numberOfBudgets&sort=-year")
+                val budget = budgets.find { it.year == year } ?: budgets.first()
+                val svg = getBudgetChart(budget)
+                val contentType = ContentType.defaultForFileExtension("svg")
+                call.respondBytes(svg.toString().toByteArray(), contentType)
 
-            val svg = getBudgetChart(budget)
-            val contentType = ContentType.defaultForFileExtension("svg")
-            call.respondBytes(svg.toString().toByteArray(), contentType)
+            } catch (error: Throwable) {
+                call.respondText("Error... :-/", contentType = ContentType.Text.Plain)
+            }
+
         }
     }
 }
