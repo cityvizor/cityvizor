@@ -7,6 +7,7 @@ import com.typesafe.config.ConfigFactory
 import digital.cesko.city_request.cityRequestRouter
 import digital.cesko.city_request.google_sheets.GoogleSheets
 import digital.cesko.city_search.CitySearchService
+import digital.cesko.routers.chartGeneratorRouter
 import digital.cesko.routers.citySearchRouter
 import io.ktor.application.Application
 import io.ktor.application.install
@@ -50,8 +51,10 @@ fun Application.module(testing: Boolean = false) {
     install(XForwardedHeaderSupport)    // city request logs remote IP
 
     routing {
+        chartGeneratorRouter()
         citySearchRouter()
         cityRequestRouter(
+
             configuration.getString("app.city-request.timeZone"),
             GoogleSheets(
                 System.getProperty("googleCredentials"),
