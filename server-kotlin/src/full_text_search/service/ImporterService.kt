@@ -1,8 +1,8 @@
-package cz.cityvizor.service
+package full_text_search.service
 
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import cz.cityvizor.memoryIndex
-import cz.cityvizor.model.Invoices
+import full_text_search.memoryIndex
+import full_text_search.model.Invoices
 import org.apache.lucene.analysis.cz.CzechAnalyzer
 import org.apache.lucene.analysis.standard.StandardAnalyzer
 import org.apache.lucene.document.Document

@@ -1,4 +1,4 @@
-package cz.cityvizor.model
+package full_text_search.model
 
 import org.joda.time.LocalDate
 

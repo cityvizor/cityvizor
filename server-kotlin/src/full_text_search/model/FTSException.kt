@@ -1,4 +1,4 @@
-package cz.cityvizor.model
+package full_text_search.model
 
 import java.lang.RuntimeException
 

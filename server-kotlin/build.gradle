@@ -51,6 +51,11 @@ dependencies {
 
     //Akka actor model
     compile group: 'com.typesafe.akka', name: 'akka-actor_2.13', version: '2.6.0'
+
+    compile 'org.jetbrains.exposed:exposed:0.17.7'
+    compile("org.postgresql:postgresql:42.2.2")
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.7.3'
+    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:0.7.3'
 }
 
 jar {

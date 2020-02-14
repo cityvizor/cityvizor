@@ -1,7 +1,7 @@
-package cz.cityvizor.service
+package full_text_search.service
 
-import cz.cityvizor.memoryIndex
-import cz.cityvizor.model.InvoiceLucineModel
+import full_text_search.memoryIndex
+import full_text_search.model.InvoiceLucineModel
 import org.apache.lucene.analysis.Analyzer
 import org.apache.lucene.analysis.cz.CzechAnalyzer
 import org.apache.lucene.analysis.standard.StandardAnalyzer
