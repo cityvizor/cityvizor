@@ -19,15 +19,13 @@ import io.ktor.jackson.jackson
 import io.ktor.routing.routing
 import digital.cesko.city_sync.CitySynchronizationService
 import digital.cesko.city_sync.exception.CitySyncException
+import digital.cesko.common.CommonConfig
 import io.ktor.application.call
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
 import io.ktor.util.KtorExperimentalAPI
 import org.jetbrains.exposed.sql.Database
-import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.singleton
 
 object ApplicationData {
     private lateinit var system: ActorSystem
@@ -41,11 +39,6 @@ object ApplicationData {
     }
 }
 
-@KtorExperimentalAPI
-val kodein = Kodein {
-    bind<CitySynchronizationService>() with singleton { CitySynchronizationService() }
-}
-
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
@@ -56,6 +49,11 @@ fun Application.module(testing: Boolean = false) {
     val configuration = ConfigFactory.load("application.conf").resolve()
 
     ApplicationData.init(configuration)
+
+    val config = CommonConfig(
+        configuration.getConfig("app.city-sync.instanceUrls").entrySet()
+            .associateBy({ it.key }, { it.value.unwrapped().toString() })
+    )
 
     install(Authentication) {
     }
@@ -90,7 +88,9 @@ fun Application.module(testing: Boolean = false) {
                 configuration.getString("app.city-request.appName")
             )
         )
-        citySynchronizationRouter()
+        citySynchronizationRouter(
+            CitySynchronizationService(config)
+        )
     }
 
     install(StatusPages) {

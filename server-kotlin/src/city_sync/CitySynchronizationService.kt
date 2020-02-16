@@ -3,6 +3,7 @@ package digital.cesko.city_sync
 import com.typesafe.config.ConfigFactory
 import digital.cesko.city_sync.exception.CitySyncException
 import digital.cesko.city_sync.model.*
+import digital.cesko.common.CommonConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.json.JsonFeature
@@ -16,7 +17,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 @KtorExperimentalAPI
-class CitySynchronizationService {
+class CitySynchronizationService(val config: CommonConfig) {
     fun getAvailableCities(): List<CityBasic> {
         return transaction {
             Profiles
@@ -203,18 +204,13 @@ class CitySynchronizationService {
     }
 
     private suspend fun callInstance(syncTask: SyncTask): CityExport {
-        try {
-            val config =
-                HoconApplicationConfig(ConfigFactory.load()).property("app.city-sync.${syncTask.instance}").getString()
+        val instanceUrl = config.cityVizorInstanceUrls[syncTask.instance] ?: throw CitySyncException(
+            HttpStatusCode.BadRequest,
+            "instance of CV ${syncTask.instance} not found in configuration"
+        )
 
-            return HttpClient(Apache) {
-                install(JsonFeature)
-            }.get(host = config, path = "/api/v1/citysync/cities/${syncTask.cityId}", port = 8080)
-        } catch (e: ApplicationConfigurationException) {
-            throw CitySyncException(
-                HttpStatusCode.BadRequest,
-                "instance of CV ${syncTask.instance} not found in configuration"
-            )
-        }
+        return HttpClient(Apache) {
+            install(JsonFeature)
+        }.get(host = instanceUrl, path = "/api/v1/citysync/cities/${syncTask.cityId}", port = 8080)
     }
 }
