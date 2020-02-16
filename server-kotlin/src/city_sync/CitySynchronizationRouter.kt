@@ -8,13 +8,10 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
 import io.ktor.util.KtorExperimentalAPI
-import main.kodein
 import org.apache.http.HttpStatus
-import org.kodein.di.generic.instance
 
 @KtorExperimentalAPI
-fun Routing.citySynchronizationRouter(): Route {
-    val citySyncService by kodein.instance<CitySynchronizationService>()
+fun Routing.citySynchronizationRouter(citySyncService: CitySynchronizationService): Route {
 
     return route("/api/v1/citysync") {
         get("/cities") {
