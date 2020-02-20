@@ -1,7 +1,6 @@
-version: '3.6'
+version: "2.4"
 
 services:
-
   proxy:
     image: nginx:1.15.8-alpine
     container_name: nginx.cityvizor.cesko.digital
@@ -20,8 +19,10 @@ services:
     environment:
       DATABASE_ADDRESS: db.cityvizor.cesko.digital
     depends_on:
-      - postgres
-      - proxy
+      postgres:
+        condition: service_healthy
+      proxy:
+        condition: service_started
 
   cityvizor-server:
     image: cityvizor-server
@@ -32,9 +33,11 @@ services:
       NODE_ENV: local
     volumes:
       - ./data:/user/src/app/data
-    depends_on: 
-      - postgres
-      - proxy
+    depends_on:
+      postgres:
+        condition: service_healthy
+      proxy:
+        condition: service_started
 
   cityvizor-worker:
     image: cityvizor-server
@@ -45,26 +48,32 @@ services:
       NODE_ENV: local
     volumes:
       - ./data:/user/src/app/data
-    depends_on: 
-      - postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   cityvizor-client:
     image: cityvizor-client
-    build: ./client   
+    build: ./client
     container_name: client.cityvizor.cesko.digital
     environment:
-      NODE_ENV: local  
-    depends_on: 
-      - proxy  
-      
+      NODE_ENV: local
+    depends_on:
+      - proxy
+
   postgres:
     image: postgres:11.1
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     container_name: db.cityvizor.cesko.digital
     environment:
       POSTGRES_DB: cityvizor
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass
     volumes:
-      - ./database/oict_dump.sql:/docker-entrypoint-initdb.d/oict_dump.sql
+      - ./database/demo_dump.sql:/docker-entrypoint-initdb.d/demo_dump.sql
     ports:
       - 5432:5432
