@@ -22,6 +22,7 @@ router.get("/history/:event", async (req, res) => {
 		.leftJoin(amounts.as("a"), { "a.profileId": "e.profileId", "a.year": "e.year", "a.event": "e.id" })
 		.select("e.year", "e.id", "e.name", "a.incomeAmount", "a.budgetIncomeAmount", "a.expenditureAmount", "a.budgetExpenditureAmount")
 		.where({ "e.profileId": req.params.profile, "e.id": req.params.event })
+		.orderBy("e.year", "desc");
 
 	res.json(events);
 
