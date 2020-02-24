@@ -12,6 +12,6 @@ Plánování dalšího vývoje je v [Trello](https://trello.com/b/BFJahQYG/cityv
 Informace pro vývojáře jsou shnuty v [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Kontakt
-- Slack kanál [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4)
+- **Slack kanál**: [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4)
 - **Koordinátor projektu**: TBD
 - **Tech leads**: [Jiří Šitina](https://cesko-digital.slack.com/archives/DUEPXE42Z), [Lukáš Křečan](https://cesko-digital.slack.com/archives/DUEPDU9MW)
