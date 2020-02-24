@@ -4,8 +4,8 @@
 * Primárním/nejrychlejším komunikačním kanálem je slack - zaregistrujte se na [https://slack.cesko.digital/](https://slack.cesko.digital/).
 
 # Kde si říct o pomoc:
-* slack kanál [#p-citivizor](slack://channel?id=p-citivizor&team=cesko-digital)
-* direct message na Martin Wenisch
+* slack kanál [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4)
+* direct message na [Martin Wenisch](https://cesko-digital.slack.com/archives/DU3NXECNM)
 
 ## Lokální vývoj
 
