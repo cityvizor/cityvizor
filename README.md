@@ -13,5 +13,5 @@ Informace pro vývojáře jsou shnuty v [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Kontakt
 - **Slack kanál**: [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4)
-- **Koordinátor projektu**: TBD
+- **Koordinátor projektu**: [Eva Pavlíková](https://cesko-digital.slack.com/archives/DS9QX3C4U)
 - **Tech leads**: [Jiří Šitina](https://cesko-digital.slack.com/archives/DUEPXE42Z), [Lukáš Křečan](https://cesko-digital.slack.com/archives/DUEPDU9MW)
