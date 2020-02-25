@@ -1,11 +1,13 @@
 # Přispívání do kódu
 
-* Typické workflow je takové, že projdeš issues tady na githubu, forkneš si repository, připravíš úpravy a pak založíš pull request oproti cityvizor repo (do master větve). Abychom se nepotkali na jedné issue, tak prosím do issue hoď komentář, že na ní začínáš pracovat.
-* Primárním/nejrychlejším komunikačním kanálem je slack - zaregistrujte se na [https://slack.cesko.digital/](https://slack.cesko.digital/).
+## Doporučené workflow
+1) z issues tady na githubu si vybereš, které bys chtěl realizovat
+3) napíšeš na Slack kanál [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4), že máš chuť udělat issue XY a ideálně k němu přidáš i komentář na githubu, aby to bylo všem ostatním jasné a nepracovalo nás na na tom zbytečně více najednou
+3) forkneš si repository, připravíš úpravy u sebe v repositáři
+4) založíš pull request oproti cityvizor repo (do master větve)
 
 # Kde si říct o pomoc:
 * slack kanál [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4)
-* direct message na [Martin Wenisch](https://cesko-digital.slack.com/archives/DU3NXECNM)
 
 ## Lokální vývoj
 
@@ -24,7 +26,7 @@ ng serve --configuration="local"
 - Automatická rekompilace kódu
 - Live reload
 
-### Server v node.js
+### Server v Node.js
 
 #### Prerekvizity
 - [NodeJS](https://nodejs.org/en/)
@@ -65,6 +67,7 @@ Frontend dle [Angular Style Guide](https://angular.io/guide/styleguide).
 - commity **v angličtině**,
 - pull requesty **v angličtině**,
 - issues **v češtině**
+- dokumentace a dlouhé texty **v češtině**
 
 Jde o dobrovolnický projekt a tedy věříme, že na code review můžete i chvíli počkat i když se vynasnažíme to udělat co nejdříve.
 
