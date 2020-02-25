@@ -11,6 +11,11 @@ python main.py test_data.csv # validates data file
 python main.py test_events.csv # validates events file
 ```
 
+```
+./main.sh test_data.csv # validates data file
+./main.sh test_events.csv # validates events file
+```
+
 ## Deploy to lambda functions
 
 1. Set up AWS credentials with `aws configure`.
