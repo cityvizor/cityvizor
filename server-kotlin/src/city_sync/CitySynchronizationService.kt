@@ -1,19 +1,37 @@
 package digital.cesko.city_sync
 
-import com.typesafe.config.ConfigFactory
 import digital.cesko.city_sync.exception.CitySyncException
-import digital.cesko.city_sync.model.*
+import digital.cesko.city_sync.model.Accounting
+import digital.cesko.city_sync.model.CityBasic
+import digital.cesko.city_sync.model.CityExport
+import digital.cesko.city_sync.model.Contracts
+import digital.cesko.city_sync.model.EventDescriptions
+import digital.cesko.city_sync.model.Events
+import digital.cesko.city_sync.model.Noticeboards
+import digital.cesko.city_sync.model.Payments
+import digital.cesko.city_sync.model.Profiles
+import digital.cesko.city_sync.model.SyncTask
+import digital.cesko.city_sync.model.Years
+import digital.cesko.city_sync.model.toAccounting
+import digital.cesko.city_sync.model.toContracts
+import digital.cesko.city_sync.model.toEvent
+import digital.cesko.city_sync.model.toNoticeboard
+import digital.cesko.city_sync.model.toPayment
+import digital.cesko.city_sync.model.toProfileCityExport
+import digital.cesko.city_sync.model.toYear
 import digital.cesko.common.CommonConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.request.get
-import io.ktor.config.ApplicationConfigurationException
-import io.ktor.config.HoconApplicationConfig
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.KtorExperimentalAPI
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.batchInsert
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 @KtorExperimentalAPI
