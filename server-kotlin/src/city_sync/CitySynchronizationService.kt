@@ -93,7 +93,6 @@ class CitySynchronizationService(val config: CommonConfig) {
         try {
             val cityExport = runBlocking { callInstance(syncTask) }
 
-
             val cityExportInLocalDB = transaction {
                 Profiles
                     .select { Profiles.ico eq cityExport.ico }
