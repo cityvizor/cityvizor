@@ -2,26 +2,19 @@ package full_text_search.service
 
 import full_text_search.memoryIndex
 import full_text_search.model.InvoiceLucineModel
-import org.apache.lucene.analysis.Analyzer
-import org.apache.lucene.analysis.cz.CzechAnalyzer
-import org.apache.lucene.analysis.standard.StandardAnalyzer
 import org.apache.lucene.index.DirectoryReader
 import org.apache.lucene.index.IndexReader
 import org.apache.lucene.index.Term
-import org.apache.lucene.queryparser.classic.QueryParser
-import org.apache.lucene.queryparser.flexible.standard.QueryParserUtil
-import org.apache.lucene.queryparser.flexible.standard.builders.BooleanQueryNodeBuilder
 import org.apache.lucene.search.BooleanClause
 import org.apache.lucene.search.BooleanQuery
 import org.apache.lucene.search.IndexSearcher
 import org.apache.lucene.search.WildcardQuery
-import org.apache.lucene.util.QueryBuilder
 
 const val MAX_SIZE = 10_000
 
 fun search(query: String, profile: String?): List<InvoiceLucineModel> {
-    val counterpartyIdQuery = WildcardQuery(Term(COUNTERPARTY_NAME, "$query*".toLowerCase()))
-    val counterpartyNameQuery = WildcardQuery(Term(COUNTERPARTY_ID, "$query*".toLowerCase()))
+    val counterpartyIdQuery = WildcardQuery(Term(COUNTERPARTY_ID, "$query*".toLowerCase()))
+    val counterpartyNameQuery = WildcardQuery(Term(COUNTERPARTY_NAME, "$query*".toLowerCase()))
     val descriptionQuery = WildcardQuery(Term(DESCRIPTION, "$query*".toLowerCase()))
     val chainQueryBuilderForFulltext = BooleanQuery.Builder()
     chainQueryBuilderForFulltext.add(counterpartyIdQuery, BooleanClause.Occur.SHOULD)
