@@ -1,22 +1,11 @@
 package digital.cesko.city_search
 
-import akka.actor.ActorSelection
-import akka.actor.ActorSystem
-import akka.actor.Props
+import city_search.City
 
 object CitySearchService {
-    private lateinit var actorSystem: ActorSystem
+    private val citySearchIndex = CitySearchIndex().apply { createCache() }
 
-    fun create(actorSystem: ActorSystem) {
-        actorSystem.actorOf(Props.create(CitySearchIndex::class.java), "CitySearchService")
-        this.actorSystem = actorSystem
-    }
+    fun search(search: CitySearchIndex.Search): List<City> = citySearchIndex.search(search)
 
-    fun get(): ActorSelection? {
-        if (!this::actorSystem.isInitialized) {
-            return null
-        }
-
-        return actorSystem.actorSelection("/user/CitySearchService")
-    }
+    fun update() = this.citySearchIndex.createCache()
 }

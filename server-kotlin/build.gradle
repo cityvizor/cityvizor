@@ -56,9 +56,6 @@ dependencies {
     compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.3.0'
     compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.3.0'
     compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '8.3.0'
-
-    //Akka actor model
-    compile group: 'com.typesafe.akka', name: 'akka-actor_2.13', version: '2.6.0'
 }
 
 jar {
