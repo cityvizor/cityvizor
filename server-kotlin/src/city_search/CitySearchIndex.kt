@@ -42,13 +42,7 @@ class CitySearchIndex {
     val analyzer = AccentInsensitiveAnalyzer()
     val queryParser = QueryParser("content", analyzer)
 
-    fun search(message: Search): List<City> {
-        return find(message.query)
-                .sortedByDescending { it.pocetObyvatel }
-                .take(30)
-    }
-
-    private fun find(query: String): List<City> {
+    fun search(query: String): List<City> {
         if (query == "") {
             return resultCities
         } else {

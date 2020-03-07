@@ -19,4 +19,16 @@ class CitySearchTest {
             }
         }
     }
+
+    @Test
+    fun testSearchKnownCity() {
+        runTest {
+            sendRequest(HttpMethod.Get, "/api/v2/service/citysearch?query=Černošice").apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                assertThatJson(response.content!!).node("[0].ico").isEqualTo("\"00241121\"")
+                assertThatJson(response.content!!).node("[0].urlCityVizor").isEqualTo("https://www.cityvizor.cz/cernosice/")
+                assertThatJson(response.content!!).node("[0].urlZnak").isEqualTo("https://www.cityvizor.cz/api/public/profiles/3/avatar")
+            }
+        }
+    }
 }
