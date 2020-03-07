@@ -22,3 +22,9 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### Prod build
+```shell script
+VUE_APP_API_BASE_URL=https://cityvizor-api.ceskodigital.net/citysearch VUE_APP_CONTENT_API_BASE_URL=https://cityvizor-api.ceskodigital.net yarn build 
+```

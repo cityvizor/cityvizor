@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-strapi
+spec:
+  ports:
+    - nodePort: 32331
+      port: 1337
+      protocol: TCP
+      targetPort: 1337
+  selector:
+    app: server-strapi
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-strapi
+spec:
+  selector:
+    matchLabels:
+      app: server-strapi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: server-strapi
+    spec:
+      containers:
+        - name: server-strapi
+          image: cityvizor/strapi-server:93-redesign-cityvizor.cz
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: server-strapi-config
+                  key: database.host
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_NAME
+              value: "postgres"
+            - name: DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: server-strapi-config
+                  key: database.username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: server-strapi-config
+                  key: database.password
+          ports:
+            - containerPort: 1337
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 1337
+            initialDelaySeconds: 3
+            periodSeconds: 3
+

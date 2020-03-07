@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: 2016-02-18T19:14:38Z
+  name: server-kotlin-config
+  namespace: default
+data:
+  jdbc.url: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
+  db.user: postgres
+  db.pass: password
+

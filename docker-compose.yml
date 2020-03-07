@@ -5,7 +5,12 @@ services:
     image: nginx:1.15.8-alpine
     container_name: nginx.cityvizor.cesko.digital
     ports:
+      # Client
       - "4200:80"
+      # Redesign
+      - "4201:81"
+      # Strapi server
+      - "1337:1337"
     volumes:
       - ./nginx:/etc/nginx:ro
     environment:
@@ -56,6 +61,26 @@ services:
     image: cityvizor-client
     build: ./client
     container_name: client.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: local
+    depends_on:
+      - proxy
+
+  cityvizor-server-strapi:
+    image: cityvizor-server-strapi
+    build: ./redesign/server-strapi
+    container_name: strapi.cityvizor.cesko.digital
+    depends_on:
+      - proxy
+
+  cityvizor-redesign-client:
+    image: cityvizor-redesign-client
+    build:
+      context: ./redesign/client-redesign
+      args:
+        - VUE_APP_API_BASE_URL='http://localhost:1337/citysearch'
+        - VUE_APP_CONTENT_API_BASE_URL='http://localhost:1337'
+    container_name: client-redesign.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
     depends_on:
