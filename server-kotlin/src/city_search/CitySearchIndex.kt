@@ -1,11 +1,14 @@
 package digital.cesko.city_search
 
-import akka.actor.ActorRef
-import akka.actor.UntypedAbstractActor
 import city_search.City
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.apache.lucene.analysis.*
+import org.apache.lucene.analysis.CharArraySet
+import org.apache.lucene.analysis.LowerCaseFilter
+import org.apache.lucene.analysis.StopFilter
+import org.apache.lucene.analysis.StopwordAnalyzerBase
+import org.apache.lucene.analysis.TokenStream
+import org.apache.lucene.analysis.Tokenizer
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter
 import org.apache.lucene.analysis.standard.StandardTokenizer
 import org.apache.lucene.document.Document
@@ -20,8 +23,7 @@ import org.apache.lucene.store.Directory
 import org.apache.lucene.store.RAMDirectory
 
 
-class AccentInsensitiveAnalyzer(): StopwordAnalyzerBase(CharArraySet.EMPTY_SET) {
-
+class AccentInsensitiveAnalyzer : StopwordAnalyzerBase(CharArraySet.EMPTY_SET) {
     override fun createComponents(fieldName: String?): TokenStreamComponents {
         val source: Tokenizer = StandardTokenizer()
         var tokenStream: TokenStream? = source
@@ -32,7 +34,7 @@ class AccentInsensitiveAnalyzer(): StopwordAnalyzerBase(CharArraySet.EMPTY_SET) 
     }
 }
 
-class CitySearchIndex: UntypedAbstractActor() {
+class CitySearchIndex {
 
     var directory: Directory = RAMDirectory()
     lateinit var resultCities: ArrayList<City>
@@ -40,46 +42,24 @@ class CitySearchIndex: UntypedAbstractActor() {
     val analyzer = AccentInsensitiveAnalyzer()
     val queryParser = QueryParser("content", analyzer)
 
-    override fun onReceive(message: Any?) {
-        if (message is CreateCache) {
-            createCache()
-        } else if (message is Search) {
-            if (message.query == "") {
-                /*
-                    Return top30 cities
-                 */
-                val topResult = resultCities.sortedByDescending {
-                    return@sortedByDescending it.pocetObyvatel
-                }.subList(0, 30)
+    fun search(query: String): List<City> {
+        if (query == "") {
+            return resultCities
+        } else {
+            val ireader = DirectoryReader.open(directory)
+            val isearcher = IndexSearcher(ireader)
 
-                sender.tell(topResult, ActorRef.noSender())
-            } else {
-                val ireader = DirectoryReader.open(directory)
-                val isearcher = IndexSearcher(ireader)
+            val split = query.split(" ")
+            var hits = isearcher.search(queryParser.parse("${split.filter { it.length > 0 }.joinToString(" AND ")}*"), 10000)
 
-                val split = message.query.split(" ")
-                var hits = isearcher.search(queryParser.parse("${split.filter { it.length > 0 }.joinToString(" AND ")}*"), 10000)
+            if (hits.totalHits.value == 0L) {
+                hits = isearcher.search(queryParser.parse(split.filter { it.length > 0 }.map { "${it}~" }.joinToString(" AND ")), 10000)
+            }
 
-                if (hits.totalHits.value == 0L) {
-                    hits = isearcher.search(queryParser.parse(split.filter { it.length > 0 }.map { "${it}~" }.joinToString(" AND ")), 10000)
-                }
-
-                val searchResults = hits.scoreDocs.map {
-                    resultCities[isearcher.doc(it.doc)["_id"].toInt()]
-                }.sortedByDescending {
-                    return@sortedByDescending it.pocetObyvatel
-                }
-                if (searchResults.size > 30) {
-                    sender.tell(searchResults.subList(0, 30), ActorRef.noSender())
-                } else {
-                    sender.tell(searchResults, ActorRef.noSender())
-                }
+            return hits.scoreDocs.map {
+                resultCities[isearcher.doc(it.doc)["_id"].toInt()]
             }
         }
-    }
-
-    override fun preStart() {
-        self.tell(CreateCache(), ActorRef.noSender())
     }
 
     fun createCache() {
@@ -105,12 +85,9 @@ class CitySearchIndex: UntypedAbstractActor() {
         }
 
         writer.close()
-
     }
 
-    class CreateCache
-
     data class Search(
-        val query: String
+            val query: String
     )
 }
