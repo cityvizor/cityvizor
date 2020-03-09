@@ -1,6 +1,6 @@
 package digital.cesko.city_search
 
-import digital.cesko.runTest
+import digital.cesko.AbstractKtorTest
 import digital.cesko.sendRequest
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
@@ -8,7 +8,7 @@ import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CitySearchTest {
+class CitySearchTest : AbstractKtorTest() {
 
     @Test
     fun testCitySearch() {
