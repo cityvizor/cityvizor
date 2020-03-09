@@ -2,7 +2,7 @@ FROM gradle:6.1.1-jdk11 as gradle
 
 COPY . /home/gradle/server
 WORKDIR /home/gradle/server
-RUN gradle build
+RUN gradle build -x test
 
 FROM openjdk:11.0.1
 WORKDIR /home/server-kotlin
