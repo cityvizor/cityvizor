@@ -5,12 +5,14 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
     }
 }
 
 apply plugin: 'kotlin'
 apply plugin: 'idea'
 apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 group 'digital.cesko'
 version '0.0.4'
@@ -57,15 +59,4 @@ dependencies {
     compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.3.0'
     compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.3.0'
     compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '8.3.0'
-}
-
-jar {
-    manifest {
-        attributes 'Main-Class': "io.ktor.server.netty.EngineMain"
-    }
-    from {
-        configurations.compile.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
 }
