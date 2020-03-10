@@ -7,7 +7,7 @@ Consists of two components
 Client does not work without being able to connect to the strapi-server, configured by `VUE_APP_CONTENT_API_BASE_URL` 
 and `VUE_APP_API_BASE_URL` env variables
 
-Moreover, to be able to search in cities, you have to set `apiBaseUrl` variable to `https://www.cityvizor.cz/api/v2/service/citysearch`
+Moreover, to be able to search in cities, you have to set `apiBaseUrl` variable to `https://cityvizor.cesko.digital/api/v2/service/citysearch`
 inside Strapi console (Configurations section).
 
 
