@@ -31,7 +31,7 @@ object CitySearchService {
                 .sortedByDescending { it.pocetObyvatel }
                 .take(30)
                 .map {
-                    val knownCity = knownCities.get(it.iCO)
+                    val knownCity = knownCities.get(it.ico)
                     if (knownCity != null) {
                         it.copy(
                                 urlCityVizor = knownCity.uriCityVizor,
