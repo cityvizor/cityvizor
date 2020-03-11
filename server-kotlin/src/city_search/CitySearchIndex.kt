@@ -20,8 +20,8 @@ import org.apache.lucene.index.IndexWriter
 import org.apache.lucene.index.IndexWriterConfig
 import org.apache.lucene.queryparser.classic.QueryParser
 import org.apache.lucene.search.IndexSearcher
-import org.apache.lucene.store.Directory
-import org.apache.lucene.store.RAMDirectory
+import org.apache.lucene.store.MMapDirectory
+import java.nio.file.Files
 
 
 class AccentInsensitiveAnalyzer : StopwordAnalyzerBase(CharArraySet.EMPTY_SET) {
@@ -39,7 +39,7 @@ class CitySearchIndex {
     private val objectMapper = jacksonObjectMapper()
             .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-    private var directory: Directory? = null
+    private var directory: MMapDirectory? = null
     lateinit var resultCities: ArrayList<City>
 
     val analyzer = AccentInsensitiveAnalyzer()
@@ -73,7 +73,7 @@ class CitySearchIndex {
 
         resultCities = objectMapper.readValue(dataJson)
 
-        val newDirectory = RAMDirectory()
+        val newDirectory = MMapDirectory(Files.createTempDirectory("city-search-index"))
         //create index
         val iwc = IndexWriterConfig(analyzer)
         val writer = IndexWriter(newDirectory, iwc)
@@ -89,7 +89,12 @@ class CitySearchIndex {
 
         val oldDirectory = directory
         directory = newDirectory
-        oldDirectory?.close()
+        if (oldDirectory != null) {
+            oldDirectory.close()
+            Files.walk(oldDirectory.directory)
+                    .sorted(Comparator.reverseOrder())
+                    .forEach { it.toFile().delete() };
+        }
     }
 
     data class Search(
