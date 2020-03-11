@@ -1,6 +1,7 @@
 package digital.cesko.city_search
 
 import city_search.City
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.apache.lucene.analysis.CharArraySet
@@ -35,8 +36,10 @@ class AccentInsensitiveAnalyzer : StopwordAnalyzerBase(CharArraySet.EMPTY_SET) {
 }
 
 class CitySearchIndex {
+    private val objectMapper = jacksonObjectMapper()
+            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-    var directory: Directory = RAMDirectory()
+    private var directory: Directory? = null
     lateinit var resultCities: ArrayList<City>
 
     val analyzer = AccentInsensitiveAnalyzer()
@@ -68,23 +71,25 @@ class CitySearchIndex {
         // in resources as a fallback for offline development
         val dataJson = this::class.java.classLoader.getResource("citylistmetadata_finalresult.json")!!.readText()
 
-        resultCities = jacksonObjectMapper().readValue(dataJson)
+        resultCities = objectMapper.readValue(dataJson)
 
-        directory.close()
-        directory = RAMDirectory()
-
+        val newDirectory = RAMDirectory()
         //create index
         val iwc = IndexWriterConfig(analyzer)
-        val writer = IndexWriter(directory, iwc)
+        val writer = IndexWriter(newDirectory, iwc)
 
         resultCities.forEachIndexed { index, city ->
             val document = Document()
             document.add(TextField("_id", index.toString(), Field.Store.YES))
-            document.add(TextField("content", "${city.nazev} ${city.iCO}", Field.Store.NO))
+            document.add(TextField("content", "${city.nazev} ${city.ico}", Field.Store.NO))
             writer.addDocument(document)
         }
 
         writer.close()
+
+        val oldDirectory = directory
+        directory = newDirectory
+        oldDirectory?.close()
     }
 
     data class Search(

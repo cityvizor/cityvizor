@@ -25,9 +25,49 @@ class CitySearchTest : AbstractKtorTest() {
         runTest {
             sendRequest(HttpMethod.Get, "/api/v2/service/citysearch?query=Černošice").apply {
                 assertEquals(HttpStatusCode.OK, response.status())
-                assertThatJson(response.content!!).node("[0].ico").isEqualTo("\"00241121\"")
-                assertThatJson(response.content!!).node("[0].urlCityVizor").isEqualTo("https://www.cityvizor.cz/cernosice/")
-                assertThatJson(response.content!!).node("[0].urlZnak").isEqualTo("https://www.cityvizor.cz/api/public/profiles/3/avatar")
+                assertThatJson(response.content!!).node("[0]").isEqualTo(
+                        """
+                {
+                   "adresaUradu":{
+                      "adresniBod":"6506836",
+                      "castObce":"Černošice",
+                      "cisloDomovni":"259",
+                      "kraj":"Středočeský",
+                      "obecKod":"539139",
+                      "obec":"Černošice",
+                      "ulice":"Karlštejnská",
+                      "castObce": "Černošice",
+                      "cisloOrientacni": null,
+                      "PSC":"25228"
+                   
+                    },
+                    "datovaSchrankaID":"u46bwy4",
+                    "mail": [
+                      "podatelna@mestocernosice.cz"
+                    ],
+                    "nazev":"MĚSTO ČERNOŠICE",
+                    "souradnice":[
+                      49.95886668901324,
+                      14.320428348540815
+                    ],
+                    "zkratka":"CERNOSICE",
+                    "urlCityVizor":"https://www.cityvizor.cz/cernosice/",
+                    "urlZnak":"https://www.cityvizor.cz/api/public/profiles/3/avatar",
+                    "pocetObyvatel":0,
+                    "eDeskyID":"139",
+                    "ICO":"00241121"
+                }    
+                """.trimIndent())
+            }
+        }
+    }
+
+    @Test
+    fun testSearchPraha() {
+        runTest {
+            sendRequest(HttpMethod.Get, "/api/v2/service/citysearch?query=Praha+1").apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                assertThatJson(response.content!!).node("[0].ICO").isString().isEqualTo("00063410")
             }
         }
     }
