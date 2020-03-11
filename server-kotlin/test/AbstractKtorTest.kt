@@ -24,7 +24,8 @@ abstract class AbstractKtorTest {
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(this.javaClass)
+        private val logger = LoggerFactory.getLogger(this::class.java)
+
         @ClassRule
         @JvmField
         val postgres: KPostgreSQLContainer = KPostgreSQLContainer()
