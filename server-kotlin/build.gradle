@@ -60,3 +60,9 @@ dependencies {
     compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.3.0'
     compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '8.3.0'
 }
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
