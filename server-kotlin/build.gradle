@@ -56,9 +56,9 @@ dependencies {
     compile 'com.google.apis:google-api-services-sheets:v4-rev604-1.25.0'
 
     //Lucene engine (for search)
-    compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.3.0'
-    compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.3.0'
-    compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '8.3.0'
+    compile group: 'org.apache.lucene', name: 'lucene-core', version: '8.4.1'
+    compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.4.1'
+    compile group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '8.4.1'
 }
 
 compileKotlin {
