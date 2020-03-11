@@ -6,6 +6,7 @@ services:
     container_name: nginx.cityvizor.cesko.digital
     ports:
       - "4200:80"
+      - "1337:1337"
     volumes:
       - ./nginx:/etc/nginx:ro
     environment:
@@ -58,6 +59,13 @@ services:
     container_name: client.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
+    depends_on:
+      - proxy
+
+  cityvizor-server-strapi:
+    image: cityvizor-server-strapi
+    build: ./redesign/server-strapi
+    container_name: strapi.cityvizor.cesko.digital
     depends_on:
       - proxy
 
