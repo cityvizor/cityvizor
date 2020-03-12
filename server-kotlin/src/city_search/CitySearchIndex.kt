@@ -49,22 +49,24 @@ class CitySearchIndex {
         if (query == "") {
             return resultCities
         } else {
-            val ireader = DirectoryReader.open(directory)
-            val isearcher = IndexSearcher(ireader)
+            DirectoryReader.open(directory).use { ireader ->
+                val isearcher = IndexSearcher(ireader)
 
-            val split = query.split(" ")
-            var hits = isearcher.search(queryParser.parse("${split.filter { it.length > 0 }.joinToString(" AND ")}*"), 10000)
+                val split = query.split(" ")
+                var hits = isearcher.search(queryParser.parse("${split.filter { it.isNotEmpty() }.joinToString(" AND ")}*"), 1000)
 
-            if (hits.totalHits.value == 0L) {
-                hits = isearcher.search(queryParser.parse(split.filter { it.length > 0 }.map { "${it}~" }.joinToString(" AND ")), 10000)
-            }
+                if (hits.totalHits.value == 0L) {
+                    hits = isearcher.search(queryParser.parse(split.filter { it.isNotEmpty() }.map { "${it}~" }.joinToString(" AND ")), 1000)
+                }
 
-            return hits.scoreDocs.map {
-                resultCities[isearcher.doc(it.doc)["_id"].toInt()]
+                return hits.scoreDocs.map {
+                    resultCities[isearcher.doc(it.doc)["_id"].toInt()]
+                }
             }
         }
     }
 
+    @Synchronized
     fun createCache() {
         // Read sky to geo mapper
         // once this file is loaded from s3 (where it's auto updated) we can keep local copy
@@ -76,16 +78,14 @@ class CitySearchIndex {
         val newDirectory = MMapDirectory(Files.createTempDirectory("city-search-index"))
         //create index
         val iwc = IndexWriterConfig(analyzer)
-        val writer = IndexWriter(newDirectory, iwc)
-
-        resultCities.forEachIndexed { index, city ->
-            val document = Document()
-            document.add(TextField("_id", index.toString(), Field.Store.YES))
-            document.add(TextField("content", "${city.nazev} ${city.ico}", Field.Store.NO))
-            writer.addDocument(document)
+        IndexWriter(newDirectory, iwc).use { writer ->
+            resultCities.forEachIndexed { index, city ->
+                val document = Document()
+                document.add(TextField("_id", index.toString(), Field.Store.YES))
+                document.add(TextField("content", "${city.nazev} ${city.ico}", Field.Store.NO))
+                writer.addDocument(document)
+            }
         }
-
-        writer.close()
 
         val oldDirectory = directory
         directory = newDirectory
