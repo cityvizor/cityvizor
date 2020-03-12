@@ -1,0 +1,23 @@
+name: Publish Docker Client Redesign
+on:
+  push:
+    paths:
+      - 'redesign/client-redesign/**'
+      - '.github/workflows/publish-docker-client-redesign.yml'
+jobs:
+  build-client-redesign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish client-redesign to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        env:
+          VUE_APP_API_BASE_URL: https://cityvizor-api.cesko.digital/citysearch
+          VUE_APP_CONTENT_API_BASE_URL: https://cityvizor-api.cesko.digital
+        with:
+          name: cityvizor/client-redesign
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          workdir: redesign/client-redesign
+          buildargs: VUE_APP_API_BASE_URL,VUE_APP_CONTENT_API_BASE_URL
+          snapshot: true

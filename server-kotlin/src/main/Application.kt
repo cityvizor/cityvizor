@@ -91,6 +91,7 @@ fun Application.module(testing: Boolean = false) {
         citySynchronizationRouter(
             CitySynchronizationService(config)
         )
+        healthCheck()
     }
 
     install(StatusPages) {
