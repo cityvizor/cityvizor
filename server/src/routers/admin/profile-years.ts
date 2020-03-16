@@ -25,7 +25,7 @@ router.get("/", acl("profile-years", "list"), async (req, res, next) => {
 });
 
 
-router.put("/:year", acl("profile-years", "read"), async (req, res, next) => {
+router.put("/:year", acl("profile-years", "write"), async (req, res, next) => {
   var data = { profile_id: req.params.profile, year: req.params.year };
 
   try {
@@ -40,7 +40,7 @@ router.put("/:year", acl("profile-years", "read"), async (req, res, next) => {
 });
 
 
-router.patch("/:year", acl("profile-years", "list"), async (req, res, next) => {
+router.patch("/:year", acl("profile-years", "write"), async (req, res, next) => {
 
   await db<YearRecord>("app.years")
     .where({ profile_id: req.params.profile, year: Number(req.params.year) })
