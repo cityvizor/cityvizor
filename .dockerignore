@@ -4,6 +4,9 @@ client/dist
 server/node_modules
 server/dist
 
+server-kotlin
 docs
 demo
 data
+reference
+database
