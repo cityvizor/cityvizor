@@ -38,11 +38,9 @@ var loginSchema = {
 
 router.post("/", acl("login", "login"), schema.validate({ body: loginSchema }), async (req, res, next) => {
 
-	const userIdRegExp = new RegExp(req.body.login.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), "i");
-
 	const user = await db<UserRecord>("app.users")
 		.select("id", "login", "password", "role")
-		.where({ login: { $regex: userIdRegExp } })
+		.where("login", "like", req.body.login)
 		.first();
 
 	if (!user) return res.status(401).send("User not found");
