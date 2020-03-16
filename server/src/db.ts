@@ -1,5 +1,4 @@
 import Knex from 'knex';
-import Client from 'knex/lib/client';
 
 import knexConfig from "./config/knexfile";
 

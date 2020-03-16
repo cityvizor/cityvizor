@@ -36,7 +36,7 @@ export const aclRoles = {
 
 
   "admin": {
-    "profiles": { "list": true, "read": true, "write": true },
+    "profiles": { "list": true, "read": true, "write": req => isManagedProfile(req) },
     "profile-years": { "list": true, "read": true, "write": true },
     "profile-imports": { "list": true },
     "profile-accounting": { "list": true, "write": true },
