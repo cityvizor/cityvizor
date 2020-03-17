@@ -19,9 +19,9 @@ module.exports = {
 
   database: {
     client: 'pg',
-    host: 'db.cityvizor.cesko.digital',
-    user: 'postgres',
-    password: 'pass',
+    host: '0.0.0.0',
+    user: 'cityvizor',
+    password: 'cityvizor',
     database: 'cityvizor'
   },
 

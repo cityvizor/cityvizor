@@ -1,79 +1,82 @@
-version: "2.4"
-
+version: '3.6'
+networks:
+  internal-net:
+    name: workbench_subnet
 services:
   proxy:
     image: nginx:1.15.8-alpine
+    depends_on:
+      - backend-kotlin
+      - cityvizor-server
+      - cityvizor-worker
     container_name: nginx.cityvizor.cesko.digital
     ports:
       - "4200:80"
     volumes:
+      - ./client/dist:/usr/share/nginx/html:ro
       - ./nginx:/etc/nginx:ro
     environment:
       NGINX_HOST: cityvizor.cesko.digital
       NGINX_PORT: 80
+    networks:
+      - internal-net
 
   backend-kotlin:
-    image: backend-kotlin
-    build: server-kotlin/.
-    container_name: backend.cityvizor.cesko.digital
-    environment:
-      JDBC_URL: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
+    image: openjdk:11.0.1
     depends_on:
-      postgres:
-        condition: service_healthy
-      proxy:
-        condition: service_started
+      - postgres
+    container_name: backend.cityvizor.cesko.digital
+    networks:
+      - internal-net
+    volumes:
+      - ./server-kotlin/build/distributions:/home/server-kotlin/
+      - ./server-kotlin/start_last_local.sh:/home/scripts/start_last_local.sh
+      - ./server-kotlin/citylistmetadata_finalresult.json:/home/data/citylistmetadata_finalresult.json
+    environment:
+      DATABASE_ADDRESS: db.cityvizor.cesko.digital
+    command:
+      - /home/scripts/start_last_local.sh
 
   cityvizor-server:
-    image: cityvizor-server
-    build: ./server
-    command: node dist/server.js
-    container_name: server.cityvizor.cesko.digital
+    image: cityvizor
+    build: .
+    command: node server/dist/server.js
     environment:
       NODE_ENV: local
-    volumes:
+    ports:
+      - 3000:3000
+    volumes: 
+      - ./server/environment/environment.production.js:/user/src/app/server/environment/environment.production.js:ro
       - ./data:/user/src/app/data
-    depends_on:
-      postgres:
-        condition: service_healthy
-      proxy:
-        condition: service_started
+    depends_on: 
+      - postgres
+    networks:
+      - internal-net
 
   cityvizor-worker:
-    image: cityvizor-server
-    build: ./server
-    command: node dist/worker.js
-    container_name: worker.cityvizor.cesko.digital
+    image: cityvizor
+    build: .
     environment:
       NODE_ENV: local
+    command: node server/dist/worker.js
     volumes:
+      - ./server/environment/environment.production.js:/user/src/app/server/environment/environment.production.js:ro
       - ./data:/user/src/app/data
-    depends_on:
-      postgres:
-        condition: service_healthy
-
-  cityvizor-client:
-    image: cityvizor-client
-    build: ./client
-    container_name: client.cityvizor.cesko.digital
-    environment:
-      NODE_ENV: local
-    depends_on:
-      - proxy
-
+    depends_on: 
+      - postgres
+    networks:
+      - internal-net
+      
   postgres:
     image: postgres:11.1
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     container_name: db.cityvizor.cesko.digital
     environment:
       POSTGRES_DB: cityvizor
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass
     volumes:
-      - ./database/demo_dump.sql:/docker-entrypoint-initdb.d/demo_dump.sql
+      - ./database/oict_dump.sql:/docker-entrypoint-initdb.d/oict_dump.sql
+    networks:
+      - internal-net
     ports:
-      - 5432:5432
+      - "5432:5432"

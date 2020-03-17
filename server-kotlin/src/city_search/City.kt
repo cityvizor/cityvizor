@@ -1,47 +1,79 @@
 package city_search
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.math.BigDecimal
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class City(
-        @get:JsonProperty("adresaUradu")
-        val adresaUradu: AdresaUradu?,
-        @get:JsonProperty("datovaSchrankaID")
-        val datovaSchrankaID: String?,
-        @get:JsonProperty("eDeskyID")
-        val eDeskyID: String?,
-        @get:JsonProperty("mail")
-        val mail: List<String>?,
-        @get:JsonProperty("ICO")
-        val ico: String?,
-        @get:JsonProperty("nazev")
-        val nazev: String?,
-        @get:JsonProperty("souradnice")
-        val souradnice: List<BigDecimal>?,
-        @get:JsonProperty("zkratka")
-        val zkratka: String?,
-        val urlCityVizor: String?,
-        val urlZnak: String?,
-        val pocetObyvatel: Int = 0
+    @JsonProperty("adresaUradu")
+    val adresaUradu: AdresaUradu?,
+    @JsonProperty("datovaSchranka")
+    val datovaSchranka: String?,
+    @JsonProperty("eDeskyId")
+    val eDeskyId: String?,
+    @JsonProperty("emails")
+    val emails: List<Email?>?,
+    @JsonProperty("ICO")
+    val iCO: String?,
+    @JsonProperty("nazev")
+    val nazev: String?,
+    @JsonProperty("souradniceJTSK")
+    val souradniceJTSK: SouradniceJTSK?,
+    @JsonProperty("souradniceWGS")
+    val souradniceWGS: SouradniceWGS?,
+    @JsonProperty("zkratka")
+    val zkratka: String?,
+    val urlCityVizor: String?,
+    val urlZnak: String?,
+    val pocetObyvatel: Int = 0
 ) {
+    @JsonIgnoreProperties(ignoreUnknown = true)
     data class AdresaUradu(
-            @get:JsonProperty("adresniBod")
-            val adresniBod: String?,
-            @get:JsonProperty("castObce")
-            val castObce: String?,
-            @get:JsonProperty("cisloDomovni")
-            val cisloDomovni: String?,
-            @get:JsonProperty("cisloOrientacni")
-            val cisloOrientacni: String?,
-            @get:JsonProperty("kraj")
-            val kraj: String?,
-            @get:JsonProperty("obecKod")
-            val obecKod: String?,
-            @get:JsonProperty("obec")
-            val obec: String?,
-            @get:JsonProperty("PSC")
-            val psc: String?,
-            @get:JsonProperty("ulice")
-            val ulice: String?
+        @JsonProperty("adresniBod")
+        val adresniBod: String?,
+        @JsonProperty("castObceNeboKatastralniUzemi")
+        val castObceNeboKatastralniUzemi: String?,
+        @JsonProperty("cisloDomovni")
+        val cisloDomovni: String?,
+        @JsonProperty("krajNazev")
+        val krajNazev: String?,
+        @JsonProperty("obecKod")
+        val obecKod: String?,
+        @JsonProperty("obecNazev")
+        val obecNazev: String?,
+        @JsonProperty("pSC")
+        val pSC: String?,
+        @JsonProperty("uliceNazev")
+        val uliceNazev: String?
+    )
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    data class Email(
+        @JsonProperty("email")
+        val email: String?,
+        @JsonProperty("typ")
+        val typ: String?
+    )
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    data class SouradniceJTSK(
+        @JsonProperty("souradniceX")
+        val souradniceX: String?,
+        @JsonProperty("souradniceY")
+        val souradniceY: String?
+    )
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    data class SouradniceWGS(
+        @JsonProperty("lat")
+        val lat: Double?,
+        @JsonProperty("lon")
+        val lon: Double?,
+        @JsonProperty("vyska")
+        val vyska: Double?,
+        @JsonProperty("wgs84_latitude")
+        val wgs84Latitude: String?,
+        @JsonProperty("wgs84_longitude")
+        val wgs84Longitude: String?
     )
 }

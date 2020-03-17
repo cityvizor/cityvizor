@@ -2,16 +2,93 @@
 
 Přehledný rozklikávací rozpočet s plněním na jednotlivé faktury a dalšími funkcemi pro samosprávy. Aplikace byla vytvořena zaměstnanci [Ministerstva financí ČR](http://www.mfcr.cz), [Otevřená Města](http://www.otevrenamesta.cz/) vám poskytují tuto aplikaci jako službu. Data jsou poskytována obcemi dobrovolně.
 
-## Instalace
-Návod na [instalaci](INSTALATION.md).
+## Spuštění na serveru
 
-## Roadmapa
-Plánování dalšího vývoje je v [Trello](https://trello.com/b/BFJahQYG/cityvizor-organizace) odkud se jednotlivé issues pak založí zde v Githubu.
+### Instalace
 
-## Informace pro vývojáře
-Informace pro vývojáře jsou shnuty v [CONTRIBUTING.md](CONTRIBUTING.md).
+#### Potřebné aplikace
 
-## Kontakt
-- **Slack kanál**: [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4)
-- **Koordinátor projektu**: [Eva Pavlíková](https://cesko-digital.slack.com/archives/DS9QX3C4U)
-- **Tech leads**: [Jiří Šitina](https://cesko-digital.slack.com/archives/DUEPXE42Z), [Lukáš Křečan](https://cesko-digital.slack.com/archives/DUEPDU9MW)
+ - [NodeJS](https://nodejs.org) 10+
+ - [PostgreSQL](https://www.postgresql.org/download/) 11+
+
+#### Instalace a kompilace
+
+```sh
+npm install     # instalace balíčků
+npm run build   # kompilace kódu
+```
+
+### Nastavení
+
+#### Vytvoření admin přístupu
+
+```
+npm run create-admin
+```
+
+Vytvoří uživatele admin s heslem admin
+
+#### Konfigurace
+
+##### Prostředí
+
+Konfigurační soubory `server/environment.<prostředí>.js`
+
+Prostředí nastavíme pomocí globální proměnné `NODE_ENV`:
+
+```sh
+NODE_ENV=production        # Linux & Mac
+$end:NODE_ENV="production" # Windows PowerShell
+set NODE_ENV=production    # Windows Command Prompt
+```
+
+Přednastavené je pouze prostředí `local`.
+
+##### Obecná nastavení
+
+Složka `server/config`.
+
+##### Řízení přístupů
+
+Složka `server/src/acl`.
+
+#### Konfigurace klienta
+
+Složka `client/src/config`
+
+### Spuštění
+
+```sh
+npm start
+```
+
+## Lokální vývoj
+
+Frontend:
+```sh
+cd client
+ng serve --configuration=local
+```
+
+Backend:
+```sh
+$env:NODE_ENV="local" # ve Windows v PowerShellu
+set NODE_ENV=local    # ve Windows v příkazovém řádku
+NODE_ENV=local        # v Linuxu nebo na Macu v terminálu
+
+cd server
+npm run dev
+```
+### Pravidla přispívání
+
+ - kód **v angličtině**, commity **v angličtině**, pull requesty **v angličtině**, issues **v češtině**
+ - struktura souborů na klientu dle [Angular Style Guide](https://angular.io/guide/styleguide)
+
+### Verzování
+
+Verzování je tvořeno tříčíselným číslem verze: `<major>.<minor>.<patch>`
+
+Toto číslo se mění následovně:
+ - major číslo se zvýší a minor a patch čísla vynulují, pokud s verzí přichází breaking change
+ - minor číslo se zvýší a patch číslo vynuluje, pokud s verzí přichází nová funkcionalita
+ - patch číslo se zvýší, pokud s verzí přichází drobná oprava chyby 

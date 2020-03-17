@@ -65,13 +65,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let item of event.items" [title]="item.id ? 'Rozpočtová položka #' + item.id : ''">
-									<td>
-										<ng-container *ngIf="item.name">{{item.name}}</ng-container>
-										<ng-container *ngIf="!item.name && item.id">Rozpočtová položka #{{item.id}}</ng-container>
-										<ng-container *ngIf="!item.name && !item.id && event.items.length > 1">Ostatní výdaje</ng-container>
-										<ng-container *ngIf="!item.name && !item.id && event.items.length === 1">Celkové výdaje</ng-container>
-									</td>
+								<tr *ngFor="let item of event.items" [title]="'Rozpočtová položka #' + item.id">
+									<td>{{item.name || ("Rozpočtová položka #" + item.id)}}</td>
 									<td>{{item.budgetAmount | money:0:false}} Kč</td>
 									<td>{{item.amount | money:0:false}} Kč</td>
 								</tr>

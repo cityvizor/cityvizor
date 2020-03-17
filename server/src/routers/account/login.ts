@@ -43,7 +43,7 @@ router.post("/", acl("login", "login"), schema.validate({ body: loginSchema }), 
 		.where("login", "like", req.body.login)
 		.first();
 
-	if (!user) return res.status(401).send("User not found");
+	if (!user) return res.status(404).send("User not found");
 
 	const same: boolean = await bcrypt.compare(req.body.password, user.password);
 

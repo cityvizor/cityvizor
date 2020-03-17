@@ -74,7 +74,7 @@ export class ExportService {
       amount: (-1) * payment.amount
     })));
 
-    const options: ExportOptions = { delimiter: ";", encoding: "utf8", newline: "\r\n" };
+    const options: ExportOptions = { delimiter: ",", encoding: "utf8", newline: "\r\n" };
     
     await this.downloadFile(this.createCSV(records, options), "data.csv", options.encoding);
   }
@@ -84,7 +84,7 @@ export class ExportService {
       srcId: event.srcId,
       name: event.name
     }));
-    const options: ExportOptions = { delimiter: ";", encoding: "utf8", newline: "\r\n" };
+    const options: ExportOptions = { delimiter: ",", encoding: "utf8", newline: "\r\n" };
     await this.downloadFile(this.createCSV(events, options), "events.csv", options.encoding);
   }
 

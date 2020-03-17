@@ -30,7 +30,7 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
     <tr><td>item</td><td>číslo</td><td>Ano</td><td>Rozpočtová položka</td></tr>
     <tr><td>event</td><td>číslo</td><td>Ne</td><td>Číslo akce dle číselníku</td></tr>
     <tr><td>unit</td><td>číslo</td><td>Ne</td><td>Číslo jednotky dle číselníku</td></tr>
-    <tr><td>amount</td><td>částka</td><td>Ano</td><td>Částka v Kč</td></tr>
+    <tr><td>amount</td><td>částka</td><td>Ano</td><td>Částka v Kč. Pro příjmy: má dáti - dal; pro výdaje: dal - má dáti</td></tr>
     <tr><td>date</td><td>datum ve formátu ISO 8601 (YYYY-MM-DD)</td><td>Ne</td><td>Datum, pouze u faktur</td></tr>
     <tr><td>counterpartyId</td><td>text</td><td>Ne</td><td>IČO protistrany, pouze u faktur</td></tr>
     <tr><td>counterpartyName</td><td>text</td><td>Ne</td><td>Jméno protistrany, pouze u faktur</td></tr>

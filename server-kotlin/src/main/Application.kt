@@ -1,43 +1,38 @@
 package main
 
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.joda.JodaModule
+import akka.actor.ActorSystem
+import io.ktor.application.*
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.http.*
+import io.ktor.auth.*
+import com.fasterxml.jackson.databind.*
 import com.typesafe.config.ConfigFactory
-import digital.cesko.city_request.cityRequestRouter
-import digital.cesko.city_request.google_sheets.GoogleSheets
-import digital.cesko.city_sync.CitySynchronizationService
-import digital.cesko.city_sync.citySynchronizationRouter
-import digital.cesko.city_sync.exception.CitySyncException
-import digital.cesko.common.CommonConfig
+import digital.cesko.city_search.CitySearchService
 import digital.cesko.routers.citySearchRouter
-import io.ktor.application.Application
-import io.ktor.application.call
-import io.ktor.application.install
-import io.ktor.auth.Authentication
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.StatusPages
-import io.ktor.features.XForwardedHeaderSupport
-import io.ktor.http.HttpStatusCode
-import io.ktor.jackson.jackson
-import io.ktor.response.respond
-import io.ktor.routing.routing
-import io.ktor.util.KtorExperimentalAPI
-import org.jetbrains.exposed.sql.Database
+import io.ktor.jackson.*
+import io.ktor.features.*
 
+object ApplicationData {
+    lateinit var system: ActorSystem
+        private set
+
+    fun init() {
+        /*
+            Create ActorSystem
+         */
+        system = ActorSystem.create("cdbackend", ConfigFactory.load("application.conf").resolve())
+
+        CitySearchService.create(system)
+    }
+}
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
-@KtorExperimentalAPI
 fun Application.module(testing: Boolean = false) {
-
-    val configuration = ConfigFactory.load("application.conf").resolve()
-
-    val config = CommonConfig(
-            configuration.getConfig("app.city-sync.instanceUrls").entrySet()
-                    .associateBy({ it.key }, { it.value.unwrapped().toString() })
-    )
+    ApplicationData.init()
 
     install(Authentication) {
     }
@@ -45,42 +40,11 @@ fun Application.module(testing: Boolean = false) {
     install(ContentNegotiation) {
         jackson {
             enable(SerializationFeature.INDENT_OUTPUT)
-            registerModule(JodaModule())
-            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         }
     }
-
-    val jdbcUrl = environment.config.property("ktor.database.jdbcUrl").getString()
-    val driver = environment.config.property("ktor.database.driver").getString()
-    val dbUser = environment.config.property("ktor.database.dbUser").getString()
-    val dbPass = environment.config.property("ktor.database.dbPass").getString()
-    Database.connect(
-            jdbcUrl, driver = driver,
-            user = dbUser, password = dbPass
-    )
-
-    install(XForwardedHeaderSupport)    // city request logs remote IP
 
     routing {
         citySearchRouter()
-        cityRequestRouter(
-                configuration.getString("app.city-request.timeZone"),
-                GoogleSheets(
-                        System.getProperty("googleCredentials"),
-                        configuration.getString("app.city-request.sheetId"),
-                        configuration.getString("app.city-request.listName"),
-                        configuration.getString("app.city-request.appName")
-                )
-        )
-        citySynchronizationRouter(
-                CitySynchronizationService(config)
-        )
-        healthCheck()
-    }
-
-    install(StatusPages) {
-        exception<CitySyncException> {
-            call.respond(it.status ?: HttpStatusCode.InternalServerError, it)
-        }
     }
 }
+
