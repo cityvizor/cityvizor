@@ -18,13 +18,6 @@ group 'digital.cesko'
 version '0.0.4'
 mainClassName = "io.ktor.server.netty.EngineMain"
 
-sourceSets {
-    main.kotlin.srcDirs = main.java.srcDirs = ['src']
-    test.kotlin.srcDirs = test.java.srcDirs = ['test']
-    main.resources.srcDirs = ['resources']
-    test.resources.srcDirs = ['testresources']
-}
-
 repositories {
     mavenLocal()
     jcenter()
