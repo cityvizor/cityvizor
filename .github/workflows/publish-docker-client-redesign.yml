@@ -20,4 +20,3 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: redesign/client-redesign
           buildargs: VUE_APP_API_BASE_URL,VUE_APP_CONTENT_API_BASE_URL
-          snapshot: true
