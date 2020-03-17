@@ -13,6 +13,7 @@
         <th>
           {{profile.name}}
           <span *ngIf="profile.status === 'hidden'" class="label label-danger">skrytý</span>
+          <span *ngIf="profile.status === 'preview'" class="label label-warning">skrytý na úvodu</span>
           <span *ngIf="profile.status === 'pending'" class="label label-warning">připravovaný</span>          
           <span *ngIf="profile.main" class="label label-primary">{{profile.main ? "hlavní profil" : ""}}</span>
         </th>
