@@ -26,6 +26,6 @@ jobs:
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew;
-          ./gradlew build --no-daemon --info jib -Djib.to.auth.username=${{ secrets.DOCKER_USERNAME }} -Djib.to.auth.password=${{ secrets.DOCKER_PASSWORD }} -Djib.to.tags=${{ steps.extract_branch.outputs.branch }}
+          ./gradlew build --no-daemon --info jib -Djib.to.auth.username=${{ secrets.DOCKER_USERNAME }} -Djib.to.auth.password=${{ secrets.DOCKER_PASSWORD }} -Djib.to.image=cityvizor/server-kotlin:${{ steps.extract_branch.outputs.branch }}
         working-directory: server-kotlin
 

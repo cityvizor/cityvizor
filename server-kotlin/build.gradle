@@ -69,7 +69,7 @@ jib {
         image = 'openjdk:alpine'
     }
     to {
-        image = 'cityvizor/server-kotlin'
+        image = 'cityvizor/server-kotlin:test'
     }
     container {
         jvmFlags = ['-Xmx256m']
