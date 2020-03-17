@@ -41,7 +41,8 @@ export class ProfileSearchComponent implements OnInit {
 			if (a.status !== "pending" && b.status === "pending") return -1;
 			return a.name.localeCompare(b.name, undefined, { numeric: true });
 		});
-		this.profiles = profiles;
+
+		this.profiles = profiles.filter(profile => profile.status !== "preview");
 
 	}
 
