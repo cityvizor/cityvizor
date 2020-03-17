@@ -9,6 +9,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.google.cloud.tools.jib' version '2.1.0'
+}
+
 apply plugin: 'kotlin'
 apply plugin: 'idea'
 apply plugin: 'application'
@@ -57,5 +61,18 @@ dependencies {
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+jib {
+    from {
+        image = 'openjdk:alpine'
+    }
+    to {
+        image = 'cityvizor/server-kotlin'
+    }
+    container {
+        jvmFlags = ['-Xmx256m']
+        mainClass = 'main.ApplicationKt'
     }
 }
