@@ -5,6 +5,8 @@
 </template>
 
 <script>
+const INTERVAL_MS = 50;
+
 export default {
     name: 'ComponentsPartialsCounter',
     props: {
@@ -16,10 +18,6 @@ export default {
             type: Number,
             default: 1000
         },
-        steps: {
-            type: Number,
-            default: 500
-        }
     },
     data() {
         return {
@@ -27,25 +25,33 @@ export default {
             display: 0,
         }
     },
+    computed: {
+        step() {
+            return this.number / (this.duration / INTERVAL_MS);
+        },
+    },
     mounted() {
         this.setCounterInterval();
     },
+    beforeDestroy() {
+        clearInterval(this.counterInterval);
+    },
     methods: {
         setCounterInterval() {
-            this.counterInterval = setInterval(this.updateNumber, this.duration / this.steps);
+            this.counterInterval = setInterval(this.updateNumber, INTERVAL_MS);
         },
         updateNumber() {
-            const tick = parseInt(this.number / this.steps, 10);
-            const targetNumber = this.display + tick;
+            const tick = parseInt(this.step, 10) || 1;
+            const targetNumber = this.display + tick; 
 
-            if (targetNumber > this.number) {
+            if (targetNumber >= this.number) {
                 clearInterval(this.counterInterval);
                 this.display = this.number;
             } else {
                 this.display = targetNumber;
             }
         }
-    }
+    },
 }
 </script>
 
