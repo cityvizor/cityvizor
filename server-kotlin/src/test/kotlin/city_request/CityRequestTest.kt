@@ -1,28 +1,27 @@
-package digital.cesko.city_request
+package city_request
 
-import digital.cesko.AbstractKtorTest
-import digital.cesko.sendRequest
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
+import digital.cesko.city_request.CityRequest
+import main.AbstractSpringTest
+import org.assertj.core.api.Assertions.assertThat
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.post
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class CityRequestTest : AbstractKtorTest() {
+class CityRequestTest : AbstractSpringTest() {
 
     @Test
     fun testCityRequest() {
-        runTest {
-            sendRequest(HttpMethod.Post, "/api/v2/service/cityrequest", CityRequest(
+        val result = mockMvc.post("/api/v2/service/cityrequest") {
+            content = CityRequest(
                     city = "Humpolec",
                     email = "starosta@humpolec.cz",
                     name = "Pan Starosta",
                     subscribe = true,
                     gdpr = true
-            )
-            ).apply {
-                assertEquals(HttpStatusCode.OK, response.status())
-                assertEquals("ok", response.content)
-            }
-        }
+            ).asJson()
+            contentType = MediaType.APPLICATION_JSON
+        }.andReturn()
+        assertThat(result.response.status).isEqualTo(200)
+        assertThat(result.response.contentAsString).isEqualTo("ok")
     }
 }

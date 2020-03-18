@@ -1,21 +1,16 @@
-package digital.cesko.city_sync
+package city_sync
 
-import digital.cesko.AbstractKtorTest
-import digital.cesko.sendRequest
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
+import main.AbstractSpringTest
 import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
+import org.assertj.core.api.Assertions.assertThat
+import org.springframework.test.web.servlet.get
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class CitySyncTest : AbstractKtorTest() {
+class CitySyncTest : AbstractSpringTest() {
     @Test
     fun `Should list cities`() {
-        runTest {
-            sendRequest(HttpMethod.Get, "/api/v1/citysync/cities").apply {
-                assertEquals(HttpStatusCode.OK, response.status())
-                assertThatJson(response.content!!).isArray().contains("""{"id" : 6, "name" : "Praha 3", "ico" : "00063517"}""")
-            }
-        }
+        val result = mockMvc.get("/api/v1/citysync/cities").andReturn()
+        assertThat(result.response.status).isEqualTo(200)
+        assertThatJson(result.response.contentAsString).isArray().contains("""{"id" : 6, "name" : "Praha 3", "ico" : "00063517"}""")
     }
 }

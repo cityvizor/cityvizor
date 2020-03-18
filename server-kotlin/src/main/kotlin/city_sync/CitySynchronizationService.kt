@@ -20,22 +20,21 @@ import digital.cesko.city_sync.model.toPayment
 import digital.cesko.city_sync.model.toProfileCityExport
 import digital.cesko.city_sync.model.toYear
 import digital.cesko.common.CommonConfig
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.request.get
-import io.ktor.http.HttpStatusCode
-import io.ktor.util.KtorExperimentalAPI
-import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.springframework.stereotype.Service
+import org.springframework.web.client.RestTemplate
+import org.springframework.web.util.UriComponentsBuilder
 
-@KtorExperimentalAPI
-class CitySynchronizationService(val config: CommonConfig) {
+@Service
+class CitySynchronizationService(
+        val config: CommonConfig,
+        val restTemplate: RestTemplate
+) {
     fun getAvailableCities(): List<CityBasic> {
         return transaction {
             Profiles
@@ -52,7 +51,7 @@ class CitySynchronizationService(val config: CommonConfig) {
             Profiles
                 .select { Profiles.id eq cityId }
                 .map { toProfileCityExport(it) }
-                .ifEmpty { throw CitySyncException(HttpStatusCode.NotFound, "CityId $cityId not found.") }
+                .ifEmpty { throw CitySyncException("CityId $cityId not found.") }
                 .first()
         }
 
@@ -91,7 +90,7 @@ class CitySynchronizationService(val config: CommonConfig) {
 
     fun syncCityDetails(syncTask: SyncTask) {
         try {
-            val cityExport = runBlocking { callInstance(syncTask) }
+            val cityExport = callInstance(syncTask)
 
             val cityExportInLocalDB = transaction {
                 Profiles
@@ -216,18 +215,21 @@ class CitySynchronizationService(val config: CommonConfig) {
                 commit()
             }
         } catch (e: Exception) {
-            throw CitySyncException(message = e.message ?: "Unexpected error")
+            throw IllegalStateException(e.message ?: "Unexpected error")
         }
     }
 
-    private suspend fun callInstance(syncTask: SyncTask): CityExport {
-        val instanceUrl = config.cityVizorInstanceUrls[syncTask.instance] ?: throw CitySyncException(
-            HttpStatusCode.BadRequest,
-            "instance of CV ${syncTask.instance} not found in configuration"
+    private fun callInstance(syncTask: SyncTask): CityExport {
+        val instanceUrl = config.instanceUrls[syncTask.instance] ?: throw CitySyncException(
+                "instance of CV ${syncTask.instance} not found in configuration"
         )
 
-        return HttpClient(Apache) {
-            install(JsonFeature)
-        }.get(host = instanceUrl, path = "/api/v1/citysync/cities/${syncTask.cityId}", port = 8080)
+        val uri = UriComponentsBuilder
+            .fromHttpUrl(instanceUrl)
+            .port(8080)
+            .path("/api/v1/citysync/cities/${syncTask.cityId}")
+            .build()
+            .toUri()
+        return restTemplate.getForObject(uri, CityExport::class.java)!!
     }
 }

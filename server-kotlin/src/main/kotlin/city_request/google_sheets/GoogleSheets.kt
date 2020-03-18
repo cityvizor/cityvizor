@@ -11,6 +11,8 @@ import digital.cesko.city_request.CityRequest
 import digital.cesko.city_request.CityRequestStore
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
 import java.io.File
 import java.io.IOException
 import java.time.format.DateTimeFormatter
@@ -23,11 +25,12 @@ import java.time.format.DateTimeFormatter
  * @param documentId google sheet document ID (visible in URL)
  * @param listName name of a list on a sheet which contains the data
  */
+@Component
 internal class GoogleSheets(
-    private val credentialsFile: String?,
-    private val documentId: String,
-    private val listName: String,
-    private val appName: String
+    @Value("\${googleCredentials:}") private val credentialsFile: String?,
+    @Value("\$city-request.sheetId}") private val documentId: String,
+    @Value("\$city-request.listName}") private val listName: String,
+    @Value("\$city-request.appName}") private val appName: String
 ) : CityRequestStore {
 
     override fun insert(cityRequest: CityRequest) {

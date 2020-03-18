@@ -1,32 +1,26 @@
-package digital.cesko.city_search
+package city_search
 
-import digital.cesko.AbstractKtorTest
-import digital.cesko.sendRequest
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
+import main.AbstractSpringTest
 import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
+import org.assertj.core.api.Assertions.assertThat
+import org.springframework.test.web.servlet.get
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class CitySearchTest : AbstractKtorTest() {
+class CitySearchTest : AbstractSpringTest() {
 
     @Test
     fun testCitySearch() {
-        runTest {
-            sendRequest(HttpMethod.Get, "/api/v2/service/citysearch?query=jilove+u+prahy").apply {
-                assertEquals(HttpStatusCode.OK, response.status())
-                assertThatJson(response.content!!).inPath("\$.[?(@.ico=='00241326')]").isNotNull()
-            }
-        }
+        val result = mockMvc.get("/api/v2/service/citysearch?query=jilove+u+prahy").andReturn()
+        assertThat(result.response.status).isEqualTo(200)
+        assertThatJson(result.response.contentAsString).inPath("\$.[?(@.ico=='00241326')]").isNotNull()
     }
 
     @Test
     fun testSearchKnownCity() {
-        runTest {
-            sendRequest(HttpMethod.Get, "/api/v2/service/citysearch?query=Černošice").apply {
-                assertEquals(HttpStatusCode.OK, response.status())
-                assertThatJson(response.content!!).node("[0]").isEqualTo(
-                        """
+        val result = mockMvc.get("/api/v2/service/citysearch?query=Cernosice").andReturn()
+        assertThat(result.response.status).isEqualTo(200)
+        assertThatJson(result.response.contentAsString).node("[0]").isEqualTo(
+                """
                 {
                    "adresaUradu":{
                       "adresniBod":"6506836",
@@ -39,7 +33,7 @@ class CitySearchTest : AbstractKtorTest() {
                       "castObce": "Černošice",
                       "cisloOrientacni": null,
                       "PSC":"25228"
-                   
+
                     },
                     "datovaSchrankaID":"u46bwy4",
                     "mail": [
@@ -56,19 +50,14 @@ class CitySearchTest : AbstractKtorTest() {
                     "pocetObyvatel":0,
                     "eDeskyID":"139",
                     "ICO":"00241121"
-                }    
+                }
                 """.trimIndent())
-            }
-        }
     }
 
     @Test
     fun testSearchPraha() {
-        runTest {
-            sendRequest(HttpMethod.Get, "/api/v2/service/citysearch?query=Praha+1").apply {
-                assertEquals(HttpStatusCode.OK, response.status())
-                assertThatJson(response.content!!).node("[0].ICO").isString().isEqualTo("00063410")
-            }
-        }
+        val result = mockMvc.get("/api/v2/service/citysearch?query=Praha 1").andReturn()
+        assertThat(result.response.status).isEqualTo(200)
+        assertThatJson(result.response.contentAsString).node("[0].ICO").isString().isEqualTo("00063410")
     }
 }
