@@ -35,6 +35,8 @@
 .c-municipalities__entry__heraldry {
     width: 80px;
     height: auto;
+    display: block;
+    margin: 2em auto;
 }
 
 .c-municipalities__entry__placeholder {
@@ -68,6 +70,13 @@
     strong {
         font-weight: 700;
     }
+}
+
+.c-municipalities__entry__region {
+    display: block;
+    font-size: 75%;
+    margin-top: 0.5em;
+    color: $text-gray;
 }
 
 .c-municipalities__entry__cta {
