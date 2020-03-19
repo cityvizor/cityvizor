@@ -42,7 +42,7 @@
     </div>
 
     <!-- Counter element -->
-    <Counter :number="municipalitiesCount"></Counter>
+    <Counter v-if="municipalitiesCount > 0" :number="municipalitiesCount" :duration="1000"></Counter>
   </div>
 </template>
 
@@ -89,7 +89,7 @@ export default {
       searchDebounce: 600,
       searchPhrase: null,
       searchMinimumLength: 2,
-      municipalitiesCount: 223423413,
+      municipalitiesCount: 0,
       municipalities: [],
       page: 0,
       perPage: 4,
@@ -102,6 +102,9 @@ export default {
       }
       this.searchTimeout = setTimeout(this.loadMunicipalities, this.searchDebounce);
     },
+  },
+  mounted() {
+    this.loadMunicipalitiesCount();
   },
   methods: {
     previousPage() {
@@ -119,6 +122,15 @@ export default {
       .then(response => {
         this.municipalities = response.data;
         this.page = 0;
+      })
+      .catch(error => {
+        console.log(error); // eslint-disable-line
+      });
+    },
+    loadMunicipalitiesCount() {
+      axios.get(this.apiBaseUrl)
+      .then(response => {
+        this.municipalitiesCount = response.data.length;
       })
       .catch(error => {
         console.log(error); // eslint-disable-line
