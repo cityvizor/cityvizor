@@ -1,5 +1,8 @@
 package digital.cesko.common
 
+import org.springframework.boot.context.properties.ConfigurationProperties
+
+@ConfigurationProperties("city-sync")
 data class CommonConfig(
-    val cityVizorInstanceUrls: Map<String, String>
+    val instanceUrls: Map<String, String>
 )

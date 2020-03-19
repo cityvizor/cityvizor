@@ -1,28 +1,24 @@
 package digital.cesko.city_request
 
-import digital.cesko.AbstractKtorTest
-import digital.cesko.sendRequest
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpStatusCode
+import digital.cesko.AbstractSpringTest
+import digital.cesko.city_request.CityRequest
+import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
-class CityRequestTest : AbstractKtorTest() {
+class CityRequestTest : AbstractSpringTest() {
 
     @Test
-    fun testCityRequest() {
-        runTest {
-            sendRequest(HttpMethod.Post, "/api/v2/service/cityrequest", CityRequest(
-                    city = "Humpolec",
-                    email = "starosta@humpolec.cz",
-                    name = "Pan Starosta",
-                    subscribe = true,
-                    gdpr = true
-            )
-            ).apply {
-                assertEquals(HttpStatusCode.OK, response.status())
-                assertEquals("ok", response.content)
-            }
-        }
+    fun `Should add to sheet`() {
+        val result = post("/api/v2/service/cityrequest",
+                payload = CityRequest(
+                        city = "Humpolec",
+                        email = "starosta@humpolec.cz",
+                        name = "Pan Starosta",
+                        subscribe = true,
+                        gdpr = true
+                )
+        ).andReturn()
+        assertThat(result.response.status).isEqualTo(200)
+        assertThat(result.response.contentAsString).isEqualTo("ok")
     }
 }

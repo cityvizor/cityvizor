@@ -1,5 +1,8 @@
 package digital.cesko.city_sync.exception
 
-import io.ktor.http.HttpStatusCode
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
 
-class CitySyncException(val status: HttpStatusCode? = null, message: String) : Exception(message)
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+class CitySyncException(message: String) : Exception(message)

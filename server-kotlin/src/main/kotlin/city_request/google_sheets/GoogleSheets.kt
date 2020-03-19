@@ -11,7 +11,9 @@ import digital.cesko.city_request.CityRequest
 import digital.cesko.city_request.CityRequestStore
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.File
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.Resource
+import org.springframework.stereotype.Component
 import java.io.IOException
 import java.time.format.DateTimeFormatter
 
@@ -23,25 +25,19 @@ import java.time.format.DateTimeFormatter
  * @param documentId google sheet document ID (visible in URL)
  * @param listName name of a list on a sheet which contains the data
  */
+@Component
 internal class GoogleSheets(
-    private val credentialsFile: String?,
-    private val documentId: String,
-    private val listName: String,
-    private val appName: String
+    @Value("\${googleCredentials:}") private val credentialsFile: Resource?,
+    @Value("\${city-request.sheetId}") private val documentId: String,
+    @Value("\${city-request.listName}") private val listName: String,
+    @Value("\${city-request.appName}") private val appName: String
 ) : CityRequestStore {
 
     override fun insert(cityRequest: CityRequest) {
 
         // in case of no credentials file (testing env., local development, ...) just fail silently
-        if (credentialsFile.isNullOrBlank()) {
+        if (credentialsFile == null) {
             logger.warn("No credentials file. Append `-DgoogleCredentials=/path/to/file.json` argument to a process.")
-            return
-        }
-
-        val credentialsFile = File(credentialsFile)
-
-        if (!credentialsFile.exists()) {
-            logger.warn("Credentials file doesn't exist.")
             return
         }
 
@@ -80,9 +76,9 @@ internal class GoogleSheets(
     }
 
     @Throws(IOException::class)
-    private fun getCredentials(credentialFile: File): Credential {
-        return GoogleCredential.fromStream(credentialFile.inputStream())
-            .createScoped(listOf(SheetsScopes.SPREADSHEETS))
+    private fun getCredentials(credentialsFile: Resource): Credential {
+        return GoogleCredential.fromStream(credentialsFile.inputStream)
+                .createScoped(listOf(SheetsScopes.SPREADSHEETS))
     }
 
     companion object {
