@@ -8,7 +8,7 @@ export class Profile {
 		*/
 	id: number;
 
-	status: "visible" | "hidden" | "pending";
+	status: "visible" | "hidden" | "pending" | "preview";
 
 	main: boolean;
 
