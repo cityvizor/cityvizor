@@ -29,6 +29,9 @@ spec:
       containers:
         - name: server-kotlin
           image: cityvizor/server-kotlin:93-redesign-cityvizor.cz
+          volumeMounts:
+            - mountPath: /google-secret.json
+              name: google-secret-json
           env:
             - name: JDBC_URL
               valueFrom:
@@ -45,13 +48,26 @@ spec:
                 configMapKeyRef:
                   name: server-kotlin-config
                   key: db.pass
+            - name: googleCredentials
+              value: file:/google-secret.json
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
-              path: /api/v2/health
+              path: /actuator/info
               port: 8080
-            initialDelaySeconds: 3
+            initialDelaySeconds: 30
             periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 3
+      volumes:
+        - name: google-secret-json
+          hostPath:
+            path: /home/ubuntu/google-secret.json
+            type: FileOrCreate
 
