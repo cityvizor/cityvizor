@@ -28,11 +28,23 @@
           class="c-municipalities__arrow--left">
           <i class="icon icon-arrow-left"></i>
         </li>
-        <Municipality 
-          v-for="municipality in displayedMunicipalities"
+        <li v-for="municipality in displayedMunicipalities"
           :key="municipality.zkratka"
-          v-bind="{ municipality, cms }"
-        />
+          class="c-municipalities__entry"
+          @click="openMunicipality(municipality)">
+          <img v-if="municipality.urlZnak"
+            :src="municipality.urlZnak"
+            :alt="municipality.nazev"
+            class="c-municipalities__entry__heraldry">
+          <span v-else
+            class="c-municipalities__entry__placeholder"></span>
+          <span v-html="highlightSearch(municipality.nazev)"
+            class="c-municipalities__entry__label"></span>
+          <small v-if="!municipality.urlCityVizor"
+            class="c-municipalities__entry__cta">
+            {{ cms.configuration.ctaMunicipality }}
+          </small>
+        </li>
         <li v-if="hasNextPage"
           @click="nextPage"
           class="c-municipalities__arrow--right">
@@ -42,20 +54,18 @@
     </div>
 
     <!-- Counter element -->
-    <Counter :number="municipalitiesCount"></Counter>
+    <Counter v-if="municipalitiesCount > 0" :number="municipalitiesCount" :duration="1000"></Counter>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import Counter from './Counter';
-import Municipality from './Municipality'
 
 export default {
   name: 'ComponentsPartialsHero',
   components: {
     Counter,
-    Municipality
   },
   props: {
     cms: {
@@ -89,7 +99,7 @@ export default {
       searchDebounce: 600,
       searchPhrase: null,
       searchMinimumLength: 2,
-      municipalitiesCount: 223423413,
+      municipalitiesCount: 0,
       municipalities: [],
       page: 0,
       perPage: 4,
@@ -103,12 +113,19 @@ export default {
       this.searchTimeout = setTimeout(this.loadMunicipalities, this.searchDebounce);
     },
   },
+  mounted() {
+    this.loadMunicipalitiesCount();
+  },
   methods: {
     previousPage() {
       this.page -= 1;
     },
     nextPage() {
       this.page += 1;
+    },
+    highlightSearch(string) {
+      const expression = new RegExp(`(${this.searchPhrase})`, 'gi');
+      return string.replace(expression, '<strong>$1</strong>');
     },
     loadMunicipalities() {
       axios.get(this.apiBaseUrl, {
@@ -123,6 +140,22 @@ export default {
       .catch(error => {
         console.log(error); // eslint-disable-line
       });
+    },
+    loadMunicipalitiesCount() {
+      axios.get(this.apiBaseUrl)
+      .then(response => {
+        this.municipalitiesCount = response.data.length;
+      })
+      .catch(error => {
+        console.log(error); // eslint-disable-line
+      });
+    },
+    openMunicipality(municipality) {
+      if (municipality.urlCityVizor) {
+        window.location.href = municipality.urlCityVizor;
+      }
+
+      // @todo: fallback behavior, probably the contact form?
     }
   }
 }
