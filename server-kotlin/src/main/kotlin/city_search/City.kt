@@ -1,4 +1,4 @@
-package city_search
+package digital.cesko.city_search
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal

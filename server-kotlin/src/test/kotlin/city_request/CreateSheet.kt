@@ -1,4 +1,4 @@
-package city_request
+package digital.cesko.city_request
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport

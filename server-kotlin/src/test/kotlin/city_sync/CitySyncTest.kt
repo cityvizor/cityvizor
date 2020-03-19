@@ -1,9 +1,11 @@
-package city_sync
+package digital.cesko.city_sync
 
-import city_sync.model.SyncResponse
+
+
 import com.fasterxml.jackson.module.kotlin.readValue
 import digital.cesko.city_sync.model.SyncTask
-import main.AbstractSpringDatabaseTest
+import digital.cesko.AbstractSpringDatabaseTest
+import digital.cesko.city_sync.model.SyncResponse
 import net.jadler.Jadler
 import net.jadler.Jadler.onRequest
 import net.jadler.stubbing.server.jdk.JdkStubHttpServer

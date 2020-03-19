@@ -1,6 +1,6 @@
-package city_search
+package digital.cesko.city_search
 
-import main.AbstractSpringTest
+import digital.cesko.AbstractSpringTest
 import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test

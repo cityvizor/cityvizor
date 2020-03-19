@@ -1,8 +1,6 @@
-package digital.cesko.routers
+package digital.cesko.city_search
 
 
-import digital.cesko.city_search.CitySearchIndex
-import digital.cesko.city_search.CitySearchService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController

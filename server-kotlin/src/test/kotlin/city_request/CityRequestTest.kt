@@ -1,7 +1,7 @@
-package city_request
+package digital.cesko.city_request
 
+import digital.cesko.AbstractSpringTest
 import digital.cesko.city_request.CityRequest
-import main.AbstractSpringTest
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 

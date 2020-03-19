@@ -1,6 +1,5 @@
 package digital.cesko.city_search
 
-import city_search.City
 
 object CitySearchService {
     private val citySearchIndex = CitySearchIndex().apply { createCache() }

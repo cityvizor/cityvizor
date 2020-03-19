@@ -1,9 +1,6 @@
-package main
+package digital.cesko
 
-import digital.cesko.city_request.CityRequestController
-import digital.cesko.city_sync.CitySynchronizationController
 import digital.cesko.common.CommonConfig
-import digital.cesko.routers.CitySearchController
 import org.jetbrains.exposed.sql.Database
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -17,15 +14,7 @@ import org.springframework.web.client.RestTemplate
 
 
 @EnableConfigurationProperties(CommonConfig::class)
-// has to enumerate this since we do not follow standard package structure
-@SpringBootApplication(
-    scanBasePackageClasses = [
-        CitySynchronizationController::class,
-        CitySearchController::class,
-        CityRequestController::class,
-        ExposedInitializer::class
-    ]
-)
+@SpringBootApplication
 class Application {
     @Bean
     fun restTemplate() = RestTemplate()

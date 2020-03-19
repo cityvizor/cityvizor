@@ -1,6 +1,5 @@
 package digital.cesko.city_sync
 
-import city_sync.model.SyncResponse
 import digital.cesko.city_sync.exception.CitySyncException
 import digital.cesko.city_sync.model.Accounting
 import digital.cesko.city_sync.model.CityBasic
@@ -11,6 +10,7 @@ import digital.cesko.city_sync.model.Events
 import digital.cesko.city_sync.model.Noticeboards
 import digital.cesko.city_sync.model.Payments
 import digital.cesko.city_sync.model.Profiles
+import digital.cesko.city_sync.model.SyncResponse
 import digital.cesko.city_sync.model.SyncTask
 import digital.cesko.city_sync.model.Years
 import digital.cesko.city_sync.model.toAccounting
