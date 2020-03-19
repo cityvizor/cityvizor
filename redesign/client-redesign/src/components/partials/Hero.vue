@@ -28,23 +28,11 @@
           class="c-municipalities__arrow--left">
           <i class="icon icon-arrow-left"></i>
         </li>
-        <li v-for="municipality in displayedMunicipalities"
+        <Municipality 
+          v-for="municipality in displayedMunicipalities"
           :key="municipality.zkratka"
-          class="c-municipalities__entry"
-          @click="openMunicipality(municipality)">
-          <img v-if="municipality.urlZnak"
-            :src="municipality.urlZnak"
-            :alt="municipality.nazev"
-            class="c-municipalities__entry__heraldry">
-          <span v-else
-            class="c-municipalities__entry__placeholder"></span>
-          <span v-html="highlightSearch(municipality.nazev)"
-            class="c-municipalities__entry__label"></span>
-          <small v-if="!municipality.urlCityVizor"
-            class="c-municipalities__entry__cta">
-            {{ cms.configuration.ctaMunicipality }}
-          </small>
-        </li>
+          v-bind="{ municipality, cms }"
+        />
         <li v-if="hasNextPage"
           @click="nextPage"
           class="c-municipalities__arrow--right">
@@ -61,11 +49,13 @@
 <script>
 import axios from 'axios';
 import Counter from './Counter';
+import Municipality from './Municipality'
 
 export default {
   name: 'ComponentsPartialsHero',
   components: {
     Counter,
+    Municipality
   },
   props: {
     cms: {
@@ -123,10 +113,6 @@ export default {
     nextPage() {
       this.page += 1;
     },
-    highlightSearch(string) {
-      const expression = new RegExp(`(${this.searchPhrase})`, 'gi');
-      return string.replace(expression, '<strong>$1</strong>');
-    },
     loadMunicipalities() {
       axios.get(this.apiBaseUrl, {
         params: {
@@ -149,13 +135,6 @@ export default {
       .catch(error => {
         console.log(error); // eslint-disable-line
       });
-    },
-    openMunicipality(municipality) {
-      if (municipality.urlCityVizor) {
-        window.location.href = municipality.urlCityVizor;
-      }
-
-      // @todo: fallback behavior, probably the contact form?
     }
   }
 }
