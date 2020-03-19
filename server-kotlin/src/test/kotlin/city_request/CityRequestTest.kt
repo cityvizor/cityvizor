@@ -8,7 +8,7 @@ import kotlin.test.Test
 class CityRequestTest : AbstractSpringTest() {
 
     @Test
-    fun testCityRequest() {
+    fun `Should add to sheet`() {
         val result = post("/api/v2/service/cityrequest",
                 payload = CityRequest(
                         city = "Humpolec",

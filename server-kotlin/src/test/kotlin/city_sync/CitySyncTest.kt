@@ -3,7 +3,7 @@ package city_sync
 import city_sync.model.SyncResponse
 import com.fasterxml.jackson.module.kotlin.readValue
 import digital.cesko.city_sync.model.SyncTask
-import main.AbstractSpringTest
+import main.AbstractSpringDatabaseTest
 import net.jadler.Jadler
 import net.jadler.Jadler.onRequest
 import net.jadler.stubbing.server.jdk.JdkStubHttpServer
@@ -14,7 +14,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class CitySyncTest : AbstractSpringTest() {
+class CitySyncTest : AbstractSpringDatabaseTest() {
     @Test
     fun `Should list cities`() {
         val result = get("/api/v1/citysync/cities").andReturn()
