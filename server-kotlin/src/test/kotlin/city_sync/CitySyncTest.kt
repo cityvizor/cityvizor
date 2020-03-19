@@ -13,4 +13,10 @@ class CitySyncTest : AbstractSpringTest() {
         assertThat(result.response.status).isEqualTo(200)
         assertThatJson(result.response.contentAsString).isArray().contains("""{"id" : 6, "name" : "Praha 3", "ico" : "00063517"}""")
     }
+
+    @Test
+    fun `Should fetch city`() {
+        val result = mockMvc.get("/api/v1/citysync/cities/6").andReturn()
+        assertThat(result.response.status).isEqualTo(200)
+    }
 }
