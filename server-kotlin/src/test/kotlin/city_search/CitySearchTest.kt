@@ -3,21 +3,20 @@ package city_search
 import main.AbstractSpringTest
 import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import org.assertj.core.api.Assertions.assertThat
-import org.springframework.test.web.servlet.get
 import kotlin.test.Test
 
 class CitySearchTest : AbstractSpringTest() {
 
     @Test
     fun testCitySearch() {
-        val result = mockMvc.get("/api/v2/service/citysearch?query=jilove+u+prahy").andReturn()
+        val result = get("/api/v2/service/citysearch?query=jilove+u+prahy").andReturn()
         assertThat(result.response.status).isEqualTo(200)
         assertThatJson(result.response.contentAsString).inPath("\$.[?(@.ico=='00241326')]").isNotNull()
     }
 
     @Test
     fun testSearchKnownCity() {
-        val result = mockMvc.get("/api/v2/service/citysearch?query=Cernosice").andReturn()
+        val result = get("/api/v2/service/citysearch?query=Cernosice").andReturn()
         assertThat(result.response.status).isEqualTo(200)
         assertThatJson(result.response.contentAsString).node("[0]").isEqualTo(
                 """
@@ -56,7 +55,7 @@ class CitySearchTest : AbstractSpringTest() {
 
     @Test
     fun testSearchPraha() {
-        val result = mockMvc.get("/api/v2/service/citysearch?query=Praha 1").andReturn()
+        val result = get("/api/v2/service/citysearch?query=Praha 1").andReturn()
         assertThat(result.response.status).isEqualTo(200)
         assertThatJson(result.response.contentAsString).node("[0].ICO").isString().isEqualTo("00063410")
     }

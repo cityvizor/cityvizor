@@ -1,5 +1,6 @@
 package digital.cesko.city_sync
 
+import city_sync.model.SyncResponse
 import digital.cesko.city_sync.exception.CitySyncException
 import digital.cesko.city_sync.model.Accounting
 import digital.cesko.city_sync.model.CityBasic
@@ -88,7 +89,7 @@ class CitySynchronizationService(
         )
     }
 
-    fun syncCityDetails(syncTask: SyncTask) {
+    fun syncCityDetails(syncTask: SyncTask): SyncResponse {
         try {
             val cityExport = callInstance(syncTask)
 
@@ -98,7 +99,7 @@ class CitySynchronizationService(
                     .mapNotNull { toProfileCityExport(it) }
                     .firstOrNull()
             }
-            transaction {
+            return transaction {
                 when (cityExportInLocalDB != null) {
                     true -> {
                         //deletes data if already exists
@@ -189,6 +190,7 @@ class CitySynchronizationService(
                     true -> Noticeboards.batchInsert(cityExport.noticeboards) {
                         this[Noticeboards.profileId] = newProfileId
                         this[Noticeboards.attachments] = it.attachments
+                        this[Noticeboards.title] = it.title
                         this[Noticeboards.category] = it.category
                         this[Noticeboards.date] = it.date?.toDateTimeAtStartOfDay()
                         this[Noticeboards.documentUrl] = it.documentUrl
@@ -213,6 +215,7 @@ class CitySynchronizationService(
                     }
                 }
                 commit()
+                SyncResponse(newProfileId)
             }
         } catch (e: Exception) {
             throw IllegalStateException(e.message ?: "Unexpected error")
@@ -226,10 +229,10 @@ class CitySynchronizationService(
 
         val uri = UriComponentsBuilder
             .fromHttpUrl(instanceUrl)
-            .port(8080)
             .path("/api/v1/citysync/cities/${syncTask.cityId}")
             .build()
             .toUri()
+
         return restTemplate.getForObject(uri, CityExport::class.java)!!
     }
 }
