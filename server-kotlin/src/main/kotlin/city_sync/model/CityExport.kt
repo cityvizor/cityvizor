@@ -1,6 +1,7 @@
 package digital.cesko.city_sync.model
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer
 import org.jetbrains.exposed.sql.ResultRow
@@ -16,7 +17,7 @@ data class CityExport(
     val email: String?,
     val ico: String?,
     val dataBox: String?,
-    val eDesky: Short?,
+    @get:JsonProperty("eDesky") val eDesky: Short?,
     val mapaSamospravy: Short?,
     val gpsX: BigDecimal?,
     val gpsY: BigDecimal?,

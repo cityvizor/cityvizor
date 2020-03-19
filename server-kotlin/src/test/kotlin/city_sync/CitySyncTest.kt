@@ -110,7 +110,7 @@ class CitySyncTest : AbstractSpringTest() {
           ],
           "payments": [
           ],
-          "edesky": 115
+          "eDesky": 115
         }
     """
 }
