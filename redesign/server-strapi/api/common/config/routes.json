@@ -1,0 +1,14 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/common",
+      "handler": "Common.index"
+    },
+    {
+      "method": "GET",
+      "path": "/citysearch",
+      "handler": "Common.citysearch"
+    }
+  ]
+}

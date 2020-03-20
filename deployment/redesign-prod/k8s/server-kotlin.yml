@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-kotlin
+spec:
+  ports:
+    - nodePort: 32341
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: server-kotlin
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-kotlin
+spec:
+  selector:
+    matchLabels:
+      app: server-kotlin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: server-kotlin
+    spec:
+      containers:
+        - name: server-kotlin
+          image: cityvizor/server-kotlin:93-redesign-cityvizor.cz
+          volumeMounts:
+            - mountPath: /google-secret.json
+              name: google-secret-json
+          env:
+            - name: JDBC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: server-kotlin-config
+                  key: jdbc.url
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: server-kotlin-config
+                  key: db.user
+            - name: DB_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: server-kotlin-config
+                  key: db.pass
+            - name: googleCredentials
+              value: file:/google-secret.json
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /actuator/info
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 3
+      volumes:
+        - name: google-secret-json
+          hostPath:
+            path: /home/ubuntu/google-secret.json
+            type: FileOrCreate
+

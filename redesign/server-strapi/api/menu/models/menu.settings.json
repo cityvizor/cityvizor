@@ -1,0 +1,26 @@
+{
+  "connection": "default",
+  "collectionName": "menus",
+  "info": {
+    "name": "Menu"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "Menuitem": {
+      "type": "component",
+      "repeatable": true,
+      "component": "menuitem.menu-item"
+    }
+  }
+}

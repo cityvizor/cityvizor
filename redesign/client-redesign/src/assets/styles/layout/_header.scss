@@ -1,0 +1,49 @@
+/*
+|--------------------------------------------------------------------------
+| Layout/Header
+|--------------------------------------------------------------------------
+*/
+
+.l-header {
+    position: relative;
+    z-index: 1;
+    background-color: #dadada;
+    background-image: url(./assets/images/header_map.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .l-partials__hero {
+        position: relative;
+        z-index: 2;
+    }
+
+    // Overlay
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-image: linear-gradient(180deg, #ffffff 3%, rgba(255, 255, 255, 0.74) 100%);
+    }
+}
+
+.navbar {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+
+    @include media-breakpoint-up(md) {
+        padding: 40px 50px;
+    }
+}
+
+.is-home {
+    .l-header {
+        min-height: 80vh;
+        @include media-breakpoint-up(lg) {
+            min-height: 800px;
+        }
+    }
+}

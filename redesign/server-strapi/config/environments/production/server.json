@@ -1,0 +1,14 @@
+{
+  "host": "${process.env.HOST || 'localhost'}",
+  "port": "${process.env.PORT || 1337}",
+  "production": true,
+  "proxy": {
+    "enabled": false
+  },
+  "cron": {
+    "enabled": false
+  },
+  "admin": {
+    "autoOpen": false
+  }
+}
