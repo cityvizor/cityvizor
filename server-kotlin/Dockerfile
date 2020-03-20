@@ -4,10 +4,8 @@ COPY . /home/gradle/server
 WORKDIR /home/gradle/server
 RUN gradle build -x test
 
-FROM openjdk:11.0.1
+FROM openjdk:alpine
 WORKDIR /home/server-kotlin
-COPY --from=gradle /home/gradle/server/build/distributions /home/server-kotlin/
+COPY --from=gradle /home/gradle/server/build/libs/server-0.0.5.jar /home/server-kotlin/
 
-COPY start_last_local.sh /home/scripts/start_last_local.sh
-
-CMD ["/bin/bash", "-c", "/home/scripts/start_last_local.sh"]
+CMD ["java", "-jar", "-Xmx128m", "/home/server-kotlin/server-0.0.5.jar"]
