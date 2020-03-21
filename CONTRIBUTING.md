@@ -75,11 +75,8 @@ Projekt aktuálně nemá vytvořené testy, ale budeme rádi když s nimi pomů�
 Frontend dle [Angular Style Guide](https://angular.io/guide/styleguide).
 
 ## Pravidla přispívání
-- kód **v angličtině**,
-- commity **v angličtině**,
-- pull requesty **v angličtině**,
-- issues **v češtině**
-- dokumentace a dlouhé texty **v češtině**
+- kód a commity **v angličtině**,
+- všechno ostatní (pull requesty, issues, dokumentace) **v češtině**,
 
 Jde o dobrovolnický projekt a tedy věříme, že na code review můžete i chvíli počkat i když se vynasnažíme to udělat co nejdříve.
 
