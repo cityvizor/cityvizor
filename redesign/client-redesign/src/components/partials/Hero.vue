@@ -8,7 +8,7 @@
     <!-- Search input -->
     <form class="c-hero__search" v-on:submit.prevent="loadMunicipalities">
       <input 
-        type="search" 
+        type="text" 
         name="search" 
         autocomplete="off"
         v-model="searchPhrase"        
