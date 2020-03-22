@@ -74,6 +74,5 @@ jib {
     }
     container {
         jvmFlags = ['-Xmx256m']
-        mainClass = 'main.ApplicationKt'
     }
 }
