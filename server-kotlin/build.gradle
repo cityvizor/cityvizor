@@ -27,11 +27,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation "org.springframework.boot:spring-boot-starter-actuator"
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-joda")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation "org.jetbrains.exposed:exposed:0.17.7"
-    implementation "org.postgresql:postgresql:42.2.2"
+    implementation "org.jetbrains.exposed:exposed-dao:$exposed_version"
+    implementation "org.jetbrains.exposed:exposed-jdbc:$exposed_version"
+    implementation "org.jetbrains.exposed:exposed-java-time:$exposed_version"
+    implementation "org.postgresql:postgresql"
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -49,9 +50,9 @@ dependencies {
     implementation 'com.google.apis:google-api-services-sheets:v4-rev604-1.25.0'
 
     //Lucene engine (for search)
-    implementation group: 'org.apache.lucene', name: 'lucene-core', version: '8.4.1'
-    implementation group: 'org.apache.lucene', name: 'lucene-queryparser', version: '8.4.1'
-    implementation group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: '8.4.1'
+    implementation group: 'org.apache.lucene', name: 'lucene-core', version: "$lucene_version"
+    implementation group: 'org.apache.lucene', name: 'lucene-queryparser', version: "$lucene_version"
+    implementation group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: "$lucene_version"
 }
 
 compileKotlin {

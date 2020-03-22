@@ -145,7 +145,7 @@ class CitySynchronizationService(
                 when (!cityExport.contracts.isNullOrEmpty()) {
                     true -> Contracts.batchInsert(cityExport.contracts) {
                         this[Contracts.profileId] = newProfileId
-                        this[Contracts.date] = it.date?.toDateTimeAtStartOfDay()
+                        this[Contracts.date] = it.date
                         this[Contracts.title] = it.title
                         this[Contracts.counterparty] = it.counterparty
                         this[Contracts.amount] = it.amount
@@ -159,7 +159,7 @@ class CitySynchronizationService(
                         this[Years.profileId] = newProfileId
                         this[Years.year] = it.year
                         this[Years.hidden] = it.hidden
-                        this[Years.validity] = it.validity?.toDateTimeAtStartOfDay()
+                        this[Years.validity] = it.validity
                     }
                 }
 
@@ -192,7 +192,7 @@ class CitySynchronizationService(
                         this[Noticeboards.attachments] = it.attachments
                         this[Noticeboards.title] = it.title
                         this[Noticeboards.category] = it.category
-                        this[Noticeboards.date] = it.date?.toDateTimeAtStartOfDay()
+                        this[Noticeboards.date] = it.date
                         this[Noticeboards.documentUrl] = it.documentUrl
                         this[Noticeboards.edeskyUrl] = it.edeskyUrl
                         this[Noticeboards.previewUrl] = it.previewUrl
@@ -205,7 +205,7 @@ class CitySynchronizationService(
                         this[Payments.amount] = it.amount
                         this[Payments.counterpartyId] = it.counterpartyId
                         this[Payments.counterpartyName] = it.counterpartyName
-                        this[Payments.date] = it.date?.toDateTimeAtStartOfDay()
+                        this[Payments.date] = it.date
                         this[Payments.description] = it.description
                         this[Payments.event] = it.event
                         this[Payments.item] = it.item

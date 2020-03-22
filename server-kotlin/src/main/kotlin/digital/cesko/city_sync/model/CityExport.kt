@@ -3,10 +3,10 @@ package digital.cesko.city_sync.model
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import org.jetbrains.exposed.sql.ResultRow
-import org.joda.time.LocalDate
 import java.math.BigDecimal
+import java.time.LocalDate
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class CityExport(
@@ -120,23 +120,23 @@ fun toAccounting(accounting: ResultRow): CityExport.Accounting = CityExport.Acco
 )
 
 fun toContracts(contract: ResultRow): CityExport.Contract = CityExport.Contract(
-    contract[Contracts.id], contract[Contracts.date]?.toLocalDate(), contract[Contracts.title],
+    contract[Contracts.id], contract[Contracts.date], contract[Contracts.title],
     contract[Contracts.counterparty], contract[Contracts.amount], contract[Contracts.currency], contract[Contracts.url]
 )
 
 fun toYear(year: ResultRow): CityExport.Year = CityExport.Year(
-    year[Years.year], year[Years.hidden], year[Years.validity]?.toLocalDate()
+    year[Years.year], year[Years.hidden], year[Years.validity]
 )
 
 fun toNoticeboard(noticeboard: ResultRow): CityExport.Noticeboard = CityExport.Noticeboard(
-    noticeboard[Noticeboards.date]?.toLocalDate(), noticeboard[Noticeboards.title], noticeboard[Noticeboards.category],
+    noticeboard[Noticeboards.date], noticeboard[Noticeboards.title], noticeboard[Noticeboards.category],
     noticeboard[Noticeboards.documentUrl], noticeboard[Noticeboards.edeskyUrl], noticeboard[Noticeboards.previewUrl],
     noticeboard[Noticeboards.attachments]
 )
 
 fun toPayment(payment: ResultRow): CityExport.Payment = CityExport.Payment(
     payment[Payments.year], payment[Payments.paragraph], payment[Payments.item], payment[Payments.unit],
-    payment[Payments.event], payment[Payments.amount], payment[Payments.date]?.toLocalDate(),
+    payment[Payments.event], payment[Payments.amount], payment[Payments.date],
     payment[Payments.counterpartyId], payment[Payments.counterpartyName], payment[Payments.description]
 )
 

@@ -1,6 +1,7 @@
 package digital.cesko.city_sync.model
 
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.`java-time`.date
 
 object Profiles : Table("app.profiles") {
     val id = integer("id").uniqueIndex().autoIncrement("profiles_id_seq")
