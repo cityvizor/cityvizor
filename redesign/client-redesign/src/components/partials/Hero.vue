@@ -6,12 +6,12 @@
     </h2>
 
     <!-- Search input -->
-    <form class="c-hero__search">
+    <form class="c-hero__search" v-on:submit.prevent="loadMunicipalities">
       <input 
         type="search" 
         name="search" 
         autocomplete="off"
-        v-model="searchPhrase"
+        v-model="searchPhrase"        
         placeholder="Hledat v zapojených obcích">
       <button type="button" 
         class="btn btn-transparent btn-search"
