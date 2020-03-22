@@ -1,6 +1,5 @@
 package digital.cesko.city_sync.model
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
@@ -8,7 +7,6 @@ import org.jetbrains.exposed.sql.ResultRow
 import java.math.BigDecimal
 import java.time.LocalDate
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 data class CityExport(
     val id: Int,
     val status: String,
@@ -31,7 +29,7 @@ data class CityExport(
     val noticeboards: List<Noticeboard>?,
     val payments: List<Payment>?
 ) {
-    @JsonIgnoreProperties(ignoreUnknown = true)
+
     data class Accounting(
         val year: Int?,
         val type: String?,
@@ -42,7 +40,6 @@ data class CityExport(
         val amount: BigDecimal?
     )
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     data class Contract(
         val id: Int,
         @JsonDeserialize(using = LocalDateDeserializer::class)
@@ -54,7 +51,6 @@ data class CityExport(
         val url: String?
     )
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     data class Year(
         val year: Int,
         val hidden: Boolean = true,
@@ -62,7 +58,6 @@ data class CityExport(
         val validity: LocalDate?
     )
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     data class Event(
         val id: Int,
         val year: Int,
@@ -79,7 +74,6 @@ data class CityExport(
         )
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     data class Noticeboard(
         @JsonDeserialize(using = LocalDateDeserializer::class)
         val date: LocalDate?,
@@ -91,7 +85,6 @@ data class CityExport(
         val attachments: Int = 0
     )
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     data class Payment(
         val year: Int?,
         val paragraph: Int?,
