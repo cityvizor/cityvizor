@@ -3,14 +3,13 @@ package digital.cesko.city_sync
 
 
 import com.fasterxml.jackson.module.kotlin.readValue
-import digital.cesko.city_sync.model.SyncTask
 import digital.cesko.AbstractSpringDatabaseTest
 import digital.cesko.city_sync.model.SyncResponse
+import digital.cesko.city_sync.model.SyncTask
 import net.jadler.Jadler
 import net.jadler.Jadler.onRequest
 import net.jadler.stubbing.server.jdk.JdkStubHttpServer
-import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
-import org.assertj.core.api.Assertions.assertThat
+import net.javacrumbs.jsonunit.spring.jsonContent
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -19,16 +18,19 @@ import kotlin.test.Test
 class CitySyncTest : AbstractSpringDatabaseTest() {
     @Test
     fun `Should list cities`() {
-        val result = get("/api/v1/citysync/cities").andReturn()
-        assertThat(result.response.status).isEqualTo(200)
-        assertThatJson(result.response.contentAsString).isArray()
-            .contains("""{"id" : 6, "name" : "Praha 3", "ico" : "00063517"}""")
+        get("/api/v1/citysync/cities").andExpect {
+            status { isOk }
+            jsonContent {
+                isArray.contains("""{"id" : 6, "name" : "Praha 3", "ico" : "00063517"}""")
+            }
+        }
     }
 
     @Test
     fun `Should fetch city`() {
-        val result = get("/api/v1/citysync/cities/6").andReturn()
-        assertThat(result.response.status).isEqualTo(200)
+        get("/api/v1/citysync/cities/6").andExpect {
+            status { isOk }
+        }
     }
 
     @Test
@@ -44,16 +46,18 @@ class CitySyncTest : AbstractSpringDatabaseTest() {
         val result = post(
             "/api/v1/citysync/synchronization",
             payload = SyncTask("test", 0)
-        ).andReturn()
-        assertThat(result.response.status).isEqualTo(201)
-
+        )
+            .andExpect { status { isCreated } }
+            .andReturn()
         val syncResponse = objectMapper.readValue<SyncResponse>(result.response.contentAsString)
 
-        get("/api/v1/citysync/cities/${syncResponse.profileId}").andReturn().apply {
-            assertThat(response.status).isEqualTo(200)
-            assertThatJson(response.contentAsString)
-                .whenIgnoringPaths("id", "contracts[*].id")
-                .isEqualTo(testCityData)
+        get("/api/v1/citysync/cities/${syncResponse.profileId}").andExpect {
+            status {
+                isOk
+            }
+            jsonContent {
+                whenIgnoringPaths("id", "contracts[*].id").isEqualTo(testCityData)
+            }
         }
     }
 

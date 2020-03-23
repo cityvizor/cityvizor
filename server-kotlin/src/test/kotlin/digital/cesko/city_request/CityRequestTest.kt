@@ -9,7 +9,7 @@ class CityRequestTest : AbstractSpringTest() {
 
     @Test
     fun `Should add to sheet`() {
-        val result = post("/api/v2/service/cityrequest",
+        post("/api/v2/service/cityrequest",
                 payload = CityRequest(
                         city = "Humpolec",
                         email = "starosta@humpolec.cz",
@@ -17,8 +17,9 @@ class CityRequestTest : AbstractSpringTest() {
                         subscribe = true,
                         gdpr = true
                 )
-        ).andReturn()
-        assertThat(result.response.status).isEqualTo(200)
-        assertThat(result.response.contentAsString).isEqualTo("ok")
+        ).andExpect {
+            status { isOk }
+            content { string("ok") }
+        }
     }
 }

@@ -2,6 +2,7 @@ package digital.cesko.city_search
 
 import digital.cesko.AbstractSpringTest
 import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
+import net.javacrumbs.jsonunit.spring.jsonContent
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
@@ -9,17 +10,22 @@ class CitySearchTest : AbstractSpringTest() {
 
     @Test
     fun testCitySearch() {
-        val result = get("/api/v2/service/citysearch?query=jilove+u+prahy").andReturn()
-        assertThat(result.response.status).isEqualTo(200)
-        assertThatJson(result.response.contentAsString).inPath("\$.[?(@.ico=='00241326')]").isNotNull()
+        get("/api/v2/service/citysearch?query=jilove+u+prahy").andExpect {
+            status { isOk }
+            jsonContent {
+                inPath("\$.[?(@.ico=='00241326')]").isNotNull()
+            }
+        }
     }
 
     @Test
     fun testSearchKnownCity() {
-        val result = get("/api/v2/service/citysearch?query=Cernosice").andReturn()
-        assertThat(result.response.status).isEqualTo(200)
-        assertThatJson(result.response.contentAsString).node("[0]").isEqualTo(
-                """
+        get("/api/v2/service/citysearch?query=Cernosice").andExpect {
+            status { isOk }
+            jsonContent {
+                inPath("\$.[?(@.ico=='00241326')]").isNotNull()
+                node("[0]").isEqualTo(
+                    """
                 {
                    "adresaUradu":{
                       "adresniBod":"6506836",
@@ -50,13 +56,18 @@ class CitySearchTest : AbstractSpringTest() {
                     "eDeskyID":"139",
                     "ICO":"00241121"
                 }
-                """.trimIndent())
+                """)
+            }
+        }
     }
 
     @Test
     fun testSearchPraha() {
-        val result = get("/api/v2/service/citysearch?query=Praha 1").andReturn()
-        assertThat(result.response.status).isEqualTo(200)
-        assertThatJson(result.response.contentAsString).node("[0].ICO").isString().isEqualTo("00063410")
+        get("/api/v2/service/citysearch?query=Praha 1").andExpect {
+            status { isOk }
+            jsonContent {
+                node("[0].ICO").isString().isEqualTo("00063410")
+            }
+        }
     }
 }
