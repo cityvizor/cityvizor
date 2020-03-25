@@ -1,43 +1,53 @@
 ## Kubernetes config for redesign prod deployment
 
-### Install nginx
-I did not manage to set-up k8s ingress, so we are using standalone nginx
-
-```shell script
-sudo apt-get install nginx
-sudo apt-get install certbot
-sudo apt-get install python-certbot-nginx
-
-git clone https://github.com/cityvizor/cityvizor.git
-sudo cp cityvizor/deployment/redesign-prod/nginx/cityvizor.conf /etc/nginx/conf.d/
-sudo nginx -s reload
-
-sudo certbot --nginx
-```
 
 ### Setup microk8s
 
 ```shell script
-sudo snap install microk8s --classic
+sudo snap install microk8s --channel=1.18/beta --classic
 microk8s.start
 
 sudo usermod -a -G microk8s ubuntu
+sudo microk8s.enable dns helm ingress
+
 alias kubectl='microk8s.kubectl'
+alias helm='microk8s.helm'
 
-cd deployment/redesign-prod/k8s/
-kubectl apply -f client-redesign.yml
+helm init
 ```
 
-Edit server-strapi-config.yml and set config values
+### Setup TLS
+https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-on-digitalocean-kubernetes-using-helm
+
 ```shell script
-kubectl apply -f server-strapi-config.yml
-kubectl apply -f server-strapi.yml
+kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
+kubectl create namespace cert-manager
+helm repo add jetstack https://charts.jetstack.io
+helm install --name cert-manager --version v0.11.0 --namespace cert-manager jetstack/cert-manager
 ```
 
-Edit server-kotlin-config.yml and set config values
+### Run Helm
 ```shell script
-kubectl apply -f server-kotlin-config.yml
-kubectl apply -f server-kotlin.yml
-````
+
+cd deployment/redesign-prod/helm
+helm install ./cityvizor \
+  --set server_strapi.database_host=cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com \
+  --set server_strapi.database_username=strapi_test \
+  --set server_strapi.database_name=strapi_test \
+  --set server_strapi.database_password='str@pi_t3st' \
+  --set server_kotlin.jdbc_url=jdbc:postgresql://cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com/cityvizor_test \
+  --set server_kotlin.db_pass='cityv!zor_t3st' \
+  --set server_kotlin.google_secrets_path=/home/ubuntu/cityvizor/server-kotlin/src/test/resources/city_request/test-credentials.json \
+  --set ingress.main_host=cityvizor.ceskodigital.net \
+  --set ingress.strapi_host=cityvizor-api.ceskodigital.net 
+```
+
+### Create Postgres schema
+
+```sql
+CREATE USER cityvizor_test WITH PASSWORD 'cityv!zor_t3st';
+create database cityvizor_test;
+grant all privileges on database cityvizor_test to cityvizor_test;
+```
 
 Do not forgot to configure Postgres, so it is accessible from EC2

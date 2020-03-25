@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: server-strapi
-          image: cityvizor/strapi-server:93-redesign-cityvizor.cz
+          image: cityvizor/strapi-server:latest
           env:
             - name: NODE_ENV
               value: "production"
@@ -40,7 +40,10 @@ spec:
             - name: DATABASE_PORT
               value: "5432"
             - name: DATABASE_NAME
-              value: "postgres"
+              valueFrom:
+                configMapKeyRef:
+                  name: server-strapi-config
+                  key: database.name
             - name: DATABASE_USERNAME
               valueFrom:
                 configMapKeyRef:

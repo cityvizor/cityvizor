@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: client-redesign
-          image: cityvizor/client-redesign:93-redesign-cityvizor.cz
+          image: cityvizor/client-redesign:latest
           ports:
             - containerPort: 80
           imagePullPolicy: Always
