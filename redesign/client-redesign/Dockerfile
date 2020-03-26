@@ -12,10 +12,10 @@ WORKDIR /user/src/app
 COPY --from=install /user/src/app/node_modules /user/src/app/node_modules
 COPY . .
 
-ARG VUE_APP_API_BASE_URL='https://cityvizor-api.cesko.digital/citysearch'
+ARG VUE_APP_API_BASE_URL='/api/v2/service/citysearch'
 ENV VUE_APP_API_BASE_URL=$VUE_APP_API_BASE_URL
 
-ARG VUE_APP_CONTENT_API_BASE_URL='https://cityvizor-api.cesko.digital'
+ARG VUE_APP_CONTENT_API_BASE_URL='.'
 ENV VUE_APP_CONTENT_API_BASE_URL=$VUE_APP_CONTENT_API_BASE_URL
 
 RUN yarn build

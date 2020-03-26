@@ -2,13 +2,8 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/common",
+      "path": "/strapi/common",
       "handler": "Common.index"
-    },
-    {
-      "method": "GET",
-      "path": "/citysearch",
-      "handler": "Common.citysearch"
     }
   ]
 }

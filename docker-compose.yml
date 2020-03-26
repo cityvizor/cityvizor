@@ -83,9 +83,6 @@ services:
     image: cityvizor-redesign-client
     build:
       context: ./redesign/client-redesign
-      args:
-        - VUE_APP_API_BASE_URL=http://localhost:1337/citysearch
-        - VUE_APP_CONTENT_API_BASE_URL=http://localhost:1337
     container_name: client-redesign.cityvizor.cesko.digital
     environment:
       NODE_ENV: local

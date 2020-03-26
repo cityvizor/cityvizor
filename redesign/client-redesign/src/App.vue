@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     loadData() {
-      axios.get(`${this.contentApiBaseUrl}/common`)
+      axios.get(`${this.contentApiBaseUrl}/strapi/common`)
         .then(({ data }) => {
           this.cms = data;
           this.loading = false;
