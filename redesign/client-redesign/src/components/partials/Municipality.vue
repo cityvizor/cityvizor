@@ -7,7 +7,7 @@
       class="c-municipalities__entry__heraldry">
     <span v-else
       class="c-municipalities__entry__placeholder"></span>
-    <span v-html="highlightSearch(municipality.nazev)"
+    <span v-html="highlightSearch(municipality.hezkyNazev || municipality.nazev)"
       class="c-municipalities__entry__label"></span>
     <span class="c-municipalities__entry__region">
       {{ region }}
