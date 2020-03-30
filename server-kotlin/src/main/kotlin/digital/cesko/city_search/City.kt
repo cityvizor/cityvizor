@@ -16,6 +16,8 @@ data class City(
         val ico: String?,
         @get:JsonProperty("nazev")
         val nazev: String?,
+        @get:JsonProperty("hezkyNazev")
+        val hezkyNazev: String?,
         @get:JsonProperty("souradnice")
         val souradnice: List<BigDecimal>?,
         @get:JsonProperty("zkratka")

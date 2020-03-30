@@ -45,6 +45,7 @@ class CitySearchTest : AbstractSpringTest() {
                       "podatelna@mestocernosice.cz"
                     ],
                     "nazev":"MĚSTO ČERNOŠICE",
+                    "hezkyNazev": "Černošice",
                     "souradnice":[
                       49.95886668901324,
                       14.320428348540815
