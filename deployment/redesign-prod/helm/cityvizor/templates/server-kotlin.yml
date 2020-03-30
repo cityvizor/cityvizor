@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: server-kotlin
-          image: cityvizor/server-kotlin:93-redesign-cityvizor.cz
+          image: cityvizor/server-kotlin:master
           volumeMounts:
             - mountPath: /google-secret.json
               name: google-secret-json
@@ -68,6 +68,6 @@ spec:
       volumes:
         - name: google-secret-json
           hostPath:
-            path: /home/ubuntu/google-secret.json
+            path: {{ .Values.server_kotlin.google_secrets_path }}
             type: FileOrCreate
 

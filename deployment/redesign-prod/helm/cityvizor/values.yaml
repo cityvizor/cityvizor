@@ -1,0 +1,50 @@
+# Default values for cityvizor.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+server_kotlin:
+  jdbc_url: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
+  db_user: postgres
+  db_pass: pass
+
+server_strapi:
+  database_host: db.cityvizor.cesko.digital
+  database_name: postgres
+  database_username: postgres
+  database_password: password
+
+ingress:
+  main_host: localhost
+  stapi_host: localhost-strapi
+
+nameOverride: ""
+fullnameOverride: ""
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
