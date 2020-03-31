@@ -39,7 +39,7 @@ class CitySearchIndex {
             .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
     private var directory: MMapDirectory? = null
-    lateinit var resultCities: ArrayList<City>
+    lateinit var resultCities: List<City>
 
     val analyzer = AccentInsensitiveAnalyzer()
     val queryParser = QueryParser("content", analyzer)
@@ -70,9 +70,9 @@ class CitySearchIndex {
         // Read sky to geo mapper
         // once this file is loaded from s3 (where it's auto updated) we can keep local copy
         // in resources as a fallback for offline development
-        val dataJson = this::class.java.classLoader.getResource("citylistmetadata_finalresult.json")!!.readText()
+        val dataJson = this::class.java.classLoader.getResource("obce.json")!!.readText()
 
-        resultCities = objectMapper.readValue(dataJson)
+        resultCities = objectMapper.readValue<CitiesWrapper>(dataJson).municipalities
 
         val newDirectory = MMapDirectory(Files.createTempDirectory("city-search-index"))
         //create index
