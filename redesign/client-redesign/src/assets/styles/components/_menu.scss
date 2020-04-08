@@ -15,15 +15,16 @@
 
     li {
         a {
-            padding-left: 10px;
-            padding-right: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
             display: inline-block;
             color: $secondary;
             text-decoration: none;
+            padding-bottom: 5px;
 
             @include media-breakpoint-up(xl) {
-                padding-left: 25px;
-                padding-right: 25px;
+                margin-left: 25px;
+                margin-right: 25px;
             }
         }
     }
@@ -38,8 +39,8 @@
         position: relative;
         z-index: 2;
         background-color: $gray;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
         li {
             a {
                 @extend .unselectable;
