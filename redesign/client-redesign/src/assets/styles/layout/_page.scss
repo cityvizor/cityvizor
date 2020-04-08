@@ -8,9 +8,11 @@
     padding-top: 60px;
     padding-bottom: 60px;
     
-    @include media-breakpoint-down(md) {
-        padding-left: 20px;
-        padding-right: 20px;
+    &:not(.l-page--custom-page) {
+        @include media-breakpoint-down(md) {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
     }
 
     img {
