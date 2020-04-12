@@ -25,10 +25,12 @@ spec:
     metadata:
       labels:
         app: server-strapi
+      annotations:
+        date/deploy-date: {{ now | quote }}
     spec:
       containers:
         - name: server-strapi
-          image: cityvizor/strapi-server:latest
+          image: {{ .Values.server_strapi.image }}:{{ .Values.server_strapi.tag }}
           env:
             - name: NODE_ENV
               value: "production"

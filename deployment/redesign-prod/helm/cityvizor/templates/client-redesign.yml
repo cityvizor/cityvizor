@@ -25,10 +25,12 @@ spec:
     metadata:
       labels:
         app: client-redesign
+      annotations:
+        date/deploy-date: {{ now | quote }}
     spec:
       containers:
         - name: client-redesign
-          image: cityvizor/client-redesign:latest
+          image: {{ .Values.client_redesign.image }}:{{ .Values.client_redesign.tag }}
           ports:
             - containerPort: 80
           imagePullPolicy: Always

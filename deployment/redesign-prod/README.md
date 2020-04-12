@@ -27,19 +27,12 @@ helm install --name cert-manager --version v0.11.0 --namespace cert-manager jets
 ```
 
 ### Run Helm
+Checkout cityvizor
+
 ```shell script
 
 cd deployment/redesign-prod/helm
-helm install ./cityvizor \
-  --set server_strapi.database_host=cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com \
-  --set server_strapi.database_username=strapi_test \
-  --set server_strapi.database_name=strapi_test \
-  --set server_strapi.database_password='str@pi_t3st' \
-  --set server_kotlin.jdbc_url=jdbc:postgresql://cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com/cityvizor_test \
-  --set server_kotlin.db_pass='cityv!zor_t3st' \
-  --set server_kotlin.google_secrets_path=/home/ubuntu/cityvizor/server-kotlin/src/test/resources/city_request/test-credentials.json \
-  --set ingress.main_host=cityvizor.ceskodigital.net \
-  --set ingress.strapi_host=cityvizor-api.ceskodigital.net 
+helm install -f test_values.yml -n cityvizor ./cityvizor 
 ```
 
 ### Create Postgres schema

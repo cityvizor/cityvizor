@@ -25,10 +25,12 @@ spec:
     metadata:
       labels:
         app: server-kotlin
+      annotations:
+        date/deploy-date: {{ now | quote }}
     spec:
       containers:
         - name: server-kotlin
-          image: cityvizor/server-kotlin:master
+          image: {{ .Values.server_kotlin.image }}:{{ .Values.server_kotlin.tag }}
           volumeMounts:
             - mountPath: /google-secret.json
               name: google-secret-json
