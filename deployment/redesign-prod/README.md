@@ -27,12 +27,26 @@ helm install --name cert-manager --version v0.11.0 --namespace cert-manager jets
 ```
 
 ### Run Helm
-Checkout cityvizor
+Checkout cityvizor, edit (copy) test_values.yml and apply
 
 ```shell script
-
 cd deployment/redesign-prod/helm
 helm install -f test_values.yml -n cityvizor ./cityvizor 
+```
+
+To upgrade
+```shell script
+helm upgrade -f test_values.yml cityvizor cityvizor/
+```
+
+### Automatic deployment
+You can use Keel for automatic deployement. By default it watches tag specified in `values.yml` and deploys new versions.
+
+```shell script
+helm repo add keel-charts https://charts.keel.sh 
+helm repo update
+
+helm install --namespace=kube-system -n keel keel-charts/keel
 ```
 
 ### Create Postgres schema
