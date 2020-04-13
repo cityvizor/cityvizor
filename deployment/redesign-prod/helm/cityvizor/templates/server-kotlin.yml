@@ -25,29 +25,22 @@ spec:
     metadata:
       labels:
         app: server-kotlin
+      annotations:
+        date/deploy-date: {{ now | quote }}
     spec:
       containers:
         - name: server-kotlin
-          image: cityvizor/server-kotlin:master
+          image: {{ .Values.server_kotlin.image }}:{{ .Values.server_kotlin.tag }}
           volumeMounts:
             - mountPath: /google-secret.json
               name: google-secret-json
           env:
             - name: JDBC_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: server-kotlin-config
-                  key: jdbc.url
+              value: {{ .Values.server_kotlin.jdbc_url }}
             - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: server-kotlin-config
-                  key: db.user
+              value: {{ .Values.server_kotlin.db_user }}
             - name: DB_PASS
-              valueFrom:
-                configMapKeyRef:
-                  name: server-kotlin-config
-                  key: db.pass
+              value: {{ .Values.server_kotlin.db_pass }}
             - name: googleCredentials
               value: file:/google-secret.json
           ports:

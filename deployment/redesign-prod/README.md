@@ -27,19 +27,26 @@ helm install --name cert-manager --version v0.11.0 --namespace cert-manager jets
 ```
 
 ### Run Helm
-```shell script
+Checkout cityvizor, edit (copy) test_values.yml and apply
 
+```shell script
 cd deployment/redesign-prod/helm
-helm install ./cityvizor \
-  --set server_strapi.database_host=cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com \
-  --set server_strapi.database_username=strapi_test \
-  --set server_strapi.database_name=strapi_test \
-  --set server_strapi.database_password='str@pi_t3st' \
-  --set server_kotlin.jdbc_url=jdbc:postgresql://cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com/cityvizor_test \
-  --set server_kotlin.db_pass='cityv!zor_t3st' \
-  --set server_kotlin.google_secrets_path=/home/ubuntu/cityvizor/server-kotlin/src/test/resources/city_request/test-credentials.json \
-  --set ingress.main_host=cityvizor.ceskodigital.net \
-  --set ingress.strapi_host=cityvizor-api.ceskodigital.net 
+helm install -f test_values.yml -n cityvizor ./cityvizor 
+```
+
+To upgrade
+```shell script
+helm upgrade -f test_values.yml cityvizor cityvizor/
+```
+
+### Automatic deployment
+You can use Keel for automatic deployement. By default it watches tag specified in `values.yml` and deploys new versions.
+
+```shell script
+helm repo add keel-charts https://charts.keel.sh 
+helm repo update
+
+helm install --namespace=kube-system -n keel keel-charts/keel
 ```
 
 ### Create Postgres schema

@@ -3,15 +3,23 @@
 # Declare variables to be passed into your templates.
 
 server_kotlin:
+  image: cityvizor/server-kotlin
+  tag: master
   jdbc_url: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
   db_user: postgres
   db_pass: pass
 
 server_strapi:
+  image: cityvizor/strapi-server
+  tag: latest
   database_host: db.cityvizor.cesko.digital
   database_name: postgres
   database_username: postgres
   database_password: password
+
+client_redesign:
+  image: cityvizor/client-redesign
+  tag: latest
 
 ingress:
   main_host: localhost
@@ -21,7 +29,6 @@ nameOverride: ""
 fullnameOverride: ""
 
 podSecurityContext: {}
-  # fsGroup: 2000
 
 securityContext: {}
   # capabilities:
@@ -48,3 +55,17 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+keel:
+  policy: "force"
+  match-tag: "true"
+  trigger: "poll"
+  pollSchedule: "@every 1m"
+  # images to track and update
+  images:
+    - repository: server_kotlin.image
+      tag: server_kotlin.tag
+    - repository: server_strapi.image
+      tag: server_strapi.tag
+    - repository: client_redesign.image
+      tag: client_redesign.tag
