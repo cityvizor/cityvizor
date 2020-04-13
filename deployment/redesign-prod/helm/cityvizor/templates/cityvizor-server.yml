@@ -1,0 +1,58 @@
+{{- if .Values.vintage_enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: cityvizor-server
+spec:
+  ports:
+    - nodePort: 32311
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: cityvizor-server
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cityvizor-server
+spec:
+  selector:
+    matchLabels:
+      app: cityvizor-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cityvizor-server
+      annotations:
+        date/deploy-date: {{ now | quote }}
+    spec:
+      containers:
+        - name: cityvizor-server
+          image: {{ .Values.cityvizor_server.image }}:{{ .Values.cityvizor_server.tag }}
+          command: ["node", "dist/server.js"]
+          env:
+            - name: NODE_ENV
+              value: "system"
+            - name: DATABASE_HOST
+              value: {{ .Values.cityvizor_server.database_host }}
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_NAME
+              value: {{ .Values.cityvizor_server.database_name }}
+            - name: DATABASE_USERNAME
+              value: {{ .Values.cityvizor_server.database_username }}
+            - name: DATABASE_PASSWORD
+              value: {{ .Values.cityvizor_server.database_password }}
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /api/public/profiles
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 3
+{{- end -}}

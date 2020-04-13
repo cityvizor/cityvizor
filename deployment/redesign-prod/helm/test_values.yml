@@ -1,3 +1,9 @@
+cityvizor_server:
+  database_host: cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com
+  database_name: cityvizor_test
+  database_username: cityvizor_test
+  database_password: 'cityv!zor_t3st'
+
 server_strapi:
   database_host: cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com
   database_username: strapi_test
@@ -7,9 +13,11 @@ server_strapi:
 
 server_kotlin:
   jdbc_url: jdbc:postgresql://cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com/cityvizor_test
+  db_user: cityvizor_test
   db_pass: 'cityv!zor_t3st'
   google_secrets_path: /home/ubuntu/cityvizor/server-kotlin/src/test/resources/city_request/test-credentials.json
 
 ingress:
-  main_host: cityvizor.ceskodigital.net
+  main_host: cityvizor-vintage.ceskodigital.net
+  redesign_host: cityvizor.ceskodigital.net
   strapi_host: cityvizor-api.ceskodigital.net

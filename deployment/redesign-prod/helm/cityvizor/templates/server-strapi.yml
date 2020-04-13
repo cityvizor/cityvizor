@@ -1,3 +1,4 @@
+{{- if .Values.redesign_enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -53,4 +54,4 @@ spec:
               port: 1337
             initialDelaySeconds: 3
             periodSeconds: 3
-
+{{- end -}}
