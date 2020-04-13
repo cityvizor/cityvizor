@@ -35,27 +35,15 @@ spec:
             - name: NODE_ENV
               value: "production"
             - name: DATABASE_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: server-strapi-config
-                  key: database.host
+              value: {{ .Values.server_strapi.database_host }}
             - name: DATABASE_PORT
               value: "5432"
             - name: DATABASE_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: server-strapi-config
-                  key: database.name
+              value: {{ .Values.server_strapi.database_name }}
             - name: DATABASE_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: server-strapi-config
-                  key: database.username
+              value: {{ .Values.server_strapi.database_username }}
             - name: DATABASE_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  name: server-strapi-config
-                  key: database.password
+              value: {{ .Values.server_strapi.database_password }}
           ports:
             - containerPort: 1337
           imagePullPolicy: Always
