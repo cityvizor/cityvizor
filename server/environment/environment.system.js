@@ -1,0 +1,35 @@
+// @ts-check
+const path = require("path");
+
+const cityvizorPath = path.resolve(__dirname,"../../");
+
+module.exports = {
+
+  port: 3000,
+  host: "0.0.0.0",
+
+  url: process.env.URL,
+
+  apiRoot: "/api",
+
+  tmpDir: path.resolve(cityvizorPath, "data/tmp"),
+  storageDir: path.resolve(cityvizorPath, "data"),
+
+  staticFiles: path.resolve(cityvizorPath, "client/dist"),
+
+  database: {
+    client: 'pg',
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME
+  },
+
+  cors: true,
+  corsOrigin: process.env.URL,
+
+  keys: {
+    edesky: { api_key: null },
+    jwt: { secret: "secret" }
+  }
+};

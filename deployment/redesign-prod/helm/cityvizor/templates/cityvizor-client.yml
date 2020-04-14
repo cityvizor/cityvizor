@@ -1,37 +1,40 @@
-{{- if .Values.redesign_enabled -}}
+{{- if .Values.vintage_enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: client-redesign
+  name: cityvizor-client
 spec:
   ports:
-    - nodePort: 32321
+    - nodePort: 32011
       port: 80
       protocol: TCP
       targetPort: 80
   selector:
-    app: client-redesign
+    app: cityvizor-client
   type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: client-redesign
+  name: cityvizor-client
 spec:
   selector:
     matchLabels:
-      app: client-redesign
+      app: cityvizor-client
   replicas: 1
   template:
     metadata:
       labels:
-        app: client-redesign
+        app: cityvizor-client
       annotations:
         date/deploy-date: {{ now | quote }}
     spec:
       containers:
-        - name: client-redesign
-          image: {{ .Values.client_redesign.image }}:{{ .Values.client_redesign.tag }}
+        - name: cityvizor-client
+          image: {{ .Values.cityvizor_client.image }}:{{ .Values.cityvizor_client.tag }}
+          env:
+            - name: NODE_ENV
+              value: "prod"
           ports:
             - containerPort: 80
           imagePullPolicy: Always

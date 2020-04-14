@@ -2,6 +2,23 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Are client-redesign and strapi-server enabled
+redesign_enabled: true
+# Are cityvizor-server and cityvizor-client enabled?
+vintage_enabled: true
+
+cityvizor_server:
+  image: cityvizor/cityvizor-server
+  tag: prod
+  database_host: db.cityvizor.cesko.digital
+  database_name: postgres
+  database_username: postgres
+  database_password: pass
+
+cityvizor_client:
+  image: cityvizor/cityvizor-client
+  tag: prod
+
 server_kotlin:
   image: cityvizor/server-kotlin
   tag: master
@@ -23,6 +40,7 @@ client_redesign:
 
 ingress:
   main_host: localhost
+  redesign_host: localhost-redesign
   stapi_host: localhost-strapi
 
 nameOverride: ""
