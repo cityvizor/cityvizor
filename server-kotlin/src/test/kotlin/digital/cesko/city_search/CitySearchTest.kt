@@ -12,6 +12,9 @@ class CitySearchTest : AbstractSpringTest() {
     fun testCitySearch() {
         get("/api/v2/service/citysearch?query=jilove+u+prahy").andExpect {
             status { isOk }
+            header {
+                exists("Etag")
+            }
             jsonContent {
                 inPath("\$.[?(@.ico=='00241326')]").isNotNull()
             }
