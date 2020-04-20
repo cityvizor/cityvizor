@@ -13,7 +13,7 @@
         <div id="highlights__details" class="highlights__image"></div>
         <div class="highlights__text">
           <h2 class="highlights__heading why__heading">Zobrazujeme detailně všechny výdaje</h2>
-          <div class="why__description">Kategorizace výdajů podle projektů nebo zobrazovaní výdaju až na detail každé faktury vám pomuže zorientovat se.</div>
+          <div class="why__description">Kategorizace výdajů podle projektů nebo zobrazovaní výdaju až na detail každé faktury vám pomůže zorientovat se.</div>
         </div>
       </div>
       
@@ -21,7 +21,7 @@
         <div id="highlights__visualisation" class="highlights__image"></div>
         <div class="highlights__text">
           <h2 class="highlights__heading why__heading">Pracujte s daty efektivně</h2>
-          <div class="why__description">Vizualizace dat navíc poskytne jednoduchý přehled o stavu rozpočtu vaší obce.</div>
+          <div class="why__description">Vizualizace dat poskytne srozumitelný, grafický přehled o rozpočtu vaší obce.</div>
         </div>
       </div>
       
@@ -54,6 +54,7 @@
             <span class="underline annotation--underline">Odkazy na konkrétní smlouvy</span>, které daná organizace uveřejnila v registru smluv.
           </div>
           <div id="join-button__container">
+						<!-- TODO: Fix empty link after the join page is done -->
             <router-link to="/" id="join-button" class="btn">Zapojit mou obec</router-link>
           </div>
         </div>
