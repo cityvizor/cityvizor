@@ -7,10 +7,13 @@
 .l-header {
     position: relative;
     z-index: 1;
-    background-color: #dadada;
-    background-image: url(./assets/images/header_map.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+
+    &__home {
+        background-color: #dadada;
+        background-image: url(./assets/images/header_map.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
     .l-partials__hero {
         position: relative;
