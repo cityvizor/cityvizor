@@ -1,6 +1,8 @@
 <template>
     <header 
-        class="l-header">
+        class="l-header"
+        :class="{ 'l-header__home': isHome }"
+    >
         <nav 
         class="navbar row align-items-center" 
         role="navigation" 
