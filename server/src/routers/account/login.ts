@@ -40,7 +40,7 @@ router.post("/", acl("login", "login"), schema.validate({ body: loginSchema }), 
 
 	const user = await db<UserRecord>("app.users")
 		.select("id", "login", "password", "role")
-		.where({ login: req.body.login.toLowerCase() })
+		.where("login", "like", req.body.login)
 		.first();
 
 	if (!user) return res.status(401).send("User not found");

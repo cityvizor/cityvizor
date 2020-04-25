@@ -1,0 +1,31 @@
+name: Publish Docker Server Kotlin
+on:
+  push:
+    paths:
+      - 'server-kotlin/**'
+      - '.github/workflows/publish-docker-server-kotlin.yml'
+jobs:
+  build-server-kotlin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}-${{ hashFiles('**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew;
+          ./gradlew build --no-daemon --info jib -Djib.to.auth.username=${{ secrets.DOCKER_USERNAME }} -Djib.to.auth.password=${{ secrets.DOCKER_PASSWORD }} -Djib.to.image=cityvizor/server-kotlin:${{ steps.extract_branch.outputs.branch }}
+        working-directory: server-kotlin
+

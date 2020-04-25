@@ -1,0 +1,16 @@
+/*
+|--------------------------------------------------------------------------
+| Components/Underline
+|--------------------------------------------------------------------------
+*/
+
+.underline {
+    background-repeat: repeat-x;
+    background-image: url(./assets/images/highlight.png);
+    background-position-y: bottom;
+}
+
+.router-link-exact-active:not(.c-brand) {
+    @extend .underline;
+    background-size: auto 4px;
+}

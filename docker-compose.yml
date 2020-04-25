@@ -1,38 +1,33 @@
-version: '3.6'
-networks:
-  internal-net:
-    name: workbench_subnet
+version: "2.4"
+
 services:
   proxy:
     image: nginx:1.15.8-alpine
-    depends_on:
-      - backend-kotlin
-      - cityvizor-server
-      - cityvizor-worker
     container_name: nginx.cityvizor.cesko.digital
     ports:
+      # Client
       - "4200:80"
+      # Redesign
+      - "4201:81"
+      # Strapi server
+      - "1337:1337"
     volumes:
-      - ./client/dist:/usr/share/nginx/html:ro
       - ./nginx:/etc/nginx:ro
     environment:
       NGINX_HOST: cityvizor.cesko.digital
       NGINX_PORT: 80
-    networks:
-      - internal-net
 
   backend-kotlin:
     image: backend-kotlin
     build: server-kotlin/.
-    expose:
-      - 8080
-    depends_on:
-      - postgres
     container_name: backend.cityvizor.cesko.digital
-    networks:
-      - internal-net
     environment:
-      DATABASE_ADDRESS: db.cityvizor.cesko.digital
+      JDBC_URL: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
+    depends_on:
+      postgres:
+        condition: service_healthy
+      proxy:
+        condition: service_started
 
   cityvizor-server:
     image: cityvizor-server
@@ -43,44 +38,70 @@ services:
       NODE_ENV: local
     volumes:
       - ./data:/user/src/app/data
-    depends_on: 
-      - postgres
-    networks:
-      - internal-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      proxy:
+        condition: service_started
 
   cityvizor-worker:
     image: cityvizor-server
     build: ./server
-    environment:
-      NODE_ENV: local
     command: node dist/worker.js
     container_name: worker.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: local
     volumes:
       - ./data:/user/src/app/data
-    depends_on: 
-      - postgres
-    networks:
-      - internal-net
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   cityvizor-client:
     image: cityvizor-client
-    build: ./client   
+    build: ./client
     container_name: client.cityvizor.cesko.digital
     environment:
-      NODE_ENV: local    
-    networks:
-      - internal-net
-      
+      NODE_ENV: local
+    depends_on:
+      - proxy
+
+  cityvizor-server-strapi:
+    image: cityvizor-server-strapi
+    build: ./redesign/server-strapi
+    container_name: strapi.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: production
+      DATABASE_HOST: db.cityvizor.cesko.digital
+      DATABASE_NAME: postgres
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: pass
+    depends_on:
+      - proxy
+
+  cityvizor-redesign-client:
+    image: cityvizor-redesign-client
+    build:
+      context: ./redesign/client-redesign
+    container_name: client-redesign.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: local
+    depends_on:
+      - proxy
+
   postgres:
     image: postgres:11.1
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     container_name: db.cityvizor.cesko.digital
     environment:
       POSTGRES_DB: cityvizor
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass
     volumes:
-      - ./database/oict_dump.sql:/docker-entrypoint-initdb.d/oict_dump.sql
-    networks:
-      - internal-net
+      - ./database/demo_dump.sql:/docker-entrypoint-initdb.d/demo_dump.sql
     ports:
       - 5432:5432

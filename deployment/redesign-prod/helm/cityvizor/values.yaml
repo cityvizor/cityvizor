@@ -1,0 +1,89 @@
+# Default values for cityvizor.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Are client-redesign and strapi-server enabled
+redesign_enabled: true
+# Are cityvizor-server and cityvizor-client enabled?
+vintage_enabled: true
+
+cityvizor_server:
+  image: cityvizor/cityvizor-server
+  tag: prod
+  database_host: db.cityvizor.cesko.digital
+  database_name: postgres
+  database_username: postgres
+  database_password: pass
+
+cityvizor_client:
+  image: cityvizor/cityvizor-client
+  tag: prod
+
+server_kotlin:
+  image: cityvizor/server-kotlin
+  tag: master
+  jdbc_url: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
+  db_user: postgres
+  db_pass: pass
+
+server_strapi:
+  image: cityvizor/strapi-server
+  tag: latest
+  database_host: db.cityvizor.cesko.digital
+  database_name: postgres
+  database_username: postgres
+  database_password: password
+
+client_redesign:
+  image: cityvizor/client-redesign
+  tag: latest
+
+ingress:
+  main_host: localhost
+  redesign_host: localhost-redesign
+  stapi_host: localhost-strapi
+
+nameOverride: ""
+fullnameOverride: ""
+
+podSecurityContext: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+keel:
+  policy: "force"
+  match-tag: "true"
+  trigger: "poll"
+  pollSchedule: "@every 1m"
+  # images to track and update
+  images:
+    - repository: server_kotlin.image
+      tag: server_kotlin.tag
+    - repository: server_strapi.image
+      tag: server_strapi.tag
+    - repository: client_redesign.image
+      tag: client_redesign.tag

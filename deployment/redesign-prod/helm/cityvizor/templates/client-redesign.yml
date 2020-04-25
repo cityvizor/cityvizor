@@ -1,0 +1,44 @@
+{{- if .Values.redesign_enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-redesign
+spec:
+  ports:
+    - nodePort: 32321
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: client-redesign
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-redesign
+spec:
+  selector:
+    matchLabels:
+      app: client-redesign
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: client-redesign
+      annotations:
+        date/deploy-date: {{ now | quote }}
+    spec:
+      containers:
+        - name: client-redesign
+          image: {{ .Values.client_redesign.image }}:{{ .Values.client_redesign.tag }}
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
+{{- end -}}

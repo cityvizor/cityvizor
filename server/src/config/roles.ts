@@ -19,7 +19,7 @@ function isLoggedUser(req) {
   let user = req.user;
   let userId = Number(req.params.user);
 
-  return user.id === userId;
+  return userId && user.id === userId;
 
 }
 

@@ -1,0 +1,47 @@
+{{- if .Values.vintage_enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: cityvizor-client
+spec:
+  ports:
+    - nodePort: 32011
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: cityvizor-client
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cityvizor-client
+spec:
+  selector:
+    matchLabels:
+      app: cityvizor-client
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cityvizor-client
+      annotations:
+        date/deploy-date: {{ now | quote }}
+    spec:
+      containers:
+        - name: cityvizor-client
+          image: {{ .Values.cityvizor_client.image }}:{{ .Values.cityvizor_client.tag }}
+          env:
+            - name: NODE_ENV
+              value: "prod"
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
+{{- end -}}

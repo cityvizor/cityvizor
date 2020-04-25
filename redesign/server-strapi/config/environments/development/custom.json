@@ -1,0 +1,4 @@
+{
+  "myCustomConfiguration": "This configuration is accessible through strapi.config.environments.development.myCustomConfiguration",
+  "apiBaseUrl": "https://www.cityvizor.cz/api/v2/service/citysearch"
+}

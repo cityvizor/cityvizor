@@ -1,0 +1,83 @@
+/*
+|--------------------------------------------------------------------------
+| Components/Hamburger
+|--------------------------------------------------------------------------
+*/
+
+.c-hamburger {
+    outline: none;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+    width: 60px;
+    height: 60px;
+
+    &:focus {
+        outline: none;
+        text-decoration: none;
+    }
+    
+    @include media-breakpoint-up(lg) {
+        display: none;
+    }
+
+    .c-hamburger--top,
+    .c-hamburger--middle,
+    .c-hamburger--bottom {
+        position: absolute;
+        display: block;
+        height: 3px;
+        width: 30px;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        transform-style: preserve-3d;
+        transition: transform 250ms ease 0s;
+        transform: rotateX(0) rotateY(0) rotateZ(0) translateX(0) translateY(0)
+            translateZ(0);
+    }
+
+    .c-hamburger--top {
+        top: 20px;
+        transform: rotateX(0) rotateY(0) rotateZ(45deg) translateX(7.5px)
+            translateY(7.5px) translateZ(0);
+    }
+
+    .c-hamburger--middle {
+        top: 30px;
+        transition: width 200ms ease 0s;
+        width: 0;
+    }
+
+    .c-hamburger--bottom {
+        top: 40px;
+        transform: rotateX(0) rotateY(0) rotateZ(-45deg) translateX(7.5px)
+            translateY(-7.5px) translateZ(0);
+    }
+
+    &.collapsed {
+        .c-hamburger--top {
+            transform: rotateX(0) rotateY(0) rotateZ(0) translateX(0) translateY(0)
+                translateZ(0);
+        }
+    
+        .c-hamburger--middle {
+            width: 30px;
+        }
+    
+        .c-hamburger--bottom {
+            transform: rotateX(0) rotateY(0) rotateZ(0) translateX(0) translateY(0)
+                translateZ(0);
+        }
+    }
+
+    /* Colors */
+    &.btn-link {
+        .c-hamburger--top,
+        .c-hamburger--middle,
+        .c-hamburger--bottom {
+            background-color: $primary;
+        }
+    }
+}
