@@ -1,4 +1,4 @@
-package digital.cesko.city_sync.model
+package digital.cesko.common
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.`java-time`.date

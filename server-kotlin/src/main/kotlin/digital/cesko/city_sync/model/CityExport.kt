@@ -3,6 +3,7 @@ package digital.cesko.city_sync.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
+import digital.cesko.common.*
 import org.jetbrains.exposed.sql.ResultRow
 import java.math.BigDecimal
 import java.time.LocalDate
