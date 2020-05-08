@@ -35,4 +35,14 @@ class FulltextSearchTest : AbstractSpringTest() {
             }
         }
     }
+
+    @Test
+    fun testSearchProfileFilter() {
+        get("/api/v2/search?query=servis&profile").andExpect {
+            status { isOk }
+            jsonContent {
+                inPath("\$.[?(@.id=='10419')]").isNotNull()
+            }
+        }
+    }
 }
