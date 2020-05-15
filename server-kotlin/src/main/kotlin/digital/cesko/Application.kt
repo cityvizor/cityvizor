@@ -4,6 +4,8 @@ import digital.cesko.common.CommonConfig
 import org.apache.lucene.store.Directory
 import org.apache.lucene.store.MMapDirectory
 import org.jetbrains.exposed.sql.Database
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.event.ApplicationStartedEvent
@@ -28,33 +30,37 @@ class Application {
 
     @Bean
     fun shallowEtagHeaderFilter(): FilterRegistrationBean<ShallowEtagHeaderFilter?>? {
-        val filterRegistrationBean: FilterRegistrationBean<ShallowEtagHeaderFilter?>
-                = FilterRegistrationBean(ShallowEtagHeaderFilter())
+        val filterRegistrationBean: FilterRegistrationBean<ShallowEtagHeaderFilter?> = FilterRegistrationBean(ShallowEtagHeaderFilter())
         filterRegistrationBean.addUrlPatterns("/api/*")
         filterRegistrationBean.setName("etagFilter")
         return filterRegistrationBean
     }
 
-    @Bean("fulltextIndex")
+    @Bean(name = ["fulltextIndex"])
     fun fullTextDirectory(): Directory {
         val tempDirectory = Files.createTempDirectory("search-index")
+        logger.info("Search index stored in " + tempDirectory.toAbsolutePath().toString())
         return MMapDirectory(tempDirectory)
+    }
+
+    companion object {
+        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 }
 
 @Component
 class ExposedInitializer(
-    @Value("\${jdbc.url}") val jdbcUrl: String,
-    @Value("\${driver}") val driver: String,
-    @Value("\${db.user}") val user: String,
-    @Value("\${db.pass}") val password: String
+        @Value("\${jdbc.url}") val jdbcUrl: String,
+        @Value("\${driver}") val driver: String,
+        @Value("\${db.user}") val user: String,
+        @Value("\${db.pass}") val password: String
 ) : ApplicationListener<ApplicationStartedEvent> {
     override fun onApplicationEvent(event: ApplicationStartedEvent) {
         Database.connect(
-            url = jdbcUrl,
-            driver = driver,
-            user = user,
-            password = password
+                url = jdbcUrl,
+                driver = driver,
+                user = user,
+                password = password
         )
     }
 }

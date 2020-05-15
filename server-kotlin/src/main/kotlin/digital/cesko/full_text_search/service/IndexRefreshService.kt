@@ -8,20 +8,17 @@ import org.apache.lucene.index.IndexWriterConfig
 import org.apache.lucene.store.Directory
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.springframework.beans.factory.config.ConfigurableBeanFactory
-import org.springframework.context.annotation.Scope
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.format.DateTimeFormatter
 import java.util.logging.Logger
 
 @Service
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 class IndexRefreshService(
         private val directory: Directory,
         private val searchService: SearchService
 ) {
-    private val logger: Logger = Logger.getLogger(IndexRefreshService::javaClass.name.toString())
+    private val logger: Logger = Logger.getLogger(IndexRefreshService::class.simpleName)
 
     /**
      * to be able to search for a value an index must have been created. On a first load
@@ -31,20 +28,24 @@ class IndexRefreshService(
     private var indexInitialized = false
 
     /**
-     * Refreshes the index every hour
+     * Method to refresh an index periodically
      */
     @Scheduled(fixedRateString = "PT1H")
     fun refresh() {
-        logger.info("Refreshing fulltext index.")
+        logger.info("Refreshing fulltext index")
 
         val analyzer = StandardAnalyzer()
         val indexWriterConfig = IndexWriterConfig(analyzer)
+        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         val writer = IndexWriter(directory, indexWriterConfig)
 
         writer.use {
             transaction {
                 Contracts.selectAll()
-                        .filter { if (indexInitialized) searchService.countById(it[Contracts.id]) > 0 else true }
+                        .filter {
+                            if (indexInitialized) searchService.countById(it[Contracts.id]) == 0
+                            else true
+                        }
                         .map {
                             val document = Document()
                             document.add(IntPoint(CONTRACT_ID, it[Contracts.id]))
@@ -67,6 +68,14 @@ class IndexRefreshService(
                             indexInitialized = true
                         }
             }
+
+            val sequenceNumber = writer.commit()
+            logger.info("Commited index with last sequence number: $sequenceNumber")
+
+            val sum = writer.directory.listAll()
+                    .map { writer.directory.fileLength(it) }
+                    .sum()
+            logger.info("Index files size: $sum bytes")
         }
     }
 }
