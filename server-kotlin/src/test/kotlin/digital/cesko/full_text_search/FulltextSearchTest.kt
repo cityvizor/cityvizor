@@ -38,7 +38,18 @@ class FulltextSearchTest : AbstractSpringTest() {
 
     @Test
     fun testSearchProfileFilter() {
-        get("/api/v2/search?query=servis&profile").andExpect {
+        get("/api/v2/search?query=servis&profile=4").andExpect {
+            status { isOk }
+            jsonContent {
+                inPath("\$.[?(@.id=='10419')]").isNotNull()
+                inPath("\$.[?(@.id=='10361')]").isNull()
+            }
+        }
+    }
+
+    @Test
+    fun testSearchMultiWord() {
+        get("/api/v2/search?query=úprava+knižní+publikace").andExpect {
             status { isOk }
             jsonContent {
                 inPath("\$.[?(@.id=='10419')]").isNotNull()
