@@ -77,5 +77,7 @@ class IndexRefreshService(
                     .sum()
             logger.info("Index files size: $sum bytes")
         }
+
+        searchService.refresh()
     }
 }

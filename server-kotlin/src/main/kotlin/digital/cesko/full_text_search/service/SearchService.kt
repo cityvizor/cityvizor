@@ -6,6 +6,7 @@ import org.apache.lucene.document.IntPoint
 import org.apache.lucene.index.DirectoryReader
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser
 import org.apache.lucene.search.IndexSearcher
+import org.apache.lucene.search.SearcherManager
 import org.apache.lucene.store.Directory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
@@ -26,6 +27,7 @@ class SearchService(
 ) {
     private final val analyzer = AccentInsensitiveAnalyzer()
     private final val queryParser = MultiFieldQueryParser(arrayOf(CONTRACT_COUNTERPARTY, CONTRACT_TITLE), analyzer)
+    private final val searcherManager: SearcherManager by lazy { SearcherManager(directory, null) }
 
     fun countById(contractId: Int): Int {
         val searcher = IndexSearcher(DirectoryReader.open(directory))
@@ -33,9 +35,8 @@ class SearchService(
     }
 
     fun search(stringQuery: String, profile: String?): List<SearchResult> {
-        DirectoryReader.open(directory).use { reader ->
-            val searcher = IndexSearcher(reader)
-
+        val searcher = searcherManager.acquire()
+        try {
             val split = stringQuery.split(" ").filter { it.isNotEmpty() }
             var hits = searcher.search(queryParser.parse("${split.joinToString(" AND ")}*"), MAX_SIZE)
 
@@ -47,6 +48,12 @@ class SearchService(
                 SearchResult(searcher.doc(it.doc))
             }
             return if (profile == null) mapped else mapped.filter { it.profile == profile }
+        } finally {
+            searcherManager.release(searcher)
         }
+    }
+
+    internal fun refresh() {
+        searcherManager.maybeRefresh()
     }
 }
