@@ -3,14 +3,7 @@ package digital.cesko.city_search
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.apache.lucene.analysis.CharArraySet
-import org.apache.lucene.analysis.LowerCaseFilter
-import org.apache.lucene.analysis.StopFilter
-import org.apache.lucene.analysis.StopwordAnalyzerBase
-import org.apache.lucene.analysis.TokenStream
-import org.apache.lucene.analysis.Tokenizer
-import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter
-import org.apache.lucene.analysis.standard.StandardTokenizer
+import digital.cesko.common.AccentInsensitiveAnalyzer
 import org.apache.lucene.document.Document
 import org.apache.lucene.document.Field
 import org.apache.lucene.document.TextField
@@ -22,44 +15,32 @@ import org.apache.lucene.search.IndexSearcher
 import org.apache.lucene.store.MMapDirectory
 import java.nio.file.Files
 
-
-class AccentInsensitiveAnalyzer : StopwordAnalyzerBase(CharArraySet.EMPTY_SET) {
-    override fun createComponents(fieldName: String?): TokenStreamComponents {
-        val source: Tokenizer = StandardTokenizer()
-        var tokenStream: TokenStream? = source
-        tokenStream = LowerCaseFilter(tokenStream)
-        tokenStream = StopFilter(tokenStream, stopwordSet)
-        tokenStream = ASCIIFoldingFilter(tokenStream)
-        return TokenStreamComponents(source, tokenStream)
-    }
-}
-
 class CitySearchIndex {
     private val objectMapper = jacksonObjectMapper()
             .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
     private var directory: MMapDirectory? = null
-    lateinit var resultCities: List<City>
+    lateinit var allCities: List<City>
 
     val analyzer = AccentInsensitiveAnalyzer()
     val queryParser = QueryParser("content", analyzer)
 
     fun search(query: String): List<City> {
         if (query == "") {
-            return resultCities
+            return allCities
         } else {
             DirectoryReader.open(directory).use { ireader ->
                 val isearcher = IndexSearcher(ireader)
 
-                val split = query.split(" ")
-                var hits = isearcher.search(queryParser.parse("${split.filter { it.isNotEmpty() }.joinToString(" AND ")}*"), 1000)
+                val split = query.split(" ").filter { it.isNotEmpty() }
+                var hits = isearcher.search(queryParser.parse("${split.joinToString(" AND ")}*"), 1000)
 
                 if (hits.totalHits.value == 0L) {
-                    hits = isearcher.search(queryParser.parse(split.filter { it.isNotEmpty() }.map { "${it}~" }.joinToString(" AND ")), 1000)
+                    hits = isearcher.search(queryParser.parse(split.map { "${it}~" }.joinToString(" AND ")), 1000)
                 }
 
                 return hits.scoreDocs.map {
-                    resultCities[isearcher.doc(it.doc)["_id"].toInt()]
+                    allCities[isearcher.doc(it.doc)["_id"].toInt()]
                 }
             }
         }
@@ -72,13 +53,13 @@ class CitySearchIndex {
         // in resources as a fallback for offline development
         val dataJson = this::class.java.classLoader.getResource("obce.json")!!.readText()
 
-        resultCities = objectMapper.readValue<CitiesWrapper>(dataJson).municipalities
+        allCities = objectMapper.readValue<CitiesWrapper>(dataJson).municipalities
 
         val newDirectory = MMapDirectory(Files.createTempDirectory("city-search-index"))
         //create index
         val iwc = IndexWriterConfig(analyzer)
         IndexWriter(newDirectory, iwc).use { writer ->
-            resultCities.forEachIndexed { index, city ->
+            allCities.forEachIndexed { index, city ->
                 val document = Document()
                 document.add(TextField("_id", index.toString(), Field.Store.YES))
                 document.add(TextField("content", "${city.nazev} ${city.ico}", Field.Store.NO))

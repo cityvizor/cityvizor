@@ -1,9 +1,7 @@
 package digital.cesko.city_search
 
 import digital.cesko.AbstractSpringTest
-import net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 import net.javacrumbs.jsonunit.spring.jsonContent
-import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
 class CitySearchTest : AbstractSpringTest() {
@@ -28,7 +26,7 @@ class CitySearchTest : AbstractSpringTest() {
             jsonContent {
                 inPath("\$.[?(@.ico=='00241326')]").isNotNull()
                 node("[0]").isEqualTo(
-                    """
+                        """
                 {
                    "adresaUradu":{
                       "adresniBod":"6506836",
