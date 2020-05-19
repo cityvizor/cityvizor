@@ -2,6 +2,7 @@ package digital.cesko.city_search
 
 import digital.cesko.AbstractSpringTest
 import net.javacrumbs.jsonunit.spring.jsonContent
+import org.springframework.http.HttpHeaders
 import kotlin.test.Test
 
 class CitySearchTest : AbstractSpringTest() {
@@ -23,6 +24,7 @@ class CitySearchTest : AbstractSpringTest() {
     fun testSearchKnownCity() {
         get("/api/v2/service/citysearch?query=Cernosice").andExpect {
             status { isOk }
+            header { string(HttpHeaders.LINK, "<https://www.cityvizor.cz/api/public/profiles/3/avatar>; rel=\"preload\"; as=\"image\"") }
             jsonContent {
                 inPath("\$.[?(@.ico=='00241326')]").isNotNull()
                 node("[0]").isEqualTo(
