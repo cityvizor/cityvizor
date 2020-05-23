@@ -122,6 +122,11 @@ export default {
       .then(response => {
         this.municipalities = response.data;
         this.page = 0;
+        
+        // preload all logos
+        this.municipalities
+          .filter((municipality) => { return municipality.urlZnak != null })
+          .forEach((municipality) => { new Image().src =  municipality.urlZnak }) 
       })
       .catch(error => {
         console.log(error); // eslint-disable-line
