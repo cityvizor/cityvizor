@@ -1,4 +1,4 @@
-FROM gradle:6.1.1-jdk11 as gradle
+FROM gradle:6.4.1-jdk11 as gradle
 
 COPY . /home/gradle/server
 WORKDIR /home/gradle/server
