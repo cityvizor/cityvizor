@@ -53,7 +53,7 @@ class CitySearchTest : AbstractSpringTest() {
                     ],
                     "zkratka":"CERNOSICE",
                     "urlCityVizor":"https://www.cityvizor.cz/cernosice/",
-                    "urlZnak":"https://www.cityvizor.cz/api/public/profiles/3/avatar",
+                    "urlZnak":"https://cityvizor-images.s3.eu-central-1.amazonaws.com/cernosice.png",
                     "pocetObyvatel":0,
                     "eDeskyID":"139",
                     "ICO":"00241121"
