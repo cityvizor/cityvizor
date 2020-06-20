@@ -18,6 +18,8 @@ import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.filter.ShallowEtagHeaderFilter
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import java.nio.file.Files
 
 
@@ -41,6 +43,15 @@ class Application {
         val tempDirectory = Files.createTempDirectory("search-index")
         logger.info("Search index stored in " + tempDirectory.toAbsolutePath().toString())
         return MMapDirectory(tempDirectory)
+    }
+
+    @Bean
+    fun corsConfigurer(): WebMvcConfigurer {
+        return object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry) {
+                registry.addMapping("/**").allowedOrigins("*")
+            }
+        }
     }
 
     companion object {
