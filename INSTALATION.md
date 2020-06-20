@@ -1,5 +1,7 @@
 # Instalace
 
+Pokud hledáte návod na lokální instalaci pro vývoj, postupujte podle [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ## Potřebné aplikace
 
  - [NodeJS](https://nodejs.org) 10+
