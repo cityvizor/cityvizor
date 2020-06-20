@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.springframework.boot' version "2.3.0.RELEASE"
+    id 'org.springframework.boot' version "2.3.1.RELEASE"
     id 'io.spring.dependency-management' version "1.0.9.RELEASE"
     id 'org.jetbrains.kotlin.jvm' version "$kotlin_version"
     id 'org.jetbrains.kotlin.plugin.spring' version "$kotlin_version"
@@ -32,7 +32,7 @@ dependencies {
     implementation "org.jetbrains.exposed:exposed-dao:$exposed_version"
     implementation "org.jetbrains.exposed:exposed-jdbc:$exposed_version"
     implementation "org.jetbrains.exposed:exposed-java-time:$exposed_version"
-    implementation "org.postgresql:postgresql:42.2.12"
+    implementation "org.postgresql:postgresql"
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
