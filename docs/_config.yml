@@ -20,6 +20,9 @@ navigation:
 - text: O aplikaci
   url: o-aplikaci/
   id: o-aplikaci
+- text: Proč CityVizor
+  url: proc-cityvizor/
+  id: proc-cityvizor
 - text: Návody
   url: navody/
   id: navody
