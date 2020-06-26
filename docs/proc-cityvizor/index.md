@@ -4,7 +4,7 @@ title: Proč CityVizor?
 menu: proc-cityvizor
 ---
 
-# Proč právě CityVizor?
+## Proč právě CityVizor?
 
 Aplikace CityVizor umožňuje uživatelsky přívětivou formou zobrazovat hospodaření obce. Přehledným, i pro laika srozumitelným způsobem, poskytuje informace o jednotlivých položkách rozpočtu obce a jeho průběžném plnění. Prostřednictvím jednoduchých grafů a tabulek umožňuje i běžnému občanovi seznámit se nejen se strukturou plánovaných výdajů a příjmů, tedy schváleným rozpočtem obce pro daný rok, ale i se skutečným průběžným plněním jednotlivých položek. Aplikace znázorňuje i vývoj rozpočtů obce v minulých letech, je tedy vidět i vývoj hospodaření obce v čase a je možné si zobrazit i historická data.
 
