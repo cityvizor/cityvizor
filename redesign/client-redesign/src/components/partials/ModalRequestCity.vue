@@ -43,6 +43,8 @@
           id="gdpr">
         <label for="gdpr">Souhlasím se zpracováváním osobních údajů a jejich poskytnutím obci</label>
       </section>
+
+      <div :class="[{ hidden: !hasErrors }, 'error']">{{ errors[0] }}</div>
     </div>
     
     <div slot="footer">
@@ -75,6 +77,7 @@ export default {
 
   data() {
     return {
+      errors: [],
       modalData: {
         city: '',
         email: '',
@@ -84,9 +87,15 @@ export default {
       }
     }
   },
+  computed: {
+    hasErrors() {
+      return this.errors.length > 0
+    }
+  },
   methods: {
     submit() {
-      if (this.modalData.email === '') return
+      this.validateForm()
+      if (this.hasErrors) return
 
       this.modalData.city = this.municipality.hezkyNazev
       axios
@@ -99,6 +108,17 @@ export default {
         .catch(error => {
           console.log(error) // eslint-disable-line
         })
+    },
+    validateForm() {
+      let email = this.modalData.email
+      if (email === null || email === '' || !this.isEmailValid(email))
+        this.errors.push('Prosím vyplňte platnou emailovou adresu.')
+      else
+        this.errors = []
+    },
+    isEmailValid(email) { // TODO: swap out for `<input type="email">` validation
+      let re = /\S+@\S+\.\S+/;
+      return re.test(email);
     },
     clearForm() {
       this.modalData.email = ''
