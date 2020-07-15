@@ -113,6 +113,20 @@ export default {
   section + section {
     margin-top: 20px;
   }
+
+  // --- Validation ---
+  .error,
+  .required {
+    color: red;
+    font-size: 18px;
+  }
+  .error {
+    margin: 12px 0;
+    height: 18px;
+  }
+  .hidden {
+    display: hidden;
+  }
 }
 
 .modal__content__footer {
