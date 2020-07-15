@@ -2,6 +2,11 @@
   <div class="modal">
     <div class="modal__overlay" @click.stop="close"></div>
     <div class="modal__content">
+
+      <div class="close-button" @click.stop="close">
+        <Close :size="24" :thickness="3"></Close>
+      </div>
+
       <div class="modal__content__header">
         <slot name="header" />
       </div>
@@ -16,8 +21,13 @@
 </template>
 
 <script>
+import Close from '../icons/Close'
+
 export default {
   name: 'Modal',
+  components: {
+    Close
+  },
   methods: {
     close() {
       this.$emit('close')
@@ -30,6 +40,14 @@ export default {
 @import './../../assets/styles/common/variables';
 
 // TODO: get rid of magic values, convert into variables
+
+// TODO: use better positioning
+.close-button {
+  position: absolute;
+  right: 48px;
+  top: 48px;
+  cursor: pointer;
+}
 
 .modal {
   width: 100%;
