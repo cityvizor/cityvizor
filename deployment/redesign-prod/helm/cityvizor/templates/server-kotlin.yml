@@ -43,6 +43,8 @@ spec:
               value: {{ .Values.server_kotlin.db_pass }}
             - name: googleCredentials
               value: file:/google-secret.json
+            - name: fulltextSearch.indexRefreshEnabled
+              value {{ .Values.server_kotlin.fulltextSearch.indexRefreshEnabled }}
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
