@@ -16,20 +16,37 @@
       class="c-municipalities__entry__cta">
       {{ cms.configuration.ctaMunicipality }}
     </small>
+
+    <ModalRequestCity
+      v-if="modalOpen === true"
+      @close="modalOpen = false"
+      :municipality="municipality" />
   </li>
 </template>
 
 <script>
+import ModalRequestCity from './ModalRequestCity'
+
 export default {
+  name: 'Municipality',
+  components: {
+    ModalRequestCity
+  },
   props: {
     cms: {
       type: Object,
       default() {
-          return {}
+        return {}
       }
     },
     municipality: {
-      type: Object
+      type: Object,
+      required: true
+    },
+  },
+  data () {
+    return {
+      modalOpen: false
     }
   },
   computed: {
@@ -45,6 +62,8 @@ export default {
     openMunicipality() {
       if (this.municipality.urlCityVizor) {
         window.location.href = this.municipality.urlCityVizor;
+      } else {
+        this.modalOpen = true
       }
 
       // @todo: fallback behavior, probably the contact form?
