@@ -28,9 +28,14 @@ export default {
   components: {
     Close
   },
+  created () { document.addEventListener('keydown', this.keydownHandler) },
+  destroyed() { document.removeEventListener('keydown', this.keydownHandler) },
   methods: {
     close() {
       this.$emit('close')
+    },
+    keydownHandler (e) {
+      if (e.key === 'Escape') this.close()
     }
   }
 }
