@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
 		{ name: "housing", where: "paragraph >= 3600 AND paragraph <= 3699" },
 		{ name: "culture", where: "paragraph >= 3300 AND paragraph <= 3399" },
 		{ name: "sports", where: "paragraph >= 3400 AND paragraph <= 3499" },
-		{ name: "government", where: "paragraph >= 61000 AND paragraph <= 61099" }
+		{ name: "government", where: "paragraph >= 6100 AND paragraph <= 6199" }
 	];
 
 	const categoriesNames = db.unionAll(categoriesDef.map(category => {
