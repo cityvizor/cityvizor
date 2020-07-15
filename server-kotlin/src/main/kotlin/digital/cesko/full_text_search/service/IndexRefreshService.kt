@@ -8,12 +8,14 @@ import org.apache.lucene.index.IndexWriterConfig
 import org.apache.lucene.store.Directory
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.format.DateTimeFormatter
 import java.util.logging.Logger
 
 @Service
+@ConditionalOnProperty("fulltextSearch.indexRefreshEnabled")
 class IndexRefreshService(
         private val directory: Directory,
         private val searchService: SearchService

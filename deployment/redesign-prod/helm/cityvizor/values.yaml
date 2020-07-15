@@ -25,6 +25,8 @@ server_kotlin:
   jdbc_url: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
   db_user: postgres
   db_pass: pass
+  fulltextSearch:
+    indexRefreshEnabled: true
 
 server_strapi:
   image: cityvizor/strapi-server
