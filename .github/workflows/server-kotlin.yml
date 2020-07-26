@@ -2,9 +2,6 @@ name: backend build
 
 on:
   pull_request:
-    types:
-      - opened
-      - merged
     branches:
       - master
 
