@@ -1,10 +1,31 @@
 package digital.cesko.full_text_search
 
-import digital.cesko.AbstractSpringTest
+import digital.cesko.AbstractSpringDatabaseTest
+import digital.cesko.full_text_search.service.SearchService
 import net.javacrumbs.jsonunit.spring.jsonContent
-import org.junit.Test
+import org.apache.lucene.index.IndexNotFoundException
+import org.awaitility.Awaitility.await
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 
-class FulltextSearchTest : AbstractSpringTest() {
+class FulltextSearchTest : AbstractSpringDatabaseTest() {
+    @Autowired
+    private lateinit var searchService: SearchService
+
+
+    @BeforeEach
+    fun waitForIndex() {
+        // Wait for indexing to finish
+        await().until {
+             try {
+                 searchService.search("a", null)
+                 true
+             } catch (e: IndexNotFoundException) {
+                 false
+             }
+        }
+    }
 
     @Test
     fun testSearchCounterParty() {
@@ -28,10 +49,10 @@ class FulltextSearchTest : AbstractSpringTest() {
 
     @Test
     fun testSearchNoResults() {
-        get("/api/v2/search?query=xyz").andExpect {
+        get("/api/v2/search?query=xyzxyz").andExpect {
             status { isOk }
             jsonContent {
-                inPath("\$").isArray().isEmpty()
+                inPath("\$").isArray.isEmpty()
             }
         }
     }
@@ -41,8 +62,8 @@ class FulltextSearchTest : AbstractSpringTest() {
         get("/api/v2/search?query=servis&profile=4").andExpect {
             status { isOk }
             jsonContent {
-                inPath("\$.[?(@.id=='10419')]").isNotNull()
-                inPath("\$.[?(@.id=='10361')]").isNull()
+                inPath("\$.[?(@.id=='10419')]").isArray.isNotEmpty
+                inPath("\$.[?(@.id=='10361')]").isArray.isEmpty()
             }
         }
     }
