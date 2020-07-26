@@ -15,7 +15,8 @@ class CityRequestTest : AbstractSpringTest() {
                         email = "starosta@humpolec.cz",
                         name = "Pan Starosta",
                         subscribe = true,
-                        gdpr = true
+                        gdpr = true,
+                        occupation = "Yes"
                 )
         ).andExpect {
             status { isOk }
