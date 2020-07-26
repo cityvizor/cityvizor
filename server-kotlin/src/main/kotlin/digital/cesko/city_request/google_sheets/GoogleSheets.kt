@@ -49,13 +49,14 @@ internal class GoogleSheets(
 
             val data = listOf(
                 listOf(
-                     cityRequest.time?.format(dateFormatter) ?: "",
+                    cityRequest.time?.format(dateFormatter) ?: "",
                     cityRequest.city,
                     cityRequest.email,
                     cityRequest.name,
                     cityRequest.subscribe,
                     cityRequest.gdpr,
-                    cityRequest.ip ?: ""
+                    cityRequest.ip ?: "",
+                    cityRequest.occupation ?: ""
                 )
             )
 

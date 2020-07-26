@@ -13,6 +13,9 @@ data class CityRequest(
     @JsonProperty(value = "name", required = false)
     val name: String?,
 
+    @JsonProperty("occupation", required = false)
+    val occupation: String?,
+
     @JsonProperty("subscribe")
     val subscribe: Boolean,
 
