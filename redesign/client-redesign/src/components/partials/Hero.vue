@@ -6,20 +6,16 @@
     </h2>
 
     <!-- Search input -->
-    <form class="c-hero__search" v-on:submit.prevent="loadMunicipalities">
-      <input 
-        type="text" 
-        name="search"
-        :ref="searchFieldGuid"
-        autocomplete="off"
-        v-model="searchPhrase"        
-        placeholder="Hledat v zapojených obcích">
-      <button type="button" 
-        class="btn btn-transparent btn-search"
-        @click="loadMunicipalities">
-        {{ cms.configuration.SearchLabel }}
-      </button>
-    </form>
+    <div class="c-hero__search">
+      <Search
+        placeholder="Hledat v zapojených obcích"
+        :search-label="cms.configuration.SearchLabel"
+        :endpoint="apiBaseUrl"
+        autofocus
+        @search="onSearch"
+        @loadSuccess="onLoadSuccess"
+        @loadFail="onLoadFail" />
+    </div>
 
     <!-- Results container -->
     <div v-show="showMunicipalities">
@@ -48,71 +44,56 @@
 </template>
 
 <script>
-import axios from 'axios';
-import getGuid from './../../js/get-guid'
-
-import Counter from './Counter';
+import axios from 'axios'
+import Search from './Search'
 import Municipality from './Municipality'
+import Counter from './Counter'
 
 export default {
   name: 'ComponentsPartialsHero',
   components: {
     Counter,
+    Search,
     Municipality
   },
   props: {
     cms: {
       type: Object,
       default() {
-          return {}
+        return {}
       }
     }
   },
   computed: {
+    showMunicipalities() {
+      if (this.searchTerm === null) {
+        return false
+      }
+      return this.searchTerm.length > this.searchTermMinLength
+    },
     hasPreviousPage() {
-      return this.page > 0;
+      return this.page > 0
     },
     hasNextPage() {
-      return this.municipalities.length > this.page * this.perPage + this.perPage;
+      return this.municipalities.length > this.page * this.perPage + this.perPage
     },
     displayedMunicipalities() {
-      const clone = JSON.parse(JSON.stringify(this.municipalities));
-      return clone.slice(this.page * this.perPage, this.page * this.perPage + this.perPage);
-    },
-    showMunicipalities() {
-      if (this.searchPhrase === null) {
-        return false;
-      }
-      return this.searchPhrase.length > this.searchMinimumLength;
+      const clone = JSON.parse(JSON.stringify(this.municipalities))
+      return clone.slice(this.page * this.perPage, this.page * this.perPage + this.perPage)
     }
   },
   data() {
     return {
-      searchFieldGuid: null,
-      searchTimeout: null,
-      searchDebounce: 600,
-      searchPhrase: null,
-      searchMinimumLength: 2,
+      searchTerm: null,
+      searchTermMinLength: 2,
       municipalitiesCount: 0,
       municipalities: [],
       page: 0,
       perPage: 4,
     }
   },
-  watch: {
-    searchPhrase() {
-      if (this.searchTimeout) {
-        clearTimeout(this.searchTimeout);
-      }
-      this.searchTimeout = setTimeout(this.loadMunicipalities, this.searchDebounce);
-    },
-  },
-  created () {
-    this.searchFieldGuid = getGuid()
-  },
   mounted() {
     this.loadMunicipalitiesCount();
-    this.$refs[this.searchFieldGuid].focus()
   },
   methods: {
     previousPage() {
@@ -121,33 +102,27 @@ export default {
     nextPage() {
       this.page += 1;
     },
-    loadMunicipalities() {
-      axios.get(this.apiBaseUrl, {
-        params: {
-          query: this.searchPhrase
-        }
-      })
-      .then(response => {
-        this.municipalities = response.data;
-        this.page = 0;
-        
-        // preload all logos
-        this.municipalities
-          .filter((municipality) => { return municipality.urlZnak != null })
-          .forEach((municipality) => { new Image().src =  municipality.urlZnak }) 
-      })
-      .catch(error => {
-        console.log(error); // eslint-disable-line
-      });
+    async loadMunicipalitiesCount() {
+      try {
+        let response = await axios.get(this.apiBaseUrl)
+        this.municipalitiesCount = response.data.length
+      } catch (error) {
+        this.onLoadFail(error)
+      }
     },
-    loadMunicipalitiesCount() {
-      axios.get(this.apiBaseUrl)
-      .then(response => {
-        this.municipalitiesCount = response.data.length;
-      })
-      .catch(error => {
-        console.log(error); // eslint-disable-line
-      });
+    onSearch(searchTerm) {
+      this.searchTerm = searchTerm
+    },
+    onLoadSuccess(response) {
+      this.page = 0;
+      this.municipalities = response.data;
+      // preload all logos
+      this.municipalities
+        .filter((municipality) => { return municipality.urlZnak != null })
+        .forEach((municipality) => { new Image().src =  municipality.urlZnak }) 
+    },
+    onLoadFail(error) {
+      console.log(error) // eslint-disable-line
     }
   }
 }
