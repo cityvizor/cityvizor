@@ -85,7 +85,7 @@ object Payments : Table("data.payments") {
     val paragraph = integer("paragraph").nullable()
     val item = integer("item").nullable()
     val unit = integer("unit").nullable()
-    val event = integer("event").nullable()
+    val event = long("event").nullable()
     val amount = decimal("amount", 14, 2).nullable()
     val date = date("date").nullable()
     val counterpartyId = text("counterparty_id").nullable()
