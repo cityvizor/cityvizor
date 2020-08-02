@@ -9,7 +9,8 @@
     <form class="c-hero__search" v-on:submit.prevent="loadMunicipalities">
       <input 
         type="text" 
-        name="search" 
+        name="search"
+        :ref="searchFieldGuid"
         autocomplete="off"
         v-model="searchPhrase"        
         placeholder="Hledat v zapojených obcích">
@@ -48,6 +49,8 @@
 
 <script>
 import axios from 'axios';
+import getGuid from './../../js/get-guid'
+
 import Counter from './Counter';
 import Municipality from './Municipality'
 
@@ -85,6 +88,7 @@ export default {
   },
   data() {
     return {
+      searchFieldGuid: null,
       searchTimeout: null,
       searchDebounce: 600,
       searchPhrase: null,
@@ -103,8 +107,12 @@ export default {
       this.searchTimeout = setTimeout(this.loadMunicipalities, this.searchDebounce);
     },
   },
+  created () {
+    this.searchFieldGuid = getGuid()
+  },
   mounted() {
     this.loadMunicipalitiesCount();
+    this.$refs[this.searchFieldGuid].focus()
   },
   methods: {
     previousPage() {
