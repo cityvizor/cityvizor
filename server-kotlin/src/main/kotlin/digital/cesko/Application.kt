@@ -1,9 +1,12 @@
 package digital.cesko
 
 import digital.cesko.common.CommonConfig
+import digital.cesko.internet_stream.Budgets
 import org.apache.lucene.store.Directory
 import org.apache.lucene.store.MMapDirectory
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -73,6 +76,9 @@ class ExposedInitializer(
                 user = user,
                 password = password
         )
+        transaction {
+            SchemaUtils.create(Budgets)
+        }
     }
 }
 
