@@ -1,5 +1,5 @@
 
-import request from "request-promise-native";
+import axios from "axios";
 import cheerio from "cheerio";
 
 import config from "../../config";
@@ -59,7 +59,7 @@ let params = {
 var url = config.eDesky.url + "?" + Object.keys(params).map(key => key + "=" + params[key]).join("&");
 
 // request data from by HTTPS
-var xml = await request(url);
+const xml = (await axios.get(url)).data;
 
 var $ = cheerio.load(xml);
 

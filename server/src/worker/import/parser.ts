@@ -1,4 +1,3 @@
-import request from 'request';
 import EventEmitter from 'events';
 import fs from "fs-extra";
 import path from "path";
