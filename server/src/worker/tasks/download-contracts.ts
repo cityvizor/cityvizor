@@ -1,5 +1,5 @@
 
-import request from 'request-promise-native';
+import axios from "axios";
 
 import cheerio from "cheerio";
 import { db } from '../../db';
@@ -46,7 +46,7 @@ async function downloadContracts(profile) {
 	var url = "https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=" + limit + "&do=searchResultList-setLimit&subject_idnum=" + profile.ico + "&all_versions=0";
 
 	// request data from YQL by HTTPS
-	var html = await request(url);
+	const html = (await axios.get(url)).data;
 
 	let $ = cheerio.load(html);
 
