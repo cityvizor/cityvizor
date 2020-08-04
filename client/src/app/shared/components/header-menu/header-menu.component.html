@@ -1,16 +1,17 @@
 <header>
   <div class="container">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-6">
+        <h1 *ngIf="backLink">
+          <a [routerLink]="backLink" class="hidden-print">
+            CITYVIZOR
+          </a>
+        </h1>
+      </div>
+      <div class="col-xs-6">
         <h1 *ngIf="title">
           <a [routerLink]="title">{{title}}</a>
         </h1>
-
-        <h1 *ngIf="backLink" class="pull-right">
-            <a [routerLink]="backLink" class=" hidden-print">
-              <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> ZPĚT
-            </a>
-          </h1>
       </div>
     </div>
   </div>
