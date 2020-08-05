@@ -12,6 +12,7 @@ class CityRequestTest : AbstractSpringTest() {
         post("/api/v2/service/cityrequest",
                 payload = CityRequest(
                         city = "Humpolec",
+                        psc = "000000",
                         email = "starosta@humpolec.cz",
                         name = "Pan Starosta",
                         subscribe = true,

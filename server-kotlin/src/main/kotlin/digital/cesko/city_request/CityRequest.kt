@@ -7,6 +7,9 @@ data class CityRequest(
     @JsonProperty("city")
     val city: String,
 
+    @JsonProperty("PSC")
+    val psc: String?,
+
     @JsonProperty("email")
     val email: String,
 

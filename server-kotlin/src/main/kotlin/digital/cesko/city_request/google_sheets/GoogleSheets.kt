@@ -56,7 +56,8 @@ internal class GoogleSheets(
                     cityRequest.subscribe,
                     cityRequest.gdpr,
                     cityRequest.ip ?: "",
-                    cityRequest.occupation ?: ""
+                    cityRequest.occupation ?: "",
+                    cityRequest.psc ?: ""
                 )
             )
 
