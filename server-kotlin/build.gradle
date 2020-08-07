@@ -33,6 +33,7 @@ dependencies {
     implementation "org.jetbrains.exposed:exposed-jdbc:$exposed_version"
     implementation "org.jetbrains.exposed:exposed-java-time:$exposed_version"
     implementation "org.postgresql:postgresql"
+    implementation "io.github.microutils:kotlin-logging:1.8.3"
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

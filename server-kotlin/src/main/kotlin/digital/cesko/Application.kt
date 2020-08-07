@@ -1,6 +1,7 @@
 package digital.cesko
 
 import digital.cesko.common.CommonConfig
+import mu.KLogging
 import org.apache.lucene.store.Directory
 import org.apache.lucene.store.MMapDirectory
 import org.jetbrains.exposed.sql.Database
@@ -54,9 +55,7 @@ class Application {
         }
     }
 
-    companion object {
-        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    }
+    companion object: KLogging()
 }
 
 @Component
@@ -67,6 +66,7 @@ class ExposedInitializer(
         @Value("\${db.pass}") val password: String
 ) : ApplicationListener<ApplicationStartedEvent> {
     override fun onApplicationEvent(event: ApplicationStartedEvent) {
+        logger.info { "JDBC config: url=$jdbcUrl driver=$driver user=$user " }
         Database.connect(
                 url = jdbcUrl,
                 driver = driver,
@@ -74,6 +74,7 @@ class ExposedInitializer(
                 password = password
         )
     }
+    companion object: KLogging()
 }
 
 fun main(args: Array<String>) {
