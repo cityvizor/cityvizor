@@ -32,7 +32,7 @@ class IndexRefreshService(
     /**
      * Method to refresh an index periodically
      */
-    @Scheduled(fixedRateString = "PT1H")
+    @Scheduled(fixedRateString = "PT1H", initialDelayString = "\${fulltextSearch.indexRefresh.delay:0}")
     fun refresh() {
         logger.info("Refreshing fulltext index")
 

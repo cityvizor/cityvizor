@@ -1,5 +1,6 @@
 package digital.cesko
 
+import mu.KLogging
 import org.slf4j.LoggerFactory
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
@@ -11,9 +12,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 
 @ContextConfiguration(initializers = [AbstractSpringDatabaseTest.Initializer::class])
 abstract class AbstractSpringDatabaseTest: AbstractSpringTest() {
-    companion object {
-        private val logger = LoggerFactory.getLogger(this::class.java)
-
+    companion object: KLogging() {
         private val postgres: KPostgreSQLContainer
         private val user: String
         private val pass: String
@@ -36,6 +35,7 @@ abstract class AbstractSpringDatabaseTest: AbstractSpringTest() {
                 pass = "pass"
             } else {
                 postgres.start()
+                logger.info { "Postgres started on ${postgres.jdbcUrl}" }
                 url = postgres.jdbcUrl
                 user = postgres.username
                 pass = postgres.password
