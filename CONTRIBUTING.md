@@ -23,6 +23,8 @@ například najít, jak nastartovat Postgres v Dockeru tak aby v něm byla něja
 
 ## Lokální vývoj
 
+Příkaz `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build` spustí celou aplikaci s hot reloadem klienta a serveru pro rychlý vývoj.  
+
 ### Klient
 
 #### Prerekvizity

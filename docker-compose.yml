@@ -1,4 +1,4 @@
-version: "2.4"
+version: "3.8"
 
 services:
   proxy:
@@ -24,42 +24,42 @@ services:
     environment:
       JDBC_URL: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
     depends_on:
-      postgres:
-        condition: service_healthy
-      proxy:
-        condition: service_started
+      - postgres
+      - proxy
 
   cityvizor-server:
     image: cityvizor-server
-    build: ./server
-    command: node dist/server.js
+    build: 
+      context: ./server
+      target: prod
+    command: bash src/scripts/wait-for-it.sh postgres:54342 -- node dist/server.js
     container_name: server.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
     volumes:
       - ./data:/user/src/app/data
     depends_on:
-      postgres:
-        condition: service_healthy
-      proxy:
-        condition: service_started
+      - postgres
+      - proxy
 
   cityvizor-worker:
     image: cityvizor-server
-    build: ./server
-    command: node dist/worker.js
+    build: 
+      context: ./server
+      target: prod
+    command: bash src/scripts/wait-for-it.sh postgres:54342 -- node dist/worker.js
     container_name: worker.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
     volumes:
       - ./data:/user/src/app/data
     depends_on:
-      postgres:
-        condition: service_healthy
-
+      - postgres
   cityvizor-client:
     image: cityvizor-client
-    build: ./client
+    build:
+      context: ./client
+      target: prod
     container_name: client.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
@@ -78,7 +78,6 @@ services:
       DATABASE_PASSWORD: pass
     depends_on:
       - proxy
-
   cityvizor-redesign-client:
     image: cityvizor-redesign-client
     build:
