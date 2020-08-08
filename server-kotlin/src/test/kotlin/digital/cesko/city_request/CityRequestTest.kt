@@ -1,11 +1,9 @@
 package digital.cesko.city_request
 
-import digital.cesko.AbstractSpringTest
-import digital.cesko.city_request.CityRequest
-import org.assertj.core.api.Assertions.assertThat
+import digital.cesko.AbstractSpringDatabaseTest
 import kotlin.test.Test
 
-class CityRequestTest : AbstractSpringTest() {
+class CityRequestTest : AbstractSpringDatabaseTest() {
 
     @Test
     fun `Should add to sheet`() {

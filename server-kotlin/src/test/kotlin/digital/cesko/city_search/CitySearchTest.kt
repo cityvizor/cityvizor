@@ -1,10 +1,11 @@
 package digital.cesko.city_search
 
+import digital.cesko.AbstractSpringDatabaseTest
 import digital.cesko.AbstractSpringTest
 import net.javacrumbs.jsonunit.spring.jsonContent
 import kotlin.test.Test
 
-class CitySearchTest : AbstractSpringTest() {
+class CitySearchTest : AbstractSpringDatabaseTest() {
 
     @Test
     fun testCitySearch() {
