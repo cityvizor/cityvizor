@@ -1,7 +1,5 @@
 package digital.cesko.city_sync
 
-
-
 import com.fasterxml.jackson.module.kotlin.readValue
 import digital.cesko.AbstractSpringDatabaseTest
 import digital.cesko.city_sync.model.SyncResponse
@@ -42,7 +40,6 @@ class CitySyncTest : AbstractSpringDatabaseTest() {
             .withBody(testCityData)
             .withContentType(APPLICATION_JSON_VALUE)
 
-
         val result = post(
             "/api/v1/citysync/synchronization",
             payload = SyncTask("test", 0)
@@ -71,7 +68,8 @@ class CitySyncTest : AbstractSpringDatabaseTest() {
         Jadler.closeJadler()
     }
 
-    val testCityData = """
+    val testCityData =
+        """
         {
           "id": 0,
           "status": "pending",

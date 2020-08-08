@@ -1,18 +1,10 @@
 package digital.cesko.city_sync
 
 import digital.cesko.city_sync.exception.CitySyncException
-import digital.cesko.common.Accounting
 import digital.cesko.city_sync.model.CityBasic
 import digital.cesko.city_sync.model.CityExport
-import digital.cesko.common.Contracts
-import digital.cesko.common.EventDescriptions
-import digital.cesko.common.Events
-import digital.cesko.common.Noticeboards
-import digital.cesko.common.Payments
-import digital.cesko.common.Profiles
 import digital.cesko.city_sync.model.SyncResponse
 import digital.cesko.city_sync.model.SyncTask
-import digital.cesko.common.Years
 import digital.cesko.city_sync.model.toAccounting
 import digital.cesko.city_sync.model.toContracts
 import digital.cesko.city_sync.model.toEvent
@@ -20,7 +12,15 @@ import digital.cesko.city_sync.model.toNoticeboard
 import digital.cesko.city_sync.model.toPayment
 import digital.cesko.city_sync.model.toProfileCityExport
 import digital.cesko.city_sync.model.toYear
+import digital.cesko.common.Accounting
 import digital.cesko.common.CommonConfig
+import digital.cesko.common.Contracts
+import digital.cesko.common.EventDescriptions
+import digital.cesko.common.Events
+import digital.cesko.common.Noticeboards
+import digital.cesko.common.Payments
+import digital.cesko.common.Profiles
+import digital.cesko.common.Years
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
@@ -33,8 +33,8 @@ import org.springframework.web.util.UriComponentsBuilder
 
 @Service
 class CitySynchronizationService(
-        val config: CommonConfig,
-        val restTemplate: RestTemplate
+    val config: CommonConfig,
+    val restTemplate: RestTemplate
 ) {
     fun getAvailableCities(): List<CityBasic> {
         return transaction {
@@ -56,11 +56,12 @@ class CitySynchronizationService(
                 .first()
         }
 
-        return city.copy(accounting = transaction {
-            Accounting
-                .select { Accounting.profileId eq cityId }
-                .map { toAccounting(it) }
-        },
+        return city.copy(
+            accounting = transaction {
+                Accounting
+                    .select { Accounting.profileId eq cityId }
+                    .map { toAccounting(it) }
+            },
             contracts = transaction {
                 Contracts
                     .select { Contracts.profileId eq cityId }
@@ -102,7 +103,7 @@ class CitySynchronizationService(
             return transaction {
                 when (cityExportInLocalDB != null) {
                     true -> {
-                        //deletes data if already exists
+                        // deletes data if already exists
                         Profiles.deleteWhere { Profiles.id eq cityExportInLocalDB.id }
                         Accounting.deleteWhere { Accounting.profileId eq cityExportInLocalDB.id }
                         Contracts.deleteWhere { Contracts.profileId eq cityExportInLocalDB.id }
@@ -224,7 +225,7 @@ class CitySynchronizationService(
 
     private fun callInstance(syncTask: SyncTask): CityExport {
         val instanceUrl = config.instanceUrls[syncTask.instance] ?: throw CitySyncException(
-                "instance of CV ${syncTask.instance} not found in configuration"
+            "instance of CV ${syncTask.instance} not found in configuration"
         )
 
         val uri = UriComponentsBuilder

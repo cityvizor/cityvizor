@@ -27,5 +27,5 @@ jobs:
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew;
-          ./gradlew build --no-daemon --info
+          ./gradlew ktLintCheck build --no-daemon --info
         working-directory: server-kotlin

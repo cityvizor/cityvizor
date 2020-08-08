@@ -3,7 +3,14 @@ package digital.cesko.city_sync.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
-import digital.cesko.common.*
+import digital.cesko.common.Accounting
+import digital.cesko.common.Contracts
+import digital.cesko.common.EventDescriptions
+import digital.cesko.common.Events
+import digital.cesko.common.Noticeboards
+import digital.cesko.common.Payments
+import digital.cesko.common.Profiles
+import digital.cesko.common.Years
 import org.jetbrains.exposed.sql.ResultRow
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -102,15 +109,36 @@ data class CityExport(
 }
 
 fun toProfileCityExport(profile: ResultRow): CityExport = CityExport(
-    profile[Profiles.id], profile[Profiles.status], profile[Profiles.url], profile[Profiles.name], profile[Profiles.email],
-    profile[Profiles.ico], profile[Profiles.dataBox], profile[Profiles.eDesky], profile[Profiles.mapaSamospravy],
-    profile[Profiles.gpsX], profile[Profiles.gpsY], profile[Profiles.main], profile[Profiles.avatarType],
-    profile[Profiles.tokenCode], null, null, null, null, null, null
+    profile[Profiles.id],
+    profile[Profiles.status],
+    profile[Profiles.url],
+    profile[Profiles.name],
+    profile[Profiles.email],
+    profile[Profiles.ico],
+    profile[Profiles.dataBox],
+    profile[Profiles.eDesky],
+    profile[Profiles.mapaSamospravy],
+    profile[Profiles.gpsX],
+    profile[Profiles.gpsY],
+    profile[Profiles.main],
+    profile[Profiles.avatarType],
+    profile[Profiles.tokenCode],
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
 )
 
 fun toAccounting(accounting: ResultRow): CityExport.Accounting = CityExport.Accounting(
-    accounting[Accounting.year], accounting[Accounting.type], accounting[Accounting.paragraph],
-    accounting[Accounting.item], accounting[Accounting.unit], accounting[Accounting.event], accounting[Accounting.amount]
+    accounting[Accounting.year],
+    accounting[Accounting.type],
+    accounting[Accounting.paragraph],
+    accounting[Accounting.item],
+    accounting[Accounting.unit],
+    accounting[Accounting.event],
+    accounting[Accounting.amount]
 )
 
 fun toContracts(contract: ResultRow): CityExport.Contract = CityExport.Contract(
@@ -146,7 +174,7 @@ fun toEvent(event: ResultRow): CityExport.Event = CityExport.Event(
 )
 
 fun toEventDescription(eventDesc: ResultRow): CityExport.Event.EventDescription = CityExport.Event.EventDescription(
-        eventDesc[EventDescriptions.year], eventDesc[EventDescriptions.description], eventDesc[EventDescriptions.category],
-        eventDesc[EventDescriptions.eventName],
-        eventDesc[EventDescriptions.organizationName]
+    eventDesc[EventDescriptions.year], eventDesc[EventDescriptions.description], eventDesc[EventDescriptions.category],
+    eventDesc[EventDescriptions.eventName],
+    eventDesc[EventDescriptions.organizationName]
 )

@@ -2,7 +2,6 @@ package digital.cesko.full_text_search
 
 import digital.cesko.AbstractSpringDatabaseTest
 import digital.cesko.full_text_search.service.IndexRefreshService
-import digital.cesko.full_text_search.service.SearchService
 import net.javacrumbs.jsonunit.spring.jsonContent
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

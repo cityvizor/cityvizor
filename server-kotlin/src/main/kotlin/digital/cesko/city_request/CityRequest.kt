@@ -24,17 +24,14 @@ data class CityRequest(
 
     @JsonProperty("gdpr")
     val gdpr: Boolean
-)
-{
+) {
     var ip: String? = null
     var time: LocalDateTime? = null
 
-    fun updateServerData(ip: String, time : LocalDateTime) : CityRequest
-    {
+    fun updateServerData(ip: String, time: LocalDateTime): CityRequest {
         this.ip = ip
         this.time = time
 
-        return this;
+        return this
     }
 }
-

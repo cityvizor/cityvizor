@@ -17,7 +17,7 @@ import java.nio.file.Files
 
 class CitySearchIndex {
     private val objectMapper = jacksonObjectMapper()
-            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
 
     private var directory: MMapDirectory? = null
     lateinit var allCities: List<City>
@@ -36,7 +36,7 @@ class CitySearchIndex {
                 var hits = isearcher.search(queryParser.parse("${split.joinToString(" AND ")}*"), 1000)
 
                 if (hits.totalHits.value == 0L) {
-                    hits = isearcher.search(queryParser.parse(split.map { "${it}~" }.joinToString(" AND ")), 1000)
+                    hits = isearcher.search(queryParser.parse(split.map { "$it~" }.joinToString(" AND ")), 1000)
                 }
 
                 return hits.scoreDocs.map {
@@ -56,7 +56,7 @@ class CitySearchIndex {
         allCities = objectMapper.readValue<CitiesWrapper>(dataJson).municipalities
 
         val newDirectory = MMapDirectory(Files.createTempDirectory("city-search-index"))
-        //create index
+        // create index
         val iwc = IndexWriterConfig(analyzer)
         IndexWriter(newDirectory, iwc).use { writer ->
             allCities.forEachIndexed { index, city ->
@@ -72,12 +72,12 @@ class CitySearchIndex {
         if (oldDirectory != null) {
             oldDirectory.close()
             Files.walk(oldDirectory.directory)
-                    .sorted(Comparator.reverseOrder())
-                    .forEach { it.toFile().delete() };
+                .sorted(Comparator.reverseOrder())
+                .forEach { it.toFile().delete() }
         }
     }
 
     data class Search(
-            val query: String
+        val query: String
     )
 }

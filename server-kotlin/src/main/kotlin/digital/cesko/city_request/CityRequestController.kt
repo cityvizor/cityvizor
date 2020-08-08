@@ -24,4 +24,3 @@ class CityRequestController(
         return "ok"
     }
 }
-

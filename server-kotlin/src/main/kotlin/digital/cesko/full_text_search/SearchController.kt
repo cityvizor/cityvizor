@@ -9,14 +9,14 @@ import javax.annotation.Nullable
 
 @RestController
 class SearchController(
-        private val searchService: SearchService
+    private val searchService: SearchService
 ) {
 
     @GetMapping("/api/v2/search")
     fun search(
-            @RequestParam("query") query: String,
-            @Nullable @RequestParam("profile") profile: String?
+        @RequestParam("query") query: String,
+        @Nullable @RequestParam("profile") profile: String?
     ): Collection<SearchResult> {
-        return searchService.search(query, profile);
+        return searchService.search(query, profile)
     }
 }

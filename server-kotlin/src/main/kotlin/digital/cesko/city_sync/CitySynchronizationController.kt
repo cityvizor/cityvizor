@@ -21,5 +21,5 @@ class CitySynchronizationController(private val citySyncService: CitySynchroniza
 
     @PostMapping("/synchronization")
     @ResponseStatus(HttpStatus.CREATED)
-    fun synchronize(@RequestBody syncTask: SyncTask)= citySyncService.syncCityDetails(syncTask)
+    fun synchronize(@RequestBody syncTask: SyncTask) = citySyncService.syncCityDetails(syncTask)
 }
