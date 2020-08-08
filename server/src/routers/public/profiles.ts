@@ -43,7 +43,6 @@ router.get("/:profile", async (req, res) => {
 });
 
 router.get("/:profile/avatar", async (req, res, next) => {
-
   const profile = await db<ProfileRecord>("profiles").select("id", "avatarType").where({ id: req.params.profile }).first();
   if (!profile) return res.sendStatus(404);
 
