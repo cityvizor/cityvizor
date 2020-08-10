@@ -3,6 +3,7 @@ import express from 'express';
 import config from "../../config";
 import multer from 'multer';
 import path from "path";
+import axios from "axios";
 
 import * as fs from "fs-extra";
 
@@ -62,20 +63,25 @@ router.delete("/:profile", acl("profiles","write"), async (req, res, next) => {
 
 router.put("/:profile/avatar", acl("profiles","write"), upload.single("avatar"), async (req, res, next) => {
 
-  if (!req.file) return res.status(400).send("Missing file.");
-
-  var allowedTypes = [".png", ".jpg", ".jpe", ".gif", ".svg"];
-
-  var extname = path.extname(req.file.originalname).toLowerCase();
-
-  if (allowedTypes.indexOf(extname) === -1) return res.status(400).send("Allowed file types are: " + allowedTypes.join(", "));
+  if (!req.file && !req.body.url) return res.status(400).send("Missing file.");
 
   const profile = await db<ProfileRecord>("app.profiles").select("id", "avatarType").where({ id: req.params.profile }).first();
   if (!profile) return res.sendStatus(404);
 
+  const allowedTypes = [".png", ".jpg", ".jpe", ".gif", ".svg"];
+
+  const extname = req.file ? path.extname(req.file.originalname).toLowerCase() : req.body.url.match(/\.(png|jpg|jpe|gif|svg)/)[0]
+  if (allowedTypes.indexOf(extname) === -1) return res.status(400).send("Allowed file types are: " + allowedTypes.join(", "));
   const avatarPath = path.join(config.storage.avatars, "avatar_" + req.params.profile + extname);
 
-  await fs.move(req.file.path, avatarPath);
+  if (req.file) {
+    await fs.move(req.file.path, avatarPath);
+  }
+  if (req.body.url) {
+    await axios.get(req.body.url, {responseType: "stream"}).then(r => {
+      r.data.pipe(fs.createWriteStream(avatarPath))
+    })
+  }
 
   await db<ProfileRecord>("app.profiles").where({ id: req.params.profile }).update({ avatarType: extname });
 

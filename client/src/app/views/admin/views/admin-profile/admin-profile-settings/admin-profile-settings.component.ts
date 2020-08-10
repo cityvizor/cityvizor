@@ -52,6 +52,26 @@ export class AdminProfileSettingsComponent implements OnInit {
 
   }
 
+  async icoAutofill(ico: string) {
+    if (/\d{8}/.test(ico)) {
+      const results = await this.dataService.searchForCities(ico)
+      if (results.length == 1) {
+        const data = results[0]
+
+        // The coords from the search are too long and will fail the validation, so trim them
+        const trim = (coords: number) => Number(coords.toString().substring(0, 10))
+        this.profile.gpsX = trim(data.souradnice[0])
+        this.profile.gpsY = trim(data.souradnice[1])
+        if (this.profile.avatarUrl == null || data.urlZnak) {
+          await this.adminService.saveProfileAvatarFromUrl(this.profile.id, data.urlZnak)
+          // Force the avatar to show without reloading the page (reloading would result in loss of autofilled coords)
+          this.profile.avatarType = data.urlZnak
+        }
+        
+      }
+  }
+}
+
   async uploadAvatar(fileInput: HTMLInputElement) {
     const file = fileInput.files ? fileInput.files[0] : null;
     if (!file) return;
