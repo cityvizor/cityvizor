@@ -1,10 +1,10 @@
 package digital.cesko.city_search
 
-import digital.cesko.AbstractSpringTest
+import digital.cesko.AbstractSpringDatabaseTest
 import net.javacrumbs.jsonunit.spring.jsonContent
 import kotlin.test.Test
 
-class CitySearchTest : AbstractSpringTest() {
+class CitySearchTest : AbstractSpringDatabaseTest() {
 
     @Test
     fun testCitySearch() {
@@ -26,7 +26,7 @@ class CitySearchTest : AbstractSpringTest() {
             jsonContent {
                 inPath("\$.[?(@.ico=='00241326')]").isNotNull()
                 node("[0]").isEqualTo(
-                        """
+                    """
                 {
                    "adresaUradu":{
                       "adresniBod":"6506836",
@@ -58,7 +58,8 @@ class CitySearchTest : AbstractSpringTest() {
                     "eDeskyID":"139",
                     "ICO":"00241121"
                 }
-                """)
+                """
+                )
             }
         }
     }

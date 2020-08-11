@@ -20,7 +20,6 @@ object Profiles : Table("app.profiles") {
     val tokenCode = integer("token_code").default(0)
 }
 
-
 object Accounting : Table("data.accounting") {
     val profileId = reference("profile_id", Profiles.id)
     val year = integer("year").nullable()

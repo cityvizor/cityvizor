@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component
 import java.io.IOException
 import java.time.format.DateTimeFormatter
 
-
 /**
  * Google sheets API v4 implementation of CityRequestStore
  *
@@ -42,7 +41,7 @@ internal class GoogleSheets(
         }
 
         try {
-            val range = "${listName}!A2:E2"
+            val range = "$listName!A2:E2"
             val service = Sheets.Builder(httpTransport, jacksonFactory, getCredentials(credentialsFile))
                 .setApplicationName(appName)
                 .build()
@@ -56,7 +55,8 @@ internal class GoogleSheets(
                     cityRequest.subscribe,
                     cityRequest.gdpr,
                     cityRequest.ip ?: "",
-                    cityRequest.occupation ?: ""
+                    cityRequest.occupation ?: "",
+                    cityRequest.psc ?: ""
                 )
             )
 
@@ -79,15 +79,13 @@ internal class GoogleSheets(
     @Throws(IOException::class)
     private fun getCredentials(credentialsFile: Resource): Credential {
         return GoogleCredential.fromStream(credentialsFile.inputStream)
-                .createScoped(listOf(SheetsScopes.SPREADSHEETS))
+            .createScoped(listOf(SheetsScopes.SPREADSHEETS))
     }
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(this::class.java)
         private val jacksonFactory: JacksonFactory = JacksonFactory.getDefaultInstance()
         private val httpTransport = GoogleNetHttpTransport.newTrustedTransport()
-        private val dateFormatter : DateTimeFormatter =  DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-
+        private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
     }
 }
-

@@ -40,8 +40,6 @@ object CreateSheet {
         request.valueInputOption = "USER_ENTERED"
         request.insertDataOption = "INSERT_ROWS"
 
-
-
         println(request.execute())
     }
 
@@ -50,8 +48,9 @@ object CreateSheet {
         val httpTransport: HttpTransport = GoogleNetHttpTransport.newTrustedTransport()
         val jsonFactory = JacksonFactory.getDefaultInstance()
 
-        val credential = GoogleCredential.fromStream(ClassPathResource("city_request/test-credentials.json").inputStream)
-            .createScoped(listOf(SheetsScopes.SPREADSHEETS))
+        val credential =
+            GoogleCredential.fromStream(ClassPathResource("city_request/test-credentials.json").inputStream)
+                .createScoped(listOf(SheetsScopes.SPREADSHEETS))
         return Sheets.Builder(httpTransport, jsonFactory, credential)
             .setApplicationName("Google-SheetsSample/0.1")
             .build()

@@ -23,7 +23,7 @@ const val MAX_SIZE = 30
 
 @Service
 class SearchService(
-        @Qualifier("fulltextIndex") private val directory: Directory
+    @Qualifier("fulltextIndex") private val directory: Directory
 ) {
     private final val analyzer = AccentInsensitiveAnalyzer()
     private final val queryParser = MultiFieldQueryParser(arrayOf(CONTRACT_COUNTERPARTY, CONTRACT_TITLE), analyzer)
@@ -41,7 +41,7 @@ class SearchService(
             var hits = searcher.search(queryParser.parse("${split.joinToString(" AND ")}*"), MAX_SIZE)
 
             if (hits.totalHits.value == 0L) {
-                hits = searcher.search(queryParser.parse(split.map { "${it}~" }.joinToString(" AND ")), MAX_SIZE)
+                hits = searcher.search(queryParser.parse(split.map { "$it~" }.joinToString(" AND ")), MAX_SIZE)
             }
 
             val mapped = hits.scoreDocs.map {

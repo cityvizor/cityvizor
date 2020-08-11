@@ -1,30 +1,19 @@
 package digital.cesko.full_text_search
 
 import digital.cesko.AbstractSpringDatabaseTest
-import digital.cesko.full_text_search.service.SearchService
+import digital.cesko.full_text_search.service.IndexRefreshService
 import net.javacrumbs.jsonunit.spring.jsonContent
-import org.apache.lucene.index.IndexNotFoundException
-import org.awaitility.Awaitility.await
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
 class FulltextSearchTest : AbstractSpringDatabaseTest() {
     @Autowired
-    private lateinit var searchService: SearchService
-
+    private lateinit var indexRefreshService: IndexRefreshService
 
     @BeforeEach
-    fun waitForIndex() {
-        // Wait for indexing to finish
-        await().until {
-             try {
-                 searchService.search("a", null)
-                 true
-             } catch (e: IndexNotFoundException) {
-                 false
-             }
-        }
+    fun refreshIndex() {
+        indexRefreshService.refresh()
     }
 
     @Test
