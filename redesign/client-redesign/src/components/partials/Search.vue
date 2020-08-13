@@ -1,7 +1,7 @@
 <template>
   <form class="search">
     <input
-      :ref="searchFieldGuid"
+      :ref="searchInputId"
       type="text" 
       name="search" 
       autocomplete="off"
@@ -18,7 +18,7 @@
 
 <script>
 import axios from 'axios'
-import getGuid from './../../js/get-guid'
+import getRandomId from './../../js/get-random-id'
 
 export default {
   name: 'Search',
@@ -41,18 +41,18 @@ export default {
   },
   data() {
     return {
-      searchFieldGuid: null,
+      searchInputId: null,
       searchTerm: null,
       searchTimeout: null,
       searchDebounce: 600
     }
   },
   created() {
-    this.searchFieldGuid = getGuid()
+    this.searchInputId = getRandomId()
   },
   mounted() {
     if (this.autofocus) {
-      this.$refs[this.searchFieldGuid].focus()
+      this.$refs[this.searchInputId].focus()
     }
   },
   watch: {

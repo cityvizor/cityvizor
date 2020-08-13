@@ -2,20 +2,18 @@
   <div class="modal">
     <div class="modal__overlay" @click.stop="close"></div>
     <div class="modal__content">
-
-      <div class="close-button" @click.stop="close">
-        <Close :size="24" :thickness="3"></Close>
-      </div>
-
       <div class="modal__content__header">
         <slot name="header" />
+        <div class="close-button" @click.stop="close">
+          <Close :size="24" :thickness="3"></Close>
+        </div>
       </div>
       <div class="modal__content__body">
         <slot name="body" />
       </div>
       <div class="modal__content__footer">
         <slot name="footer" />
-      </div>  
+      </div>
     </div>
   </div>
 </template>
@@ -46,14 +44,6 @@ export default {
 
 // TODO: get rid of magic values, convert into variables
 
-// TODO: use better positioning
-.close-button {
-  position: absolute;
-  right: 48px;
-  top: 48px;
-  cursor: pointer;
-}
-
 .modal {
   width: 100%;
   height: 100%;
@@ -83,73 +73,27 @@ export default {
 }
 
 .modal__content__header {
-  div:first-child {
+  position: relative;
+
+  h1 {
     font-size: 30px;
+    max-width: calc(100% - 32px);
+    margin-bottom: 18px;
   }
-  div:not(:first-child) {
+  h2 {
     font-size: 24px;
   }
-  div + div {
-    margin-top: 18px;
+
+  .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
   }
 }
 
 .modal__content__body {
   margin-top: 54px;
-
-  section {
-    .readonly {
-      font-weight: 700;
-    }
-
-    input {
-      height: 40px;
-      width: 272px;
-      border: 2px solid #828282;
-    }
-
-    input[type='checkbox'] {
-      height: 14px;
-      width: 14px;
-    }
-
-    label {
-      display: inline-block;
-      min-width: 108px;
-    }
-
-    div {
-      font-size: 14px;
-      margin-left: 108px;
-      margin-top: 6px;
-      width: 300px;
-    }
-
-    &.checkbox > label {
-      display: inline;
-      font-size: 14px;
-      margin-left: 12px;
-      max-width: 368px;
-    }
-  }
-
-  section + section {
-    margin-top: 20px;
-  }
-
-  // --- Validation ---
-  .error,
-  .required {
-    color: red;
-    font-size: 18px;
-  }
-  .error {
-    margin: 12px 0;
-    height: 18px;
-  }
-  .hidden {
-    display: hidden;
-  }
 }
 
 .modal__content__footer {

@@ -1,131 +1,78 @@
 <template>
   <Modal @close="close">
-    <div slot="header">
-      <div>Chcete Cityvizor i ve Vaší obci?</div>
-      <div>Dejte nám vědět a my to s vedením obce vyřídíme za Vás.</div>
-    </div>
+    <template slot="header">
+      <h1>Chcete Cityvizor i ve Vaší obci?</h1>
+      <h2>Dejte nám vědět a my to s vedením obce vyřídíme za Vás.</h2>
+    </template>
 
-    <div slot="body">
-      <section>
-        <label>Obec</label>
-        <label class="readonly">{{ municipality.hezkyNazev }}</label>
-      </section>
+    <template slot="body">
+      <ModalForm 
+        :form-name="formName"
+        :ref="formName"
+        error-message="Prosím vyplňte platnou emailovou adresu."
+        endpoint="https://cityvizor.cesko.digital/api/v2/service/cityrequest"
+        @close="close"
+      >
+        <section>
+          <label>Obec</label>
+          <label readonly>{{ `${city.hezkyNazev} (PSČ ${city.adresaUradu.PSC})` }}</label>
+          <input id="city" type="hidden" :value="city.hezkyNazev">
+          <input id="psc" type="hidden" :value="city.adresaUradu.PSC">
+        </section>
 
-      <section>
-        <label for="email">Email <span class="required">*</span></label>
-        <input 
-          id="email"
-          type="text"
-          placeholder="Váš email"
-          v-model="modalData.email">
-      </section>
+        <section>
+          <label for="email">Email</label>
+          <input id="email" type="text" placeholder="Váš email" required>
+        </section>
 
-      <section>
-        <label for="name">Jméno</label>
-        <input 
-          id='name'
-          type='text'
-          placeholder='Vaše jméno'
-          v-model="modalData.name">
-        <div>Vaše jméno můžeme uvést v seznamu zájemců o Cityvizor při jednání s vedením obce</div>  
-      </section>
+        <section>
+          <label for="name">Jméno</label>
+          <input id="name" type='text' placeholder='Vaše jméno'>
+          <div>Vaše jméno můžeme uvést v seznamu zájemců o Cityvizor při jednání s vedením obce</div>  
+        </section>
 
-      <section class="checkbox">
-        <input type="checkbox"
-          v-model="modalData.subscribe"
-          id="subscribe">
-        <label for="subscribe">Chci dostávat informace o propojení mojí obce a Cityvizoru</label>
-      </section>
-      
-      <section class="checkbox">
-        <input type="checkbox"
-          v-model="modalData.gdpr"
-          id="gdpr">
-        <label for="gdpr">Souhlasím se zpracováváním osobních údajů a jejich poskytnutím obci</label>
-      </section>
-
-      <div :class="[{ hidden: !hasErrors }, 'error']">{{ errors[0] }}</div>
-    </div>
+        <section class="checkbox">
+          <input id="subscribe" type="checkbox">
+          <label for="subscribe">Chci dostávat informace o propojení mojí obce a Cityvizoru</label>
+        </section>
+        
+        <section class="checkbox">
+          <input id="gdpr" type="checkbox">
+          <label for="gdpr">Souhlasím se zpracováním osobních údajů a jejich poskytnutím obci</label>
+        </section>
+      </ModalForm>
+    </template>
     
-    <div slot="footer">
-      <button
-        value="Chci Cityvizor"
-        @click="submit">Chci Cityvizor</button>
-    </div>
+    <template slot="footer">
+      <button @click="trySubmit">Chci Cityvizor</button>
+    </template>
   </Modal>
 </template>
 
 <script>
-import axios from 'axios'
 import Modal from './Modal'
-
-// TODO: add global `axios` to `main.js`
-// TODO: update `apiBaseUrl` in `main.js` and build this Url from it
-const requestCityUrl = 'https://cityvizor.cesko.digital/api/v2/service/cityrequest';
+import ModalForm from './ModalForm'
 
 export default {
   name: "ModalRequestCity",
   components: {
-    Modal
+    Modal,
+    ModalForm
   },
   props: {
-    municipality: {
+    city: {
       type: Object,
       required: true
     }
   },
-
   data() {
     return {
-      errors: [],
-      modalData: {
-        city: '',
-        email: '',
-        name: '',
-        subscribe: false,
-        gdpr: false
-      }
-    }
-  },
-  computed: {
-    hasErrors() {
-      return this.errors.length > 0
+      formName: 'requestCity',
     }
   },
   methods: {
-    submit() {
-      this.validateForm()
-      if (this.hasErrors) return
-
-      this.modalData.city = this.municipality.hezkyNazev
-      axios
-        .post(requestCityUrl, { ...this.modalData })
-        .then(response => {
-          console.log(response) // eslint-disable-line
-          this.clearForm()
-          this.close()
-        })
-        .catch(error => {
-          console.log(error) // eslint-disable-line
-        })
-    },
-    validateForm() {
-      let email = this.modalData.email
-      if (email === null || email === '' || !this.isEmailValid(email))
-        this.errors.push('Prosím vyplňte platnou emailovou adresu.')
-      else
-        this.errors = []
-    },
-    isEmailValid(email) { // TODO: swap out for `<input type="email">` validation
-      let re = /\S+@\S+\.\S+/;
-      return re.test(email);
-    },
-    clearForm() {
-      this.modalData.email = ''
-      this.modalData.name = ''
-      this.modalData.subscribe = false
-      this.modalData.gdpr = false
-      this.errors = []
+    trySubmit () {
+      this.$refs[this.formName].onSubmit()
     },
     close() {
       this.$emit('close')
