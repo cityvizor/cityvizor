@@ -141,7 +141,7 @@ class InternetStreamService() {
                 val type = csvRecord.get("DOKLAD_AGENDA")
                 val paragraph = csvRecord.get("PARAGRAF").toInt()
                 val item = csvRecord.get("POLOZKA").toInt()
-                val src_id = csvRecord.get("ORGANIZACE")
+                val srcId = csvRecord.get("ORGANIZACE")
                 val name = csvRecord.get("ORGANIZACE_NAZEV")
                 val amountMd = csvRecord.get("CASTKA_MD").toBigDecimal()
                 val amountDal = csvRecord.get("CASTKA_DAL").toBigDecimal()
@@ -151,12 +151,12 @@ class InternetStreamService() {
                 val unit: Int? = csvRecord.get("ORJ").toInt()
                 val dateAsString: String? = csvRecord.get("DOKLAD_DATUM")
                 val date: LocalDate? = if (dateAsString != null) LocalDate.parse(dateAsString) else null
-                val counterparty_id: String? = csvRecord.get("DOKLAD_DATUM")
-                val counterparty_name: String? = csvRecord.get("SUBJEKT_NAZEV")
+                val counterpartyId: String? = csvRecord.get("DOKLAD_DATUM")
+                val counterpartyName: String? = csvRecord.get("SUBJEKT_NAZEV")
                 val description: String? = csvRecord.get("POZNAMKA")
                 val year: Int? = csvRecord.get("DOKLAD_ROK").toInt()
-                val budget = Budget(type, paragraph, item, src_id, name, amount, event, unit, date,
-                        counterparty_id, counterparty_name, description, year)
+                val budget = Budget(type, paragraph, item, srcId, name, amount, event, unit, date,
+                        counterpartyId, counterpartyName, description, year)
                 completeBudget.add(budget)
             }
         } catch (ioException: IOException) {
