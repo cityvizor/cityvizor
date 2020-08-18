@@ -1,6 +1,7 @@
 package digital.cesko
 
 import digital.cesko.common.CommonConfig
+import digital.cesko.internet_stream.Budgets
 import org.apache.lucene.store.Directory
 import org.apache.lucene.store.MMapDirectory
 import org.jetbrains.exposed.sql.Database
@@ -75,6 +76,9 @@ class ExposedInitializer(
                 user = user,
                 password = password
         )
+        transaction {
+            SchemaUtils.create(Budgets)
+        }
     }
 }
 

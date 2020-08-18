@@ -1,13 +1,11 @@
 package digital.cesko.internet_stream
 
-import digital.cesko.city_sync.exception.CitySyncException
 import digital.cesko.city_sync.model.CityExport
 import digital.cesko.city_sync.model.toProfileCityExport
 import digital.cesko.common.Payments
 import digital.cesko.common.Profiles
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
@@ -146,7 +144,6 @@ class InternetStreamService() {
                 val amountMd = csvRecord.get("CASTKA_MD").toBigDecimal()
                 val amountDal = csvRecord.get("CASTKA_DAL").toBigDecimal()
                 val amount = if (item < 5000) (amountMd - amountDal) else (amountDal - amountMd)
-
                 val event: Long? = csvRecord.get("ORGANIZACE").toLong()
                 val unit: Int? = csvRecord.get("ORJ").toInt()
                 val dateAsString: String? = csvRecord.get("DOKLAD_DATUM")
