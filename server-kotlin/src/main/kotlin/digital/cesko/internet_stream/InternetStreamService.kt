@@ -1,30 +1,19 @@
 package digital.cesko.internet_stream
 
-import digital.cesko.city_sync.exception.CitySyncException
-import digital.cesko.city_sync.model.CityExport
-import digital.cesko.city_sync.model.toProfileCityExport
 import digital.cesko.common.Payments
 import digital.cesko.common.Profiles
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.net.MalformedURLException
 import java.net.URL
 import java.time.LocalDate
-import java.time.format.DateTimeParseException
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
@@ -42,131 +31,114 @@ import java.util.zip.ZipInputStream
  */
 
 @Service
-class InternetStreamService() {
+@EnableConfigurationProperties(InternetStreamServiceConfiguration::class)
+class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
     val csvFormat = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader()
-            .withIgnoreHeaderCase().withTrim()
+        .withIgnoreHeaderCase().withTrim()
 
-    @Value("\${budgets.baseSourceUrls}") val baseUrls: MutableList<String> = mutableListOf()
-    @Value("\${budgets.fileUrls}") val fileUrls: MutableList<String> = mutableListOf()
-    @Value("\${budgets.cityUrls}") val cityUrls: MutableList<String> = mutableListOf()
+    val urls = configuration.urls
+    var fileUrls = configuration.fileUrls
     val bufferSize = 8192
 
-    @Scheduled(fixedRateString = "\${budgets.frequency}")
+    @Scheduled(fixedRateString = "\${internet.stream.service.configuration.frequency}")
     fun fetchData() {
-        val profileIds = getProfilesIds()
+        urls.map {
+            val cityUrl = it.key
+            val budgetUrl = it.value
+            if (!isProfileIdPresent(cityUrl))
+                return
 
-        for ((index,baseUrl) in baseUrls.withIndex()) {
-            val completeBudgetPerCity: MutableList<Budget> = mutableListOf()
-            val cityId = profileIds[index]
-            for (fileUrl in fileUrls) {
-                var zipInputStream: ZipInputStream? = null
-                var downloadInputStream: InputStream? = null
-                val budgetPerYear: MutableList<Budget> = mutableListOf()
-                var url: String? = null
-                try {
-                    url = baseUrl + fileUrl
-                    val downloadUrl = URL(url)
-                    downloadInputStream = downloadUrl.openStream()
-                    zipInputStream = ZipInputStream(downloadInputStream)
-                    var ze: ZipEntry? = zipInputStream.nextEntry
-                    while (ze != null) {
-                        if (ze.name == "RU.csv" || ze.name == "SK.csv") {
-                            val byteArray = unzipFromStream(zipInputStream)
-                            val budget = parseBudgets(byteArray)
-                            budgetPerYear.addAll(budget)
+            val completeBudgetPerCity = fileUrls.map {
+                val url = budgetUrl + it
+                val budgetPerYear = fetchFile(url)
+
+                budgetPerYear
+            }
+
+            val profileId = getProfileIdFromUrl(cityUrl)
+            deleteCityBudgets(profileId)
+            completeBudgetPerCity.map {
+                saveCityBudgets(profileId, it)
+            }
+        }
+    }
+
+    fun fetchFile(url: String): MutableList<Budget> {
+        var budgets: MutableList<Budget> = mutableListOf()
+        val downloadUrl = URL(url)
+        val downloadInputStream = downloadUrl.openStream()
+        downloadInputStream.use {
+            val zipInputStream = ZipInputStream(downloadInputStream)
+            zipInputStream.use {
+                var ze: ZipEntry? = zipInputStream.nextEntry
+                while (ze != null) {
+                    if (ze.name == "RU.csv" || ze.name == "SK.csv") {
+                        val stream = ByteArrayOutputStream()
+                        val buffer = ByteArray(bufferSize)
+                        var byteArray: ByteArray
+                        var count = zipInputStream.read(buffer)
+                        while (count != -1) {
+                            stream.write(buffer, 0, count)
+                            count = zipInputStream.read(buffer)
                         }
-                        ze = zipInputStream.nextEntry
+                        byteArray = stream.toByteArray()
+                        val budget = parseBudgets(byteArray)
+                        budgets.addAll(budget)
                     }
-                    completeBudgetPerCity.addAll(budgetPerYear)
-                } catch (malformedUrl: MalformedURLException) {
-                    logger.error("Unable to download budgets from $url", malformedUrl)
-                } catch (ioException: IOException) {
-                    logger.error("Unable to process budgets from $url", ioException)
-                } finally {
-                    zipInputStream?.close()
-                    downloadInputStream?.close()
+                    ze = zipInputStream.nextEntry
                 }
             }
-            deleteCityBudgets(cityId)
-            saveCityBudgets(cityId, completeBudgetPerCity)
-            completeBudgetPerCity.clear()
         }
+        return budgets
     }
 
-    // Get profile_id of every city defined in application.properties.
-    // Search is made by column url.
-    fun getProfilesIds(): MutableList<Int> {
-        val profileIds: MutableList<Int> = mutableListOf()
-        for (cityUrl in cityUrls) {
-            val resultRow: CityExport = transaction {
-                Profiles.select { Profiles.url eq cityUrl }
-                        .map { toProfileCityExport(it) }
-                        .ifEmpty { throw Exception("CityUrl $cityUrl not found.") }
-                        .first()
-            }
-            profileIds.add(resultRow.id)
+    fun isProfileIdPresent(url: String): Boolean {
+        var profileId = transaction {
+            Profiles.select { Profiles.url eq url }.toList()
         }
-        return profileIds
+        return !profileId.isEmpty()
     }
 
-    fun unzipFromStream(inputStream: ZipInputStream): ByteArray {
-        val stream = ByteArrayOutputStream()
-        val buffer = ByteArray(bufferSize)
-        var byteArray = ByteArray(0)
-        try {
-            var count = inputStream.read(buffer)
-            while (count != -1) {
-                stream.write(buffer, 0, count)
-                count = inputStream.read(buffer)
-            }
-            byteArray = stream.toByteArray()
-        } catch (ioException: IOException) {
-            logger.error("Unable to unzip: ", ioException)
-        } finally {
-            stream.close()
+    // Search by column url and return id
+    fun getProfileIdFromUrl(url: String): Int {
+        return transaction {
+            Profiles.select { Profiles.url eq url }
+                .map { it[Profiles.id] }
+                .first()
         }
-        return byteArray
     }
 
     // Parses .csv file which is provided as ByteArray
     // returns list of parsed budgets
-    fun parseBudgets(byteArray: ByteArray): MutableList<Budget> {
-        val completeBudget: MutableList<Budget> = mutableListOf()
-        var inputStream: ByteArrayInputStream? = null
-        try {
-            inputStream = byteArray.inputStream()
-            val csvParser = CSVParser.parse(inputStream, Charsets.UTF_8, csvFormat)
+    fun parseBudgets(byteArray: ByteArray): List<Budget> {
+        var completeBudget: List<Budget> = listOf()
+        byteArray.inputStream().use {
+            val csvParser = CSVParser.parse(it, Charsets.UTF_8, csvFormat)
             val records = csvParser.records
-            records.forEach { csvRecord ->
-                val type = csvRecord.get("DOKLAD_AGENDA")
-                val paragraph = csvRecord.get("PARAGRAF").toInt()
-                val item = csvRecord.get("POLOZKA").toInt()
-                val srcId = csvRecord.get("ORGANIZACE")
-                val name = csvRecord.get("ORGANIZACE_NAZEV")
-                val amountMd = csvRecord.get("CASTKA_MD").toBigDecimal()
-                val amountDal = csvRecord.get("CASTKA_DAL").toBigDecimal()
+            completeBudget = records.map {
+                val type = it.get("DOKLAD_AGENDA")
+                val paragraph = it.get("PARAGRAF").toInt()
+                val item = it.get("POLOZKA").toInt()
+                val srcId = it.get("ORGANIZACE")
+                val name = it.get("ORGANIZACE_NAZEV")
+                val amountMd = it.get("CASTKA_MD").toBigDecimal()
+                val amountDal = it.get("CASTKA_DAL").toBigDecimal()
                 val amount = if (item < 5000) (amountMd - amountDal) else (amountDal - amountMd)
 
-                val event: Long? = csvRecord.get("ORGANIZACE").toLong()
-                val unit: Int? = csvRecord.get("ORJ").toInt()
-                val dateAsString: String? = csvRecord.get("DOKLAD_DATUM")
+                val event: Long? = it.get("ORGANIZACE").toLong()
+                val unit: Int? = it.get("ORJ").toInt()
+                val dateAsString: String? = it.get("DOKLAD_DATUM")
                 val date: LocalDate? = if (dateAsString != null) LocalDate.parse(dateAsString) else null
-                val counterpartyId: String? = csvRecord.get("DOKLAD_DATUM")
-                val counterpartyName: String? = csvRecord.get("SUBJEKT_NAZEV")
-                val description: String? = csvRecord.get("POZNAMKA")
-                val year: Int? = csvRecord.get("DOKLAD_ROK").toInt()
-                val budget = Budget(type, paragraph, item, srcId, name, amount, event, unit, date,
-                        counterpartyId, counterpartyName, description, year)
-                completeBudget.add(budget)
+                val counterpartyId: String? = it.get("DOKLAD_DATUM")
+                val counterpartyName: String? = it.get("SUBJEKT_NAZEV")
+                val description: String? = it.get("POZNAMKA")
+                val year: Int? = it.get("DOKLAD_ROK").toInt()
+                val budget = Budget(
+                    type, paragraph, item, srcId, name, amount, event, unit, date,
+                    counterpartyId, counterpartyName, description, year
+                )
+                budget
             }
-        } catch (ioException: IOException) {
-            logger.error("Unable to parse csv: ", ioException)
-        } catch (numberFormatException: NumberFormatException) {
-            logger.error("Invalid number format in csv: ", numberFormatException)
-        } catch (dateParseException: DateTimeParseException) {
-            logger.error("Invalid date format in csv: ", dateParseException)
-        } finally {
-            inputStream?.close()
         }
         return completeBudget
     }
@@ -174,11 +146,10 @@ class InternetStreamService() {
     fun deleteCityBudgets(cityId: Int) {
         transaction {
             Payments.deleteWhere { Payments.profileId eq cityId }
-            commit()
         }
     }
 
-    fun saveCityBudgets(cityId: Int, budgets: MutableList<Budget>) {
+    fun saveCityBudgets(cityId: Int, budgets: List<Budget>) {
         transaction {
             Payments.batchInsert(budgets) {
                 this[Payments.profileId] = cityId
@@ -195,9 +166,5 @@ class InternetStreamService() {
             }
             commit()
         }
-    }
-
-    companion object {
-        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 }
