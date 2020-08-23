@@ -28,7 +28,18 @@ export default {
   },
   created () { document.addEventListener('keydown', this.keydownHandler) },
   destroyed() { document.removeEventListener('keydown', this.keydownHandler) },
+  mounted () {
+    this.adjustModalHeight()
+  },
   methods: {
+    adjustModalHeight() {
+      const modalContentElement = document.getElementsByClassName("modal__content")[0]
+      const elementRect = modalContentElement.getBoundingClientRect()
+      const elementHeight = Math.floor(elementRect.height)
+      if (elementHeight < window.innerHeight) return
+      modalContentElement.style.height = `${window.innerHeight - 64}px`
+      modalContentElement.style['overflow-y'] = 'auto'
+    },
     close() {
       this.$emit('close')
     },
@@ -43,7 +54,6 @@ export default {
 @import './../../assets/styles/common/variables';
 
 // TODO: get rid of magic values, convert into variables
-
 .modal {
   width: 100%;
   height: 100%;
@@ -62,13 +72,13 @@ export default {
 }
 
 .modal__content {
-  width: 610px;
+  width: 600px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: #fff;
-  padding: 72px 62px 42px 62px;
+  padding: 48px 48px 24px 48px;
   text-align: left;
 }
 
@@ -109,6 +119,27 @@ export default {
     background: $primary;
     color: #fff;
     cursor: pointer;
+  }
+}
+
+// TODO: replace temp layout fix for mobile devices
+@media screen and (max-width: 480px) {
+  .modal__content {
+    width: calc(100vw - 48px);
+    padding: 32px 18px 24px 18px;
+  }
+
+  .modal__content__header {
+    h1 {
+      font-size: 24px;
+    }
+    h2 {
+      font-size: 18px;
+    }
+  }
+
+  .modal__content__body {
+    margin-top: 32px;
   }
 }
 </style>

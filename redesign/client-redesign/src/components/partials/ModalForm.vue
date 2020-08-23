@@ -145,4 +145,17 @@ export default {
   font-size: 18px;
   color: red;
 }
+
+// TODO: replace temp layout fix for mobile devices
+@media screen and (max-width: 480px) {
+  .modal-form {
+    input {
+      height: 32px;
+    }
+    input[type='checkbox'] {
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
 </style>
