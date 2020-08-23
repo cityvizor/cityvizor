@@ -77,4 +77,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search {
+  input {
+    width: 100%;
+    padding-right: 40px;
+  }
+}
 </style>

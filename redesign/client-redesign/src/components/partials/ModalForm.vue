@@ -44,7 +44,7 @@ export default {
     },
     adjustStylingOfLabels() {
       this.findElements('input').forEach(input => {
-        let labels = input.parentNode.getElementsByTagName('label')
+        const labels = input.parentNode.getElementsByTagName('label')
         if (labels.length > 0) {
           if (input.required) {
             const span = document.createElement('span')
@@ -52,7 +52,7 @@ export default {
             span.style.color = 'red' 
             labels[0].append(span)
           }
-          if (input.type == 'checkbox') {
+          if (input.type === 'checkbox') {
             labels[0].classList.add('checkbox-label')
           }
         }
