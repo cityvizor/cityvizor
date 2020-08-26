@@ -11,7 +11,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import java.io.ByteArrayOutputStream
 import java.net.URL
 import java.time.LocalDate
 import java.util.zip.ZipEntry
@@ -36,9 +35,8 @@ class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
     val csvFormat = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader()
         .withIgnoreHeaderCase().withTrim()
 
-    val urls = configuration.urls
-    var fileUrls = configuration.fileUrls
-    val bufferSize = 8192
+    private val urls = configuration.urls
+    private val fileUrls = configuration.fileUrls
 
     @Scheduled(fixedRateString = "\${internet.stream.service.configuration.frequency}")
     fun fetchData() {
@@ -73,16 +71,7 @@ class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
                 var ze: ZipEntry? = zipInputStream.nextEntry
                 while (ze != null) {
                     if (ze.name == "RU.csv" || ze.name == "SK.csv") {
-                        val stream = ByteArrayOutputStream()
-                        val buffer = ByteArray(bufferSize)
-                        var byteArray: ByteArray
-                        var count = zipInputStream.read(buffer)
-                        while (count != -1) {
-                            stream.write(buffer, 0, count)
-                            count = zipInputStream.read(buffer)
-                        }
-                        byteArray = stream.toByteArray()
-                        val budget = parseBudgets(byteArray)
+                        val budget = parseBudgets(zipInputStream.readBytes())
                         budgets.addAll(budget)
                     }
                     ze = zipInputStream.nextEntry
@@ -111,11 +100,10 @@ class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
     // Parses .csv file which is provided as ByteArray
     // returns list of parsed budgets
     fun parseBudgets(byteArray: ByteArray): List<Budget> {
-        var completeBudget: List<Budget> = listOf()
-        byteArray.inputStream().use {
+        return byteArray.inputStream().use {
             val csvParser = CSVParser.parse(it, Charsets.UTF_8, csvFormat)
             val records = csvParser.records
-            completeBudget = records.map {
+            records.map {
                 val type = it.get("DOKLAD_AGENDA")
                 val paragraph = it.get("PARAGRAF").toInt()
                 val item = it.get("POLOZKA").toInt()
@@ -140,7 +128,6 @@ class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
                 budget
             }
         }
-        return completeBudget
     }
 
     fun deleteCityBudgets(cityId: Int) {
