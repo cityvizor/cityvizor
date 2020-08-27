@@ -20,7 +20,7 @@
     <ModalRequestCity
       v-if="modalOpen === true"
       @close="modalOpen = false"
-      :municipality="municipality" />
+      :city="municipality" />
   </li>
 </template>
 
