@@ -54,8 +54,11 @@
             <span class="underline annotation--underline">Odkazy na konkrétní smlouvy</span>, které daná organizace uveřejnila v registru smluv.
           </div>
           <div id="join-button__container">
-						<!-- TODO: Fix empty link after the join page is done -->
-            <router-link to="/" id="join-button" class="btn">Zapojit mou obec</router-link>
+            <a href="mailto:cityvizor@otevrenamesta.cz
+              ?subject=Žádost o bližší informace
+              &body=Prosím,%0D%0Apošlete nám své jméno a kontaktní údaje (telefon, e-mail).%0D%0AObratem se Vám ozveme,%0D%0ADěkujeme.">
+              <button class="btn">Zapojit moji obec</button>
+            </a>
           </div>
         </div>
       </div>
