@@ -142,7 +142,7 @@ fun toAccounting(accounting: ResultRow): CityExport.Accounting = CityExport.Acco
 )
 
 fun toContracts(contract: ResultRow): CityExport.Contract = CityExport.Contract(
-    contract[Contracts.id], contract[Contracts.date], contract[Contracts.title],
+    contract[Contracts.id].value, contract[Contracts.date], contract[Contracts.title],
     contract[Contracts.counterparty], contract[Contracts.amount], contract[Contracts.currency], contract[Contracts.url]
 )
 
