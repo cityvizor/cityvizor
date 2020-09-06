@@ -1,7 +1,7 @@
 <template>
   <div class="modal-form" :id="formName">
     <slot />
-    <div class="modal-form__error">{{ errors[0] }}</div>
+    <div class="modal-form__error"><pre>{{ errors.join('\n') }}</pre></div>
   </div>
 </template>
 
@@ -14,10 +14,6 @@ export default {
     formName: {
       type: String,
       required: true
-    },
-    errorMessage: {
-      type: String,
-      default: 'Please fill out all the required fields.'
     },
     endpoint: {
       type: String,
@@ -72,14 +68,12 @@ export default {
     },
     validateForm() {
       this.errors = []
-      const requiredInputsIds = Array.from(this.findElements('input[required]')).map(x => x.id)
-      Object.keys(this.formDict).forEach(key => {
-        if (requiredInputsIds.includes(key)) {
-          const value = this.formDict[key]
-          if (value === '' || value === null || value === undefined || value === false)
-            this.errors = [this.errorMessage]
-        }
-      })
+      const inputs = Array.from(this.findElements('input[required]'))
+      inputs.forEach(input => {
+          if (!input.checkValidity()){
+              this.errors.push(input.title)
+          }
+      });
     },
     async submit() {
       try {

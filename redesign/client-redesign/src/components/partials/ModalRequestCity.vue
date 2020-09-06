@@ -9,7 +9,6 @@
       <ModalForm 
         :form-name="formName"
         :ref="formName"
-        error-message="Prosím vyplňte platnou emailovou adresu."
         endpoint="https://cityvizor.cesko.digital/api/v2/service/cityrequest"
         @close="close"
       >
@@ -22,7 +21,7 @@
 
         <section>
           <label for="email">Email</label>
-          <input id="email" type="text" placeholder="Váš email" required>
+          <input id="email" type="email" placeholder="Váš email" title="Prosím vyplňte platnou emailovou adresu." required>
         </section>
 
         <section>
