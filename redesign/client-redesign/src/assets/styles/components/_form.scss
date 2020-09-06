@@ -16,4 +16,9 @@ input {
     border: 2px solid $primary;
     border-radius: $border-radius-base;
     background-color: $body-bg;
+    outline: none;
+}
+
+input[type='checkbox'] {
+    vertical-align:middle;
 }
