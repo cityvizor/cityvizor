@@ -16,11 +16,14 @@ import { ChartHistoryComponent } from './charts/chart-history/chart-history.comp
 // Components
 import { EventDetailComponent } from './components/event-detail/event-detail.component';
 import { EventDetailModalComponent } from './components/event-detail-modal/event-detail-modal.component';
+import { CounterpartyDetailComponent } from './components/counterparty-detail/counterparty-detail.component';
+import { CounterpartyDetailModalComponent } from './components/counterparty-detail-modal/counterparty-detail-modal.component';
 import { HelpModalComponent } from './components/help-modal/help-modal.component';
 import { WordCloudComponent } from "./components/word-cloud/word-cloud.component";
 import { LoginFormComponent } from 'app/shared/components/login-form/login-form.component';
 import { HeaderMenuComponent } from 'app/shared/components/header-menu/header-menu.component';
 import { ProfileExpendituresWidgetComponent } from './widgets/profile-expenditures-widget/profile-expenditures-widget.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 // Pipes
 import { MoneyPipe } from './pipes/money.pipe';
@@ -45,11 +48,13 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
 
     /* Components */
     EventDetailComponent,EventDetailModalComponent,
+    CounterpartyDetailComponent, CounterpartyDetailModalComponent,
     HelpModalComponent,
     ChartHistoryComponent,
     WordCloudComponent,
     LoginFormComponent,
     HeaderMenuComponent,
+    DatePickerComponent,
 
     /* Widgets */
     ProfileExpendituresWidgetComponent,
@@ -59,7 +64,8 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
     IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe, Gps2stringPipe,
   ],
   entryComponents: [
-    EventDetailModalComponent
+    EventDetailModalComponent,
+    CounterpartyDetailModalComponent
   ],
   exports: [
 
@@ -82,6 +88,7 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
     WordCloudComponent,
     LoginFormComponent,
     HeaderMenuComponent,
+    DatePickerComponent,
 
     /* Widgets */
     ProfileExpendituresWidgetComponent,

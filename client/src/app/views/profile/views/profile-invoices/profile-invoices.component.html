@@ -1,23 +1,5 @@
 <div class="container">
-	<div class="row selector">
-		<div class="col-12">
-			<div class="btn-group" dropdown>
-				<button type="button" class="btn btn-sm btn-primary">{{currentYear}}</button>
-				<button type="button" dropdownToggle class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split">
-					<span class="caret"></span>
-				</button>
-				<ul *dropdownMenu class="dropdown-menu" role="menu">
-					<li *ngFor="let year of years" role="menuitem"><a class="dropdown-item" [routerLink]="getYearLink(year)">{{year}}</a></li>
-				</ul>
-			</div>
-			&nbsp;
-			<div class="btn-group">
-				<a *ngFor="let name of monthNames; let i = index" [routerLink]="getMonthLink(currentYear,i + 1)" class="btn btn-sm btn-default" [class.btn-primary]="i + 1 == currentMonth" [class.disabled]="isMonthDisabled(currentYear, i + 1)">{{name}}</a>
-			</div>
-		</div>
-	</div>
-
-
+	<date-picker [showEntireYear]="false"></date-picker>
 	<br><br>
 
 	<div class="invoices" [class.loading]="loading">
