@@ -83,7 +83,6 @@ services:
     image: cityvizor-redesign-client
     build:
       context: ./redesign/client-redesign
-      target: prod
     container_name: client-redesign.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
