@@ -1,0 +1,9 @@
+# Kam nahlásit bezpečnostní chybu / Where to report security issue
+Contact: mailto:security@cesko.digital
+Contact: https://cesko-digital.slack.com/archives/CG66HNLH4
+
+# Jakým jazykům rozumíme / Languages we speak
+Preferred-Languages: cs, en
+
+# Chci pomoct s rozvojem CityVizoru / I wanna help with CityVizor development
+Hiring: https://slack.cesko.digital/
