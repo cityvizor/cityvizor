@@ -9,9 +9,10 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.core.io.ResourceLoader
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import java.net.URL
+import java.io.InputStream
 import java.time.LocalDate
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -31,14 +32,20 @@ import java.util.zip.ZipInputStream
 
 @Service
 @EnableConfigurationProperties(InternetStreamServiceConfiguration::class)
-class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
-    val csvFormat = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader()
+class InternetStreamService(
+    configuration: InternetStreamServiceConfiguration,
+    private val resourceLoader: ResourceLoader
+) {
+    private val csvFormat = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader()
         .withIgnoreHeaderCase().withTrim()
 
     private val urls = configuration.urls
     private val fileUrls = configuration.fileUrls
 
-    @Scheduled(fixedRateString = "\${internet.stream.service.configuration.frequency}")
+    @Scheduled(
+        fixedRateString = "\${internet.stream.service.configuration.frequency}",
+        initialDelayString = "\${internet.stream.service.configuration.initDelay}"
+    )
     fun fetchData() {
         urls.map {
             val cityUrl = it.key
@@ -62,16 +69,15 @@ class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
     }
 
     fun fetchFile(url: String): MutableList<Budget> {
-        var budgets: MutableList<Budget> = mutableListOf()
-        val downloadUrl = URL(url)
-        val downloadInputStream = downloadUrl.openStream()
+        val budgets: MutableList<Budget> = mutableListOf()
+        val downloadInputStream = resourceLoader.getResource(url).inputStream
         downloadInputStream.use {
             val zipInputStream = ZipInputStream(downloadInputStream)
             zipInputStream.use {
                 var ze: ZipEntry? = zipInputStream.nextEntry
                 while (ze != null) {
                     if (ze.name == "RU.csv" || ze.name == "SK.csv") {
-                        val budget = parseBudgets(zipInputStream.readBytes())
+                        val budget = parseBudgets(zipInputStream)
                         budgets.addAll(budget)
                     }
                     ze = zipInputStream.nextEntry
@@ -82,7 +88,7 @@ class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
     }
 
     fun isProfileIdPresent(url: String): Boolean {
-        var profileId = transaction {
+        val profileId = transaction {
             Profiles.select { Profiles.url eq url }.toList()
         }
         return !profileId.isEmpty()
@@ -99,34 +105,31 @@ class InternetStreamService(configuration: InternetStreamServiceConfiguration) {
 
     // Parses .csv file which is provided as ByteArray
     // returns list of parsed budgets
-    fun parseBudgets(byteArray: ByteArray): List<Budget> {
-        return byteArray.inputStream().use {
-            val csvParser = CSVParser.parse(it, Charsets.UTF_8, csvFormat)
-            val records = csvParser.records
-            records.map {
-                val type = it.get("DOKLAD_AGENDA")
-                val paragraph = it.get("PARAGRAF").toInt()
-                val item = it.get("POLOZKA").toInt()
-                val srcId = it.get("ORGANIZACE")
-                val name = it.get("ORGANIZACE_NAZEV")
-                val amountMd = it.get("CASTKA_MD").toBigDecimal()
-                val amountDal = it.get("CASTKA_DAL").toBigDecimal()
-                val amount = if (item < 5000) (amountMd - amountDal) else (amountDal - amountMd)
-
-                val event: Long? = it.get("ORGANIZACE").toLong()
-                val unit: Int? = it.get("ORJ").toInt()
-                val dateAsString: String? = it.get("DOKLAD_DATUM")
-                val date: LocalDate? = if (dateAsString != null) LocalDate.parse(dateAsString) else null
-                val counterpartyId: String? = it.get("DOKLAD_DATUM")
-                val counterpartyName: String? = it.get("SUBJEKT_NAZEV")
-                val description: String? = it.get("POZNAMKA")
-                val year: Int? = it.get("DOKLAD_ROK").toInt()
-                val budget = Budget(
-                    type, paragraph, item, srcId, name, amount, event, unit, date,
-                    counterpartyId, counterpartyName, description, year
-                )
-                budget
-            }
+    fun parseBudgets(inputStream: InputStream): List<Budget> {
+        val csvParser = CSVParser.parse(inputStream, Charsets.UTF_8, csvFormat)
+        val records = csvParser.records
+        return records.map {
+            val type = it.get("DOKLAD_AGENDA")
+            val paragraph = it.get("PARAGRAF").toInt()
+            val item = it.get("POLOZKA").toInt()
+            val srcId = it.get("ORGANIZACE")
+            val name = it.get("ORGANIZACE_NAZEV")
+            val amountMd = it.get("CASTKA_MD").toBigDecimal()
+            val amountDal = it.get("CASTKA_DAL").toBigDecimal()
+            val amount = if (item < 5000) (amountMd - amountDal) else (amountDal - amountMd)
+            val event: Long? = it.get("ORGANIZACE").toLong()
+            val unit: Int? = it.get("ORJ").toInt()
+            val dateAsString: String? = it.get("DOKLAD_DATUM")
+            val date: LocalDate? = if (dateAsString != null) LocalDate.parse(dateAsString) else null
+            val counterpartyId: String? = it.get("DOKLAD_DATUM")
+            val counterpartyName: String? = it.get("SUBJEKT_NAZEV")
+            val description: String? = it.get("POZNAMKA")
+            val year: Int? = it.get("DOKLAD_ROK").toInt()
+            val budget = Budget(
+                type, paragraph, item, srcId, name, amount, event, unit, date,
+                counterpartyId, counterpartyName, description, year
+            )
+            budget
         }
     }
 
