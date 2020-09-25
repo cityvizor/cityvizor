@@ -98,7 +98,7 @@ data class CityExport(
         val paragraph: Int?,
         val item: Int?,
         val unit: Int?,
-        val event: Int?,
+        val event: Long?,
         val amount: BigDecimal?,
         @JsonDeserialize(using = LocalDateDeserializer::class)
         val date: LocalDate?,

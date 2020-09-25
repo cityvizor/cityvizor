@@ -56,6 +56,9 @@ dependencies {
     implementation group: 'org.apache.lucene', name: 'lucene-core', version: "$lucene_version"
     implementation group: 'org.apache.lucene', name: 'lucene-queryparser', version: "$lucene_version"
     implementation group: 'org.apache.lucene', name: 'lucene-analyzers-common', version: "$lucene_version"
+
+    // Apache commons-csv for parsing csv files created by Internet Stream
+    implementation "org.apache.commons:commons-csv:1.8"
 }
 
 compileKotlin {
