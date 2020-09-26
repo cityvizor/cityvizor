@@ -160,5 +160,5 @@ class InternetStreamService(
         }
     }
 
-    companion object: KLogging()
+    companion object : KLogging()
 }
