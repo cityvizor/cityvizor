@@ -5,13 +5,13 @@ buildscript {
 }
 
 plugins {
-    id 'org.springframework.boot' version "2.3.2.RELEASE"
-    id 'io.spring.dependency-management' version "1.0.9.RELEASE"
+    id 'org.springframework.boot' version "2.3.4.RELEASE"
+    id 'io.spring.dependency-management' version "1.0.10.RELEASE"
     id 'org.jetbrains.kotlin.jvm' version "$kotlin_version"
     id 'org.jetbrains.kotlin.plugin.spring' version "$kotlin_version"
     id 'com.google.cloud.tools.jib' version '2.2.0'
     id 'com.github.ben-manes.versions' version '0.28.0'
-    id 'org.jlleitschuh.gradle.ktlint' version '9.3.0'
+    id 'org.jlleitschuh.gradle.ktlint' version '9.4.0'
 }
 
 group 'digital.cesko'
