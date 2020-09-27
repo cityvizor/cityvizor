@@ -62,6 +62,10 @@ export default {
   eDesky: {
     url: "https://edesky.cz/api/v1/documents",
     api_key: environment.keys.edesky.api_key
-  }
+  },
+
+  avatarWhitelist: [
+    "cityvizor-images.s3.eu-central-1.amazonaws.com"
+  ]
 
 }

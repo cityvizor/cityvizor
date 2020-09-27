@@ -78,6 +78,7 @@ router.put("/:profile/avatar", acl("profiles","write"), upload.single("avatar"),
     await fs.move(req.file.path, avatarPath);
   }
   if (req.body.url) {
+    if (!config.avatarWhitelist.includes(new URL(req.body.url).host)) return;
     await axios.get(req.body.url, {responseType: "stream"}).then(r => {
       r.data.pipe(fs.createWriteStream(avatarPath))
     })
