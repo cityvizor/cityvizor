@@ -31,7 +31,7 @@ async function createToken(tokenData: any, validity): Promise<string> {
 var loginSchema = {
 	type: "object",
 	properties: {
-		"login": { type: "string", required: true },
+		"username": { type: "string", required: true },
 		"password": { type: "string", required: true }
 	}
 };
@@ -40,7 +40,7 @@ router.post("/", acl("login", "login"), schema.validate({ body: loginSchema }), 
 
 	const user = await db<UserRecord>("app.users")
 		.select("id", "login", "password", "role")
-		.where("login", "like", req.body.login)
+		.where("login", "like", req.body.username)
 		.first();
 
 	if (!user) return res.status(401).send("User not found");
