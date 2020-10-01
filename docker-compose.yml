@@ -19,6 +19,8 @@ services:
     image: backend-kotlin
     build: server-kotlin/.
     container_name: backend.cityvizor.cesko.digital
+    env_file:
+      - .env
     environment:
       JDBC_URL: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
     depends_on:
@@ -32,6 +34,8 @@ services:
       target: prod
     command: bash src/scripts/wait-for-it.sh -h db.cityvizor.cesko.digital -p 5432 -- node dist/server.js
     container_name: server.cityvizor.cesko.digital
+    env_file:
+      - .env
     environment:
       NODE_ENV: local
     volumes:
@@ -62,6 +66,20 @@ services:
     container_name: client.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
+    depends_on:
+      - proxy
+
+  cityvizor-server-strapi:
+    image: cityvizor-server-strapi
+    build: ./redesign/server-strapi
+    command: bash ./wait-for-it.sh -h db.cityvizor.cesko.digital -p 5432 -- yarn start
+    container_name: strapi.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: production
+      DATABASE_HOST: db.cityvizor.cesko.digital
+      DATABASE_NAME: postgres
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: pass
     depends_on:
       - proxy
 

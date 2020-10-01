@@ -1,7 +1,5 @@
 import path from "path";
-
 import environment from "../../environment";
-
 import { aclRoles } from "./roles";
 import { serverConfig } from "./server";
 
@@ -65,7 +63,7 @@ export default {
   },
 
   avatarWhitelist: [
-    "cityvizor-images.s3.eu-central-1.amazonaws.com"
+    process.env.CITYVIZOR_IMAGES_URL
   ]
 
 }
