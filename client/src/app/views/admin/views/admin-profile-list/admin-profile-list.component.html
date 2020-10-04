@@ -11,7 +11,9 @@
     <tbody>
       <tr *ngFor="let profile of profiles" [routerLink]="'./' + profile.id">
         <th>
-          {{profile.name}}
+          <a>
+            {{profile.name}}
+          </a>
           <span *ngIf="profile.status === 'hidden'" class="label label-danger">skrytý</span>
           <span *ngIf="profile.status === 'preview'" class="label label-warning">skrytý na úvodu</span>
           <span *ngIf="profile.status === 'pending'" class="label label-warning">připravovaný</span>          
