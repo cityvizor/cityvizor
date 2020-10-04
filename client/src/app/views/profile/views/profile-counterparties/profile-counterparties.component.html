@@ -21,9 +21,9 @@
 		<tbody>
 			<tr *ngFor="let counterparty of counterparties">
 				<td>{{counterparty.counterpartyName}}</td>
-				<td>{{counterparty.counterpartyId}}</td>
+				<td><a *ngIf="counterparty.counterpartyId" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' + counterparty.counterpartyId + '&cestina=cestina&xml=1'" target="_blank">{{counterparty.counterpartyId}}</a></td>
 				<td>{{(counterparty.amount === null ? "-" : counterparty.amount | money:0:false)}} Kč</td>
-				<td><button class="btn btn-primary" (click)="selectCounterparty(counterparty.counterpartyId)">Detail</button></td>
+				<td><button [disabled]="!counterparty.counterpartyId" class="btn btn-primary" (click)="selectCounterparty(counterparty.counterpartyId)">Detail</button></td>
 			</tr>
 		</tbody>
 	</table>

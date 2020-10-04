@@ -28,6 +28,7 @@ router.get("/top", async (req, res, next) => {
   const counterparties = await db<PaymentRecord>("payments")
     .select("counterpartyId")
     .where("profileId", req.query.profileId)
+    .whereNotNull("counterpartyId")
     .max("counterpartyName as counterpartyName")
     .sum("expenditureAmount as amount")
     .groupBy("counterpartyId")
