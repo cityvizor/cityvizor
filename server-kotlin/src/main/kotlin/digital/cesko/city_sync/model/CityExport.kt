@@ -142,17 +142,28 @@ fun toAccounting(accounting: ResultRow): CityExport.Accounting = CityExport.Acco
 )
 
 fun toContracts(contract: ResultRow): CityExport.Contract = CityExport.Contract(
-    contract[Contracts.id], contract[Contracts.date], contract[Contracts.title],
-    contract[Contracts.counterparty], contract[Contracts.amount], contract[Contracts.currency], contract[Contracts.url]
+    contract[Contracts.id].value,
+    contract[Contracts.date],
+    contract[Contracts.title],
+    contract[Contracts.counterparty],
+    contract[Contracts.amount],
+    contract[Contracts.currency],
+    contract[Contracts.url]
 )
 
 fun toYear(year: ResultRow): CityExport.Year = CityExport.Year(
-    year[Years.year], year[Years.hidden], year[Years.validity]
+    year[Years.year],
+    year[Years.hidden],
+    year[Years.validity]
 )
 
 fun toNoticeboard(noticeboard: ResultRow): CityExport.Noticeboard = CityExport.Noticeboard(
-    noticeboard[Noticeboards.date], noticeboard[Noticeboards.title], noticeboard[Noticeboards.category],
-    noticeboard[Noticeboards.documentUrl], noticeboard[Noticeboards.edeskyUrl], noticeboard[Noticeboards.previewUrl],
+    noticeboard[Noticeboards.date],
+    noticeboard[Noticeboards.title],
+    noticeboard[Noticeboards.category],
+    noticeboard[Noticeboards.documentUrl],
+    noticeboard[Noticeboards.edeskyUrl],
+    noticeboard[Noticeboards.previewUrl],
     noticeboard[Noticeboards.attachments]
 )
 
@@ -174,7 +185,9 @@ fun toEvent(event: ResultRow): CityExport.Event = CityExport.Event(
 )
 
 fun toEventDescription(eventDesc: ResultRow): CityExport.Event.EventDescription = CityExport.Event.EventDescription(
-    eventDesc[EventDescriptions.year], eventDesc[EventDescriptions.description], eventDesc[EventDescriptions.category],
+    eventDesc[EventDescriptions.year],
+    eventDesc[EventDescriptions.description],
+    eventDesc[EventDescriptions.category],
     eventDesc[EventDescriptions.eventName],
     eventDesc[EventDescriptions.organizationName]
 )

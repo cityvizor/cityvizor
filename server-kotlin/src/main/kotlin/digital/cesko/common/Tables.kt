@@ -1,5 +1,6 @@
 package digital.cesko.common
 
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.`java-time`.date
 
@@ -31,8 +32,7 @@ object Accounting : Table("data.accounting") {
     val amount = decimal("amount", 14, 2).nullable()
 }
 
-object Contracts : Table("data.contracts") {
-    val id = integer("id").primaryKey().autoIncrement()
+object Contracts : IntIdTable("data.contracts") {
     val profileId = reference("profile_id", Profiles.id)
     val date = date("date").nullable()
     val title = text("title").nullable()

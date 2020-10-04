@@ -44,9 +44,6 @@
 
 .is-home {
     .l-header {
-        min-height: 80vh;
-        @include media-breakpoint-up(lg) {
-            min-height: 800px;
-        }
+        flex: 1;
     }
 }

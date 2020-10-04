@@ -49,17 +49,17 @@ class IndexRefreshService(
             transaction {
                 Contracts.selectAll()
                     .filter {
-                        if (indexInitialized) searchService.countById(it[Contracts.id]) == 0
+                        if (indexInitialized) searchService.countById(it[Contracts.id].value) == 0
                         else true
                     }
                     .map {
                         val document = Document()
-                        document.add(IntPoint(CONTRACT_ID, it[Contracts.id]))
+                        document.add(IntPoint(CONTRACT_ID, it[Contracts.id].value))
                         document.add(TextField(CONTRACT_TITLE, it[Contracts.title], Field.Store.YES))
                         document.add(TextField(CONTRACT_COUNTERPARTY, it[Contracts.counterparty], Field.Store.YES))
 
                         // stored fields for data that are not searched, but stored to display in search results
-                        document.add(StoredField(CONTRACT_ID, it[Contracts.id]))
+                        document.add(StoredField(CONTRACT_ID, it[Contracts.id].value))
                         document.add(
                             StoredField(
                                 CONTRACT_DATE,

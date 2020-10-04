@@ -26,9 +26,7 @@ object CreateSheet {
         val range = "Sheet1!A2:E2"
 
         val data = listOf(
-            listOf(
-                "a", "b", "c"
-            )
+            listOf("a", "b", "c")
         )
 
         val request = sheetsService.spreadsheets().values()
