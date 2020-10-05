@@ -3,7 +3,7 @@ package digital.cesko.city_search
 object CitySearchService {
     private val citySearchIndex = CitySearchIndex().apply { createCache() }
 
-    private val imgBucket = "https://cityvizor-images.s3.eu-central-1.amazonaws.com/"
+    private val imgBucket = System.getenv("CITYVIZOR_IMAGES_URL")
 
     private val knownCities = mapOf(
         // Cernosice
