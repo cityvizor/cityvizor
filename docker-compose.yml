@@ -69,7 +69,7 @@ services:
   cityvizor-server-strapi:
     image: cityvizor-server-strapi
     build: ./redesign/server-strapi
-    command: bash wait-for-it.sh -h db.cityvisor.cesko.digital -p 5432 -- yarn start
+    command: bash wait-for-it.sh -h db.cityvizor.cesko.digital -p 5432 -- yarn start
     container_name: strapi.cityvizor.cesko.digital
     environment:
       NODE_ENV: production
