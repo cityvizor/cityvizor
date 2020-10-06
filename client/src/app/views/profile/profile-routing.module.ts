@@ -8,6 +8,7 @@ import { ProfileAccountingComponent } from './views/profile-accounting/profile-a
 import { ProfileInvoicesComponent } from './views/profile-invoices/profile-invoices.component';
 import { ProfileNoticeboardComponent } from './views/profile-noticeboard/profile-noticeboard.component';
 import { ProfileContractsComponent } from './views/profile-contracts/profile-contracts.component';
+import { ProfileCounterpartiesComponent } from './views/profile-counterparties/profile-counterparties.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: "faktury", component: ProfileInvoicesComponent },
       { path: "uredni-deska", component: ProfileNoticeboardComponent },
       { path: "registr-smluv", component: ProfileContractsComponent },
+      { path: "dodavatele", component: ProfileCounterpartiesComponent },
       { path: "", redirectTo: "prehled", pathMatch: "full" }
     ]
   }

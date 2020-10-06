@@ -90,7 +90,6 @@ export class DataService {
 	getProfileDashboard(profileId: number) {
 		return this.http.get<DashboardRow[]>(this.root + "/profiles/" + profileId + "/dashboard").toPromise();
 	}
-
 	/* EVENTS */
 	getProfileEvents(profileId: number, year: number, options?) {
 		return this.http.get<BudgetEvent[]>(this.root + "/profiles/" + profileId + "/events/" + year + toParams(options)).toPromise();
@@ -133,8 +132,8 @@ export class DataService {
 		return this.http.get<any[]>(this.root + "/counterparties" + toParams(options)).toPromise();
 	}
 
-	getCounterpartiesTop() {
-		return this.http.get<Counterparty[]>(this.root + "/counterparties/top").toPromise();
+	getCounterpartiesTop(options?: any) {
+		return this.http.get<Counterparty[]>(this.root + "/counterparties/top" + toParams(options)).toPromise();
 	}
 
 	searchCounterparties(query: string) {
@@ -145,8 +144,8 @@ export class DataService {
 		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/budgets").toPromise();
 	}
 
-	getCounterpartyPayments(counterpartyId: string) {
-		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/payments").toPromise();
+	getCounterpartyPayments(counterpartyId: string, options?: any) {
+		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/payments" + toParams(options)).toPromise();
 	}
 
 }

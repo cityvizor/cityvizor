@@ -1,11 +1,9 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription, Observable, combineLatest } from 'rxjs';
-
+import { Observable, combineLatest } from 'rxjs';
 import { DataService } from 'app/services/data.service';
 import { ProfileService } from 'app/services/profile.service';
 import { Profile } from 'app/schema';
-import { filter, distinctUntilChanged } from 'rxjs/operators';
 import { DateTime } from 'luxon';
 
 @Component({
@@ -14,8 +12,6 @@ import { DateTime } from 'luxon';
 	styleUrls: ['profile-invoices.component.scss'],
 })
 export class ProfileInvoicesComponent implements OnInit {
-	// settings
-	monthNames: string[] = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
 
 	// params
 	profile: Observable<Profile>;
@@ -23,70 +19,31 @@ export class ProfileInvoicesComponent implements OnInit {
 
 	// data
 	invoices: any[] = [];
-	months: { [year: number]: number[] } = {};
-	years: number[] = [];
-
-	// current view
-	currentYear: number;
-	currentMonth: number;
-
 	loading: boolean = false;
-
 
 	constructor(private dataService: DataService, private profileService: ProfileService, private route: ActivatedRoute, private router: Router) { }
 
 	ngOnInit() {
 
 		this.profile = this.profileService.profile;
-
 		this.params = this.route.params;
-
-		this.profile.subscribe(profile => this.loadMonths(profile.id))
-
+		
 		combineLatest(this.profile, this.params)
 			.subscribe(([profile, params]) => {
-
 				if (!profile) return;
-
 				let year = Number(params["rok"]);
 				let month = Number(params["mesic"]);
-
-				this.currentYear = year;
-				this.currentMonth = month;
-
-				if (year && month) this.loadData(profile.id, year, month);
-
+				if (year) this.loadData(profile.id, year, month);
 			});
 	}
 
-	async loadMonths(profileId) {
+	async loadData(profileId: number, year: number, month?: number) {
 
-		const months = await this.dataService.getProfilePaymentsMonths(profileId);
-
-		this.months = {};
-
-		months.forEach(month => {
-			if (!month.month || !month.year) return;
-			if (!this.months[month.year]) this.months[month.year] = [];
-			this.months[month.year].push(month.month);
-		});
-
-		this.years = Object.keys(this.months).map(year => Number(year));
-
-		this.years.sort((a, b) => b - a);
-
-		if (!this.currentYear) this.selectMonth(this.years[0], Math.max(...this.months[this.years[0]]));
-		else if (!this.currentMonth) this.selectMonth(this.currentYear, 1);
-
-	}
-
-	async loadData(profileId: number, year: number, month: number) {
-
-		const date = DateTime.fromObject({year, month, day: 1});
+		const date = DateTime.fromObject({year: year, month: month ? month : 1, day: 1});
 
 		let params = {
 			dateFrom: date.toISODate(),
-			dateTo: date.plus({month: 1}).toISODate(),
+			dateTo: month ? date.plus({month: 1}).toISODate() : date.plus({year: 1}).toISODate(),
 			sort: "date"			
 		};
 
@@ -95,23 +52,4 @@ export class ProfileInvoicesComponent implements OnInit {
 		this.loading = false;
 	}
 
-	selectYear(year: number): void {
-		this.router.navigate(this.getYearLink(year), { relativeTo: this.route, replaceUrl: !this.currentYear });
-	}
-	selectMonth(year: number, month: number): void {
-		this.router.navigate(this.getMonthLink(year, month), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth });
-	}
-
-	getYearLink(year: number): any {
-		return this.getMonthLink(year, Math.min(...this.months[year]));
-	}
-	getMonthLink(year: number, month: number): any {
-		return ["./", { "rok": year, "mesic": month }];
-	}
-
-	isMonthDisabled(year: number, month: number) {
-		if (!this.months[year]) return true;
-		if (this.months[year].indexOf(month) === -1) return true;
-		return false;
-	}
 }

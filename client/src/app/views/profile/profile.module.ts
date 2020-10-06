@@ -12,6 +12,7 @@ import { ProfileAccountingComponent } from "./views/profile-accounting/profile-a
 import { ProfileInvoicesComponent } from "./views/profile-invoices/profile-invoices.component";
 import { ProfileNoticeboardComponent } from "./views/profile-noticeboard/profile-noticeboard.component";
 import { ProfileContractsComponent } from "./views/profile-contracts/profile-contracts.component";
+import { ProfileCounterpartiesComponent } from "./views/profile-counterparties/profile-counterparties.component";
 import { BudgetSelectComponent } from './components/budget-select/budget-select.component';
 import { GroupSelectComponent } from './components/group-select/group-select.component';
 
@@ -33,6 +34,7 @@ import { GroupSelectComponent } from './components/group-select/group-select.com
     ProfileInvoicesComponent,
     ProfileNoticeboardComponent,
     ProfileContractsComponent,
+    ProfileCounterpartiesComponent,
 
     BudgetSelectComponent,
     GroupSelectComponent
