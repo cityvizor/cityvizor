@@ -1,9 +1,0 @@
-{
-  "routes": [
-    {
-      "method": "GET",
-      "path": "/strapi/common",
-      "handler": "Common.index"
-    }
-  ]
-}
