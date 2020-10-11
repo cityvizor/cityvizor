@@ -2,17 +2,17 @@ name: Publish Docker Client Redesign
 on:
   push:
     paths:
-      - 'redesign/client-redesign/**'
-      - '.github/workflows/publish-docker-client-redesign.yml'
+      - 'landing-page/**'
+      - '.github/workflows/publish-docker-landing-page.yml'
 jobs:
-  build-client-redesign:
+  build-landing-page:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Publish client-redesign to Registry
+      - name: Publish landing-page to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: cityvizor/client-redesign
+          name: cityvizor/landing-page
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          workdir: redesign/client-redesign
+          workdir: landing-page

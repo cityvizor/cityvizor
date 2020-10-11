@@ -1,8 +1,8 @@
-{{- if .Values.redesign_enabled -}}
+{{- if .Values.landing_page_enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: client-redesign
+  name: landing-page
 spec:
   ports:
     - nodePort: 32321
@@ -10,28 +10,28 @@ spec:
       protocol: TCP
       targetPort: 80
   selector:
-    app: client-redesign
+    app: landing-page
   type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: client-redesign
+  name: landing-page
 spec:
   selector:
     matchLabels:
-      app: client-redesign
+      app: landing-page
   replicas: 1
   template:
     metadata:
       labels:
-        app: client-redesign
+        app: landing-page
       annotations:
         date/deploy-date: {{ now | quote }}
     spec:
       containers:
-        - name: client-redesign
-          image: {{ .Values.client_redesign.image }}:{{ .Values.client_redesign.tag }}
+        - name: landing-page
+          image: {{ .Values.landing_page.image }}:{{ .Values.landing_page.tag }}
           ports:
             - containerPort: 80
           imagePullPolicy: Always

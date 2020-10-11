@@ -19,5 +19,5 @@ server_kotlin:
 
 ingress:
   main_host: cityvizor-vintage.ceskodigital.net
-  redesign_host: cityvizor.ceskodigital.net
+  landing_page_host: cityvizor.ceskodigital.net
   strapi_host: cityvizor-api.ceskodigital.net
