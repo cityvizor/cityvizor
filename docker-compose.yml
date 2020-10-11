@@ -7,10 +7,8 @@ services:
     ports:
       # Client
       - "4200:80"
-      # Redesign
+      # Landing page
       - "4201:81"
-      # Strapi server
-      - "1337:1337"
     volumes:
       - ./nginx:/etc/nginx:ro
     environment:
@@ -55,6 +53,7 @@ services:
       - ./data:/user/src/app/data
     depends_on:
       - postgres
+
   cityvizor-client:
     image: cityvizor-client
     build:
@@ -66,24 +65,12 @@ services:
     depends_on:
       - proxy
 
-  cityvizor-server-strapi:
-    image: cityvizor-server-strapi
-    build: ./redesign/server-strapi
-    command: bash wait-for-it.sh -h db.cityvizor.cesko.digital -p 5432 -- yarn start
-    container_name: strapi.cityvizor.cesko.digital
-    environment:
-      NODE_ENV: production
-      DATABASE_HOST: db.cityvizor.cesko.digital
-      DATABASE_NAME: postgres
-      DATABASE_USERNAME: postgres
-      DATABASE_PASSWORD: pass
-    depends_on:
-      - proxy
-  cityvizor-redesign-client:
-    image: cityvizor-redesign-client
+  landing-page:
+    image: cityvizor-landing-page
     build:
-      context: ./redesign/client-redesign
-    container_name: client-redesign.cityvizor.cesko.digital
+      context: ./landing-page
+      target: prod
+    container_name: landing.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
     depends_on:

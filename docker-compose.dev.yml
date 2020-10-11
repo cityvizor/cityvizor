@@ -29,3 +29,13 @@ services:
         command: bash src/scripts/wait-for-it.sh -h db.cityvizor.cesko.digital -p 54342 -- npm run worker-dev
         volumes:
             - ./server:/user/src/app
+    backend-kotlin:
+        ports:
+            - 4203:8080
+    landing-page:
+        build:
+            target: dev
+        ports:
+            - 4202:8080
+        volumes:
+            - ./landing-page/src:/user/src/app/src
