@@ -1,4 +1,4 @@
-# client-redesign
+# Landing page
 
 ## Project setup
 ```

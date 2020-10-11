@@ -10,9 +10,8 @@ spec:
         {{- if .Values.vintage_enabled }}
         - {{ .Values.ingress.main_host }}
         {{ end }}
-        {{- if .Values.redesign_enabled }}
-        - {{ .Values.ingress.redesign_host }}
-        - {{ .Values.ingress.strapi_host }}
+        {{- if .Values.landing_page_enabled }}
+        - {{ .Values.ingress.landing_page_host }}
         {{ end }}
       secretName: cityvizor-tls
   rules:
@@ -37,8 +36,8 @@ spec:
               serviceName: cityvizor-client
               servicePort: 80
     {{ end }}
-    {{- if .Values.redesign_enabled }}
-    - host: {{ .Values.ingress.redesign_host }}
+    {{- if .Values.landing_page_enabled }}
+    - host: {{ .Values.ingress.landing_page_host }}
       http:
         paths:
           - path: /api/v2/
@@ -51,17 +50,6 @@ spec:
               servicePort: 8080
           - path: /
             backend:
-              serviceName: client-redesign
+              serviceName: landing-page
               servicePort: 80
-          - path: /strapi
-            backend:
-              serviceName: server-strapi
-              servicePort: 1337
-    - host: {{ .Values.ingress.strapi_host }}
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: server-strapi
-              servicePort: 1337
     {{ end }}

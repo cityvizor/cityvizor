@@ -15,7 +15,7 @@ Pro prvotní osahání je nejjednodušší použít Docker compose, který nasta
 
 Po nastartování budou k dispozici následující služby
 - UI na http://localhost:4200
-- redesign UI na http://localhost:4202
+- landing page UI na http://localhost:4202
 
 Soubor `docker-compose.yml` je i dobrý i pro představu jak se jednotivé služby konfigurují a startují. Dá se tam 
 například najít, jak nastartovat Postgres v Dockeru tak aby v něm byla nějaká data. 

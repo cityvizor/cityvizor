@@ -1,4 +1,4 @@
-## Kubernetes config for redesign prod deployment
+## Kubernetes config for landing page prod deployment
 
 
 ### Setup microk8s
