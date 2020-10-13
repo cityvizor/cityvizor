@@ -10,7 +10,6 @@
           </nav>
         </div>
         <div class="col-6 text-right">
-          <p><a href="#">O aplikaci</a> | <a href="#">Data</a> | <a href="#">Licence</a> | <a href="#">Kontakt</a></p>
           <p><a href="#">Přihlásit se</a></p>
         </div>
       </div>
