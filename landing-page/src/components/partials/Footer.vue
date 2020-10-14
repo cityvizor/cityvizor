@@ -10,7 +10,7 @@
           </nav>
         </div>
         <div class="col-6 text-right">
-          <p><a href="#">Přihlásit se</a></p>
+          <p><a href="http://www.cityvizor.cz/#login" target="_blank">Přihlásit se</a></p>
         </div>
       </div>
     </footer>
