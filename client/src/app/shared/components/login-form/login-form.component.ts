@@ -45,6 +45,8 @@ export class LoginFormComponent {
 					navigator.credentials.store(c)
 				}
 
+				this.router.navigate(["/admin/profily"])
+
 			})
 			.catch(err => {
 				if(err.status === 401){
