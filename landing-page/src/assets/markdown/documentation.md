@@ -1,12 +1,3 @@
----
-layout: default
-title: Dokumentace
-menu: dokumentace
----
-
-* TOC
-{:toc}
-
 ## Specifikace vstupních dat
 
 ### Formát
@@ -18,7 +9,6 @@ Textový soubor CSV (hodnoty oddělené středníkem, kódování UTF-8, escapov
 Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různé názvy (viz sloupec Alternativní názvy v následujících tabulkách). Zároveň také nezáleží na pořadí sloupců. Sloupce, které jsou označené jako nepovinné jsou nepovinné pro úspěšné vykonání importu, samozřejmě ale bude mít jejich nevyplnění, tam kde je to příslušné, negativní dopad na kvalitu vizualizace (čím méně toho vyplníte, tím méně toho uživatelé uvidí). Pole *date*, *counterpartyId*, *counterpartyName* a *description* aplikace zpracovává pouze v případě, že se jedná o faktury (tedy pokud *type* = KDF nebo KOF).
 
 #### Datový soubor
-{: style="clear:right"}
 
 <table class="table table-condensed table-hover table-striped">
   <thead>

@@ -1,13 +1,3 @@
----
-layout: default
-title: O aplikaci
-menu: o-aplikaci
-redirect_from: /
----
-
-* TOC
-{:toc}
-  
 ## Intro
 Ahoj a vítej! Díky, že nám chceš pomoct s rozvojem aplikace Cityvizor, vážíme si toho. 
 

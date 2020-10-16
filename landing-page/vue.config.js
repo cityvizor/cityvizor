@@ -10,5 +10,15 @@ module.exports = {
                 logLevel: "debug"
             }
         }
+    },
+    configureWebpack: {
+        module: {
+            rules: [
+            {
+                test: /\.md$/i,
+                use: 'raw-loader',
+            },
+            ],
+        },
     }
 }
