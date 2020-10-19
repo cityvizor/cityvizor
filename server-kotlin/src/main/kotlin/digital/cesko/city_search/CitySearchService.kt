@@ -5,7 +5,7 @@ object CitySearchService {
 
     private val imgBucket = "https://cityvizor-images.s3.eu-central-1.amazonaws.com/"
 
-    private val knownCities = mapOf(
+    val knownCities = mapOf(
         // Cernosice
         "00241121" to KnownCity("https://www.cityvizor.cz/cernosice/", "${imgBucket}cernosice.png"),
         // Marianske Lazne
@@ -43,7 +43,11 @@ object CitySearchService {
             }
     }
 
+    fun getKnownCities(): Collection<KnownCity> {
+        return knownCities.values
+    }
+
     fun update() = this.citySearchIndex.createCache()
 
-    private data class KnownCity(val uriCityVizor: String, val urlZnak: String)
+    data class KnownCity(val uriCityVizor: String, val urlZnak: String)
 }
