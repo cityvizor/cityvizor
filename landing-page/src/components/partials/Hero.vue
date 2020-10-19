@@ -57,7 +57,7 @@ export default {
       if (this.searchTerm === null) {
         return false
       }
-      return this.searchTerm.length > this.searchTermMinLength
+      return this.searchTerm.length >= this.searchTermMinLength
     },
     hasPreviousPage() {
       return this.page > 0
