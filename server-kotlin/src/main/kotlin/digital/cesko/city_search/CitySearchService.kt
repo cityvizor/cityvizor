@@ -5,7 +5,7 @@ object CitySearchService {
 
     private val imgBucket = "https://cityvizor-images.s3.eu-central-1.amazonaws.com/"
 
-    val knownCities = mapOf(
+    private val knownCities = mapOf(
         // Cernosice
         "00241121" to KnownCity("https://www.cityvizor.cz/cernosice/", "${imgBucket}cernosice.png"),
         // Marianske Lazne
