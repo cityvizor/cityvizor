@@ -73,4 +73,23 @@ class CitySearchTest : AbstractSpringDatabaseTest() {
             }
         }
     }
+
+    @Test
+    fun testGetKnownCities() {
+        get("/api/v2/service/citysearch/knownCities").andExpect {
+            status { isOk }
+            jsonContent {
+                isArray().hasSize(9)
+                node("[0].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/cernosice/")
+                node("[1].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/marianskelazne/")
+                node("[2].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/nmnm/")
+                node("[3].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/praha1/")
+                node("[4].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/praha3/")
+                node("[5].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/praha7/")
+                node("[6].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/praha12/")
+                node("[7].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/ub/")
+                node("[8].uriCityVizor").isString().isEqualTo("https://www.cityvizor.cz/uvaly/")
+            }
+        }
+    }
 }
