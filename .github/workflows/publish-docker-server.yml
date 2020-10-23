@@ -1,19 +1,19 @@
-name: Publish Docker Client Redesign
+name: Publish Docker Server
 on:
   push:
     paths:
-      - 'landing-page/**'
-      - '.github/workflows/publish-docker-landing-page.yml'
+      - 'server/**'
+      - '.github/workflows/publish-docker-server.yml'
 jobs:
-  build-landing-page:
+  build-server:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Publish landing-page to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: cityvizor/landing-page
+          name: cityvizor/cityvizor-server
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          workdir: landing-page
+          workdir: server
           buildoptions: "--target prod"
