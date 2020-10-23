@@ -4,17 +4,20 @@
 ### Setup microk8s
 
 ```shell script
-sudo snap install microk8s --channel=1.18/beta --classic
+sudo snap install microk8s --channel=1.19/stable --classic
 microk8s.start
 
-sudo usermod -a -G microk8s ubuntu
-sudo microk8s.enable dns helm ingress
+sudo usermod -a -G microk8s ${USER}
+# restart or make a new shell for the change to take effect
+sudo microk8s.enable dns helm3 ingress
 
 alias kubectl='microk8s.kubectl'
-alias helm='microk8s.helm'
+alias helm='microk8s.helm3'
 
 helm init
 ```
+
+Grabbing `kubectl` shell autocompletion is recommended.
 
 ### Setup TLS
 https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-on-digitalocean-kubernetes-using-helm
@@ -23,7 +26,7 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-
 kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
 kubectl create namespace cert-manager
 helm repo add jetstack https://charts.jetstack.io
-helm install --name cert-manager --version v0.11.0 --namespace cert-manager jetstack/cert-manager
+helm install cert-manager jetstack/cert-manager --namespace cert-manager 
 ```
 
 ### Run Helm
@@ -31,12 +34,12 @@ Checkout cityvizor, edit (copy) test_values.yml and apply
 
 ```shell script
 cd deployment/redesign-prod/helm
-helm install -f test_values.yml -n cityvizor ./cityvizor 
+helm install -f test_values.yml cityvizor ./cityvizor 
 ```
 
 To upgrade
 ```shell script
-helm upgrade -f test_values.yml cityvizor cityvizor/
+helm upgrade -f test_values.yml cityvizor ./cityvizor
 ```
 
 ### Automatic deployment
