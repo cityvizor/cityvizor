@@ -18,6 +18,7 @@ helm init
 ```
 
 Grabbing `kubectl` shell autocompletion is recommended.
+If the database is running on the client and not in the cluster, consider enabling the host-access addon: https://microk8s.io/docs/addon-host-access
 
 ### Setup TLS
 https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-on-digitalocean-kubernetes-using-helm
@@ -26,7 +27,8 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-
 kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
 kubectl create namespace cert-manager
 helm repo add jetstack https://charts.jetstack.io
-helm install cert-manager jetstack/cert-manager --namespace cert-manager 
+helm repo update
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.0.3 --set installCRDS=true
 ```
 
 ### Run Helm
@@ -48,8 +50,7 @@ You can use Keel for automatic deployement. By default it watches tag specified 
 ```shell script
 helm repo add keel-charts https://charts.keel.sh 
 helm repo update
-
-helm install --namespace=kube-system -n keel keel-charts/keel
+helm install keel keel/keel --set helmProvider.version="v3"
 ```
 
 ### Create Postgres schema
