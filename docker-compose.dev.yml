@@ -12,6 +12,7 @@ services:
             target: dev
         volumes:
             - ./client:/user/src/app
+            - /user/src/app/node_modules
         ports:
             - 4200:4200
             - 49153:49153
@@ -23,12 +24,14 @@ services:
             - 3000:3000
         volumes:
             - ./server:/user/src/app
+            - /user/src/app/node_modules
     cityvizor-worker:
         build:
             target: dev
         command: bash src/scripts/wait-for-it.sh -h db.cityvizor.cesko.digital -p 54342 -- npm run worker-dev
         volumes:
             - ./server:/user/src/app
+            - /user/src/app/node_modules
     backend-kotlin:
         ports:
             - 4203:8080
