@@ -1,5 +1,6 @@
 FROM node:12 as dev
 WORKDIR /user/src/app
+ENTRYPOINT [ "./entrypoint.sh" ]
 
 # Install server dependencies
 COPY package.json package-lock.json ./
@@ -10,4 +11,3 @@ FROM dev as prod
 COPY . .
 RUN npm run build
 
-CMD ["npm","start"]

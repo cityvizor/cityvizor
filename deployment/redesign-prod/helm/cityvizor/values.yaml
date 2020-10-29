@@ -14,6 +14,7 @@ cityvizor_server:
   database_name: postgres
   database_username: postgres
   database_password: pass
+  create_admin: false
 
 cityvizor_client:
   image: cityvizor/cityvizor-client

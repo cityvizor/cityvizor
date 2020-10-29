@@ -30,7 +30,7 @@ services:
     build: 
       context: ./server
       target: prod
-    command: bash src/scripts/wait-for-it.sh -h db.cityvizor.cesko.digital -p 5432 -- node dist/server.js
+    command: -w db.cityvizor.cesko.digital -a -m server 
     container_name: server.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
@@ -45,7 +45,7 @@ services:
     build: 
       context: ./server
       target: prod
-    command: bash src/scripts/wait-for-it.sh -h db.cityvizor.cesko.digital -p 5432 -- node dist/worker.js
+    command: -w db.cityvizor.cesko.digital -a -m worker
     container_name: worker.cityvizor.cesko.digital
     environment:
       NODE_ENV: local
