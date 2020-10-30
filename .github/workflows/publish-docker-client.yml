@@ -4,6 +4,8 @@ on:
     paths:
       - 'client/**'
       - '.github/workflows/publish-docker-client.yml'
+  release:
+    types: [published, edited]
 jobs:
   build-client:
     runs-on: ubuntu-latest
@@ -17,3 +19,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: client
           buildoptions: "--target prod"
+          tags: ${{ github.event_name == 'release' && 'prod' || 'latest' }}
+

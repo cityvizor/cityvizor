@@ -17,3 +17,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: landing-page
           buildoptions: "--target prod"
+          tags: ${{ github.event_name == 'release' && 'prod' || 'latest' }}
