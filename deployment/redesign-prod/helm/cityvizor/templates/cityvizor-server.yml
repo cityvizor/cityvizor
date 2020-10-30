@@ -28,6 +28,9 @@ spec:
         app: cityvizor-server
       annotations:
         date/deploy-date: {{ now | quote }}
+        keel.sh/policy: "regexp:^{{ .Values.cityvizor_server.tag }}$"
+        keel.sh/trgger: poll
+        keel.sh/pollSchedule: "@every 1m"
     spec:
       containers:
         - name: cityvizor-server

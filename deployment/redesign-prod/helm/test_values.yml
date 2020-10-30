@@ -14,6 +14,10 @@ server_kotlin:
   db_user: postgres
   db_pass: pass
   google_secrets_path: /home/ubuntu/cityvizor/server-kotlin/src/test/resources/city_request/test-credentials.json
+  tag: latest
+
+landing_page:
+  tag: latest
 
 ingress:
   main_host: cityvizor-test.ceskodigital.net

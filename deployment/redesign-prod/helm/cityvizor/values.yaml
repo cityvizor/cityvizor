@@ -22,7 +22,7 @@ cityvizor_client:
 
 server_kotlin:
   image: cityvizor/server-kotlin
-  tag: master
+  tag: prod
   jdbc_url: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
   db_user: postgres
   db_pass: pass
@@ -32,7 +32,7 @@ server_kotlin:
 
 landing_page:
   image: cityvizor/landing-page
-  tag: latest
+  tag: prod
 
 ingress:
   main_host: localhost
