@@ -19,13 +19,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF##*/})"
-        id: extract_branch
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew;
-          ./gradlew build --no-daemon --info jib -Djib.to.auth.username=${{ secrets.DOCKER_USERNAME }} -Djib.to.auth.password=${{ secrets.DOCKER_PASSWORD }} -Djib.to.image=cityvizor/server-kotlin:${{ steps.extract_branch.outputs.branch }}
+          ./gradlew build --no-daemon --info jib -Djib.to.auth.username=${{ secrets.DOCKER_USERNAME }} -Djib.to.auth.password=${{ secrets.DOCKER_PASSWORD }} -Djib.to.image=cityvizor/server-kotlin:latest
         working-directory: server-kotlin
 
