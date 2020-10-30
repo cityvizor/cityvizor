@@ -92,7 +92,7 @@ export default {
     },
     async loadMunicipalitiesCount() {
       try {
-        let response = await axios.get(this.apiBaseUrl)
+        let response = await axios.get(this.apiBaseUrl + "/knownCities")
         this.municipalitiesCount = response.data.length
       } catch (error) {
         this.onLoadFail(error)

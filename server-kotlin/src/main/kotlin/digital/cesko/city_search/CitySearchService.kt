@@ -43,7 +43,11 @@ object CitySearchService {
             }
     }
 
+    fun getKnownCities(): Collection<KnownCity> {
+        return knownCities.values
+    }
+
     fun update() = this.citySearchIndex.createCache()
 
-    private data class KnownCity(val uriCityVizor: String, val urlZnak: String)
+    data class KnownCity(val uriCityVizor: String, val urlZnak: String)
 }

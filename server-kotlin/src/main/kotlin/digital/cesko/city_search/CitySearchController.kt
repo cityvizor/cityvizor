@@ -10,6 +10,9 @@ class CitySearchController {
     @GetMapping("/api/v2/service/citysearch")
     fun search(@RequestParam("query") query: String?) = CitySearchService.search(CitySearchIndex.Search(query ?: ""))
 
+    @GetMapping("/api/v2/service/citysearch/knownCities")
+    fun get() = CitySearchService.getKnownCities()
+
     @PostMapping("/api/v2/service/citysearch/update")
     fun update(): String {
         CitySearchService.update()
