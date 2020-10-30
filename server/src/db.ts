@@ -44,15 +44,7 @@ Client.prototype.query = async function (connection, obj) {
   }
 };
 
-// Initialize knex.
-export const db = Knex(knexConfig);
-
-
-(async function () {
-  console.log("[DB] Running migrations");
-  await db.migrate.latest(knexConfig.migrations);
-  console.log("[DB] Migrations finished");
-})();
+export const db = Knex(knexConfig)
 
 export async function dbConnect() {
   return db.raw("SELECT 1+1 AS result")

@@ -28,6 +28,6 @@ var bcrypt = require("bcryptjs");
 
   console.log("Created user admin with password admin.");
 
-  dbDestroy();
+  await dbDestroy();
 
 })();

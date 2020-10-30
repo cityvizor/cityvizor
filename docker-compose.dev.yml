@@ -19,7 +19,7 @@ services:
     cityvizor-server:
         build:
             target: dev
-        command: bash src/scripts/wait-for-it.sh -h db.cityvizor.cesko.digital -p 5432 -- npm run server-dev
+        command: -w db.cityvizor.cesko.digital -a -m server-dev
         ports:
             - 3000:3000
         volumes:
@@ -28,7 +28,7 @@ services:
     cityvizor-worker:
         build:
             target: dev
-        command: bash src/scripts/wait-for-it.sh -h db.cityvizor.cesko.digital -p 54342 -- npm run worker-dev
+        command: -w db.cityvizor.cesko.digital -a -m worker-dev
         volumes:
             - ./server:/user/src/app
             - /user/src/app/node_modules
