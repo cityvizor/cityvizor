@@ -1,9 +1,4 @@
 {{- if .Values.vintage_enabled -}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: cityvizor-worker
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
