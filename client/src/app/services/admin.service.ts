@@ -40,6 +40,9 @@ export class AdminService {
   saveProfileAvatar(profileId: number, data: FormData) {
     return this.http.put(this.root + "/profiles/" + profileId + "/avatar", data, { responseType: 'text' }).toPromise();
   }
+  saveProfileAvatarFromUrl(profileId: number, avatarUrl: string) {
+    return this.http.put(this.root + "/profiles/" + profileId + "/avatar", {url: avatarUrl}, { responseType: 'text' }).toPromise();
+  }
   deleteProfileAvatar(profileId: number) {
     return this.http.delete(this.root + "/profiles/" + profileId + "/avatar", { responseType: 'text' }).toPromise();
   }

@@ -1,7 +1,5 @@
 import path from "path";
-
 import environment from "../../environment";
-
 import { aclRoles } from "./roles";
 import { serverConfig } from "./server";
 
@@ -62,6 +60,10 @@ export default {
   eDesky: {
     url: "https://edesky.cz/api/v1/documents",
     api_key: environment.keys.edesky.api_key
-  }
+  },
+
+  avatarWhitelist: [
+    process.env.CITYVIZOR_IMAGES_URL
+  ]
 
 }

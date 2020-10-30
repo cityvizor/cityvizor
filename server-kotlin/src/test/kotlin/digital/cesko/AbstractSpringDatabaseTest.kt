@@ -47,6 +47,7 @@ abstract class AbstractSpringDatabaseTest : AbstractSpringTest() {
 
     internal object Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
+            System.setProperty("CITYVIZOR_IMAGES_URL", "https://cityvizor-images.s3.eu-central-1.amazonaws.com/")
             TestPropertyValues.of(
                 "jdbc.url=" + url,
                 "db.user=" + user,

@@ -19,6 +19,8 @@ services:
     image: backend-kotlin
     build: server-kotlin/.
     container_name: backend.cityvizor.cesko.digital
+    env_file:
+      - .env
     environment:
       JDBC_URL: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
     depends_on:
@@ -32,6 +34,8 @@ services:
       target: prod
     command: -w db.cityvizor.cesko.digital -a -m server 
     container_name: server.cityvizor.cesko.digital
+    env_file:
+      - .env
     environment:
       NODE_ENV: local
     volumes:
