@@ -29,7 +29,7 @@ module.exports = {
   corsOrigin: process.env.URL,
 
   keys: {
-    edesky: { api_key: null },
-    jwt: { secret: "secret" }
+    edesky: { api_key: process.env.EDESKY_API_KEY },
+    jwt: { secret: process.env.JWT_SECRET }
   }
 };
