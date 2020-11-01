@@ -27,6 +27,10 @@ spec:
         app: server-kotlin
       annotations:
         date/deploy-date: {{ now | quote }}
+        keel.sh/policy: "regexp:^{{ .Values.server_kotlin.tag }}$"
+        keel.sh/trgger: poll
+        keel.sh/pollSchedule: "@every 1m"
+
     spec:
       containers:
         - name: server-kotlin
