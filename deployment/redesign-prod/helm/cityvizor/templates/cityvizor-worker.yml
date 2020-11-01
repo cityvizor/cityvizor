@@ -21,7 +21,7 @@ spec:
       containers:
         - name: cityvizor-server
           image: {{ .Values.cityvizor_server.image }}:{{ .Values.cityvizor_server.tag }}
-          args: [{{ if .Values.cityvizor_server_create_admin }}, "-a" {{ end }}, "-m worker"]
+          args: [{{ if .Values.cityvizor_server.create_admin }}, "-a", {{ end }} "-m", "worker"]
           env:
             - name: NODE_ENV
               value: "system"
