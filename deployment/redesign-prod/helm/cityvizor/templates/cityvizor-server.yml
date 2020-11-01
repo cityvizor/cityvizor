@@ -49,6 +49,8 @@ spec:
               value: {{ .Values.cityvizor_server.database_username }}
             - name: DATABASE_PASSWORD
               value: {{ .Values.cityvizor_server.database_password }}
+            - name: CITYVIZOR_IMAGES_URL
+              value: {{ .Values.shared_env.images_url }}
           ports:
             - containerPort: 3000
           imagePullPolicy: Always

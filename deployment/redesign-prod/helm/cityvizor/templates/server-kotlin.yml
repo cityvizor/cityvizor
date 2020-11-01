@@ -49,6 +49,9 @@ spec:
               value: file:/google-secret.json
             - name: fulltextSearch.indexRefreshEnabled
               value: {{ .Values.server_kotlin.fulltextSearch.indexRefreshEnabled | quote }}
+            - name: CITYVIZOR_IMAGES_URL
+              value: {{ .Values.shared_env.images_url }}
+              
           ports:
             - containerPort: 8080
           imagePullPolicy: Always

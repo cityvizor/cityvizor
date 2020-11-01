@@ -29,7 +29,6 @@ server_kotlin:
   fulltextSearch:
     indexRefreshEnabled: true
 
-
 landing_page:
   image: cityvizor/landing-page
   tag: prod
@@ -38,6 +37,9 @@ ingress:
   main_host: localhost
   landing_page_host: localhost-landing-page
 
+shared_env:
+  images_url: https://cityvizor-images.s3.eu-central-1.amazonaws.com/
+    
 nameOverride: ""
 fullnameOverride: ""
 
