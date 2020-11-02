@@ -4,6 +4,8 @@ on:
     paths:
       - 'server-kotlin/**'
       - '.github/workflows/publish-docker-server-kotlin.yml'
+  release:
+    types: [published, edited]
 jobs:
   build-server-kotlin:
     runs-on: ubuntu-latest

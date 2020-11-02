@@ -4,6 +4,8 @@ on:
     paths:
       - 'server/**'
       - '.github/workflows/publish-docker-server.yml'
+  release:
+    types: [published, edited]
 jobs:
   build-server:
     runs-on: ubuntu-latest
