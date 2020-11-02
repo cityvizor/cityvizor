@@ -4,6 +4,8 @@ on:
     paths:
       - 'landing-page/**'
       - '.github/workflows/publish-docker-landing-page.yml'
+  release:
+    types: [published, edited]
 jobs:
   build-landing-page:
     runs-on: ubuntu-latest
