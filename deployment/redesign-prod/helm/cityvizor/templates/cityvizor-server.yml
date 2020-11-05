@@ -51,6 +51,10 @@ spec:
               value: {{ .Values.cityvizor_server.database_password }}
             - name: CITYVIZOR_IMAGES_URL
               value: {{ .Values.shared_env.images_url }}
+            - name: EDESKY_API_KEY
+              value: {{ .Values.cityvizor_server.edesky_api_key }}
+            - name: JWT_SECRET
+              value: {{ .Values.cityvizor_server.jwt_secret }}
           ports:
             - containerPort: 3000
           imagePullPolicy: Always

@@ -15,6 +15,9 @@ cityvizor_server:
   database_username: postgres
   database_password: pass
   create_admin: false
+  edesky_api_key: null
+  jwt_secret: secret
+
 
 cityvizor_client:
   image: cityvizor/cityvizor-client
