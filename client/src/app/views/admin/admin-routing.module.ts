@@ -24,7 +24,8 @@ const routes: Routes = [
           { path: "api", component: AdminProfileApiComponent },
           { path: "logy", component: AdminProfileLogsComponent },
           { path: "nastaveni", component: AdminProfileSettingsComponent },
-          { path: "", redirectTo: "data", pathMatch: "full" }
+          { path: "", redirectTo: "data", pathMatch: "full" },
+	        { path: '**', redirectTo: '/', pathMatch: 'full' },
         ]
       },
       { path: "profily", component: AdminProfileListComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
       { path: "spravci/:user", component: AdminUserComponent },
       { path: "spravci", component: AdminUserListComponent },
 
-      { path: "", redirectTo: "profily", pathMatch: "full" }
+      { path: "", redirectTo: "profily", pathMatch: "full" },
+	    { path: '**', redirectTo: '/', pathMatch: 'full' },
     ]
   }
 ];

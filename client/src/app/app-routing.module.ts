@@ -17,7 +17,11 @@ const routes: Routes = [
 	{ path: 'admin', loadChildren: () => import('./views/admin/admin.module').then(mod => mod.AdminModule), canActivate: [ACLService] },
 
 	/* PROFILE */
-	{ path: ':profile', loadChildren: () => import('./views/profile/profile.module').then(mod => mod.ProfileModule) }
+	{ path: ':profile', loadChildren: () => import('./views/profile/profile.module').then(mod => mod.ProfileModule) },
+
+	/* CATCH ALL */
+	{ path: '**', redirectTo: '', pathMatch: 'full' },
+
 
 ];
 

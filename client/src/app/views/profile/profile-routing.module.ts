@@ -22,7 +22,8 @@ const routes: Routes = [
       { path: "uredni-deska", component: ProfileNoticeboardComponent },
       { path: "registr-smluv", component: ProfileContractsComponent },
       { path: "dodavatele", component: ProfileCounterpartiesComponent },
-      { path: "", redirectTo: "prehled", pathMatch: "full" }
+      { path: "", redirectTo: "prehled", pathMatch: "full" },
+      { path: '**', redirectTo: '/', pathMatch: 'full' },
     ]
   }
 ];
