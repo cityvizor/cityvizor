@@ -11,6 +11,9 @@ const routes: Routes = [
 	/* FRONT PAGE */
 	{ path: '', component: FrontpageComponent },
 
+	/* NOT FOUND */
+	{ path: 'not-found', component: NotFoundPageComponent },
+
 	/* COUNTERPARTIES */
 	{ path: 'dodavatele', loadChildren: () => import("./views/counterparty/counterparty.module").then(mod => mod.CounterpartyModule) },
 
@@ -21,7 +24,7 @@ const routes: Routes = [
 	{ path: ':profile', loadChildren: () => import('./views/profile/profile.module').then(mod => mod.ProfileModule) },
 
 	/* CATCH ALL */
-	{ path: '**', pathMatch: 'full', component: NotFoundPageComponent },
+	{ path: '**', pathMatch: 'full', redirectTo: '/not-found' },
 
 
 ];

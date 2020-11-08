@@ -26,7 +26,7 @@ const routes: Routes = [
           { path: "logy", component: AdminProfileLogsComponent },
           { path: "nastaveni", component: AdminProfileSettingsComponent },
           { path: "", redirectTo: "data", pathMatch: "full" },
-	        { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
+	        { path: '**', pathMatch: 'full', redirectTo: '/not-found' },
         ]
       },
       { path: "profily", component: AdminProfileListComponent },
@@ -35,7 +35,7 @@ const routes: Routes = [
       { path: "spravci", component: AdminUserListComponent },
 
       { path: "", redirectTo: "profily", pathMatch: "full" },
-	    { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
+	    { path: '**', pathMatch: 'full', redirectTo: '/not-found' },
     ]
   }
 ];

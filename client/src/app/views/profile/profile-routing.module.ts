@@ -24,7 +24,7 @@ const routes: Routes = [
       { path: "registr-smluv", component: ProfileContractsComponent },
       { path: "dodavatele", component: ProfileCounterpartiesComponent },
       { path: "", redirectTo: "prehled", pathMatch: "full" },
-      { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
+      { path: '**', pathMatch: 'full', redirectTo: '/not-found' },
     ]
   }
 ];

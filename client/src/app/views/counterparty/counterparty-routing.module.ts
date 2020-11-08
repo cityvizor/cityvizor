@@ -17,7 +17,7 @@ const routes: Routes = [
       { path: 'faktury', component: CounterpartyPaymentsComponent },
       { path: 'prehled', component: CounterpartyDashboardComponent },
       { path: '', redirectTo: 'prehled', pathMatch: 'full' },
-      { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
+      { path: '**', pathMatch: 'full', redirectTo: '/not-found' },
     ]
   }
 ];
