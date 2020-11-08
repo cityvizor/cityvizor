@@ -4,6 +4,7 @@ import { ACLService } from "./services/acl.service";
 import { NgModule } from '@angular/core';
 
 import { FrontpageComponent } from './views/frontpage/frontpage.component';
+import { NotFoundPageComponent } from './views/not-found-page/not-found-page.component';
 
 const routes: Routes = [
 
@@ -20,7 +21,7 @@ const routes: Routes = [
 	{ path: ':profile', loadChildren: () => import('./views/profile/profile.module').then(mod => mod.ProfileModule) },
 
 	/* CATCH ALL */
-	{ path: '**', redirectTo: '', pathMatch: 'full' },
+	{ path: '**', pathMatch: 'full', component: NotFoundPageComponent },
 
 
 ];

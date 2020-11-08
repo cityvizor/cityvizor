@@ -9,6 +9,7 @@ import { AdminProfileSettingsComponent } from './views/admin-profile/admin-profi
 import { AdminProfileLogsComponent } from './views/admin-profile/admin-profile-logs/admin-profile-logs.component';
 import { AdminUserComponent } from './views/admin-user/admin-user.component';
 import { AdminProfileApiComponent } from './views/admin-profile/admin-profile-api/admin-profile-api.component';
+import { NotFoundPageComponent } from '../not-found-page/not-found-page.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,7 @@ const routes: Routes = [
           { path: "logy", component: AdminProfileLogsComponent },
           { path: "nastaveni", component: AdminProfileSettingsComponent },
           { path: "", redirectTo: "data", pathMatch: "full" },
-	        { path: '**', redirectTo: '/', pathMatch: 'full' },
+	        { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
         ]
       },
       { path: "profily", component: AdminProfileListComponent },
@@ -34,7 +35,7 @@ const routes: Routes = [
       { path: "spravci", component: AdminUserListComponent },
 
       { path: "", redirectTo: "profily", pathMatch: "full" },
-	    { path: '**', redirectTo: '/', pathMatch: 'full' },
+	    { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
     ]
   }
 ];

@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { FrontpageModule } from './views/frontpage/frontpage.module';
+import { NotFoundPageModule } from './views/not-found-page/not-found-page.module';
 
 /* HTTP Interceptors */
 import { httpInterceptorProviders } from './http-interceptors';
@@ -41,7 +42,7 @@ var jwtOptions = {
 
 @NgModule({
 	imports: [
-		BrowserModule,
+	BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
 		
@@ -49,6 +50,7 @@ var jwtOptions = {
 		
 		SharedModule,
 		FrontpageModule,
+		NotFoundPageModule,
 
 		ModalModule.forRoot(),
 		JwtModule.forRoot(jwtOptions)

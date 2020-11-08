@@ -9,6 +9,7 @@ import { ProfileInvoicesComponent } from './views/profile-invoices/profile-invoi
 import { ProfileNoticeboardComponent } from './views/profile-noticeboard/profile-noticeboard.component';
 import { ProfileContractsComponent } from './views/profile-contracts/profile-contracts.component';
 import { ProfileCounterpartiesComponent } from './views/profile-counterparties/profile-counterparties.component';
+import { NotFoundPageComponent } from '../not-found-page/not-found-page.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,7 @@ const routes: Routes = [
       { path: "registr-smluv", component: ProfileContractsComponent },
       { path: "dodavatele", component: ProfileCounterpartiesComponent },
       { path: "", redirectTo: "prehled", pathMatch: "full" },
-      { path: '**', redirectTo: '/', pathMatch: 'full' },
+      { path: '**', pathMatch: 'full', component: NotFoundPageComponent },
     ]
   }
 ];
