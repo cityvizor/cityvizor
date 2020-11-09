@@ -1,14 +1,15 @@
 import EventEmitter from 'events';
-import fs from "fs-extra";
-import path from "path";
-
+import fs, { ReadStream, createReadStream } from "fs-extra";
 import mergeStream from "merge-stream";
-
 import csvparse from "csv-parse";
-
 import { Readable, Transform } from 'stream';
+import { Importer } from './importer';
+import logger from './logger';
+import { AccountingRecord, PaymentRecord, EventRecord, ProfileRecord, YearRecord } from "../../schema/database";
+import { ImportRecord } from '../../schema/database/import';
+import { paramCase } from 'change-case';
 
-const headerNames = {
+const headerAliases = {
   type: ["type", "recordType", "MODUL", "DOKLAD_AGENDA"],
   paragraph: ["paragraph", "PARAGRAF"],
   item: ["item", "POLOZKA"],
@@ -18,168 +19,209 @@ const headerNames = {
   date: ["date", "DATUM", "DOKLAD_DATUM"],
   counterpartyId: ["counterpartyId", "SUBJEKT_IC"],
   counterpartyName: ["counterpartyName", "SUBJEKT_NAZEV"],
-  description: ["description", "POZNAMKA"]
+  description: ["description", "POZNAMKA"],
+  id: ["id", "eventId", "srcId", "AKCE", "ORG"],
+  name: ["name", "eventName", "AKCE_NAZEV"]
 };
 
-const eventHeaderNames = {
-  "id": ["id", "eventId", "srcId", "AKCE", "ORG"],
-  "name": ["name", "eventName", "AKCE_NAZEV"]
-}
+const mandatoryAccountingHeaders = [
+  "type",
+  "paragraph",
+  "item",
+  "event",
+  "amount"
+]
 
-export interface BalanceChunk {
-  type: "balance";
-  data: {
-    type: string,
-    paragraph: string,
-    item: string,
-    event: string,
-    amount: string
-  };
-}
+const mandatoryPaymentsHeaders = [
+  "type",
+  "paragraph",
+  "item",
+  "unit",
+  "event",
+  "amount",
+  "date",
+  "counterpartyId",
+  "counterpartyName",
+  "description"
+]
 
-export interface PaymentChunk {
-  type: "payment";
-  data: {
-    type: string,
-    paragraph: string,
-    item: string,
-    event: string,
-    amount: string,
-    date: string,
-    counterpartyId: string,
-    counterpartyName: string,
-    description: string
-  }
-}
+const mandatoryEventHeaders = [
+  "id",
+  "name"
+]
 
-export interface EventChunk {
-  type: "event";
-  data: {
-    id: string,
-    name: string
-  };
-}
+export class ImportParser {
 
-export class ImportParser extends EventEmitter {
-
-  modified = false;
-
-  result = {};
-
-  eventReader: Transform;
-  dataReader: Transform;
-
-  readable: NodeJS.ReadWriteStream;
-
-  error: Error;
-
-  constructor() {
-
-    super();
-
-    this.dataReader = this.createDataReader();
-
-    this.eventReader = this.createEventsReader();
-
-    this.readable = mergeStream(this.dataReader, this.eventReader)
-  }
-
-  async parseImport(files) {
-
-    if (files.eventsFile) {
-      var eventsFile = fs.createReadStream(files.eventsFile);
-      await this.parseEvents(eventsFile, this.eventReader);
+  static createCsvParser(file: string): csvparse.Parser {
+    let headers = []
+    switch (file) {
+      case "accountingFile":
+        headers = mandatoryAccountingHeaders
+        break
+      case "paymentsFile":
+      case "dataFile":
+        headers = mandatoryPaymentsHeaders
+        break
+      case "eventsFile":
+        headers = mandatoryEventHeaders
+        break
+      default:
+        throw Error("Unexpected parser requested")
     }
 
-    if (files.dataFile) {
-      var dataFile = fs.createReadStream(files.dataFile);
-      await this.parseData(dataFile, this.dataReader);
+    return csvparse({ delimiter: ";", columns: line => this.parseHeader(line, headers), relax_column_count: true });
+  }
+
+  static createCsvTransformer(file: string, options: Importer.Options): Transform {
+    switch (file) {
+      case "paymentsFile":
+      case "dataFile":
+      case "accountingFile":
+        return this.createDataTransformer(options)
+      case "eventsFile":
+        return this.createEventsReader(options)
+      default:
+        throw Error("Unexpected parser requested")
     }
-
   }
 
-  async parseData(dataFile, reader) {
-    return new Promise((resolve, reject) => {
-
-      var error = false;
-
-      var parser = csvparse({ delimiter: ";", columns: line => this.parseHeader(line, headerNames), relax_column_count: true });
-      parser.on("error", err => (error = true, reject(err)));
-      parser.on("end", () => !error && resolve());
-
-      dataFile.pipe(parser).pipe(reader);
-    });
-  }
-
-  async parseEvents(eventsFile, reader: Readable) {
-    return new Promise((resolve, reject) => {
-
-      var error = false;
-
-      var parser = csvparse({ delimiter: ";", columns: line => this.parseHeader(line, eventHeaderNames), relax_column_count: true });
-      parser.on("error", err => (error = true, reject(err)));
-      parser.on("end", () => !error && resolve());
-
-      eventsFile.pipe(parser).pipe(reader);
-    });
-  }
-
-  createDataReader() {
-
-    var reader = new Transform({
-      writableObjectMode: true,
-      readableObjectMode: true,
-      transform: function (record, enc, callback) {
-
-        // emit balance
-        var balance: BalanceChunk["data"] = ["type", "paragraph", "item", "event", "amount"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
-        this.push({ type: "balance", data: balance });
-
-        // emit payment
-        if (balance.type === "KDF" || balance.type === "KOF") {
-          let payment: PaymentChunk["data"] = ["type", "paragraph", "item", "event", "amount", "date", "counterpartyId", "counterpartyName", "description"].reduce((bal, key) => (bal[key] = record[key], bal), {} as any);
-          this.push({ type: "payment", data: payment });
-        }
-
-        callback();
-      }
-    });
-
-    return reader;
-  }
-
-  createEventsReader() {
-
-    var reader = new Transform({
+  static createDataTransformer(options: Importer.Options) {
+    return new Transform({
       writableObjectMode: true,
       readableObjectMode: true,
       transform: function (line, enc, callback) {
-        let event: EventChunk = { type: "event", data: { id: line.id, name: line.name } }
-        if (line.id && line.name) this.push(event);
-        else this.emit("warning", "Missing event id");
-        callback();
+        const recordType = line["type"]
+
+        if (recordType === "KDF" || recordType === "KOF") {
+          try {
+            let payment = ImportParser.createPaymentRecord(line, options)
+            this.push({type: "payment", record: payment});
+            callback()
+          } catch (err) {
+            callback(err)  
+          }
+        } else {
+          var accounting = ImportParser.createAccountingRecord(line, options)
+          this.push({type: "accounting", record: accounting});
+          callback()
+        } 
       }
     });
 
-    return reader;
   }
 
-  parseHeader(headerLine: string[], names: { [name: string]: string[] }) {
-
-    // remove possible BOM at the beginning of file, also removes extra whitespaces
-    headerLine = headerLine.map(item => item.trim());
-
-    return headerLine.map(originalField => {
-
-      // browser throught all the target fields if originalField is someones alias
-      var matchedField = Object.keys(names).find(name => names[name].indexOf(originalField) >= 0);
-
-      // return matched or original field
-      return matchedField || originalField;
-
+  static createEventsReader(options: Importer.Options) {
+    return new Transform({
+      writableObjectMode: true,
+      readableObjectMode: true,
+      transform: function (line, enc, callback) {
+        let event = ImportParser.createEventRecord(line, options)
+        if (line.id && line.name) {
+          this.push({type: "event", record: event});
+          callback()
+        }
+        else {
+          callback(new Error(`Missing event id; event name: ${line.name}`))
+        }
+    }
     });
 
   }
 
+  static parseHeader(headerLine: string[], headerNames: string[]): string[] {
+    // remove possible BOM at the beginning of file, also removes extra whitespaces
+    headerLine = headerLine.map(item => item.trim())
+    logger.log(`Searching for these headers: [${headerNames}]`)
+    logger.log(`The header array being searched for field names: [${headerLine}]`)
+    const foundHeaders: string[] = headerLine.map(originalField => {
+      // browse through all the target fields if originalField is someones alias
+      return Object.keys(headerAliases).find(key => headerAliases[key].indexOf(originalField) != -1)
+    });
+    headerNames.forEach(h => {
+      if (foundHeaders.indexOf(h) == -1) {
+        throw Error(`Failed to find column header "${h}"`)
+      }
+    })
+
+    return foundHeaders
+
+  }
+
+  static createPaymentRecord(row: {}, options: Importer.Options): PaymentRecord {
+    return ["type", "paragraph", "item", "event", "amount", "date", "counterpartyId", "counterpartyName", "description"].reduce((acc, c) => {
+      switch(c) {
+        case "date":
+          const d = Date.parse(row[c])
+          if (isNaN(d) || !/\d{4}-\d{2}-\d{2}/.test(row[c])) this.invalidField("date", "date", row)
+          acc[c] = row[c]
+          break
+        case "paragraph":
+        case "item":
+        case "unit":
+        case "event":
+        case "amount":
+          const n = Number(row[c])
+          if (isNaN(n)) this.invalidField(c, "number", row) 
+          acc[c] = n
+          break
+        case "counterpartyId":
+        case "counterpartyName":
+        case "description":
+          acc[c] = row[c]
+          break
+      }
+      return acc
+    }, {
+      profileId: options.profileId,
+      year: options.year
+    } as PaymentRecord)
+  }
+
+  static createAccountingRecord(row: {}, options: Importer.Options): AccountingRecord {
+    return ["type", "paragraph", "item", "event", "unit", "amount"].reduce((acc, c) => {
+      switch(c) {
+        case "type":
+          acc[c] = row[c]
+          break
+        case "paragraph":
+        case "item":
+        case "event":
+        case "unit":
+        case "amount":
+          const n = Number(row[c])
+          if (isNaN(n)) this.invalidField(c, "number", row) 
+          acc[c] = n
+          break
+      }
+      return acc
+    }, {
+      profileId: options.profileId,
+      year: options.year
+    } as AccountingRecord)
+  }
+
+  static createEventRecord(row: {}, options: Importer.Options): EventRecord {
+    return ["id", "name", "description"].reduce((acc, c) => {
+      switch(c) {
+        case "name":
+        case "description":
+          acc[c] = row[c]
+          break
+        case "id":
+          const n = Number(row[c])
+          if (isNaN(n)) this.invalidField(c, "number", row) 
+          acc[c] = n
+          break
+      }
+      return acc
+    }, {
+      profileId: options.profileId,
+      year: options.year
+    } as EventRecord)
+  }
+
+  private static invalidField(field: string, type: string, row: {}): never {
+    throw new Error(`Failed to convert field "${field}": ${row[field]} to ${type}.\nRow processed: ${JSON.stringify(row)}`)
+  }
 
 }

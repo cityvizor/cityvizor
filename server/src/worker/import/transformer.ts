@@ -1,25 +1,23 @@
 import { Transform, TransformCallback } from "stream";
-import { BalanceChunk, PaymentChunk, EventChunk } from "./parser";
+import { AccountingRecord, EventRecord, PaymentRecord } from "../../schema";
+import { Importer } from "./importer";
 
 export class ImportTransformer extends Transform {
 
-  eventIds: string[] = [];
+  eventIds: number[] = [];
 
   constructor() {
     super({ readableObjectMode: true, writableObjectMode: true });
   }
 
-  _transform(chunk: BalanceChunk | PaymentChunk | EventChunk, encoding: string, callback: TransformCallback) {
-    
+  _transform(chunk: Importer.ImportChunk, encoding: string, callback: TransformCallback) {
     // remove duplicate events
-    if (chunk.type === "event") {
-
-      if (this.eventIds.indexOf(chunk.data.id) !== -1) {
-        callback();
-        return;
+    if (chunk.type == "event") {
+      if (this.eventIds.indexOf(chunk.record.id) !== -1) {
+        callback(new Error(`Duplicate event with id ${chunk.record.id} found, aborting!`))
       }
 
-      this.eventIds.push(chunk.data.id);
+      this.eventIds.push(chunk.record.id);
     }
 
     callback(null, chunk)
