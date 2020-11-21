@@ -2,8 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# Are client-redesign and strapi-server enabled
-redesign_enabled: true
+# Is landing page enabled
+landing_page_enabled: true
 # Are cityvizor-server and cityvizor-client enabled?
 vintage_enabled: true
 
@@ -14,6 +14,10 @@ cityvizor_server:
   database_name: postgres
   database_username: postgres
   database_password: pass
+  create_admin: false
+  edesky_api_key: null
+  jwt_secret: secret
+
 
 cityvizor_client:
   image: cityvizor/cityvizor-client
@@ -21,30 +25,24 @@ cityvizor_client:
 
 server_kotlin:
   image: cityvizor/server-kotlin
-  tag: master
+  tag: prod
   jdbc_url: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
   db_user: postgres
   db_pass: pass
   fulltextSearch:
     indexRefreshEnabled: true
 
-server_strapi:
-  image: cityvizor/strapi-server
-  tag: latest
-  database_host: db.cityvizor.cesko.digital
-  database_name: postgres
-  database_username: postgres
-  database_password: password
-
-client_redesign:
-  image: cityvizor/client-redesign
-  tag: latest
+landing_page:
+  image: cityvizor/landing-page
+  tag: prod
 
 ingress:
   main_host: localhost
-  redesign_host: localhost-redesign
-  stapi_host: localhost-strapi
+  landing_page_host: localhost-landing-page
 
+shared_env:
+  images_url: https://cityvizor-images.s3.eu-central-1.amazonaws.com/
+    
 nameOverride: ""
 fullnameOverride: ""
 
@@ -85,7 +83,5 @@ keel:
   images:
     - repository: server_kotlin.image
       tag: server_kotlin.tag
-    - repository: server_strapi.image
-      tag: server_strapi.tag
-    - repository: client_redesign.image
-      tag: client_redesign.tag
+    - repository: landing_page.image
+      tag: landing_page.tag

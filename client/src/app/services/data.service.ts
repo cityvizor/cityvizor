@@ -34,6 +34,7 @@ function toParams(options) {
 export class DataService {
 
 	root = environment.api_root + "/public";
+	root_api2 = environment.api2_root 
 
 	constructor(private http: HttpClient) { }
 
@@ -146,6 +147,10 @@ export class DataService {
 
 	getCounterpartyPayments(counterpartyId: string, options?: any) {
 		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/payments" + toParams(options)).toPromise();
+	}
+
+	searchForCities(ico: string) {
+		return this.http.get<any[]>(this.root_api2 + "/service/citysearch" + toParams( { query: ico })).toPromise();
 	}
 
 }

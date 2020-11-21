@@ -21,7 +21,7 @@ export const AppConfigData: IAppConfig = {
   title: "CityVizor.cz",
   
   siteUrl: "https://cityvizor.cz",
-  docsUrl: "https://cityvizor.github.io/cityvizor",
+  docsUrl: "https://cityvizor.cesko.digital",
   githubUrl: "https://github.com/cityvizor/cityvizor",
 
   avatarsUrl: "/data/uploads/avatars",

@@ -1,0 +1,47 @@
+{{- if .Values.landing_page_enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: landing-page
+spec:
+  ports:
+    - nodePort: 32321
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: landing-page
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: landing-page
+spec:
+  selector:
+    matchLabels:
+      app: landing-page
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: landing-page
+      annotations:
+        date/deploy-date: {{ now | quote }}
+        keel.sh/policy: "regexp:^{{ .Values.landing_page.tag }}$"
+        keel.sh/trgger: poll
+        keel.sh/pollSchedule: "@every 1m"
+    spec:
+      containers:
+        - name: landing-page
+          image: {{ .Values.landing_page.image }}:{{ .Values.landing_page.tag }}
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
+{{- end -}}

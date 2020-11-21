@@ -1,5 +1,5 @@
 import { Component, ViewContainerRef, ViewChild, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { trigger, style, animate, transition } from '@angular/animations';
 
 import { ToastService } from './services/toast.service';
@@ -40,8 +40,14 @@ export class AppComponent {
 
 	wrongPassword: boolean = false;
 
-	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, @Inject(AppConfig) public config: IAppConfig) {
+	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, private route: ActivatedRoute, @Inject(AppConfig) public config: IAppConfig) {
 		this.toasts = this.toastService.toasts;
+	}
+
+	ngOnInit() {
+		this.route.fragment.subscribe(f => {
+			if (f == "login") this.loginModal.show()
+		})
 	}
 
 	logout() {

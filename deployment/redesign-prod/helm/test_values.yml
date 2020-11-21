@@ -1,23 +1,25 @@
 cityvizor_server:
-  database_host: cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com
-  database_name: cityvizor_test
-  database_username: cityvizor_test
-  database_password: 'cityv!zor_t3st'
+  database_host: 10.0.1.1
+  database_name: cityvizor
+  database_username: postgres
+  database_password: pass
+  tag: latest
+  create_admin: true
 
-server_strapi:
-  database_host: cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com
-  database_username: strapi_test
-  database_password: str@pi_t3st
-  database_name: strapi_test
-
+cityvizor_client:
+  tag: latest
 
 server_kotlin:
-  jdbc_url: jdbc:postgresql://cityvizor.chpsyfbvypjs.eu-central-1.rds.amazonaws.com/cityvizor_test
-  db_user: cityvizor_test
-  db_pass: 'cityv!zor_t3st'
+  jdbc_url: jdbc:postgresql://10.0.1.1:5432
+  db_user: postgres
+  db_pass: pass
   google_secrets_path: /home/ubuntu/cityvizor/server-kotlin/src/test/resources/city_request/test-credentials.json
+  tag: latest
+
+landing_page:
+  tag: latest
 
 ingress:
-  main_host: cityvizor-vintage.ceskodigital.net
-  redesign_host: cityvizor.ceskodigital.net
-  strapi_host: cityvizor-api.ceskodigital.net
+  main_host: cityvizor-test.ceskodigital.net
+  landing_page_host: landing.cityvizor-test.ceskodigital.net
+  

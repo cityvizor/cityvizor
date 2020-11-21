@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { UserToken } from "app/schema/user";
+import { Credentials } from "app/schema/credentials";
 
 import { DataService } from './data.service';
 import { environment } from 'environments/environment';
@@ -56,7 +57,7 @@ export class AuthService {
 	}
 
 	// get the token by credentials
-	login(credentials): Promise<any> {
+	login(credentials: Credentials): Promise<any> {
 
 		return new Promise((resolve, reject) => {
 

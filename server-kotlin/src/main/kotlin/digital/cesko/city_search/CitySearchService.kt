@@ -3,7 +3,7 @@ package digital.cesko.city_search
 object CitySearchService {
     private val citySearchIndex = CitySearchIndex().apply { createCache() }
 
-    private val imgBucket = "https://cityvizor-images.s3.eu-central-1.amazonaws.com/"
+    private val imgBucket = System.getenv("CITYVIZOR_IMAGES_URL") ?: System.getProperty("CITYVIZOR_IMAGES_URL")
 
     private val knownCities = mapOf(
         // Cernosice
@@ -43,7 +43,11 @@ object CitySearchService {
             }
     }
 
+    fun getKnownCities(): Collection<KnownCity> {
+        return knownCities.values
+    }
+
     fun update() = this.citySearchIndex.createCache()
 
-    private data class KnownCity(val uriCityVizor: String, val urlZnak: String)
+    data class KnownCity(val uriCityVizor: String, val urlZnak: String)
 }

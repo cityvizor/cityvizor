@@ -32,11 +32,11 @@ export class DatePickerComponent implements OnInit {
 	ngOnInit() {
 		this.profile = this.profileService.profile;
 		this.params = this.route.params;
-		this.profile.subscribe(profile => this.updateDates(profile.id))
 
 		combineLatest(this.profile, this.params)
 			.subscribe(([profile, params]) => {
 				if (!profile) return;
+				if (Object.keys(params).length == 0) this.updateDates(profile.id)
 				this.currentYear = Number(params["rok"]);
 				this.currentMonth = params["mesic"] ? Number(params["mesic"]) : undefined;
 			});

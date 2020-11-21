@@ -28,11 +28,14 @@ spec:
         app: cityvizor-server
       annotations:
         date/deploy-date: {{ now | quote }}
+        keel.sh/policy: "regexp:^{{ .Values.cityvizor_server.tag }}$"
+        keel.sh/trgger: poll
+        keel.sh/pollSchedule: "@every 1m"
     spec:
       containers:
         - name: cityvizor-server
           image: {{ .Values.cityvizor_server.image }}:{{ .Values.cityvizor_server.tag }}
-          command: ["node", "dist/server.js"]
+          args: [{{ if .Values.cityvizor_server.create_admin }}, "-a", {{ end }} "-m", "server"]
           env:
             - name: NODE_ENV
               value: "system"
@@ -46,6 +49,12 @@ spec:
               value: {{ .Values.cityvizor_server.database_username }}
             - name: DATABASE_PASSWORD
               value: {{ .Values.cityvizor_server.database_password }}
+            - name: CITYVIZOR_IMAGES_URL
+              value: {{ .Values.shared_env.images_url }}
+            - name: EDESKY_API_KEY
+              value: {{ .Values.cityvizor_server.edesky_api_key }}
+            - name: JWT_SECRET
+              value: {{ .Values.cityvizor_server.jwt_secret }}
           ports:
             - containerPort: 3000
           imagePullPolicy: Always
