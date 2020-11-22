@@ -4,6 +4,7 @@ import digital.cesko.common.Payments
 import digital.cesko.common.Profiles
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
@@ -61,7 +62,10 @@ class InternetStreamService(
             }
 
             val profileId = getProfileIdFromUrl(cityUrl)
-            deleteCityBudgets(profileId)
+            fileUrls.forEach {
+                val year = it.replace("[^0-9]".toRegex(), "").toInt()
+                deleteCityBudgetsPerYear(profileId, year)
+            }
             completeBudgetPerCity.map {
                 saveCityBudgets(profileId, it)
             }
@@ -133,9 +137,9 @@ class InternetStreamService(
         }
     }
 
-    fun deleteCityBudgets(cityId: Int) {
+    fun deleteCityBudgetsPerYear(cityId: Int, year: Int) {
         transaction {
-            Payments.deleteWhere { Payments.profileId eq cityId }
+            Payments.deleteWhere { (Payments.profileId eq cityId) and (Payments.year eq year) }
         }
     }
 
