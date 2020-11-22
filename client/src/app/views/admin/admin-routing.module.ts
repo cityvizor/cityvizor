@@ -9,7 +9,6 @@ import { AdminProfileSettingsComponent } from './views/admin-profile/admin-profi
 import { AdminProfileLogsComponent } from './views/admin-profile/admin-profile-logs/admin-profile-logs.component';
 import { AdminUserComponent } from './views/admin-user/admin-user.component';
 import { AdminProfileApiComponent } from './views/admin-profile/admin-profile-api/admin-profile-api.component';
-import { NotFoundPageComponent } from '../not-found-page/not-found-page.component';
 
 
 const routes: Routes = [

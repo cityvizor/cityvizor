@@ -9,7 +9,6 @@ import { ProfileInvoicesComponent } from './views/profile-invoices/profile-invoi
 import { ProfileNoticeboardComponent } from './views/profile-noticeboard/profile-noticeboard.component';
 import { ProfileContractsComponent } from './views/profile-contracts/profile-contracts.component';
 import { ProfileCounterpartiesComponent } from './views/profile-counterparties/profile-counterparties.component';
-import { NotFoundPageComponent } from '../not-found-page/not-found-page.component';
 
 
 const routes: Routes = [

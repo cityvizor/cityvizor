@@ -15,8 +15,7 @@ export class NotFoundInterceptor implements HttpInterceptor {
             .handle(req)
             .pipe(catchError( (error: HttpErrorResponse) => {
                     if ( error instanceof HttpErrorResponse && error.status == 404 ) {
-                        // seems more save to reload whole page and start over
-                        window.location.href = '/not-found';
+                        this.router.navigateByUrl('/not-found', {replaceUrl: true});
                         return EMPTY;
                     } else {
                         return throwError(error);
