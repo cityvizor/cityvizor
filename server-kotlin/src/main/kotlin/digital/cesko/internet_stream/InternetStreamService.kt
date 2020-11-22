@@ -37,7 +37,7 @@ class InternetStreamService(
     configuration: InternetStreamServiceConfiguration,
     private val resourceLoader: ResourceLoader
 ) {
-    private val csvFormat = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader()
+    private val csvFormat = CSVFormat.DEFAULT.withDelimiter(',').withFirstRecordAsHeader()
         .withIgnoreHeaderCase().withTrim()
 
     private val urls = configuration.urls
