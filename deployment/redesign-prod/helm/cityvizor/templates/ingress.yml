@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: cityvizor-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - hosts:
+        {{- if .Values.vintage_enabled }}
+        - {{ .Values.ingress.main_host }}
+        {{ end }}
+        {{- if .Values.landing_page_enabled }}
+        - {{ .Values.ingress.landing_page_host }}
+        {{ end }}
+      secretName: cityvizor-tls
+  rules:
+    {{- if .Values.vintage_enabled }}
+    - host: {{ .Values.ingress.main_host }}
+      http:
+        paths:
+          - path: /api/v2/
+            backend:
+              serviceName: server-kotlin
+              servicePort: 8080
+          - path: /api/v1/citysync
+            backend:
+              serviceName: server-kotlin
+              servicePort: 8080
+          - path: /api
+            backend:
+              serviceName: cityvizor-server
+              servicePort: 3000
+          - path: /
+            backend:
+              serviceName: cityvizor-client
+              servicePort: 80
+    {{ end }}
+    {{- if .Values.landing_page_enabled }}
+    - host: {{ .Values.ingress.landing_page_host }}
+      http:
+        paths:
+          - path: /api/v2/
+            backend:
+              serviceName: server-kotlin
+              servicePort: 8080
+          - path: /api/v1/citysync
+            backend:
+              serviceName: server-kotlin
+              servicePort: 8080
+          - path: /
+            backend:
+              serviceName: landing-page
+              servicePort: 80
+    {{ end }}

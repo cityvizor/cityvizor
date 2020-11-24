@@ -1,0 +1,23 @@
+name: Publish Docker Client
+on:
+  push:
+    paths:
+      - 'client/**'
+      - '.github/workflows/publish-docker-client.yml'
+  release:
+    types: [published, edited]
+jobs:
+  build-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish landing-page to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: cityvizor/cityvizor-client
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          workdir: client
+          buildoptions: "--target prod"
+          tags: ${{ github.event_name == 'release' && 'prod' || 'latest' }}
+

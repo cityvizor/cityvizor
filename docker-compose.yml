@@ -1,0 +1,98 @@
+version: "3.8"
+
+services:
+  proxy:
+    image: nginx:1.15.8-alpine
+    container_name: nginx.cityvizor.cesko.digital
+    ports:
+      # Client
+      - "4200:80"
+      # Landing page
+      - "4201:81"
+    volumes:
+      - ./nginx:/etc/nginx:ro
+    environment:
+      NGINX_HOST: cityvizor.cesko.digital
+      NGINX_PORT: 80
+
+  backend-kotlin:
+    image: backend-kotlin
+    build: server-kotlin/.
+    container_name: backend.cityvizor.cesko.digital
+    env_file:
+      - .env
+    environment:
+      JDBC_URL: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
+    depends_on:
+      - postgres
+      - proxy
+
+  cityvizor-server:
+    image: cityvizor-server
+    build: 
+      context: ./server
+      target: prod
+    command: -w db.cityvizor.cesko.digital -a -m server 
+    container_name: server.cityvizor.cesko.digital
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: local
+    volumes:
+      - ./data:/user/src/app/data
+    depends_on:
+      - postgres
+      - proxy
+
+  cityvizor-worker:
+    image: cityvizor-server
+    build: 
+      context: ./server
+      target: prod
+    command: -w db.cityvizor.cesko.digital -a -m worker
+    container_name: worker.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: local
+    volumes:
+      - ./data:/user/src/app/data
+    depends_on:
+      - postgres
+
+  cityvizor-client:
+    image: cityvizor-client
+    build:
+      context: ./client
+      target: prod
+    container_name: client.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: local
+    depends_on:
+      - proxy
+
+  landing-page:
+    image: cityvizor-landing-page
+    build:
+      context: ./landing-page
+      target: prod
+    container_name: landing.cityvizor.cesko.digital
+    environment:
+      NODE_ENV: local
+    depends_on:
+      - proxy
+
+  postgres:
+    image: postgres:11.1
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    container_name: db.cityvizor.cesko.digital
+    environment:
+      POSTGRES_DB: cityvizor
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./database/demo_dump.sql:/docker-entrypoint-initdb.d/demo_dump.sql
+    ports:
+      - 5432:5432

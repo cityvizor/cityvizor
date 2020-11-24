@@ -1,0 +1,46 @@
+<header>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">
+        <h1 *ngIf="backLink">
+          <a [routerLink]="backLink" class="hidden-print">
+            CITYVIZOR
+          </a>
+        </h1>
+      </div>
+      <div class="col-xs-6">
+        <h1 *ngIf="title">
+          <a [routerLink]="title">{{title}}</a>
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+<nav class="navbar">
+  <div class="container">
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar" (click)="isMenuCollapsed = !isMenuCollapsed" >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="toggle-title">MENU</span>
+      </button>
+    </div>
+    
+    <div id="navbar" class="navbar-collapse collapse" [collapse]="isMenuCollapsed">
+        
+      <ul class="nav navbar-nav" (click)="isMenuCollapsed = true">
+
+        <ng-content></ng-content>
+
+      </ul>
+
+
+    </div>
+
+  </div>
+</nav>

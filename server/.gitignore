@@ -1,0 +1,12 @@
+# include only local environment, other are irrelevant for users
+environment/environment.*
+!environment/environment.local.js
+
+# dependencies
+/node_modules
+
+# compiled output
+/dist
+
+# misc
+npm-debug.log

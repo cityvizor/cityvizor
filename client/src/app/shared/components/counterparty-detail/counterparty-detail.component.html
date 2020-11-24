@@ -1,0 +1,19 @@
+<div>
+    <h2>{{counterpartyName}}</h2>
+	<table class="table table-condensed table-hover table-striped">
+		<thead>
+			<tr>
+				<th>Datum</th>
+                <th>Popis</th>
+                <th>Částka</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let payment of payments">
+                <td>{{payment.date | date: "d. M. y"}}</td>
+                <td>{{payment.description}}</td>
+                <td>{{payment.amount | money:0:false}} Kč</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

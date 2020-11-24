@@ -1,0 +1,74 @@
+h3{font-size: 20px;border-bottom: 1px solid #ccc;margin: 20px 20px 0 20px;}
+
+.overview{padding:20px 50px;}
+.overview .amounts th, .overview .amounts td{padding:5px 10px;}
+
+.historychart{overflow:auto;overflow-y:visible;}
+
+.historychart .header{padding:0;}
+.historychart .data{padding:0;}
+.historychart .data table{min-width:100%;}
+.historychart .data th{width:200px;padding-left:30px;padding-right:30px;}
+.historychart .data td{width:200px;padding-left:30px;padding-right:30px;}
+.historychart .data td .chart{width:100px;margin:0 auto;}
+.historychart .data td span.crop{display:block;width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.historychart .data .amount{float:right;font-weight:bold;}
+.historychart .data .open{float:right;}
+
+@media (min-width: 768px) {
+  .historychart{overflow:visible;}
+  .historychart .data{overflow:auto;overflow-y:visible;}
+}
+
+.payments .counterparty{cursor:pointer;}
+.payments .list > td{padding: 0; border:none;}
+.payments .list > td > div{background-color:#fff;}
+
+.payments .list table td{padding:5px 10px;white-space:nowrap;text-overflow:ellipsis;border-top:1px solid #eee;}
+
+table.table-title-number-number th:nth-child(1) { width: 60%; }
+table.table-title-number-number th:nth-child(2) { width: 20%; }
+table.table-title-number-number th:nth-child(3) { width: 20%; }
+
+table.table-nobottommargin {
+  margin-bottom: 0px;
+}
+td.td-zerosidepadding {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+table.table-label-date-title-number tr > *:nth-child(1) { width: 15%; }
+table.table-label-date-title-number tr > *:nth-child(2) { width: 15%; }
+table.table-label-date-title-number tr > *:nth-child(3) { width: 50%; }
+table.table-label-date-title-number tr > *:nth-child(4) { width: 20%; }
+
+.borderless td, .borderless th {
+    border: none;
+}
+
+table.table-fixedfirstcol {
+  padding-left: 50px;
+}
+table.table-fixedfirstcol thead tr th:first-child, table.table-fixedfirstcol tbody tr td:first-child {
+  position: absolute;
+  left: 0;
+}
+
+.horizontal-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.horizontal-scroll > .col-xs-4 {
+  display: inline-block;
+  float: none;
+}
+
+tr.opened {
+  background-color: #f5f5f5;
+}
+tr .fa.fa-chevron-circle-right {
+  transition-duration: .33s;
+}
+tr.opened .fa.fa-chevron-circle-right {
+  transform: rotate(90deg);
+}

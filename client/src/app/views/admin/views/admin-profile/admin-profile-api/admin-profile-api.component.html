@@ -1,0 +1,15 @@
+<h4>Adresa API</h4>
+<div *ngIf="profileId$ | async as profileId" class="well">POST {{apiRoot}}/import/profiles/{{profileId$ | async}}/accounting</div>
+
+<h4>Token</h4>
+
+<ng-container *ngIf="!token">
+  <button *ngIf="profileId$ | async as profileId" type="button" class="btn btn-primary" (click)="generateToken(profileId)">Vygenerovat token</button>
+</ng-container>
+<ng-container *ngIf="token">  
+  <div class="token well">{{token}}</div>
+</ng-container>
+
+<h4>Zneplatnit vydané tokeny</h4>
+<p>Kliknutím na následující tlačítko budou zneplatněny všechny vydané servisní tokeny pro tento profil. Toto použijte v případě, že se domníváte, že se mohl být některý z platných tokenů dostat do nepovolaných rukou.</p>
+<button *ngIf="profileId$ | async as profileId" type="button" class="btn btn-danger" (click)="resetTokens(profileId)">Zneplatnit vydané tokeny</button>

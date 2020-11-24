@@ -1,0 +1,39 @@
+{{- if .Values.vintage_enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cityvizor-worker
+spec:
+  selector:
+    matchLabels:
+      app: cityvizor-worker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cityvizor-worker
+      annotations:
+        date/deploy-date: {{ now | quote }}
+        keel.sh/policy: "regexp:^{{ .Values.cityvizor_server.tag }}$"
+        keel.sh/trgger: poll
+        keel.sh/pollSchedule: "@every 1m"
+    spec:
+      containers:
+        - name: cityvizor-server
+          image: {{ .Values.cityvizor_server.image }}:{{ .Values.cityvizor_server.tag }}
+          args: [{{ if .Values.cityvizor_server.create_admin }}, "-a", {{ end }} "-m", "worker"]
+          env:
+            - name: NODE_ENV
+              value: "system"
+            - name: DATABASE_HOST
+              value: {{ .Values.cityvizor_server.database_host }}
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_NAME
+              value: {{ .Values.cityvizor_server.database_name }}
+            - name: DATABASE_USERNAME
+              value: {{ .Values.cityvizor_server.database_username }}
+            - name: DATABASE_PASSWORD
+              value: {{ .Values.cityvizor_server.database_password }}
+          imagePullPolicy: Always
+{{- end -}}

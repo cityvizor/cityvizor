@@ -1,0 +1,79 @@
+<div class="container">
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Název</th>
+        <th>Url</th>
+        <th>Poslední aktualizace</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let profile of profiles" [routerLink]="'./' + profile.id">
+        <th>
+          <a>
+            {{profile.name}}
+          </a>
+          <span *ngIf="profile.status === 'hidden'" class="label label-danger">skrytý</span>
+          <span *ngIf="profile.status === 'preview'" class="label label-warning">skrytý na úvodu</span>
+          <span *ngIf="profile.status === 'pending'" class="label label-warning">připravovaný</span>          
+          <span *ngIf="profile.main" class="label label-primary">{{profile.main ? "hlavní profil" : ""}}</span>
+        </th>
+        <td><a [routerLink]="'/' + profile.url">{{config.siteUrl}}/{{profile.url}}</a></td>
+        <td (click)="$event.stopImmediatePropagation()">
+          <div class="btn-group pull-right" dropdown>
+            <a dropdownToggle>Akce <span class="caret"></span></a>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="currentProfile = profile; openModal(deleteProfileModal)"><span class="text-danger">Smazat</span></a></li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="loading">
+        <td colspan="3">Načítání&hellip;</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button (click)="openModal(createProfileModal)" class="btn btn-primary">Vytvořit profil</button>
+</div>
+
+<ng-template #createProfileModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Vytvořit nový profil</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #createProfileForm="ngForm" (ngSubmit)="createProfile(createProfileForm); closeModal();">
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Název</label>
+        <input type="text" name="name" class="form-control" ngModel required>
+      </div>
+      <div class="form-group">
+        <label>Adresa</label>
+        <input type="text" name="url" class="form-control" ngModel required>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary" [disabled]="!createProfileForm.valid">Vytvořit</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #deleteProfileModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Smazat profil</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Opravdu chcete smazat profil {{currentProfile.name}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" (click)="closeModal();">Zrušit</button>
+    <button class="btn btn-danger" (click)="deleteProfile(currentProfile.id);closeModal();">Smazat</button>
+  </div>
+</ng-template>

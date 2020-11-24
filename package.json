@@ -1,0 +1,24 @@
+{
+  "name": "cityvizor",
+  "version": "4.1.1",
+  "description": "Vizualization platform for municipalities",
+  "homepage": "https://cityvizor.cz/",
+  "repository": "cityvizor/cityvizor",
+  "private": true,
+  "scripts": {
+    "install": "cd server && npm install && cd ../client && npm install",
+    "start": "cd server && npm start",
+    "build": "cd server && npm run build && cd ../client && npm run build",
+    "create-admin": "cd server && npm run create-admin"
+  },
+  "keywords": [
+    "opendata",
+    "cityvizor",
+    "invoices"
+  ],
+  "contributors": [
+    "Martin Kopecek <martin.kopecek@smallhill.cz>",
+    "Jan Vlasaty <jan.vlasaty@hotmail.com>"
+  ],
+  "license": "AGPL-3.0-or-later"
+}

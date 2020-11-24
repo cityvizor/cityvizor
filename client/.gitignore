@@ -1,0 +1,15 @@
+# compiled output
+/dist
+/dist-www
+
+# dependencies
+/node_modules
+
+# licensed data
+/src/assets/audio
+
+# editors
+/.vscode
+
+# misc
+npm-debug.log

@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-md-7">
+    <h3>Základní informace</h3>
+    <form class="form" #settingsForm="ngForm" (ngSubmit)="saveProfile(settingsForm)">
+      <div class="form-group">
+        <label>Název</label>
+        <input type="text" name="name" [ngModel]="profile?.name" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label>Url</label>
+        <div class="input-group">
+          <span class="input-group-addon">{{config.siteUrl}}/</span>
+          <input type="text" name="url" [ngModel]="profile?.url" class="form-control" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>IČO</label>
+        <input type="text" name="ico" [ngModel]="profile?.ico" (ngModelChange)="icoAutofill($event)" class="form-control" #icoInput>
+      </div>
+      <div class="form-group">
+        <label>Souřadnice</label>
+        <div class="input-group">
+          <span class="input-group-addon">N </span>
+          <input type="number" step="0.0000001" name="gpsY" [ngModel]="profile?.gpsY" class="form-control">
+          <span class="input-group-addon">E </span>
+          <input type="number" step="0.0000001" name="gpsX" [ngModel]="profile?.gpsX" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ID eDesky</label>
+        <input type="number" name="edesky" [ngModel]="profile?.edesky" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Viditelnost</label>
+        <select name="status" [ngModel]="profile?.status" class="form-control">
+          <option value="visible">veřejný</option>
+          <option value="hidden">skrytý</option>
+          <option value="preview">skrytý pouze na úvodní straně</option>
+          <option value="pending">připravujeme</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" name="main" [value]="true" [ngModel]="profile.main">&nbsp;Hlavní profil</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!settingsForm.valid">Uložit</button>
+
+    </form>
+  </div>
+  <div class="col-md-4 col-md-offset-1">
+    <h3>Znak</h3>
+    <form>
+      <div *ngIf="profile?.avatarType" class="form-group">
+        <label>Současný znak</label>
+        <br>
+        <img [src]="getProfileAvatarUrl(profile)" class="avatar" alt="Znak obce">
+
+      </div>
+      <div class="form-group">
+        <label>Nahrát nový znak</label>
+        <div class="input-group">
+          <input type="file" name="avatar" class="form-control" #avatarFileInput>
+          <div class="input-group-btn">
+            <button type="submit" (click)="uploadAvatar(avatarFileInput)" class="btn btn-primary">Nahrát</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Smazat znak</label>
+        <br>
+        <button type="button" (click)="deleteAvatar()" class="btn btn-danger">Smazat</button>
+      </div>
+    </form>
+  </div>
+</div>

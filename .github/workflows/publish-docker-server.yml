@@ -1,0 +1,22 @@
+name: Publish Docker Server
+on:
+  push:
+    paths:
+      - 'server/**'
+      - '.github/workflows/publish-docker-server.yml'
+  release:
+    types: [published, edited]
+jobs:
+  build-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish landing-page to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: cityvizor/cityvizor-server
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          workdir: server
+          buildoptions: "--target prod"
+          tags: ${{ github.event_name == 'release' && 'prod' || 'latest' }}

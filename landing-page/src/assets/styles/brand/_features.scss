@@ -1,0 +1,47 @@
+/*
+|--------------------------------------------------------------------------
+| Brand/Features
+|--------------------------------------------------------------------------
+*/
+
+@keyframes underline-animation {
+    from {
+        background-size: 0 100%;
+    }
+
+    to {
+        background-size: 100% 100%;
+    }
+}
+
+@mixin text-emphasis() {
+    background-image: linear-gradient(180deg, transparent 65%, $primary 0);
+    background-size: 0 100%;
+    background-repeat: no-repeat;
+}
+
+@mixin text-emphasis-animation() {
+    @include text-emphasis;
+    animation-timing-function: ease;
+    animation-name: underline-animation;
+    animation-duration: .4s;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
+}
+
+@mixin text-emphasis-hover() {
+    @include text-emphasis;
+    transition: background-size .4s ease;
+
+    &:hover {
+        background-size: 100% 100%;
+        cursor: pointer;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    strong {
+        @include text-emphasis-animation;
+    }
+    line-height: normal;
+}

@@ -1,0 +1,28 @@
+
+
+
+#headerVyberObce {
+  display: block;  padding: 70px 0px 20px 0px;
+  background: url('/assets/img/pozadi.jpg') no-repeat; 
+  background-size: cover; background-position: center center; 
+  border-bottom: 10px solid #2581c4;
+  height: 50vh;
+}
+@media (max-width: 1200px) {
+  #headerVyberObce {
+    background-size: 1200px auto; /* Force the image to its minimum width */
+  }
+}
+#headerVyberObce svg {
+  min-width: 300px;
+  width: 67%;
+  max-width: 750px;
+  filter: drop-shadow( 0 0 4px rgba(0, 0, 0, .3));
+}
+
+#frontImage{padding:20px;}
+.box{background-color:rgba(255,255,255,.7);border-radius:5px;font-size:.8em;}
+.box.padding{padding:20px;}
+
+
+section{margin-bottom:40px;}

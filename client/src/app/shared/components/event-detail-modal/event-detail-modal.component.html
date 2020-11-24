@@ -1,0 +1,9 @@
+<div class="modal-content">
+  <div class="modal-body">
+    <button type="button" class="close" (click)="modalRef.hide()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    <event-detail [profileId]="profileId" [eventId]="eventId" [year]="year"></event-detail>
+  </div>
+</div>

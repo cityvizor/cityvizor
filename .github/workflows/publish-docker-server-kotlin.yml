@@ -1,0 +1,29 @@
+name: Publish Docker Server Kotlin
+on:
+  push:
+    paths:
+      - 'server-kotlin/**'
+      - '.github/workflows/publish-docker-server-kotlin.yml'
+  release:
+    types: [published, edited]
+jobs:
+  build-server-kotlin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}-${{ hashFiles('**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew;
+          ./gradlew build --no-daemon --info jib -Djib.to.auth.username=${{ secrets.DOCKER_USERNAME }} -Djib.to.auth.password=${{ secrets.DOCKER_PASSWORD }} -Djib.to.image=cityvizor/server-kotlin:${{ github.event_name == 'release' && 'prod' || 'latest' }}
+        working-directory: server-kotlin
+

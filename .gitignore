@@ -1,0 +1,12 @@
+/keys
+/data
+/node_modules
+.gradle
+.idea
+out
+build
+*.iml
+*.ipr
+*.iws
+.vscode
+.DS_Store
