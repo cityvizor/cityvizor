@@ -18,7 +18,6 @@ class InternetStreamServiceTest : AbstractSpringDatabaseTest() {
         internetStreamService.fetchData()
         transaction {
             val result = Payments.select { Payments.year eq 2020 }.first()
-
             assertEquals(20, result[Payments.profileId])
             assertEquals(2020, result[Payments.year])
             assertEquals(6171, result[Payments.paragraph])

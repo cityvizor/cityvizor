@@ -2,9 +2,11 @@ package digital.cesko.internet_stream
 
 import digital.cesko.common.Payments
 import digital.cesko.common.Profiles
+
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.jetbrains.exposed.sql.and
+import mu.KLogging
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
@@ -37,6 +39,7 @@ class InternetStreamService(
     configuration: InternetStreamServiceConfiguration,
     private val resourceLoader: ResourceLoader
 ) {
+
     private val csvFormat = CSVFormat.DEFAULT.withDelimiter(',').withFirstRecordAsHeader()
         .withIgnoreHeaderCase().withTrim()
 
@@ -48,7 +51,7 @@ class InternetStreamService(
         initialDelayString = "\${internet.stream.service.configuration.initDelay}"
     )
     fun fetchData() {
-        urls.map {
+        urls.forEach {
             val cityUrl = it.key
             val budgetUrl = it.value
             if (!isProfileIdPresent(cityUrl))
@@ -69,6 +72,7 @@ class InternetStreamService(
             completeBudgetPerCity.map {
                 saveCityBudgets(profileId, it)
             }
+            logger.info { "action=fetchData status=finished url=$cityUrl" }
         }
     }
 
@@ -161,4 +165,6 @@ class InternetStreamService(
             commit()
         }
     }
+
+    companion object : KLogging()
 }
