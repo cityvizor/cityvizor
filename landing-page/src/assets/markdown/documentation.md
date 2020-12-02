@@ -11,7 +11,7 @@ Z důvodů zpětné kompatibility i variablity vstupů mohou mít sloupce různ�
 Data můžete nahrát pro každý typ zvlášť (rozpočet, faktury, akce). Můžete také využít tzv. datový soubor, který obsahuje rozpočet a faktury dohromady.
 
 ### Průběh importu
-Pokud se v průběhu importu ze souboru vyskytne chyba, pak se nic neuloží. Data se uloží jen tehdy, pokud import proběhne zcela v pořádku. Ve správě profilu si v záložce "Logy importů" můžete ověřit, jestli se daný import povedl a pokud ne, jaká chyba v zdrojovém souboru je.
+Pokud se v průběhu importu ze souboru vyskytne chyba, pak se nic neuloží. Data se uloží jen tehdy, pokud import proběhne zcela v pořádku. Ve správě profilu si v záložce "Logy importů" můžete ověřit, jestli se daný import povedl a pokud ne, jaká chyba v zdrojovém souboru je. Pokud v importu nahrajete více souborů najednou, každý soubor se importuje zvlášť - pokud tedy nahrajete najednou nevalidní soubor s fakturami a validní soubor s účetnictvím, faktury se neimportují, ale účetnictví ano. Výjimku tvoří nahrávání přes .ZIP soubor, kde se se všechny zabalené soubory nahrají najednou.
 
 #### Datový soubor
 

@@ -32,17 +32,17 @@ export class DataUploadModalComponent implements OnInit {
 
   async uploadData(form: NgForm, dataFileInput: HTMLInputElement, eventsFileInput: HTMLInputElement, accountingFileInput: HTMLInputElement, paymentsFileInput: HTMLInputElement) {
     const fields: [HTMLInputElement, string, string, string][] = [
-      [dataFileInput, "data", "dataFileMode", "Datový soubor"],
-      [eventsFileInput, "events", "eventsFileMode", "Číselník"],
-      [accountingFileInput, "accounting", "accountingFileMode", "Rozpočet"],
-      [paymentsFileInput, "payments", "paymentsFileMode", "Faktury"]
+      [dataFileInput, "data", "dataFileMode", "Datový soubor nemá"],
+      [eventsFileInput, "events", "eventsFileMode", "Číselník nemá"],
+      [accountingFileInput, "accounting", "accountingFileMode", "Rozpočet nemá"],
+      [paymentsFileInput, "payments", "paymentsFileMode", "Faktury nemají"]
     ]
     if (!this.year) {
       this.toastService.toast("Nezvolený rok", "notice") 
       return;
     }
     if (!fields.map(a => a[0]).some((e: HTMLInputElement) => e.files && e.files[0])) {
-      this.toastService.toast("Žádné soubory nevybrány k nahrání", "notice") 
+      this.toastService.toast("Žádné soubory nevybrány k nahrání", "error") 
       return;
     }
 
@@ -54,7 +54,7 @@ export class DataUploadModalComponent implements OnInit {
       const data = new FormData()
       if (element.files && element.files[0]) {
         if (v[mode] == "") {
-          this.toastService.toast(`${error} nemá nastavený režim nahrání.`, "notice")
+          this.toastService.toast(`${error} nastavený režim nahrání.`, "error")
           return
         }
         const file = element.files[0]
@@ -82,7 +82,7 @@ export class DataUploadModalComponent implements OnInit {
     await Promise.all(tasks).then(_ => {
       this.toastService.toast("Data nahrána pro import.", "notice")
     }).catch(e => {
-      this.toastService.toast("Neočekáváná chyba při odesílání dat. Prosím, kontaktujte administrátora.", "notice")
+      this.toastService.toast("Neočekáváná chyba při odesílání dat. Prosím, kontaktujte administrátora.", "error")
     });
     
     this.close.emit(true);

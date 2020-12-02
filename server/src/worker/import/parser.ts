@@ -79,7 +79,7 @@ export class ImportParser {
       case "accountingFile":
         return this.createDataTransformer(options)
       case "eventsFile":
-        return this.createEventsReader(options)
+        return this.createEventsTransformer(options)
       default:
         throw Error("Unexpected parser requested")
     }
@@ -110,7 +110,7 @@ export class ImportParser {
 
   }
 
-  static createEventsReader(options: Importer.Options) {
+  static createEventsTransformer(options: Importer.Options) {
     return new Transform({
       writableObjectMode: true,
       readableObjectMode: true,
