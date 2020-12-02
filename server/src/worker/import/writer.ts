@@ -1,10 +1,15 @@
 import { db } from "../../db";
 import { AccountingRecord, PaymentRecord, EventRecord, ProfileRecord, YearRecord } from "../../schema/database";
 import { Writable } from "stream";
+import logger from "./logger";
+import { Transaction } from "knex";
+import { Importer } from "./importer";
 
 export class ImportWriter extends Writable {
 
-  c = 0;
+  accountingCount = 0
+  paymentCount = 0
+  eventCount = 0
 
   constructor(private options: ImportWriter.Options) {
     super({
@@ -12,33 +17,28 @@ export class ImportWriter extends Writable {
     });
   }
 
-  async clear() {
-
-    var tasks = [
-      db("data.accounting").where({ profileId: this.options.profileId, year: this.options.year }).delete(),
-      db("data.payments").where({ profileId: this.options.profileId, year: this.options.year }).delete(),
-      db("data.events").where({ profileId: this.options.profileId, year: this.options.year }).delete()
-    ];
-
-    await Promise.all(tasks);
+  async _write(chunk: Importer.ImportChunk, encoding: string, callback: (err: Error) => void) {
+    await this._writev([{ chunk, encoding }], callback);
   }
 
-  _write(chunk: ImportWriter.Chunk, encoding: string, callback: (err: Error) => void) {
-    return this._writev([{ chunk, encoding }], callback);
-  }
-
-  async _writev(chunks: { chunk: ImportWriter.Chunk, encoding: string }[], callback: (err?: Error) => void) {
-
-    const balances = chunks.filter(chunk => chunk.chunk.type === "balance").map(chunk => this.prepareBalance(chunk.chunk.data));
-    const payments = chunks.filter(chunk => chunk.chunk.type === "payment").map(chunk => this.preparePayment(chunk.chunk.data));
-    const events = chunks.filter(chunk => chunk.chunk.type === "event").map(chunk => this.prepareEvent(chunk.chunk.data));
-
+  async _writev(chunks: { chunk: Importer.ImportChunk, encoding: string }[], callback: (err?: Error) => void) {
+    const accountings = chunks.filter(chunk => chunk.chunk.type == "accounting").map(chunk => chunk.chunk.record as AccountingRecord);
+    const payments = chunks.filter(chunk => chunk.chunk.type == "payment").map(chunk => chunk.chunk.record as PaymentRecord);
+    const events = chunks.filter(chunk => chunk.chunk.type == "event").map(chunk => chunk.chunk.record as EventRecord);
     try {
-      if (balances.length) await this.writeBalances(balances);
-      if (payments.length) await this.writePayments(payments);
-      if (events.length) await this.writeEvents(events);
-
-      callback();
+      if (accountings.length) {
+        await this.writeAccountings(accountings)
+        this.accountingCount += accountings.length
+      }
+      if (payments.length) {
+        await this.writePayments(payments)
+        this.paymentCount += payments.length
+      }
+      if (events.length) {
+        await this.writeEvents(events) 
+        this.eventCount += events.length
+      }
+      callback()
     }
     catch (err) {
       callback(err);
@@ -46,54 +46,23 @@ export class ImportWriter extends Writable {
 
   }
 
-  prepareBalance(balance: Partial<AccountingRecord>): AccountingRecord {
-    return {
-      "profileId": this.options.profileId,
-      "year": this.options.year,
-      "type": balance.type ? String(balance.type) : null,
-      "paragraph": balance.paragraph ? Number(balance.paragraph) : null,
-      "item": balance.item ? Number(balance.item) : null,
-      "unit": balance.unit ? Number(balance.unit) : null,
-      "event": balance.event ? Number(balance.event) : null,
-      "amount": balance.amount ? Number(balance.amount) : null
-    };
+  _final(callback) {
+    [[this.accountingCount, "accounting"], [this.paymentCount, "payment"], [this.eventCount, "event"]].forEach(([v, name]: [number, string]) => {
+      if (v > 0) logger.log(`Written ${v} ${name} records to the DB.`)
+    })
+    callback()
   }
 
-  preparePayment(payment: Partial<PaymentRecord>): PaymentRecord {
-    return {
-      "profileId": this.options.profileId,
-      "year": this.options.year,
-      "paragraph": payment.paragraph ? Number(payment.paragraph) : null,
-      "item": payment.item ? Number(payment.item) : null,
-      "unit": payment.unit ? Number(payment.unit) : null,
-      "event": payment.event ? Number(payment.event) : null,
-      "amount": payment.amount ? Number(payment.amount) : null,
-      "date": payment.date ? String(payment.date) : null,
-      "counterpartyId": payment.counterpartyId ? String(payment.counterpartyId) : null,
-      "counterpartyName": payment.counterpartyName ? String(payment.counterpartyName) : null,
-      "description": payment.description ? String(payment.description) : null,
-    }
-  }
-
-  prepareEvent(event: Partial<EventRecord>): EventRecord {
-    return {
-      "profileId": this.options.profileId,
-      "year": this.options.year,
-      "id": event["id"] ? Number(event["id"]) : null,
-      "name": event["name"] ? String(event["name"]) : null
-    }
-  }
-
-  async writeBalances(balances: AccountingRecord[]) {
-    return db<AccountingRecord>("data.accounting").insert(balances);
+  async writeAccountings(accountings: AccountingRecord[]) {
+    await db<AccountingRecord>("data.accounting").insert(accountings).transacting(this.options.transaction);
   }
 
   async writePayments(payments: PaymentRecord[]) {
-    return db<PaymentRecord>("data.payments").insert(payments);
+    await db<PaymentRecord>("data.payments").insert(payments).transacting(this.options.transaction);
   }
 
   async writeEvents(events: EventRecord[]) {
-    return db<EventRecord>("data.events").insert(events);
+    await db<EventRecord>("data.events").insert(events).transacting(this.options.transaction);
   }
 
 }
@@ -103,7 +72,8 @@ export namespace ImportWriter {
   export interface Options {
     profileId: YearRecord["profileId"]
     year: YearRecord["year"]
+    transaction: Transaction
   };
 
-  export type Chunk = { type: "balance", data: Partial<AccountingRecord> } | { type: "event", data: Partial<EventRecord> } | { type: "payment", data: Partial<PaymentRecord> };
+
 }

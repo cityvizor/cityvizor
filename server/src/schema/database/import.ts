@@ -13,4 +13,6 @@ export interface ImportRecord {
   error?: string;
 
   validity?: string;
+  append: boolean;
+  logs?: string;
 }
