@@ -9,7 +9,7 @@ microk8s.start
 
 sudo usermod -a -G microk8s ${USER}
 # restart or make a new shell for the change to take effect
-sudo microk8s.enable dns helm3 ingress
+sudo microk8s.enable dns helm3 ingress storage
 
 alias kubectl='microk8s.kubectl'
 alias helm='microk8s.helm3'
@@ -45,7 +45,7 @@ helm upgrade -f test_values.yml cityvizor ./cityvizor
 ```
 
 ### Automatic deployment
-You can use Keel for automatic deployement. By default it watches tag specified in `values.yml` and deploys new versions.
+You can use Keel for automatic deployement. By default it watches tag specified in `values.yml` and deploys new versions. Regrettably, Keel does not seem to work smoothly with Helm3, so some work here is still needed.
 
 ```shell script
 helm repo add keel-charts https://charts.keel.sh 
