@@ -6,9 +6,11 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 import kotlin.test.assertEquals
 
+@ActiveProfiles("internetstream")
 class InternetStreamServiceTest : AbstractSpringDatabaseTest() {
     @Autowired
     private lateinit var internetStreamService: InternetStreamService
@@ -17,14 +19,14 @@ class InternetStreamServiceTest : AbstractSpringDatabaseTest() {
     fun fetchBudgets() {
         internetStreamService.fetchData()
         transaction {
-            val result = Payments.select { Payments.year eq 2012 }.first()
+            val result = Payments.select { Payments.year eq 2020 }.first()
 
             assertEquals(20, result[Payments.profileId])
-            assertEquals(2012, result[Payments.year])
-            assertEquals(2310, result[Payments.paragraph])
-            assertEquals(5329, result[Payments.item])
-            assertEquals(100, result[Payments.event])
-            assertEquals(BigDecimal("1036700.00"), result[Payments.amount])
+            assertEquals(2020, result[Payments.year])
+            assertEquals(6171, result[Payments.paragraph])
+            assertEquals(5031, result[Payments.item])
+            assertEquals(6171170000001, result[Payments.event])
+            assertEquals(BigDecimal("516230.00"), result[Payments.amount])
         }
     }
 }

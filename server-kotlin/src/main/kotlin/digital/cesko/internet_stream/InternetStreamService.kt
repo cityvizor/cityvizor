@@ -5,11 +5,13 @@ import digital.cesko.common.Profiles
 import mu.KLogging
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.context.annotation.Profile
 import org.springframework.core.io.ResourceLoader
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -33,6 +35,7 @@ import java.util.zip.ZipInputStream
 
 @Service
 @EnableConfigurationProperties(InternetStreamServiceConfiguration::class)
+@Profile("internetstream")
 class InternetStreamService(
     configuration: InternetStreamServiceConfiguration,
     private val resourceLoader: ResourceLoader
@@ -62,7 +65,10 @@ class InternetStreamService(
             }
 
             val profileId = getProfileIdFromUrl(cityUrl)
-            deleteCityBudgets(profileId)
+            fileUrls.forEach {
+                val year = it.replace("[^0-9]".toRegex(), "").toInt()
+                deleteCityBudgetsPerYear(profileId, year)
+            }
             completeBudgetPerCity.map {
                 saveCityBudgets(profileId, it)
             }
@@ -135,9 +141,9 @@ class InternetStreamService(
         }
     }
 
-    fun deleteCityBudgets(cityId: Int) {
+    fun deleteCityBudgetsPerYear(cityId: Int, year: Int) {
         transaction {
-            Payments.deleteWhere { Payments.profileId eq cityId }
+            Payments.deleteWhere { (Payments.profileId eq cityId) and (Payments.year eq year) }
         }
     }
 
