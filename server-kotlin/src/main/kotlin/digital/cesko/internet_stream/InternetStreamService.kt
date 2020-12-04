@@ -50,7 +50,6 @@ class InternetStreamService(
         fixedRateString = "\${internet.stream.service.configuration.frequency}",
         initialDelayString = "\${internet.stream.service.configuration.initDelay}"
     )
-    @Profile("internetstream")
     fun fetchData() {
         urls.forEach {
             val cityUrl = it.key

@@ -6,17 +6,16 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Profile
+import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 import kotlin.test.assertEquals
 
-@Profile("internetstream")
+@ActiveProfiles("internetstream")
 class InternetStreamServiceTest : AbstractSpringDatabaseTest() {
     @Autowired
     private lateinit var internetStreamService: InternetStreamService
 
     @Test
-    @Profile("internetstream")
     fun fetchBudgets() {
         internetStreamService.fetchData()
         transaction {
