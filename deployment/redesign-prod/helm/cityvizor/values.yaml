@@ -15,9 +15,8 @@ cityvizor_server:
   database_username: postgres
   database_password: pass
   create_admin: false
-  edesky_api_key: null
   jwt_secret: secret
-
+  edesky_api_key: null
 
 cityvizor_client:
   image: cityvizor/cityvizor-client
@@ -39,6 +38,9 @@ landing_page:
 ingress:
   main_host: localhost
   landing_page_host: localhost-landing-page
+ 
+shared_env:
+  images_url: https://cityvizor-images.s3.eu-central-1.amazonaws.com/
 
 shared_env:
   images_url: https://cityvizor-images.s3.eu-central-1.amazonaws.com/
@@ -85,3 +87,8 @@ keel:
       tag: server_kotlin.tag
     - repository: landing_page.image
       tag: landing_page.tag
+    - repository: cityvizor_server.image
+      tag: cityvizor_server.tag
+    - repository: cityvizor_client.image
+      tag: cityvizor_client.tag
+
