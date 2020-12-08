@@ -40,6 +40,8 @@ class InternetStreamService(
     configuration: InternetStreamServiceConfiguration,
     private val resourceLoader: ResourceLoader
 ) {
+    // Maximum amount of records which are inserted into db at once
+    private val THRESHOLD = 10000
     private val csvFormat = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader()
         .withIgnoreHeaderCase().withTrim()
 
@@ -148,6 +150,21 @@ class InternetStreamService(
     }
 
     fun saveCityBudgets(cityId: Int, budgets: List<Budget>) {
+        var budgetsSize = budgets.size
+        if (budgetsSize > THRESHOLD) {
+            var modulo = budgetsSize % THRESHOLD
+            var i = 0
+            while (i < budgetsSize - modulo) {
+                insertIntoPayments(cityId, budgets.subList(i, i + THRESHOLD))
+                i += THRESHOLD
+            }
+            insertIntoPayments(cityId, budgets.subList(i, i + modulo))
+        } else {
+            insertIntoPayments(cityId, budgets)
+        }
+    }
+
+    fun insertIntoPayments(cityId: Int, budgets: List<Budget>) {
         transaction {
             Payments.batchInsert(budgets) {
                 this[Payments.profileId] = cityId
