@@ -1,0 +1,13 @@
+@import 'variables';
+
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - #{$footer-height});
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+h2 {
+    margin-top: 40px;
+}
