@@ -27,10 +27,6 @@ spec:
         app: server-kotlin
       annotations:
         date/deploy-date: {{ now | quote }}
-        keel.sh/policy: "regexp:^{{ .Values.server_kotlin.tag }}$"
-        keel.sh/trgger: poll
-        keel.sh/pollSchedule: "@every 1m"
-
     spec:
       containers:
         - name: server-kotlin
@@ -51,7 +47,6 @@ spec:
               value: {{ .Values.server_kotlin.fulltextSearch.indexRefreshEnabled | quote }}
             - name: CITYVIZOR_IMAGES_URL
               value: {{ .Values.shared_env.images_url }}
-              
           ports:
             - containerPort: 8080
           imagePullPolicy: Always

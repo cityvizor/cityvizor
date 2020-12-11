@@ -13,4 +13,6 @@ export interface Import {
   error?: string;
 
   validity?: string;
+  append: boolean;
+  logs?: string;
 }

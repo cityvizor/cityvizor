@@ -15,7 +15,8 @@ const routes: Routes = [
       { path: 'obce', component: CounterpartyProfilesComponent },
       { path: 'faktury', component: CounterpartyPaymentsComponent },
       { path: 'prehled', component: CounterpartyDashboardComponent },
-      { path: '', redirectTo: 'prehled', pathMatch: 'full' }
+      { path: '', redirectTo: 'prehled', pathMatch: 'full' },
+      { path: '**', pathMatch: 'full', redirectTo: '/not-found' },
     ]
   }
 ];

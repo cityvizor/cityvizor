@@ -4,13 +4,13 @@ export interface PaymentRecord {
 
   paragraph: number;
   item: number;
-  unit: number;
-  event: number;
+  unit?: number;
+  event?: number;
   
   amount: number;
   
-  date: string;
-  counterpartyId: string;
-  counterpartyName: string;
-  description: string;
+  date?: string;
+  counterpartyId?: string;
+  counterpartyName?: string;
+  description?: string;
 };

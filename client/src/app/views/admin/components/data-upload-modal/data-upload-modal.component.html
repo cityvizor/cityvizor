@@ -4,22 +4,50 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form #uploadForm="ngForm" (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput)">
+<form #uploadForm="ngForm" (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput, accountingFileInput, paymentsFileInput)">
   <div class="modal-body">
     <div class="form-group">
-      <label>Datový soubor</label>
-      <input type="file" name="dataFile" accept=".csv" required class="form-control" ngModel #dataFileInput>
+      <label>Datový soubor (rozpočet a faktury v jednom souboru)</label>
+      <input type="file" name="dataFile" accept=".csv" class="form-control" ngModel #dataFileInput>
+      
+      <select class="form-group" name="dataFileMode" ngModel>
+        <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>  sh
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
     </div>
 
     <div class="form-group">
-      <label>Číselník akcí</label>
-      <input type="file" name="dataFile" accept=".csv" class="form-control" ngModel #eventsFileInput>
+      <label>Rozpočet</label>
+      <input type="file" name="accountingFile" accept=".csv" class="form-control" ngModel #accountingFileInput>
+      <select class="form-group" name="accountingFileMode" ngModel>
+        <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Faktury</label>
+      <input type="file" name="paymentsFile" accept=".csv" class="form-control" ngModel #paymentsFileInput>
+      <select class="form-group" name="paymentsFileMode" ngModel>
+        <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Číselník</label>
+      <input type="file" name="eventsFile" accept=".csv" class="form-control" ngModel #eventsFileInput>
+      <select class="form-group" name="eventsFileMode" ngModel>
+        <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
     </div>
 
     <div class="form-group">
       <label>Validita dat</label>
       <input type="date" name="validity" class="form-control" ngModel required>
     </div>
+
   </div>
   <div class="modal-footer">
     <button type="submit" class="btn btn-primary" [disabled]="!uploadForm.valid">Nahrát</button>

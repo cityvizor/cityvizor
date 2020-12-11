@@ -4,16 +4,5 @@ export interface EventRecord {
 
   id: number;
   name: string;
-}
-
-export interface EventDescriptionRecord {
-  profileId: number;
-  eventId: number
-  year: number;
-
-  description: string;
-  
-  category?: string;
-  eventName?: string;
-  organizationName?: string;
+  description?: string;
 }

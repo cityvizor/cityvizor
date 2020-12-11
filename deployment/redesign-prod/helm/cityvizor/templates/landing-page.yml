@@ -28,9 +28,6 @@ spec:
         app: landing-page
       annotations:
         date/deploy-date: {{ now | quote }}
-        keel.sh/policy: "regexp:^{{ .Values.landing_page.tag }}$"
-        keel.sh/trgger: poll
-        keel.sh/pollSchedule: "@every 1m"
     spec:
       containers:
         - name: landing-page
