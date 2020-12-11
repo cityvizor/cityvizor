@@ -10,6 +10,7 @@ import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Profile
 import org.springframework.core.io.ResourceLoader
@@ -40,13 +41,12 @@ class InternetStreamService(
     configuration: InternetStreamServiceConfiguration,
     private val resourceLoader: ResourceLoader
 ) {
-    // Maximum amount of records which are inserted into db at once
-    private val THRESHOLD = 10000
     private val csvFormat = CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader()
         .withIgnoreHeaderCase().withTrim()
 
     private val urls = configuration.urls
     private val fileUrls = configuration.fileUrls
+    private val threshold = configuration.threshold[0].toInt()
 
     @Scheduled(
         fixedRateString = "\${internet.stream.service.configuration.frequency}",
@@ -151,12 +151,12 @@ class InternetStreamService(
 
     fun saveCityBudgets(cityId: Int, budgets: List<Budget>) {
         var budgetsSize = budgets.size
-        if (budgetsSize > THRESHOLD) {
-            var modulo = budgetsSize % THRESHOLD
+        if (budgetsSize > threshold) {
+            var modulo = budgetsSize % threshold
             var i = 0
             while (i < budgetsSize - modulo) {
-                insertIntoPayments(cityId, budgets.subList(i, i + THRESHOLD))
-                i += THRESHOLD
+                insertIntoPayments(cityId, budgets.subList(i, i + threshold))
+                i += threshold
             }
             insertIntoPayments(cityId, budgets.subList(i, i + modulo))
         } else {
