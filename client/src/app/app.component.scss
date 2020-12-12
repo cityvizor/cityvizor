@@ -1,3 +1,4 @@
+@import 'variables';
 
 #toasts{position:fixed;width:100%;top:50%;overflow:visible; text-transform: uppercase;z-index:99999;}
 #toasts ul{display:block;position:absolute;top:0;left:0;right:0;list-style:none;margin:-50px 0 0 0;text-align:center;}
@@ -10,13 +11,16 @@
     height: auto !important;
     height: 100%;
     /* Negative indent footer by it's height */
-    margin: 0 auto -100px;
+	margin-bottom: -$footer-height-desktop;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* Set the fixed height of the footer here */
 #push,
 footer {
-    height: 100px;
+    height: $footer-height-desktop;
 }
 footer {
 	background-color: #f5f5f5;
@@ -30,10 +34,16 @@ footer .container{
 	background-color: #f5f5f5;
 }
 
- @media (max-width: 768px) {
+@media (max-width: 767px) {
 	.col-xs-12 {
 		text-align: center;
-	 } 
+	}
+	footer {
+		height: $footer-height-mobile;
+	}
+	#wrap {
+		margin-bottom: -$footer-height-mobile;
+	}
 }
 
 .input-group-addon { min-width: 3em; }

@@ -25,6 +25,11 @@
               "./node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",              
               "src/styles/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
