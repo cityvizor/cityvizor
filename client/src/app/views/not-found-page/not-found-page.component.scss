@@ -4,10 +4,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - #{$footer-height});
+    height: calc(100vh - #{$footer-height-desktop});
     font-family: 'IBM Plex Sans', sans-serif;
 }
 
 h2 {
     margin-top: 40px;
+}
+
+@media (max-width: 767px) {
+	:host {
+        height: calc(100vh - #{$footer-height-mobile});
+	}
 }
