@@ -10,7 +10,6 @@ import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Profile
 import org.springframework.core.io.ResourceLoader
@@ -151,7 +150,8 @@ class InternetStreamService(
 
     fun saveCityBudgets(cityId: Int, allBudgets: List<Budget>) {
         allBudgets.chunked(threshold) {
-            budgets: List<Budget> -> insertIntoPayments(cityId, budgets)
+            budgets: List<Budget> ->
+            insertIntoPayments(cityId, budgets)
         }
     }
 
