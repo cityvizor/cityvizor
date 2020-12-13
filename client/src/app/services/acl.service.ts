@@ -62,7 +62,12 @@ export class ACLService implements CanActivate {
       let paramNamesMatches = routeDef.route.match(/\:[^\/]+/g);
       let paramNames = paramNamesMatches ? paramNamesMatches.map(item => item.substr(1)) : [];
       
-      let search = new RegExp("^" + routeDef.route.replace(/\:[^\/]+/g,"([^\/]+)") + "$");
+      // include subpages
+      // /admin => enabled is /admin, /admin/, /admin/* not /administrator
+      const routeWithoutSlash = routeDef.route[routeDef.route.length-1] === '/' ?
+        routeDef.route.slice(0, routeDef.route.length-1) : routeDef.route;
+      const routeWithoutParams = routeWithoutSlash.replace(/\:[^\/]+/g,"([^\/]+)")
+      let search = new RegExp(`^${routeWithoutParams}|${routeWithoutParams}/\.*$`);
 
       let matches = searchRoute.match(search);
       

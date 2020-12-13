@@ -16,6 +16,7 @@ export class AdminProfileLogsComponent implements OnInit {
   profileId$: Observable<Profile["id"]>;
 
   logs: Import[] = [];
+  hidden: Object = {};
 
   constructor(
     private profileService: ProfileService,

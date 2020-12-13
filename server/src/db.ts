@@ -15,35 +15,6 @@ console.log(`[DB] DB connection set to ${connectionString}`);
 var types = require('pg').types;
 types.setTypeParser(1700, 'text', parseFloat);
 
-// hack because of postgre losing connections and Knex not being able to cope. sorry
-const oldQuery = Client.prototype.query;
-
-Client.prototype.validateConnection = function (connection) {
-  return !connection.__knex__disposed;
-};
-
-Client.prototype.query = async function (connection, obj) {
-  try {    
-    return await oldQuery.call(this, connection, obj)
-  }
-  catch (err) {
-
-    console.log("[DB] Query failed, reason: " + err.message);
-
-    // kill previous connection (when acquiring from Pool tarn.js will ask for Knex validate function and that will filter out when __knex__disposed)
-    connection.__knex__disposed = err;
-
-    console.log("[DB] Trying one more time with another connection from pool.");
-
-    // try one more time
-    const secondConnection = await this.acquireConnection().disposer(function () {
-      return this.releaseConnection(secondConnection);
-    });
-
-    return oldQuery.call(this, secondConnection, obj);
-  }
-};
-
 export const db = Knex(knexConfig)
 
 export async function dbConnect() {
