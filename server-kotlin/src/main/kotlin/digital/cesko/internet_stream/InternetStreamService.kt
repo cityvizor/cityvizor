@@ -10,6 +10,7 @@ import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Profile
 import org.springframework.core.io.ResourceLoader
@@ -45,6 +46,7 @@ class InternetStreamService(
 
     private val urls = configuration.urls
     private val fileUrls = configuration.fileUrls
+    private val threshold = configuration.threshold[0].toInt()
 
     @Scheduled(
         fixedRateString = "\${internet.stream.service.configuration.frequency}",
@@ -147,7 +149,13 @@ class InternetStreamService(
         }
     }
 
-    fun saveCityBudgets(cityId: Int, budgets: List<Budget>) {
+    fun saveCityBudgets(cityId: Int, allBudgets: List<Budget>) {
+        allBudgets.chunked(threshold) {
+            budgets: List<Budget> -> insertIntoPayments(cityId, budgets)
+        }
+    }
+
+    fun insertIntoPayments(cityId: Int, budgets: List<Budget>) {
         transaction {
             Payments.batchInsert(budgets) {
                 this[Payments.profileId] = cityId
