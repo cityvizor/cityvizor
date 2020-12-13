@@ -149,18 +149,9 @@ class InternetStreamService(
         }
     }
 
-    fun saveCityBudgets(cityId: Int, budgets: List<Budget>) {
-        var budgetsSize = budgets.size
-        if (budgetsSize > threshold) {
-            var modulo = budgetsSize % threshold
-            var i = 0
-            while (i < budgetsSize - modulo) {
-                insertIntoPayments(cityId, budgets.subList(i, i + threshold))
-                i += threshold
-            }
-            insertIntoPayments(cityId, budgets.subList(i, i + modulo))
-        } else {
-            insertIntoPayments(cityId, budgets)
+    fun saveCityBudgets(cityId: Int, allBudgets: List<Budget>) {
+        allBudgets.chunked(threshold) {
+            budgets: List<Budget> -> insertIntoPayments(cityId, budgets)
         }
     }
 
