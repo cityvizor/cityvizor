@@ -1,4 +1,3 @@
-{{- if .Values.vintage_enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -42,4 +41,3 @@ spec:
         - name: import-data
           persistentVolumeClaim:
             claimName: "import-pvc"
-{{- end -}}

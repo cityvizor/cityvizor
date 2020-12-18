@@ -1,8 +1,3 @@
-{{- if .Values.vintage_enabled -}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: cityvizor-server
 spec:
   ports:
     - nodePort: 32311
@@ -66,4 +61,3 @@ spec:
         - name: import-data
           persistentVolumeClaim:
             claimName: 'import-pvc'
-{{ end }}
