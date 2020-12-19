@@ -19,14 +19,15 @@ class InternetStreamServiceTest : AbstractSpringDatabaseTest() {
     fun fetchBudgets() {
         internetStreamService.fetchData()
         transaction {
-            val result = Payments.select { Payments.year eq 2020 }.first()
+            val result = Payments.select { Payments.year eq 2020 }.toList()
+            assertEquals(20, result[0][Payments.profileId])
+            assertEquals(2020, result[0][Payments.year])
+            assertEquals(5512, result[0][Payments.paragraph])
+            assertEquals(5154, result[0][Payments.item])
+            assertEquals(5512000000001, result[0][Payments.event])
+            assertEquals(BigDecimal("13660.00"), result[0][Payments.amount])
 
-            assertEquals(20, result[Payments.profileId])
-            assertEquals(2020, result[Payments.year])
-            assertEquals(6171, result[Payments.paragraph])
-            assertEquals(5031, result[Payments.item])
-            assertEquals(6171170000001, result[Payments.event])
-            assertEquals(BigDecimal("516230.00"), result[Payments.amount])
+            assertEquals(BigDecimal("4779.00"), result[1][Payments.amount])
         }
     }
 }

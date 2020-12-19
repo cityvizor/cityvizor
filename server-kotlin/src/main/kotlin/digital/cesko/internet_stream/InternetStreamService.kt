@@ -5,6 +5,7 @@ import digital.cesko.common.Profiles
 import mu.KLogging
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
+import org.apache.commons.csv.CSVRecord
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
@@ -100,7 +101,7 @@ class InternetStreamService(
         val profileId = transaction {
             Profiles.select { Profiles.url eq url }.toList()
         }
-        return !profileId.isEmpty()
+        return profileId.isNotEmpty()
     }
 
     // Search by column url and return id
@@ -117,29 +118,35 @@ class InternetStreamService(
     fun parseBudgets(inputStream: InputStream): List<Budget> {
         val csvParser = CSVParser.parse(inputStream, Charsets.UTF_8, csvFormat)
         val records = csvParser.records
-        return records.map {
-            val type = it.get("DOKLAD_AGENDA")
-            val paragraph = it.get("PARAGRAF").toInt()
-            val item = it.get("POLOZKA").toInt()
-            val srcId = it.get("ORGANIZACE")
-            val name = it.get("ORGANIZACE_NAZEV")
-            val amountMd = it.get("CASTKA_MD").toBigDecimal()
-            val amountDal = it.get("CASTKA_DAL").toBigDecimal()
-            val amount = if (item < 5000) (amountMd - amountDal) else (amountDal - amountMd)
-            val event: Long? = it.get("ORGANIZACE").toLong()
-            val unit: Int? = it.get("ORJ").toInt()
-            val dateAsString: String? = it.get("DOKLAD_DATUM")
-            val date: LocalDate? = if (dateAsString != null) LocalDate.parse(dateAsString) else null
-            val counterpartyId: String? = it.get("DOKLAD_DATUM")
-            val counterpartyName: String? = it.get("SUBJEKT_NAZEV")
-            val description: String? = it.get("POZNAMKA")
-            val year: Int? = it.get("DOKLAD_ROK").toInt()
-            val budget = Budget(
-                type, paragraph, item, srcId, name, amount, event, unit, date,
-                counterpartyId, counterpartyName, description, year
-            )
-            budget
+        return records.mapNotNull {
+            createBudgetFromRecord(it)
         }
+    }
+
+    fun createBudgetFromRecord(record: CSVRecord): Budget? {
+        val type = record.get("DOKLAD_AGENDA")
+        var budget: Budget? = null
+        if (type == "KDF" || type == "KOF") {
+            val paragraph = record.get("PARAGRAF").toInt()
+            val item = record.get("POLOZKA").toInt()
+            val srcId = record.get("ORGANIZACE")
+            val name = record.get("ORGANIZACE_NAZEV")
+            val amountMd = record.get("CASTKA_MD").toBigDecimal()
+            val amountDal = record.get("CASTKA_DAL").toBigDecimal()
+            val amount = if (item < 5000) (amountMd - amountDal) else (amountDal - amountMd)
+            val event: Long? = record.get("ORGANIZACE").toLong()
+            val unit: Int? = record.get("ORJ").toInt()
+            val dateAsString: String? = record.get("DOKLAD_DATUM")
+            val date: LocalDate? = if (dateAsString != null) LocalDate.parse(dateAsString) else null
+            val counterpartyId: String? = record.get("DOKLAD_DATUM")
+            val counterpartyName: String? = record.get("SUBJEKT_NAZEV")
+            val description: String? = record.get("POZNAMKA")
+            val year: Int? = record.get("DOKLAD_ROK").toInt()
+            budget = Budget(
+                    type, paragraph, item, srcId, name, amount, event, unit, date,
+                    counterpartyId, counterpartyName, description, year)
+        }
+        return budget
     }
 
     fun deleteCityBudgetsPerYear(cityId: Int, year: Int) {
