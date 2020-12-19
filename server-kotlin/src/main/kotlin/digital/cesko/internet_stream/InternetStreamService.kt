@@ -138,7 +138,7 @@ class InternetStreamService(
             val unit: Int? = record.get("ORJ").toInt()
             val dateAsString: String? = record.get("DOKLAD_DATUM")
             val date: LocalDate? = if (dateAsString != null) LocalDate.parse(dateAsString) else null
-            val counterpartyId: String? = record.get("DOKLAD_DATUM")
+            val counterpartyId: String? = record.get("SUBJEKT_IC")
             val counterpartyName: String? = record.get("SUBJEKT_NAZEV")
             val description: String? = record.get("POZNAMKA")
             val year: Int? = record.get("DOKLAD_ROK").toInt()
