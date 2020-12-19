@@ -143,8 +143,9 @@ class InternetStreamService(
             val description: String? = record.get("POZNAMKA")
             val year: Int? = record.get("DOKLAD_ROK").toInt()
             budget = Budget(
-                    type, paragraph, item, srcId, name, amount, event, unit, date,
-                    counterpartyId, counterpartyName, description, year)
+                type, paragraph, item, srcId, name, amount, event, unit, date,
+                counterpartyId, counterpartyName, description, year
+            )
         }
         return budget
     }
