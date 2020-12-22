@@ -1,6 +1,6 @@
 <template>
-<div id="markdownContent">
-  <VueShowdown :markdown="content"/>
+<div>
+  <VueShowdown id="markdownContent" :markdown="content"/>
 </div>
 </template>
 
@@ -28,12 +28,13 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 // Copied and modified: https://github.com/jasonm23/markdown-css-themes/blob/gh-pages/markdown.css
 #markdownContent {
   margin-left: 10%;
-  margin-right: 10%
+  margin-right: 10%;
 }
+
 body {
   line-height:1.5em;
   padding:1em;

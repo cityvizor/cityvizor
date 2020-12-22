@@ -15,7 +15,7 @@ const routes = [
     { 
         path: '/proc-cityvizor', 
         component: WhyPage,
-        name: 'Proč CityVizor?'
+        name: 'Proč Cityvizor?'
     },
     {
         path: '/o-aplikaci',

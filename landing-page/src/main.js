@@ -3,6 +3,7 @@ import VueShowdown from 'vue-showdown'
 import App from './App.vue'
 import router from './router'
 import AsyncComputed from 'vue-async-computed'
+import BootstrapVue from "bootstrap-vue"
 
 Vue.config.productionTip = false
 
@@ -14,6 +15,7 @@ Vue.use(VueShowdown, {
 })
 
 Vue.use(AsyncComputed)
+Vue.use(BootstrapVue)
 
 Vue.mixin({
   data() {

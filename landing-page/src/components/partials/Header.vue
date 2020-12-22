@@ -7,7 +7,7 @@
         class="navbar row align-items-center" 
         role="navigation" 
         aria-label="Main">
-            <div class="col-10 col-md-6">
+            <div class="col-4 col-md-4">
 
                 <!-- Brand -->
                 <router-link to="/"
@@ -20,7 +20,7 @@
                 </router-link>
 
             </div>
-            <div class="col-2 col-md-6 text-right">
+            <div class="col-8 col-md-8 text-right">
 
                 <!-- Menu: Primary -->
                 <ul class="c-menu">
