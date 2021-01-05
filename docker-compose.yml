@@ -5,10 +5,7 @@ services:
     image: nginx:1.15.8-alpine
     container_name: nginx.cityvizor.cesko.digital
     ports:
-      # Client
       - "4200:80"
-      # Landing page
-      - "4201:81"
     volumes:
       - ./nginx:/etc/nginx:ro
     environment:

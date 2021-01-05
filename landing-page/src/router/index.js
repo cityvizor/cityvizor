@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import WhyPage from '../components/pages/WhyPage'
 import MarkdownPage from '../components/pages/MarkdownPage'
 import Home from '../components/pages/Home';
+import { publicPath } from "../../vue.config"
 
 Vue.use(Router);
 
@@ -53,5 +54,6 @@ const routes = [
 
 export default new Router({
     mode: 'history',
-    routes
+    routes,
+    base: publicPath
 })

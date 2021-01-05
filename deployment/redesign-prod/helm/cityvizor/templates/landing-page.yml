@@ -1,4 +1,3 @@
-{{- if .Values.landing_page_enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -41,4 +40,3 @@ spec:
               port: 80
             initialDelaySeconds: 3
             periodSeconds: 3
-{{- end -}}

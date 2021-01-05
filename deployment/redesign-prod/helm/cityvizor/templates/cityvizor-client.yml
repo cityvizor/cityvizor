@@ -1,4 +1,3 @@
-{{- if .Values.vintage_enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -32,7 +31,6 @@ spec:
       containers:
         - name: cityvizor-client
           image: {{ .Values.cityvizor_client.image }}:{{ .Values.cityvizor_client.tag }}
-          env:
             - name: NODE_ENV
               value: "prod"
           ports:
@@ -44,4 +42,3 @@ spec:
               port: 80
             initialDelaySeconds: 3
             periodSeconds: 3
-{{- end -}}
