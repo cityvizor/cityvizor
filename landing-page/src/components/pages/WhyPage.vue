@@ -1,215 +1,130 @@
 <template>
-	<div id="why-page">
-		<section class="why__section container" aria-labelledby="page--heading">
-			<div class="highlights__part">
-				<div id="highlights__data-source" class="highlights__image"></div>
-				<div class="highlights__text">
-					<h2 class="highlights__heading why__heading">Jsme tansparentní zdroj dat</h2>
-					<div class="why__description">Mějte přehled o hospodaření obce a o rozpočtu a jeho průběžném plnění na jednom místě.</div>
-				</div>
-			</div>
-			
-			<div class="highlights__part">
-				<div id="highlights__details" class="highlights__image"></div>
-				<div class="highlights__text">
-					<h2 class="highlights__heading why__heading">Zobrazujeme detailně všechny výdaje</h2>
-					<div class="why__description">Kategorizace výdajů podle projektů nebo zobrazovaní výdaju až na detail každé faktury vám pomůže zorientovat se.</div>
-				</div>
-			</div>
-			
-			<div class="highlights__part">
-				<div id="highlights__visualisation" class="highlights__image"></div>
-				<div class="highlights__text">
-					<h2 class="highlights__heading why__heading">Pracujte s daty efektivně</h2>
-					<div class="why__description">Vizualizace dat poskytne srozumitelný, grafický přehled o rozpočtu vaší obce.</div>
-				</div>
-			</div>
-			
-			<div class="highlights__part">
-				<div id="highlights__trust" class="highlights__image"></div>
-				<div class="highlights__text">
-					<h2 class="highlights__heading why__heading">Mužete nám věřit</h2>
-					<div class="why__description">Infrastruktura a kontinuální rozvoj aplikace je zaštiťován a podporován neziskovými organizacemi.</div>
-				</div>
-			</div>
-		</section>
-
-		<section id="why__annotation" aria-labelledby="annotation__heading">
-			<div id="annotation__container" class="container">
-				<h1 class="why__heading">Co všechno zde najdete?</h1>
-				<div id="annotation__description" class="why__description">
-					<div>
-						<span class="underline annotation--underline">Dodavatelé</span>, kterým organizace vyplácí veřejné prostředky a za co je vyplácí.
-					</div>
-					<div>
-						<span class="underline annotation--underline">Projektové či investiční akce</span> (opravy, stavby, pořízení SW…) které probíhají, jaké jsou na ně alokovány prostředky a kolik již bylo vyplaceno.
-					</div>
-					<div>
-						<span class="underline annotation--underline">Plán výdajů</span> (rozpočet), plnění těchto plánů v daném roce a vazby jednotlivých faktur a investic na rozpočet.
-					</div>
-					<div>
-						Informace o <span class="underline annotation--underline">nejnovějších</span> veřejných úředních <span class="underline annotation--underline">dokumentech</span>.
-					</div>
-					<div>
-						<span class="underline annotation--underline">Odkazy na konkrétní smlouvy</span>, které daná organizace uveřejnila v registru smluv.
-					</div>
-					<div id="join-button__container">
-						<a href="mailto:cityvizor@otevrenamesta.cz
-							?subject=Žádost o bližší informace
-							&body=Prosím,%0D%0Apošlete nám své jméno a kontaktní údaje (telefon, e-mail).%0D%0AObratem se Vám ozveme,%0D%0ADěkujeme.">
-							<button class="btn">Zapojit moji obec</button>
-						</a>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
+<div>
+	<b-container>
+		<b-row>
+			<b-col sm="12">
+				<h1>Proč Cityvizor?</h1>
+			</b-col>
+			<b-col xs="12" sm="6" v-for="(point, idx) in points" :key="point.title" class="list-entry">
+				<b-row>
+					<b-col cols="auto">
+						<div class="list-number">
+							<b>{{idx + 1}}</b>
+						</div>
+					</b-col>
+					<b-col cols="8">
+						<b-row>
+							<h4>{{point.title}}</h4>
+						</b-row>
+						<b-row id="point-content">
+							{{point.content}}
+						</b-row>
+					</b-col>
+				</b-row>
+			</b-col>
+		</b-row>
+	<ParticipateBox></ParticipateBox>
+	</b-container>
+</div>
 </template>
 
-<style lang="scss">
-@import '../../assets/styles/common/_breakpoints.scss';
+<script>
+import ParticipateBox from "../partials/ParticipateBox.vue"
+
+export default {
+  name: 'WhyPage',
+  components: {
+	  ParticipateBox
+  },
+  data() {
+	  return {
+		points: [
+			{
+				title: "Skutečně transparentní zdroj dat",
+				content: "Vychází z otevřených dat o hospodaření měst a obcí. Tato data umí zveřejňovat srozumitelně a v souvislostech."
+			},
+			{
+				title: "Uživatelsky přívětivá forma",
+				content: "Vše je zobrazeno přehledně a formulováno tak, aby byly informace přístupné a srozumitelné pro každého."
+			},
+			{
+				title: "Vše na jednom místě",
+				content: "Poskytuje informace o rozpočtu obce a jeho průběžném plnění, informace z úřední desky i z Registru smluv."
+			},
+			{
+				title: "Okamžité informace",
+				content: "Srozumitelná data o hospodaření obce jsou k dispozici 24 hodin denně, což může zastupitelům usnadnit rozhodování, vyhodnocování a řízení obce a kraje."
+			},
+			{
+				title: "Spolehlivý přehled",
+				content: "Rozdělení výdajů a příjmů do kategorií podle projektů a investičních akcí pomáhá rychlejší orientaci. Navíc můžete sledovat i průběžné plnění a financování těchto akcí."
+			},
+			{
+				title: "Do detailu každé faktury",
+				content: "Cityvizor zobrazuje příjmy a výdaje do detailu každé faktury a věrně tak odráží skutečnost."
+			},
+			{
+				title: "Kompletní informace ke každé položce",
+				content: "Ještě podrobnější informace získáte díky možnosti náhledu na detail investiční akce, kde najdete vše o jejím financování včetně seznamu dodavatelů a faktur, které jim byly proplaceny. Zároveň zde najdete financování dané akce v minulých letech."
+			},
+			{
+				title: "Náhled přímo na faktury za daný měsíc",
+				content: "Aplikace umožňuje náhled na faktury, které byly obcím proplaceny v konkrétním měsíci vybraného roku. Můžete tak jednoduše zjistit, komu tento rok vaše obec vyplatila kolik peněz, aniž byste museli hádat, o jaký druh výdaje se jedná"
+			},
+			{
+				title: "Historická data",
+				content: "Cityvizor zobrazuje také vývoj rozpočtů v minulosti. Můžete se tak podívat, jak vaše obec hospodařila v předchozích letech."
+			},
+			{
+				title: "Efektivní práce s daty díky vizualizaci",
+				content: "Jednoduché tabulky a grafy poskytují srozumitelný přehled o rozpočtu vaší obce. Všechny vizualizace dat můžete využívat pro prezentaci činnosti obce a jejího hospodaření."
+			},
+			{
+				title: "Aplikace je neustále zdokonalována",
+				content: "Původně byla vyvinuta pracovníky Ministerstva financí ČR a její infrastrukturu a rozvoj zaštiťují neziskové organizace. Jejich tým průběžně zpracovává zpětnou vazbu a vyvíjí nové funkce tak, aby vám aplikace přinesla ještě více užitku."
+			},
+			{
+				title: "Na míru vašim potřebám",
+				content: "Aplikace Cityvizor je upravitelná přesně podle potřeb vaší obce, aby se vám s ní pracovalo co nejlépe."
+			},
+			{
+				title: "Ušetříte za licence",
+				content: "Obec může ušetřit za licence pro přístup do informačního systému. Zaměstnancům obce bude většinou jako jediný nástroj stačit Cityvizor."
+			},
+			{
+				title: "Začít můžete hned",
+				content: "Není třeba projít složitým školením. Aplikaci můžete začít používat hned po importu dat vaší obce. Pokud vám však zaškolení dá větší jistotu, rádi vám poskytneme veškerou podporu."
+			}
+		]
+	  }
+  }
+}
+</script>
+
+<style scoped lang="scss">
 @import '../../assets/styles/common/_variables.scss';
 
-#why-page {
-	margin-bottom: -60px;
+#point-content {
+	margin-left: 0.5em;
 }
 
-.why__section {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+h1 {
+	text-decoration: underline;
+	text-decoration-color: $primary;
 }
 
-.highlights__part {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	padding-bottom: 120px;
-
-	@include media-breakpoint-down(md) {
-		flex-direction: column;
-
-		&::last-of-type {
-			padding-bottom: 60px;
-		}
-	}
+.list-entry {
+	margin-bottom: 20px;
 }
-
-.highlights__image {
-	width: 246px;
-	max-width: 100%;
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center center;
-}
-
-
-#highlights__data-source {
-	background-image: url(../../assets/images/pages/why/data_source.png);
-	height: 145px;
-
-	@include media-retina-display() {
-		background-image: url(../../assets/images/pages/why/data_source@2x.png);
-	}
-}
-
-#highlights__details {
-	background-image: url(../../assets/images/pages/why/details.png);
-	height: 221px;
-
-	@include media-retina-display() {
-		background-image: url(../../assets/images/pages/why/details@2x.png);
-	}
-}
-
-#highlights__visualisation {
-	background-image: url(../../assets/images/pages/why/visualisation.png);
-	height: 221px;
-
-	@include media-retina-display() {
-		background-image: url(../../assets/images/pages/why/visualisation@2x.png);
-	}
-}
-
-#highlights__trust {
-	background-image: url(../../assets/images/pages/why/trust.png);
-	height: 186px;
-
-	@include media-retina-display() {
-		background-image: url(../../assets/images/pages/why/trust@2x.png);
-	}
-}
-
-.highlights__text {
-	width: 400px;
-	max-width: 100%;
-
-	@include media-breakpoint-down(md) {
-		padding-top: 40px;
-	}
-	
-	@include media-breakpoint-up(md) {
-		padding-left: 87px;
-	}
-}
-
-.why__heading {
-	font-size: 1.5rem;
-}
-
-.highlights__heading {
-	padding-bottom: 20px;
-}
-
-.why__description {
-	font-size: 1.2rem;
-	line-height: 1.5rem;
-}
-
-#why__annotation {
-	background-color: #fafafa;
-	padding-top: 100px;
-	padding-bottom: 100px;
-	
-	@include media-breakpoint-down(md) {
-		padding-top: 60px;
-		padding-bottom: 60px;
-	}
-}
-
-#annotation__container {
-	width: 770px;
-	max-width: 100%;
-}
-
-#annotation__description {
-	padding-top: 60px;
-	
-	& > * {
-		padding-bottom: 20px;
-	}
-}
-
-.annotation--underline {
-	padding-bottom: 5px;
-	background-size: auto 6px;
-}
-
-#join-button__container {
-	padding-top: 115px;
-	display: flex;
+.list-number {
+	border-radius: 50%;
+	border: 2px solid $black;
 	justify-content: center;
 	align-items: center;
-	
-	@include media-breakpoint-down(md) {
-		padding-top: 60px;
-	}
+	display: flex;
+	width: 60px;
+  	height: 60px;
+	margin-right: 10px;
 }
 
-#join-button {
-	padding-top: 8px;
-	text-decoration: none;
-}
 </style>

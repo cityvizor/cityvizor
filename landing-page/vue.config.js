@@ -1,3 +1,6 @@
+// https://github.com/bootstrap-vue/bootstrap-vue/issues/5954#issuecomment-714934578
+const BootstrapVueLoader = require('bootstrap-vue-loader')
+
 module.exports = {
     lintOnSave: false,
     devServer: {
@@ -12,6 +15,9 @@ module.exports = {
         }
     },
     configureWebpack: {
+        plugins: [
+            new BootstrapVueLoader()
+        ],
         module: {
             rules: [
             {
