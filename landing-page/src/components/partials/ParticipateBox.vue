@@ -5,7 +5,7 @@
     </b-row>
     <b-row class="participate-box-row">
         <div>Dejte nám o tom vědět pomocí jednoduchého formuláře.</div>
-        </b-row>
+    </b-row>
     <b-row class="participate-box-row">
         <b-button id="participate-modal-button" @click="open()">Chci zapojit svou obec</b-button>
     </b-row>
@@ -43,6 +43,7 @@ export default {
 #participate-box {
 	border-radius: 15px;
 	border: 2px solid $text-gray;
+    margin-bottom: 10px;
 }
 
 #participate-modal-button {
@@ -52,7 +53,9 @@ export default {
 }
 
 .participate-box-row {
+    display: flex;
     justify-content: center;
+    align-items: center;
     margin: 10px;
 }
 

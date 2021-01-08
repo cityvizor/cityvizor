@@ -1,0 +1,37 @@
+<template>
+<div>
+    <div v-if="this.alternativePageContent.aboutUsHtml" v-html="this.alternativePageContent.aboutUsHtml"></div>
+    <div v-else class="container">
+        <h1 class="underlined">O nás</h1>
+        <p>
+            Cityvizor je open-source projekt, původně vyvinutý na Ministerstvu financí České republiky.
+        </p>
+        <p>
+            Provozovatelem projektu je nezisková organizace <a href="https://www.otevrenamesta.cz/">Otevřená města</a>. Tu tvoří spolek obcí, které chtějí být otevřené vůči svým občanům. Jejich cílem je především pomáhat s řešením společných problémů obcí a prostřednictvím spolupráce šetřit jejich čas i peníze.
+        </p>
+        <p>
+            Partnerem projektu je <a href="https://cesko.digital/">Česko.Digital</a>, komunita expertních dobrovolníků napříč obory, kteří pracují na veřejně prospěšných projektech. Chtějí tak ve svém volném čase pomáhat státu i nestátním organizacím dělat Česko lepším místem k životu
+        </p>
+        <p>
+            Společně se snažíme zpřístupnit každému přehledně a srozumitelně všechny důležité informace o hospodaření obcí v ČR. Výjimečnost tohoto projektu spočívá mimo jiné v tom, že se na něm můžete podílet i vy. Pokud chcete podat pomocnou ruku a přispět tak k transparentnímu hospodaření obcí, <a href="https://wiki.cesko.digital/pages/viewpage.action?pageId=1574323">připojte se do naší komunity</a>. Těšíme se na spolupráci.
+        </p>
+        <p>
+            Cityvizor je transparentní projekt. Veškerou komunikaci o něm proto najdete na našem <a href="https://cesko-digital.slack.com/archives/CG66HNLH4">Slacku</a> a v <a href="https://trello.com/b/BFJahQYG/cityvizor-organizace">Trellu</a>.
+        </p>
+        <FeedbackBox></FeedbackBox>
+    </div>
+</div>
+</template>
+
+<script>
+import FeedbackBox from "../partials/FeedbackBox.vue"
+export default {
+    name: "AboutUsPage",
+    components: {
+        FeedbackBox
+    }
+}
+</script>
+
+<style scoped lang="scss">
+</style>

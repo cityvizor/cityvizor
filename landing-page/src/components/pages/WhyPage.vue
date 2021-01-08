@@ -1,30 +1,33 @@
 <template>
 <div>
-	<b-container>
-		<b-row>
-			<b-col sm="12">
-				<h1>Proč Cityvizor?</h1>
-			</b-col>
-			<b-col xs="12" sm="6" v-for="(point, idx) in points" :key="point.title" class="list-entry">
-				<b-row>
-					<b-col cols="auto">
-						<div class="list-number">
-							<b>{{idx + 1}}</b>
-						</div>
-					</b-col>
-					<b-col cols="8">
-						<b-row>
-							<h4>{{point.title}}</h4>
-						</b-row>
-						<b-row id="point-content">
-							{{point.content}}
-						</b-row>
-					</b-col>
-				</b-row>
-			</b-col>
-		</b-row>
-	<ParticipateBox></ParticipateBox>
-	</b-container>
+	<div v-if="this.alternativePageContent.whyHtml" v-html="this.alternativePageContent.whyHtml"></div>
+	<div v-else>
+		<b-container>
+			<b-row>
+				<b-col sm="12">
+					<h1 class="underlined" style="margin-bottom: 20px">Proč Cityvizor?</h1>
+				</b-col>
+				<b-col xs="12" sm="6" v-for="(point, idx) in points" :key="point.title" class="list-entry">
+					<b-row>
+						<b-col cols="auto">
+							<div class="list-number">
+								<b>{{idx + 1}}</b>
+							</div>
+						</b-col>
+						<b-col cols="8">
+							<b-row>
+								<h4>{{point.title}}</h4>
+							</b-row>
+							<b-row id="point-content">
+								{{point.content}}
+							</b-row>
+						</b-col>
+					</b-row>
+				</b-col>
+			</b-row>
+		<ParticipateBox></ParticipateBox>
+		</b-container>
+	</div>
 </div>
 </template>
 
@@ -108,10 +111,6 @@ export default {
 	margin-left: 0.5em;
 }
 
-h1 {
-	text-decoration: underline;
-	text-decoration-color: $primary;
-}
 
 .list-entry {
 	margin-bottom: 20px;
