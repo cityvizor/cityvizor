@@ -42,3 +42,4 @@ services:
             - 4202:8080
         volumes:
             - ./landing-page/src:/user/src/app/src
+            - ./landing-page/cfg:/user/src/app/cfg

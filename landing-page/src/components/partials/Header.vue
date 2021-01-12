@@ -15,7 +15,6 @@
                     <img 
                     src="./../../assets/images/logo.svg" 
                     width="280" 
-                    height="73" 
                     alt="CityVizor.cz - logo">
                 </router-link>
 
@@ -70,7 +69,7 @@ export default {
     },
     computed: {
         routes() {
-            return this.$router.options.routes.filter(p => p.path != "/")
+            return this.$router.options.routes.filter(p => p.name && p.path != "/")
         }
     },
     data() {

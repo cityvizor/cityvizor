@@ -1,5 +1,6 @@
 // https://github.com/bootstrap-vue/bootstrap-vue/issues/5954#issuecomment-714934578
 const BootstrapVueLoader = require('bootstrap-vue-loader')
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     lintOnSave: false,
@@ -16,7 +17,12 @@ module.exports = {
     },
     configureWebpack: {
         plugins: [
-            new BootstrapVueLoader()
+            new BootstrapVueLoader(),
+            new CopyPlugin(
+                [
+                    {from: "cfg", to: "cfg"}
+                ]
+            )
         ],
         module: {
             rules: [

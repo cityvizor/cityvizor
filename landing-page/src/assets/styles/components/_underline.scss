@@ -4,6 +4,9 @@
 |--------------------------------------------------------------------------
 */
 
+// Yes, this is ugly and produces an uneven underline. 
+// A workaround until Chromium fixes the text-decoration-thickness property.
+// https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-thickness#browser_compatibility
 .underline {
     background-repeat: repeat-x;
     background-image: url(./assets/images/highlight.png);
