@@ -18,6 +18,12 @@ nodePackages.package.override {
        --add-flags "$out/lib/node_modules/${packageName}/dist/${comp}.js"
   '');
 
+  shellHook = ''
+    echo 'Entering ${packageName} shell'
+    export PATH="$(pwd)/dist/bin:$(npm bin):$PATH"
+    npm install
+  '';
+
   meta = with lib; {
     description = "CityVizor server";
     maintainers = with maintainers; [ sorki ];
