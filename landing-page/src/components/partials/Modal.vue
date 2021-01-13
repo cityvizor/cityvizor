@@ -5,7 +5,13 @@
       <div class="modal__content__header">
         <slot name="header" />
         <div class="close-button" @click.stop="close">
-          <Close :size="24" :thickness="3"></Close>
+          <Close
+            :size="16"
+            :thickness="5"
+            stroke="#757575"
+            linecap="round" />
+          <!-- 12px svg = 8px line => size 16 -->
+          <!-- find proper fix -->
         </div>
       </div>
       <div class="modal__content__body">
@@ -72,13 +78,13 @@ export default {
 }
 
 .modal__content {
-  width: 600px;
+  width: 532px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: #fff;
-  padding: 48px 48px 24px 48px;
+  padding: 24px;
   text-align: left;
 }
 
@@ -91,7 +97,10 @@ export default {
     margin-bottom: 18px;
   }
   h2 {
-    font-size: 24px;
+    font-family: 'IBM Plex Sans';
+    font-size: 12px;
+    text-decoration: none;
+    color: #1E2A37;
   }
 
   .close-button {
@@ -103,7 +112,7 @@ export default {
 }
 
 .modal__content__body {
-  margin-top: 54px;
+  margin-top: 24px;
 }
 
 .modal__content__footer {

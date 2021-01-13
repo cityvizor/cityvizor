@@ -40,14 +40,9 @@ export default {
     },
     adjustStylingOfLabels() {
       this.findElements('input').forEach(input => {
+        // input.style.position = 'relative';
         const labels = input.parentNode.getElementsByTagName('label')
         if (labels.length > 0) {
-          if (input.required) {
-            const span = document.createElement('span')
-            span.textContent = ' *'
-            span.style.color = 'red' 
-            labels[0].append(span)
-          }
           if (input.type === 'checkbox') {
             labels[0].classList.add('checkbox-label')
           }
@@ -106,46 +101,66 @@ export default {
     display: block;
     margin-bottom: 6px;
   }
-  label[readonly] {
-    font-weight: 700;
-  }
 
   div {
-    font-size: 14px;
+    font-family: 'IBM Plex Sans';
+    font-size: 12px;
     margin-top: 6px;
+    color: #757575;
   }
 
   input {
-    height: 40px;
-    width: 100%;
-    border: 2px solid #828282;
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    border-radius: 8px;
+    width: 344px;
+    height: 56px;
   }
+
+  input:focus {
+    border: 2px solid #248E56;
+  }
+
+  input:required ~ label:after {
+    content: ' *';
+  }
+
   input[type='checkbox'] {
-    height: 28px;
-    width: 28px;
+    height: 20px;
+    width: 20px;
     cursor: pointer;
   }
+
   .checkbox-label {
     display: inline;
-    font-size: 14px;
-    margin-left: 12px;
+    font-size: 16px;
+    line-height: 24px;
+    margin-left: 8px;
     cursor: pointer;
   }
 }
 
 .modal-form__error {
-  height: 18px;
   margin: 12px 0;
-  font-size: 18px;
-  color: red;
+  height: 12px;
+  font-size: 12px;
+  > pre {
+    color: red;
+  }
+}
+
+label {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0em;
 }
 
 // TODO: replace temp layout fix for mobile devices
 @media screen and (max-width: 480px) {
   .modal-form {
-    input {
-      height: 32px;
-    }
     input[type='checkbox'] {
       height: 16px;
       width: 16px;
