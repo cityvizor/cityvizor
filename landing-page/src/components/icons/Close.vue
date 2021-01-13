@@ -19,13 +19,6 @@ export default {
     thickness: {
       type: Number,
       default: 2
-    },
-    stroke: {
-      type: String,
-      default: '#000'
-    },
-    linecap: {
-      type: String
     }
   },
   computed: {
@@ -33,11 +26,7 @@ export default {
       return this.size - 2;
     },
     styleObj() {
-      return `
-        stroke:${this.stroke};
-        stroke-width:${this.thickness};
-        stroke-linecap:${this.linecap}
-      `;
+      return `stroke:#000;stroke-width:${this.thickness}`
     }
   },
 }
