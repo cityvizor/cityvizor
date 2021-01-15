@@ -17,6 +17,7 @@ module.exports = {
     configureWebpack: {
         plugins: [
             new BootstrapVueLoader()
+
         ],
         module: {
             rules: [
@@ -26,6 +27,18 @@ module.exports = {
             },
             ],
         },
+        externals: {
+          consolidate: 'consolidate',
+          sass: 'sass',
+          stylus: 'stylus',
+          less: 'less',
+          module: 'module',
+          'webpack/lib/rules/BasicEffectRulePlugin': 'webpack/lib/rules/BasicEffectRulePlugin',
+          'webpack/lib/rules/BasicMatcherRulePlugin': 'webpack/lib/rules/BasicMatcherRulePlugin',
+          'webpack/lib/rules/DescriptionDataMatcherRulePlugin': 'webpack/lib/rules/DescriptionDataMatcherRulePlugin',
+          'webpack/lib/rules/RuleSetCompiler': 'webpack/lib/rules/RuleSetCompiler',
+          'webpack/lib/rules/UseEffectRulePlugin': 'webpack/lib/rules/UseEffectRulePlugin',
+        }
     },
     publicPath: process.env.VUE_PUBLIC_PATH || "/landing"
 }
