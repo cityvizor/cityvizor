@@ -10,3 +10,5 @@ environment/environment.*
 
 # misc
 npm-debug.log
+
+result*

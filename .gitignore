@@ -10,3 +10,4 @@ build
 *.iws
 .vscode
 .DS_Store
+result*
