@@ -9,8 +9,8 @@ import { AppComponent } from './app.component';
 /* MODULES */
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { FrontpageModule } from './views/frontpage/frontpage.module';
 import { NotFoundPageModule } from './views/not-found-page/not-found-page.module';
+import { LoginModule } from './views/login/login.module';
 
 /* HTTP Interceptors */
 import { httpInterceptorProviders } from './http-interceptors';
@@ -49,7 +49,7 @@ var jwtOptions = {
 		AppRoutingModule,
 		
 		SharedModule,
-		FrontpageModule,
+		LoginModule,
 		NotFoundPageModule,
 
 		ModalModule.forRoot(),

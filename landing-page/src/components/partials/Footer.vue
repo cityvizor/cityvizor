@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-6">
           <p><a href="/landing/dokumentace">Technická dokumentace</a></p>
-          <p><a href="http://www.cityvizor.cz/#login" target="_blank">Vstup do administrace</a></p>
+          <p><a href="/login">Vstup do administrace</a></p>
         </div>
         <div class="col-6 text-right">
           <nav>

@@ -25,9 +25,10 @@ export class ACLService implements CanActivate {
     let result = this.checkRoute(state.url);
     
     if(!result && this.authService.logged) this.toastService.toast("K této stránce nemáte právo přistupovat. Požádejte administrátora o udělení práv.","error");
-    if(!result && !this.authService.logged) this.toastService.toast("Pro přístup k této stránce musíte být přilášeni. Přihlaste se, prosím.","error");
-    
-		if(!result) this.router.navigate(["/"]);
+    if(!result && !this.authService.logged) {
+      this.toastService.toast("Pro přístup k této stránce musíte být přilášeni. Přihlaste se, prosím.","error");
+      this.router.navigate(["/login"]);
+    }
 		
     return result;
     

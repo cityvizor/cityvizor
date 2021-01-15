@@ -3,13 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { ACLService } from "./services/acl.service";
 import { NgModule } from '@angular/core';
 
-import { FrontpageComponent } from './views/frontpage/frontpage.component';
+import { LoginComponent } from './views/login/login.component';
 import { NotFoundPageComponent } from './views/not-found-page/not-found-page.component';
 
 const routes: Routes = [
 
 	/* FRONT PAGE */
-	{ path: '', component: FrontpageComponent },
+	{ path: 'login', component: LoginComponent },
 
 	/* NOT FOUND */
 	{ path: 'not-found', component: NotFoundPageComponent },

@@ -20,7 +20,6 @@ import { CounterpartyDetailComponent } from './components/counterparty-detail/co
 import { CounterpartyDetailModalComponent } from './components/counterparty-detail-modal/counterparty-detail-modal.component';
 import { HelpModalComponent } from './components/help-modal/help-modal.component';
 import { WordCloudComponent } from "./components/word-cloud/word-cloud.component";
-import { LoginFormComponent } from 'app/shared/components/login-form/login-form.component';
 import { HeaderMenuComponent } from 'app/shared/components/header-menu/header-menu.component';
 import { ProfileExpendituresWidgetComponent } from './widgets/profile-expenditures-widget/profile-expenditures-widget.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
@@ -52,7 +51,6 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
     HelpModalComponent,
     ChartHistoryComponent,
     WordCloudComponent,
-    LoginFormComponent,
     HeaderMenuComponent,
     DatePickerComponent,
 
@@ -86,7 +84,6 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
     HelpModalComponent,
     ChartHistoryComponent,
     WordCloudComponent,
-    LoginFormComponent,
     HeaderMenuComponent,
     DatePickerComponent,
 
