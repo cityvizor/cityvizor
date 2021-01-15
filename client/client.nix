@@ -27,6 +27,10 @@ nodePackages.package.override {
     # node2nix only runs `npm run rebuild`
     # and we also need `run build` which calls `ng build --prod`
     npm run build
+
+    # we are only interested in `dist`
+    cp -a dist/* $out/
+    rm -rf $out/lib
   '';
 
   shellHook = ''
