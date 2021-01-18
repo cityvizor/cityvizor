@@ -10,13 +10,12 @@
             <div class="col-4 col-md-4">
 
                 <!-- Brand -->
-                <router-link to="/"
-                    class="c-brand">
+                <a href="https://cityvizor.cz">
                     <img 
                     src="./../../assets/images/logo.svg" 
                     width="280" 
                     alt="CityVizor.cz - logo">
-                </router-link>
+                </a>
 
             </div>
             <div class="col-8 col-md-8 text-right">
