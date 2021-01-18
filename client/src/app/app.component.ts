@@ -29,29 +29,20 @@ export class AppComponent {
 
 	private viewContainerRef: ViewContainerRef; // ng2-bootstrap requirement
 
-	// get the login modal so that we can close the login modal on succesful login
-	@ViewChild('loginModal', { static: false })
-	public loginModal;
-
 	// array to link toasts from toastService
 	toasts: Array<any>;
 
 	version = packageJSON.version;
-
-	wrongPassword: boolean = false;
 
 	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, private route: ActivatedRoute, @Inject(AppConfig) public config: IAppConfig) {
 		this.toasts = this.toastService.toasts;
 	}
 
 	ngOnInit() {
-		this.route.fragment.subscribe(f => {
-			if (f == "login") this.loginModal.show()
-		})
 	}
 
 	logout() {
-		this.router.navigate(['/']);
+		this.router.navigate(['/login']);
 		this.authService.logout();
 	}
 
