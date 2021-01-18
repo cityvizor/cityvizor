@@ -2,7 +2,7 @@
   <Modal @close="close">
     <template slot="header">
       <h1>Chcete Cityvizor i ve Vaší obci?</h1>
-      <h2>Vyplněním následujícího formuláře nám o tom dáte vědět.</h2>
+      <h2>Dejte nám vědět a my to s vedením obce vyřídíme za Vás.</h2>
     </template>
 
     <template slot="body">
@@ -13,29 +13,26 @@
         @close="close"
       >
         <section>
-          <input id="city" required>
           <label>Obec</label>
+          <label readonly>{{ `${city.hezkyNazev} (PSČ ${city.adresaUradu.PSC})` }}</label>
+          <input id="city" type="hidden" :value="city.hezkyNazev">
+          <input id="psc" type="hidden" :value="city.adresaUradu.PSC">
         </section>
 
         <section>
-          <input id="psc" required>
-          <label>PSČ</label>
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="Váš email" title="Prosím vyplňte platnou emailovou adresu." required>
         </section>
 
         <section>
-          <input id="email" type="email" title="Prosím vyplňte platnou emailovou adresu." required>
-          <label>Váš e-mail</label>
-        </section>
-
-        <section>
-          <input id="name" type='text' required>
-          <label>Vaše jméno</label>
+          <label for="name">Jméno</label>
+          <input id="name" type='text' placeholder='Vaše jméno'>
           <div>Vaše jméno můžeme uvést v seznamu zájemců o Cityvizor při jednání s vedením obce</div>  
         </section>
 
         <section class="checkbox">
           <input id="subscribe" type="checkbox">
-          <label for="subscribe">Chci dostávat informace o propojení mé obce a Cityvizoru</label>
+          <label for="subscribe">Chci dostávat informace o propojení mojí obce a Cityvizoru</label>
         </section>
         
         <section class="checkbox">
