@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { DataService } from 'app/services/data.service';
 import { Profile } from 'app/schema';
-import { IAppConfig, AppConfig } from 'config/config';
+import { ConfigService } from 'config/config';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { NgForm } from '@angular/forms';
 import { AdminService } from 'app/services/admin.service';
@@ -24,7 +24,7 @@ export class AdminProfileListComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private modalService: BsModalService,
-    @Inject(AppConfig) public config: IAppConfig
+    public configService: ConfigService
   ) { }
 
   ngOnInit() {
