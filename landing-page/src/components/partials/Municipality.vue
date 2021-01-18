@@ -12,22 +12,12 @@
     <span class="c-municipalities__entry__region">
       {{ region }}
     </span>
-
-    <ModalRequestCity
-      v-if="modalOpen === true"
-      @close="modalOpen = false"
-      :city="municipality" />
   </li>
 </template>
 
 <script>
-import ModalRequestCity from './ModalRequestCity'
-
 export default {
   name: 'Municipality',
-  components: {
-    ModalRequestCity
-  },
   props: {
     municipality: {
       type: Object,

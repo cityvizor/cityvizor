@@ -5,7 +5,11 @@
       <div class="modal__content__header">
         <slot name="header" />
         <div class="close-button" @click.stop="close">
-          <Close :size="24" :thickness="3"></Close>
+          <Close
+            :size="16"
+            :thickness="5"
+            stroke="#757575"
+            linecap="round" />
         </div>
       </div>
       <div class="modal__content__body">
@@ -72,26 +76,40 @@ export default {
 }
 
 .modal__content {
-  width: 600px;
+  width: 532px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: #fff;
-  padding: 48px 48px 24px 48px;
+  padding: 24px;
   text-align: left;
+  border-radius: 8px;
 }
 
 .modal__content__header {
   position: relative;
 
   h1 {
-    font-size: 30px;
+    font-family: 'IBM Plex Sans';
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
+    letter-spacing: 0em;
+    color: #1E2A37;
+
     max-width: calc(100% - 32px);
-    margin-bottom: 18px;
+    margin: 0;
+    margin-bottom: 16px;
   }
+
   h2 {
-    font-size: 24px;
+    font-family: 'IBM Plex Sans';
+    font-size: 14px;
+    color: #1E2A37;
+    text-decoration: none;
+    margin: 0;
   }
 
   .close-button {
@@ -103,23 +121,13 @@ export default {
 }
 
 .modal__content__body {
-  margin-top: 54px;
+  margin-top: 24px;
 }
 
 .modal__content__footer {
   margin-top: 24px;
-  float: right;
-
-  button {
-    height: 40px;
-    padding: 0 20px;
-    font-size: 24px;
-    border: none;
-    border-radius: 4px;
-    background: $primary;
-    color: #fff;
-    cursor: pointer;
-  }
+  display: flex;
+  justify-content: center;
 }
 
 // TODO: replace temp layout fix for mobile devices
