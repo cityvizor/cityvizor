@@ -30,6 +30,8 @@ module.exports = {
 
   keys: {
     edesky: { api_key: process.env.EDESKY_API_KEY },
-    jwt: { secret: process.env.JWT_SECRET }
-  }
+    jwt: { secret: process.env.JWT_SECRET },
+    productboard: {token: process.env.PRODUCTBOARD_TOKEN}
+  },
+
 };

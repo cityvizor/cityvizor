@@ -10,6 +10,7 @@ import { ProfileDashboardRouter } from "./profile-dashboard";
 import { ProfileEventsRouter } from "./profile-events";
 import { ProfileNoticeboardRouter } from "./profile-noticeboard";
 import { ProfilePaymentsRouter } from "./profile-payments";
+import { FeedbackRouter } from "./feedback";
 
 const router = express.Router();
 
@@ -35,6 +36,7 @@ router.use("/profiles", ProfilesRouter);
 
 router.use("/codelists", CodelistsRouter);
 
+router.use("/feedback", FeedbackRouter)
 
 /* PROFILE DATA */
 router.use("/profiles/:profile/accounting", ProfileAccountingRouter);

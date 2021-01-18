@@ -49,6 +49,8 @@ spec:
               value: {{ .Values.shared_env.images_url }}
             - name: JWT_SECRET
               value: {{ .Values.cityvizor_server.jwt_secret }}
+            - name: PRODUCTBOARD_TOKEN
+              value: {{ .Values.productboard_token }}
           ports:
             - containerPort: 3000
           volumeMounts:

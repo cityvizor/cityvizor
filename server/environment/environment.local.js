@@ -26,10 +26,14 @@ module.exports = {
   },
 
   cors: true,
-  corsOrigin: "http://localhost:4200",
+  corsOrigin: ["http://localhost:4200", "http://localhost:4202"],
 
   keys: {
     edesky: { api_key: null },
-    jwt: { secret: "secret" }
+    jwt: { secret: "secret" },
+    productboard: {token: "CHANGEME"}
+  },
+
+  productboard: {
   }
 };
