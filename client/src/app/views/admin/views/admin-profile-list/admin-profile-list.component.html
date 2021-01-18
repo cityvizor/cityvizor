@@ -19,7 +19,7 @@
           <span *ngIf="profile.status === 'pending'" class="label label-warning">připravovaný</span>          
           <span *ngIf="profile.main" class="label label-primary">{{profile.main ? "hlavní profil" : ""}}</span>
         </th>
-        <td><a [routerLink]="'/' + profile.url">{{config.siteUrl}}/{{profile.url}}</a></td>
+        <td><a [routerLink]="'/' + profile.url">{{configService.config.siteUrl}}/{{profile.url}}</a></td>
         <td (click)="$event.stopImmediatePropagation()">
           <div class="btn-group pull-right" dropdown>
             <a dropdownToggle>Akce <span class="caret"></span></a>

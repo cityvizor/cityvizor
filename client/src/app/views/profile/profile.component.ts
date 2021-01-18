@@ -6,7 +6,6 @@ import { Subscription, Observable } from 'rxjs';
 import { DataService } from 'app/services/data.service';
 import { ToastService } from 'app/services/toast.service';
 
-import { AppConfig, IAppConfig, Module } from 'config/config';
 import { ProfileService } from 'app/services/profile.service';
 import { Profile } from 'app/schema/profile';
 import { TitleService } from 'app/services/title.service';

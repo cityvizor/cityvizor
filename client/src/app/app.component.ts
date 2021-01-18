@@ -6,9 +6,10 @@ import { ToastService } from './services/toast.service';
 import { AuthService } from './services/auth.service';
 import { ACLService } from './services/acl.service';
 
-import { AppConfig, IAppConfig } from 'config/config';
+import { ConfigService } from 'config/config';
 
 import * as packageJSON from "../../package.json";
+import { config } from 'process';
 
 class LoginData {
 	login: string = "";
@@ -34,8 +35,13 @@ export class AppComponent {
 
 	version = packageJSON.version;
 
-	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, private route: ActivatedRoute, @Inject(AppConfig) public config: IAppConfig) {
+	wrongPassword: boolean = false;
+
+	alternativeFooterHtml: string;
+
+	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, private route: ActivatedRoute, public configService: ConfigService) {
 		this.toasts = this.toastService.toasts;
+		this.alternativeFooterHtml = this.configService.config.alternativePageContent.footerHtml
 	}
 
 	ngOnInit() {
@@ -45,5 +51,6 @@ export class AppComponent {
 		this.router.navigate(['/login']);
 		this.authService.logout();
 	}
+
 
 }
