@@ -39,7 +39,9 @@ shared_env:
 
 shared_env:
   images_url: https://cityvizor-images.s3.eu-central-1.amazonaws.com/
-    
+
+upload_limit: 10m
+
 nameOverride: ""
 fullnameOverride: ""
 
