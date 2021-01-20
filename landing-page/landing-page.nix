@@ -1,11 +1,15 @@
 { pkgs
 , lib
 , nodejs
-, mkYarnPackage
+#, mkYarnPackage
 , makeWrapper
 , apiBaseUrl ? "/api/v2/service/citysearch"
 }:
 
+let
+  yarn = pkgs.yarn.override { inherit nodejs; };
+  mkYarnPackage = (pkgs.yarn2nix-moretea.override { inherit nodejs yarn; }).mkYarnPackage;
+in
 mkYarnPackage rec {
   src = pkgs.nix-gitignore.gitignoreSource [] ./.;
 
