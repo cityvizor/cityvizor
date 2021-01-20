@@ -3,7 +3,6 @@ import { AdminService } from 'app/services/admin.service';
 import { ProfileService } from 'app/services/profile.service';
 import { Profile } from 'app/schema';
 import { ToastService } from 'app/services/toast.service';
-import { AppConfig, IAppConfig } from 'config/config';
 import { environment } from 'environments/environment';
 
 @Component({

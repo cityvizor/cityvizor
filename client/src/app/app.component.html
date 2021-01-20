@@ -16,30 +16,11 @@
 	<div id="push"></div>
 
 </div>
-
 <footer class="bs-docs-footer">
 	<div class="container text-muted small">
 		<div class="row">
 			<div class="col-sm-5 col-xs-12">
-				Vyvinuto na <a href="https://www.mfcr.cz/">Ministerstvu financí</a><br>
-				Provozují <a href="https://www.otevrenamesta.cz/">Otevřená města, z. s.</a>
-			</div>
-			<div class="col-sm-2 col-xs-12 text-center">
-				CityVizor v{{version}}<br>
-				<a [href]="config.githubUrl">
-					<span class="fa-stack fa-md">
-						<i class="fa fa-circle fa-stack-2x"></i>
-						<i class="fa fa-github fa-stack-1x fa-inverse"></i>
-					</span>
-				</a>
-			</div>
-			<div class="col-sm-5 col-xs-12 text-right">
-				<a [attr.href]="config.docsUrl + '/o-aplikaci'">O aplikaci</a>
-				&nbsp;|&nbsp;<a [attr.href]="config.docsUrl + '/data'">Data</a>
-				&nbsp;|&nbsp;<a [attr.href]="config.docsUrl + '/kontakt'">Kontakt</a>
-
-				<br>
-
+				<a href="/dokumentace">Technická dokumentace</a><br>
 				<ng-container *ngIf="!authService.logged">
 					<a routerLink="/login">Přihlásit se</a>
 				</ng-container>
@@ -50,6 +31,13 @@
 					| <a (click)="logout()">Odhlásit</a>
 				</ng-container>
 			</div>
+			<div *ngIf="alternativeFooterHtml" [innerHtml]="alternativeFooterHtml"></div>
+			<div *ngIf="!alternativeFooterHtml" class="col-sm-5 col-xs-12 text-right">
+				Vyvinuto na <a href="https://www.mfcr.cz/">Ministerstvu financí</a><br>
+				Provozují <a href="https://www.otevrenamesta.cz/">Otevřená města, z.s.</a><br>
+				Server poskytuje <a href="https://vpsfree.cz/" class="text-black"><span style="color:#f6914b">vps</span><span style="color:#000">Free.cz, z.s.</span></a>
+			</div>
 		</div>
+
 	</div>
 </footer>

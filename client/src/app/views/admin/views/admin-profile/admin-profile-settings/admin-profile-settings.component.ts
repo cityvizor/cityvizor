@@ -6,7 +6,7 @@ import { first, map } from 'rxjs/operators';
 import { AdminService } from 'app/services/admin.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IAppConfig, AppConfig } from 'config/config';
+import { ConfigService } from 'config/config';
 import { ToastService } from 'app/services/toast.service';
 import { DataService } from 'app/services/data.service';
 
@@ -27,7 +27,7 @@ export class AdminProfileSettingsComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private toastService: ToastService,
-    @Inject(AppConfig) public config: IAppConfig
+    public configService: ConfigService
   ) { }
 
   ngOnInit() {

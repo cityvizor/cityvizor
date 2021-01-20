@@ -4,7 +4,7 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { AuthService } 		from 'app/services/auth.service';
 import { ToastService } 		from 'app/services/toast.service';
 
-import { AppConfig, IAppConfig } from "config/config";
+import { ConfigService } from "config/config";
 
 /**
 	* Service to save user information and commnicate user data with server
@@ -16,8 +16,8 @@ export class ACLService implements CanActivate {
 	
   routes:any = [];
   
-	constructor(private authService: AuthService, private toastService:ToastService, private router:Router, @Inject(AppConfig) private config:IAppConfig){
-    this.routes = this.config.acl.routes || [];
+	constructor(private authService: AuthService, private toastService:ToastService, private router:Router, private configService: ConfigService){
+    this.routes = this.configService.config.acl.routes || [];
 	}
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -84,7 +84,7 @@ export class ACLService implements CanActivate {
     
     if(result) return { routeDef: route, params: params };
     
-    else if(this.config.acl.default) return { routeDef: this.config.acl.default, params: {}};
+    else if(this.configService.config.acl.default) return { routeDef: this.configService.config.acl.default, params: {}};
     
     return null;
   }

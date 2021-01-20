@@ -9,7 +9,7 @@
       <div class="form-group">
         <label>Url</label>
         <div class="input-group">
-          <span class="input-group-addon">{{config.siteUrl}}/</span>
+          <span class="input-group-addon">{{configService.config.siteUrl}}/</span>
           <input type="text" name="url" [ngModel]="profile?.url" class="form-control" required>
         </div>
       </div>
