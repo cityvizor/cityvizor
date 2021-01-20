@@ -5,6 +5,7 @@ metadata:
   name: cityvizor-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.upload-limit }}
     nginx.ingress.kubernetes.io/server-snippet: |
       location = / {
         return 302 /landing;
