@@ -303,6 +303,13 @@ export default {
 
 <style scoped lang="scss">
 @import '../../assets/styles/common/_variables.scss';
+table {
+  margin-bottom: 24px;
+}
+
+h2 {
+  margin-top: 24px;
+}
 
 ul {
   list-style-type: none;
