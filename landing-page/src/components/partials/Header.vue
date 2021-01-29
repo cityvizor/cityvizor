@@ -1,7 +1,6 @@
 <template>
     <header 
         class="l-header"
-        :class="{ 'l-header__home': isHome }"
     >
         <nav 
         class="navbar row align-items-center" 
@@ -46,18 +45,15 @@
                 </router-link>
             </li>
         </ul>
-        <Hero v-show="isHome"></Hero>
     </header>
 </template>
 
 <script>
-import Hero from './Hero.vue'
 import Hamburger from './Hamburger';
 
 export default {
     name: 'ComponentsPartialsHeader',
     components: {
-        Hero,
         Hamburger
     },
     props: {

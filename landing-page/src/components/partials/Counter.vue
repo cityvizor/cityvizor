@@ -1,9 +1,3 @@
-<template>
-  <div class="c-counter">
-    Již {{ display }} zapojených obcí!
-  </div>
-</template>
-
 <script>
 const INTERVAL_MS = 50;
 
@@ -54,13 +48,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss">
-.c-counter {
-    font-size: 48px;
-    color: #525252;
-    font-weight: 200;
-    padding-top: 120px;
-    padding-bottom: 120px;
-}
-</style>

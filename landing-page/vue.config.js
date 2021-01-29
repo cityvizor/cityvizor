@@ -5,6 +5,11 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
     lintOnSave: false,
     devServer: {
+        // Required for hot reload with docker container on Windows 10
+        watchOptions: {
+            ignored: /node_modules/,
+            poll: 1000
+        },
         // https://cli.vuejs.org/config/#devserver-proxy
         proxy: {
             '^/api/v2/service/citysearch': {
