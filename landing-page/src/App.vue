@@ -1,11 +1,8 @@
 <template>
   <div id="app"
-    class="l-wrapper"
-    :class="[{ 'is-home' : isHome }]">
+    class="l-wrapper">
     <!-- Header -->
-    <Header 
-      :isHome="isHome"
-     ></Header>
+    <Header></Header>
 
     <!-- Main -->
     <router-view></router-view>
