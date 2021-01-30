@@ -3,7 +3,7 @@ import { Papa } from 'ngx-papaparse';
 
 import { ToastService } from "app/services/toast.service";
 
-import { AccountingData, ImportedData, AccountingEvent, AccountingRecord, Balances, TreeBudgetParagraph, TreeBudgetEvent, TreeBudgetItem } from 'app/shared/schema';
+import { AccountingData, ImportedData, AccountingRecord, Balances, TreeBudgetParagraph, TreeBudgetEvent, TreeBudgetItem } from 'app/shared/schema';
 import { TreeBudget } from 'app/shared/schema';
 
 /* DEMO DATA SERVICE */
