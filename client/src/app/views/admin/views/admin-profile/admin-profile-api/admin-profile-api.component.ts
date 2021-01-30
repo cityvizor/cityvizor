@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { AdminService } from 'app/services/admin.service';
 import { ProfileService } from 'app/services/profile.service';
 import { Profile } from 'app/schema';
@@ -14,7 +14,7 @@ export class AdminProfileApiComponent implements OnInit {
 
   profileId$ = this.profileService.profileId;
 
-  token: string;
+  token?: string;
 
   apiRoot = environment.api_root;
 

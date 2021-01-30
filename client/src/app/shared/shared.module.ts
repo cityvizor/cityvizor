@@ -4,7 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 // Import Modules
-import { ButtonsModule, CollapseModule, BsDropdownModule, TabsModule, ModalModule } from 'ngx-bootstrap';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 // Charts
 import { ChartBigbangComponent } from './charts/chart-bigbang/chart-bigbang.component';

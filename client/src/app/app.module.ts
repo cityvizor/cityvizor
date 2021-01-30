@@ -17,14 +17,12 @@ import { httpInterceptorProviders } from './http-interceptors';
 
 /* App Config */
 import { environment } from 'environments/environment';
-import { ConfigService, configFactory } from "../config/config";
+import { ConfigService, configFactory } from "../config";
 
 
 /* Third Party */
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { JwtModule } from '@auth0/angular-jwt';
-import { config } from 'process';
-
 
 
 // settings for JWT

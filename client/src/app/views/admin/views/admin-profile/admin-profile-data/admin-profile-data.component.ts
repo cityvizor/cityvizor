@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ProfileService } from 'app/services/profile.service';
 import { map, distinctUntilChanged } from 'rxjs/operators';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Profile, BudgetYear } from 'app/schema';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AdminService } from 'app/services/admin.service';
@@ -23,7 +23,7 @@ export class AdminProfileDataComponent implements OnInit {
 
   loading: boolean = false;
 
-  modalRef: BsModalRef;
+  modalRef?: BsModalRef;
 
   constructor(
     private profileService: ProfileService,
@@ -59,7 +59,7 @@ export class AdminProfileDataComponent implements OnInit {
   }
 
   closeModal(changed: boolean) {
-    this.modalRef.hide();
+    if (this.modalRef) this.modalRef.hide();
     delete this.modalRef;
 
     if (changed) this.loadYears(this.profileId);

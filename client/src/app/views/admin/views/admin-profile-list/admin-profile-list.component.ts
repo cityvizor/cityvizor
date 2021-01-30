@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { DataService } from 'app/services/data.service';
 import { Profile } from 'app/schema';
 import { ConfigService } from 'config/config';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { AdminService } from 'app/services/admin.service';
 

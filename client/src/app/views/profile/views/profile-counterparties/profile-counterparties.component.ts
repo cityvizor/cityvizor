@@ -5,7 +5,7 @@ import { DataService } from 'app/services/data.service';
 import { ProfileService } from 'app/services/profile.service';
 import { combineLatest, Observable } from 'rxjs';
 import { CounterpartyDetailModalComponent } from 'app/shared/components/counterparty-detail-modal/counterparty-detail-modal.component';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { DateTime } from 'luxon';
 
 @Component({
@@ -65,8 +65,8 @@ export class ProfileCounterpartiesComponent implements OnInit {
 	selectCounterparty(counterpartyId: number | null): void {
 		if (counterpartyId === null) return;
 		this.modalService.show(CounterpartyDetailModalComponent, {initialState: {
-			counterpartyId: counterpartyId, 
-			profileId: this.profileService.profileId.getValue(),
+			counterpartyId: counterpartyId,
+			profileId: String(this.profileService.profileId.getValue()),
 			year: this.year,
 			month: this.month,
 		}})

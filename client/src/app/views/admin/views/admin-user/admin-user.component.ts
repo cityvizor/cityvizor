@@ -1,10 +1,9 @@
 import { Component, OnInit, TemplateRef, OnDestroy } from '@angular/core';
 import { map, distinctUntilChanged } from 'rxjs/operators';
-import { ProfileService } from 'app/services/profile.service';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'app/services/admin.service';
 import { User, Profile } from 'app/schema';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { ToastService } from 'app/services/toast.service';
 
