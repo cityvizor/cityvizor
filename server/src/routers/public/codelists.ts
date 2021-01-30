@@ -15,9 +15,6 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:name", async (req, res, next) => {
 
-	let query: string = "SELECT id, name, description, validFrom, validTill FROM codelists WHERE name = %L";
-	if (req.query.date) query += "AND (validFrom IS NULL OR validFROM <= %L) AND (validTill IS NULL OR validTill >= %L)";
-
 	const codelist = await db<CodelistRecord>("codelists")
 		.select("id", "name", "description", "validFrom", "validTill")
 		.where({ codelist: req.params.name });

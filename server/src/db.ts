@@ -1,6 +1,7 @@
 import Knex from 'knex';
 
 import knexConfig from "./config/knexfile";
+import {DateTime} from "luxon";
 
 let connectionString: string;
 if (typeof knexConfig.connection === "string") connectionString = knexConfig.connection;
@@ -32,4 +33,27 @@ export function sort2order(sort: string): { column: string, order: "DESC" | "ASC
         const match = sortReg.exec(item) // ["-date", "-", "date", index: 0, input: "-date", groups: undefined]
         return {column: match[2], order: match[1] === "-" ? "DESC" as "DESC" : "ASC" as "ASC"};
     });
+}
+
+const validDateRegexp = /^(\d{4}-\d{2}-\d{2})$/
+
+export function isValidDateString(original: string | any | any[]): boolean {
+    if (typeof original !== 'string') {
+        original = String(original);
+    }
+    return original.match(validDateRegexp) !== null;
+}
+
+export function getValidDateString(original: string | any | any[], returnNullOnInvalid: boolean = true): string | null {
+    if (typeof original !== 'string') {
+        original = String(original)
+    }
+
+    if (original.match(validDateRegexp) != null) {
+        return original;
+    }
+    if (returnNullOnInvalid) {
+        return null;
+    }
+    return DateTime.local().toSQLDate();
 }

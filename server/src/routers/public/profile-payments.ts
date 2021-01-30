@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {db, sort2order} from "../../db";
+import {db, getValidDateString, isValidDateString, sort2order} from "../../db";
 import {PaymentRecord, EventRecord} from "../../schema";
 
 const router = express.Router({mergeParams: true});
@@ -20,8 +20,12 @@ router.get("/", async (req, res, _) => {
                 this.orderBy(order);
             }
             if (req.query.event) this.where('event', 'req.query.event');
-            if (req.query.dateFrom) this.where('date', ">=", String(req.query.dateFrom));
-            if (req.query.dateTo) this.where('date', "<", String(req.query.dateTo));
+            if (isValidDateString(req.query.dateFrom)) {
+                this.where('date', ">=", getValidDateString(req.query.dateFrom));
+            }
+            if (isValidDateString(req.query.dateTo)) {
+                this.where('date', "<", getValidDateString(req.query.dateTo));
+            }
         })
 
     res.json(payments);

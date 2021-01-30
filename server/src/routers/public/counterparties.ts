@@ -1,7 +1,7 @@
 // load express app and export router
 import express from 'express';
 
-import {db} from "../../db";
+import {db, getValidDateString, isValidDateString} from "../../db";
 import {PaymentRecord} from '../../schema';
 
 const router = express.Router();
@@ -35,8 +35,12 @@ router.get("/top", async (req, res, _) => {
         .orderBy("amount", "desc")
         .limit(req.query.limit ? Math.min(Number(req.query.limit), 10000) : 10000)
         .modify(function () {
-            if (req.query.dateFrom) this.where('date', ">=", String(req.query.dateFrom));
-            if (req.query.dateTo) this.where('date', "<", String(req.query.dateTo));
+            if (isValidDateString(req.query.dateFrom)) {
+                this.where('date', ">=", getValidDateString(String(req.query.dateFrom)));
+            }
+            if (isValidDateString(req.query.dateTo)) {
+                this.where('date', "<", getValidDateString(String(req.query.dateTo)));
+            }
         });
 
     res.json(counterparties);
@@ -93,8 +97,12 @@ router.get("/:id/payments", async (req, res, _) => {
         .select("p.expenditureAmount as amount", "p.date", "p.description as description")
         .where({"p.counterpartyId": req.params.id, "p.profileId": req.query.profileId})
         .modify(function () {
-            if (req.query.dateFrom) this.where("p.date", ">=", String(req.query.dateFrom));
-            if (req.query.dateTo) this.where("p.date", "<", String(req.query.dateTo));
+            if (isValidDateString(req.query.dateFrom)) {
+                this.where("p.date", ">=", getValidDateString(req.query.dateFrom));
+            }
+            if (isValidDateString(req.query.dateTo)) {
+                this.where("p.date", "<", getValidDateString(String(req.query.dateTo)));
+            }
         });
 
     if (payments.length) res.json(payments);
