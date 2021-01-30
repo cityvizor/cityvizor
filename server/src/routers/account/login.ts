@@ -13,7 +13,7 @@ import acl from "express-dynacl";
 
 import config from "../../config";
 import { db } from '../../db';
-import { UserRecord, UserProfileRecord } from '../../schema/database';
+import { UserRecord, UserProfileRecord } from '../../schema';
 import { DateTime } from 'luxon';
 import { UserToken } from '../../schema/user';
 
