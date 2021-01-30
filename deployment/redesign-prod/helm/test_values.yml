@@ -22,4 +22,6 @@ landing_page:
 ingress:
   main_host: cityvizor-test.ceskodigital.net
   landing_page_host: landing.cityvizor-test.ceskodigital.net
+
+productboard_token: pb_token
   

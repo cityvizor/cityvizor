@@ -35,6 +35,7 @@ router.use("/profiles", ProfilesRouter);
 
 router.use("/codelists", CodelistsRouter);
 
+router.use("/feedback", FeedbackRouter)
 
 /* PROFILE DATA */
 router.use("/profiles/:profile/accounting", ProfileAccountingRouter);
@@ -53,4 +54,4 @@ router.use("/profiles/:profile/noticeboard", ProfileNoticeboardRouter);
 
 /* OTHER REQUESTS TO /api AS 404 */
 
-router.use("**", (req, res) => res.sendStatus(404));
+router.use("**", (req,res) => res.sendStatus(404));

@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       formName: 'requestCity',
-      endpoint: 'https://cityvizor.cesko.digital/api/v2/service/cityrequest',
+      endpoint: '/api/public/feedback/requestcity',
     }
   },
   methods: {

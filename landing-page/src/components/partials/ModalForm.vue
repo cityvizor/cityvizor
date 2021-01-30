@@ -91,7 +91,6 @@ export default {
     async submit() {
       try {
         const response = await axios.post(this.endpoint, { ...this.formDict });
-        console.log(response); // eslint-disable-line
         this.clearForm();
         this.close();
       } catch (error) {
