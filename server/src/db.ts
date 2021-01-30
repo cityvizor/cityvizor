@@ -1,5 +1,4 @@
 import Knex from 'knex';
-import Client from 'knex/lib/client';
 
 import knexConfig from "./config/knexfile";
 
@@ -18,19 +17,19 @@ types.setTypeParser(1700, 'text', parseFloat);
 export const db = Knex(knexConfig)
 
 export async function dbConnect() {
-  return db.raw("SELECT 1+1 AS result")
+    return db.raw("SELECT 1+1 AS result")
 }
 
 export async function dbDestroy() {
-  return db.destroy()
+    return db.destroy()
 }
 
-const sortReg = /^(\-?)(.+)$/;
+const sortReg = /^(-?)(.+)$/;
 
 export function sort2order(sort: string): { column: string, order: "DESC" | "ASC" }[] {
-  const sortItems = sort.split(",");
-  return sortItems.map(item => {
-    const match = sortReg.exec(item) // ["-date", "-", "date", index: 0, input: "-date", groups: undefined]
-    return { column: match[2], order: match[1] === "-" ? "DESC" as "DESC" : "ASC" as "ASC" };
-  });
+    const sortItems = sort.split(",");
+    return sortItems.map(item => {
+        const match = sortReg.exec(item) // ["-date", "-", "date", index: 0, input: "-date", groups: undefined]
+        return {column: match[2], order: match[1] === "-" ? "DESC" as "DESC" : "ASC" as "ASC"};
+    });
 }

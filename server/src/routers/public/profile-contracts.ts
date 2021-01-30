@@ -1,23 +1,24 @@
 import express from 'express';
-import acl from "express-dynacl";
 
-import { db, sort2order } from "../../db";
-import { ContractRecord } from '../../schema/database';
+import {db, sort2order} from "../../db";
+import {ContractRecord} from '../../schema';
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router({mergeParams: true});
 
 export const ProfileContractsRouter = router;
 
 router.get("/", async (req, res) => {
 
-	const contracts = await db<ContractRecord>("contracts")
-		.where({ profile_id: req.params.profile })
-		.limit(req.query.limit ? Math.min(Number(req.query.limit), 100) : req.query.limit)
-		.offset(req.query.offset || 0)
-		.modify(function(){
-			if(req.query.sort) this.orderBy(sort2order(req.query.sort));
-		});
+    const p_limit = Number(req.query.limit);
 
-	res.json(contracts);
+    const contracts = await db<ContractRecord>("contracts")
+        .where('profile_id', req.params.profile)
+        .limit(req.query.limit ? Math.min(p_limit, 100) : p_limit)
+        .offset(Number(req.query.offset || 0))
+        .modify(function () {
+            if (req.query.sort) this.orderBy(sort2order(String(req.query.sort)));
+        });
+
+    res.json(contracts);
 
 });
