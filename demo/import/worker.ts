@@ -32,7 +32,7 @@ onmessage = function (e) {
 
       importer
         .import(e.data.files, e.data.options)
-        .then((data: ImportedData) => postMessage({ type: "data", data: data }));
+        .then((data: ImportedData) => postMessage({ type: "data", data: data }, null));
 
       break;
 

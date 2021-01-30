@@ -26,7 +26,7 @@
               "src/styles/styles.scss"
             ],
             "scripts": [
-              { "input": "dist/worker/worker.js", "lazy": true }
+              { "input": "dist/worker/worker.js" }
             ]
           },
           "configurations": {
@@ -34,7 +34,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
