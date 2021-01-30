@@ -47,7 +47,7 @@
     "express-async-errors": "^3.1.1",
     "express-dynacl": "^1.0.0",
     "express-jsonschema": "^1.1.6",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "extract-zip": "^1.7.0",
     "fs-extra": "^8.1.0",
     "https": "^1.0.0",
