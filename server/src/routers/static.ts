@@ -6,5 +6,5 @@ const config = require("../config").default;
 StaticRouter.use(express.static(config.static.dir));
 
 StaticRouter.get("**",(req,res) => {
-  res.sendFile(config.static.index);
+  res.sendStatus(404)
 });

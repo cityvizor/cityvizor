@@ -42,6 +42,7 @@ export default {
   },
 
   jwt: {
+    algorithms: ['HS256'],
     secret: environment.keys.jwt.secret,
     expiration: "1d",
     credentialsRequired: false,
