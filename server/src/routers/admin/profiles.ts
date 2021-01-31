@@ -20,7 +20,13 @@ const upload = multer({dest: config.storage.tmp});
 
 router.get("/", acl("profiles", "list"), async (req, res, _) => {
 
-    const profiles = await db<ProfileRecord>("app.profiles").select("id", "status", "name", "url", "gpsX", "gpsY", "main");
+    const profiles = await db<ProfileRecord>("app.profiles")
+        .select("id", "status", "name", "url", "gpsX", "gpsY", "main")
+        .modify(function() {
+            if (req.params.status) {
+                this.where('status', req.params.status);
+            }
+        });
 
     res.json(profiles);
 });
