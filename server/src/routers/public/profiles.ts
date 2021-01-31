@@ -33,7 +33,7 @@ router.get("/:profile", async (req, res) => {
 
     const profile = await db<ProfileRecord>("profiles")
         .modify(function () {
-            this.where({url: String(req.params.profile)})
+            this.where('url', String(req.params.profile))
             if (!isNaN(Number(req.params.profile))) this.orWhere({id: Number(req.params.profile)})
         })
         .first()

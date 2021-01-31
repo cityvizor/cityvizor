@@ -26,7 +26,7 @@ module.exports = {
   },
 
   cors: true,
-  corsOrigin: ["http://localhost:4200", "http://localhost:4202"],
+  corsOrigin: ["http://localhost:4200", "http://localhost:4202", "http://cityvizor.local:4200"],
 
   keys: {
     edesky: { api_key: null },
