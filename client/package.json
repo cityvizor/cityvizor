@@ -7,7 +7,7 @@
   "main": "server/server.js",
   "scripts": {
     "build": "cp -R node_modules/bootstrap-sass/assets/fonts node_modules/bootstrap-sass/assets/stylesheets/ && ng build --prod",
-    "start": "npm run build && ng serve --disable-host-check"
+    "start-dev": "npm run build && ng serve --disable-host-check --configuration=local --host 0.0.0.0 --proxy-config proxy.conf.json"
   },
   "keywords": [
     "opendata",
