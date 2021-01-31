@@ -12,7 +12,7 @@ export type Word = [string, number];
 })
 export class WordCloudComponent {
 
-  @ViewChild("wordcloud") wordcloudEl: ElementRef<HTMLElement>;
+  @ViewChild("wordcloud", {static: false}) wordcloudEl: ElementRef<HTMLElement>;
 
   @Input() minSize: number = 10;
   @Input() maxSize: number = 70;
