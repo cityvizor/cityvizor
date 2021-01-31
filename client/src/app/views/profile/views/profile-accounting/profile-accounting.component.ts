@@ -144,7 +144,6 @@ export class ProfileAccountingComponent implements OnInit {
 	}
 
 	selectBudget(year: string | number | null, replace: boolean = false): void {
-		console.log("selectBudget", year);
 		if (!year) return;
 		this.modifyParams({ rok: year, skupina: null, akce: null }, true)
 	}
@@ -156,9 +155,9 @@ export class ProfileAccountingComponent implements OnInit {
 	}
 
 	selectEvent(eventId: number | null): void {
-		console.log("selectEvent", eventId);
-		if (eventId === undefined) return;
-		this.modifyParams({ akce: eventId }, false)
+		if (eventId && eventId > 0) {
+			this.modifyParams({ akce: eventId }, false)
+		}
 	}
 
 

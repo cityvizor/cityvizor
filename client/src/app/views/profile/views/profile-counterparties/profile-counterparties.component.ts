@@ -48,6 +48,8 @@ export class ProfileCounterpartiesComponent implements OnInit {
 	}
 	async loadData(profileId: number, year: number, month?: number) {
 
+		if (!year) {return;}
+
 		const date = DateTime.fromObject({year, month, day: 1});
 
 		let params = {

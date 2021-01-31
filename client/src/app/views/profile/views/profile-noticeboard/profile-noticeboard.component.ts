@@ -23,7 +23,6 @@ export class ProfileNoticeboardComponent implements OnInit {
 
 	ngOnInit() {
 		this.profileService.profile.subscribe(profile => {
-			console.log(profile);
 			this.loadData(profile.id)
 			this.edeskyId = profile.edesky;
 		});

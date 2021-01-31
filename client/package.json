@@ -6,7 +6,8 @@
   "repository": "otevrena-data-mfcr/CityVizor",
   "main": "server/server.js",
   "scripts": {
-    "build": "cp -R node_modules/bootstrap-sass/assets/fonts node_modules/bootstrap-sass/assets/stylesheets/ && ng build --prod"
+    "build": "cp -R node_modules/bootstrap-sass/assets/fonts node_modules/bootstrap-sass/assets/stylesheets/ && ng build --prod",
+    "start": "npm run build && ng serve --disable-host-check"
   },
   "keywords": [
     "opendata",
@@ -34,7 +35,7 @@
     "ngx-bootstrap": "^6.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.3",
-    "tslib": "^1.14.1",
+    "tslib": "^2.1.0",
     "web-animations-js": "^2.3.2",
     "wordcloud": "^1.1.2",
     "zone.js": "^0.11.3"
@@ -45,7 +46,7 @@
     "@angular/compiler-cli": "^11.1.1",
     "@angular/language-service": "^11.1.1",
     "@types/luxon": "^1.25.1",
-    "@types/node": "^12.19.15",
+    "@types/node": "^14.14.22",
     "@types/wordcloud": "^1.1.2",
     "typescript": "^4.0.5"
   },
