@@ -22,7 +22,7 @@ router.get("/", acl("profiles", "list"), async (req, res, _) => {
 
     const profiles = await db<ProfileRecord>("app.profiles")
         .select("id", "status", "name", "url", "gpsX", "gpsY", "main")
-        .modify(function() {
+        .modify(function () {
             if (req.params.status) {
                 this.where('status', req.params.status);
             }
@@ -60,6 +60,20 @@ router.patch("/:profile", acl("profiles", "write"), async (req, res, _) => {
         .update(req.body);
 
     res.sendStatus(204);
+});
+
+router.get("/:profile/avatar", async (req, res, next) => {
+
+    const profile = await db<ProfileRecord>("app.profiles")
+        .where('id', Number(req.params.profile))
+        .first();
+
+    if (!profile) return res.sendStatus(404);
+
+    const avatarPath = path.join(config.storage.avatars, "avatar_" + req.params.profile + profile.avatarType);
+
+    res.sendFile(avatarPath)
+
 });
 
 router.delete("/:profile", acl("profiles", "write"), async (req, res, _) => {
