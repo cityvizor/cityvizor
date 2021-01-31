@@ -39,7 +39,7 @@
         </section>
         
         <section class="checkbox">
-          <input id="gdpr" type="checkbox" title="Souhlas je povinný"required>
+          <input id="gdpr" type="checkbox" title="Souhlas je povinný" required>
           <label for="gdpr">Souhlasím se zpracováním osobních údajů</label>
         </section>
       </ModalForm>
