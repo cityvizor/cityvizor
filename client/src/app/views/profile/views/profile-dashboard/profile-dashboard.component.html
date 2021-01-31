@@ -39,7 +39,8 @@
 								<h5 class="service-heading">
 									{{payment.counterpartyName || "Protistrana neuvedena"}}
 									<small *ngIf="payment.counterpartyId">
-										<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+ (payment.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES">ARES</a>
+										<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+ (payment.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES">[ARES] </a>
+										<a *ngIf="payment.counterpartyId" [href]="'https://www.hlidacstatu.cz/hledat?Q=ico%3A' + (payment.counterpartyId | ico)" target="_blank"> [Hlídač státu]</a>
 									</small>
 								</h5>
 							</div>
@@ -68,7 +69,7 @@
 					</div>
 				</div>
 				<div class="text-center more">
-					<a routerLink="../faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+					<a routerLink="./faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
 				</div>
 			</div>
 		</div>
@@ -88,7 +89,7 @@
 									{{contract.counterparty}}
 									<small>
 										<a [href]="contract.url" target="_blank" title="Výpis smlouvy v Registru smluv">
-											Rejstřík smluv
+											[Rejstřík smluv]
 										</a>
 									</small>
 								</h5>
@@ -118,7 +119,7 @@
 					</div>
 				</div>
 				<div class="text-center more">
-					<a routerLink="../registr-smluv" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+					<a routerLink="./registr-smluv" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
 				</div>
 			</div>
 		</div>

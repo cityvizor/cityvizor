@@ -28,6 +28,10 @@ export default {
     }
   },
   data() {
+    return {
+      // Citysearch API
+      apiBaseUrl: process.env.VUE_APP_API_BASE_URL
+    }
   },
   created() {
   },

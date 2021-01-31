@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription, combineLatest, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { map, filter, distinctUntilChanged, withLatestFrom } from 'rxjs/operators';
 
@@ -14,7 +14,6 @@ import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent } from '
 
 import { ChartBigbangData, ChartBigbangDataRow } from 'app/shared/charts/chart-bigbang/chart-bigbang.component';
 import { EventDetailModalComponent } from "app/shared/components/event-detail-modal/event-detail-modal.component";
-import { HttpParams } from '@angular/common/http';
 
 @Component({
 	selector: 'profile-accounting',
@@ -135,7 +134,9 @@ export class ProfileAccountingComponent implements OnInit {
 		combineLatest(this.eventId, this.profile.pipe(map(profile => profile.id)), this.year)
 			.pipe(filter(values => values.every(value => !!value))) // only if all not null
 			.subscribe(([eventId, profileId, year]) => {
-				this.modalService.show(EventDetailModalComponent, { initialState: { eventId, profileId, year }, class: "modal-lg" });
+				if (eventId !== null && year !== null && typeof profileId !== 'undefined') {
+					this.modalService.show(EventDetailModalComponent, { initialState: { eventId, profileId, year }, class: "modal-lg" });
+				}
 			})
 
 		this.modalService.onHide.subscribe(() => this.selectEvent(null));
@@ -143,7 +144,6 @@ export class ProfileAccountingComponent implements OnInit {
 	}
 
 	selectBudget(year: string | number | null, replace: boolean = false): void {
-		console.log("selectBudget", year);
 		if (!year) return;
 		this.modifyParams({ rok: year, skupina: null, akce: null }, true)
 	}
@@ -155,9 +155,9 @@ export class ProfileAccountingComponent implements OnInit {
 	}
 
 	selectEvent(eventId: number | null): void {
-		console.log("selectEvent", eventId);
-		if (eventId === undefined) return;
-		this.modifyParams({ akce: eventId }, false)
+		if (eventId && eventId > 0) {
+			this.modifyParams({ akce: eventId }, false)
+		}
 	}
 
 
