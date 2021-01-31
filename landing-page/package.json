@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "vue": "^2.6.10",
     "vue-async-computed": "^3.9.0",
@@ -21,7 +21,7 @@
     "@vue/cli-plugin-eslint": "^4.1.0",
     "@vue/cli-service": "^4.1.0",
     "babel-eslint": "^10.0.3",
-    "bootstrap-vue-loader": "^1.0.5",
+    "bootstrap-vue-loader": "^1.0.6",
     "copy-webpack-plugin": "^5.1.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",

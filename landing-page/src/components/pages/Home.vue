@@ -25,7 +25,7 @@
          </b-row>
          <b-row class="bottom-margin-participating-cities">
            <b-col sm="6" md="4" xl="3" v-for="city in cities" :key="city.name" class="city-item-margin-top text-justify">
-             <b-row cols="12" no-gutters="true">
+             <b-row cols="12" :no-gutters="true">
                <b-col cols="1" class="city-item-icon-right-margin">
                  <img src="@/assets/images/pages/home/city_avatar.png">
                </b-col>
