@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TitleService } from 'app/services/title.service';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'admin',
@@ -8,7 +9,7 @@ import { TitleService } from 'app/services/title.service';
 })
 export class AdminComponent implements OnInit, OnDestroy {
 
-  constructor(private titleService: TitleService) { }
+  constructor(private titleService: TitleService, public authService: AuthService) { }
 
   ngOnInit() {
     this.titleService.setTitle("Administrace");

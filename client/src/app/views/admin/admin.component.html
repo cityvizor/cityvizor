@@ -1,13 +1,13 @@
-
 <header-menu title="Administrace" backLink="/">
-  <li><a routerLink="profily" routerLinkActive="active">Profily</a></li>
-  <li><a routerLink="spravci" routerLinkActive="active">Správci</a></li>
+    <li><a routerLink="profily" routerLinkActive="active">Profily</a></li>
+    <li><a routerLink="spravci" routerLinkActive="active"
+           *ngIf="this.authService.userHasRole(this.authService.ROLE_FULL_ADMIN)">Správci</a></li>
 </header-menu>
 
 <div id="entity">
 
-  <div id="content">
-    <router-outlet></router-outlet>
-  </div>
+    <div id="content">
+        <router-outlet></router-outlet>
+    </div>
 
 </div>

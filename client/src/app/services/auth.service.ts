@@ -1,159 +1,176 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Subject} from 'rxjs';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
-import { UserToken } from "app/schema/user";
-import { Credentials } from "app/schema/credentials";
+import {UserToken} from "app/schema/user";
+import {Credentials} from "app/schema/credentials";
 
-import { DataService } from './data.service';
-import { environment } from 'environments/environment';
+import {environment} from 'environments/environment';
 
 /**
-	* Service to save user information and commnicate user data with server
-	*/
+ * Service to save user information and communicate user data with server
+ */
 @Injectable({
-	providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
 
-	public onLogin = new Subject<any>();
-	public onLogout = new Subject<void>();
+    public readonly ROLE_FULL_ADMIN: string = "admin"
+    public readonly ROLE_PROFILE_ADMIN: string = "profile-admin"
 
-	// boolean if user is logged
-	logged: boolean = false;
+    public onLogin = new Subject<any>();
+    public onLogout = new Subject<void>();
 
-	// current token
-	token: String | null = null;
+    // boolean if user is logged
+    logged: boolean = false;
 
-	// current user (use blank user as default)
-	user: UserToken;
+    // current token
+    token: String | null = null;
 
-	root = environment.api_root + "/account";
+    // current user (use blank user as default)
+    user: UserToken;
 
-	constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+    root = environment.api_root + "/account";
 
-		// refresh user data to match token
-		this.refreshState()
+    constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
 
-		// periodically check token validity; once per minute
-		setInterval(() => this.refreshState(), 60 * 1000);
+        // refresh user data to match token
+        this.refreshState()
 
-		// periodically renew token; once per 30 minutes
-		setInterval(() => this.renewToken(), 30 * 60 * 1000)
-	}
+        // periodically check token validity; once per minute
+        setInterval(() => this.refreshState(), 60 * 1000);
 
-	saveToken(token) {
-		return window.localStorage.setItem("id_token", token);
-	}
+        // periodically renew token; once per 30 minutes
+        setInterval(() => this.renewToken(), 30 * 60 * 1000)
+    }
 
-	getToken() {
-		return window.localStorage.getItem("id_token");
-	}
+    saveToken(token) {
+        return window.localStorage.setItem("id_token", token);
+    }
 
-	deleteToken() {
-		return window.localStorage.removeItem("id_token");
-	}
+    getToken() {
+        return window.localStorage.getItem("id_token");
+    }
 
-	// get the token by credentials
-	login(credentials: Credentials): Promise<any> {
+    deleteToken() {
+        return window.localStorage.removeItem("id_token");
+    }
 
-		return new Promise((resolve, reject) => {
+    // get the token by credentials
+    login(credentials: Credentials): Promise<any> {
 
-			// query the web api to get the token
-			return this.http.post(this.root + "/login", credentials, { responseType: 'text' }).toPromise()
+        return new Promise((resolve, reject) => {
 
-				.then(token => {
+            // query the web api to get the token
+            return this.http.post(this.root + "/login", credentials, {responseType: 'text'}).toPromise()
 
-					//save the token to storage
-					this.saveToken(token);
+                .then(token => {
 
-					// update state to match token from storage
-					this.refreshState();
+                    //save the token to storage
+                    this.saveToken(token);
 
-					// if user is not logged at this step, token was invalid
-					if (this.logged) resolve(this.user);
-					else reject(new Error("Invalid token"));
+                    // update state to match token from storage
+                    this.refreshState();
 
-				})
-				.catch(err => reject(err));
+                    // if user is not logged at this step, token was invalid
+                    if (this.logged) resolve(this.user);
+                    else reject(new Error("Invalid token"));
 
-		});
-	}
+                })
+                .catch(err => reject(err));
 
-	/**
-		* Tokens have limited time validity to avoid misues, however, we do not want user to be "logged out" while working with the application. Therefore we have to renew this token from time to time.
-		*/
-	renewToken(): void {
+        });
+    }
 
-		// if we dont have token, there is nothing to renew
-		if (!this.token) return;
+    /**
+     * Tokens have limited time validity to avoid misuses, however, we do not want user to be "logged out" while working with the application. Therefore we have to renew this token from time to time.
+     */
+    renewToken(): void {
 
-		// get the new token. as an authorization, we use current token
-		this.http.get(this.root + "/login/renew", { responseType: 'text' }).toPromise()
+        // if we dont have token, there is nothing to renew
+        if (!this.token) return;
 
-			.then(token => {
+        // get the new token. as an authorization, we use current token
+        this.http.get(this.root + "/login/renew", {responseType: 'text'}).toPromise()
 
-				//save the token to storage
-				this.saveToken(token);
+            .then(token => {
 
-				// update state to match token from storage
-				this.refreshState();
+                //save the token to storage
+                this.saveToken(token);
 
-			});
-	}
+                // update state to match token from storage
+                this.refreshState();
 
-	/*
-	 * lookup token in storage and check if it is valid. if yes, update state
-	 */
-	refreshState(): void {
+            });
+    }
 
-		// get token from storage
-		var token = this.getToken();
+    /*
+     * lookup token in storage and check if it is valid. if yes, update state
+     */
+    refreshState(): void {
 
-		// check if token valid
-		if (token && !this.jwtHelper.isTokenExpired(token)) {
+        // get token from storage
+        const token = this.getToken();
 
-			// save the token
-			this.token = token;
+        // check if token valid
+        if (token && !this.jwtHelper.isTokenExpired(token)) {
 
-			// set user
-			this.setUser(this.jwtHelper.decodeToken(token));
+            // save the token
+            this.token = token;
 
-			// announce login to subscribers if applicable
-			if (!this.logged) this.onLogin.next(this.user);
+            // set user
+            this.setUser(this.jwtHelper.decodeToken(token));
 
-			this.logged = true;
+            // announce login to subscribers if applicable
+            if (!this.logged) this.onLogin.next(this.user);
 
-		} else {
+            this.logged = true;
 
-			// announce logout to subscribers if applicable
-			if (this.logged) this.onLogout.next();
+        } else {
 
-			// token invalid or missing, so set empty token and user
-			this.token = null;
-			this.logged = false;
-			this.setUser(null);
-		}
-	}
+            // announce logout to subscribers if applicable
+            if (this.logged) this.onLogout.next();
 
-	/*
-	 * log out user 
-	 */
-	logout(): boolean {
+            // token invalid or missing, so set empty token and user
+            this.token = null;
+            this.logged = false;
+            this.setUser(null);
+        }
+    }
 
-		// delete token from storage
-		this.deleteToken();
+    /*
+     * log out user
+     */
+    logout(): boolean {
 
-		// update user data
-		this.refreshState();
+        // delete token from storage
+        this.deleteToken();
 
-		return !this.logged;
-	}
+        // update user data
+        this.refreshState();
 
-	setUser(userData: any) {
-		this.user = userData || { role: "guest", managedProfiles: [] };
-	}
+        return !this.logged;
+    }
+
+    setUser(userData: any) {
+        this.user = userData || {role: "guest", managedProfiles: []};
+    }
+
+    userHasRole(role: string): boolean {
+        if (!this.logged || !this.user || !this.user.roles) {
+            return false
+        }
+        return this.user.roles.includes(role)
+    }
+
+    userManagesProfile(profileId: number): boolean {
+        return this.userHasRole(this.ROLE_FULL_ADMIN)
+            || (
+                this.userHasRole(this.ROLE_PROFILE_ADMIN)
+                && this.user.managedProfiles.includes(profileId)
+            )
+    }
 
 }
