@@ -6,7 +6,7 @@ const cityvizorPath = path.resolve(__dirname,"../../");
 module.exports = {
 
   port: 3000,
-  host: "0.0.0.0",
+  host: "::",
 
   url: process.env.URL,
 
