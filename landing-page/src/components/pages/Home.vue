@@ -5,7 +5,7 @@
 
          <b-row>
            <b-col sm="7">
-             <h1 class="underlined" style="...">Transparentní hospodaření obcí do detailu každé faktury</h1>
+             <h1 style="...">Transparentní hospodaření obcí do detailu každé faktury</h1>
              <p>
                Cityvizor je aplikace pro všechny, které zajímá hospodaření obcí v ČR – pro občany, zastupitele, pracovníky obce i novináře.
                <br>
