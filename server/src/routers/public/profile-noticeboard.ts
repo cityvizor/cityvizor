@@ -6,7 +6,7 @@ const router = express.Router({mergeParams: true});
 
 export const ProfileNoticeboardRouter = router;
 
-router.get('/', async (req, res, _) => {
+router.get('/', async (req, res) => {
   const noticeBoard = await db<NoticeboardRecord>('noticeboards').where(
     'profileId',
     req.params.profile

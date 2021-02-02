@@ -1,16 +1,17 @@
-import {UserRecord} from '../schema/database';
+/* tslint:disable:no-console */
+import {UserRecord} from '../schema';
 
 import {db, dbDestroy} from '../db';
 
-const bcrypt = require('bcryptjs');
+import {hash as bcrypt_hash} from 'bcryptjs';
 
-(async function () {
+(async () => {
   console.log('Generating password hash...');
 
-  const hash = await bcrypt.hash('admin', 10);
+  const hash = await bcrypt_hash('admin', 10);
 
   console.log('Deleting admin user data from database...');
-  const oldAdmin: UserRecord = await db<UserRecord>('app.users')
+  const oldAdmin = await db<UserRecord>('app.users')
     .where({login: 'admin'})
     .first();
   if (oldAdmin) {
@@ -29,7 +30,7 @@ const bcrypt = require('bcryptjs');
     .insert(userData, ['id'])
     .then(rows => rows[0].id);
 
-  console.log('Created user admin with password admin.');
+  console.log(`Created user admin with password admin. Row id ${id}`);
 
   await dbDestroy();
 })();

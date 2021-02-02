@@ -1,6 +1,7 @@
+/* tslint:disable:no-console */
 import {db} from '../db.js';
 
-import {CodelistRecord} from '../schema/database/index.js';
+import {CodelistRecord} from '../schema';
 
 const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
   {
@@ -3972,5 +3973,4 @@ async function main() {
 
 main().then(() => {
   console.log('Finished');
-  process.exit();
 });

@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import {CronTask} from '../schema/cron';
 
 import {cronTasks} from './tasks';
@@ -6,7 +7,8 @@ import config from '../config';
 export async function runTasks(tasks?: (string | CronTask)[]) {
   if (!tasks) tasks = cronTasks;
 
-  for (let task of tasks) {
+  let task: CronTask | string | undefined;
+  for (task of tasks) {
     if (typeof task === 'string') {
       const taskName = task;
       task = cronTasks.find(cronTask => cronTask.id === task);
@@ -14,7 +16,7 @@ export async function runTasks(tasks?: (string | CronTask)[]) {
     }
 
     console.log('\n===================================');
-    console.log('Task: ' + task.name);
+    console.log(`Task: ${task.name}`);
     console.log('===================================');
 
     try {
@@ -24,7 +26,7 @@ export async function runTasks(tasks?: (string | CronTask)[]) {
       console.error('Error: ' + err.message);
     }
 
-    await new Promise((resolve, reject) =>
+    await new Promise(resolve =>
       setTimeout(resolve, config.cron.jobDelay * 1000)
     );
   }

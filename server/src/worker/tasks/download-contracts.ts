@@ -1,8 +1,9 @@
+/* tslint:disable:no-console */
 import axios from 'axios';
 
 import cheerio from 'cheerio';
 import {db} from '../../db';
-import {ProfileRecord, ContractRecord} from '../../schema/database';
+import {ProfileRecord, ContractRecord} from '../../schema';
 
 import {DateTime} from 'luxon';
 import {CronTask} from '../../schema/cron';
@@ -55,7 +56,7 @@ async function downloadContracts(profile) {
   const $ = cheerio.load(html);
 
   // variable to prepare contracts for writing to DB
-  const contracts = [];
+  const contracts: ContractRecord[] = [];
 
   // assign values, create contracts' data
   $('tr', '#snippet-searchResultList-list').each((i, row) => {
@@ -73,7 +74,7 @@ async function downloadContracts(profile) {
       currency: amount[1],
       counterparty: items.eq(5).text().trim(),
       url: 'https://smlouvy.gov.cz' + items.eq(6).find('a').attr('href'),
-    };
+    } as ContractRecord;
 
     contracts.push(contract);
   });
@@ -86,17 +87,20 @@ async function downloadContracts(profile) {
   console.log('Updated ' + contracts.length + ' contracts');
 }
 
-function parseAmount(string): [number, string] {
-  if (string.trim() === 'Neuvedeno') return [null, null];
-  const matches = string.match(/([\d ]+) ([A-Z]+)/);
+function parseAmount(original: string): [number | null, string | null] {
+  if (original.trim() === 'Neuvedeno') return [null, null];
+  const matches = original.match(/([\d ]+) ([A-Z]+)/);
+  if (!matches || matches.length < 3) return [null, null];
   return [Number(matches[1].replace(/[^\d]/g, '')), matches[2]];
 }
 
 function parseDate(dateString: string): string {
   const matches = dateString.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
-  return DateTime.local(
-    Number(matches[3]),
-    Number(matches[2]),
-    Number(matches[1])
-  ).toISODate();
+  if (matches && matches.length > 2)
+    return DateTime.local(
+      Number(matches[3]),
+      Number(matches[2]),
+      Number(matches[1])
+    ).toISODate();
+  return DateTime.local().toISODate();
 }

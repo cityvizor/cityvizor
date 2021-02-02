@@ -10,7 +10,7 @@ export class JSONStreamTransform extends Transform {
     });
   }
 
-  _transform(chunk: any, encoding: string, callback: TransformCallback) {
+  _transform(chunk, encoding: string, callback: TransformCallback) {
     if (!this.counter) this.push('[');
 
     if (this.counter) this.push(',');
@@ -29,4 +29,4 @@ export class JSONStreamTransform extends Transform {
 
     callback();
   }
-
+}

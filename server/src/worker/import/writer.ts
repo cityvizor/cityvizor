@@ -3,20 +3,19 @@ import {
   AccountingRecord,
   PaymentRecord,
   EventRecord,
-  ProfileRecord,
   YearRecord,
-} from '../../schema/database';
+} from '../../schema';
 import {Writable} from 'stream';
 import logger from './logger';
-import {Transaction} from 'knex';
 import {Importer} from './importer';
+import {Transaction} from 'knex';
 
 export class ImportWriter extends Writable {
   accountingCount = 0;
   paymentCount = 0;
   eventCount = 0;
 
-  constructor(private options: ImportWriter.Options) {
+  constructor(private options: Options) {
     super({
       objectMode: true,
     });
@@ -25,7 +24,7 @@ export class ImportWriter extends Writable {
   async _write(
     chunk: Importer.ImportChunk,
     encoding: string,
-    callback: (err: Error) => void
+    callback: (err?: Error) => void
   ) {
     await this._writev([{chunk, encoding}], callback);
   }
@@ -35,13 +34,13 @@ export class ImportWriter extends Writable {
     callback: (err?: Error) => void
   ) {
     const accountings = chunks
-      .filter(chunk => chunk.chunk.type == 'accounting')
+      .filter(chunk => chunk.chunk.type === 'accounting')
       .map(chunk => chunk.chunk.record as AccountingRecord);
     const payments = chunks
-      .filter(chunk => chunk.chunk.type == 'payment')
+      .filter(chunk => chunk.chunk.type === 'payment')
       .map(chunk => chunk.chunk.record as PaymentRecord);
     const events = chunks
-      .filter(chunk => chunk.chunk.type == 'event')
+      .filter(chunk => chunk.chunk.type === 'event')
       .map(chunk => chunk.chunk.record as EventRecord);
     try {
       if (accountings.length) {
@@ -67,7 +66,7 @@ export class ImportWriter extends Writable {
       [this.accountingCount, 'accounting'],
       [this.paymentCount, 'payment'],
       [this.eventCount, 'event'],
-    ].forEach(([v, name]: [number, string]) => {
+    ].forEach(([v, name]) => {
       if (v > 0) logger.log(`Written ${v} ${name} records to the DB.`);
     });
     callback();
@@ -92,10 +91,8 @@ export class ImportWriter extends Writable {
   }
 }
 
-export namespace ImportWriter {
-  export interface Options {
-    profileId: YearRecord['profileId'];
-    year: YearRecord['year'];
-    transaction: Transaction;
-  }
+export interface Options {
+  profileId: YearRecord['profileId'];
+  year: YearRecord['year'];
+  transaction: Transaction;
 }

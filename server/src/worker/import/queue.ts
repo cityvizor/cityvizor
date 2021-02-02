@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import {DateTime} from 'luxon';
 import {readdir, remove} from 'fs-extra';
 import path from 'path';
@@ -14,8 +15,9 @@ export async function checkImportQueue() {
     .first();
 
   if (runningJob) {
-    const startedBeforeMinutes =
-      -1 * DateTime.fromJSDate(runningJob.started).diffNow('minutes').minutes;
+    const startedBeforeMinutes = runningJob.started
+      ? -1 * DateTime.fromJSDate(runningJob.started).diffNow('minutes').minutes
+      : 0;
 
     // let the previous job run
     if (startedBeforeMinutes < 1) return;
@@ -23,7 +25,7 @@ export async function checkImportQueue() {
     else {
       console.log('[WORKER] Found a stale job in queue, removing.');
 
-      const updateData: Partial<ImportRecord> = {
+      const updateDataStale: Partial<ImportRecord> = {
         status: 'error',
         error: 'Job timed out without proper finish.',
         finished: DateTime.local().toJSDate(),
@@ -31,14 +33,14 @@ export async function checkImportQueue() {
 
       await db<ImportRecord>('app.imports')
         .where({id: runningJob.id})
-        .update(updateData);
+        .update(updateDataStale);
 
       // remove used import data
-      const importDir = path.resolve(
+      const importDirStale = path.resolve(
         config.storage.imports,
         'import_' + runningJob.id
       );
-      await remove(importDir);
+      await remove(importDirStale);
     }
   }
 
@@ -64,7 +66,7 @@ export async function checkImportQueue() {
     transaction: trx,
   });
 
-  let error: Error;
+  let error: Error | null = null;
 
   const importDir = path.resolve(
     config.storage.imports,
@@ -95,7 +97,7 @@ export async function checkImportQueue() {
       accountingFile: accountingFile
         ? path.join(importDir, accountingFile)
         : null,
-    };
+    } as Importer.OptionsFiles;
 
     Object.keys(files)
       .filter(k => files[k])
@@ -172,7 +174,7 @@ export async function checkImportQueue() {
     error: error ? error.message : null,
     finished: DateTime.local().toJSDate(),
     logs: logger.getLogs(),
-  };
+  } as Partial<ImportRecord>;
 
   logger.clear();
   await db<ImportRecord>('app.imports')

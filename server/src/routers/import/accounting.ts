@@ -49,7 +49,7 @@ router.post(
   upload.fields([{name: 'payments'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
     return createWorkerTask(req, res, FileType.PAYMENTS_FILE, false);
   }
 );
@@ -59,7 +59,7 @@ router.patch(
   upload.fields([{name: 'payments'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
     return createWorkerTask(req, res, FileType.PAYMENTS_FILE, true);
   }
 );
@@ -69,7 +69,7 @@ router.post(
   upload.fields([{name: 'events'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
     return createWorkerTask(req, res, FileType.EVENTS_FILE, false);
   }
 );
@@ -79,7 +79,7 @@ router.patch(
   upload.fields([{name: 'events'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
     return createWorkerTask(req, res, FileType.EVENTS_FILE, true);
   }
 );
@@ -88,7 +88,7 @@ router.post(
   upload.fields([{name: 'data'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
     return createWorkerTask(req, res, FileType.DATA_FILE, false);
   }
 );
@@ -98,7 +98,7 @@ router.patch(
   upload.fields([{name: 'data'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
     return createWorkerTask(req, res, FileType.DATA_FILE, true);
   }
 );
@@ -108,7 +108,7 @@ router.patch(
   upload.fields([{name: 'accounting'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
     return createWorkerTask(req, res, FileType.ACCOUNTING_FILE, true);
   }
 );
@@ -124,18 +124,19 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
     .select('id', 'tokenCode')
     .where({id: req.params.profile})
     .first();
-  if (req.user.tokenCode && req.user.tokenCode !== profile.tokenCode)
+  if (
+    !profile ||
+    (req.user.tokenCode && req.user.tokenCode !== profile.tokenCode)
+  )
     return res.status(403).send('Token revoked.');
 
   // check if imported year is created, if not create a new hidden year
-  let year: {profileId: number; year: number} = await db<YearRecord>(
-    'app.years'
-  )
+  let year: YearRecord | undefined = await db<YearRecord>('app.years')
     .where({profileId: req.params.profile, year: req.body.year})
     .first();
 
   if (!year) {
-    const yearInsert = await db<YearRecord>('app.years')
+    const yearInsert: YearRecord = await db<YearRecord>('app.years')
       .insert(
         {
           profileId: Number(req.params.profile),
@@ -161,7 +162,7 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
     created: DateTime.local().toJSDate(),
 
     status: 'pending',
-    error: null,
+    error: undefined,
 
     validity: req.body.validity || undefined,
     append: isAppend,
@@ -204,11 +205,16 @@ router.post(
   ]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
+    const reqFiles = req.files as {[fieldname: string]: Express.Multer.File[]};
+
     // When file missing throw error immediately
-    if (!req.files || (!req.files['accounting'] && !req.files['zipFile']))
+    if (!reqFiles || !reqFiles.accounting || !reqFiles.zipFile) {
       return res.status(400).send('Missing data file or zip file');
-    if (isNaN(req.body.year)) return res.status(400).send('Invalid year value');
+    }
+    if (isNaN(req.body.year)) {
+      return res.status(400).send('Invalid year value');
+    }
 
     // check if tokenCode in profile is same as in token. if not, the token has been revoked (revoke all current tokens by changing the code)
     const profile = await db<ProfileRecord>('app.profiles')
@@ -216,19 +222,20 @@ router.post(
       .where('id', req.params.profile)
       .first();
 
-    if (req.user.tokenCode && req.user.tokenCode !== profile.tokenCode)
+    if (
+      !profile ||
+      (req.user.tokenCode && req.user.tokenCode !== profile.tokenCode)
+    )
       return res.status(403).send('Token revoked.');
 
     // check if imported year is created, if not create a new hidden year
-    let year: {profileId: number; year: number} = await db<YearRecord>(
-      'app.years'
-    )
+    let year: YearRecord | undefined = await db<YearRecord>('app.years')
       .where('profileId', req.params.profile)
       .andWhere('year', req.body.year)
       .first();
 
     if (!year) {
-      const yearInsert = await db<YearRecord>('app.years')
+      const yearInsert: YearRecord = await db<YearRecord>('app.years')
         .insert(
           {
             profileId: Number(req.params.profile),
@@ -254,7 +261,7 @@ router.post(
       created: DateTime.local().toJSDate(),
 
       status: 'pending',
-      error: null,
+      error: undefined,
 
       validity: req.body.validity || undefined,
       append: false,
@@ -275,12 +282,12 @@ router.post(
 
     await ensureDir(importDir);
 
-    if (req.files['zipFile'] && req.files['zipFile'][0]) {
-      extractZip(req.files['zipFile'][0].path, importDir);
+    if (reqFiles.zipFile && reqFiles.zipFile[0]) {
+      await extractZip(reqFiles.zipFile[0].path, importDir);
     } else {
-      if (req.files['accounting'] && req.files['accounting'][0])
+      if (reqFiles.accounting && reqFiles.accounting[0])
         await move(
-          req.files['accounting'][0].path,
+          reqFiles.accounting[0].path,
           path.join(importDir, 'accounting.csv')
         );
     }
@@ -290,7 +297,7 @@ router.post(
       .where({id: importId})
       .first();
 
-    res.json(importDataFull);
+    return res.json(importDataFull);
   }
 );
 

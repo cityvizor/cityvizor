@@ -51,7 +51,7 @@ export default {
         req.headers.authorization.split(' ')[0] === 'Bearer'
       ) {
         return req.headers.authorization.split(' ')[1];
-      } else if (req.cookies && req.cookies['access_token']) {
+      } else if (req.cookies && req.cookies.access_token) {
         return req.cookies.access_token;
       }
       return null;

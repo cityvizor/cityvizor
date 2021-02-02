@@ -11,6 +11,7 @@ import {db} from '../../db';
 import {ProfileRecord} from '../../schema';
 
 import acl from 'express-dynacl';
+import {URL} from 'url';
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ export const AdminProfilesRouter = router;
 
 const upload = multer({dest: config.storage.tmp});
 
-router.get('/', acl('profiles', 'list'), async (req, res, _) => {
+router.get('/', acl('profiles', 'list'), async (req, res) => {
   const profiles = await db<ProfileRecord>('app.profiles')
     .select('id', 'status', 'name', 'url', 'gpsX', 'gpsY', 'main')
     .modify(function () {
@@ -40,24 +41,28 @@ router.post('/', acl('profiles', 'write'), async (req, res) => {
   res.sendStatus(201);
 });
 
-router.get('/:profile', acl('profiles', 'read'), async (req, res, _) => {
+router.get('/:profile', acl('profiles', 'read'), async (req, res) => {
   const profile = await db<ProfileRecord>('app.profiles')
     .where('id', req.params.profile)
     .first();
 
+  if (!profile) {
+    return res.sendStatus(404);
+  }
+
   profile.avatarUrl =
     config.apiRoot + '/public/profiles/' + profile.id + '/avatar';
 
-  res.json(profile);
+  return res.json(profile);
 });
 
-router.patch('/:profile', acl('profiles', 'write'), async (req, res, _) => {
+router.patch('/:profile', acl('profiles', 'write'), async (req, res) => {
   await db('app.profiles').where({id: req.params.profile}).update(req.body);
 
   res.sendStatus(204);
 });
 
-router.get('/:profile/avatar', async (req, res, next) => {
+router.get('/:profile/avatar', async (req, res) => {
   const profile = await db<ProfileRecord>('app.profiles')
     .where('id', Number(req.params.profile))
     .first();
@@ -69,10 +74,10 @@ router.get('/:profile/avatar', async (req, res, next) => {
     'avatar_' + req.params.profile + profile.avatarType
   );
 
-  res.sendFile(avatarPath);
+  return res.sendFile(avatarPath);
 });
 
-router.delete('/:profile', acl('profiles', 'write'), async (req, res, _) => {
+router.delete('/:profile', acl('profiles', 'write'), async (req, res) => {
   await db('app.profiles').where({id: req.params.profile}).delete();
   res.sendStatus(204);
 });
@@ -81,7 +86,7 @@ router.put(
   '/:profile/avatar',
   acl('profiles', 'write'),
   upload.single('avatar'),
-  async (req, res, _) => {
+  async (req, res) => {
     if (!req.file && !req.body.url)
       return res.status(400).send('Missing file.');
 
@@ -111,7 +116,7 @@ router.put(
     if (req.body.url) {
       if (
         !config.avatarWhitelist
-          .map(addr => new URL(addr).host)
+          .map(addr => new URL(String(addr)).host)
           .includes(new URL(req.body.url).host)
       )
         return;
@@ -124,14 +129,14 @@ router.put(
       .where('id', req.params.profile)
       .update({avatarType: extname});
 
-    res.sendStatus(204);
+    return res.sendStatus(204);
   }
 );
 
 router.delete(
   '/:profile/avatar',
   acl('profiles', 'write'),
-  async (req, res, _) => {
+  async (req, res) => {
     const profile = await db<ProfileRecord>('app.profiles')
       .select('id', 'avatarType')
       .where('id', req.params.profile)
@@ -151,6 +156,6 @@ router.delete(
       .where('id', req.params.profile)
       .update({avatarType: null});
 
-    res.sendStatus(204);
+    return res.sendStatus(204);
   }
 );

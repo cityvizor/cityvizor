@@ -7,7 +7,7 @@ const router = express.Router({mergeParams: true});
 
 export const ProfileYearsRouter = router;
 
-router.get('/', async (req, res, _) => {
+router.get('/', async (req, res) => {
   const years = await db('years as y')
     .select('y.profileId', 'y.year', 'y.validity')
     .sum('a.expenditureAmount as expenditureAmount')
@@ -24,7 +24,7 @@ router.get('/', async (req, res, _) => {
   res.json(years);
 });
 
-router.get('/:year', async (req, res, _) => {
+router.get('/:year', async (req, res) => {
   const year = await db<YearRecord>('years')
     .where('profile_id', req.params.profile)
     .andWhere('year', Number(req.params.year));

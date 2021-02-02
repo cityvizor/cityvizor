@@ -11,7 +11,7 @@ const router = express.Router();
 
 export const ProfilesRouter = router;
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
   const profiles = await db<ProfileRecord>('profiles').modify(function () {
     if (req.params.status) {
       this.where('status', req.params.status);
@@ -27,7 +27,7 @@ router.get('/main', async (req, res) => {
     .first();
 
   if (!profile) return res.sendStatus(404);
-  res.json(profile);
+  return res.json(profile);
 });
 
 router.get('/:profile', async (req, res) => {
@@ -40,20 +40,22 @@ router.get('/:profile', async (req, res) => {
     .first();
 
   if (!profile) return res.sendStatus(404);
-  res.json(profile);
+  return res.json(profile);
 });
 
-router.get('/:profile/avatar', async (req, res, next) => {
+router.get('/:profile/avatar', async (req, res) => {
   const profile = await db<ProfileRecord>('profiles')
     .where('id', Number(req.params.profile))
     .first();
 
-  if (!profile) return res.sendStatus(404);
+  if (!profile) {
+    return res.sendStatus(404);
+  }
 
   const avatarPath = path.join(
     config.storage.avatars,
     'avatar_' + req.params.profile + profile.avatarType
   );
 
-  res.sendFile(avatarPath);
+  return res.sendFile(avatarPath);
 });

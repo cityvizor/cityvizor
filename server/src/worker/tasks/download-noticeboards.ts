@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import axios from 'axios';
 import cheerio from 'cheerio';
 
@@ -9,7 +10,7 @@ import {NoticeboardRecord} from '../../schema/database/noticeboard';
 import {CronTask} from '../../schema/cron';
 
 // how many contracts per profile should be downloaded
-const limit = 20;
+// const limit = 20;
 
 export const TaskDownloadNoticeboards: CronTask = {
   id: 'download-noticeboards',
@@ -95,7 +96,7 @@ async function downloadNoticeboards(
         previewUrl: $(document).attr('edesky_text_url'),
 
         attachments: $(document).find('attachment').length,
-      });
+      } as NoticeboardRecord);
     });
 
   console.log(`Found ${documents.length} noticeboard docs.`);

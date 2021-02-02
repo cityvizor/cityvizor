@@ -1,4 +1,4 @@
-import Knex, {PoolConfig} from 'knex';
+import Knex from 'knex';
 
 import path from 'path';
 
@@ -9,7 +9,7 @@ import {snakeCase, camelCase} from 'change-case';
 // rather ineffective way of converting case for a finished row :(
 // would be better before executing just for identifiers, but not possible currrently by Knex
 // https://github.com/tgriesser/knex/issues/2084
-function convertRow2CamelCase(row: any): any {
+function convertRow2CamelCase(row: object): object {
   if (!row) return row;
 
   return Object.entries(row).reduce((acc, cur) => {
@@ -27,7 +27,7 @@ const knexConfig: Knex.Config = {
     database: environment.database.database,
   },
   migrations: {
-    //extension: 'ts',
+    // extension: 'ts',
     directory: path.resolve(__dirname, '../../migrations'),
   },
 
@@ -37,10 +37,10 @@ const knexConfig: Knex.Config = {
 
   debug: !!process.env.KNEX_DEBUG,
 
-  wrapIdentifier: (value, origImpl, queryContext) => origImpl(snakeCase(value)),
+  wrapIdentifier: (value, origImpl) => origImpl(snakeCase(value)),
 
   // convert snake_case names to camelCase
-  postProcessResponse: (result, queryContext) => {
+  postProcessResponse: result => {
     if (Array.isArray(result)) {
       return result.map(row => convertRow2CamelCase(row));
     } else {

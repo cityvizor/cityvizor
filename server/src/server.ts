@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import http from 'http';
 import express from 'express';
 import 'express-async-errors';
@@ -16,7 +17,7 @@ import * as acl from 'express-dynacl';
 import {ensureDirs} from './file-storage';
 import {dbConnect} from './db';
 
-(async function () {
+(async () => {
   // init environment
   await ensureDirs();
 

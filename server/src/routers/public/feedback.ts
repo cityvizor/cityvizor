@@ -51,30 +51,26 @@ const requestCitySchema = {
   },
 };
 
-router.post(
-  '/',
-  schema.validate({body: feedbackSchema}),
-  async (req, res, next) => {
-    const content = `Zpětná vazba:
-Email: ${req.body['email']}
-Zpráva: ${req.body['feedback']}`;
+router.post('/', schema.validate({body: feedbackSchema}), async (req, res) => {
+  const content = `Zpětná vazba:
+Email: ${req.body.email}
+Zpráva: ${req.body.feedback}`;
 
-    sendToProductboard('feedback', content);
-    res.sendStatus(204);
-  }
-);
+  sendToProductboard('feedback', content);
+  res.sendStatus(204);
+});
 
 router.post(
   '/requestcity',
   schema.validate({body: requestCitySchema}),
-  async (req, res, next) => {
+  async (req, res) => {
     const content = `Žádost o zapojení obce
-Obec: ${req.body['city']}
-PSČ: ${req.body['psc']}
-Email: ${req.body['email']}
-Jméno: ${req.body['name']}
-GDPR souhlas: ${req.body['gdpr']}
-Informace o propojení: ${req.body['subscribe']}
+Obec: ${req.body.city}
+PSČ: ${req.body.psc}
+Email: ${req.body.email}
+Jméno: ${req.body.name}
+GDPR souhlas: ${req.body.gdpr}
+Informace o propojení: ${req.body.subscribe}
 `;
     sendToProductboard('Zapojení obce', content);
     res.sendStatus(204);
@@ -87,7 +83,7 @@ function sendToProductboard(type: string, content: string) {
       'https://api.productboard.com/notes',
       {
         title: `Cityvizor - ${type}`,
-        content: content,
+        content,
         customer_email: 'landing@cityvizor.cz',
       },
       {
@@ -97,6 +93,6 @@ function sendToProductboard(type: string, content: string) {
       }
     )
     .catch(err => {
-      console.log(err);
+      throw err;
     });
 }

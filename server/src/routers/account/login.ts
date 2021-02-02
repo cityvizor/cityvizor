@@ -17,7 +17,7 @@ import {UserRecord, UserProfileRecord} from '../../schema';
 import {DateTime} from 'luxon';
 import {UserToken} from '../../schema/user';
 
-async function createToken(tokenData: any, validity): Promise<string> {
+async function createToken(tokenData: object, validity): Promise<string> {
   // set validity
   const tokenOptions = {
     expiresIn: validity,
@@ -25,7 +25,7 @@ async function createToken(tokenData: any, validity): Promise<string> {
 
   return new Promise((resolve, reject) =>
     jwt.sign(tokenData, config.jwt.secret, tokenOptions, (err, token) =>
-      err ? reject(err) : resolve(token)
+      err ? reject(err) : token ? resolve(token) : reject()
     )
   );
 }
@@ -42,7 +42,7 @@ router.post(
   '/',
   acl('login', 'login'),
   schema.validate({body: loginSchema}),
-  async (req, res, next) => {
+  async (req, res) => {
     const user = await db<UserRecord>('app.users')
       .select('id', 'login', 'password', 'role')
       .where('login', 'like', req.body.username)
@@ -67,18 +67,18 @@ router.post(
 
       const token = await createToken(tokenData, '1 day');
 
-      res.send(token);
-
       await db<UserRecord>('app.users')
         .where({id: user.id})
         .update({lastLogin: DateTime.local().toISO()});
+
+      return res.send(token);
     } else {
-      res.status(401).send('Wrong password for user "' + user.id + '".');
+      return res.status(401).send('Wrong password for user "' + user.id + '".');
     }
   }
 );
 
-router.get('/renew', acl('login', 'renew'), async (req, res, next) => {
+router.get('/renew', acl('login', 'renew'), async (req, res) => {
   const userId = req.user.id;
 
   const user = await db<UserRecord>('app.users')
@@ -99,5 +99,5 @@ router.get('/renew', acl('login', 'renew'), async (req, res, next) => {
 
   const token = await createToken(tokenData, '1 day');
 
-  res.send(token);
+  return res.send(token);
 });

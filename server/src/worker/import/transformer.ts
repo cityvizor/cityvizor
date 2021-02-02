@@ -1,5 +1,4 @@
 import {Transform, TransformCallback} from 'stream';
-import {AccountingRecord, EventRecord, PaymentRecord} from '../../schema';
 import {Importer} from './importer';
 
 export class ImportTransformer extends Transform {
@@ -15,7 +14,7 @@ export class ImportTransformer extends Transform {
     callback: TransformCallback
   ) {
     // remove duplicate events
-    if (chunk.type == 'event') {
+    if (chunk.type === 'event') {
       if (this.eventIds.indexOf(chunk.record.id) !== -1) {
         callback(
           new Error(

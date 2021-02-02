@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import {ensureDir} from 'fs-extra';
 import config from './config';
 

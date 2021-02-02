@@ -1,19 +1,8 @@
-import EventEmitter from 'events';
-import fs, {ReadStream, createReadStream} from 'fs-extra';
-import mergeStream from 'merge-stream';
 import csvparse from 'csv-parse';
-import {Readable, Transform} from 'stream';
+import {Transform} from 'stream';
 import {Importer} from './importer';
 import logger from './logger';
-import {
-  AccountingRecord,
-  PaymentRecord,
-  EventRecord,
-  ProfileRecord,
-  YearRecord,
-} from '../../schema/database';
-import {ImportRecord} from '../../schema/database/import';
-import {paramCase} from 'change-case';
+import {AccountingRecord, PaymentRecord, EventRecord} from '../../schema';
 
 const headerAliases = {
   type: ['type', 'recordType', 'MODUL', 'DOKLAD_AGENDA'],
@@ -55,7 +44,7 @@ const mandatoryEventHeaders = ['id', 'name'];
 
 export class ImportParser {
   static createCsvParser(file: string): csvparse.Parser {
-    let headers = [];
+    let headers: string[] = [];
     switch (file) {
       case 'accountingFile':
         headers = mandatoryAccountingHeaders;
@@ -98,8 +87,8 @@ export class ImportParser {
     return new Transform({
       writableObjectMode: true,
       readableObjectMode: true,
-      transform: function (line, enc, callback) {
-        const recordType = line['type'];
+      transform(line, enc, callback) {
+        const recordType = line.type;
 
         if (recordType === 'KDF' || recordType === 'KOF') {
           try {
@@ -122,7 +111,7 @@ export class ImportParser {
     return new Transform({
       writableObjectMode: true,
       readableObjectMode: true,
-      transform: function (line, enc, callback) {
+      transform(line, enc, callback) {
         const event = ImportParser.createEventRecord(line, options);
         if (line.id && line.name) {
           this.push({type: 'event', record: event});
@@ -141,14 +130,16 @@ export class ImportParser {
     logger.log(
       `The header array being searched for field names: [${headerLine}]`
     );
-    const foundHeaders: string[] = headerLine.map(originalField => {
-      // browse through all the target fields if originalField is someones alias
-      return Object.keys(headerAliases).find(
-        key => headerAliases[key].indexOf(originalField) != -1
-      );
-    });
+    const foundHeaders: string[] = headerLine
+      .map(originalField => {
+        // browse through all the target fields if originalField is someones alias
+        return Object.keys(headerAliases).find(
+          key => headerAliases[key].indexOf(originalField) !== -1
+        );
+      })
+      .filter(item => item) as string[];
     headerNames.forEach(h => {
-      if (foundHeaders.indexOf(h) == -1) {
+      if (foundHeaders.indexOf(h) === -1) {
         throw Error(`Failed to find column header "${h}"`);
       }
     });
@@ -173,21 +164,23 @@ export class ImportParser {
     ].reduce(
       (acc, c) => {
         switch (c) {
-          case 'date':
+          case 'date': {
             const d = Date.parse(row[c]);
             if (isNaN(d) || !/\d{4}-\d{2}-\d{2}/.test(row[c]))
               this.invalidField('date', 'date', row);
             acc[c] = row[c];
             break;
+          }
           case 'paragraph':
           case 'item':
           case 'unit':
           case 'event':
-          case 'amount':
+          case 'amount': {
             const n = Number(row[c]);
             if (isNaN(n)) this.invalidField(c, 'number', row);
             acc[c] = n;
             break;
+          }
           case 'counterpartyId':
           case 'counterpartyName':
           case 'description':
@@ -217,11 +210,12 @@ export class ImportParser {
           case 'item':
           case 'event':
           case 'unit':
-          case 'amount':
+          case 'amount': {
             const n = Number(row[c]);
             if (isNaN(n)) this.invalidField(c, 'number', row);
             acc[c] = n;
             break;
+          }
         }
         return acc;
       },
@@ -240,11 +234,12 @@ export class ImportParser {
           case 'description':
             acc[c] = row[c];
             break;
-          case 'id':
+          case 'id': {
             const n = Number(row[c]);
             if (isNaN(n)) this.invalidField(c, 'number', row);
             acc[c] = n;
             break;
+          }
         }
         return acc;
       },

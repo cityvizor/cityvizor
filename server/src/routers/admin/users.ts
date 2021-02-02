@@ -11,8 +11,8 @@ const router = express.Router();
 
 export const AdminUsersRouter = router;
 
-router.get('/', acl('users', 'list'), async (req, res, _) => {
-  const users: any[] = await db<UserRecord>('app.users').select(
+router.get('/', acl('users', 'list'), async (req, res) => {
+  const users: UserRecord[] = await db<UserRecord>('app.users').select(
     'id',
     'role',
     'login',
@@ -24,32 +24,44 @@ router.get('/', acl('users', 'list'), async (req, res, _) => {
   res.json(users);
 });
 
-router.get('/check-login/:login', acl('users', 'list'), async (req, res, _) => {
+router.get('/check-login/:login', acl('users', 'list'), async (req, res) => {
   if (!req.params.login) return res.sendStatus(400);
   const login = await db<UserRecord>('app.users')
     .where({login: req.params.login})
     .select('login')
     .first();
-  res.json(!!login);
+  return res.json(!!login);
 });
 
-router.get('/:user', acl('users', 'read'), async (req, res, _) => {
-  const user: any = await db<UserRecord>('app.users')
+router.get('/:user', acl('users', 'read'), async (req, res) => {
+  const user: Partial<UserRecord> | undefined = await db<UserRecord>(
+    'app.users'
+  )
     .select('id', 'login', 'role', 'name', 'email', 'lastLogin')
     .where('id', req.params.user)
     .first();
 
   if (!user) return res.sendStatus(404);
 
-  user.managedProfiles = await db<UserProfileRecord>('app.user_profiles as up')
+  const managedProfiles:
+    | UserProfileRecord[]
+    | undefined = await db<UserProfileRecord>('app.user_profiles as up')
     .select('p.id as id', 'p.name as name')
     .leftJoin('app.profiles as p', {'up.profileId': 'p.id'})
     .where({userId: user.id});
 
-  res.json(user);
+  return res.json({
+    id: user.id,
+    login: user.login,
+    role: user.role,
+    name: user.name,
+    email: user.email,
+    lastLogin: user.lastLogin,
+    managedProfiles,
+  });
 });
 
-router.post('/', acl('users', 'write'), async (req, res, _) => {
+router.post('/', acl('users', 'write'), async (req, res) => {
   const userData: Partial<UserRecord> = req.body;
 
   if (userData.password)
@@ -63,7 +75,7 @@ router.post('/', acl('users', 'write'), async (req, res, _) => {
   res.sendStatus(201);
 });
 
-router.patch('/:user', acl('users', 'write'), async (req, res, _) => {
+router.patch('/:user', acl('users', 'write'), async (req, res) => {
   const userData = req.body;
 
   if (userData.password)
@@ -85,21 +97,21 @@ router.patch('/:user', acl('users', 'write'), async (req, res, _) => {
   res.sendStatus(204);
 });
 
-router.delete('/:user', acl('users', 'write'), async (req, res, _) => {
+router.delete('/:user', acl('users', 'write'), async (req, res) => {
   await db('app.users').where({id: req.params.user}).delete();
 
   res.sendStatus(204);
 });
 
-router.get('/:user/profiles', acl('users', 'read'), async (req, res, _) => {
+router.get('/:user/profiles', acl('users', 'read'), async (req, res) => {
   const profiles = await db<UserProfileRecord>('app.user_profiles')
     .select('profileId')
     .where('userId', req.params.user)
-    .then(profiles => profiles.map(profile => profile.profileId));
+    .then(results => results.map(profile => profile.profileId));
   res.json(profiles);
 });
 
-router.put('/:user/profiles', acl('users', 'write'), async (req, res, _) => {
+router.put('/:user/profiles', acl('users', 'write'), async (req, res) => {
   const data: {
     profileId: ProfileRecord['id'];
     userId: UserRecord['id'];

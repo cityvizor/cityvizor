@@ -1,3 +1,4 @@
+/* tslint:disable */
 import {dbConnect, dbDestroy} from '../db';
 import {runTasks} from './run-tasks';
 
@@ -6,7 +7,7 @@ import {runTasks} from './run-tasks';
 
   if (!tasks.length) {
     console.log('Task name not specified');
-    process.exit(1);
+    return;
   }
 
   await dbConnect();

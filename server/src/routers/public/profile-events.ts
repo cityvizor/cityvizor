@@ -39,14 +39,14 @@ router.get('/history/:event', async (req, res) => {
 });
 
 router.get('/:year/:event', async (req, res) => {
-  const q_info = db<EventRecord>('events')
+  const qInfo = db<EventRecord>('events')
     .select('id', 'name')
     .where('profileId', req.params.profile)
     .andWhere('year', req.params.year)
     .andWhere('id', req.params.event)
     .first();
 
-  const q_totals: any = db<AccountingRecord>('accounting')
+  const qTotals = db<AccountingRecord>('accounting')
     .sum('incomeAmount as incomeAmount')
     .sum('budgetIncomeAmount as budgetIncomeAmount')
     .sum('expenditureAmount as expenditureAmount')
@@ -56,7 +56,7 @@ router.get('/:year/:event', async (req, res) => {
     .andWhere('event', req.params.event)
     .first();
 
-  const q_items = db<AccountingRecord>('accounting')
+  const qItems = db<AccountingRecord>('accounting')
     .select('item AS id')
     .sum('incomeAmount as incomeAmount')
     .sum('budgetIncomeAmount as budgetIncomeAmount')
@@ -67,7 +67,7 @@ router.get('/:year/:event', async (req, res) => {
     .andWhere('event', req.params.event)
     .groupBy('item');
 
-  const q_paragraphs = db<AccountingRecord>('accounting')
+  const qParagraphs = db<AccountingRecord>('accounting')
     .select('paragraph AS id')
     .sum('incomeAmount as incomeAmount')
     .sum('budgetIncomeAmount as budgetIncomeAmount')
@@ -78,22 +78,22 @@ router.get('/:year/:event', async (req, res) => {
     .andWhere('event', req.params.event)
     .groupBy('paragraph');
 
-  const q_payments = db<PaymentRecord>('payments')
+  const qPayments = db<PaymentRecord>('payments')
     .where('profileId', req.params.profile)
     .andWhere('year', req.params.year)
     .andWhere('event', req.params.event);
 
   const [info, totals, items, paragraphs, payments] = await Promise.all([
-    q_info,
-    q_totals,
-    q_items,
-    q_paragraphs,
-    q_payments,
+    qInfo,
+    qTotals,
+    qItems,
+    qParagraphs,
+    qPayments,
   ]);
 
   const event = {
     ...info,
-    ...totals,
+    ...(totals as {}),
     items,
     paragraphs,
     payments,

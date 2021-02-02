@@ -45,7 +45,7 @@ export function exportStream(
 export function exportArray(
   req: express.Request,
   res: express.Response,
-  array: any[],
+  array: unknown[],
   filename: string
 ) {
   const stream = new Readable({

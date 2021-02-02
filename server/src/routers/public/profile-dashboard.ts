@@ -1,14 +1,12 @@
 import express from 'express';
-import acl from 'express-dynacl';
 
 import {db} from '../../db';
-import {DashboardRecord} from '../../schema/database';
 
 const router = express.Router({mergeParams: true});
 
 export const ProfileDashboardRouter = router;
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
   const categoriesDef = [
     {name: 'transportation', where: 'paragraph >= 2200 AND paragraph <= 2299'},
     {name: 'schools', where: 'paragraph >= 3100 AND paragraph <= 3299'},

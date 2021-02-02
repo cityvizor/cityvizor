@@ -16,9 +16,9 @@ const router = express.Router();
 
 export const PublicRouter = router;
 
-// Handle and romalize standard query fields
+// Handle and normalize standard query fields
 router.use((req, res, next) => {
-  //normalize field list for mongoose from comma delimited to space delimited
+  // normalize field list for mongoose from comma delimited to space delimited
   if (req.query.fields && typeof req.query.fields === 'string')
     req.query.fields = req.query.fields.split(/[, ]/);
 

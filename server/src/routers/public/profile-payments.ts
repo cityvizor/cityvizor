@@ -7,7 +7,7 @@ const router = express.Router({mergeParams: true});
 
 export const ProfilePaymentsRouter = router;
 
-router.get('/', async (req, res, _) => {
+router.get('/', async (req, res) => {
   const payments = await db<PaymentRecord>('payments')
     .where('profile_id', req.params.profile)
     .limit(req.query.limit ? Math.min(Number(req.query.limit), 10000) : 10000)
@@ -15,9 +15,8 @@ router.get('/', async (req, res, _) => {
     .modify(function () {
       if (req.query.sort) {
         const order = sort2order(String(req.query.sort));
-        if (order.some(orderItem => orderItem.column === 'date'))
+        if (order?.some(orderItem => orderItem?.column === 'date'))
           this.whereRaw('date IS NOT NULL'); // otherwise null payments would get selected on descending date
-        this.orderBy(order);
       }
       if (req.query.event) this.where('event', 'req.query.event');
       if (isValidDateString(req.query.dateFrom)) {
@@ -31,7 +30,7 @@ router.get('/', async (req, res, _) => {
   res.json(payments);
 });
 
-router.get('/months', async (req, res, _) => {
+router.get('/months', async (req, res) => {
   const months = await db('payments')
     .select(
       db.raw(
@@ -43,7 +42,7 @@ router.get('/months', async (req, res, _) => {
   res.json(months);
 });
 
-router.get('/:year/csv', async (req, res, _) => {
+router.get('/:year/csv', async (req, res) => {
   const payments = await db<PaymentRecord>('payments')
     .where('profile_id', 'req.params.profile')
     .andWhere('year', req.params.year);

@@ -11,11 +11,16 @@ const router = express.Router({mergeParams: true});
 
 export const AdminProfileImportTokenRouter = router;
 
-router.get('/', acl('profile-accounting', 'write'), async (req, res, _) => {
+router.get('/', acl('profile-accounting', 'write'), async (req, res) => {
   const profile = await db<ProfileRecord>('app.profiles')
     .select('id', 'tokenCode')
     .where('id', req.params.profile)
     .first();
+
+  if (!profile) {
+    return res.sendStatus(404);
+  }
+
   // set validity
   const tokenOptions: SignOptions = {
     expiresIn: '2 years',
@@ -28,15 +33,15 @@ router.get('/', acl('profile-accounting', 'write'), async (req, res, _) => {
   };
 
   const token = await new Promise((resolve, reject) =>
-    sign(tokenData, config.jwt.secret, tokenOptions, (err, token) =>
-      err ? reject(err) : resolve(token)
+    sign(tokenData, config.jwt.secret, tokenOptions, (err, _token) =>
+      err ? reject(err) : resolve(_token)
     )
   );
 
-  res.send(token);
+  return res.send(token);
 });
 
-router.delete('/', async (req, res, _) => {
+router.delete('/', async (req, res) => {
   await db<ProfileRecord>('app.profiles')
     .where('id', req.params.profile)
     .increment('tokenCode', 1);

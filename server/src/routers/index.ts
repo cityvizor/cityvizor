@@ -24,6 +24,6 @@ router.use('/api/search', SearchRouter);
 
 router.use('/api/exports', ExportsRouter);
 
-router.use('/api/**', (req, res, next) => res.sendStatus(404));
+router.use('/api/**', (req, res) => res.sendStatus(404));
 
 router.use(StaticRouter);

@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import {DateTime} from 'luxon';
 import {CronJob} from 'cron';
 
@@ -13,12 +14,16 @@ export async function cronInit() {
   await dbConnect();
 
   const dailyJob = new CronJob({
-    cronTime: config.cron.cronTime, //'00 00 01 * * *',
+    cronTime: config.cron.cronTime, // '00 00 01 * * *',
     start: true /* Set the job right now */,
     runOnInit: config.cron.runOnInit /* Run the tasks right now */,
     timeZone: 'Europe/Prague' /* Time zone of this job. */,
     onTick: () => runCron(),
   });
+
+  if (!dailyJob.running) {
+    dailyJob.start();
+  }
 
   console.log('[CRON] CityVizor daily job set at ' + config.cron.cronTime);
 }

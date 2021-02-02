@@ -16,7 +16,7 @@ const router = express.Router();
 
 export const ExportProfilesRouter = router;
 
-router.get('/', async (req, res, _) => {
+router.get('/', async (req, res) => {
   const profiles = db<ProfileRecord>('profiles')
     .select(
       'id',
@@ -35,7 +35,7 @@ router.get('/', async (req, res, _) => {
   exportQuery(req, res, profiles, 'profiles');
 });
 
-router.get('/:profile/years', async (req, res, _) => {
+router.get('/:profile/years', async (req, res) => {
   const years = db('years as y')
     .select('y.year', 'y.validity')
     .sum('a.expenditureAmount as expenditureAmount')
@@ -52,7 +52,7 @@ router.get('/:profile/years', async (req, res, _) => {
   exportQuery(req, res, years, `profile-${req.params.profile}-years`);
 });
 
-router.get('/:profile/accounting/:year', async (req, res, _) => {
+router.get('/:profile/accounting/:year', async (req, res) => {
   const accounting = db<AccountingRecord>('accounting')
     .where('profileId', req.params.profile)
     .andWhere('year', req.params.year);
@@ -60,7 +60,7 @@ router.get('/:profile/accounting/:year', async (req, res, _) => {
   exportQuery(req, res, accounting, `profile-${req.params.profile}-accounting`);
 });
 
-router.get('/:profile/events/:year', async (req, res, _) => {
+router.get('/:profile/events/:year', async (req, res) => {
   const amounts = db('accounting')
     .select('profileId', 'year', 'event')
     .sum('incomeAmount as incomeAmount')
@@ -90,7 +90,7 @@ router.get('/:profile/events/:year', async (req, res, _) => {
   exportQuery(req, res, events, `profile-${req.params.profile}-events`);
 });
 
-router.get('/:profile/payments/:year', async (req, res, _) => {
+router.get('/:profile/payments/:year', async (req, res) => {
   const payments = db<PaymentRecord>('payments')
     .where('profile_id', req.params.profile)
     .andWhere('year', req.params.year);

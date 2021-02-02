@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-namespace */
+/* tslint:disable:no-namespace max-classes-per-file */
 // remove when import of ZIP sorted out
 import {ImportParser} from './parser';
 import {ImportWriter} from './writer';
@@ -59,17 +61,17 @@ export namespace Importer {
   export type ImportChunk = PaymentChunk | EventChunk | AccountingChunk;
 
   export class PaymentChunk {
-    type: 'payment';
-    record: PaymentRecord;
+    type!: 'payment';
+    record!: PaymentRecord;
   }
 
   export class EventChunk {
-    type: 'event';
-    record: EventRecord;
+    type!: 'event';
+    record!: EventRecord;
   }
 
   export class AccountingChunk {
-    type: 'accounting';
-    record: AccountingRecord;
+    type!: 'accounting';
+    record!: AccountingRecord;
   }
 }

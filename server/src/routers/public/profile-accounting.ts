@@ -7,7 +7,7 @@ const router = express.Router({mergeParams: true});
 
 export const ProfileAccountingRouter = router;
 
-router.get('/', async (req, res, _) => {
+router.get('/', async (req, res) => {
   const years = await db<AccountingRecord>('accounting')
     .select('year', 'type')
     .sum({amount: 'amount'})
@@ -18,7 +18,7 @@ router.get('/', async (req, res, _) => {
   else res.sendStatus(404);
 });
 
-router.get('/:year', async (req, res, _) => {
+router.get('/:year', async (req, res) => {
   const accounting = await db<AccountingRecord>('accounting')
     .where('profileId', req.params.profile)
     .andWhere('year', req.params.year);
@@ -26,7 +26,7 @@ router.get('/:year', async (req, res, _) => {
   res.json(accounting);
 });
 
-router.get('/:year/groups/:field', async (req, res, _) => {
+router.get('/:year/groups/:field', async (req, res) => {
   const field = req.params.field;
 
   if (['paragraph', 'item'].indexOf(field) === -1)
@@ -44,10 +44,10 @@ router.get('/:year/groups/:field', async (req, res, _) => {
     .andWhere('year', req.params.year)
     .groupBy('id');
 
-  res.json(groups);
+  return res.json(groups);
 });
 
-router.get('/:year/groups/:field/:group/events', async (req, res, _) => {
+router.get('/:year/groups/:field/:group/events', async (req, res) => {
   const field = req.params.field;
   const group = req.params.group;
 
@@ -115,5 +115,5 @@ router.get('/:year/groups/:field/:group/events', async (req, res, _) => {
     item.budgetExpenditureAmount = row.budgetExpenditureAmount;
   }
 
-  res.json(events);
+  return res.json(events);
 });
