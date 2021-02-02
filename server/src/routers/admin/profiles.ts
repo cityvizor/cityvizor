@@ -22,7 +22,7 @@ const upload = multer({dest: config.storage.tmp});
 router.get('/', acl('profiles', 'list'), async (req, res) => {
   const profiles = await db<ProfileRecord>('app.profiles')
     .select('id', 'status', 'name', 'url', 'gpsX', 'gpsY', 'main')
-    .modify(function() {
+    .modify(function () {
       if (req.params.status) {
         this.where('status', req.params.status);
       }
@@ -57,9 +57,7 @@ router.get('/:profile', acl('profiles', 'read'), async (req, res) => {
 });
 
 router.patch('/:profile', acl('profiles', 'write'), async (req, res) => {
-  await db('app.profiles')
-    .where({id: req.params.profile})
-    .update(req.body);
+  await db('app.profiles').where({id: req.params.profile}).update(req.body);
 
   res.sendStatus(204);
 });
@@ -80,9 +78,7 @@ router.get('/:profile/avatar', async (req, res) => {
 });
 
 router.delete('/:profile', acl('profiles', 'write'), async (req, res) => {
-  await db('app.profiles')
-    .where({id: req.params.profile})
-    .delete();
+  await db('app.profiles').where({id: req.params.profile}).delete();
   res.sendStatus(204);
 });
 
