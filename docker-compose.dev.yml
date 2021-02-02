@@ -7,12 +7,15 @@ services:
         image: tianon/true
         command: ""
         entrypoint: ""
-        ports: []
     cityvizor-client:
-        image: tianon/true
-        command: ""
-        entrypoint: ""
-        ports: []
+        build:
+            target: dev
+        volumes:
+            - ./client:/user/src/app
+            - /user/src/app/node_modules
+        ports:
+            - 4200:4200
+            - 49153:49153
     cityvizor-server:
         build:
             target: dev

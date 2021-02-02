@@ -24,7 +24,8 @@
     "posttest": "npm run lint",
     "lint": "gts lint && tslint --project ./tsconfig.json",
     "clean": "gts clean",
-    "fix": "gts fix"
+    "fix": "gts fix",
+    "test": ""
   },
   "keywords": [
     "opendata",
