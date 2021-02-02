@@ -61,8 +61,6 @@ export default {
   },
   mounted() {
     const params = { status: 'visible' }
-    console.log('XXXX get Active cities') // eslint-disable-lapiBaseUrl
-    console.log('XXXX this.cityVizorPublicBaseUrl ' + this.cityVizorPublicBaseUrl)
     axios
         .get(this.cityVizorPublicBaseUrl, { params })
         .then((response) => this.cities = response.data )
