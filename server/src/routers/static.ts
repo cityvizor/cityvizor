@@ -1,10 +1,10 @@
-import express from "express";
+import express from 'express';
 export const StaticRouter = express.Router();
 
-const config = require("../config").default;
+const config = require('../config').default;
 
 StaticRouter.use(express.static(config.static.dir));
 
-StaticRouter.get("**",(req,res) => {
-  res.sendStatus(404)
+StaticRouter.get('**', (req, res) => {
+  res.sendStatus(404);
 });

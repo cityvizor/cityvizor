@@ -1,9 +1,9 @@
-import { ProfileRecord, UserRecord } from "./database";
+import {ProfileRecord, UserRecord} from './database';
 
 export interface UserToken {
-  id: UserRecord["id"];
+  id: UserRecord['id'];
   login: string;
   roles: string[];
-  managedProfiles: ProfileRecord["id"][];
-  tokenCode?: ProfileRecord["tokenCode"];
+  managedProfiles: ProfileRecord['id'][];
+  tokenCode?: ProfileRecord['tokenCode'];
 }

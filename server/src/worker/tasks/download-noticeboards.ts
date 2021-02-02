@@ -1,99 +1,110 @@
+import axios from 'axios';
+import cheerio from 'cheerio';
 
-import axios from "axios";
-import cheerio from "cheerio";
+import config from '../../config';
 
-import config from "../../config";
-
-import { ProfileRecord } from "../../schema";
-import { db } from "../../db";
-import { NoticeboardRecord } from "../../schema/database/noticeboard";
-import { CronTask } from "../../schema/cron";
+import {ProfileRecord} from '../../schema';
+import {db} from '../../db';
+import {NoticeboardRecord} from '../../schema/database/noticeboard';
+import {CronTask} from '../../schema/cron';
 
 // how many contracts per profile should be downloaded
-var limit = 20;
+const limit = 20;
 
-export const TaskDownloadNoticeboards:CronTask = {
+export const TaskDownloadNoticeboards: CronTask = {
+  id: 'download-noticeboards',
 
-	id: "download-noticeboards",
-	
-	name: "Download notice board documents from https://eDesky.cz/",
-	
-	exec: async () => {
-		// get all the profiles
-		var profiles = await db<ProfileRecord>("app.profiles").select("id", "name", "edesky");
+  name: 'Download notice board documents from https://eDesky.cz/',
 
-		console.log("Found " + profiles.length + " profiles to download documents for.");
+  exec: async () => {
+    // get all the profiles
+    const profiles = await db<ProfileRecord>('app.profiles').select(
+      'id',
+      'name',
+      'edesky'
+    );
 
-		// starts the loop to download contracts
-		for (let profile of profiles) {
-			try {
-				await downloadNoticeboards(profile);
-			} catch (err) {
-				console.error("Couldn't download noticeboard for " + profile.name + ": " + err.message);
-			}
-		}
+    console.log(
+      'Found ' + profiles.length + ' profiles to download documents for.'
+    );
 
-	}
-}
-
-
-async function downloadNoticeboards(profile: Pick<ProfileRecord, "id" | "name" | "edesky">) {
-
-		console.log("---");
-		console.log("Requesting download for profile " + profile.name);
-
-		// if no ID we can continue to next one
-		if(!profile.edesky) {
-			console.log("Variable profile.edesky empty, aborting.");
-return;
-	}
-
-let params = {
-	"api_key": config.eDesky.api_key,
-	"dashboard_id": profile.edesky,
-	"order": "date",
-	"search_with": "sql",
-	"page": 1
+    // starts the loop to download contracts
+    for (const profile of profiles) {
+      try {
+        await downloadNoticeboards(profile);
+      } catch (err) {
+        console.error(
+          "Couldn't download noticeboard for " +
+            profile.name +
+            ': ' +
+            err.message
+        );
+      }
+    }
+  },
 };
 
-var url = config.eDesky.url + "?" + Object.keys(params).map(key => key + "=" + params[key]).join("&");
+async function downloadNoticeboards(
+  profile: Pick<ProfileRecord, 'id' | 'name' | 'edesky'>
+) {
+  console.log('---');
+  console.log('Requesting download for profile ' + profile.name);
 
-// request data from by HTTPS
-const xml = (await axios.get(url)).data;
+  // if no ID we can continue to next one
+  if (!profile.edesky) {
+    console.log('Variable profile.edesky empty, aborting.');
+    return;
+  }
 
-var $ = cheerio.load(xml);
+  const params = {
+    api_key: config.eDesky.api_key,
+    dashboard_id: profile.edesky,
+    order: 'date',
+    search_with: 'sql',
+    page: 1,
+  };
 
-// variable to write to DB
-const documents: NoticeboardRecord[] = [];
+  const url =
+    config.eDesky.url +
+    '?' +
+    Object.keys(params)
+      .map(key => key + '=' + params[key])
+      .join('&');
 
-// assign values, create contracts' data
-$("document").slice(0, 25).each((i, document) => {
+  // request data from by HTTPS
+  const xml = (await axios.get(url)).data;
 
-	documents.push({
-		profileId: profile.id,
+  const $ = cheerio.load(xml);
 
-		date: $(document).attr("created_at"),
-		title: $(document).attr("name"),
-		category: $(document).attr("category"),
+  // variable to write to DB
+  const documents: NoticeboardRecord[] = [];
 
-		documentUrl: $(document).attr("orig_url"),
-		edeskyUrl: $(document).attr("edesky_url"),
-		previewUrl: $(document).attr("edesky_text_url"),
+  // assign values, create contracts' data
+  $('document')
+    .slice(0, 25)
+    .each((i, document) => {
+      documents.push({
+        profileId: profile.id,
 
-		attachments: $(document).find("attachment").length
-	});
+        date: $(document).attr('created_at'),
+        title: $(document).attr('name'),
+        category: $(document).attr('category'),
 
+        documentUrl: $(document).attr('orig_url'),
+        edeskyUrl: $(document).attr('edesky_url'),
+        previewUrl: $(document).attr('edesky_text_url'),
 
-});
+        attachments: $(document).find('attachment').length,
+      });
+    });
 
-console.log(`Found ${documents.length} noticeboard docs.`);
+  console.log(`Found ${documents.length} noticeboard docs.`);
 
-console.log("Deleting old noticeboard docs...")
-await db("data.noticeboards").where({ "profileId": profile.id }).delete();
+  console.log('Deleting old noticeboard docs...');
+  await db('data.noticeboards').where({profileId: profile.id}).delete();
 
-console.log("Inserting new noticeboard docs...")
-await db("data.noticeboards").insert(documents);
+  console.log('Inserting new noticeboard docs...');
+  await db('data.noticeboards').insert(documents);
 
-console.log("Written " + documents.length + " documents");
-
+  console.log('Written ' + documents.length + ' documents');
 }

@@ -1,23 +1,22 @@
-import Knex, { PoolConfig } from 'knex';
+import Knex, {PoolConfig} from 'knex';
 
-import path from "path";
+import path from 'path';
 
-import environment from "../../environment";
+import environment from '../../environment';
 
-import { snakeCase, camelCase } from "change-case";
+import {snakeCase, camelCase} from 'change-case';
 
 // rather ineffective way of converting case for a finished row :(
 // would be better before executing just for identifiers, but not possible currrently by Knex
 // https://github.com/tgriesser/knex/issues/2084
 function convertRow2CamelCase(row: any): any {
-
   if (!row) return row;
 
   return Object.entries(row).reduce((acc, cur) => {
     acc[camelCase(cur[0])] = cur[1];
     return acc;
   }, {});
-};
+}
 
 const knexConfig: Knex.Config = {
   client: environment.database.client,
@@ -25,15 +24,15 @@ const knexConfig: Knex.Config = {
     host: environment.database.host,
     user: environment.database.user,
     password: environment.database.password,
-    database: environment.database.database
+    database: environment.database.database,
   },
   migrations: {
     //extension: 'ts',
-    directory: path.resolve(__dirname, "../../migrations")
+    directory: path.resolve(__dirname, '../../migrations'),
   },
 
   pool: {
-    min: 0 // discard the unused connections
+    min: 0, // discard the unused connections
   },
 
   debug: !!process.env.KNEX_DEBUG,
@@ -47,7 +46,7 @@ const knexConfig: Knex.Config = {
     } else {
       return convertRow2CamelCase(result);
     }
-  }
+  },
 };
 
 export = knexConfig;

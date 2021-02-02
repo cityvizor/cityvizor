@@ -1,5 +1,5 @@
-exports.up = async function(knex) {
-    const sql = `
+exports.up = async function (knex) {
+  const sql = `
   --
 -- PostgreSQL database dump
 --
@@ -731,12 +731,11 @@ ALTER TABLE ONLY data.payments
 --
   `;
 
-    return knex.raw(sql);
-}
+  return knex.raw(sql);
+};
 
-
-exports.down = async function(knex) {
-    return knex.raw(`
+exports.down = async function (knex) {
+  return knex.raw(`
     DROP SCHEMA app CASCADE;
     DROP SCHEMA data CASCADE;
     DROP SCHEMA public CASCADE;
@@ -744,5 +743,4 @@ exports.down = async function(knex) {
     GRANT ALL ON SCHEMA public TO postgres;
     GRANT ALL ON SCHEMA public TO public;
   `);
-}
-
+};

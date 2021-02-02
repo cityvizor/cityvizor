@@ -61,5 +61,5 @@
   "files": [
     "src/index.d.ts"
   ],
-  //"extends": "./node_modules/gts/tsconfig-google.json",
+  "extends": "./node_modules/gts/tsconfig-google.json"
 }

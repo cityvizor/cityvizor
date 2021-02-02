@@ -1,5 +1,4 @@
 export interface NoticeboardRecord {
-
   profileId: number;
 
   date: string;
@@ -11,5 +10,4 @@ export interface NoticeboardRecord {
   previewUrl: string;
 
   attachments: number;
-
 }

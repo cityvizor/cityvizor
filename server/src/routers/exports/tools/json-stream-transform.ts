@@ -1,21 +1,19 @@
-import { Transform, TransformCallback } from "stream";
+import {Transform, TransformCallback} from 'stream';
 
 export class JSONStreamTransform extends Transform {
-
   private counter = 0;
 
   constructor() {
     super({
       writableObjectMode: true,
-      readableObjectMode: false
+      readableObjectMode: false,
     });
   }
 
   _transform(chunk: any, encoding: string, callback: TransformCallback) {
+    if (!this.counter) this.push('[');
 
-    if (!this.counter) this.push("[");
-    
-    if (this.counter) this.push(",");
+    if (this.counter) this.push(',');
 
     this.counter++;
 
@@ -25,12 +23,10 @@ export class JSONStreamTransform extends Transform {
   }
 
   _flush(callback: TransformCallback) {
+    if (!this.counter) this.push('[');
 
-    if (!this.counter) this.push("[");
-
-    this.push("]");
+    this.push(']');
 
     callback();
   }
-  
-}
+

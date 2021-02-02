@@ -6,11 +6,11 @@ const router = express.Router({mergeParams: true});
 
 export const ProfileNoticeboardRouter = router;
 
-router.get("/", async (req, res, _) => {
+router.get('/', async (req, res, _) => {
+  const noticeBoard = await db<NoticeboardRecord>('noticeboards').where(
+    'profileId',
+    req.params.profile
+  );
 
-    const noticeBoard = await db<NoticeboardRecord>("noticeboards")
-        .where('profileId', req.params.profile);
-
-    res.json(noticeBoard);
-
+  res.json(noticeBoard);
 });
