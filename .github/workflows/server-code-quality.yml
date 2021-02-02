@@ -9,7 +9,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: web
+        working-directory: server
 
     strategy:
       matrix:
