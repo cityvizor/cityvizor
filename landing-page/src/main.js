@@ -14,6 +14,8 @@ axios.get(`${process.env.BASE_URL}/cfg/content.json`)
           return {
             // Citysearch API
             apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
+            // City vizor API
+            cityVizorPublicBaseUrl: process.env.VUE_APP_API_PUBLIC_BASE_URL,
             alternativePageContent: response.data
           }
         },

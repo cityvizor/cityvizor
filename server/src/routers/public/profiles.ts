@@ -13,7 +13,12 @@ export const ProfilesRouter = router;
 
 router.get("/", async (req, res, next) => {
 
-  const profiles = await db<ProfileRecord>("profiles");
+  const profiles = await db<ProfileRecord>("profiles")
+      .modify(function () {
+        if (req.params.status) {
+          this.where('status', req.params.status);
+        }
+      });
 
   res.json(profiles);
 

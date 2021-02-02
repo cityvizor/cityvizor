@@ -17,6 +17,12 @@ module.exports = {
                 changeOrigin: true,
                 secure: false,
                 logLevel: "debug"
+            },
+            '^/api/public/profiles': {
+                target: "http://server.cityvizor.cesko.digital:3000",
+                changeOrigin: true,
+                secure: false,
+                logLevel: "debug"
             }
         }
     },

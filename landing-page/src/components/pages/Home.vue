@@ -18,23 +18,7 @@
            </b-col>
          </b-row>
 
-         <b-row>
-           <h2 class="participating-header-margins">
-             Zapojené obce
-           </h2>
-         </b-row>
-         <b-row class="bottom-margin-participating-cities">
-           <b-col sm="6" md="4" xl="3" v-for="city in cities" :key="city.name" class="city-item-margin-top text-justify">
-             <b-row cols="12" no-gutters="true">
-               <b-col cols="1" class="city-item-icon-right-margin">
-                 <img src="@/assets/images/pages/home/city_avatar.png">
-               </b-col>
-               <b-col cols="10">
-                 {{ city.name }}
-               </b-col>
-             </b-row>
-           </b-col>
-         </b-row>
+        <ActiveCities class="participating-header-margins bottom-margin-participating-cities"></ActiveCities>
 
          <ParticipateBox class="participate-box-padding"></ParticipateBox>
 
@@ -74,26 +58,16 @@
 
 <script>
 import ParticipateBox from "../partials/ParticipateBox.vue"
+import ActiveCities from "../partials/ActiveCities";
 
 export default {
   name: 'ComponentsPagesHome',
   components: {
+    ActiveCities,
     ParticipateBox
   },
   data() {
     return {
-      cities: [
-        { name: 'Brno' },
-        { name: 'Černošice' },
-        { name: 'Mariánské Lázně' },
-        { name: 'Nové Město na Moravě' },
-        { name: 'Praha 1' },
-        { name: 'Praha 3' },
-        { name: 'Praha 7' },
-        { name: 'Praha 12' },
-        { name: 'Uherský Brod' },
-        { name: 'Úvaly' }
-      ],
       benefits: [
         {
           description:
@@ -125,23 +99,14 @@ export default {
 <style lang="scss">
 @import '../../assets/styles/common/_variables.scss';
 
-$margin: 24px;
 $extra-large-margin: 64px;
-
-.description-bottom-margin {
-  margin-bottom: 10px;
-}
-
-.city-item-icon-right-margin {
-  margin-right: 4px;
-}
-
-.city-item-margin-top {
-  margin-top: $margin;
-}
 
 .bottom-margin-participating-cities {
   margin-bottom: 40px;
+}
+
+.description-bottom-margin {
+  margin-bottom: 10px;
 }
 
 .participating-header-margins {

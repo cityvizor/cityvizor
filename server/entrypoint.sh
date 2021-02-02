@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 wait_for_db=""
 set_admin=''
