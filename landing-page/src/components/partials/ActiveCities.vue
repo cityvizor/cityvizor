@@ -33,7 +33,6 @@
 
 <script>
 import axios from "axios";
-import {environment} from "../../../../client/src/environments/environment";
 
 export default {
   name: 'ActiveCities',
