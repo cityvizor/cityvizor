@@ -1,10 +1,8 @@
-import { cronInit } from './worker/index';
-import { checkImportQueue } from './worker/index';
+import {cronInit} from './worker/index';
+import {checkImportQueue} from './worker/index';
 
-(async function(){
-
+(async () => {
   await cronInit();
 
-  setInterval(() => checkImportQueue(), 10000)
-
+  setInterval(() => checkImportQueue(), 10000);
 })();

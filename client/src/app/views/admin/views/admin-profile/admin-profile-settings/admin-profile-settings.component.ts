@@ -98,7 +98,7 @@ export class AdminProfileSettingsComponent implements OnInit {
   }
 
   getProfileAvatarUrl(profile: Profile): string | null {
-    return this.dataService.getProfileAvatarUrl(profile);
+    return this.adminService.getProfileAvatarUrl(profile);
   }
 
   async reloadProfile(){

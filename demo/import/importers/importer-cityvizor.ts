@@ -92,17 +92,17 @@ export class ImporterCityVizor implements Importer {
 
   updateProgress(bytesRead: number) {
     this.bytesRead = bytesRead;
-    postMessage({ type: "progress", data: bytesRead / this.bytesTotal })
+    postMessage({ type: "progress", data: bytesRead / this.bytesTotal }, null)
   }
 
-  readCSV(file: File, callback: (result: Papa.ParseResult) => void) {
-    return new Promise((resolve, reject) => {
+  readCSV(file: File, callback: (result: Papa.ParseResult<any>) => void) {
+    return new Promise<any | void>((resolve, reject) => {
 
       Papa.parse(file, {
         header: true,
         encoding: "utf-8",
         chunk: callback,
-        complete: (results, file) => resolve(),
+        complete: (results, file) => resolve(results),
         error: (err, file) => reject(err)
       });
 

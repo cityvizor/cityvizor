@@ -38,12 +38,6 @@ footer .container{
 	.col-xs-12 {
 		text-align: center;
 	}
-	footer {
-		height: $footer-height-mobile;
-	}
-	#wrap {
-		margin-bottom: -$footer-height-mobile;
-	}
 }
 
 .input-group-addon { min-width: 3em; }

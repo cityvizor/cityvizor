@@ -1,4 +1,4 @@
-FROM node:12 as dev
+FROM node:14 as dev
 WORKDIR /user/src/app
 ENTRYPOINT [ "./entrypoint.sh" ]
 

@@ -58,7 +58,7 @@
 
 <script>
 import ParticipateBox from "../partials/ParticipateBox.vue"
-import ActiveCities from "../partials/ActiveCities";
+import ActiveCities from "../partials/ActiveCities"
 
 export default {
   name: 'ComponentsPagesHome',
@@ -99,14 +99,23 @@ export default {
 <style lang="scss">
 @import '../../assets/styles/common/_variables.scss';
 
+$margin: 24px;
 $extra-large-margin: 64px;
-
-.bottom-margin-participating-cities {
-  margin-bottom: 40px;
-}
 
 .description-bottom-margin {
   margin-bottom: 10px;
+}
+
+.city-item-icon-right-margin {
+  margin-right: 4px;
+}
+
+.city-item-margin-top {
+  margin-top: $margin;
+}
+
+.bottom-margin-participating-cities {
+  margin-bottom: 40px;
 }
 
 .participating-header-margins {

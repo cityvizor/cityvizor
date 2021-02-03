@@ -10,8 +10,9 @@ const routes: Routes = [
 ];
 
 const extraOptions:ExtraOptions = {
-  scrollPositionRestoration: "enabled",
-  anchorScrolling: "enabled"
+    scrollPositionRestoration: "enabled",
+    anchorScrolling: "enabled",
+    relativeLinkResolution: 'legacy'
 };
 
 @NgModule({

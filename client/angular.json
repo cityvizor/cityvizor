@@ -17,12 +17,11 @@
             "main": "src/main.ts",
             "tsConfig": "tsconfig.json",
             "polyfills": "src/polyfills.ts",
-            "i18nLocale": "cs",
             "assets": [
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",              
+              "./node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",
               "src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
@@ -37,7 +36,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,

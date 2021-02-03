@@ -1,6 +1,5 @@
-
-exports.up = async function (knex) {  
-   await knex.schema.raw(`
+exports.up = async function (knex) {
+  await knex.schema.raw(`
    CREATE OR REPLACE VIEW public.accounting
  AS
  SELECT p.id AS profile_id,
@@ -34,12 +33,10 @@ exports.up = async function (knex) {
      LEFT JOIN data.accounting acc ON acc.profile_id = p.id
      JOIN years y ON y.year = acc.year AND y.profile_id = acc.profile_id
   GROUP BY p.id, acc.year, acc.type, acc.paragraph, acc.item, acc.unit, acc.event;
-   `)
-
+   `);
 };
 
 exports.down = async function (knex) {
-
   await knex.schema.raw(`
   CREATE OR REPLACE VIEW public.accounting
  AS
@@ -75,5 +72,4 @@ exports.down = async function (knex) {
      JOIN years y ON y.year = acc.year AND y.profile_id = acc.profile_id
   GROUP BY p.id, acc.year, acc.type, acc.paragraph, acc.item, acc.unit, acc.event;
   `);
-
 };

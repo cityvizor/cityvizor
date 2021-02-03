@@ -1,14 +1,12 @@
-import express from "express";
+import express from 'express';
+import acl = require('express-dynacl');
+
 export const SearchRouter = express.Router({mergeParams: true});
 
-var schema = require('express-jsonschema');
-var acl = require("express-dynacl");
-
-
-SearchRouter.post("/counterparties", acl("payments", "list"), (req,res,next) => {
-	
+SearchRouter.post('/counterparties', acl('payments', 'list'), (req, res) => {
+  res.sendStatus(404);
 });
 
-SearchRouter.post("/payments", acl("payments", "list"), (req,res,next) => {
-	
+SearchRouter.post('/payments', acl('payments', 'list'), (req, res) => {
+  res.sendStatus(404);
 });

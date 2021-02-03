@@ -1,23 +1,27 @@
 import express from 'express';
-import acl from "express-dynacl";
 
-import { db, sort2order } from "../../db";
-import { ContractRecord } from '../../schema/database';
+import {db, sort2order} from '../../db';
+import {ContractRecord} from '../../schema';
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router({mergeParams: true});
 
 export const ProfileContractsRouter = router;
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
+  const pLimit = Number(req.query.limit);
 
-	const contracts = await db<ContractRecord>("contracts")
-		.where({ profile_id: req.params.profile })
-		.limit(req.query.limit ? Math.min(Number(req.query.limit), 100) : req.query.limit)
-		.offset(req.query.offset || 0)
-		.modify(function(){
-			if(req.query.sort) this.orderBy(sort2order(req.query.sort));
-		});
+  const contracts = await db<ContractRecord>('contracts')
+    .where('profile_id', req.params.profile)
+    .limit(req.query.limit ? Math.min(pLimit, 100) : pLimit)
+    .offset(Number(req.query.offset || 0))
+    .modify(function () {
+      if (req.query.sort) {
+        const parsedOrder = sort2order(String(req.query.sort));
+        if (parsedOrder) {
+          this.orderBy(parsedOrder);
+        }
+      }
+    });
 
-	res.json(contracts);
-
+  res.json(contracts);
 });

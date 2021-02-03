@@ -17,15 +17,14 @@ import { HelpModalComponent } 		from './components/help-modal/help-modal.compone
 import { MoneyPipe } from './pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './pipes/address.pipe';
 import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pipes/utils.pipe';
-import { PapaParseModule } from 'ngx-papaparse';
+import { Papa } from 'ngx-papaparse';
 
 
 @NgModule({
   imports:      [
     CommonModule,
     FormsModule,
-    CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot(), ModalModule.forRoot(),
-    PapaParseModule
+    CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot(), ModalModule.forRoot()
   ],
   declarations: [
     /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent,
@@ -34,7 +33,6 @@ import { PapaParseModule } from 'ngx-papaparse';
   exports: [
     FormsModule,
     CollapseModule, BsDropdownModule, TabsModule, ModalModule,
-    PapaParseModule,
     /* Shared Components */ ChartBigbangComponent, ChartDonutComponent, ChartBudgetComponent, ChartEventOverviewComponent, BudgetsListComponent, HelpModalComponent,
     /* Shared Pipes */ MoneyPipe, IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe
   ]

@@ -1,15 +1,13 @@
-const packageJSON = require("../package.json");
+/* tslint:disable:no-console */
 
-(async function(){
-
-  console.log("Starting CityVizor");
-  console.log("Node version: " + process.version);
-  console.log("CityVizor version: " + packageJSON.version);
+(async () => {
+  console.log('Starting CityVizor');
+  console.log('Node version: ' + process.version);
+  console.log('CityVizor version: ' + require('../package.json').version);
 
   /* SERVER */
-  await import("./server");
+  await import('./server');
 
   /* WORKER */
-  await import("./worker");
-
+  await import('./worker');
 })();

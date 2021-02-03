@@ -1,6 +1,9 @@
 # compiled output
 /dist
 /dist-www
+src/app/app.component.css
+src/app/views/login/login.component.css
+src/app/views/login/login.component.css.map
 
 # dependencies
 /node_modules
@@ -13,3 +16,4 @@
 
 # misc
 npm-debug.log
+.sass-cache

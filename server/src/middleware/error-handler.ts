@@ -1,26 +1,35 @@
-import { ErrorRequestHandler, Request, Response, NextFunction } from "express";
+/* tslint:disable:no-console */
+import {ErrorRequestHandler, Request, Response, NextFunction} from 'express';
+import {ValidationError, JsonSchemaValidation} from 'express-jsonschema';
+import {UnauthorizedError} from 'express-jwt';
+import {MulterError} from 'multer';
 
-export const ErrorHandler: ErrorRequestHandler = function (err: any, req: Request, res: Response, next: NextFunction) {
-
-	if (err.name === 'UnauthorizedError') {
-		res.status(err.status);
-		res.send("Unauthorized" + (err.message ? ": " + err.message : ""));
-	}
-
-	else if (err.name === 'JsonSchemaValidation') {
-		console.log("Request validation failed. Validation output: " + JSON.stringify(err.validations));
-		res.status(400).send("Request validation failed. Validation output: " + JSON.stringify(err.validations));
-	}
-
-	else if (err.name === 'MulterError') {
-		console.log("Upload Error: " + err.message);
-		res.status(400).send("Upload Error: " + err.message);
-	}
-
-	else {
-		res.status(500).send("Internal Server Error");
-		console.error(err.name + ": " + err.message);
-		//console.log(err);
-	}
-
+export const ErrorHandler: ErrorRequestHandler = (
+  err: UnauthorizedError | ValidationError | MulterError,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction
+) => {
+  if (err instanceof UnauthorizedError) {
+    res.status(err.status);
+    res.send('Unauthorized' + (err.message ? ': ' + err.message : ''));
+  } else if (err instanceof JsonSchemaValidation) {
+    console.log(
+      'Request validation failed. Validation output: ' +
+        JSON.stringify(err.validations)
+    );
+    res
+      .status(400)
+      .send(
+        'Request validation failed. Validation output: ' +
+          JSON.stringify(err.validations)
+      );
+  } else if (err.name === 'MulterError') {
+    console.log('Upload Error: ' + err.message);
+    res.status(400).send('Upload Error: ' + err.message);
+  } else {
+    res.status(500).send('Internal Server Error');
+    console.error(err.name + ': ' + err.message);
+  }
 };

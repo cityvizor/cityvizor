@@ -1,14 +1,15 @@
 import { Router } from '@angular/router';
 import { ToastService } from 'app/services/toast.service';
 import { AuthService } from 'app/services/auth.service';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter} from '@angular/core';
 import { NgForm } from '@angular/forms';
+
 @Component({
 	selector: 'login',
 	templateUrl: 'login.component.html',
 	styleUrls: ['login.component.scss']
 })
-export class LoginComponent  {
+export class LoginComponent {
 
 	@Output()
 	login:EventEmitter<any> = new EventEmitter();
@@ -18,8 +19,11 @@ export class LoginComponent  {
 
 	wrongPassword: boolean = false;
 
-	constructor(public authService: AuthService, private toastService:ToastService, private router: Router) { }
-
+	constructor(public authService: AuthService, private toastService:ToastService, private router: Router) {
+		if (authService.logged) {
+			router.navigate(['/admin/profily']);
+		}
+	}
 
 	submit(form: NgForm) {
 		this.wrongPassword = false;

@@ -1,23 +1,21 @@
 export interface ProfileRecord {
+  id: number;
 
-	id: number;
+  status: 'visible' | 'pending' | 'hidden';
+  main: boolean;
 
-	status: "visible" | "pending" | "hidden";
-	main: boolean;
+  url: string;
+  name: string;
+  email: string;
+  avatarType: string | null;
+  avatarUrl?: string;
 
-	url: string;
-	name: string;
-	email: string;
-	avatarType: string | null;
-	avatarUrl?: string;
+  ico: string;
+  dataBox: string;
+  edesky: number;
+  mapasamospravy: number;
+  gpsX: number;
+  gpsY: number;
 
-	ico: string;
-	dataBox: string;
-	edesky: number;
-	mapasamospravy: number;
-	gpsX: number;
-	gpsY: number;
-
-	tokenCode: number;
-
+  tokenCode: number;
 }

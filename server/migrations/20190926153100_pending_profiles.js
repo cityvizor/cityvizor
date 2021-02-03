@@ -1,7 +1,4 @@
-
-
-exports.up = async function(knex) {
-
+exports.up = async function (knex) {
   return knex.schema.raw(`CREATE OR REPLACE VIEW public.profiles
  AS
  SELECT profiles.id,
@@ -18,13 +15,10 @@ exports.up = async function(knex) {
   profiles.gps_y,
   profiles.main
 FROM app.profiles
-WHERE profiles.status != 'hidden';`)
+WHERE profiles.status != 'hidden';`);
+};
 
-
-}
-
-exports.down = async function(knex) {
-
+exports.down = async function (knex) {
   return knex.schema.raw(`CREATE OR REPLACE VIEW public.profiles
   AS
   SELECT profiles.id,
@@ -42,4 +36,4 @@ exports.down = async function(knex) {
      profiles.main
     FROM app.profiles
    WHERE profiles.status::text = 'visible'::text;`);
-}
+};

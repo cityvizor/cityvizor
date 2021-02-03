@@ -24,7 +24,7 @@
 
         <section>
           <label>Váš e-mail</label>
-          <input id="email" type="email" title="Prosím zadejte platnou emailovou adresu" required>
+          <input id="email" pattern=".+@.+\..+" title="Prosím zadejte platnou emailovou adresu" required>
         </section>
 
         <section>
@@ -39,8 +39,8 @@
         </section>
         
         <section class="checkbox">
-          <input id="gdpr" type="checkbox">
-          <label for="gdpr">Souhlasím se zpracováním osobních údajů a jejich poskytnutím obci</label>
+          <input id="gdpr" type="checkbox" title="Souhlas je povinný" required>
+          <label for="gdpr">Souhlasím se zpracováním osobních údajů</label>
         </section>
       </ModalForm>
     </template>
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       formName: 'requestCity',
-      endpoint: 'https://cityvizor.cesko.digital/api/v2/service/cityrequest',
+      endpoint: '/api/public/feedback/requestcity',
     }
   },
   methods: {

@@ -13,7 +13,7 @@
       >
         <section>
           <label>Váš e-mail</label>
-          <input id="email" type="email" title="Prosím zadejte platnou emailovou adresu" required>
+          <input id="email" pattern=".+@.+\..+" title="Prosím zadejte platnou emailovou adresu" required>
         </section>
 
         <section>
@@ -21,7 +21,7 @@
           <!-- TODO: should be textarea instead -->
           <input id="feedback"
             :title="`Prosím zadejte text, max. ${maxFeedbackSize} znaků`"
-            :pattern="`/^.{1, ${maxFeedbackSize}}$/`" required>
+            :maxlength=maxFeedbackSize required>
         </section>
       </ModalForm>
     </template>
@@ -47,8 +47,8 @@ export default {
   data() {
     return {
       formName: 'feedback',
-      endpoint: '', // TODO: add endpoint
-      maxFeedbackSize: 2000, // TODO: find appropriate max length
+      endpoint: '/api/public/feedback',
+      maxFeedbackSize: 2000
     }
   },
   methods: {

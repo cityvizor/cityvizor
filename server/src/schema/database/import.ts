@@ -9,7 +9,7 @@ export interface ImportRecord {
   started?: Date;
   finished?: Date;
 
-  status: "pending" | "processing" | "success" | "error";
+  status: 'pending' | 'processing' | 'success' | 'error';
   error?: string;
 
   validity?: string;

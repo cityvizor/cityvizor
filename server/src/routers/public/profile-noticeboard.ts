@@ -1,17 +1,16 @@
 import express from 'express';
-import acl from "express-dynacl";
-import { db } from '../../db';
-import { NoticeboardRecord } from '../../schema/database/noticeboard';
+import {db} from '../../db';
+import {NoticeboardRecord} from '../../schema/database/noticeboard';
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router({mergeParams: true});
 
 export const ProfileNoticeboardRouter = router;
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res) => {
+  const noticeBoard = await db<NoticeboardRecord>('noticeboards').where(
+    'profileId',
+    req.params.profile
+  );
 
-	const noticeBoard = await db<NoticeboardRecord>("noticeboards")
-		.where({ profileId: req.params.profile });
-
-	res.json(noticeBoard);
-	
+  res.json(noticeBoard);
 });

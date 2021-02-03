@@ -46,6 +46,10 @@ export class AdminService {
   deleteProfileAvatar(profileId: number) {
     return this.http.delete(this.root + "/profiles/" + profileId + "/avatar", { responseType: 'text' }).toPromise();
   }
+  getProfileAvatarUrl(profile: Profile): string | null {
+    if (profile.avatarType) return this.root + "/profiles/" + profile.id + "/avatar";
+    else return null;
+  }
 
   /* PROFILE BUDGET */
 

@@ -2,7 +2,7 @@ import { KxxRecord, KxxRecordBalance, kxxreader } from "kxx-reader-browser";
 import { ImportedData, ImportedRecord, ImportedPayment, ImportedEvent } from "app/shared/schema";
 import { FileSource } from "../tools/file-source";
 
-declare var self: WorkerGlobalScope & { streamsPolyfill: boolean };
+declare var self: WindowOrWorkerGlobalScope & { streamsPolyfill: boolean };
 
 import * as Papa from "papaparse";
 import { Importer } from "../schema/importer";
@@ -44,7 +44,7 @@ export class ImporterVera implements Importer {
 
   updateProgress(bytesRead: number) {
     this.bytesRead = bytesRead;
-    postMessage({ type: "progress", data: bytesRead / this.bytesTotal })
+    postMessage({ type: "progress", data: bytesRead / this.bytesTotal }, null)
   }
 
   parseAccounting(file: File) {
@@ -79,7 +79,7 @@ export class ImporterVera implements Importer {
           });
         },
 
-        complete: (results, file) => resolve(),
+        complete: (results, file) => resolve(results),
         error: (err, file) => reject(err)
       });
 

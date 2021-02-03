@@ -1,19 +1,19 @@
-import { ProfileRecord } from "./profile";
+import {ProfileRecord} from './profile';
 
 export interface UserRecord {
-  "id": number;
+  id: number;
 
-  "role": string;
-  "login": string;
-  "password": string;
+  role: string;
+  login: string;
+  password: string;
 
-  "email": string;
-  "name": string;
+  email: string;
+  name: string;
 
-  "lastLogin": string
+  lastLogin: string;
 }
 
 export interface UserProfileRecord {
-  profileId: ProfileRecord["id"];
-  userId: UserRecord["id"];
+  profileId: ProfileRecord['id'];
+  userId: UserRecord['id'];
 }
