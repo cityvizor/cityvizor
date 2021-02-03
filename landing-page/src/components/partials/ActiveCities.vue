@@ -46,7 +46,8 @@ export default {
     }
   },
   mounted() {
-    const url = environment.api_root + "/public"
+    // TODO FIX ME should point to cityvizor public api
+    const url = "/api/public"
     const params = { status: 'visible' }
     axios
         .get(url, { params })
