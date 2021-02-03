@@ -1,5 +1,4 @@
-import {cronInit} from './worker/index';
-import {checkImportQueue} from './worker/index';
+import {checkImportQueue, cronInit} from './worker/index';
 
 (async () => {
   await cronInit();

@@ -1,8 +1,8 @@
 import {db} from '../../db';
 import {
   AccountingRecord,
-  PaymentRecord,
   EventRecord,
+  PaymentRecord,
   YearRecord,
 } from '../../schema';
 import {Writable} from 'stream';

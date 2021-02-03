@@ -45,6 +45,7 @@
     "cron": "^1.7.2",
     "csv-parse": "^4.8.2",
     "csv-stringify": "^5.3.4",
+    "eslint": "^7.19.0",
     "express": "^4.16.4",
     "express-async-errors": "^3.1.1",
     "express-dynacl": "^1.0.0",

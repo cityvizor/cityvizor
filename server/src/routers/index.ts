@@ -1,9 +1,4 @@
 import express from 'express';
-
-const router = express.Router();
-
-export const Routers = router;
-
 import {PublicRouter} from './public';
 import {SearchRouter} from './search';
 import {StaticRouter} from './static';
@@ -11,6 +6,10 @@ import {ImportRouter} from './import';
 import {AdminRouter} from './admin';
 import {AccountRouter} from './account';
 import {ExportsRouter} from './exports';
+
+const router = express.Router();
+
+export const Routers = router;
 
 router.use('/api/account', AccountRouter);
 

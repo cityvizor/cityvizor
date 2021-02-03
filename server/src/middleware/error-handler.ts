@@ -1,6 +1,6 @@
 /* tslint:disable:no-console */
-import {ErrorRequestHandler, Request, Response, NextFunction} from 'express';
-import {ValidationError, JsonSchemaValidation} from 'express-jsonschema';
+import {ErrorRequestHandler, NextFunction, Request, Response} from 'express';
+import {JsonSchemaValidation, ValidationError} from 'express-jsonschema';
 import {UnauthorizedError} from 'express-jwt';
 import {MulterError} from 'multer';
 

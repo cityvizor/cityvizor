@@ -1,20 +1,6 @@
 <template>
   <b-container>
 
-    <b-row>
-      <b-col class="text-center">
-          <b-alert
-              v-model="alertShown"
-              class="position-fixed fixed-bottom m-0 rounded-0"
-              style="z-index: 2000;"
-              @click="alertShown = false"
-              dismissible
-          >
-            Omlouváme se, nelze získat seznam apojených obcí, zkuste to prosím později
-          </b-alert>
-      </b-col>
-    </b-row>
-
     <b-row v-if="loading && !error">
         <b-col>
           <div class="text-center">
@@ -47,6 +33,7 @@
 
 <script>
 import axios from "axios";
+import {environment} from "../../../../client/src/environments/environment";
 
 export default {
   name: 'ActiveCities',
@@ -55,21 +42,32 @@ export default {
     return {
       cities: [],
       loading: true,
-      error: false,
-      alertShown: false
+      error: false
     }
   },
   mounted() {
+    const url = environment.api_root + "/public"
     const params = { status: 'visible' }
     axios
-        .get(this.cityVizorPublicBaseUrl, { params })
+        .get(url, { params })
         .then((response) => this.cities = response.data )
         .catch((error) => {
           console.error(error) // eslint-disable-line
-          this.alertShown = true
           this.error = true
+          this.downloadFailed()
         })
       .finally(() => this.loading = false )
+  },
+  methods: {
+    downloadFailed() {
+      this.$toastr.e(
+          {
+            msg: 'Je nám líto, nepodařilo se získat seznam zapojených obcí, zkuste to prosím později',
+            progressbar: false,
+            timeout: 2500
+          }
+      )
+    }
   }
 }
 </script>

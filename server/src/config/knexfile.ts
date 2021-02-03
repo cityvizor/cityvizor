@@ -4,7 +4,7 @@ import path from 'path';
 
 import environment from '../../environment';
 
-import {snakeCase, camelCase} from 'change-case';
+import {camelCase, snakeCase} from 'change-case';
 
 // rather ineffective way of converting case for a finished row :(
 // would be better before executing just for identifiers, but not possible currrently by Knex

@@ -12,6 +12,7 @@
                <br>
                Přináší přehlednou vizualizaci rozpočtu obce s detailními daty, která jsou získávána přímo z účetních systémů obcí a následně zobrazována přehledně, srozumitelně a v souvislostech.
              </p>
+             <div v-if="this.alternativePageContent.homePageAdditionalText" v-html="this.alternativePageContent.homePageAdditionalText"></div>
            </b-col>
            <b-col sm="5" md="4" offset-sm="1">
              <img src="@/assets/images/pages/home/home.png"/>
@@ -145,7 +146,9 @@ $extra-large-margin: 64px;
 }
 
 .participate-box-padding {
-  padding: 32px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  margin-left: 1px;
 }
 
 .why-link-margins {

@@ -1,7 +1,7 @@
 import express from 'express';
 
 import {db, getValidDateString, isValidDateString, sort2order} from '../../db';
-import {PaymentRecord, EventRecord} from '../../schema';
+import {EventRecord, PaymentRecord} from '../../schema';
 
 const router = express.Router({mergeParams: true});
 

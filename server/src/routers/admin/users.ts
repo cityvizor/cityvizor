@@ -3,7 +3,7 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 
 import {db} from '../../db';
-import {UserRecord, UserProfileRecord, ProfileRecord} from '../../schema';
+import {ProfileRecord, UserProfileRecord, UserRecord} from '../../schema';
 
 import acl from 'express-dynacl';
 

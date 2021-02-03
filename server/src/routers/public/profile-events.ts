@@ -1,7 +1,7 @@
 import express from 'express';
 
 import {db} from '../../db';
-import {EventRecord, AccountingRecord, PaymentRecord} from '../../schema';
+import {AccountingRecord, EventRecord, PaymentRecord} from '../../schema';
 
 const router = express.Router({mergeParams: true});
 

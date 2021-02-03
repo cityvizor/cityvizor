@@ -4,18 +4,17 @@ import schema from 'express-jsonschema';
 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
-const router = express.Router();
-
-export const AccountLoginRouter = router;
-
 import acl from 'express-dynacl';
 
 import config from '../../config';
 import {db} from '../../db';
-import {UserRecord, UserProfileRecord} from '../../schema';
+import {UserProfileRecord, UserRecord} from '../../schema';
 import {DateTime} from 'luxon';
 import {UserToken} from '../../schema/user';
+
+const router = express.Router();
+
+export const AccountLoginRouter = router;
 
 async function createToken(tokenData: object, validity): Promise<string> {
   // set validity

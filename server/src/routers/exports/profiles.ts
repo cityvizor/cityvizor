@@ -4,10 +4,10 @@ import {db} from '../../db';
 import config from '../../config';
 
 import {
-  ProfileRecord,
   AccountingRecord,
-  PaymentRecord,
   EventRecord,
+  PaymentRecord,
+  ProfileRecord,
 } from '../../schema';
 
 import {exportQuery} from './tools/export';

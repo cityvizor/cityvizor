@@ -2,10 +2,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import AsyncComputed from 'vue-async-computed'
+import VueToastr from "vue-toastr";
 import axios from "axios"
 
 Vue.config.productionTip = false
 Vue.use(AsyncComputed)
+Vue.use(VueToastr);
 
 axios.get(`${process.env.BASE_URL}/cfg/content.json`)
     .then((response) => {
@@ -14,8 +16,6 @@ axios.get(`${process.env.BASE_URL}/cfg/content.json`)
           return {
             // Citysearch API
             apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
-            // City vizor API
-            cityVizorPublicBaseUrl: process.env.VUE_APP_API_PUBLIC_BASE_URL,
             alternativePageContent: response.data
           }
         },

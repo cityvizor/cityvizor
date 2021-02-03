@@ -2,7 +2,7 @@ import csvparse from 'csv-parse';
 import {Transform} from 'stream';
 import {Importer} from './importer';
 import logger from './logger';
-import {AccountingRecord, PaymentRecord, EventRecord} from '../../schema';
+import {AccountingRecord, EventRecord, PaymentRecord} from '../../schema';
 
 const headerAliases = {
   type: ['type', 'recordType', 'MODUL', 'DOKLAD_AGENDA'],

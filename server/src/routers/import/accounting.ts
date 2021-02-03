@@ -6,14 +6,13 @@ import acl from 'express-dynacl';
 import schema from 'express-jsonschema';
 
 import extract from 'extract-zip';
-import fs from 'fs-extra';
+import fs, {ensureDir, move} from 'fs-extra';
 
 import config from '../../config';
 
 import {db} from '../../db';
-import {YearRecord, ProfileRecord} from '../../schema';
+import {ProfileRecord, YearRecord} from '../../schema';
 import {ImportRecord} from '../../schema/database/import';
-import {ensureDir, move} from 'fs-extra';
 import {DateTime} from 'luxon';
 
 const router = express.Router();

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import cheerio from 'cheerio';
 import {db} from '../../db';
-import {ProfileRecord, ContractRecord} from '../../schema';
+import {ContractRecord, ProfileRecord} from '../../schema';
 
 import {DateTime} from 'luxon';
 import {CronTask} from '../../schema/cron';
