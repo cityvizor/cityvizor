@@ -5,7 +5,7 @@
 </template>
 
 <script>
-//import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'ModalForm',
@@ -90,7 +90,7 @@ export default {
 
     async submit() {
       try {
-        //const response = await axios.post(this.endpoint, { ...this.formDict });
+        const response = await axios.post(this.endpoint, { ...this.formDict });
         this.clearForm();
         this.close();
       } catch (error) {
