@@ -13,7 +13,7 @@ yarn serve
 To connect to production server
 
 ```shell script
-VUE_APP_API_BASE_URL=https://cityvizor.cesko.digital/api/v2/service/citysearch VUE_APP_CONTENT_API_BASE_URL=https://cityvizor.cesko.digital yarn serve
+VUE_APP_API_BASE_URL=https://cityvizor.otevrenamesta/api/v2/service/citysearch VUE_APP_CONTENT_API_BASE_URL=https://cityvizor.otevrenamesta yarn serve
 ```
 
 ### Compiles and minifies for production

@@ -9,13 +9,6 @@ cityvizor_server:
 cityvizor_client:
   tag: latest
 
-server_kotlin:
-  jdbc_url: jdbc:postgresql://10.0.1.1:5432
-  db_user: postgres
-  db_pass: pass
-  google_secrets_path: /home/ubuntu/cityvizor/server-kotlin/src/test/resources/city_request/test-credentials.json
-  tag: latest
-
 landing_page:
   tag: latest
 

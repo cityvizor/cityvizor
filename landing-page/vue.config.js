@@ -13,7 +13,7 @@ module.exports = {
         // https://cli.vuejs.org/config/#devserver-proxy
         proxy: {
             '^/api/v2/service/citysearch': {
-                target: "http://backend.cityvizor.cesko.digital:8080",
+                target: "http://backend.cityvizor.otevrenamesta:8080",
                 changeOrigin: true,
                 secure: false,
                 logLevel: "debug"

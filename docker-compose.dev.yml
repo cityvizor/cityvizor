@@ -19,7 +19,7 @@ services:
     cityvizor-server:
         build:
             target: dev
-        command: -w db.cityvizor.cesko.digital -a -m server-dev
+        command: -w db.cityvizor.otevrenamesta -a -m server-dev
         ports:
             - 3000:3000
         volumes:
@@ -28,18 +28,7 @@ services:
     cityvizor-worker:
         build:
             target: dev
-        command: -w db.cityvizor.cesko.digital -a -m worker-dev
+        command: -w db.cityvizor.otevrenamesta -a -m worker-dev
         volumes:
             - ./server:/user/src/app
             - /user/src/app/node_modules
-    backend-kotlin:
-        ports:
-            - 4203:8080
-    landing-page:
-        build:
-            target: dev
-        ports:
-            - 4202:8080
-        volumes:
-            - ./landing-page/src:/user/src/app/src
-            - ./landing-page/cfg:/user/src/app/cfg

@@ -4,7 +4,7 @@ Pokud hledáte návod na lokální instalaci pro vývoj, postupujte podle [CONTR
 
 ## Potřebné aplikace
 
- - [NodeJS](https://nodejs.org) 10+
+ - [NodeJS](https://nodejs.org) 12+
  - [PostgreSQL](https://www.postgresql.org/download/) 11+
 
 ## Instalace a kompilace

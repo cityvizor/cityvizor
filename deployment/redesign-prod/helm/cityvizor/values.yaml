@@ -5,7 +5,7 @@
 cityvizor_server:
   image: cityvizor/cityvizor-server
   tag: prod
-  database_host: db.cityvizor.cesko.digital
+  database_host: db.cityvizor.otevrenamesta
   database_name: postgres
   database_username: postgres
   database_password: pass
@@ -16,15 +16,6 @@ cityvizor_server:
 cityvizor_client:
   image: cityvizor/cityvizor-client
   tag: prod
-
-server_kotlin:
-  image: cityvizor/server-kotlin
-  tag: prod
-  jdbc_url: jdbc:postgresql://db.cityvizor.cesko.digital:5432/cityvizor
-  db_user: postgres
-  db_pass: pass
-  fulltextSearch:
-    indexRefreshEnabled: true
 
 landing_page:
   image: cityvizor/landing-page
@@ -80,8 +71,6 @@ keel:
   pollSchedule: "@every 1m"
   # images to track and update
   images:
-    - repository: server_kotlin.image
-      tag: server_kotlin.tag
     - repository: landing_page.image
       tag: landing_page.tag
     - repository: cityvizor_server.image

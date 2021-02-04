@@ -21,5 +21,5 @@ about: Nahlašte chybu a pomozte systém zlepšit
 > Pokud máš, přidej snímek obrazovky.
 
 ### Uživatelské informace:
-> - Odkaz na stránku: https://is.skaut.cz/Junak/Events/Camp/Detail.aspx?ID=4567
+> - Odkaz na stránku: např. https://muj.cityvizor.mesto.cz/profil/detail
 
