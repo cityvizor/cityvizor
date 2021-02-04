@@ -11,4 +11,4 @@
 
 ## Reporting a Vulnerability
 
-You can report security or vulnerability through e-mail channel security@otevrenamesta.cz
+You can report security or vulnerability through e-mail channel cityvizor@otevrenamesta.cz

@@ -289,7 +289,6 @@
         <li>Vue.js</li>
         <li>Angular</li>
         <li>Node.js</li>
-        <li>Kotlin</li>
         <li>Postgres</li>
     </ul>
 </div>

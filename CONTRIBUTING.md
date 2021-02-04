@@ -2,12 +2,15 @@
 
 ## Doporučené workflow
 1) z issues tady na githubu si vybereš, které bys chtěl realizovat
-3) napíšeš na Slack kanál [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4), že máš chuť udělat issue XY a ideálně k němu přidáš i komentář na githubu, aby to bylo všem ostatním jasné a nepracovalo nás na na tom zbytečně více najednou
+2) V daném ticketu napíšeš že se jdeš ticketu věnovat
 3) forkneš si repository, připravíš úpravy u sebe v repositáři
-4) založíš pull request oproti cityvizor repo (do master větve)
+4) založíš pull request oproti cityvizor repo (do **staging** větve)
+5) tvůj pull request musí splňovat formální požadavky (vždy aktivní github actions, které kontrolují kvalitu a funkčnost kódu), jinak nebude přijat
+6) ke zpracování se vyjádří alespoň jeden člověk z core týmu a provede code-review
 
 # Kde si říct o pomoc:
-* slack kanál [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4)
+* diskuze zde v repozitáři https://github.com/cityvizor/cityvizor/discussions
+* slack kanál Česko Digital [#p-citivizor](https://cesko-digital.slack.com/archives/CG66HNLH4)
 
 ## Spuštění pomocí Docker compose
 Pro prvotní osahání je nejjednodušší použít Docker compose, který nastartuje všechny potřebné služby. Stačí spustit
@@ -58,30 +61,18 @@ cd server
 npx tsc -w
 ```
 
-### Server v kotlinu
-
-#### Prerekvizity
-- JDK
-
-#### Kompilace a testy
-```sh
-cd server-kotlin
-./gradlew clean test
-```
-
 ## Testy
 Projekt aktuálně nemá vytvořené testy, ale budeme rádi když s nimi pomůžeš.
 
 ## Coding Standards
 Frontend dle [Angular Style Guide](https://angular.io/guide/styleguide).
+Code Quality dle [Google/GTS](https://github.com/google/gts), a automaticky kontrolovaných ESLint / TSLint pravidel (pre-commit hook a kontrola každého pull-request/push)
 
 ## Pravidla přispívání
 - kód a commity **v angličtině**,
 - všechno ostatní (pull requesty, issues, dokumentace) **v češtině**,
 
-Jde o dobrovolnický projekt a tedy věříme, že na code review můžete i chvíli počkat i když se vynasnažíme to udělat co nejdříve.
-
-Všechny schválené pull requesty se začlenují do větve `master` squashnutím (tedy všechny commity v PR se sloučí do jednoho commitu a ten se následně vloží do větvě s jednou commit zprávou).
+Všechny schválené pull requesty se začlenují do větve **staging** squashnutím (tedy všechny commity v PR se sloučí do jednoho commitu a ten se následně vloží do větvě s jednou commit zprávou).
 
 ## Verzování
 
