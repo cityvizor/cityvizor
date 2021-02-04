@@ -19,10 +19,13 @@
         <b-col v-for="city in cities" :key="city.name" class="city-item-margin-top text-justify" md="4" sm="6" xl="3">
           <b-row cols="12" no-gutters>
             <b-col class="city-item-icon-right-margin" cols="1">
-              <img src="@/assets/images/pages/home/city_avatar.png">
+              <img v-if="city.avatarType" :src="`/api/public/profiles/${city.id}/avatar`">
+              <img v-else src="@/assets/images/pages/home/city_avatar.png">
             </b-col>
             <b-col cols="10">
-              {{ city.name }}
+              <a :href="city.url">
+                <b>{{ city.name }}</b>
+              </a>
             </b-col>
           </b-row>
         </b-col>
@@ -50,6 +53,8 @@ export default {
         .then((response) => this.cities = response.data )
         .catch((error) => {
           console.error(error) // eslint-disable-line
+          this.error = true
+          this.downloadFailed()
         })
       .finally(() => this.loading = false )
   },
