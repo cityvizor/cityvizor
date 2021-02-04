@@ -11,7 +11,7 @@ const router = express.Router({mergeParams: true});
 
 export const AdminProfileImportTokenRouter = router;
 
-router.get('/', acl('profile-accounting', 'write'), async (req, res) => {
+router.get('/', acl('profile-accounting:write'), async (req, res) => {
   const profile = await db<ProfileRecord>('app.profiles')
     .select('id', 'tokenCode')
     .where('id', req.params.profile)

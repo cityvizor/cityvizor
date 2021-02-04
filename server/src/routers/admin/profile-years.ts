@@ -12,7 +12,7 @@ export const AdminProfileYearsRouter = router;
 export type YearRecordWithImportStatus = YearRecord &
   Pick<ImportRecord, 'status' | 'created'>;
 
-router.get('/', acl('profile-years', 'list'), async (req, res) => {
+router.get('/', acl('profile-years:list'), async (req, res) => {
   // select status and last time for the latest import
   const years = await db<YearRecordWithImportStatus[]>('app.years AS y')
     .select(
@@ -39,7 +39,7 @@ router.get('/', acl('profile-years', 'list'), async (req, res) => {
   res.json(years);
 });
 
-router.put('/:year', acl('profile-years', 'write'), async (req, res) => {
+router.put('/:year', acl('profile-years:write'), async (req, res) => {
   const data = {profile_id: req.params.profile, year: req.params.year};
 
   try {
@@ -52,7 +52,7 @@ router.put('/:year', acl('profile-years', 'write'), async (req, res) => {
   return res.sendStatus(201);
 });
 
-router.patch('/:year', acl('profile-years', 'write'), async (req, res) => {
+router.patch('/:year', acl('profile-years:write'), async (req, res) => {
   await db<YearRecord>('app.years')
     .where('profile_id', req.params.profile)
     .andWhere('year', Number(req.params.year))
@@ -61,7 +61,7 @@ router.patch('/:year', acl('profile-years', 'write'), async (req, res) => {
   res.sendStatus(204);
 });
 
-router.delete('/:year', acl('profile-years', 'write'), async (req, res) => {
+router.delete('/:year', acl('profile-years:write'), async (req, res) => {
   await db<YearRecord>('app.years')
     .where('profile_id', req.params.profile)
     .andWhere('year', Number(req.params.year))

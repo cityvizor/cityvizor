@@ -19,7 +19,7 @@ export const AdminProfilesRouter = router;
 
 const upload = multer({dest: config.storage.tmp});
 
-router.get('/', acl('profiles', 'list'), async (req, res) => {
+router.get('/', acl('profiles:list'), async (req, res) => {
   const profiles = await db<ProfileRecord>('app.profiles')
     .select('id', 'status', 'name', 'url', 'gpsX', 'gpsY', 'main')
     .modify(function () {
@@ -31,7 +31,7 @@ router.get('/', acl('profiles', 'list'), async (req, res) => {
   res.json(profiles);
 });
 
-router.post('/', acl('profiles', 'write'), async (req, res) => {
+router.post('/', acl('profiles:write'), async (req, res) => {
   const id = await db<ProfileRecord>('app.profiles')
     .insert(req.body, ['id'])
     .then(result => result[0].id);
@@ -41,7 +41,7 @@ router.post('/', acl('profiles', 'write'), async (req, res) => {
   res.sendStatus(201);
 });
 
-router.get('/:profile', acl('profiles', 'read'), async (req, res) => {
+router.get('/:profile', acl('profiles:read'), async (req, res) => {
   const profile = await db<ProfileRecord>('app.profiles')
     .where('id', req.params.profile)
     .first();
@@ -56,7 +56,7 @@ router.get('/:profile', acl('profiles', 'read'), async (req, res) => {
   return res.json(profile);
 });
 
-router.patch('/:profile', acl('profiles', 'write'), async (req, res) => {
+router.patch('/:profile', acl('profiles:write'), async (req, res) => {
   await db('app.profiles').where({id: req.params.profile}).update(req.body);
 
   res.sendStatus(204);
@@ -77,14 +77,14 @@ router.get('/:profile/avatar', async (req, res) => {
   return res.sendFile(avatarPath);
 });
 
-router.delete('/:profile', acl('profiles', 'write'), async (req, res) => {
+router.delete('/:profile', acl('profiles:write'), async (req, res) => {
   await db('app.profiles').where({id: req.params.profile}).delete();
   res.sendStatus(204);
 });
 
 router.put(
   '/:profile/avatar',
-  acl('profiles', 'write'),
+  acl('profiles:write'),
   upload.single('avatar'),
   async (req, res) => {
     if (!req.file && !req.body.url)
@@ -135,29 +135,25 @@ router.put(
   }
 );
 
-router.delete(
-  '/:profile/avatar',
-  acl('profiles', 'write'),
-  async (req, res) => {
-    const profile = await db<ProfileRecord>('app.profiles')
-      .select('id', 'avatarType')
-      .where('id', req.params.profile)
-      .first();
-    if (!profile) return res.sendStatus(404);
+router.delete('/:profile/avatar', acl('profiles:write'), async (req, res) => {
+  const profile = await db<ProfileRecord>('app.profiles')
+    .select('id', 'avatarType')
+    .where('id', req.params.profile)
+    .first();
+  if (!profile) return res.sendStatus(404);
 
-    if (!profile.avatarType) return res.sendStatus(204);
+  if (!profile.avatarType) return res.sendStatus(204);
 
-    const avatarPath = path.join(
-      config.storage.avatars,
-      'avatar_' + profile.id + profile.avatarType
-    );
+  const avatarPath = path.join(
+    config.storage.avatars,
+    'avatar_' + profile.id + profile.avatarType
+  );
 
-    await fs.remove(avatarPath);
+  await fs.remove(avatarPath);
 
-    await db<ProfileRecord>('app.profiles')
-      .where('id', req.params.profile)
-      .update({avatarType: null});
+  await db<ProfileRecord>('app.profiles')
+    .where('id', req.params.profile)
+    .update({avatarType: null});
 
-    return res.sendStatus(204);
-  }
-);
+  return res.sendStatus(204);
+});

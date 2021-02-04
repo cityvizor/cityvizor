@@ -48,7 +48,7 @@ router.post(
   '/profiles/:profile/payments',
   upload.fields([{name: 'payments'}]),
   schema.validate(importAccountingSchema),
-  acl('profile-accounting', 'write'),
+  acl('profile-accounting:write'),
   async (req, res) => {
     return createWorkerTask(req, res, FileType.PAYMENTS_FILE, false);
   }
@@ -58,7 +58,7 @@ router.patch(
   '/profiles/:profile/payments',
   upload.fields([{name: 'payments'}]),
   schema.validate(importAccountingSchema),
-  acl('profile-accounting', 'write'),
+  acl('profile-accounting:write'),
   async (req, res) => {
     return createWorkerTask(req, res, FileType.PAYMENTS_FILE, true);
   }
@@ -68,7 +68,7 @@ router.post(
   '/profiles/:profile/events',
   upload.fields([{name: 'events'}]),
   schema.validate(importAccountingSchema),
-  acl('profile-accounting', 'write'),
+  acl('profile-accounting:write'),
   async (req, res) => {
     return createWorkerTask(req, res, FileType.EVENTS_FILE, false);
   }
@@ -78,7 +78,7 @@ router.patch(
   '/profiles/:profile/events',
   upload.fields([{name: 'events'}]),
   schema.validate(importAccountingSchema),
-  acl('profile-accounting', 'write'),
+  acl('profile-accounting:write'),
   async (req, res) => {
     return createWorkerTask(req, res, FileType.EVENTS_FILE, true);
   }
@@ -87,7 +87,7 @@ router.post(
   '/profiles/:profile/data',
   upload.fields([{name: 'data'}]),
   schema.validate(importAccountingSchema),
-  acl('profile-accounting', 'write'),
+  acl('profile-accounting:write'),
   async (req, res) => {
     return createWorkerTask(req, res, FileType.DATA_FILE, false);
   }
@@ -97,7 +97,7 @@ router.patch(
   '/profiles/:profile/data',
   upload.fields([{name: 'data'}]),
   schema.validate(importAccountingSchema),
-  acl('profile-accounting', 'write'),
+  acl('profile-accounting:write'),
   async (req, res) => {
     return createWorkerTask(req, res, FileType.DATA_FILE, true);
   }
@@ -107,7 +107,7 @@ router.patch(
   '/profiles/:profile/accounting',
   upload.fields([{name: 'accounting'}]),
   schema.validate(importAccountingSchema),
-  acl('profile-accounting', 'write'),
+  acl('profile-accounting:write'),
   async (req, res) => {
     return createWorkerTask(req, res, FileType.ACCOUNTING_FILE, true);
   }
@@ -204,7 +204,7 @@ router.post(
     {name: 'zipFile', maxCount: 1},
   ]),
   schema.validate(importAccountingSchema),
-  acl('profile-accounting', 'write'),
+  acl('profile-accounting:write'),
   async (req, res) => {
     const reqFiles = req.files as {[fieldname: string]: Express.Multer.File[]};
 
@@ -303,9 +303,7 @@ router.post(
 
 async function extractZip(zipFile: string, unzipDir: string) {
   try {
-    await new Promise<void>((resolve, reject) => {
-      extract(zipFile, {dir: unzipDir}, err => (err ? reject(err) : resolve()));
-    });
+    extract(zipFile, {dir: unzipDir});
   } catch (e) {
     throw new Error('Unable to extract ZIP file: ' + e.message);
   }

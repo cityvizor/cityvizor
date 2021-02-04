@@ -30,6 +30,6 @@ export const ErrorHandler: ErrorRequestHandler = (
     res.status(400).send('Upload Error: ' + err.message);
   } else {
     res.status(500).send('Internal Server Error');
-    console.error(err.name + ': ' + err.message);
+    console.error(err);
   }
 };

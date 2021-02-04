@@ -7,7 +7,7 @@ services:
     ports:
       - "4200:80"
     volumes:
-      - ./nginx:/etc/nginx:ro
+      - ./nginx/production/:/etc/nginx:ro
     environment:
       NGINX_HOST: cityvizor.otevrenamesta
       NGINX_PORT: 80
@@ -24,7 +24,7 @@ services:
     environment:
       NODE_ENV: local
     volumes:
-      - ./data:/user/src/app/data
+      - ./data:/home/node/app/data
     depends_on:
       - postgres
       - proxy
@@ -39,7 +39,7 @@ services:
     environment:
       NODE_ENV: local
     volumes:
-      - ./data:/user/src/app/data
+      - ./data:/home/node/app/data
     depends_on:
       - postgres
 

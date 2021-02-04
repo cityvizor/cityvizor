@@ -11,7 +11,7 @@ const router = express.Router();
 
 export const AdminUsersRouter = router;
 
-router.get('/', acl('users', 'list'), async (req, res) => {
+router.get('/', acl('users:list'), async (req, res) => {
   const users: UserRecord[] = await db<UserRecord>('app.users').select(
     'id',
     'role',
@@ -24,7 +24,7 @@ router.get('/', acl('users', 'list'), async (req, res) => {
   res.json(users);
 });
 
-router.get('/check-login/:login', acl('users', 'list'), async (req, res) => {
+router.get('/check-login/:login', acl('users:list'), async (req, res) => {
   if (!req.params.login) return res.sendStatus(400);
   const login = await db<UserRecord>('app.users')
     .where({login: req.params.login})
@@ -33,7 +33,7 @@ router.get('/check-login/:login', acl('users', 'list'), async (req, res) => {
   return res.json(!!login);
 });
 
-router.get('/:user', acl('users', 'read'), async (req, res) => {
+router.get('/:user', acl('users:read'), async (req, res) => {
   const user: Partial<UserRecord> | undefined = await db<UserRecord>(
     'app.users'
   )
@@ -61,7 +61,7 @@ router.get('/:user', acl('users', 'read'), async (req, res) => {
   });
 });
 
-router.post('/', acl('users', 'write'), async (req, res) => {
+router.post('/', acl('users:write'), async (req, res) => {
   const userData: Partial<UserRecord> = req.body;
 
   if (userData.password)
@@ -75,7 +75,7 @@ router.post('/', acl('users', 'write'), async (req, res) => {
   res.sendStatus(201);
 });
 
-router.patch('/:user', acl('users', 'write'), async (req, res) => {
+router.patch('/:user', acl('users:write'), async (req, res) => {
   const userData = req.body;
 
   if (userData.password)
@@ -97,13 +97,13 @@ router.patch('/:user', acl('users', 'write'), async (req, res) => {
   res.sendStatus(204);
 });
 
-router.delete('/:user', acl('users', 'write'), async (req, res) => {
+router.delete('/:user', acl('users:write'), async (req, res) => {
   await db('app.users').where({id: req.params.user}).delete();
 
   res.sendStatus(204);
 });
 
-router.get('/:user/profiles', acl('users', 'read'), async (req, res) => {
+router.get('/:user/profiles', acl('users:read'), async (req, res) => {
   const profiles = await db<UserProfileRecord>('app.user_profiles')
     .select('profileId')
     .where('userId', req.params.user)
@@ -111,7 +111,7 @@ router.get('/:user/profiles', acl('users', 'read'), async (req, res) => {
   res.json(profiles);
 });
 
-router.put('/:user/profiles', acl('users', 'write'), async (req, res) => {
+router.put('/:user/profiles', acl('users:write'), async (req, res) => {
   const data: {
     profileId: ProfileRecord['id'];
     userId: UserRecord['id'];

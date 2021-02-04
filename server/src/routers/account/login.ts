@@ -40,7 +40,7 @@ const loginSchema = {
 
 router.post(
   '/',
-  acl('login', 'login'),
+  acl('login:login'),
   schema.validate({body: loginSchema}),
   async (req, res) => {
     const user = await db<UserRecord>('app.users')
@@ -78,7 +78,7 @@ router.post(
   }
 );
 
-router.get('/renew', acl('login', 'renew'), async (req, res) => {
+router.get('/renew', acl('login:renew'), async (req, res) => {
   const userId = req.user.id;
 
   const user = await db<UserRecord>('app.users')

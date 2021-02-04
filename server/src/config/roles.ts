@@ -23,38 +23,54 @@ function isLoggedUser(req) {
 
 export const aclRoles = {
   guest: {
-    login: {login: true},
+    can: {
+      'login:login': true,
+    },
   },
 
   user: {
-    users: {
-      list: true,
-      read: req => isLoggedUser(req),
-      write: req => isLoggedUser(req),
+    can: {
+      'users:list': true,
+      'users:read': req => isLoggedUser(req),
+      'users:write': req => isLoggedUser(req),
+      'login:renew': true,
     },
-    login: {renew: true},
   },
 
   admin: {
-    profiles: {list: true, read: true, write: true},
-    'profile-years': {list: true, read: true, write: true},
-    'profile-imports': {list: true},
-    'profile-accounting': {list: true, write: true},
-    users: {list: true, read: true, write: true},
+    can: {
+      'profiles:list': true,
+      'profiles:read': true,
+      'profiles:write': true,
+      'profile-years:list': true,
+      'profile-years:read': true,
+      'profile-years:write': true,
+      'profile-imports:list': true,
+      'profile-accounting:list': true,
+      'profile-accounting:write': true,
+      'users:list': true,
+      'users:read': true,
+      'users:write': true,
+    },
   },
 
   importer: {
-    'profile-accounting': {write: req => isManagedProfile(req)},
+    can: {
+      'profile-accounting': {write: req => isManagedProfile(req)},
+    },
   },
 
   'profile-admin': {
-    profiles: {list: true, read: true, write: req => isManagedProfile(req)},
-    'profile-years': {
-      list: true,
-      read: true,
-      write: req => isManagedProfile(req),
+    can: {
+      'profiles:list': true,
+      'profiles:read': true,
+      'profiles:write': req => isManagedProfile(req),
+      'profile-years:list': true,
+      'profile-years:read': true,
+      'profile-years:write': req => isManagedProfile(req),
+      'profile-imports:list': true,
+      'profile-accounting:list': true,
+      'profile-accounting:write': req => isManagedProfile(req),
     },
-    'profile-imports': {list: true},
-    'profile-accounting': {list: true, write: req => isManagedProfile(req)},
   },
 };
