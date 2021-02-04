@@ -1,6 +1,5 @@
 <template>
   <b-container>
-
     <b-row v-if="loading">
         <b-col>
           <div class="text-center">
@@ -8,7 +7,6 @@
           </div>
         </b-col>
     </b-row>
-
     <div v-if="!loading">
       <b-row>
         <h2>
@@ -19,7 +17,7 @@
         <b-col v-for="city in cities" :key="city.name" class="city-item-margin-top text-justify" md="4" sm="6" xl="3">
           <b-row cols="12" no-gutters>
             <b-col class="city-item-icon-right-margin" cols="1">
-              <img v-if="city.avatarType" :src="`/api/public/profiles/${city.id}/avatar`">
+              <img v-if="city.avatarType" :src="avatarUrl(city.id)">
               <img v-else src="@/assets/images/pages/home/city_avatar.png">
             </b-col>
             <b-col cols="10">
@@ -42,23 +40,20 @@ export default {
   data() {
     return {
       cities: [],
-      loading: true,
-      error: false
+      loading: true
     }
   },
   mounted() {
-    const params = { status: 'visible' }
-    axios
-        .get("/api/public/profiles", { params })
-        .then((response) => this.cities = response.data )
-        .catch((error) => {
-          console.error(error) // eslint-disable-line
-          this.error = true
-          this.downloadFailed()
-        })
-      .finally(() => this.loading = false )
+    axios.get(`${this.apiBaseUrl}/public/profiles`, { status: "visible"})
+        .then((response) => {
+          this.cities = response.data
+          this.loading = false 
+         })
   },
   methods: {
+    avatarUrl: function(id) {
+      return `${this.apiBaseUrl}/public/profiles/${id}/avatar`
+    }
   }
 }
 </script>

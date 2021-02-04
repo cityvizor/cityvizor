@@ -7,14 +7,13 @@ import axios from "axios"
 Vue.config.productionTip = false
 Vue.use(AsyncComputed)
 
-axios.get(`${process.env.BASE_URL}/cfg/content.json`)
+axios.get(`${process.env.BASE_URL}cfg/content.json`)
     .then((response) => {
       Vue.mixin({
         data() {
           return {
-            // Citysearch API
-            apiBaseUrl: process.env.VUE_APP_API_BASE_URL,
-            alternativePageContent: response.data
+            alternativePageContent: response.data,
+            apiBaseUrl: "/api"
           }
         },
         computed: {
