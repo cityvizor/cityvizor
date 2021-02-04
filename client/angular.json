@@ -55,6 +55,14 @@
                   "with": "src/environments/environment.local.ts"
                 }
               ]
+            },
+            "localnginx": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localnginx.ts"
+                }
+              ]
             }
 
           }
@@ -71,6 +79,9 @@
             },
             "local": {
               "browserTarget": "cityvizor-app:build:local"
+            },
+            "localnginx": {
+              "browserTarget": "cityvizor-app:build:localnginx"
             }
           }
         },
