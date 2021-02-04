@@ -1,7 +1,7 @@
 # Přispívání do kódu
 
 ## Doporučené workflow
-1) z issues tady na githubu si vybereš, které bys chtěl realizovat
+1) Z issues tady na githubu si vybereš, které bys chtěl realizovat
 2) V daném ticketu napíšeš že se jdeš ticketu věnovat
 3) forkneš si repository, připravíš úpravy u sebe v repositáři
 4) založíš pull request oproti cityvizor repo (do **staging** větve)
@@ -72,7 +72,7 @@ Code Quality dle [Google/GTS](https://github.com/google/gts), a automaticky kont
 - kód a commity **v angličtině**,
 - všechno ostatní (pull requesty, issues, dokumentace) **v češtině**,
 
-Všechny schválené pull requesty se začlenují do větve **staging** squashnutím (tedy všechny commity v PR se sloučí do jednoho commitu a ten se následně vloží do větvě s jednou commit zprávou).
+Všechny schválené pull requesty se začlenují do větve **staging** squashnutím (tedy všechny commity v PR se sloučí do jednoho commitu a ten se následně vloží do větve s jednou commit zprávou).
 
 ## Verzování
 
