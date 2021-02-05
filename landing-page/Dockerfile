@@ -6,9 +6,6 @@ COPY package.json .
 RUN yarn install --all
 COPY . .
 
-ARG VUE_APP_API_BASE_URL='/api/v2/service/citysearch'
-ENV VUE_APP_API_BASE_URL=$VUE_APP_API_BASE_URL
-
 FROM install as dev
 CMD yarn serve
 
