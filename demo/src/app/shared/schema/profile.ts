@@ -16,6 +16,6 @@ export class Profile {
 	"gps": [number,number];
 	"ico": string;
 	"edesky": number;
-	"mapasamospravy": number	
+	"mapasamospravy": number;
 
 }

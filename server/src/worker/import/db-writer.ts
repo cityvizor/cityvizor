@@ -3,26 +3,24 @@ import {
   AccountingRecord,
   PaymentRecord,
   EventRecord,
-  YearRecord,
 } from '../../schema';
 import {Writable} from 'stream';
 import logger from './logger';
-import {Importer} from './importer';
-import {Transaction} from 'knex';
+import {Import} from './import';
 
-export class ImportWriter extends Writable {
+export class DatabaseWriter extends Writable {
   accountingCount = 0;
   paymentCount = 0;
   eventCount = 0;
 
-  constructor(private options: Options) {
+  constructor(private options: Import.Options) {
     super({
       objectMode: true,
     });
   }
 
   async _write(
-    chunk: Importer.ImportChunk,
+    chunk: Import.ImportChunk,
     encoding: string,
     callback: (err?: Error) => void
   ) {
@@ -30,7 +28,7 @@ export class ImportWriter extends Writable {
   }
 
   async _writev(
-    chunks: {chunk: Importer.ImportChunk; encoding: string}[],
+    chunks: {chunk: Import.ImportChunk; encoding: string}[],
     callback: (err?: Error) => void
   ) {
     const accountings = chunks
@@ -89,10 +87,4 @@ export class ImportWriter extends Writable {
       .insert(events)
       .transacting(this.options.transaction);
   }
-}
-
-export interface Options {
-  profileId: YearRecord['profileId'];
-  year: YearRecord['year'];
-  transaction: Transaction;
 }

@@ -6,6 +6,7 @@ import path from 'path';
 
 import {db} from '../../db';
 import {ProfileRecord} from '../../schema';
+import * as fs from 'fs';
 
 const router = express.Router();
 
@@ -56,6 +57,10 @@ router.get('/:profile/avatar', async (req, res) => {
     config.storage.avatars,
     'avatar_' + req.params.profile + profile.avatarType
   );
+
+  if (!fs.existsSync(avatarPath)) {
+    return res.sendStatus(404);
+  }
 
   return res.sendFile(avatarPath);
 });

@@ -12,6 +12,7 @@ module.exports = {
   apiRoot: '/api',
 
   tmpDir: path.resolve(cityvizorPath, 'data/tmp'),
+  tmpInternetStreamDir: path.resolve(cityvizorPath, 'data/tmpInternetStream'),
   storageDir: path.resolve(cityvizorPath, 'app/data'),
 
   staticFiles: path.resolve(cityvizorPath, 'client/dist'),

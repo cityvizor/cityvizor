@@ -14,7 +14,7 @@ import { AdminProfileSettingsComponent } from './views/admin-profile/admin-profi
 import { AdminProfileLogsComponent } from './views/admin-profile/admin-profile-logs/admin-profile-logs.component';
 
 import { DataUploadModalComponent } from './components/data-upload-modal/data-upload-modal.component';
-import { CreateYearModalComponent } from './components/create-year-modal/create-year-modal.component';
+import { AddModifyYearModalComponent } from './components/add-modify-year-modal/add-modify-year-modal.component';
 import { DeleteYearModalComponent } from './components/delete-year-modal/delete-year-modal.component';
 import { CreateProfileModalComponent } from './components/create-profile-modal/create-profile-modal.component';
 import { CreateUserModalComponent } from './components/create-user-modal/create-user-modal.component';
@@ -36,7 +36,7 @@ import { UserSetPasswordModalComponent } from './components/user-set-password-mo
     
     DataUploadModalComponent,
     
-    CreateYearModalComponent,
+    AddModifyYearModalComponent,
     
     DeleteYearModalComponent,
     

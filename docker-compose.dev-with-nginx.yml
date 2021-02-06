@@ -1,10 +1,11 @@
 version: "3.8"
 
 services:
-    proxy:
+    nginx.cityvizor.otevrenamesta:
       volumes:
         - ./nginx/dev-with-nginx/:/etc/nginx:ro
-    cityvizor-client:
+
+    client.cityvizor.otevrenamesta:
         build:
             target: dev
         volumes:
@@ -15,21 +16,22 @@ services:
         environment:
             NODE_ENV: localnginx
 
-    cityvizor-server:
+    server.cityvizor.otevrenamesta:
         build:
             target: dev
         command: -w db.cityvizor.otevrenamesta -a -m server-dev -i
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
-    cityvizor-worker:
+
+    worker.cityvizor.otevrenamesta:
         build:
             target: dev
         command: -w db.cityvizor.otevrenamesta -a -m worker-dev -i
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
-    landing-page:
+    landing.cityvizor.otevrenamesta:
         build:
             target: dev
         volumes:

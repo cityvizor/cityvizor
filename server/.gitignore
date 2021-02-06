@@ -12,3 +12,5 @@ environment/environment.*
 npm-debug.log
 .npm
 .config
+.bash_history
+data

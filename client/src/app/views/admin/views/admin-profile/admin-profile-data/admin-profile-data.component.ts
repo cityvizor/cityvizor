@@ -19,7 +19,8 @@ export class AdminProfileDataComponent implements OnInit {
 
   years: BudgetYear[] = [];
 
-  currentYear: number;
+  currentYear: number
+  currentYearBudget?: BudgetYear;
 
   loading: boolean = false;
 

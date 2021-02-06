@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ProfileService } from 'app/services/profile.service';
 import { Observable } from 'rxjs';
 import { Profile } from 'app/schema';
-import { first, map } from 'rxjs/operators';
 import { AdminService } from 'app/services/admin.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -40,6 +39,12 @@ export class AdminProfileSettingsComponent implements OnInit {
 
   async loadProfile(profileId: number) {
     this.profile = await this.adminService.getProfile(profileId);
+    console.log('Got profile', this.profile);
+  }
+
+  async reloadProfile(){
+    this.profile = await this.adminService.getProfile(this.profile.id);
+    this.profileService.setProfile(this.profile);
   }
 
   async saveProfile(form: NgForm) {
@@ -85,11 +90,6 @@ export class AdminProfileSettingsComponent implements OnInit {
 
   getProfileAvatarUrl(profile: Profile): string | null {
     return this.adminService.getProfileAvatarUrl(profile);
-  }
-
-  async reloadProfile(){
-    const profile = await this.adminService.getProfile(this.profile.id);
-    this.profileService.setProfile(profile);
   }
 
 }

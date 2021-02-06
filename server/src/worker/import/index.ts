@@ -1,2 +1,2 @@
-export * from './importer';
+export * from './import';
 export * from './queue';

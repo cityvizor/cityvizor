@@ -15,4 +15,5 @@ export interface ImportRecord {
   validity?: string;
   append: boolean;
   logs?: string;
+  format: string;
 }
