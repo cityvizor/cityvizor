@@ -20,14 +20,13 @@
 	<div class="container text-muted small">
 		<div class="row">
 			<div class="col-sm-5 col-xs-12">
-				<a href="/dokumentace">Technická dokumentace</a><br>
+				<a href="/landing/dokumentace">Technická dokumentace</a><br>
 				<ng-container *ngIf="!authService.logged">
 					<a routerLink="/login">Přihlásit se</a>
 				</ng-container>
 				<ng-container *ngIf="authService.logged">
 					{{authService.user.login}}
 					<ng-container *ngIf="aclService.checkRoute('/admin')">&nbsp;|&nbsp;<a routerLink="/admin">Administrace</a></ng-container>
-					| <a routerLink="/ucet">Účet</a>
 					| <a (click)="logout()">Odhlásit</a>
 				</ng-container>
 			</div>

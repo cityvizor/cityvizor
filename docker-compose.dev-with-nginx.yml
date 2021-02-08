@@ -29,3 +29,9 @@ services:
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
+    landing-page:
+        build:
+            target: dev
+        volumes:
+            - ./landing-page/src:/user/src/app/src
+            - ./landing-page/cfg:/user/src/app/cfg

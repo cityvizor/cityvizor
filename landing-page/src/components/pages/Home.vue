@@ -48,7 +48,7 @@
     </b-row>
 
     <b-row>
-      <p><a href="/proc-cityvizor" class="why-link-margins">Proč Cityvizor?</a></p>
+      <p><router-link to="/proc-cityvizor" class="why-link-margins">Proč Cityvizor?</router-link></p>
     </b-row>
 
   </b-container>

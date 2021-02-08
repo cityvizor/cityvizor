@@ -44,5 +44,9 @@ const routes = [
 export default new Router({
     mode: 'history',
     routes,
-    base: process.env.VUE_PUBLIC_PATH || "/landing"
+    base: process.env.VUE_PUBLIC_PATH || "/landing",
+    // Without this, opened pages will appear on the same scroll depth as the previous pages
+    scrollBehavior() {
+        document.getElementById('app').scrollIntoView();
+    }
 })

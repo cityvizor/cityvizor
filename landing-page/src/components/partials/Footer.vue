@@ -6,7 +6,7 @@
         aria-label="Footer">
       <div class="row">
         <div class="col-6">
-          <p><a href="/landing/dokumentace">Technická dokumentace</a></p>
+          <p><router-link to="/dokumentace">Technická dokumentace</router-link></p>
           <p><a href="/login">Vstup do administrace</a></p>
         </div>
         <div class="col-6 text-right">

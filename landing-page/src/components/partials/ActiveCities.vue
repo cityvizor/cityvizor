@@ -16,15 +16,18 @@
       <b-row>
         <b-col v-for="city in cities" :key="city.name" class="city-item-margin-top text-justify" md="4" sm="6" xl="3">
           <b-row cols="12" no-gutters>
-            <b-col class="city-item-icon-right-margin" cols="1">
-              <img v-if="city.avatarType" :src="avatarUrl(city.id)">
-              <img v-else src="@/assets/images/pages/home/city_avatar.png">
-            </b-col>
-            <b-col cols="10">
-              <a :href="city.url">
-                <b>{{ city.name }}</b>
-              </a>
-            </b-col>
+              <b-col class="city-item-icon-right-margin" cols="1">
+                <a :href="cityUrl(city.url)">
+                  <img v-if="city.avatarType" :src="avatarUrl(city.id)">
+                  <img v-else src="@/assets/images/pages/home/city_avatar.png">
+                </a>
+              </b-col>
+              <b-col cols="10">
+                <a :href="cityUrl(city.url)">
+                  <b>{{ city.name }}</b>
+                </a>
+              </b-col>
+            </a>
           </b-row>
         </b-col>
       </b-row>
@@ -53,6 +56,9 @@ export default {
   methods: {
     avatarUrl: function(id) {
       return `${this.apiBaseUrl}/public/profiles/${id}/avatar`
+    },
+    cityUrl: function(url) {
+      return `/${url}`
     }
   }
 }
