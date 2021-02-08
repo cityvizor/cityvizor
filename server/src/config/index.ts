@@ -38,6 +38,7 @@ export default {
     tmp: path.resolve(environment.tmpDir),
     avatars: path.resolve(environment.storageDir, 'avatars'),
     imports: path.resolve(environment.storageDir, 'imports'),
+    tmpInternetStream: path.resolve(environment.t),
   },
 
   jwt: {
