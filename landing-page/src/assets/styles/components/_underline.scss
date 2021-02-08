@@ -13,7 +13,7 @@
     background-position-y: bottom;
 }
 
-.router-link-exact-active:not(.c-brand) {
+.router-link-exact-active:not(.header-logo) {
     @extend .underline;
     background-size: auto 4px;
 }
