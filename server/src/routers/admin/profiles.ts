@@ -96,7 +96,7 @@ router.put(
       .first();
     if (!profile) return res.sendStatus(404);
 
-    const allowedTypes = ['.png', '.jpg', '.jpe', '.gif', '.svg'];
+    const allowedTypes = ['.png', '.jpg', '.jpe', '.jpeg', '.gif', '.svg'];
 
     const extname = req.file
       ? path.extname(req.file.originalname).toLowerCase()
