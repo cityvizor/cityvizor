@@ -22,9 +22,11 @@ const knexConfig: Knex.Config = {
   client: environment.database.client,
   connection: {
     host: environment.database.host,
+    port: environment.database.port,
     user: environment.database.user,
     password: environment.database.password,
     database: environment.database.database,
+    ssl: environment.database.ssl
   },
   migrations: {
     // extension: 'ts',
