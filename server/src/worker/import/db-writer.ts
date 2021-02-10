@@ -1,9 +1,5 @@
 import {db} from '../../db';
-import {
-  AccountingRecord,
-  PaymentRecord,
-  EventRecord,
-} from '../../schema';
+import {AccountingRecord, PaymentRecord, EventRecord} from '../../schema';
 import {Writable} from 'stream';
 import logger from './logger';
 import {Import} from './import';

@@ -1,11 +1,9 @@
 /* tslint:disable:no-console */
 import {DateTime} from 'luxon';
 import {remove} from 'fs-extra';
-import path from 'path';
 import {ImportRecord} from '../../schema/database/import';
 import {db} from '../../db';
 import {Import} from './import';
-import config from '../../config';
 import {YearRecord} from '../../schema';
 import logger from './logger';
 import {importCityvizor} from './cityvizor/importer';
@@ -48,42 +46,43 @@ export async function checkImportQueue() {
     .first();
   if (!currentJob) return;
 
-    if (!["internetstream", "cityvizor"].includes(currentJob.format)) {
-      throw Error(`Unsupported import format: ${currentJob.format}`)
-    }
-      
-    console.log(`[WORKER] ${DateTime.local().toJSDate()} Found a new ${currentJob.format} job, starting import.`);
+  if (!['internetstream', 'cityvizor'].includes(currentJob.format)) {
+    throw Error(`Unsupported import format: ${currentJob.format}`);
+  }
 
-    await db<ImportRecord>('app.imports')
-      .where({id: currentJob.id})
-      .update({status: 'processing', started: DateTime.local().toJSDate()});
-    
+  console.log(
+    `[WORKER] ${DateTime.local().toJSDate()} Found a new ${
+      currentJob.format
+    } job, starting import.`
+  );
 
-    logger.log('Starting the DB transaction.');
+  await db<ImportRecord>('app.imports')
+    .where({id: currentJob.id})
+    .update({status: 'processing', started: DateTime.local().toJSDate()});
 
-    const trx = await db.transaction();
-    const options: Import.Options = {
-      profileId: currentJob.profileId,
-      year: currentJob.year,
-      transaction: trx,
-      importDir: currentJob.dirName,
-      append: currentJob.append
-    };
+  logger.log('Starting the DB transaction.');
+
+  const trx = await db.transaction();
+  const options: Import.Options = {
+    profileId: currentJob.profileId,
+    year: currentJob.year,
+    transaction: trx,
+    importDir: currentJob.dirName,
+    append: currentJob.append,
+  };
 
   // Any exception catched in this block will rollback` the import transaction
   let error: Error | null = null;
   try {
     // TODO: ugly
-    if (currentJob.format == "cityvizor") {
-      await importCityvizor(options)
-    }
-    else {
-      await importInternetStream(options)
+    if (currentJob.format === 'cityvizor') {
+      await importCityvizor(options);
+    } else {
+      await importInternetStream(options);
     }
     await db<YearRecord>('app.years')
       .where({profileId: currentJob.profileId, year: currentJob.year})
       .update({validity: currentJob.validity});
-
   } catch (err) {
     console.error(`[WORKER] ${DateTime.local().toJSDate()} Import error`, err);
     logger.log(`Import failed: ${err.message}`);

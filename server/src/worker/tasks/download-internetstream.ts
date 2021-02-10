@@ -4,31 +4,34 @@ import {CronTask} from '../../schema/cron';
 import {db} from '../../db';
 import axios from 'axios';
 import * as fs from 'fs-extra';
-import path, {dirname} from 'path';
+import path from 'path';
 import * as yauzl from 'yauzl';
-import config from "../../config"
-import crypto from "crypto"
-import {DateTime} from "luxon"
+import config from '../../config';
+import crypto from 'crypto';
+import {DateTime} from 'luxon';
 
 export const InternetStream: CronTask = {
-    id: 'internet-stream',
-    name: 'Download data from Cernosice, Nmnm, Ub',
-    exec: async () => {
-      internetStreamConfig.forEach(async s => {
-        if (profileIdPresent(s.shortcut)) {
-          const profileId = await getProfileId(s.shortcut);
-          s.definitions.forEach(d => {
-            processFiles(s.url + d.fileName, profileId, d.year);
-          });
-        }
-      });
-    },
-  };
+  id: 'internet-stream',
+  name: 'Download data from Cernosice, Nmnm, Ub',
+  exec: async () => {
+    for (const s of internetStreamConfig) {
+      if (await profileIdPresent(s.shortcut)) {
+        const profileId = await getProfileId(s.shortcut);
+        s.definitions.forEach(d => {
+          processFiles(s.url + d.fileName, profileId, d.year);
+        });
+      }
+    }
+  },
+};
 
 async function processFiles(url: string, profileId: number, year: number) {
-  const dirName = crypto.randomBytes(64).toString("hex")
-  await axios.get(url, {responseType: 'stream'}).then(async (r) => {
-    const zipPath = path.join(path.join(config.storage.imports, dirName), "data.zip");
+  const dirName = crypto.randomBytes(64).toString('hex');
+  await axios.get(url, {responseType: 'stream'}).then(async r => {
+    const zipPath = path.join(
+      path.join(config.storage.imports, dirName),
+      'data.zip'
+    );
     await fs.ensureDir(zipPath);
     const tmpZippedData = fs.createWriteStream(zipPath);
     r.data.pipe(tmpZippedData);
@@ -38,21 +41,26 @@ async function processFiles(url: string, profileId: number, year: number) {
     });
   });
   const importData: Partial<ImportRecord> = {
-    profileId: profileId,
-    year: year,
+    profileId,
+    year,
 
     created: DateTime.local().toJSDate(),
     status: 'pending',
     error: undefined,
     append: false,
-    dirName: dirName,
-    format: "internetstream"
+    dirName,
+    format: 'internetstream',
   };
   await db<ImportRecord>('app.imports').insert(importData);
 }
+
 async function unzipFile(dir: string) {
-  yauzl.open(path.join(dir, 'data.zip'), {lazyEntries: true}, (error, zipfile) => {
-    if (error) throw error;
+  yauzl.open(
+    path.join(dir, 'data.zip'),
+    {lazyEntries: true},
+    (error, zipfile) => {
+      if (error) throw error;
+      if (!zipfile) return;
       zipfile.readEntry();
       zipfile.on('entry', entry => {
         if (/\/$/.test(entry.fileName)) {
@@ -60,6 +68,7 @@ async function unzipFile(dir: string) {
         } else {
           zipfile.openReadStream(entry, (err, readStream) => {
             if (err) throw err;
+            if (!readStream) return;
             readStream.on('end', () => {
               zipfile.readEntry();
             });
@@ -76,6 +85,7 @@ async function unzipFile(dir: string) {
     }
   );
 }
+
 async function profileIdPresent(cityShortcut: string): Promise<boolean> {
   const record = await db<ProfileRecord>('app.profiles').where({
     url: cityShortcut,
@@ -91,34 +101,34 @@ async function getProfileId(cityShortcut: string): Promise<number> {
 }
 
 const internetStreamConfig = [
-    {
-      shortcut: 'cernosice',
-      url: 'http://rozpocet.mestocernosice.cz/opendata/',
-      definitions: [
-        {
-          year: 2020,
-          fileName: 'opendata_2020_CSV.zip',
-        },
-      ],
-    },
-    {
-      shortcut: 'ub',
-      url: 'http://rozpocet.ub.cz/opendata/',
-      definitions: [
-        {
-          year: 2020,
-          fileName: 'opendata_2020_CSV.zip',
-        },
-      ],
-    },
-    {
-      shortcut: 'nmnm',
-      url: 'http://rozpocet.nmnm.cz/opendata/',
-      definitions: [
-        {
-          year: 2020,
-          fileName: 'opendata_2020_CSV.zip',
-        },
-      ],
-    },
-  ];
+  {
+    shortcut: 'cernosice',
+    url: 'http://rozpocet.mestocernosice.cz/opendata/',
+    definitions: [
+      {
+        year: 2020,
+        fileName: 'opendata_2020_CSV.zip',
+      },
+    ],
+  },
+  {
+    shortcut: 'ub',
+    url: 'http://rozpocet.ub.cz/opendata/',
+    definitions: [
+      {
+        year: 2020,
+        fileName: 'opendata_2020_CSV.zip',
+      },
+    ],
+  },
+  {
+    shortcut: 'nmnm',
+    url: 'http://rozpocet.nmnm.cz/opendata/',
+    definitions: [
+      {
+        year: 2020,
+        fileName: 'opendata_2020_CSV.zip',
+      },
+    ],
+  },
+];

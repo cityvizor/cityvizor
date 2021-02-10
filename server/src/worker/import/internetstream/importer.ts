@@ -5,9 +5,9 @@ import path from 'path';
 import {pipeline, Transform} from 'stream';
 import {Import} from '../import';
 import {promisify} from 'util';
-import {PostprocessingTransformer} from '../postprocessing-transformer'
+import {PostprocessingTransformer} from '../postprocessing-transformer';
 import {DatabaseWriter} from '../db-writer';
-import { PaymentRecord, AccountingRecord } from '../../../schema';
+import {PaymentRecord, AccountingRecord} from '../../../schema';
 
 export async function importInternetStream(options: Import.Options) {
   const csvPaths = [
@@ -22,8 +22,8 @@ export async function importInternetStream(options: Import.Options) {
     // TODO: Remove the promisify workaround after upgrade to Node 15.x that has awaitable pipelines by default
     await promisify(pipeline)(
       fileReader,
-      isParser, 
-      isTransformer, 
+      isParser,
+      isTransformer,
       new PostprocessingTransformer(),
       new DatabaseWriter(options)
     );
@@ -78,39 +78,38 @@ function createTransformer(options: Import.Options) {
       const amountDal = line.CASTKA_DAL;
       const amountFinal =
         line.POLOZKA < 5000 ? amountMd - amountDal : amountDal - amountMd;
-     
+
       if (recordType === 'KDF' || recordType === 'KOF') {
-          const payment: PaymentRecord = {
-            paragraph: line.PARAGRAF,
-            item: line.POLOZKA,
-            event: line.ORGANIZACE,
-            amount: amountFinal,
-            date: line.DOKLAD_DATUM,
-            counterpartyId: line.SUBJEKT_IC,
-            counterpartyName: line.SUBJEKT_NAZEV,
-            description: line.POZNAMKA,
+        const payment: PaymentRecord = {
+          paragraph: line.PARAGRAF,
+          item: line.POLOZKA,
+          event: line.ORGANIZACE,
+          amount: amountFinal,
+          date: line.DOKLAD_DATUM,
+          counterpartyId: line.SUBJEKT_IC,
+          counterpartyName: line.SUBJEKT_NAZEV,
+          description: line.POZNAMKA,
 
-            profileId: options.profileId,
-            year: options.year
-          }
-          this.push({type: 'payment', record: payment});
-          callback();
+          profileId: options.profileId,
+          year: options.year,
+        };
+        this.push({type: 'payment', record: payment});
+        callback();
       } else {
-          const accounting: AccountingRecord = {           
-            type: recordType,
-            paragraph: line.PARAGRAF,
-            item: line.POLOZKA,
-            event: line.ORGANIZACE,
-            unit: line.ORJ,
-            amount: amountFinal,
+        const accounting: AccountingRecord = {
+          type: recordType,
+          paragraph: line.PARAGRAF,
+          item: line.POLOZKA,
+          event: line.ORGANIZACE,
+          unit: line.ORJ,
+          amount: amountFinal,
 
-            profileId: options.profileId,
-            year: options.year
-          }
+          profileId: options.profileId,
+          year: options.year,
+        };
         this.push({type: 'accounting', record: accounting});
         callback();
       }
     },
   });
 }
-

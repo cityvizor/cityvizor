@@ -7,10 +7,9 @@ import {
   PaymentRecord,
   YearRecord,
 } from '../../schema';
-import {Transaction} from "knex"
+import {Transaction} from 'knex';
 
 export namespace Import {
-  
   export interface Options {
     profileId: YearRecord['profileId'];
     year: YearRecord['year'];

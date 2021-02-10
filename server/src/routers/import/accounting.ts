@@ -15,7 +15,7 @@ import {YearRecord, ProfileRecord} from '../../schema';
 import {ImportRecord} from '../../schema/database/import';
 import {ensureDir, move} from 'fs-extra';
 import {DateTime} from 'luxon';
-import crypto from "crypto"
+import crypto from 'crypto';
 
 const router = express.Router();
 
@@ -153,7 +153,7 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
         .send('Failed to create new accounting year in database.');
   }
 
-  const dirName = crypto.randomBytes(64).toString("hex")
+  const dirName = crypto.randomBytes(64).toString('hex');
   const importDir = path.join(config.storage.imports, dirName);
   await ensureDir(importDir);
 
@@ -177,7 +177,7 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
 
     validity: req.body.validity || undefined,
     append: isAppend,
-    dirName: dirName
+    dirName,
   };
 
   const result = await db<ImportRecord>('app.imports').insert(importData, [
@@ -187,8 +187,6 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
 
   if (!importId)
     return res.status(500).send('Failed to create import record in database.');
-
-
 
   // get the current full task info (including default values etc.) and return it to the client
   const importDataFull = await db<ImportRecord>('app.imports')
@@ -255,7 +253,6 @@ router.post(
           .send('Failed to create new accounting year in database.');
     }
 
-    const importDir = 
     // add import task to database queue (worker checks the table)
     const importData: Partial<ImportRecord> = {
       profileId: year.profileId,
