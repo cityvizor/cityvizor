@@ -16,4 +16,5 @@ export interface ImportRecord {
   append: boolean;
   logs?: string;
   format: string;
+  dirName: string;
 }

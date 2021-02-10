@@ -1,10 +1,14 @@
 import {ProfileRecord} from '../../schema';
+import {ImportRecord} from '../../schema/database/import';
 import {CronTask} from '../../schema/cron';
 import {db} from '../../db';
 import axios from 'axios';
 import * as fs from 'fs-extra';
-import path from 'path';
+import path, {dirname} from 'path';
 import * as yauzl from 'yauzl';
+import config from "../../config"
+import crypto from "crypto"
+import {DateTime} from "luxon"
 
 export const InternetStream: CronTask = {
     id: 'internet-stream',
@@ -22,47 +26,56 @@ export const InternetStream: CronTask = {
   };
 
 async function processFiles(url: string, profileId: number, year: number) {
-await axios.get(url, {responseType: 'stream'}).then(r => {
-    const tmpZippedData = fs.createWriteStream(
-    path.join(config.storage.tmpInternetStream, 'tmp_zipped_data')
-    );
+  const dirName = crypto.randomBytes(64).toString("hex")
+  await axios.get(url, {responseType: 'stream'}).then(async (r) => {
+    const zipPath = path.join(path.join(config.storage.imports, dirName), "data.zip");
+    await fs.ensureDir(zipPath);
+    const tmpZippedData = fs.createWriteStream(zipPath);
     r.data.pipe(tmpZippedData);
-    tmpZippedData.on('finish', () => {
-    tmpZippedData.close();
-    unzipFile(profileId, year);
+    tmpZippedData.on('finish', async () => {
+      tmpZippedData.close();
+      await unzipFile(zipPath);
     });
-});
+  });
+  const importData: Partial<ImportRecord> = {
+    profileId: profileId,
+    year: year,
+
+    created: DateTime.local().toJSDate(),
+    status: 'pending',
+    error: undefined,
+    append: false,
+    dirName: dirName,
+    format: "internetstream"
+  };
+  await db<ImportRecord>('app.imports').insert(importData);
 }
-async function unzipFile(profileId: number, year: number) {
-    yauzl.open(
-      path.join(config.storage.tmpInternetStream, 'tmp_zipped_data'),
-      {lazyEntries: true},
-      (error, zipfile) => {
-        if (error) throw error;
-        zipfile.readEntry();
-        zipfile.on('entry', entry => {
-          if (/\/$/.test(entry.fileName)) {
-            zipfile.readEntry();
-          } else {
-            zipfile.openReadStream(entry, (err, readStream) => {
-              if (err) throw err;
-              readStream.on('end', () => {
-                zipfile.readEntry();
-              });
-              const tmpUnzippedData = fs.createWriteStream(
-                path.join(config.storage.tmpInternetStream, entry.fileName)
-              );
-              readStream.pipe(tmpUnzippedData);
-              tmpUnzippedData.on('finish', () => {
-                tmpUnzippedData.close();
-              });
+async function unzipFile(dir: string) {
+  yauzl.open(path.join(dir, 'data.zip'), {lazyEntries: true}, (error, zipfile) => {
+    if (error) throw error;
+      zipfile.readEntry();
+      zipfile.on('entry', entry => {
+        if (/\/$/.test(entry.fileName)) {
+          zipfile.readEntry();
+        } else {
+          zipfile.openReadStream(entry, (err, readStream) => {
+            if (err) throw err;
+            readStream.on('end', () => {
+              zipfile.readEntry();
             });
-          }
-        });
-      }
-    );
-  }
-  
+            const tmpUnzippedData = fs.createWriteStream(
+              path.join(dir, entry.fileName)
+            );
+            readStream.pipe(tmpUnzippedData);
+            tmpUnzippedData.on('finish', () => {
+              tmpUnzippedData.close();
+            });
+          });
+        }
+      });
+    }
+  );
+}
 async function profileIdPresent(cityShortcut: string): Promise<boolean> {
   const record = await db<ProfileRecord>('app.profiles').where({
     url: cityShortcut,

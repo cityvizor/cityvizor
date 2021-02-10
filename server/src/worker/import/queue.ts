@@ -65,16 +65,12 @@ export async function checkImportQueue() {
 
     logger.log('Starting the DB transaction.');
 
-    const importDir = path.resolve(
-      config.storage.imports,
-      'import_' + currentJob.id
-    );
     const trx = await db.transaction();
     const options: Import.Options = {
       profileId: currentJob.profileId,
       year: currentJob.year,
       transaction: trx,
-      importDir: path.resolve(config.storage.imports, 'import_' + currentJob.id),
+      importDir: currentJob.dirName,
       append: currentJob.append
     };
 
