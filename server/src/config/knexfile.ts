@@ -26,7 +26,7 @@ const knexConfig: Knex.Config = {
     user: environment.database.user,
     password: environment.database.password,
     database: environment.database.database,
-    ssl: environment.database.ssl
+    ssl: environment.database.ssl,
   },
   migrations: {
     // extension: 'ts',
