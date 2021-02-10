@@ -38,11 +38,7 @@ export async function checkImportQueue() {
         .update(updateDataStale);
 
       // remove used import data
-      const importDirStale = path.resolve(
-        config.storage.imports,
-        'import_' + runningJob.id
-      );
-      await remove(importDirStale);
+      await remove(runningJob.dirName);
     }
   }
 
@@ -102,7 +98,7 @@ export async function checkImportQueue() {
       logger.log('Import successful, committing the DB transaction.');
       trx.commit();
     }
-    await remove(importDir);
+    await remove(currentJob.dirName);
   }
 
   console.log('___LOGS____');
