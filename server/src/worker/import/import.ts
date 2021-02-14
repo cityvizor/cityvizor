@@ -8,8 +8,20 @@ import {
   YearRecord,
 } from '../../schema';
 import {Transaction} from 'knex';
+import crypto from 'crypto';
+import * as fs from 'fs-extra';
+import path from 'path';
+import config from "../../config"
 
 export namespace Import {
+
+  export async function createImportDir(): Promise<string> {
+     const randomName = new Date().toISOString() + crypto.randomBytes(32).toString('hex')
+     const fullPath = path.join(config.storage.imports, randomName)
+     await fs.ensureDir(fullPath)
+     return fullPath
+  }
+  export type Format = "cityvizor" | "internetstream"
   export interface Options {
     profileId: YearRecord['profileId'];
     year: YearRecord['year'];

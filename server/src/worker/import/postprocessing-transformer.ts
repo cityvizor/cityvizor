@@ -32,14 +32,12 @@ export class PostprocessingTransformer extends Transform {
       fields = [
         ['id', ['number', 'mandatory']],
         ['name', ['mandatory']],
-        ['description', []],
       ];
     }
     if (chunk.type === 'accounting') {
       fields = [
-        ['type', ['mandatory']],
         ['paragraph', ['number', 'mandatory']],
-        ['item', ['number']],
+        ['item', ['number', 'mandatory']],
         ['event', ['number']],
         ['unit', ['number']],
         ['amount', ['number', 'mandatory']],
@@ -47,45 +45,41 @@ export class PostprocessingTransformer extends Transform {
     }
     if (chunk.type === 'payment') {
       fields = [
-        ['type', ['mandatory']],
         ['paragraph', ['number', 'mandatory']],
-        ['item', ['number']],
+        ['item', ['number', 'mandatory']],
         ['event', ['number']],
         ['unit', ['number']],
         ['amount', ['number', 'mandatory']],
         ['date', ['date']],
         ['counterpartyId', ['number']],
-        ['counterpartyName', ['number']],
-        ['description', []],
       ];
     }
+    let err: Error | null = null;
     fields.forEach(([field, types]) => {
       types.forEach(type => {
-        if (!tests[type](chunk.record[field])) {
-          invalidField(field, type, chunk.record);
+        if (!tests[type](chunk.record[field])) { 
+        // Can't call the callback here, only one callback call is allowed per transform
+         err = invalidField(field, type, chunk.record);
         }
       });
     });
-    callback(null, chunk);
+    callback(err, chunk);
   }
 }
 
 const tests = {
-  number: (n?: string) => n && /\d+/.test(n),
-  date: (n?: string) =>
-    n && /\d{4}-\d{2}-\d{2}/.test(n) && !isNaN(Date.parse(n)),
-  mandatory: (n?: string) => n,
+  number: (n?: any) => n ? !isNaN(Number(n)) : true,
+  date: (n?: any) => n ? (/^\d{4}-\d{2}-\d{2}$/.test(n) && !isNaN(Date.parse(n))) : true,
+  mandatory: (n?: any) => String(n)?.length > 0
 };
 
-function invalidField(field: string, type: string, row: {}): never {
+function invalidField(field: string, type: string, row: {}): Error {
   if (type === 'mandatory') {
-    throw new Error(
-      `Field "${field}" is mandatory and is missing.\nRow processed: ${JSON.stringify(
-        row
-      )}`
+    return new Error(
+      `Field "${field}" is mandatory and is missing.\nRow processed: ${JSON.stringify(row)}`
     );
   } else {
-    throw new Error(
+    return new Error(
       `Failed to convert field "${field}": ${
         row[field]
       } to ${type}.\nRow processed: ${JSON.stringify(row)}`

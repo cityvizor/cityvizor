@@ -6,7 +6,6 @@ const dirs = [
   config.storage.tmp,
   config.storage.avatars,
   config.storage.imports,
-  config.storage.tmpInternetStream,
 ];
 
 export async function ensureDirs() {

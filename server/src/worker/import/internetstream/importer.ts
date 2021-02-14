@@ -10,9 +10,17 @@ import {DatabaseWriter} from '../db-writer';
 import {PaymentRecord, AccountingRecord} from '../../../schema';
 
 export async function importInternetStream(options: Import.Options) {
+
+  await options.transaction('data.payments')
+    .where({profileId: options.profileId, year: options.year})
+    .delete();
+  await options.transaction('data.accounting')
+    .where({profileId: options.profileId, year: options.year})
+    .delete();
+
   const csvPaths = [
-    path.join(config.storage.tmpInternetStream, 'RU.csv'),
-    path.join(config.storage.tmpInternetStream, 'SK.csv'),
+    path.join(options.importDir, 'RU.csv'),
+    path.join(options.importDir, 'SK.csv'),
   ];
   for (const p of csvPaths) {
     const fileReader = fs.createReadStream(p);
@@ -76,13 +84,13 @@ function createTransformer(options: Import.Options) {
       const recordType = line.DOKLAD_AGENDA;
       const amountMd = line.CASTKA_MD;
       const amountDal = line.CASTKA_DAL;
-      const amountFinal =
-        line.POLOZKA < 5000 ? amountMd - amountDal : amountDal - amountMd;
+      const item = Number(line.POLOZKA)
+      const amountFinal = item < 5000 ? amountMd - amountDal : amountDal - amountMd;
 
       if (recordType === 'KDF' || recordType === 'KOF') {
         const payment: PaymentRecord = {
           paragraph: line.PARAGRAF,
-          item: line.POLOZKA,
+          item: item,
           event: line.ORGANIZACE,
           amount: amountFinal,
           date: line.DOKLAD_DATUM,
@@ -99,7 +107,7 @@ function createTransformer(options: Import.Options) {
         const accounting: AccountingRecord = {
           type: recordType,
           paragraph: line.PARAGRAF,
-          item: line.POLOZKA,
+          item: item,
           event: line.ORGANIZACE,
           unit: line.ORJ,
           amount: amountFinal,

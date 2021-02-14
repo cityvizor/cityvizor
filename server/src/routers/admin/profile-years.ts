@@ -51,13 +51,13 @@ router.get('/', acl('profile-years:list'), async (req, res) => {
 router.put('/:year', acl('profile-years:write'), async (req, res) => {
   const data = {
     profile_id: req.params.profile,
-    year: req.params.year,
+    year: Number(req.params.year),
     hidden: req.body.hidden,
-    import_url: req.body.importPeriodMinutes,
-    import_format: req.body.importFormat,
-    import_period_minutes: req.body.importPeriodMinutes,
+    importUrl: req.body.importUrl,
+    importFormat: req.body.importFormat,
+    importPeriodMinutes: req.body.importPeriodMinutes,
   };
-
+  console.log(data)
   try {
     await db('app.years').insert(data);
   } catch (err) {
@@ -69,26 +69,18 @@ router.put('/:year', acl('profile-years:write'), async (req, res) => {
 });
 
 router.patch('/:year', acl('profile-years:write'), async (req, res) => {
-  const updateData: Partial<YearRecord> = {};
-  if (req.body.hidden) {
-    updateData.hidden = req.body.hidden;
-  }
-  if (req.body.importUrl) {
-    updateData.import_url = req.body.importUrl;
-  }
-  if (req.body.importFormat) {
-    updateData.import_format = req.body.importFormat;
-  }
-  if (req.body.importPeriodMinutes) {
-    updateData.import_period_minutes = req.body.importPeriodMinutes;
-  }
-
-  if (updateData) {
-    await db<YearRecord>('app.years')
-      .where('profile_id', req.params.profile)
-      .andWhere('year', Number(req.params.year))
-      .update(updateData);
-  }
+  const updateData = {
+    profile_id: req.params.profile,
+    year: Number(req.params.year),
+    hidden: req.body.hidden,
+    importUrl: req.body.importUrl,
+    importFormat: req.body.importFormat,
+    importPeriodMinutes: req.body.importPeriodMinutes,
+  };
+  await db<YearRecord>('app.years')
+    .where('profile_id', req.params.profile)
+    .andWhere('year', Number(req.params.year))
+    .update(updateData);
 
   res.sendStatus(204);
 });

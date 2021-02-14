@@ -36,7 +36,7 @@ export async function checkImportQueue() {
         .update(updateDataStale);
 
       // remove used import data
-      await remove(runningJob.dirName);
+      await remove(runningJob.importDir);
     }
   }
 
@@ -67,18 +67,20 @@ export async function checkImportQueue() {
     profileId: currentJob.profileId,
     year: currentJob.year,
     transaction: trx,
-    importDir: currentJob.dirName,
+    importDir: currentJob.importDir,
     append: currentJob.append,
   };
 
-  // Any exception catched in this block will rollback` the import transaction
+  // Any exception catched in this try block will rollback the import transaction
   let error: Error | null = null;
   try {
     // TODO: ugly
     if (currentJob.format === 'cityvizor') {
       await importCityvizor(options);
-    } else {
+    } else if (currentJob.format == 'internetstream') {
       await importInternetStream(options);
+    } else {
+      throw Error(`Unsupported import type: ${currentJob.format}`)
     }
     await db<YearRecord>('app.years')
       .where({profileId: currentJob.profileId, year: currentJob.year})
@@ -97,7 +99,7 @@ export async function checkImportQueue() {
       logger.log('Import successful, committing the DB transaction.');
       trx.commit();
     }
-    await remove(currentJob.dirName);
+    await remove(currentJob.importDir);
   }
 
   console.log('___LOGS____');

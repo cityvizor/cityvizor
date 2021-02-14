@@ -15,8 +15,8 @@ export class AddModifyYearModalComponent implements OnInit {
   @Output() close = new EventEmitter<boolean>();
 
   importFormats: Array<{ value: string; label: string }> = [
-    { value: "cityvizor_csv", label: "CityVizor CSV" },
-    { value: "internetstream_csv", label: "Internet Stream CSV (ZIP)" }
+    { value: "cityvizor", label: "CityVizor CSV (ZIP)" },
+    { value: "internetstream", label: "Internet Stream CSV (ZIP)" }
   ];
 
   isUpdate: boolean = false;
@@ -35,14 +35,16 @@ export class AddModifyYearModalComponent implements OnInit {
     } else {
       this.year = {
         year: new Date().getFullYear() + 1,
-        importPeriodMinutes: 0,
-        importFormat: 'cityvizor_csv',
         hidden: true,
       } as BudgetYear;
     }
   }
 
   async addModifyYear(form: NgForm): Promise<void> {
+    this.year.importFormat = form.value.import_format;
+    this.year.importPeriodMinutes = Math.floor(Number(form.value.import_period_minutes));
+    this.year.importUrl = form.value.import_url;
+
     if (!this.isUpdate) {
       await this.adminService.createProfileYear(
         this.profileId,
@@ -50,16 +52,13 @@ export class AddModifyYearModalComponent implements OnInit {
         this.year,
       );
     } else {
-      this.year.importFormat = form.value.import_format;
-      this.year.importPeriodMinutes = Math.floor(Number(form.value.import_period_minutes));
-      this.year.importUrl = form.value.import_url;
-
       await this.adminService.updateProfileYear(
         this.profileId,
         this.year.year,
         this.year
       );
     }
+    form.reset()
     this.close.emit(true);
   }
 }

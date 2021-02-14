@@ -15,8 +15,7 @@ import {YearRecord, ProfileRecord} from '../../schema';
 import {ImportRecord} from '../../schema/database/import';
 import {ensureDir, move} from 'fs-extra';
 import {DateTime} from 'luxon';
-import crypto from 'crypto';
-
+import {Import} from '../../worker/import/import'
 const router = express.Router();
 
 export const ImportAccountingRouter = router;
@@ -153,9 +152,7 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
         .send('Failed to create new accounting year in database.');
   }
 
-  const dirName = crypto.randomBytes(64).toString('hex');
-  const importDir = path.join(config.storage.imports, dirName);
-  await ensureDir(importDir);
+  const importDir = await Import.createImportDir()
 
   if (req.files[type.toString()] && req.files[type.toString()][0]) {
     await move(
@@ -176,8 +173,9 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
     error: undefined,
 
     validity: req.body.validity || undefined,
+    format: 'cityvizor',
     append: isAppend,
-    dirName,
+    importDir: importDir,
   };
 
   const result = await db<ImportRecord>('app.imports').insert(importData, [
@@ -210,8 +208,8 @@ router.post(
   async (req, res) => {
     const reqFiles = req.files as {[fieldname: string]: Express.Multer.File[]};
 
-    // When file missing throw error immediately
-    if (!reqFiles || !reqFiles.accounting || !reqFiles.zipFile) {
+    // When both files missing throw error immediately
+    if (!reqFiles || (!reqFiles.accounting && !reqFiles.zipFile)) {
       return res.status(400).send('Missing data file or zip file');
     }
     if (isNaN(req.body.year)) {
@@ -253,6 +251,18 @@ router.post(
           .send('Failed to create new accounting year in database.');
     }
 
+    const importDir = await Import.createImportDir()
+
+    if (reqFiles.zipFile && reqFiles.zipFile[0]) {
+      await extractZip(reqFiles.zipFile[0].path, importDir);
+    } else {
+      if (reqFiles.accounting && reqFiles.accounting[0])
+        await move(
+          reqFiles.accounting[0].path,
+          path.join(importDir, 'accounting.csv')
+        );
+    }
+
     // add import task to database queue (worker checks the table)
     const importData: Partial<ImportRecord> = {
       profileId: year.profileId,
@@ -266,7 +276,9 @@ router.post(
       error: undefined,
 
       validity: req.body.validity || undefined,
+      format: 'cityvizor',
       append: false,
+      importDir: importDir
     };
 
     const result = await db<ImportRecord>('app.imports').insert(importData, [
@@ -279,20 +291,6 @@ router.post(
         .status(500)
         .send('Failed to create import record in database.');
 
-    // if task created move the uploaded data and possibly unzip them if zip provided
-    const importDir = path.join(config.storage.imports, 'import_' + importId);
-
-    await ensureDir(importDir);
-
-    if (reqFiles.zipFile && reqFiles.zipFile[0]) {
-      await extractZip(reqFiles.zipFile[0].path, importDir);
-    } else {
-      if (reqFiles.accounting && reqFiles.accounting[0])
-        await move(
-          reqFiles.accounting[0].path,
-          path.join(importDir, 'accounting.csv')
-        );
-    }
 
     // get the current full task info (including default values etc.) and return it to the client
     const importDataFull = await db<ImportRecord>('app.imports')
@@ -305,7 +303,7 @@ router.post(
 
 async function extractZip(zipFile: string, unzipDir: string) {
   try {
-    extract(zipFile, {dir: unzipDir});
+    await extract(zipFile, {dir: unzipDir});
   } catch (e) {
     throw new Error('Unable to extract ZIP file: ' + e.message);
   }
