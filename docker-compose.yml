@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  proxy:
+  nginx.cityvizor.otevrenamesta:
     image: nginx:1.15.8-alpine
     container_name: nginx.cityvizor.otevrenamesta
     ports:
@@ -12,7 +12,7 @@ services:
       NGINX_HOST: cityvizor.otevrenamesta
       NGINX_PORT: 80
 
-  cityvizor-server:
+  server.cityvizor.otevrenamesta:
     image: cityvizor-server
     build: 
       context: ./server
@@ -26,10 +26,10 @@ services:
     volumes:
       - ./data:/home/node/app/data
     depends_on:
-      - postgres
-      - proxy
+      - db.cityvizor.otevrenamesta
+      - nginx.cityvizor.otevrenamesta
 
-  cityvizor-worker:
+  worker.cityvizor.otevrenamesta:
     image: cityvizor-server
     build: 
       context: ./server
@@ -41,9 +41,9 @@ services:
     volumes:
       - ./data:/home/node/app/data
     depends_on:
-      - postgres
+      - db.cityvizor.otevrenamesta
 
-  cityvizor-client:
+  client.cityvizor.otevrenamesta:
     image: cityvizor-client
     build:
       context: ./client
@@ -52,9 +52,9 @@ services:
     environment:
       NODE_ENV: local
     depends_on:
-      - proxy
+      - nginx.cityvizor.otevrenamesta
 
-  landing-page:
+  landing.cityvizor.otevrenamesta:
     image: cityvizor-landing-page
     build:
       context: ./landing-page
@@ -63,9 +63,9 @@ services:
     environment:
       NODE_ENV: local
     depends_on:
-      - proxy
+      - nginx.cityvizor.otevrenamesta
 
-  postgres:
+  db.cityvizor.otevrenamesta:
     image: postgres:11.1
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]

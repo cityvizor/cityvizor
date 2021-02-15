@@ -1,3 +1,5 @@
+import {Import} from '../../worker/import/import';
+
 export interface ImportRecord {
   id: number;
   profileId: number;
@@ -15,4 +17,6 @@ export interface ImportRecord {
   validity?: string;
   append: boolean;
   logs?: string;
+  format: Import.Format;
+  importDir: string;
 }

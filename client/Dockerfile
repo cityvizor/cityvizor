@@ -11,7 +11,7 @@ RUN npm install -g @angular/cli
 # Expose the webpack port for automatic hot reloading.
 # https://stackoverflow.com/a/44196594/5127149
 EXPOSE 49153
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD ./entrypoint.sh
 
 
 FROM nginx:1.17.8-alpine as prod

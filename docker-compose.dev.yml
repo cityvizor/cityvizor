@@ -3,11 +3,12 @@ version: "3.8"
 services:
     # We don't need the nginx container when developing. This effectively removes it.
     # https://stackoverflow.com/a/45385268/5127149
-    proxy:
+    nginx.cityvizor.otevrenamesta:
         image: tianon/true
         command: ""
         entrypoint: ""
-    cityvizor-client:
+
+    client.cityvizor.otevrenamesta:
         build:
             target: dev
         volumes:
@@ -16,7 +17,8 @@ services:
         ports:
             - 4200:4200
             - 49153:49153
-    cityvizor-server:
+
+    server.cityvizor.otevrenamesta:
         build:
             target: dev
         command: -w db.cityvizor.otevrenamesta -a -m server-dev -i
@@ -25,14 +27,16 @@ services:
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
-    cityvizor-worker:
+
+    worker.cityvizor.otevrenamesta:
         build:
             target: dev
         command: -w db.cityvizor.otevrenamesta -a -m worker-dev -i
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
-    landing-page:
+
+    landing.cityvizor.otevrenamesta:
         build:
             target: dev
         ports:

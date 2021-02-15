@@ -38,9 +38,7 @@ export class AdminProfileListComponent implements OnInit {
         this.loading = true;
         this.profiles = (await this.adminService.getProfiles())
             .filter((profile) => {
-                    const canManage = this.authService.userManagesProfile(profile.id)
-                    console.log('filter profile', profile.id, canManage)
-                    return canManage
+                    return this.authService.userManagesProfile(profile.id)
                 }
             )
             .sort((a, b) => a.name.localeCompare(b.name));
@@ -51,7 +49,7 @@ export class AdminProfileListComponent implements OnInit {
 
         const data = form.value;
 
-        const profile = await this.adminService.createProfile(data);
+        await this.adminService.createProfile(data);
 
         this.loadProfiles();
     }

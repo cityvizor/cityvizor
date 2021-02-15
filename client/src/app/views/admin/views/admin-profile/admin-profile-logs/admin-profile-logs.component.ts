@@ -32,7 +32,8 @@ export class AdminProfileLogsComponent implements OnInit {
   }
 
   async loadImports(profileId) {
-    this.logs = await this.adminService.getProfileImports(profileId);
+    const logs = await this.adminService.getProfileImports(profileId);
+    this.logs = logs
   }
 
 }
