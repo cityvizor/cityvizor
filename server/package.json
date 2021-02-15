@@ -23,7 +23,7 @@
     "prepare": "npm run compile",
     "pretest": "npm run compile",
     "posttest": "npm run lint",
-    "lint": "gts lint && tslint --fix --project ./tsconfig.json",
+    "lint": "gts lint && tslint --project ./tsconfig.json",
     "clean": "gts clean",
     "fix": "gts fix",
     "test": ""

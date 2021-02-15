@@ -175,7 +175,7 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
     validity: req.body.validity || undefined,
     format: 'cityvizor',
     append: isAppend,
-    importDir: importDir,
+    importDir,
   };
 
   const result = await db<ImportRecord>('app.imports').insert(importData, [
@@ -278,7 +278,7 @@ router.post(
       validity: req.body.validity || undefined,
       format: 'cityvizor',
       append: false,
-      importDir: importDir,
+      importDir,
     };
 
     const result = await db<ImportRecord>('app.imports').insert(importData, [

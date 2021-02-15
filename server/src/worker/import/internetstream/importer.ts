@@ -91,7 +91,7 @@ function createTransformer(options: Import.Options) {
       if (recordType === 'KDF' || recordType === 'KOF') {
         const payment: PaymentRecord = {
           paragraph: line.PARAGRAF,
-          item: item,
+          item,
           event: line.ORGANIZACE,
           amount: amountFinal,
           date: line.DOKLAD_DATUM,
@@ -108,7 +108,7 @@ function createTransformer(options: Import.Options) {
         const accounting: AccountingRecord = {
           type: recordType,
           paragraph: line.PARAGRAF,
-          item: item,
+          item,
           event: line.ORGANIZACE,
           unit: line.ORJ,
           amount: amountFinal,

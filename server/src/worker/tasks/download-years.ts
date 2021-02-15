@@ -13,9 +13,7 @@ export const TaskDownloadYears: CronTask = {
   id: 'download-years',
   name: 'Download data for automatically imported years',
   exec: async () => {
-    const years = await db<YearRecord>('app.years').whereNotNull(
-      'importUrl'
-    );
+    const years = await db<YearRecord>('app.years').whereNotNull('importUrl');
     for (const year of years) {
       if (!year.importPeriodMinutes || !year.importUrl) continue;
       const lastImport = await db<ImportRecord>('app.imports')
@@ -28,9 +26,6 @@ export const TaskDownloadYears: CronTask = {
         lastImport.created <
           new Date(Date.now() - 1000 * 60 * year.importPeriodMinutes)
       ) {
-        console.log(
-          `Downloading new data for year ${year.year}, profile: ${year.profileId}`
-        );
         const importDir = await Import.createImportDir();
         await axios
           .get(year.importUrl, {responseType: 'stream'})
@@ -52,7 +47,7 @@ export const TaskDownloadYears: CronTask = {
           status: 'pending',
           error: undefined,
           append: false,
-          importDir: importDir,
+          importDir,
           format: year.importFormat,
         };
         await db<ImportRecord>('app.imports').insert(importData);
