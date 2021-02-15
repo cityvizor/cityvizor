@@ -47,7 +47,7 @@ export default {
     }
   },
   mounted() {
-    axios.get(`${this.apiBaseUrl}/public/profiles`, { status: "visible"})
+    axios.get(`${this.apiBaseUrl}/public/profiles`, { params: { status: "visible"}})
         .then((response) => {
           this.cities = response.data
           this.loading = false 
