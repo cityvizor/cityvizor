@@ -77,10 +77,10 @@ export async function checkImportQueue() {
     // TODO: ugly
     if (currentJob.format === 'cityvizor') {
       await importCityvizor(options);
-    } else if (currentJob.format == 'internetstream') {
+    } else if (currentJob.format === 'internetstream') {
       await importInternetStream(options);
     } else {
-      throw Error(`Unsupported import type: ${currentJob.format}`)
+      throw Error(`Unsupported import type: ${currentJob.format}`);
     }
     await db<YearRecord>('app.years')
       .where({profileId: currentJob.profileId, year: currentJob.year})

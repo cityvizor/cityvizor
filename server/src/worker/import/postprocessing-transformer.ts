@@ -57,9 +57,9 @@ export class PostprocessingTransformer extends Transform {
     let err: Error | null = null;
     fields.forEach(([field, types]) => {
       types.forEach(type => {
-        if (!tests[type](chunk.record[field])) { 
-        // Can't call the callback here, only one callback call is allowed per transform
-         err = invalidField(field, type, chunk.record);
+        if (!tests[type](chunk.record[field])) {
+          // Can't call the callback here, only one callback call is allowed per transform
+          err = invalidField(field, type, chunk.record);
         }
       });
     });
@@ -68,15 +68,20 @@ export class PostprocessingTransformer extends Transform {
 }
 
 const tests = {
-  number: (n?: any) => n ? !isNaN(Number(n)) : true,
-  date: (n?: any) => n ? (/^\d{4}-\d{2}-\d{2}$/.test(n) && !isNaN(Date.parse(n))) : true,
-  mandatory: (n?: any) => String(n)?.length > 0
+  number: (n?: string | number) => (n ? !isNaN(Number(n)) : true),
+  date: (n?: string | number) =>
+    n
+      ? /^\d{4}-\d{2}-\d{2}$/.test(String(n)) && !isNaN(Date.parse(String(n)))
+      : true,
+  mandatory: (n?: string | number) => String(n)?.length > 0,
 };
 
 function invalidField(field: string, type: string, row: {}): Error {
   if (type === 'mandatory') {
     return new Error(
-      `Field "${field}" is mandatory and is missing.\nRow processed: ${JSON.stringify(row)}`
+      `Field "${field}" is mandatory and is missing.\nRow processed: ${JSON.stringify(
+        row
+      )}`
     );
   } else {
     return new Error(

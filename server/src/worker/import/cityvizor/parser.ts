@@ -40,7 +40,9 @@ const mandatoryPaymentsHeaders = [
 ];
 
 const mandatoryEventHeaders = ['id', 'name'];
-const mandatoryDataHeaders = [...new Set(mandatoryAccountingHeaders.concat(mandatoryPaymentsHeaders))]
+const mandatoryDataHeaders = [
+  ...new Set(mandatoryAccountingHeaders.concat(mandatoryPaymentsHeaders)),
+];
 
 export enum CityvizorFileType {
   ACCOUNTING,
@@ -68,15 +70,22 @@ export function createCityvizorParser(
       break;
   }
 
-  const parseHeader = (headerLine: string[], headerNames: string[]): string[] => {
+  const parseHeader = (
+    headerLine: string[],
+    headerNames: string[]
+  ): string[] => {
     // remove possible BOM at the beginning of file, also removes extra whitespaces
     headerLine = headerLine.map(item => item.trim());
     logger.log(`Searching for these headers: [${headerNames}]`);
-    logger.log(`The header array being searched for field names: [${headerLine}]`);
+    logger.log(
+      `The header array being searched for field names: [${headerLine}]`
+    );
     const foundHeaders: string[] = headerLine.map(originalField => {
-        // browse through all the target fields if originalField is someones alias
-        return Object.keys(headerAliases).find(key => headerAliases[key].indexOf(originalField) !== -1);
-     }) as string[];
+      // browse through all the target fields if originalField is someones alias
+      return Object.keys(headerAliases).find(
+        key => headerAliases[key].indexOf(originalField) !== -1
+      );
+    }) as string[];
     headerNames.forEach(h => {
       if (foundHeaders.indexOf(h) === -1) {
         throw Error(`Failed to find column header "${h}"`);
@@ -153,20 +162,28 @@ function createPaymentRecord(row: {}, options: Import.Options): PaymentRecord {
     'counterpartyId',
     'counterpartyName',
     'description',
-  ].reduce((acc, c) => {
-    if (row[c]) acc[c] = row[c]
-    return acc
-  }, {
-    profileId: options.profileId,
-    year: options.year,
-  } as PaymentRecord);
+  ].reduce(
+    (acc, c) => {
+      if (row[c]) acc[c] = row[c];
+      return acc;
+    },
+    {
+      profileId: options.profileId,
+      year: options.year,
+    } as PaymentRecord
+  );
 }
 
-function createAccountingRecord(row: {}, options: Import.Options): AccountingRecord {
-  return ['type', 'paragraph', 'item', 'event', 'unit', 'amount'].reduce((acc, c) => {
-    if (row[c]) acc[c] = row[c]
-    return acc
-  }, {
+function createAccountingRecord(
+  row: {},
+  options: Import.Options
+): AccountingRecord {
+  return ['type', 'paragraph', 'item', 'event', 'unit', 'amount'].reduce(
+    (acc, c) => {
+      if (row[c]) acc[c] = row[c];
+      return acc;
+    },
+    {
       profileId: options.profileId,
       year: options.year,
     } as AccountingRecord
@@ -174,11 +191,14 @@ function createAccountingRecord(row: {}, options: Import.Options): AccountingRec
 }
 
 function createEventRecord(row: {}, options: Import.Options): EventRecord {
-  return ['id', 'name', 'description'].reduce((acc, c) => {
-    if (row[c]) acc[c] = row[c]
-    return acc
-  }, {
-    profileId: options.profileId,
-    year: options.year,
-  } as EventRecord);
+  return ['id', 'name', 'description'].reduce(
+    (acc, c) => {
+      if (row[c]) acc[c] = row[c];
+      return acc;
+    },
+    {
+      profileId: options.profileId,
+      year: options.year,
+    } as EventRecord
+  );
 }

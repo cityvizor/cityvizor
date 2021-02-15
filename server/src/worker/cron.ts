@@ -26,11 +26,11 @@ export async function cronInit() {
   const importJob = new CronJob({
     cronTime: '*/10 * * * * *', // Every 10 seconds
     start: true /* Set the job right now */,
-    runOnInit: true  /* Run the tasks right now */,
+    runOnInit: true /* Run the tasks right now */,
     timeZone: 'Europe/Prague' /* Time zone of this job. */,
     onTick: () => checkImportQueue(),
   });
- 
+
   // TODO make cron time for update configurable
   const updateJob = new CronJob({
     cronTime: '* */10 * * *', // Every 10 minutes
@@ -39,12 +39,11 @@ export async function cronInit() {
     timeZone: 'Europe/Prague' /* Time zone of this job. */,
     onTick: () => runUpdate(),
   });
-  
 
   if (!dailyJob.running) {
     dailyJob.start();
   }
-  importJob.start()
+  importJob.start();
   updateJob.start();
 
   console.log('[CRON] CityVizor daily job set at ' + config.cron.cronTime);

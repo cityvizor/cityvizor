@@ -1,6 +1,5 @@
 import csvparse from 'csv-parse';
 import * as fs from 'fs-extra';
-import config from '../../../config';
 import path from 'path';
 import {pipeline, Transform} from 'stream';
 import {Import} from '../import';
@@ -10,11 +9,12 @@ import {DatabaseWriter} from '../db-writer';
 import {PaymentRecord, AccountingRecord} from '../../../schema';
 
 export async function importInternetStream(options: Import.Options) {
-
-  await options.transaction('data.payments')
+  await options
+    .transaction('data.payments')
     .where({profileId: options.profileId, year: options.year})
     .delete();
-  await options.transaction('data.accounting')
+  await options
+    .transaction('data.accounting')
     .where({profileId: options.profileId, year: options.year})
     .delete();
 
@@ -84,8 +84,9 @@ function createTransformer(options: Import.Options) {
       const recordType = line.DOKLAD_AGENDA;
       const amountMd = line.CASTKA_MD;
       const amountDal = line.CASTKA_DAL;
-      const item = Number(line.POLOZKA)
-      const amountFinal = item < 5000 ? amountMd - amountDal : amountDal - amountMd;
+      const item = Number(line.POLOZKA);
+      const amountFinal =
+        item < 5000 ? amountMd - amountDal : amountDal - amountMd;
 
       if (recordType === 'KDF' || recordType === 'KOF') {
         const payment: PaymentRecord = {

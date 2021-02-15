@@ -13,9 +13,9 @@ import config from '../../config';
 import {db} from '../../db';
 import {YearRecord, ProfileRecord} from '../../schema';
 import {ImportRecord} from '../../schema/database/import';
-import {ensureDir, move} from 'fs-extra';
+import {move} from 'fs-extra';
 import {DateTime} from 'luxon';
-import {Import} from '../../worker/import/import'
+import {Import} from '../../worker/import/import';
 const router = express.Router();
 
 export const ImportAccountingRouter = router;
@@ -152,7 +152,7 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
         .send('Failed to create new accounting year in database.');
   }
 
-  const importDir = await Import.createImportDir()
+  const importDir = await Import.createImportDir();
 
   if (req.files[type.toString()] && req.files[type.toString()][0]) {
     await move(
@@ -251,7 +251,7 @@ router.post(
           .send('Failed to create new accounting year in database.');
     }
 
-    const importDir = await Import.createImportDir()
+    const importDir = await Import.createImportDir();
 
     if (reqFiles.zipFile && reqFiles.zipFile[0]) {
       await extractZip(reqFiles.zipFile[0].path, importDir);
@@ -278,7 +278,7 @@ router.post(
       validity: req.body.validity || undefined,
       format: 'cityvizor',
       append: false,
-      importDir: importDir
+      importDir: importDir,
     };
 
     const result = await db<ImportRecord>('app.imports').insert(importData, [
@@ -290,7 +290,6 @@ router.post(
       return res
         .status(500)
         .send('Failed to create import record in database.');
-
 
     // get the current full task info (including default values etc.) and return it to the client
     const importDataFull = await db<ImportRecord>('app.imports')

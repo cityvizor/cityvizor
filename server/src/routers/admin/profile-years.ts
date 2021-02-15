@@ -57,7 +57,6 @@ router.put('/:year', acl('profile-years:write'), async (req, res) => {
     importFormat: req.body.importFormat,
     importPeriodMinutes: req.body.importPeriodMinutes,
   };
-  console.log(data)
   try {
     await db('app.years').insert(data);
   } catch (err) {
