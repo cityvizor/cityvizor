@@ -23,8 +23,8 @@ router.get('/', acl('profiles:list'), async (req, res) => {
   const profiles = await db<ProfileRecord>('app.profiles')
     .select('id', 'status', 'name', 'url', 'gpsX', 'gpsY', 'main')
     .modify(function () {
-      if (req.params.status) {
-        this.where('status', req.params.status);
+      if (req.query.status) {
+        this.where('status', '=', req.query.status.toString());
       }
     });
 

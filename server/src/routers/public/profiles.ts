@@ -14,8 +14,8 @@ export const ProfilesRouter = router;
 
 router.get('/', async (req, res) => {
   const profiles = await db<ProfileRecord>('profiles').modify(function () {
-    if (req.params.status) {
-      this.where('status', req.params.status);
+    if (req.query.status) {
+      this.where('status', '=', req.query.status.toString());
     }
   });
 
