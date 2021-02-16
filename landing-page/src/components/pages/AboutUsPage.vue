@@ -13,7 +13,7 @@
             Partnerem projektu je <a href="https://cesko.digital/">Česko.Digital</a>, komunita expertních dobrovolníků napříč obory, kteří pracují na veřejně prospěšných projektech. Chtějí tak ve svém volném čase pomáhat státu i nestátním organizacím dělat Česko lepším místem k životu
         </p>
         <p>
-            Společně se snažíme zpřístupnit každému přehledně a srozumitelně všechny důležité informace o hospodaření obcí v ČR. Výjimečnost tohoto projektu spočívá mimo jiné v tom, že se na něm můžete podílet i vy. Pokud chcete podat pomocnou ruku a přispět tak k transparentnímu hospodaření obcí, <a href="https://wiki.cesko.digital/pages/viewpage.action?pageId=1574323">připojte se do naší komunity</a>. Těšíme se na spolupráci.
+            Společně se snažíme zpřístupnit každému přehledně a srozumitelně všechny důležité informace o hospodaření obcí v ČR. Výjimečnost tohoto projektu spočívá mimo jiné v tom, že se na něm můžete podílet i vy. Pokud chcete podat pomocnou ruku a přispět tak k transparentnímu hospodaření obcí, <a href="https://join.cesko.digital/">připojte se do naší komunity</a>. Těšíme se na spolupráci.
         </p>
         <p>
             Cityvizor je transparentní projekt. Veškerou komunikaci o něm proto najdete na našem <a href="https://cesko-digital.slack.com/archives/CG66HNLH4">Slacku</a> a v <a href="https://trello.com/b/BFJahQYG/cityvizor-organizace">Trellu</a>.
