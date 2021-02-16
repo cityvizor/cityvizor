@@ -18,7 +18,7 @@
         <img class="logo" src="@/assets/images/cesko-digital_logo.png" width="200px"/>
         <p>
             Cityvizor je transparentní projekt, který vzniká ve spolupráci s <a href="https://cesko.digital/">Česko.Digital</a>. Veškerou naši komunikaci o projektu proto najdete na <a href="https://cesko-digital.slack.com/archives/CG66HNLH4">Slacku</a> a v <a href="https://trello.com/b/BFJahQYG/cityvizor-organizace">Trellu</a>.<br/>
-            Chcete se na projektu podílet? <a href="https://wiki.cesko.digital/pages/viewpage.action?pageId=1574323">Připojte se do naší komunity</a>!
+            Chcete se na projektu podílet? <a href="https://join.cesko.digital/">Připojte se do naší komunity</a>!
         </p>
         <ParticipateBox></ParticipateBox>
     </div>
