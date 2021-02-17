@@ -1,6 +1,20 @@
 import express from 'express';
+import getExpeditiousCache from 'express-expeditious';
+import redisEngine from 'expeditious-engine-redis';
+import config from '../config';
 
 const router = express.Router();
+
+const cache = getExpeditiousCache({
+  namespace: 'cv',
+  defaultTtl: '5 minutes',
+  engine: redisEngine({
+    redis: {
+      host: config.redis.host,
+      port: config.redis.port,
+    },
+  }),
+});
 
 export const Routers = router;
 
@@ -16,7 +30,7 @@ router.use('/api/account', AccountRouter);
 
 router.use('/api/admin', AdminRouter);
 
-router.use('/api/public', PublicRouter);
+router.use('/api/public', cache, PublicRouter);
 
 router.use('/api/import', ImportRouter);
 

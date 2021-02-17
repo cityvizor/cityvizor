@@ -81,3 +81,7 @@ services:
       - ./database/demo_dump.sql:/docker-entrypoint-initdb.d/demo_dump.sql
     ports:
       - 5432:5432
+
+  redis.cityvizor.otevrenamesta:
+    image: redis:6
+    container_name: redis.cityvizor.otevrenamesta
