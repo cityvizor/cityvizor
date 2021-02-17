@@ -28,6 +28,7 @@ services:
     depends_on:
       - db.cityvizor.otevrenamesta
       - nginx.cityvizor.otevrenamesta
+      - redis.cityvizor.otevrenamesta
 
   worker.cityvizor.otevrenamesta:
     image: cityvizor-server
