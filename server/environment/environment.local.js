@@ -24,6 +24,13 @@ module.exports = {
     database: 'cityvizor',
   },
 
+  redis: {
+    port: 6379,
+    host: 'redis.cityvizor.otevrenamesta',
+    // 10 minutes
+    ttl: 600,
+  },
+
   cors: true,
   corsOrigin: [
     'http://localhost:4200',

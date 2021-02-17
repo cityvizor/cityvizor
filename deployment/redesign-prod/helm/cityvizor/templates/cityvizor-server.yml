@@ -51,6 +51,12 @@ spec:
               value: {{ .Values.cityvizor_server.jwt_secret }}
             - name: PRODUCTBOARD_TOKEN
               value: {{ .Values.productboard_token }}
+            - name: REDIS_HOST
+              value: {{ .Values.cityvizor_server.redis_host }}
+            - name: REDIS_PORT
+              value: {{ .Values.cityvizor_server.redis_port }}
+            - name: REDIS_TTL
+              value: {{ .Values.cityvizor_server.redis_ttl }}
           ports:
             - containerPort: 3000
           volumeMounts:

@@ -12,6 +12,9 @@ cityvizor_server:
   create_admin: false
   jwt_secret: secret
   edesky_api_key: null
+  redis_host: localhost
+  redis_port: 6379
+  redis_ttl: 60
 
 cityvizor_client:
   image: cityvizor/cityvizor-client

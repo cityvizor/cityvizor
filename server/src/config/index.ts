@@ -19,6 +19,12 @@ export default {
     allowedHeaders: ['Authorization', 'Content-Type'],
   },
 
+  redis: {
+    host: environment.redis.host,
+    port: environment.redis.port,
+    ttl: environment.redis.ttl,
+  },
+
   cron: {
     cronTime: '00 00 07 * * *',
     runOnInit: false,

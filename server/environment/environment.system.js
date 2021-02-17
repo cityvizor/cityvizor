@@ -26,6 +26,13 @@ module.exports = {
     ssl: !!process.env.DATABASE_SSL,
   },
 
+  redis: {
+    port: process.env.REDIS_PORT || 6379,
+    host: process.env.REDIS_HOST || 'redis.cityvizor.otevrenamesta',
+    // 10 minutes
+    ttl: process.env.REDIS_TTL || 600,
+  },
+
   cors: true,
   corsOrigin: process.env.URL,
 
