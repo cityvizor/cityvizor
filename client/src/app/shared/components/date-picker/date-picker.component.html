@@ -6,7 +6,7 @@
                 <span class="caret"></span>
             </button>
             <ul *dropdownMenu class="dropdown-menu" role="menu">
-                <li *ngFor="let year of years" role="menuitem"><a class="dropdown-item" [routerLink]="getYearLink(year)">{{year}}</a></li>
+                <li *ngFor="let year of years" role="menuitem"><a class="dropdown-item" [routerLink]="getMonthLink(year, 1)">{{year}}</a></li>
             </ul>
         </div>
         &nbsp;

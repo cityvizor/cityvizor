@@ -35,9 +35,9 @@ export class DatePickerComponent implements OnInit {
 		combineLatest(this.profile, this.params)
 			.subscribe(async ([profile, params]) => {
 				if (!profile) return;
-				await this.updateDates(profile.id)
 				this.currentYear = Number(params["rok"]);
 				this.currentMonth = params["mesic"] ? Number(params["mesic"]) : undefined;
+				await this.updateDates(profile.id)
 			});
 	}
 
@@ -49,7 +49,7 @@ export class DatePickerComponent implements OnInit {
 	}
 	
 	getYearLink(year: number): any {
-		return ["./", { "rok": year, "mesic": 1}];
+		return ["./", { "rok": year }];
 	}
 	getMonthLink(year: number, month: number): any {
 		return ["./", { "rok": year, "mesic": month }];
@@ -75,6 +75,5 @@ export class DatePickerComponent implements OnInit {
 		this.years.sort((a, b) => b - a);
 
 		if (!this.currentYear) this.selectMonth(this.years[0], Math.max(...this.months[this.years[0]]));
-		else if (!this.currentMonth) this.selectMonth(this.currentYear, 1);
 	}
 }
