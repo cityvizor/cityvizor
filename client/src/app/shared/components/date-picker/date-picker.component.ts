@@ -38,19 +38,18 @@ export class DatePickerComponent implements OnInit {
 				await this.updateDates(profile.id)
 				this.currentYear = Number(params["rok"]);
 				this.currentMonth = params["mesic"] ? Number(params["mesic"]) : undefined;
-				console.log(this)
 			});
 	}
 
 	selectYear(year: number): void {
-		this.router.navigate(this.getMonthLink(year, 1), { relativeTo: this.route, replaceUrl: !this.currentYear });
+		this.router.navigate(this.getMonthLink(year, 1), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth});
 	}
 	selectMonth(year: number, month: number): void {
 		this.router.navigate(this.getMonthLink(year, month), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth });
 	}
 	
 	getYearLink(year: number): any {
-		return ["./", { "rok": year}];
+		return ["./", { "rok": year, "mesic": 1}];
 	}
 	getMonthLink(year: number, month: number): any {
 		return ["./", { "rok": year, "mesic": month }];
