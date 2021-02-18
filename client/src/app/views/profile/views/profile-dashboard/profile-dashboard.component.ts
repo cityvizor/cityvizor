@@ -73,12 +73,13 @@ export class ProfileDashboardComponent {
 	}
 
 	openBudget(type: string, year: number): void {
-		if (type === 'inc') this.router.navigate(["./hospodareni/prijmy", { rok: year }], { relativeTo: this.route });
-		if (type === 'exp') this.router.navigate(["./hospodareni/vydaje", { rok: year }], { relativeTo: this.route });
+		if (type === 'inc') this.router.navigate(["./hospodareni/prijmy", { rok: year }], { relativeTo: this.route.parent });
+		if (type === 'exp') this.router.navigate(["./hospodareni/vydaje", { rok: year }], { relativeTo: this.route.parent });
 	}
 
 	openExpenditures(group: number, year: number) {
-		this.router.navigate(["./hospodareni/vydaje", { rok: year, skupina: group }], { relativeTo: this.route });
+		console.log(this.route)
+		this.router.navigate(["./hospodareni/vydaje", { rok: year, skupina: group }], { relativeTo: this.route.parent });
 	}
 
 }

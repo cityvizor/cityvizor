@@ -43,10 +43,10 @@ export class DatePickerComponent implements OnInit {
 	}
 
 	selectYear(year: number): void {
-		this.router.navigate(this.getYearLink(year), { relativeTo: this.route, replaceUrl: !this.currentYear });
+		this.router.navigate(this.getYearLink(year), { relativeTo: this.route.parent, replaceUrl: !this.currentYear });
 	}
 	selectMonth(year: number, month: number): void {
-		this.router.navigate(this.getMonthLink(year, month), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth });
+		this.router.navigate(this.getMonthLink(year, month), { relativeTo: this.route.parent, replaceUrl: !this.currentYear || !this.currentMonth });
 	}
 	
 	getYearLink(year: number): any {
