@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
     .modify(function () {
       if (req.query.sort) {
         const order = sort2order(String(req.query.sort));
+        if (order) this.orderBy(order);
         if (order?.some(orderItem => orderItem?.column === 'date'))
           this.whereRaw('date IS NOT NULL'); // otherwise null payments would get selected on descending date
       }

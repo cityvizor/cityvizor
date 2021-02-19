@@ -176,7 +176,7 @@ export class ProfileAccountingComponent implements OnInit {
 			else delete routeParams[key];
 		});
 
-		this.router.navigate(["./", routeParams], { relativeTo: this.route.parent, replaceUrl: replace })
+		this.router.navigate(["./", routeParams], { relativeTo: this.route, replaceUrl: replace })
 	}
 
 	setHoveredGroup(groupId: string) {

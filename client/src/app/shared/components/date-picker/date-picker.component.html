@@ -1,12 +1,12 @@
 <div class="row selector">
-    <div class="col-12">
+    <div class="col-12" style="margin-bottom: 10px">
         <div class="btn-group" dropdown>
             <button type="button" class="btn btn-sm btn-primary">{{currentYear}}</button>
             <button type="button" dropdownToggle class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split">
                 <span class="caret"></span>
             </button>
             <ul *dropdownMenu class="dropdown-menu" role="menu">
-                <li *ngFor="let year of years" role="menuitem"><a class="dropdown-item" [routerLink]="getYearLink(year)">{{year}}</a></li>
+                <li *ngFor="let year of years" role="menuitem"><a class="dropdown-item" [routerLink]="getMonthLink(year, 1)">{{year}}</a></li>
             </ul>
         </div>
         &nbsp;

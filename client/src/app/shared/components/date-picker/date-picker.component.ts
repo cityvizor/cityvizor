@@ -29,28 +29,27 @@ export class DatePickerComponent implements OnInit {
 
 	constructor(private route: ActivatedRoute, private router: Router, private dataService: DataService, private profileService: ProfileService) { }
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.profile = this.profileService.profile;
 		this.params = this.route.params;
-
 		combineLatest(this.profile, this.params)
-			.subscribe(([profile, params]) => {
+			.subscribe(async ([profile, params]) => {
 				if (!profile) return;
-				if (Object.keys(params).length == 0) this.updateDates(profile.id)
 				this.currentYear = Number(params["rok"]);
 				this.currentMonth = params["mesic"] ? Number(params["mesic"]) : undefined;
+				await this.updateDates(profile.id)
 			});
 	}
 
 	selectYear(year: number): void {
-		this.router.navigate(this.getYearLink(year), { relativeTo: this.route.parent, replaceUrl: !this.currentYear });
+		this.router.navigate(this.getMonthLink(year, 1), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth});
 	}
 	selectMonth(year: number, month: number): void {
-		this.router.navigate(this.getMonthLink(year, month), { relativeTo: this.route.parent, replaceUrl: !this.currentYear || !this.currentMonth });
+		this.router.navigate(this.getMonthLink(year, month), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth });
 	}
 	
 	getYearLink(year: number): any {
-		return ["./", { "rok": year}];
+		return ["./", { "rok": year }];
 	}
 	getMonthLink(year: number, month: number): any {
 		return ["./", { "rok": year, "mesic": month }];
@@ -76,6 +75,5 @@ export class DatePickerComponent implements OnInit {
 		this.years.sort((a, b) => b - a);
 
 		if (!this.currentYear) this.selectMonth(this.years[0], Math.max(...this.months[this.years[0]]));
-		else if (!this.currentMonth) this.selectMonth(this.currentYear, 1);
 	}
 }
