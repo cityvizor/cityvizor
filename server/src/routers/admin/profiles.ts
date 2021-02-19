@@ -12,6 +12,11 @@ import {ProfileRecord} from '../../schema';
 
 import acl from 'express-dynacl';
 import {URL} from 'url';
+import {
+  getS3AvatarPublicObjectPath,
+  getS3Client,
+  S3uploadPublicFile,
+} from '../../s3storage';
 
 const router = express.Router();
 
@@ -50,8 +55,9 @@ router.get('/:profile', acl('profiles:read'), async (req, res) => {
     return res.sendStatus(404);
   }
 
-  profile.avatarUrl =
-    config.apiRoot + '/public/profiles/' + profile.id + '/avatar';
+  profile.avatarUrl = config.s3.enabled
+    ? getS3AvatarPublicObjectPath(profile.id, profile.avatarType, true)
+    : config.apiRoot + '/public/profiles/' + profile.id + '/avatar';
 
   return res.json(profile);
 });
@@ -73,6 +79,12 @@ router.get('/:profile/avatar', async (req, res) => {
     config.storage.avatars,
     'avatar_' + req.params.profile + profile.avatarType
   );
+
+  if (config.s3.enabled) {
+    return res.redirect(
+      getS3AvatarPublicObjectPath(profile.id, profile.avatarType, true)
+    );
+  }
 
   if (!fs.existsSync(avatarPath)) {
     return res.sendStatus(404);
@@ -115,10 +127,18 @@ router.put(
     );
 
     if (req.file) {
-      await fs.move(req.file.path, avatarPath, {
-        overwrite: true,
-      });
+      if (config.s3.enabled) {
+        await S3uploadPublicFile(
+          getS3AvatarPublicObjectPath(profile.id, extname),
+          req.file.path
+        );
+      } else {
+        await fs.move(req.file.path, avatarPath, {
+          overwrite: true,
+        });
+      }
     }
+
     if (req.body.url) {
       if (
         !config.avatarWhitelist
@@ -128,6 +148,13 @@ router.put(
         return;
       await axios.get(req.body.url, {responseType: 'stream'}).then(r => {
         r.data.pipe(fs.createWriteStream(avatarPath));
+        // TODO: WTF is this piping, re-upload to S3 in case this is still used
+        if (config.s3.enabled) {
+          S3uploadPublicFile(
+            getS3AvatarPublicObjectPath(profile.id, extname),
+            avatarPath
+          );
+        }
       });
     }
 
@@ -153,7 +180,22 @@ router.delete('/:profile/avatar', acl('profiles:write'), async (req, res) => {
     'avatar_' + profile.id + profile.avatarType
   );
 
-  await fs.remove(avatarPath);
+  if (fs.existsSync(avatarPath)) {
+    await fs.remove(avatarPath);
+  }
+
+  if (config.s3.enabled) {
+    await getS3Client().removeObject(
+      config.s3.public_bucket,
+      getS3AvatarPublicObjectPath(profile.id, profile.avatarType),
+      (error: Error | null) => {
+        if (error) {
+          // tslint:disable-next-line:no-console
+          console.log('Delete from S3 error', error);
+        }
+      }
+    );
+  }
 
   await db<ProfileRecord>('app.profiles')
     .where('id', req.params.profile)

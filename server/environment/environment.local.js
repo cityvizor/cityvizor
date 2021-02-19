@@ -31,6 +31,18 @@ module.exports = {
     ttl: 600,
   },
 
+  s3: {
+    enabled: true,
+    host: 'minio.cityvizor.otevrenamesta',
+    cdn_host: 'http://localhost:9000',
+    port: 9000,
+    access_key: 'minioadmin',
+    secret_key: 'minioadmin',
+    use_ssl: true,
+    private_bucket: 'cityvizor',
+    public_bucket: 'cityvizor-public',
+  },
+
   cors: true,
   corsOrigin: [
     'http://localhost:4200',
