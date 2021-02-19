@@ -10,6 +10,7 @@ module.exports = {
             ignored: /node_modules/,
             poll: 1000
         },
+        port: 80,
         // https://cli.vuejs.org/config/#devserver-proxy
         proxy: {
             '^/api': {
