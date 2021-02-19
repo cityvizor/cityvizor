@@ -25,6 +25,21 @@ export default {
     ttl: environment.redis.ttl,
   },
 
+  s3: {
+    enabled: environment.s3.enabled,
+    // host for API calls, can be internal CNI/container name/private network
+    endPoint: environment.s3.host,
+    // host for general public access, eg. https://minio.cityvizor.cz/
+    endPointCDN: environment.s3.cdn_host,
+    port: environment.s3.port,
+    useSSL: environment.s3.ssl,
+    accessKey: environment.s3.access_key,
+    secretKey: environment.s3.secret_key,
+    private_bucket: environment.s3.private_bucket,
+    // to access public s3 assets via url {endPointCDN}/{public_bucket}/{object_path}
+    public_bucket: environment.s3.public_bucket,
+  },
+
   cron: {
     cronTime: '00 00 07 * * *',
     runOnInit: false,

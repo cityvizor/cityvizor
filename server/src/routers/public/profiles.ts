@@ -7,6 +7,7 @@ import path from 'path';
 import {db} from '../../db';
 import {ProfileRecord} from '../../schema';
 import * as fs from 'fs';
+import {getS3AvatarPublicObjectPath} from '../../s3storage';
 
 const router = express.Router();
 
@@ -51,6 +52,12 @@ router.get('/:profile/avatar', async (req, res) => {
 
   if (!profile) {
     return res.sendStatus(404);
+  }
+
+  if (config.s3.enabled) {
+    return res.redirect(
+      getS3AvatarPublicObjectPath(profile.id, profile.avatarType, true)
+    );
   }
 
   const avatarPath = path.join(

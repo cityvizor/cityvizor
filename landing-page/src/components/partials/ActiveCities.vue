@@ -27,7 +27,6 @@
                   <b>{{ city.name }}</b>
                 </a>
               </b-col>
-            </a>
           </b-row>
         </b-col>
       </b-row>
@@ -71,7 +70,8 @@ export default {
   margin-top: 24px;
 }
 .city-item-icon-right-margin {
-  margin-right: 4px;
+  margin-right: 8px;
+  max-width: 64px;
 }
 .loading-right-margin {
   margin-right: 8px;

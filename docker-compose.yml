@@ -29,6 +29,7 @@ services:
       - db.cityvizor.otevrenamesta
       - nginx.cityvizor.otevrenamesta
       - redis.cityvizor.otevrenamesta
+      - minio.cityvizor.otevrenamesta
 
   worker.cityvizor.otevrenamesta:
     image: cityvizor-server
@@ -43,6 +44,7 @@ services:
       - ./data:/home/node/app/data
     depends_on:
       - db.cityvizor.otevrenamesta
+      - minio.cityvizor.otevrenamesta
 
   client.cityvizor.otevrenamesta:
     image: cityvizor-client
@@ -86,3 +88,20 @@ services:
   redis.cityvizor.otevrenamesta:
     image: redis:6
     container_name: redis.cityvizor.otevrenamesta
+
+  minio.cityvizor.otevrenamesta:
+    image: minio/minio
+    container_name: minio.cityvizor.otevrenamesta
+    volumes:
+      - ./data/minio:/data
+    expose:
+      - "9000"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
