@@ -14,7 +14,8 @@ mc admin user add cv cityvizor cityvizor
 mc mb cv/cityvizor
 mc mb cv/cityvizor-public
 # Uzivatel cityvizor by měl mít právo k zápisu k oběma bucketům
-mc admin policy set cv/cityvizor readwrite user=cityvizor
+mc admin policy add cv cityvizor-policy policy-cityvizor.json
+mc admin policy set cv cityvizor-policy user=cityvizor
 # Bucket cityvizor-public by měl být otevřen pro veřejné stahování souborů
 mc policy set download cv/cityvizor-public
 ```
