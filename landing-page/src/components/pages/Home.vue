@@ -14,7 +14,7 @@
         </div>
       </b-col>
       <b-col sm="5" md="4" offset-sm="1">
-        <img src="@/assets/images/pages/home/home.png"/>
+        <img src="@/assets/images/pages/home/vesnice.png"/>
       </b-col>
     </b-row>
 
@@ -27,22 +27,12 @@
     </h2>
     </b-row>
 
-    <b-row>
-      <b-col offset="2" offset-sm="0" class="description-box description-bottom-margin">
-        <b-card class="description-image-margin text-center" :img-src="benefits[0].image" img-top>
-          <b-card-text class="description-text">{{ benefits[0].description }}</b-card-text>
-        </b-card>
-      </b-col>
-
-      <b-col offset="2" offset-sm="0" offset-lg="1" class="description-box description-bottom-margin">
-        <b-card class="description-image-margin text-center" :img-src="benefits[1].image" img-top>
-          <b-card-text class="description-text">{{ benefits[1].description }}</b-card-text>
-        </b-card>
-      </b-col>
-
-      <b-col offset="2" offset-sm="0" offset-lg="1" class="description-box description-bottom-margin">
-        <b-card class="description-image-margin text-center" :img-src="benefits[2].image" img-top>
-          <b-card-text class="description-text">{{ benefits[2].description }}</b-card-text>
+    <b-row style="justify-content: space-between;">
+      <b-col v-for="benefit in benefits" sm="12" md="3" class="description-box description-bottom-margin">
+        <b-card class="description-image-margin text-center" :img-src="benefit.image" img-top img-height="200" img-width="200">
+          <b-card-body>
+            <b-card-text class="description-text">{{ benefit.description }}</b-card-text>
+          </b-card-body>
         </b-card>
       </b-col>
     </b-row>
@@ -73,19 +63,19 @@ export default {
               'jeho plnění, které faktury a investice ' +
               'se k němu vážou a kdo jsou ' +
               'dodavatelé.',
-          image: require('@/assets/images/pages/home/visualisation@2x.png')
+          image: require('@/assets/images/pages/home/data_source.svg')
         },
         {
           description:
               'Které projektové a investiční akce právě probíhají, ' +
               'jaké prostředky jsou na ně vyhrazeny a kolik už bylo vyplaceno.',
-          image: require('@/assets/images/pages/home/data_source@2x.png')
+          image: require('@/assets/images/pages/home/visualization.svg')
         },
         {
           description:
               'Nejnovější informace z úředních desek a odkazy na konkrétní ' +
               'dokumenty uveřejněné v Registru smluv.',
-          image: require('@/assets/images/pages/home/details@2x.png')
+          image: require('@/assets/images/pages/home/details.svg')
         }
       ]
     }

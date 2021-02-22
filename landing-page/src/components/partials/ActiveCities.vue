@@ -18,8 +18,7 @@
           <b-row cols="12" no-gutters>
               <b-col class="city-item-icon-right-margin" cols="1">
                 <a :href="cityUrl(city.url)">
-                  <img v-if="city.avatarType" :src="avatarUrl(city.id)">
-                  <img v-else src="@/assets/images/pages/home/city_avatar.png">
+                  <img src="@/assets/images/pages/home/city_avatar.svg">
                 </a>
               </b-col>
               <b-col cols="10">
@@ -53,9 +52,6 @@ export default {
          })
   },
   methods: {
-    avatarUrl: function(id) {
-      return `${this.apiBaseUrl}/public/profiles/${id}/avatar`
-    },
     cityUrl: function(url) {
       return `/${url}`
     }
