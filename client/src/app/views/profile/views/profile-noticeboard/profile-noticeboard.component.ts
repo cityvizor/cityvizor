@@ -16,7 +16,7 @@ export class ProfileNoticeboardComponent implements OnInit {
 
 	infoWindowClosed: boolean;
 
-	edeskyId:number;
+	edeskyId: number | null;
 
 	constructor(private profileService: ProfileService, private dataService: DataService) {
 	}

@@ -55,6 +55,8 @@ export class ProfileAccountingComponent implements OnInit {
 
 	typeLocalParams = { "vydaje": "exp", "prijmy": "inc" };
 
+	currentlySelectedGroup: string | null | undefined;
+
 	// store subscriptions to unsubscribe on destroy
 	subscriptions: Subscription[] = [];
 
@@ -146,11 +148,27 @@ export class ProfileAccountingComponent implements OnInit {
 	selectBudget(year: string | number | null, replace: boolean = false): void {
 		if (!year) return;
 		this.modifyParams({ rok: year, skupina: null, akce: null }, true)
+		this.groups.subscribe((values) => {
+			if (this.currentlySelectedGroup) {
+				// TODO use find
+				values.forEach((v) => {
+					if (v.id === this.currentlySelectedGroup) {
+						this.group = v
+					}
+				})
+			}
+		})
+        this.groups.next([])
 	}
 
 	selectGroup(groupId: string | null): void {
 		console.log("selectGroup", groupId);
+		this.currentlySelectedGroup = groupId
 		if (groupId === undefined) return;
+		if (groupId === null) {
+			this.group = null
+			return
+		}
 		this.modifyParams({ skupina: groupId, akce: null }, true)
 	}
 
