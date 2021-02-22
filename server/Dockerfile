@@ -11,7 +11,7 @@ ENV npm_config_cache=
 ENV npm_config_init_module=
 ENV HOME=/home/node/app
 # Prepare mountpoints with correct user
-RUN mkdir -p /home/node/app/data
+RUN mkdir -p /home/node/data
 RUN chown -R node:node /home/node/
 # Rest of the application is set up under node user in /home/node
 
