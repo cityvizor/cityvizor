@@ -19,6 +19,7 @@
       </div>
     </footer>
   </div>
+  <div v-if="this.alternativePageContent.trackingHtml" v-html="this.alternativePageContent.trackingHtml"></div>
 </div>
 </template>
 
