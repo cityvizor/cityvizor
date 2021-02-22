@@ -39,9 +39,12 @@ export class AppComponent {
 
 	alternativeFooterHtml: string;
 
+	trackingHtml: string;
+
 	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, private route: ActivatedRoute, public configService: ConfigService) {
 		this.toasts = this.toastService.toasts;
 		this.alternativeFooterHtml = this.configService.config.alternativePageContent.footerHtml
+		this.trackingHtml = this.configService.config.alternativePageContent.trackingHtml
 	}
 
 	ngOnInit() {
