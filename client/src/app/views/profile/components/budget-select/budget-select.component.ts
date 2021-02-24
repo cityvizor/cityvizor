@@ -41,6 +41,9 @@ export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
 	}
 
 	selectBudget(budget: Budget) {
+		if (this.selectedBudget.year === budget.year) {
+			return;
+		}
 		this.selectedBudget = budget;
 		this.onTouch();
 		this.onChange(budget);

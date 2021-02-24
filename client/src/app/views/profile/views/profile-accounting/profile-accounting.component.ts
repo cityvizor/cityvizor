@@ -1,19 +1,19 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { Subscription, combineLatest, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { map, filter, distinctUntilChanged, withLatestFrom } from 'rxjs/operators';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {BehaviorSubject, combineLatest, ReplaySubject, Subject, Subscription} from 'rxjs';
+import {distinctUntilChanged, filter, map, mergeAll, pluck, withLatestFrom} from 'rxjs/operators';
 
-import { DataService } from 'app/services/data.service';
-import { CodelistService } from 'app/services/codelist.service';
-import { ProfileService } from 'app/services/profile.service';
-import { AccountingService, AccountingGroupType } from 'app/services/accounting.service';
+import {DataService} from 'app/services/data.service';
+import {CodelistService} from 'app/services/codelist.service';
+import {ProfileService} from 'app/services/profile.service';
+import {AccountingGroupType, AccountingService} from 'app/services/accounting.service';
 
-import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent } from 'app/schema';
+import {Accounting, Budget, BudgetEvent, BudgetGroup, BudgetGroupEvent} from 'app/schema';
 
-import { ChartBigbangData, ChartBigbangDataRow } from 'app/shared/charts/chart-bigbang/chart-bigbang.component';
-import { EventDetailModalComponent } from "app/shared/components/event-detail-modal/event-detail-modal.component";
+import {ChartBigbangData, ChartBigbangDataRow} from 'app/shared/charts/chart-bigbang/chart-bigbang.component';
+import {EventDetailModalComponent} from "app/shared/components/event-detail-modal/event-detail-modal.component";
 
 @Component({
 	selector: 'profile-accounting',
@@ -143,12 +143,18 @@ export class ProfileAccountingComponent implements OnInit {
 
 		this.modalService.onHide.subscribe(() => this.selectEvent(null));
 
-		this.groups.subscribe((budgetGroups) => {
-			if (budgetGroups.length > 0) {
-				this.currentlySelectedGroup = budgetGroups[0].id
-				this.groupId.next(this.currentlySelectedGroup)
-			}
-		});
+		this.groups.pipe(
+			filter((budgetGroups: BudgetGroup[]) => budgetGroups.length > 0),
+			mergeAll(),
+			filter(item => item.amount > 0 && item.budgetAmount > 0),
+			pluck("id"),
+			map(id => {
+				if (!this.currentlySelectedGroup) {
+					this.currentlySelectedGroup = id
+				}
+				this.groupId.next(this.currentlySelectedGroup);
+			})
+		).subscribe()
 	}
 
 	selectBudget(year: string | number | null, replace: boolean = false): void {
@@ -156,7 +162,6 @@ export class ProfileAccountingComponent implements OnInit {
 		this.modifyParams({ rok: year, skupina: null, akce: null }, true)
 		this.groups.subscribe((values) => {
 			if (this.currentlySelectedGroup) {
-				// TODO use find
 				values.forEach((v) => {
 					if (v.id === this.currentlySelectedGroup) {
 						this.group = v
@@ -164,7 +169,7 @@ export class ProfileAccountingComponent implements OnInit {
 				})
 			}
 		})
-        this.groups.next([])
+		this.groups.next([])
 	}
 
 	selectGroup(groupId: string | null): void {
