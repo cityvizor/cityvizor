@@ -53,6 +53,13 @@ module.exports = {
   keys: {
     edesky: {api_key: process.env.EDESKY_API_KEY},
     jwt: {secret: process.env.JWT_SECRET},
-    productboard: {token: process.env.PRODUCTBOARD_TOKEN},
+  },
+
+  email: {
+    address: process.env.EMAIL_ADDRESS,
+    smtp: process.env.EMAIL_SMTP,
+    port: process.env.EMAIL_PORT,
+    user: process.env.EMAIL_USER,
+    password: process.env.EMAIL_PASSWORD,
   },
 };

@@ -1,7 +1,7 @@
-import axios from 'axios';
 import express from 'express';
 import environment from '../../../environment';
 import schema from 'express-jsonschema';
+import nodemailer from 'nodemailer';
 
 const router = express.Router();
 
@@ -56,7 +56,7 @@ router.post('/', schema.validate({body: feedbackSchema}), async (req, res) => {
 Email: ${req.body.email}
 Zpráva: ${req.body.feedback}`;
 
-  sendToProductboard('feedback', content);
+  await sendToEmail('feedback', content);
   res.sendStatus(204);
 });
 
@@ -72,27 +72,27 @@ Jméno: ${req.body.name}
 GDPR souhlas: ${req.body.gdpr}
 Informace o propojení: ${req.body.subscribe}
 `;
-    sendToProductboard('Zapojení obce', content);
+    await sendToEmail('Zapojení obce', content);
     res.sendStatus(204);
   }
 );
 
-function sendToProductboard(type: string, content: string) {
-  axios
-    .post(
-      'https://api.productboard.com/notes',
-      {
-        title: `Cityvizor - ${type}`,
-        content,
-        customer_email: 'landing@cityvizor.cz',
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${environment.keys.productboard.token}`,
-        },
-      }
-    )
-    .catch(err => {
-      throw err;
-    });
+async function sendToEmail(type: string, content: string) {
+  const transporter = nodemailer.createTransport({
+    host: environment.email.smtp,
+    port: Number(environment.email.port),
+    secure: Number(environment.email.port) === 465, // true for 465, false for other ports
+    auth: {
+      user: environment.email.user,
+      pass: environment.emai.password,
+    },
+  });
+
+  const info = await transporter.sendMail({
+    from: '"Cityvizor feedback"', // sender address
+    to: environment.email.address,
+    subject: type,
+    text: content,
+  });
+  return info;
 }
