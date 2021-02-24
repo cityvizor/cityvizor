@@ -47,7 +47,12 @@ export default {
   mounted() {
     axios.get(`${this.apiBaseUrl}/public/profiles`, { params: { status: "visible"}})
         .then((response) => {
-          this.cities = response.data
+          this.cities = response.data.sort((a, b) => {
+            return a.name.localeCompare(b.name, undefined, {
+              numeric: true,
+              sensitivity: 'base'
+            })
+          })
           this.loading = false 
          })
   },

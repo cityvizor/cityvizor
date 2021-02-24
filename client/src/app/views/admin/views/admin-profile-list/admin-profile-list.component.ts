@@ -41,7 +41,7 @@ export class AdminProfileListComponent implements OnInit {
                     return this.authService.userManagesProfile(profile.id)
                 }
             )
-            .sort((a, b) => a.name.localeCompare(b.name));
+            .sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true, sensitivity: 'base'}));
         this.loading = false;
     }
 
