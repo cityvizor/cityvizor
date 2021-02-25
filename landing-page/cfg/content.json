@@ -5,5 +5,8 @@
     "aboutUsHtml": "",
     "footerHtml": "",
     "homeHtml": "",
-    "trackingHtml": ""
+    "tracking": {
+        "html": [],
+        "scripts": []
+    } 
 }

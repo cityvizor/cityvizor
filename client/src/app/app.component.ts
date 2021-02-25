@@ -39,15 +39,22 @@ export class AppComponent {
 
 	alternativeFooterHtml: string;
 
-	trackingHtml: string;
+	tracking: {
+		html: string[],
+		scripts: string[]
+	}
 
 	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, private route: ActivatedRoute, public configService: ConfigService) {
 		this.toasts = this.toastService.toasts;
 		this.alternativeFooterHtml = this.configService.config.alternativePageContent.footerHtml
-		this.trackingHtml = this.configService.config.alternativePageContent.trackingHtml
+		this.tracking = this.configService.config.alternativePageContent.tracking
 	}
 
 	ngOnInit() {
+		this.tracking.scripts.forEach(script => {
+			script = script.replace(/^<script>/, "").replace(/<\/script>$/, "")
+			eval(script)
+		})
 	}
 
 	logout() {

@@ -40,4 +40,4 @@
 
 	</div>
 </footer>
-<div *ngIf="trackingHtml" [innerHTML]="trackingHtml"></div>
+<div *ngFor="let html of tracking.html" [innerHTML]="html"></div>
