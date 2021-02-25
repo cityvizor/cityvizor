@@ -53,8 +53,13 @@ module.exports = {
   keys: {
     edesky: {api_key: null},
     jwt: {secret: 'secret'},
-    productboard: {token: 'CHANGEME'},
   },
 
-  productboard: {},
+  email: {
+    address: '',
+    smtp: '',
+    port: '',
+    user: '',
+    password: '',
+  },
 };
