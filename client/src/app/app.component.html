@@ -16,6 +16,7 @@
 	<div id="push"></div>
 
 </div>
+<div *ngFor="let html of tracking.html" [innerHTML]="html" class="hidden"></div>
 <footer class="bs-docs-footer">
 	<div class="container text-muted small">
 		<div class="row">
@@ -40,4 +41,3 @@
 
 	</div>
 </footer>
-<div *ngFor="let html of tracking.html" [innerHTML]="html"></div>

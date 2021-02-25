@@ -6,7 +6,13 @@
     "footerHtml": "",
     "homeHtml": "",
     "tracking": {
-        "html": [],
-        "scripts": []
+        "html": [
+            "<noscript><iframe src=\"https://www.googletagmanager.com/ns.html?id=GTM-KRVLN95\"\nheight=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>",
+            "<noscript><p><img src=\"//navstevnost.otevrenamesta.cz/matomo.php?idsite=3&amp;rec=1\" style=\"border:0;\" alt=\"\" /></p></noscript>"
+        ],
+        "scripts": [
+            "var _paq = window._paq || [];  _paq.push(['setDocumentTitle', document.domain + '/' + document.title]);  _paq.push(['setCookieDomain', '*.cityvizor.cz']);  _paq.push(['setDomains', ['*.cityvizor.cz']]);  _paq.push(['trackPageView']);  _paq.push(['enableLinkTracking']);  (function() {    var u='//navstevnost.otevrenamesta.cz/';    _paq.push(['setTrackerUrl', u+'matomo.php']);    _paq.push(['setSiteId', '3']);    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);  })();",
+            "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-KRVLN95');"
+        ]
     } 
 }

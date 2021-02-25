@@ -28,7 +28,7 @@
     </b-row>
 
     <b-row style="justify-content: space-between;">
-      <b-col v-for="benefit in benefits" sm="12" md="3" class="description-box description-bottom-margin">
+      <b-col v-for="benefit in benefits" :key="benefit.description" sm="12" md="3" class="description-box description-bottom-margin">
         <b-card class="description-image-margin text-center" :img-src="benefit.image" img-top img-height="200" img-width="200">
           <b-card-body>
             <b-card-text class="description-text">{{ benefit.description }}</b-card-text>
