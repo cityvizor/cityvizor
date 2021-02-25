@@ -19,7 +19,9 @@
       </div>
     </footer>
   </div>
-  <div v-if="this.alternativePageContent.trackingHtml" v-html="this.alternativePageContent.trackingHtml"></div>
+  <div v-for="html in this.alternativePageContent.tracking.html">
+    <div v-html="html"></div>
+  </div>
 </div>
 </template>
 
@@ -28,5 +30,11 @@ export default {
   name: 'ComponentsPartialsFooter',
   props: {
   },
+  mounted: function() {
+    this.alternativePageContent.tracking.scripts.forEach(script => {
+      script = script.replace(/^<script>/, "").replace(/<\/script>$/, "")
+      eval(script)
+    })
+  }
 }
 </script>

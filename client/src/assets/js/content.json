@@ -1,4 +1,7 @@
 {
     "footerHtml": "",
-    "trackingHtml": ""
+    "tracking": {
+        "html": [],
+        "scripts": []
+    }
 }
