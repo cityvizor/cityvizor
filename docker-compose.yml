@@ -57,6 +57,17 @@ services:
     depends_on:
       - nginx.cityvizor.otevrenamesta
 
+  demo.cityvizor.otevrenamesta:
+    image: cityvizor-demo
+    build:
+      context: ./demo
+      target: prod
+    container_name: demo.cityvizor.otevrenamesta
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - nginx.cityvizor.otevrenamesta
+
   landing.cityvizor.otevrenamesta:
     image: cityvizor-landing-page
     build:
