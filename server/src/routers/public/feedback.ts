@@ -84,7 +84,7 @@ async function sendToEmail(type: string, content: string) {
     secure: Number(environment.email.port) === 465, // true for 465, false for other ports
     auth: {
       user: environment.email.user,
-      pass: environment.emai.password,
+      pass: environment.email.password,
     },
   });
 
