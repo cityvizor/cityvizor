@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {BehaviorSubject, combineLatest, ReplaySubject, Subject, Subscription} from 'rxjs';
-import {distinctUntilChanged, filter, map, mergeAll, pluck, withLatestFrom} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, withLatestFrom} from 'rxjs/operators';
 
 import {DataService} from 'app/services/data.service';
 import {CodelistService} from 'app/services/codelist.service';
@@ -144,16 +144,24 @@ export class ProfileAccountingComponent implements OnInit {
 		this.modalService.onHide.subscribe(() => this.selectEvent(null));
 
 		this.groups.pipe(
-			filter((budgetGroups: BudgetGroup[]) => budgetGroups.length > 0),
-			mergeAll(),
-			filter(item => item.amount > 0 && item.budgetAmount > 0),
-			pluck("id"),
-			map(id => {
-				if (!this.currentlySelectedGroup) {
-					this.currentlySelectedGroup = id
+			map((budgetGroups: BudgetGroup[]) => {
+				if (budgetGroups.length > 0) {
+					if (this.currentlySelectedGroup &&
+						!budgetGroups.find(b => ( b.id == this.currentlySelectedGroup && b.name == this.group?.name ))) {
+						this.currentlySelectedGroup = null;
+					}
+
+					budgetGroups.forEach((v) => {
+						if (v.amount > 0 && v.budgetAmount > 0) {
+							if (!this.currentlySelectedGroup) {
+								this.currentlySelectedGroup = v.id
+							}
+						}
+					})
+
+					this.groupId.next(this.currentlySelectedGroup);
 				}
-				this.groupId.next(this.currentlySelectedGroup);
-			})
+			}),
 		).subscribe()
 	}
 
