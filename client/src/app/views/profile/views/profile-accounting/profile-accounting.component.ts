@@ -57,6 +57,8 @@ export class ProfileAccountingComponent implements OnInit {
 
 	currentlySelectedGroup: string | null;
 
+	Unselected: string = 'unselected'
+
 	// store subscriptions to unsubscribe on destroy
 	subscriptions: Subscription[] = [];
 
@@ -123,7 +125,34 @@ export class ProfileAccountingComponent implements OnInit {
 		this.sort.subscribe(sort => this.sortEvents(sort));
 
 		combineLatest(this.groupId, this.groups)
-			.subscribe(([groupId, groups]) => this.group = groups.find(group => "id" in group && group.id === groupId) || null)
+			.subscribe(([groupId, groups]) => {
+				if (groupId === this.Unselected) {
+					this.currentlySelectedGroup = null;
+					this.group = null;
+					return;
+				}
+
+				//this.group = groups.find((g) => this.findGroup(g, groupId)) || null
+				let budgetGroup = groups.find((bg) => this.findGroup(bg, groupId)) || null
+				if (!budgetGroup) {
+					if (groups.length > 0 && this.currentlySelectedGroup && !groups.find(b => this.findGroupName(b))) {
+						this.currentlySelectedGroup = null;
+					}
+
+					groups.forEach((v) => {
+						if (v.amount > 0 && v.budgetAmount > 0) {
+							if (!this.currentlySelectedGroup && !budgetGroup) {
+								this.currentlySelectedGroup = v.id
+                                budgetGroup = v
+							}
+						}
+					})
+				}
+
+				this.group = this.currentlySelectedGroup ? (groups.find((bg) => bg.id === this.currentlySelectedGroup) || null) :
+                    budgetGroup
+				// TODO next()
+			})
 
 		this.groups.subscribe(groups => {
 			this.chartBigbangData = groups.map(group => ({
@@ -142,27 +171,14 @@ export class ProfileAccountingComponent implements OnInit {
 			})
 
 		this.modalService.onHide.subscribe(() => this.selectEvent(null));
+	}
 
-		this.groups.pipe(
-			map((budgetGroups: BudgetGroup[]) => {
-				if (budgetGroups.length > 0) {
-					if (this.currentlySelectedGroup &&
-						!budgetGroups.find(b => ( b.id == this.currentlySelectedGroup && b.name == this.group?.name ))) {
-						this.currentlySelectedGroup = null;
-					}
+	findGroup(b: BudgetGroup, groupId: string | null): boolean {
+		return !!b.id && b.id === groupId
+	}
 
-					budgetGroups.forEach((v) => {
-						if (v.amount > 0 && v.budgetAmount > 0) {
-							if (!this.currentlySelectedGroup) {
-								this.currentlySelectedGroup = v.id
-							}
-						}
-					})
-
-					this.groupId.next(this.currentlySelectedGroup);
-				}
-			}),
-		).subscribe()
+	findGroupName(b: BudgetGroup): boolean {
+		return b.id == this.currentlySelectedGroup && b.name == this.group?.name
 	}
 
 	selectBudget(year: string | number | null, replace: boolean = false): void {
@@ -171,21 +187,21 @@ export class ProfileAccountingComponent implements OnInit {
 		this.groups.subscribe((values) => {
 			if (this.currentlySelectedGroup) {
 				values.forEach((v) => {
-					if (v.id === this.currentlySelectedGroup) {
+					if (v.id == this.currentlySelectedGroup) {
 						this.group = v
+						this.groupId.next(v.id)
 					}
 				})
 			}
 		})
-		this.groups.next([])
 	}
 
 	selectGroup(groupId: string | null): void {
 		console.log("selectGroup", groupId);
 		this.currentlySelectedGroup = groupId
-		if (groupId === null) {
+		if (!groupId) {
 			this.group = null
-			this.groupId.next(null)
+			this.groupId.next(this.Unselected)
 			return
 		}
 		this.modifyParams({ skupina: groupId, akce: null }, true)
