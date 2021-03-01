@@ -123,7 +123,16 @@ export class ProfileAccountingComponent implements OnInit {
 		this.sort.subscribe(sort => this.sortEvents(sort));
 
 		combineLatest(this.groupId, this.groups)
-			.subscribe(([groupId, groups]) => this.group = groups.find(group => "id" in group && group.id === groupId) || null)
+			.subscribe(([groupId, groups]) => {
+				if (!groupId) {
+					const nonemptyGroup = groups.find((group: BudgetGroup) => group.amount > 0 || group.budgetAmount > 0)?.id
+					if (nonemptyGroup) {
+						this.selectGroup(nonemptyGroup)
+					}
+				} else {
+					this.group = groups.find(group => "id" in group && group.id === groupId) || null
+				}
+			})
 
 		this.groups.subscribe(groups => {
 			this.chartBigbangData = groups.map(group => ({
@@ -148,27 +157,12 @@ export class ProfileAccountingComponent implements OnInit {
 	selectBudget(year: string | number | null, replace: boolean = false): void {
 		if (!year) return;
 		this.modifyParams({ rok: year, skupina: null, akce: null }, true)
-		this.groups.subscribe((values) => {
-			if (this.currentlySelectedGroup) {
-				// TODO use find
-				values.forEach((v) => {
-					if (v.id === this.currentlySelectedGroup) {
-						this.group = v
-					}
-				})
-			}
-		})
-        this.groups.next([])
+		
 	}
 
 	selectGroup(groupId: string | null): void {
 		console.log("selectGroup", groupId);
-		this.currentlySelectedGroup = groupId
 		if (groupId === undefined) return;
-		if (groupId === null) {
-			this.group = null
-			return
-		}
 		this.modifyParams({ skupina: groupId, akce: null }, true)
 	}
 

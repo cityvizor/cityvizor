@@ -42,10 +42,7 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
     this.onChange(group);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.groupsReceivedFirstTime(changes)) {
-      this.selectedGroup = this.groups[0]
-    }
+  ngOnChanges() {
     this.updateMax();
   }
 
@@ -54,6 +51,7 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
     this.maxAmount = this.groups.reduce((acc, cur) => Math.max(acc, cur.amount, cur.budgetAmount), 0);
   }
 
+  /*
   // If this is true, async pipe returned groups for first time
   groupsReceivedFirstTime(changes: SimpleChanges): boolean {
     if (!changes.groups || !changes.groups.previousValue) {
@@ -61,5 +59,6 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
     }
     return (changes.groups.previousValue.length === 0 && changes.groups.currentValue.length !== 0 && !changes.groups.firstChange)
   }
+  */
 
 }
