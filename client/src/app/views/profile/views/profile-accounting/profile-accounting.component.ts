@@ -156,7 +156,7 @@ export class ProfileAccountingComponent implements OnInit {
 
 	selectBudget(year: string | number | null, replace: boolean = false): void {
 		if (!year) return;
-		this.modifyParams({ rok: year, skupina: null, akce: null }, true)
+		this.modifyParams({ rok: year, akce: null }, true)
 		
 	}
 
