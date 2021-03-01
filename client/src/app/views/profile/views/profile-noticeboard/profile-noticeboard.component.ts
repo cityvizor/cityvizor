@@ -16,7 +16,7 @@ export class ProfileNoticeboardComponent implements OnInit {
 
 	infoWindowClosed: boolean;
 
-	edeskyId: number | null;
+	edeskyId?: number;
 
 	constructor(private profileService: ProfileService, private dataService: DataService) {
 	}
@@ -28,7 +28,7 @@ export class ProfileNoticeboardComponent implements OnInit {
 		});
 	}
 
-	async loadData(profileId:number){
+	async loadData(profileId: number){
 		this.noticeBoard = await this.dataService.getProfileNoticeBoard(profileId);
 	}
 
