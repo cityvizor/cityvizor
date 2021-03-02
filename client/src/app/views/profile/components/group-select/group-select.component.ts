@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, forwardRef, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, forwardRef, OnChanges } from '@angular/core';
 import { BudgetGroup, Budget } from 'app/schema';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -50,15 +50,5 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
     if (!this.groups) return;
     this.maxAmount = this.groups.reduce((acc, cur) => Math.max(acc, cur.amount, cur.budgetAmount), 0);
   }
-
-  /*
-  // If this is true, async pipe returned groups for first time
-  groupsReceivedFirstTime(changes: SimpleChanges): boolean {
-    if (!changes.groups || !changes.groups.previousValue) {
-      return false
-    }
-    return (changes.groups.previousValue.length === 0 && changes.groups.currentValue.length !== 0 && !changes.groups.firstChange)
-  }
-  */
 
 }

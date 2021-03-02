@@ -11,8 +11,6 @@ services:
     client.cityvizor.otevrenamesta:
         build:
             target: dev
-        environment:
-            NODE_ENV: dev
         volumes:
             - ./client:/user/src/app
             - /user/src/app/node_modules

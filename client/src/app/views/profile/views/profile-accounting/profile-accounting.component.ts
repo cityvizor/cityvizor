@@ -14,7 +14,6 @@ import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent } from '
 
 import { ChartBigbangData, ChartBigbangDataRow } from 'app/shared/charts/chart-bigbang/chart-bigbang.component';
 import { EventDetailModalComponent } from "app/shared/components/event-detail-modal/event-detail-modal.component";
-import { parseTemplate } from '@angular/compiler';
 
 @Component({
 	selector: 'profile-accounting',
@@ -55,8 +54,6 @@ export class ProfileAccountingComponent implements OnInit {
 	chartBigbangData: ChartBigbangData;
 
 	typeLocalParams = { "vydaje": "exp", "prijmy": "inc" };
-
-	currentlySelectedGroup: string | null | undefined;
 
 	// store subscriptions to unsubscribe on destroy
 	subscriptions: Subscription[] = [];
