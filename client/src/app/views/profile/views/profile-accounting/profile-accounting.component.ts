@@ -122,18 +122,25 @@ export class ProfileAccountingComponent implements OnInit {
 
 		this.sort.subscribe(sort => this.sortEvents(sort));
 
-		combineLatest(this.groupId, this.groups, this.year)
-			.subscribe(([groupId, groups, year]) => {
-				// If user swaps from vydaje to prijmy, the groups wont contain the new groupId
-				// Find the new nonempty groupId and select it
-				const swapped = !groups.find((group: BudgetGroup) => group.id == groupId)
-				if (swapped && year) {
+		combineLatest(this.groups, this.groupId)
+			.subscribe(([groups, groupId]) => {
+				if (groups.length > 0 && groupId) {
+					this.group = groups.find(group => "id" in group && group.id === groupId) || null
+				}
+			})
+
+		combineLatest(this.year, this.type)
+			.pipe(withLatestFrom(this.groupId, this.profile))
+			.subscribe(async ([[year, type], groupId, profile]) => {
+				// If groupId is not selected, fetch groups and select a nonempty group
+				if (year && type && !groupId) {
+					const groups = await this.accountingService.getGroups(profile.id, type, year);
+					groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
+					this.groups.next(groups)
 					const nonemptyGroup = groups.find((group: BudgetGroup) => group.amount > 0 || group.budgetAmount > 0)?.id
 					if (nonemptyGroup) {
 						this.selectGroup(nonemptyGroup)
 					}
-				} else if (groups.length > 0 && groupId) {
-					this.group = groups.find(group => "id" in group && group.id === groupId) || null
 				}
 			})
 
