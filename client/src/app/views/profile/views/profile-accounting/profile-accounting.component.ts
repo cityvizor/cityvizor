@@ -14,6 +14,7 @@ import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent } from '
 
 import { ChartBigbangData, ChartBigbangDataRow } from 'app/shared/charts/chart-bigbang/chart-bigbang.component';
 import { EventDetailModalComponent } from "app/shared/components/event-detail-modal/event-detail-modal.component";
+import { parseTemplate } from '@angular/compiler';
 
 @Component({
 	selector: 'profile-accounting',
@@ -71,11 +72,9 @@ export class ProfileAccountingComponent implements OnInit {
 		private cdRef: ChangeDetectorRef
 	) { }
 
-	ngOnInit() {
-
+	async ngOnInit() {
 		// route params
 		this.route.params.pipe(map(params => this.typeLocalParams[params.type] || null), distinctUntilChanged()).subscribe(this.type);
-
 		this.route.params.pipe(map(params => Number(params.rok) || null), distinctUntilChanged()).subscribe(this.year);
 		this.route.params.pipe(map(params => params.skupina || null), distinctUntilChanged()).subscribe(this.groupId);
 		this.route.params.pipe(map(params => Number(params.akce) || null), distinctUntilChanged()).subscribe(this.eventId);
@@ -85,6 +84,14 @@ export class ProfileAccountingComponent implements OnInit {
 		this.profile.subscribe(profile => this.dataService.getProfileBudgets(profile.id)
 			.then(budgets => budgets.sort((a, b) => b.year - a.year))
 			.then(budgets => this.budgets.next(budgets)));
+
+		// load group events if passed via url (refreshed page or clicked on a link)
+		this.profile.subscribe(async (profile) => {
+			const params = this.route.snapshot.params
+			if (params.rok && params.type && params.skupina) {
+				this.groupEvents = await this.accountingService.getGroupEvents(profile.id, params.rok, this.typeLocalParams[params.type], params.skupina);
+			}
+		})
 
 		// set selected budget on year change
 		combineLatest(this.year, this.budgets)
@@ -100,9 +107,7 @@ export class ProfileAccountingComponent implements OnInit {
 		combineLatest(this.profile, this.type, this.year)
 			.subscribe(async ([profile, type, year]) => {
 				if (!profile || !type || !year) return;
-				const groups = await this.accountingService.getGroups(profile.id, type, year);
-				groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
-				this.groups.next(groups)
+				await this.getGroups(profile.id, type, year)
 			});
 
 		// download events
@@ -115,8 +120,6 @@ export class ProfileAccountingComponent implements OnInit {
 
 				if (!groupId) { this.groupEvents = []; return; }
 				this.groupEvents = await this.accountingService.getGroupEvents(profile.id, year, type, groupId);
-				console.log(this.groupEvents)
-
 				this.sortEvents(sort);
 			})
 
@@ -134,9 +137,7 @@ export class ProfileAccountingComponent implements OnInit {
 			.subscribe(async ([[year, type], groupId, profile]) => {
 				// If groupId is not selected, fetch groups and select a nonempty group
 				if (year && type && !groupId) {
-					const groups = await this.accountingService.getGroups(profile.id, type, year);
-					groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
-					this.groups.next(groups)
+					const groups = await this.getGroups(profile.id, type, year);
 					const nonemptyGroup = groups.find((group: BudgetGroup) => group.amount > 0 || group.budgetAmount > 0)?.id
 					if (nonemptyGroup) {
 						this.selectGroup(nonemptyGroup)
@@ -181,6 +182,12 @@ export class ProfileAccountingComponent implements OnInit {
 		}
 	}
 
+	async getGroups(id: number, type: AccountingGroupType, year: number) {
+		const groups = await this.accountingService.getGroups(id, type, year);
+		groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
+		this.groups.next(groups)
+		return groups
+	}
 
 	selectSort(sort: string) {
 		if (sort === undefined) return;
