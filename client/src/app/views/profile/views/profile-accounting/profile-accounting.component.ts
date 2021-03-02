@@ -106,30 +106,33 @@ export class ProfileAccountingComponent implements OnInit {
 			});
 
 		// download events
-		combineLatest(this.profile, this.year, this.type, this.groupId)
-			.pipe(withLatestFrom(this.sort))
-			.subscribe(async ([[profile, year, type, groupId], sort]) => {
+		combineLatest(this.groupId, this.year)
+			.pipe(withLatestFrom(this.sort, this.type, this.profile))
+			.subscribe(async ([[groupId, year], sort, type, profile]) => {
 				if (!profile || !year || !type) return;
 
 				this.resetEventsLimit();
 
 				if (!groupId) { this.groupEvents = []; return; }
-
 				this.groupEvents = await this.accountingService.getGroupEvents(profile.id, year, type, groupId);
+				console.log(this.groupEvents)
 
 				this.sortEvents(sort);
 			})
 
 		this.sort.subscribe(sort => this.sortEvents(sort));
 
-		combineLatest(this.groupId, this.groups)
-			.subscribe(([groupId, groups]) => {
-				if (!groupId) {
+		combineLatest(this.groupId, this.groups, this.year)
+			.subscribe(([groupId, groups, year]) => {
+				// If user swaps from vydaje to prijmy, the groups wont contain the new groupId
+				// Find the new nonempty groupId and select it
+				const swapped = !groups.find((group: BudgetGroup) => group.id == groupId)
+				if (swapped && year) {
 					const nonemptyGroup = groups.find((group: BudgetGroup) => group.amount > 0 || group.budgetAmount > 0)?.id
 					if (nonemptyGroup) {
 						this.selectGroup(nonemptyGroup)
 					}
-				} else {
+				} else if (groups.length > 0 && groupId) {
 					this.group = groups.find(group => "id" in group && group.id === groupId) || null
 				}
 			})
@@ -174,7 +177,6 @@ export class ProfileAccountingComponent implements OnInit {
 
 
 	selectSort(sort: string) {
-		console.log("selectSort", sort);
 		if (sort === undefined) return;
 		this.modifyParams({ "razeni": sort }, false);
 	}
