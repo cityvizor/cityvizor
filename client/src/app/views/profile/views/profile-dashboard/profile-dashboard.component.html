@@ -25,13 +25,13 @@
 
 	<div class="row">
 
-		<div [ngClass]="{'col-sm-6': !this.onlyPayments, 'col-sm-12': this.onlyPayments()}">
+		<div [ngClass]="{'col-sm-6': !this.onlyPayments, 'col-sm-12': this.onlyPayments}">
 			<div class="row">
 				<div class="col-xs-12">
 					<h3>Poslední faktury</h3>
 				</div>
 			</div>
-			<div [ngClass]= "if (!this.onlyPayments) bg-line" class="bg-timeline">
+			<div [ngClass]= "{'bg-line': !this.onlyPayments}" class="bg-timeline">
 				<div [ngClass]="{'col-sm-6': this.onlyPayments }" class="row news" *ngFor="let payment of this.payments.slice(0, this.onlyPayments ? 10 : 5)">
 					<div class="col-xs-12">
 						<div class="row">
