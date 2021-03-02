@@ -44,7 +44,7 @@ export class ProfileDashboardComponent {
 	}
 
 	async loadPayments(profileId: number) {
-		this.payments = await this.dataService.getProfilePayments(profileId, { limit: 5, sort: "-date" })
+		this.payments = await this.dataService.getProfilePayments(profileId, { limit: 10, sort: "-date" })
 	}
 
 	async loadContracts(profileId: number) {
@@ -80,6 +80,10 @@ export class ProfileDashboardComponent {
 	openExpenditures(group: number, year: number) {
 		console.log(this.route)
 		this.router.navigate(["./hospodareni/vydaje", { rok: year, skupina: group }], { relativeTo: this.route.parent });
+	}
+
+	get onlyPayments() {
+		return this.contracts.length == 0
 	}
 
 }

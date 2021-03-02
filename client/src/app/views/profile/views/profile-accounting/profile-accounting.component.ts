@@ -171,7 +171,6 @@ export class ProfileAccountingComponent implements OnInit {
 	}
 
 	selectGroup(groupId: string | null): void {
-		console.log("selectGroup", groupId);
 		if (groupId === undefined) return;
 		this.modifyParams({ skupina: groupId, akce: null }, true)
 	}
