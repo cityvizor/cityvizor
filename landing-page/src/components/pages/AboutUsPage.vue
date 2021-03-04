@@ -10,6 +10,9 @@
             Provozovatelem projektu je nezisková organizace <a href="https://www.otevrenamesta.cz/">Otevřená města</a>. Tu tvoří spolek obcí, které chtějí být otevřené vůči svým občanům. Jejich cílem je především pomáhat s řešením společných problémů obcí a prostřednictvím spolupráce šetřit jejich čas i peníze.
         </p>
         <p>
+            Provozovatelem pro <a href="https://cityvizor.praha.eu/">Prahu a její městské části</a> je společnost <a href="https://operatorict.cz/">Operátor ICT, a.s.</a>, městská akciová společnost, která pro Prahu zajišťuje široké spektrum služeb v oblasti informačních a komunikačních technologií. Cílem společnosti je usnadňovat a vylepšovat život v Praze za pomoci smysluplných a inovativních projektů, které naše hlavní město posouvají na úroveň vyspělé světové metropole.
+        </p>
+        <p>
             Partnerem projektu je <a href="https://cesko.digital/">Česko.Digital</a>, komunita expertních dobrovolníků napříč obory, kteří pracují na veřejně prospěšných projektech. Chtějí tak ve svém volném čase pomáhat státu i nestátním organizacím dělat Česko lepším místem k životu
         </p>
         <p>
