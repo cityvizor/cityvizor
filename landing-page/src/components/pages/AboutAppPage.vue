@@ -7,13 +7,12 @@
             <b>Cityvizor je nástrojem pro transparentní hospodaření obcí.</b> Poskytuje detailní informace o jednotlivých položkách rozpočtu a jeho průběžném plnění. Data jsou získávána přímo z účetních systémů obcí a zobrazována v souvislostech a uživatelsky přívětivou formou.
         </p>
         <p>
-            Cílem je zjednodušit přístup k informacím o hospodaření obcí a být užitečným nástrojem obcím, jejich pracovníkům i široké veřejnosti. Aplikace je postavena na principu sdílené služby a byla vyvinuta pracovníky Ministerstva financí. Její provoz zajišťuje spolek <a href="https://www.otevrenamesta.cz/">Otevřená města</a> a partnerem je <a href="https://cesko.digital/">Česko.Digital</a>.
+            Cílem je zjednodušit přístup k informacím o hospodaření obcí a být užitečným nástrojem obcím, jejich pracovníkům i široké veřejnosti. Aplikace je postavena na principu sdílené služby a byla vyvinuta pracovníky Ministerstva financí. Její provoz zajišťuje spolek <a href="https://www.otevrenamesta.cz/">Otevřená města</a> a partnerem je <a href="https://cesko.digital/">Česko.Digital</a>. Provozovatelem pro <a href="https://cityvizor.praha.eu/">Prahu a její městské části</a> je společnost <a href="https://operatorict.cz/">Operátor ICT, a.s.</a>.
         </p>
 
         <h2>Přehledně a srozumitelně</h2>
         <p>Prostřednictvím jednoduchých tabulek a grafů aplikace umožňuje seznámit se nejen se strukturou plánovaných výdajů a příjmů obce pro daný rok, ale i s jejich skutečným plněním. Díky možnosti zobrazovat si historická data, lze sledovat také vývoj rozpočtu v minulých letech.</p>
         <p>Výjimečnost Cityvizoru spočívá mimo jiné v tom, že umožňuje třídění výdajů a příjmů podle konkrétních investičních akcí. Díky tomu hned jasně vidíte, za co a komu byly prostředky vyplaceny.</p>
-
         <h2>Do detailu každé faktury</h2>
         <p>Aplikace zpřístupňuje informace do detailu jednotlivých faktur. V přehledu výdajů se tak můžete podívat nejen o jaký typ výdaje se jedná, ale také na konkrétní akce, se kterými souvisí. Ještě podrobnější informace získáte díky možnosti náhledu na detail dané akce, kde jsou k dispozici kompletní informace o jejím financování.</p>
         <p>Cityvizor zároveň umožňuje zobrazení seznamu všech dodavatelů, kteří se na dané akci podíleli a faktur, které jim byly v souvislosti s touto akcí proplaceny. Vše je pak možné porovnat s financováním akce v minulých letech. Obdobný princip funguje samozřejmě také u příjmů.</p>
