@@ -91,7 +91,6 @@ export default {
   position: relative;
 
   h1 {
-    font-family: 'IBM Plex Sans';
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -105,7 +104,6 @@ export default {
   }
 
   h2 {
-    font-family: 'IBM Plex Sans';
     font-size: 14px;
     color: #1E2A37;
     text-decoration: none;

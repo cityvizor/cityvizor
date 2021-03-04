@@ -26,14 +26,14 @@ const routes = [
         name: 'O aplikaci',
     },
     {
-        path: '/kontakt',
-        component: ContactPage,
-        name: 'Kontakt'
-    },
-    {
         path: '/o-nas',
         component: AboutUsPage,
         name: 'O nás'
+    },
+    {
+        path: '/kontakt',
+        component: ContactPage,
+        name: 'Kontakt'
     },
     {
         path: '/dokumentace',

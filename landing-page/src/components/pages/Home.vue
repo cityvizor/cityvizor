@@ -13,13 +13,13 @@
         </p>
         </div>
       </b-col>
-      <b-col sm="5" md="4" offset-sm="1">
+      <b-col sm="5" md="4" offset-sm="1" id="village-image">
         <img src="@/assets/images/pages/home/vesnice.png"/>
       </b-col>
     </b-row>
 
     <ActiveCities></ActiveCities>
-    <ParticipateBox class="participate-box-padding"></ParticipateBox>
+    <ParticipateBox></ParticipateBox>
 
     <b-row>
     <h2 class="benefits-header-margins">
@@ -27,9 +27,9 @@
     </h2>
     </b-row>
 
-    <b-row style="justify-content: space-between;">
+    <b-row>
       <b-col v-for="benefit in benefits" :key="benefit.description" sm="12" md="3" class="description-box description-bottom-margin">
-        <b-card class="description-image-margin text-center" :img-src="benefit.image" img-top img-height="200" img-width="200">
+        <b-card class="description-image-margin text-center" :img-src="benefit.image" img-top img-height="150" img-width="150">
           <b-card-body>
             <b-card-text class="description-text">{{ benefit.description }}</b-card-text>
           </b-card-body>
@@ -38,7 +38,7 @@
     </b-row>
 
     <b-row>
-      <p><router-link to="/proc-cityvizor" class="why-link-margins">Proč Cityvizor?</router-link></p>
+      <p><router-link to="/proc-cityvizor" class="why-link-margins">Proč Cityvizor? ›</router-link></p>
     </b-row>
 
   </b-container>
@@ -59,7 +59,7 @@ export default {
       benefits: [
         {
           description:
-              'Jak vypadá plán výdajů a příjmů i ' +
+              'Jak vypadá rozpočet a ' +
               'jeho plnění, které faktury a investice ' +
               'se k němu vážou a kdo jsou ' +
               'dodavatelé.',
@@ -90,6 +90,12 @@ export default {
 $margin: 24px;
 $extra-large-margin: 64px;
 
+#village-image {
+  display: flex; 
+  flex-direction: column-reverse;
+  margin-bottom: 1em;
+}
+
 .description-bottom-margin {
   margin-bottom: 10px;
 }
@@ -105,14 +111,14 @@ $extra-large-margin: 64px;
 
 .benefits-header-margins {
   margin-bottom: $margin;
-  margin-top: $extra-large-margin;
 }
 
 .description-box {
   background: $white;
-  border: 1px solid #CACACA;
+  border: 1px solid $text-gray;
   box-sizing: border-box;
   border-radius: 8px;
+  margin-right: 20px;
 }
 
 .description-text {
@@ -124,9 +130,6 @@ $extra-large-margin: 64px;
   margin: $margin 0px;
 }
 
-.participate-box-padding {
-  padding: 32px;
-}
 
 .why-link-margins {
   margin-bottom: $extra-large-margin;

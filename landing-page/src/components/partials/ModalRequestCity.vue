@@ -1,7 +1,7 @@
 <template>
   <Modal @close="close">
     <template slot="header">
-      <h1>Chcete Cityvizor i ve Vaší obci?</h1>
+      <h1>Chcete Cityvizor i ve vaší obci?</h1>
       <h2>Vyplněním následujícího formuláře nám o tom dáte vědět.</h2>
     </template>
 
@@ -30,7 +30,7 @@
         <section>
           <label>Vaše jméno</label>
           <input id="name" title="Prosím zadejte Vaše jméno" required>
-          <div>Vaše jméno můžeme uvést v seznamu zájemců o Cityvizor při jednání s vedením obce</div>  
+          <div>Vaše jméno můžeme uvést v seznamu zájemců o Cityvizor při jednání s vedením obce.</div>  
         </section>
 
         <section class="checkbox">

@@ -1,7 +1,7 @@
 <template>
   <Modal @close="close">
     <template slot="header">
-      <h1>Máte nápady a připomínky?</h1>
+      <h1>Napište nám, co můžeme zlepšit</h1>
     </template>
 
     <template slot="body">
