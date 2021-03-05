@@ -69,11 +69,9 @@ export class ProfileAccountingComponent implements OnInit {
 		private cdRef: ChangeDetectorRef
 	) { }
 
-	ngOnInit() {
-
+	async ngOnInit() {
 		// route params
 		this.route.params.pipe(map(params => this.typeLocalParams[params.type] || null), distinctUntilChanged()).subscribe(this.type);
-
 		this.route.params.pipe(map(params => Number(params.rok) || null), distinctUntilChanged()).subscribe(this.year);
 		this.route.params.pipe(map(params => params.skupina || null), distinctUntilChanged()).subscribe(this.groupId);
 		this.route.params.pipe(map(params => Number(params.akce) || null), distinctUntilChanged()).subscribe(this.eventId);
@@ -83,6 +81,14 @@ export class ProfileAccountingComponent implements OnInit {
 		this.profile.subscribe(profile => this.dataService.getProfileBudgets(profile.id)
 			.then(budgets => budgets.sort((a, b) => b.year - a.year))
 			.then(budgets => this.budgets.next(budgets)));
+
+		// load group events if passed via url (refreshed page or clicked on a link)
+		this.profile.subscribe(async (profile) => {
+			const params = this.route.snapshot.params
+			if (params.rok && params.type && params.skupina) {
+				this.groupEvents = await this.accountingService.getGroupEvents(profile.id, params.rok, this.typeLocalParams[params.type], params.skupina);
+			}
+		})
 
 		// set selected budget on year change
 		combineLatest(this.year, this.budgets)
@@ -98,30 +104,43 @@ export class ProfileAccountingComponent implements OnInit {
 		combineLatest(this.profile, this.type, this.year)
 			.subscribe(async ([profile, type, year]) => {
 				if (!profile || !type || !year) return;
-				const groups = await this.accountingService.getGroups(profile.id, type, year);
-				groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
-				this.groups.next(groups)
+				await this.getGroups(profile.id, type, year)
 			});
 
 		// download events
-		combineLatest(this.profile, this.year, this.type, this.groupId)
-			.pipe(withLatestFrom(this.sort))
-			.subscribe(async ([[profile, year, type, groupId], sort]) => {
+		combineLatest(this.groupId, this.year)
+			.pipe(withLatestFrom(this.sort, this.type, this.profile))
+			.subscribe(async ([[groupId, year], sort, type, profile]) => {
 				if (!profile || !year || !type) return;
 
 				this.resetEventsLimit();
 
 				if (!groupId) { this.groupEvents = []; return; }
-
 				this.groupEvents = await this.accountingService.getGroupEvents(profile.id, year, type, groupId);
-
 				this.sortEvents(sort);
 			})
 
 		this.sort.subscribe(sort => this.sortEvents(sort));
 
-		combineLatest(this.groupId, this.groups)
-			.subscribe(([groupId, groups]) => this.group = groups.find(group => "id" in group && group.id === groupId) || null)
+		combineLatest(this.groups, this.groupId)
+			.subscribe(([groups, groupId]) => {
+				if (groups.length > 0 && groupId) {
+					this.group = groups.find(group => "id" in group && group.id === groupId) || null
+				}
+			})
+
+		combineLatest(this.year, this.type)
+			.pipe(withLatestFrom(this.groupId, this.profile))
+			.subscribe(async ([[year, type], groupId, profile]) => {
+				// If groupId is not selected, fetch groups and select a nonempty group
+				if (year && type && !groupId) {
+					const groups = await this.getGroups(profile.id, type, year);
+					const nonemptyGroup = groups.find((group: BudgetGroup) => group.amount > 0 || group.budgetAmount > 0)?.id
+					if (nonemptyGroup) {
+						this.selectGroup(nonemptyGroup)
+					}
+				}
+			})
 
 		this.groups.subscribe(groups => {
 			this.chartBigbangData = groups.map(group => ({
@@ -145,11 +164,11 @@ export class ProfileAccountingComponent implements OnInit {
 
 	selectBudget(year: string | number | null, replace: boolean = false): void {
 		if (!year) return;
-		this.modifyParams({ rok: year, skupina: null, akce: null }, true)
+		this.modifyParams({ rok: year, akce: null }, true)
+		
 	}
 
 	selectGroup(groupId: string | null): void {
-		console.log("selectGroup", groupId);
 		if (groupId === undefined) return;
 		this.modifyParams({ skupina: groupId, akce: null }, true)
 	}
@@ -160,9 +179,14 @@ export class ProfileAccountingComponent implements OnInit {
 		}
 	}
 
+	async getGroups(id: number, type: AccountingGroupType, year: number) {
+		const groups = await this.accountingService.getGroups(id, type, year);
+		groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
+		this.groups.next(groups)
+		return groups
+	}
 
 	selectSort(sort: string) {
-		console.log("selectSort", sort);
 		if (sort === undefined) return;
 		this.modifyParams({ "razeni": sort }, false);
 	}

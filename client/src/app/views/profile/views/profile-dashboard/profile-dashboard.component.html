@@ -25,14 +25,14 @@
 
 	<div class="row">
 
-		<div class="col-sm-6">
+		<div [ngClass]="{'col-sm-6': !this.onlyPayments, 'col-sm-12': this.onlyPayments}">
 			<div class="row">
 				<div class="col-xs-12">
 					<h3>Poslední faktury</h3>
 				</div>
 			</div>
-			<div class="bg-timeline">
-				<div class="row news" *ngFor="let payment of payments">
+			<div [ngClass]= "{'bg-line': !this.onlyPayments}" class="bg-timeline">
+				<div [ngClass]="{'col-sm-6': this.onlyPayments }" class="row news" *ngFor="let payment of this.payments.slice(0, this.onlyPayments ? 10 : 5)">
 					<div class="col-xs-12">
 						<div class="row">
 							<div class="col-xs-9">
@@ -68,19 +68,22 @@
 						</div>
 					</div>
 				</div>
-				<div class="text-center more">
-					<a routerLink="./faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+				<div class="row">
+					<div class="text-center more">
+						<a routerLink="./faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+					</div>
 				</div>
-			</div>
+
+		</div>
 		</div>
 
-		<div class="col-sm-6">
+		<div *ngIf="this.contracts.length != 0" class="col-sm-6">
 			<div class="row">
 				<div class="col-xs-12">
 					<h3>Poslední smlouvy</h3>
 				</div>
 			</div>
-			<div class="bg-timeline">
+			<div class="bg-timeline bg-line">
 				<div class="row news" *ngFor="let contract of contracts">
 					<div class="col-xs-12">
 						<div class="row">
@@ -118,8 +121,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="text-center more">
-					<a routerLink="./registr-smluv" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+				<div clas="row">
+					<div class="text-center more">
+						<a routerLink="./registr-smluv" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+					</div>
 				</div>
 			</div>
 		</div>

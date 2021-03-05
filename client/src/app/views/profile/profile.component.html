@@ -6,7 +6,7 @@
 		<li><a routerLink="hospodareni/prijmy" routerLinkActive="active">Příjmy</a></li>
 		<li><a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
 		<li><a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a></li>
-		<li><a routerLink="uredni-deska" routerLinkActive="active">Úřední deska</a></li>
+		<li *ngIf="(profile | async)?.edesky"><a routerLink="uredni-deska" routerLinkActive="active">Úřední deska</a></li>
 		<li><a routerLink="registr-smluv" routerLinkActive="active">Registr smluv</a></li>
 	</header-menu>
 
