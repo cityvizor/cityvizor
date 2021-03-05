@@ -1,12 +1,12 @@
 <template>
-<b-container class="participate-box">
-    <b-row class="participate-box-row">
+<b-container>
+    <b-row class="box-row">
         <h3>{{ header }}</h3>
     </b-row>
-    <b-row class="participate-box-row">
+    <b-row class="box-row">
         <div>{{ subHeader }}</div>
         </b-row>
-    <b-row class="participate-box-row">
+    <b-row class="box-row">
         <ModalButton @clicked="$emit('clicked')" :label="submitButtonLabel"/>
     </b-row>
 </b-container>
@@ -40,14 +40,9 @@ export default {
 <style scoped lang="scss">
 @import '../../assets/styles/common/_variables.scss';
 
-.participate-box {
-	border-radius: 15px;
-	border: 2px solid $text-gray;
-}
 
-.participate-box-row {
+.box-row {
     justify-content: center;
     margin: 10px;
 }
-
 </style>

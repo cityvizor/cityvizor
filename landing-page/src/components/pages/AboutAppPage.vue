@@ -7,7 +7,7 @@
             <b>Cityvizor je nástrojem pro transparentní hospodaření obcí.</b> Poskytuje detailní informace o jednotlivých položkách rozpočtu a jeho průběžném plnění. Data jsou získávána přímo z účetních systémů obcí a zobrazována v souvislostech a uživatelsky přívětivou formou.
         </p>
         <p>
-            Cílem je zjednodušit přístup k informacím o hospodaření obcí a být užitečným nástrojem obcím, jejich pracovníkům i široké veřejnosti. Aplikace je postavena na principu sdílené služby a byla vyvinuta pracovníky Ministerstva financí. Její provoz zajišťuje spolek <a href="https://www.otevrenamesta.cz/">Otevřená města</a> a partnerem je <a href="https://cesko.digital/">Česko.Digital</a>. Provozovatelem pro <a href="https://cityvizor.praha.eu/">Prahu a její městské části</a> je společnost <a href="https://operatorict.cz/">Operátor ICT, a.s.</a>.
+            Cílem je zjednodušit přístup k informacím o hospodaření obcí a být užitečným nástrojem obcím, jejich pracovníkům i široké veřejnosti. Aplikace je postavena na principu sdílené služby jako Open Source a byla vyvinuta pracovníky <a href="https://www.mfcr.cz/">Ministerstva financí ČR</a>. Její provoz a vývoj zajišťuje spolek <a href="https://www.otevrenamesta.cz/">Otevřená města</a> a partnerem je <a href="https://cesko.digital/">Česko.Digital</a>. Provozovatelem pro <a href="https://cityvizor.praha.eu/">Prahu a její městské části</a> je společnost <a href="https://operatorict.cz/">Operátor ICT, a.s.</a>.
         </p>
 
         <h2>Přehledně a srozumitelně</h2>

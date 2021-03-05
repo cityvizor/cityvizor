@@ -145,7 +145,6 @@ export default {
   }
 
   div {
-    font-family: 'IBM Plex Sans';
     font-size: 12px;
     margin-top: 6px;
     color: #757575;
@@ -170,7 +169,6 @@ export default {
 }
 
 label {
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
 

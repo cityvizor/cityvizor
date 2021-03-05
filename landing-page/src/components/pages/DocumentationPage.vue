@@ -3,12 +3,12 @@
     <h1 class="underlined">Technická dokumentace</h1>
     <h2>Licenční podmínky</h2>
     <h3>Zdrojový kód aplikace</h3>
-    <p>Ministerstvo financí uvolnilo zdrojové kódy aplikace pod volnou licencí GNU AGPL v3, což mimo jiné znamená, že každý nabyvatel licence, který akceptuje její podmínky, získává právo modifikovat dílo, kopírovat ho a dál rozšiřovat toto dílo i jakoukoli jeho odvozenou verzi. Zároveň to znamená, že každý, kdo provozuje aplikaci po síti, musí nabídnout zdrojové kódy (včetně všech úprav) opět k dispozici pod stejnou licencí.</p>
+    <p>Ministerstvo financí ČR uvolnilo zdrojové kódy aplikace pod volnou licencí GNU AGPL v3, což mimo jiné znamená, že každý nabyvatel licence, který akceptuje její podmínky, získává právo modifikovat dílo, kopírovat ho a dál rozšiřovat toto dílo i jakoukoli jeho odvozenou verzi. Zároveň to znamená, že každý, kdo provozuje aplikaci po síti, musí nabídnout zdrojové kódy (včetně všech úprav) opět k dispozici pod stejnou licencí.</p>
     <p>Plný text licence najdete na této adrese: <a href="https://www.gnu.org/licenses/agpl-3.0.html">https://www.gnu.org/licenses/agpl-3.0.html</a></p>
     <h3>Zdrojový kód</h3>
-    <p>Zdrojový kód aplikace naleznete na GitHubu v repozitáři <a href="https://github.com/cityvizor/cityvizor/">cityvizor/cityvizor</a>. Uvítáme všechny konstruktivní připomínky.</p>
+    <p>Zdrojový kód aplikace naleznete na GitHubu v repozitáři <a href="https://github.com/cityvizor/cityvizor/">cityvizor/cityvizor</a>. Uvítáme návrhy na doplnění/vylepšení aplikace na emailu <a href="mailto:cityvizor@otevrenamesta.cz">cityvizor@otevrenamesta.cz</a></p>
     <h2>Specifikace vstupních dat</h2>
-    <p>Za správnost dat odpovídají jednotlivé organizace, které aplikaci využívají. Ministerstvo financí ani spolek Otevřená města za správnost dat nezodpovídají.</p>
+    <p>Za správnost dat odpovídají jednotlivé organizace (obce/samosprávné jednotky), které aplikaci využívají. Ministerstvo financí ČR ani spolek Otevřená města za správnost dat nezodpovídají. Při užívání aplikace jako služby od Otevřených měst se užívání aplikace řídí <a href="https://drive.google.com/file/d/1FAolQnvEOPayZtlramOus0kbXhtaClxL/view">Všeobecnými obchodními podmínkami</a> pro poskytování software jako služby a <a href="https://drive.google.com/file/d/1x3LVheWdeDmustBCkkoqa-TrAI9MnuFk/view">Podmínkami služby Cityvizor</a>.</p>
     <h3>Formát</h3>
     <p>Data se nahrávají pomocí souborů ve formátu .csv (hodnoty oddělené středníkem, kódování UTF-8, escapovací znak &quot;). Soubory se nahrávají v administraci profilu.</p>
     <h3>Struktura</h3>
@@ -258,7 +258,7 @@
     </table>
 
     <h2>Zpracování dat aplikací</h2>
-    <p>CityVizor si neklade za cíl data nijak upravovat kromě zpracování za cílem vizualizace. Z dat tedy nebudou odstraněny osobní údaje v popisech faktur, nebudou skryty vnitřní přesuny ani nebude nijak zasahováno do způsobu vedení rozpočtu obce. Některé změny jsou ale v rámci zpracování nutné a jejich soupis najdete níže.</p>
+    <p>Cityvizor si neklade za cíl data jakkoliv upravovat nad rámec zpracování za cílem vizualizace. Z dat tedy nebudou odstraněny osobní údaje v popisech faktur, nebudou skryty vnitřní přesuny ani nebude nijak zasahováno do způsobu vedení rozpočtu obce. Některé změny jsou ale v rámci zpracování nutné a jejich soupis najdete níže.</p>
     <h3>Sečtení duplikovaných záznamů</h3>
     <p>Pokud je ve zdrojových datech dva či více takových záznamů, které mají stejnou položku, paragraf i akci, budou částky u těchto záznamů sečteny a brány jako jeden záznam. Díky tomuto není zpravidla problém s účetními záznamy se zápornou částkou (vratky, opravy apod.), protože jsou sečteny s příslušnými kladnými záznamy. Toto neplatí pro vizualizaci faktur, které budou zobrazeny tak, jak byly ve zdrojových datech.</p>
     <h3>Vynechání nulových záznamů</h3>

@@ -28,3 +28,12 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+@import '../../assets/styles/common/_variables.scss';
+.participate-box {
+	border-radius: 15px;
+	border: 2px solid $text-gray;
+    margin-top: 64px;
+    margin-bottom: 64px;
+}
+</style>

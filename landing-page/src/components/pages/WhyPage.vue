@@ -5,7 +5,7 @@
       <b-container>
         <b-row>
           <b-col sm="12">
-            <h1 class="underlined" style="margin-bottom: 20px">Proč Cityvizor?</h1>
+            <h1 class="underlined" style="margin-bottom: 32px">Proč Cityvizor?</h1>
           </b-col>
           <b-col xs="12" sm="6" v-for="(point, idx) in points" :key="point.title" class="list-entry">
             <b-row>
@@ -18,7 +18,7 @@
                 <b-row>
                   <h4>{{ point.title }}</h4>
                 </b-row>
-                <b-row id="point-content">
+                <b-row>
                   {{ point.content }}
                 </b-row>
               </b-col>
@@ -52,11 +52,11 @@ export default {
         },
         {
           title: "Vše na jednom místě",
-          content: "Poskytuje informace o rozpočtu obce a jeho průběžném plnění, informace z úřední desky i z Registru smluv."
+          content: "Poskytuje data o rozpočtu obce a jeho průběžném plnění, informace z úřední desky i z Registru smluv."
         },
         {
           title: "Okamžité informace",
-          content: "Srozumitelná data o hospodaření obce jsou k dispozici 24 hodin denně, což může zastupitelům usnadnit rozhodování, vyhodnocování a řízení obce a kraje."
+          content: "Cityvizor je k dispozici 24 hodin denně, což může zastupitelům usnadnit rozhodování, vyhodnocování a řízení obce a kraje."
         },
         {
           title: "Spolehlivý přehled",
@@ -64,11 +64,11 @@ export default {
         },
         {
           title: "Do detailu každé faktury",
-          content: "Cityvizor zobrazuje příjmy a výdaje do detailu každé faktury a věrně tak odráží skutečnost."
+          content: "Cityvizor zobrazuje příjmy a výdaje do detailu jednotlivých faktur a věrně tak odráží skutečnost."
         },
         {
           title: "Kompletní informace ke každé položce",
-          content: "Ještě podrobnější informace získáte díky možnosti náhledu na detail investiční akce, kde najdete vše o jejím financování včetně seznamu dodavatelů a faktur, které jim byly proplaceny. Zároveň zde najdete financování dané akce v minulých letech."
+          content: "Ještě podrobnější informace získáte díky možnosti náhledu na detail investiční akce, kde najdete vše o jejím financování včetně seznamu dodavatelů a faktur, které jim byly proplaceny. Můžete se podívat také na financování dané akce v minulých letech."
         },
         {
           title: "Náhled přímo na faktury za daný měsíc",
@@ -76,7 +76,7 @@ export default {
         },
         {
           title: "Historická data",
-          content: "Cityvizor zobrazuje také vývoj rozpočtů v minulosti. Můžete se tak podívat, jak vaše obec hospodařila v předchozích letech."
+          content: "Cityvizor zobrazuje také vývoj rozpočtů v minulosti. Můžete se tak podívat, jak vaše obec hospodařila v předchozích letech a porovnat data se současným stavem."
         },
         {
           title: "Efektivní práce s daty díky vizualizaci",
@@ -87,16 +87,16 @@ export default {
           content: "Původně byla vyvinuta pracovníky Ministerstva financí ČR a její infrastrukturu a rozvoj zaštiťují neziskové organizace. Jejich tým průběžně zpracovává zpětnou vazbu a vyvíjí nové funkce tak, aby vám aplikace přinesla ještě více užitku."
         },
         {
-          title: "Na míru vašim potřebám",
-          content: "Aplikace Cityvizor je upravitelná přesně podle potřeb vaší obce, aby se vám s ní pracovalo co nejlépe."
-        },
-        {
           title: "Ušetříte za licence",
           content: "Obec může ušetřit za licence pro přístup do informačního systému. Zaměstnancům obce bude většinou jako jediný nástroj stačit Cityvizor."
         },
         {
+          title: "Na míru vašim potřebám",
+          content: "Aplikace Cityvizor je upravitelná přesně podle potřeb vaší obce, aby se vám s ní pracovalo co nejlépe."
+        },
+        {
           title: "Začít můžete hned",
-          content: "Není třeba projít složitým školením. Aplikaci můžete začít používat hned po importu dat vaší obce. Pokud vám však zaškolení dá větší jistotu, rádi vám poskytneme veškerou podporu."
+          content: "Aplikaci můžete začít používat hned po importu dat vaší obce. Pokud vám však zaškolení dá větší jistotu, rádi vám poskytneme veškerou podporu."
         }
       ]
     }
@@ -106,11 +106,6 @@ export default {
 
 <style scoped lang="scss">
 @import '../../assets/styles/common/_variables.scss';
-
-#point-content {
-  margin-left: 0.5em;
-}
-
 
 .list-entry {
   margin-bottom: 20px;
