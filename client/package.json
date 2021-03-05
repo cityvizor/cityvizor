@@ -33,24 +33,24 @@
     "intl": "^1.2.5",
     "luxon": "^1.25.0",
     "ngx-bootstrap": "^6.2.0",
-    "npm": "^7.5.2",
+    "npm": "^7.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.3",
     "tslib": "^2.1.0",
     "web-animations-js": "^2.3.2",
     "wordcloud": "^1.1.2",
     "yarn": "^1.22.10",
-    "zone.js": "^0.11.3"
+    "zone.js": "^0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1101.4",
+    "@angular-devkit/build-angular": "^0.1102.3",
     "@angular/cli": "^11.1.4",
     "@angular/compiler-cli": "^11.1.2",
     "@angular/language-service": "^11.1.2",
     "@types/luxon": "^1.25.1",
     "@types/node": "^14.14.25",
     "@types/wordcloud": "^1.1.2",
-    "typescript": "^4.0.5"
+    "typescript": "^4.1.5"
   },
   "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
   "license": "GPL-3.0"

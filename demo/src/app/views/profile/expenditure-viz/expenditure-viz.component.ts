@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { DataService } from 'app/services/data.service';
 import { CodelistService } from 'app/services/codelist.service';

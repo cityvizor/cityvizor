@@ -18,6 +18,16 @@ services:
             - 4200:4200
             - 49153:49153
 
+    demo.cityvizor.otevrenamesta:
+        build:
+            target: dev
+        volumes:
+            - ./demo:/user/src/app
+            - /user/src/app/node_modules
+        ports:
+            - 4200:4200
+            - 49153:49153
+
     server.cityvizor.otevrenamesta:
         build:
             target: dev
