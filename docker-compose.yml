@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   nginx.cityvizor.otevrenamesta:
-    image: nginx:1.15.8-alpine
+    image: nginx:1.17.8-alpine
     container_name: nginx.cityvizor.otevrenamesta
     ports:
       - "4200:80"
@@ -54,6 +54,17 @@ services:
     container_name: client.cityvizor.otevrenamesta
     environment:
       NODE_ENV: local
+    depends_on:
+      - nginx.cityvizor.otevrenamesta
+
+  demo.cityvizor.otevrenamesta:
+    image: cityvizor-demo
+    build:
+      context: ./demo
+      target: prod
+    container_name: demo.cityvizor.otevrenamesta
+    environment:
+      NODE_ENV: production
     depends_on:
       - nginx.cityvizor.otevrenamesta
 

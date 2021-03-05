@@ -26,7 +26,11 @@
               "src/styles/styles.scss"
             ],
             "scripts": [
-              { "input": "dist/worker/worker.js" }
+              {
+                "input": "dist/worker/worker.js",
+                "inject": true,
+                "bundleName": "worker"
+              }
             ]
           },
           "configurations": {
@@ -51,7 +55,6 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "aot": true,
             "browserTarget": "cityvizor-demo:build"
           },
           "configurations": {

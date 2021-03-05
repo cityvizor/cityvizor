@@ -3,7 +3,10 @@ import { CommonModule }        from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 // Import Modules
-import { CollapseModule, BsDropdownModule, TabsModule, ModalModule } from 'ngx-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 // Shared coremponents
 import { ChartBigbangComponent } 		from './components/chart-bigbang/chart-bigbang.component';
@@ -17,7 +20,6 @@ import { HelpModalComponent } 		from './components/help-modal/help-modal.compone
 import { MoneyPipe } from './pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './pipes/address.pipe';
 import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pipes/utils.pipe';
-import { Papa } from 'ngx-papaparse';
 
 
 @NgModule({
