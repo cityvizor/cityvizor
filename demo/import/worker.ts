@@ -27,7 +27,8 @@ onmessage = function (e) {
           importer = new ImporterVera();
           break;
         default:
-          throw new Error("Invalid importer type")
+          if (console) {console.log(e);}
+          throw new Error(`Invalid importer type: ${e.data.importer}`)
       }
 
       importer
@@ -37,7 +38,10 @@ onmessage = function (e) {
       break;
 
     default:
-      throw new Error("Invalid event type")
+      if (console) {
+        console.log(e);
+      }
+      throw new Error(`Invalid event type: ${e.data.type}`)
   }
 
 

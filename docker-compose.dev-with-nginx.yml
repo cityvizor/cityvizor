@@ -37,3 +37,7 @@ services:
         volumes:
             - ./landing-page/src:/user/src/app/src
             - ./landing-page/cfg:/user/src/app/cfg
+
+    demo.cityvizor.otevrenamesta:
+        build:
+            target: dev

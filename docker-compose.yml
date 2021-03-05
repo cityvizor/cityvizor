@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   nginx.cityvizor.otevrenamesta:
-    image: nginx:1.15.8-alpine
+    image: nginx:1.17.8-alpine
     container_name: nginx.cityvizor.otevrenamesta
     ports:
       - "4200:80"

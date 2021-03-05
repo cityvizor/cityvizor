@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { saveAs } from 'file-saver';
+import * as FileSaver from 'file-saver';
 import * as iconv from "iconv-lite";
 
 import { AccountingData, ImportedData, AccountingPayment, AccountingRecord, ImportedPayment, ImportedRecord, AccountingEvent, ImportedEvent } from 'app/shared/schema';
@@ -90,7 +90,7 @@ export class ExportService {
 
   createCSV(data: any[], options: ExportOptions) {
 
-    var header = options.header;
+    let header = options.header;
 
     if (!header) {
       header = data.reduce((acc, cur) => {
@@ -100,7 +100,7 @@ export class ExportService {
     }
 
     // initiate csv string
-    var csv = "";
+    let csv = "";
 
     // create header
     csv += Object.values(header).join(options.delimiter) + options.newline;
@@ -126,14 +126,16 @@ export class ExportService {
 
   downloadFile(data: string, filename: string, encoding: string) {
     const buffer = iconv.encode(data, encoding);
-    var blob = new Blob([this.toArrayBuffer(buffer)], { type: "text/plain;charset=" + this.encodingToCharset(encoding) });
-    saveAs(blob, filename);
+    const blob = new Blob([this.toArrayBuffer(buffer)], {
+      type: "text/plain;charset=" + this.encodingToCharset(encoding)
+    });
+    FileSaver.saveAs(blob, filename, { autoBom: false });
   }
 
   toArrayBuffer(myBuf: Buffer): ArrayBuffer {
-    var myBuffer = new ArrayBuffer(myBuf.length);
-    var res = new Uint8Array(myBuffer);
-    for (var i = 0; i < myBuf.length; ++i) {
+    const myBuffer = new ArrayBuffer(myBuf.length);
+    const res = new Uint8Array(myBuffer);
+    for (let i = 0; i < myBuf.length; ++i) {
       res[i] = myBuf[i];
     }
     return myBuffer;
