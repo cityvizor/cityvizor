@@ -21,6 +21,8 @@
             <a href="https://www.openstreetmap.org/#map=19/50.10290/14.44617">Dělnická 213/12</a><br/>
             170 00 Praha 7
         </p>
+        <h2>Partner aplikace</h2>
+        <a href="https://cesko.digital/"><img class="logo" src="@/assets/images/cesko-digital_logo.png" width="150px"/></a>
         <ParticipateBox></ParticipateBox>
     </div>
 </div>
