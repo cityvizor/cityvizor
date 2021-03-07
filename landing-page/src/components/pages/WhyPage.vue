@@ -72,7 +72,7 @@ export default {
         },
         {
           title: "Náhled přímo na faktury za daný měsíc",
-          content: "Aplikace umožňuje náhled na faktury, které byly obcím proplaceny v konkrétním měsíci vybraného roku. Můžete tak jednoduše zjistit, komu tento rok vaše obec vyplatila kolik peněz, aniž byste museli hádat, o jaký druh výdaje se jedná"
+          content: "Aplikace umožňuje náhled na faktury, které byly obcím proplaceny v konkrétním měsíci vybraného roku. Můžete tak jednoduše zjistit, komu tento rok vaše obec vyplatila kolik peněz, aniž byste museli hádat, o jaký druh výdaje se jedná."
         },
         {
           title: "Historická data",
