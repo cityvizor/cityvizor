@@ -28,13 +28,11 @@
     </b-row>
 
     <b-row class="benefits-box">
-      <b-col v-for="benefit in benefits" :key="benefit.description" sm="12" md="3" class="description-box description-bottom-margin">
-        <b-card class="description-image-margin text-center" :img-src="benefit.image" img-top img-height="150" img-width="150">
+        <b-card v-for="benefit in benefits" :key="benefit.description" class="description-image-margin text-center description-box" :img-src="benefit.image" img-top img-height="150" img-width="150">
           <b-card-body>
             <b-card-text class="description-text">{{ benefit.description }}</b-card-text>
           </b-card-body>
         </b-card>
-      </b-col>
     </b-row>
 
     <b-row>
@@ -115,6 +113,11 @@ $extra-large-margin: 64px;
 
 .benefits-box {
   justify-content: space-between;
+  @media (min-width: 576px) {
+    column-gap: 30px;
+    flex-wrap: nowrap;
+  }
+
 }
 
 .description-box {
