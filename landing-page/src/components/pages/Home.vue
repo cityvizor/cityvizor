@@ -27,7 +27,7 @@
     </h2>
     </b-row>
 
-    <b-row>
+    <b-row class="benefits-box">
       <b-col v-for="benefit in benefits" :key="benefit.description" sm="12" md="3" class="description-box description-bottom-margin">
         <b-card class="description-image-margin text-center" :img-src="benefit.image" img-top img-height="150" img-width="150">
           <b-card-body>
@@ -113,17 +113,21 @@ $extra-large-margin: 64px;
   margin-bottom: $margin;
 }
 
+.benefits-box {
+  justify-content: space-between;
+}
+
 .description-box {
   background: $white;
   border: 1px solid $text-gray;
   box-sizing: border-box;
   border-radius: 8px;
-  margin-right: 20px;
 }
 
 .description-text {
   font-size: $font-size-md;
   margin: 0px $margin $margin $margin;
+  text-align: left;
 }
 
 .description-image-margin {

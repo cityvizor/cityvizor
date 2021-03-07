@@ -32,7 +32,7 @@ export default {
 @import '../../assets/styles/common/_variables.scss';
 .feedback-box {
 	border-radius: 15px;
-	border: 2px solid $text-gray;
+	border: 1px solid $text-gray;
     margin-top: 64px;
     margin-bottom: 64px;
 }
