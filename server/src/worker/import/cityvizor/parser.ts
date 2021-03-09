@@ -114,7 +114,7 @@ function createDataTransformer(options: Import.Options) {
       } catch (err) {
         callback(err);
       }
-      callback()
+      callback();
     },
   });
 }

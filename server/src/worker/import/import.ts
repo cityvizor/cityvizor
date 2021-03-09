@@ -28,6 +28,7 @@ export namespace Import {
     transaction: Transaction;
     importDir: string;
     append: boolean;
+    fileName?: string;
   }
 
   export type ImportChunk = PaymentChunk | EventChunk | AccountingChunk;
