@@ -19,30 +19,10 @@ const headerAliases = {
   name: ['name', 'eventName', 'AKCE_NAZEV'],
 };
 
-const mandatoryAccountingHeaders = [
-  'type',
-  'paragraph',
-  'item',
-  'event',
-  'amount',
-];
-
-const mandatoryPaymentsHeaders = [
-  'paragraph',
-  'item',
-  'unit',
-  'event',
-  'amount',
-  'date',
-  'counterpartyId',
-  'counterpartyName',
-  'description',
-];
+// Shared with paymentsFile (and thus with dataFile)
+const mandatoryAccountingHeaders = ['type', 'paragraph', 'item', 'amount'];
 
 const mandatoryEventHeaders = ['id', 'name'];
-const mandatoryDataHeaders = [
-  ...new Set(mandatoryAccountingHeaders.concat(mandatoryPaymentsHeaders)),
-];
 
 export enum CityvizorFileType {
   ACCOUNTING,
@@ -60,10 +40,10 @@ export function createCityvizorParser(
       headers = mandatoryAccountingHeaders;
       break;
     case CityvizorFileType.DATA:
-      headers = mandatoryDataHeaders;
+      headers = mandatoryAccountingHeaders;
       break;
     case CityvizorFileType.PAYMENTS:
-      headers = mandatoryPaymentsHeaders;
+      headers = mandatoryAccountingHeaders;
       break;
     case CityvizorFileType.EVENTS:
       headers = mandatoryEventHeaders;
@@ -72,11 +52,10 @@ export function createCityvizorParser(
 
   const parseHeader = (
     headerLine: string[],
-    headerNames: string[]
+    mandatoryHeaders: string[]
   ): string[] => {
     // remove possible BOM at the beginning of file, also removes extra whitespaces
     headerLine = headerLine.map(item => item.trim());
-    logger.log(`Searching for these headers: [${headerNames}]`);
     logger.log(
       `The header array being searched for field names: [${headerLine}]`
     );
@@ -86,9 +65,11 @@ export function createCityvizorParser(
         key => headerAliases[key].indexOf(originalField) !== -1
       );
     }) as string[];
-    headerNames.forEach(h => {
+    logger.log(`Found headers: [${foundHeaders}]`);
+    mandatoryHeaders.forEach(h => {
       if (foundHeaders.indexOf(h) === -1) {
-        throw Error(`Failed to find column header "${h}"`);
+        throw Error(`
+Failed to find mandatory column header "${h}", or any of it's aliases: [${headerAliases[h]}]`);
       }
     });
     return foundHeaders;
