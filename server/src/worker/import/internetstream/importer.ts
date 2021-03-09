@@ -88,6 +88,18 @@ function createTransformer(options: Import.Options) {
       const amountFinal =
         item < 5000 ? amountMd - amountDal : amountDal - amountMd;
 
+        const accounting: AccountingRecord = {
+          type: recordType,
+          paragraph: line.PARAGRAF,
+          item,
+          event: line.ORGANIZACE,
+          unit: line.ORJ,
+          amount: amountFinal,
+
+          profileId: options.profileId,
+          year: options.year,
+        };
+      this.push({type: 'accounting', record: accounting});
       if (recordType === 'KDF' || recordType === 'KOF') {
         const payment: PaymentRecord = {
           paragraph: line.PARAGRAF,
@@ -103,22 +115,8 @@ function createTransformer(options: Import.Options) {
           year: options.year,
         };
         this.push({type: 'payment', record: payment});
-        callback();
-      } else {
-        const accounting: AccountingRecord = {
-          type: recordType,
-          paragraph: line.PARAGRAF,
-          item,
-          event: line.ORGANIZACE,
-          unit: line.ORJ,
-          amount: amountFinal,
-
-          profileId: options.profileId,
-          year: options.year,
-        };
-        this.push({type: 'accounting', record: accounting});
-        callback();
-      }
+      } 
+      callback();
     },
   });
 }
