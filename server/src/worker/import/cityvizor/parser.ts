@@ -103,19 +103,18 @@ function createDataTransformer(options: Import.Options) {
     transform(line, enc, callback) {
       const recordType = line.type;
 
-      if (recordType === 'KDF' || recordType === 'KOF') {
-        try {
-          const payment = createPaymentRecord(line, options);
-          this.push({type: 'payment', record: payment});
-          callback();
-        } catch (err) {
-          callback(err);
-        }
-      } else {
+      try {
         const accounting = createAccountingRecord(line, options);
         this.push({type: 'accounting', record: accounting});
-        callback();
+        // TODO: Why does the paymentRecord have to be pushed twice, once as payment and once as accounting?
+        if (recordType === 'KDF' || recordType === 'KOF') {
+          const payment = createPaymentRecord(line, options);
+          this.push({type: 'payment', record: payment});
+        }
+      } catch (err) {
+        callback(err);
       }
+      callback();
     },
   });
 }

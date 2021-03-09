@@ -23,6 +23,7 @@ export async function importInternetStream(options: Import.Options) {
     path.join(options.importDir, 'SK.csv'),
   ];
   for (const p of csvPaths) {
+    options.fileName = p;
     const fileReader = fs.createReadStream(p);
     const isParser = createParser();
     const isTransformer = createTransformer(options);
@@ -81,13 +82,28 @@ function createTransformer(options: Import.Options) {
     writableObjectMode: true,
     readableObjectMode: true,
     transform(line, enc, callback) {
-      const recordType = line.DOKLAD_AGENDA;
+      // RU.csv contains "upraveny rozpocet" records, but they do not have "ROZ" type
+      const recordType = options.fileName?.endsWith('RU.csv')
+        ? 'ROZ'
+        : line.DOKLAD_AGENDA;
       const amountMd = line.CASTKA_MD;
       const amountDal = line.CASTKA_DAL;
       const item = Number(line.POLOZKA);
       const amountFinal =
         item < 5000 ? amountMd - amountDal : amountDal - amountMd;
 
+      const accounting: AccountingRecord = {
+        type: recordType,
+        paragraph: line.PARAGRAF,
+        item,
+        event: line.ORGANIZACE,
+        unit: line.ORJ,
+        amount: amountFinal,
+
+        profileId: options.profileId,
+        year: options.year,
+      };
+      this.push({type: 'accounting', record: accounting});
       if (recordType === 'KDF' || recordType === 'KOF') {
         const payment: PaymentRecord = {
           paragraph: line.PARAGRAF,
@@ -103,22 +119,8 @@ function createTransformer(options: Import.Options) {
           year: options.year,
         };
         this.push({type: 'payment', record: payment});
-        callback();
-      } else {
-        const accounting: AccountingRecord = {
-          type: recordType,
-          paragraph: line.PARAGRAF,
-          item,
-          event: line.ORGANIZACE,
-          unit: line.ORJ,
-          amount: amountFinal,
-
-          profileId: options.profileId,
-          year: options.year,
-        };
-        this.push({type: 'accounting', record: accounting});
-        callback();
       }
+      callback();
     },
   });
 }
