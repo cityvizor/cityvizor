@@ -72,6 +72,8 @@ async function downloadNoticeboards(
       .map(key => key + '=' + params[key])
       .join('&');
 
+  console.log(`Downloading from URL ${url}`);
+
   // request data from by HTTPS
   const xml = (await axios.get(url)).data;
 
