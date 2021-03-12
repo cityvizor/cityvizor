@@ -1,6 +1,9 @@
-name: Publish Docker Client Redesign
+name: Publish Docker Landing Page
 on:
   push:
+    branches-ignore:
+      - 'feature/*'
+      - 'dependabot/**'
     paths:
       - 'landing-page/**'
       - '.github/workflows/publish-docker-landing-page.yml'

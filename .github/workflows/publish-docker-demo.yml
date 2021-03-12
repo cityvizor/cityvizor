@@ -1,6 +1,9 @@
 name: Publish Docker Demo
 on:
   push:
+    branches-ignore:
+      - 'feature/*'
+      - 'dependabot/**'
     paths:
       - 'demo/**'
       - '.github/workflows/publish-docker-demo.yml'

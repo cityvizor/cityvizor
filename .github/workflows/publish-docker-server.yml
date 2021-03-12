@@ -1,6 +1,9 @@
 name: Publish Docker Server
 on:
   push:
+    branches-ignore:
+      - 'feature/*'
+      - 'dependabot/**'
     paths:
       - 'server/**'
       - '.github/workflows/publish-docker-server.yml'

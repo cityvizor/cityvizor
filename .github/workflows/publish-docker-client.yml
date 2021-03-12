@@ -1,6 +1,9 @@
 name: Publish Docker Client
 on:
   push:
+    branches-ignore:
+      - 'feature/**'
+      - 'dependabot/**'
     paths:
       - 'client/**'
       - '.github/workflows/publish-docker-client.yml'
