@@ -27,16 +27,8 @@ let modules:Module[] = [
 // configuration data
 export const AppConfigData: IAppConfig = {
 
-  title: "CityVizor.cz",
   // root directory for static documents referenced in various links throughout the site
-  docsUrl: "https://cityvizor.github.io/cityvizor",
-
-  avatarsUrl: "/data/uploads/avatars",
-  
-  GitHub: {url: "https://github.com/cityvizor/cityvizor"},
-
-  // infomail used in texts
-  mail: "cityvizor@otevrenamesta.cz",
+  docsUrl: "https://cityvizor.cz/landing",
 
   // modules and their names. this controls what shows in menus etc.
   modules: modules,
