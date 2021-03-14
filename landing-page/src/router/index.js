@@ -5,6 +5,7 @@ import AboutAppPage from '../components/pages/AboutAppPage'
 import ContactPage from '../components/pages/ContactPage'
 import AboutUsPage  from '../components/pages/AboutUsPage'
 import DocumentationPage from "../components/pages/DocumentationPage"
+import ImportGuidePage from "../components/pages/ImportGuidePage"
 import Home from '../components/pages/Home';
 
 Vue.use(Router);
@@ -38,6 +39,10 @@ const routes = [
     {
         path: '/dokumentace',
         component: DocumentationPage,
+    },
+    {
+        path: '/jak-importovat',
+        component: ImportGuidePage,
     }
 ]
 
