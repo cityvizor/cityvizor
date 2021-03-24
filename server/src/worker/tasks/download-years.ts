@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import {YearRecord} from '../../schema';
 import {ImportRecord} from '../../schema/database/import';
 import {CronTask} from '../../schema/cron';
