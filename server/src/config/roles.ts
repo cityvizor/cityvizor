@@ -56,7 +56,7 @@ export const aclRoles = {
 
   importer: {
     can: {
-      'profile-accounting': {write: req => isManagedProfile(req)},
+      'profile-accounting:write': req => isManagedProfile(req),
     },
   },
 
