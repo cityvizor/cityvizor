@@ -278,12 +278,14 @@
     GET /api/exports/profiles
     <h4>Dostupné roky</h4>
     GET /api/exports/profiles/:profile_id/years
-    <h4>Účetnictví</h4>
+    <h4>Rozpočet</h4>
     GET /api/exports/profiles/:profile_id/accounting/:year
-    <h4>Doklady</h4>
+    <h4>Faktury</h4>
     GET /api/exports/profiles/:profile_id/payments/:year
     <h4>Akce</h4>
     GET /api/exports/profiles/:profile_id/events/:year
+    <h4>Celý rok (rozpočet, faktury, akce) jako .zip</h4>
+    GET /api/exports/profiles/:profile_id/all/:year
 
     <h2>Použité technologie</h2>
     <ul>

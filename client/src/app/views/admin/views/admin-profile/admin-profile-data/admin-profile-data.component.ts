@@ -76,4 +76,8 @@ export class AdminProfileDataComponent implements OnInit {
     year.hidden = false;
   }
 
+  downloadYear(year: BudgetYear) {
+    window.location.href = `/api/exports/profiles/${this.profileId}/all/${year.year}`
+  }
+
 }

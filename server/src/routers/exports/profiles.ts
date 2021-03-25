@@ -1,5 +1,7 @@
 import express from 'express';
-
+import archiver from 'archiver';
+import Knex from 'knex';
+import CsvStringify from 'csv-stringify';
 import {db} from '../../db';
 import config from '../../config';
 
@@ -15,6 +17,46 @@ import {exportQuery} from './tools/export';
 const router = express.Router();
 
 export const ExportProfilesRouter = router;
+
+const accountingQuery = (params): Knex.QueryBuilder => {
+  return db<AccountingRecord>('accounting')
+    .where('profileId', params.profile)
+    .andWhere('year', params.year);
+};
+
+const eventsQuery = (params): Knex.QueryBuilder => {
+  const amounts = db('accounting')
+    .select('profileId', 'year', 'event')
+    .sum('incomeAmount as incomeAmount')
+    .sum('budgetIncomeAmount as budgetIncomeAmount')
+    .sum('expenditureAmount as expenditureAmount')
+    .sum('budgetExpenditureAmount as budgetExpenditureAmount')
+    .whereRaw('event IS NOT NULL')
+    .groupBy('profileId', 'year', 'event');
+
+  return db<EventRecord>('events as e')
+    .leftJoin(amounts.as('a'), {
+      'a.profileId': 'e.profileId',
+      'a.year': 'e.year',
+      'a.event': 'e.id',
+    })
+    .select(
+      'e.year',
+      'e.id',
+      'e.name',
+      'a.incomeAmount',
+      'a.budgetIncomeAmount',
+      'a.expenditureAmount',
+      'a.budgetExpenditureAmount'
+    )
+    .where({'e.profileId': params.profile, 'e.year': params.year});
+};
+
+const paymentsQuery = (params): Knex.QueryBuilder => {
+  return db<PaymentRecord>('payments')
+    .where('profile_id', params.profile)
+    .andWhere('year', params.year);
+};
 
 router.get('/', async (req, res) => {
   const profiles = db<ProfileRecord>('profiles')
@@ -53,47 +95,51 @@ router.get('/:profile/years', async (req, res) => {
 });
 
 router.get('/:profile/accounting/:year', async (req, res) => {
-  const accounting = db<AccountingRecord>('accounting')
-    .where('profileId', req.params.profile)
-    .andWhere('year', req.params.year);
-
-  exportQuery(req, res, accounting, `profile-${req.params.profile}-accounting`);
+  exportQuery(
+    req,
+    res,
+    accountingQuery(req.params),
+    `profile-${req.params.profile}-accounting`
+  );
 });
 
 router.get('/:profile/events/:year', async (req, res) => {
-  const amounts = db('accounting')
-    .select('profileId', 'year', 'event')
-    .sum('incomeAmount as incomeAmount')
-    .sum('budgetIncomeAmount as budgetIncomeAmount')
-    .sum('expenditureAmount as expenditureAmount')
-    .sum('budgetExpenditureAmount as budgetExpenditureAmount')
-    .whereRaw('event IS NOT NULL')
-    .groupBy('profileId', 'year', 'event');
-
-  const events = db<EventRecord>('events as e')
-    .leftJoin(amounts.as('a'), {
-      'a.profileId': 'e.profileId',
-      'a.year': 'e.year',
-      'a.event': 'e.id',
-    })
-    .select(
-      'e.year',
-      'e.id',
-      'e.name',
-      'a.incomeAmount',
-      'a.budgetIncomeAmount',
-      'a.expenditureAmount',
-      'a.budgetExpenditureAmount'
-    )
-    .where({'e.profileId': req.params.profile, 'e.year': req.params.year});
-
-  exportQuery(req, res, events, `profile-${req.params.profile}-events`);
+  exportQuery(
+    req,
+    res,
+    eventsQuery(req.params),
+    `profile-${req.params.profile}-events`
+  );
 });
 
 router.get('/:profile/payments/:year', async (req, res) => {
-  const payments = db<PaymentRecord>('payments')
-    .where('profile_id', req.params.profile)
-    .andWhere('year', req.params.year);
+  exportQuery(
+    req,
+    res,
+    paymentsQuery(req.params),
+    `profile-${req.params.profile}-payments`
+  );
+});
 
-  exportQuery(req, res, payments, `profile-${req.params.profile}-payments`);
+router.get('/:profile/all/:year', async (req, res) => {
+  res.writeHead(200, {
+    'Content-Type': 'application/zip',
+    'Content-disposition': `attachment; filename=profile-${req.params.profile}-${req.params.year}.zip`,
+  });
+
+  const zip = archiver('zip');
+  zip.on('error', err => res.status(500).send(err.message));
+  zip.pipe(res);
+  const queries: [typeof accountingQuery, string][] = [
+    [accountingQuery, 'accounting.csv'],
+    [eventsQuery, 'events.csv'],
+    [paymentsQuery, 'payments.csv'],
+  ];
+  for (const [query, name] of queries) {
+    const stream = query(req.params).stream();
+    req.on('close', stream.end.bind(stream));
+    const csv = CsvStringify({delimiter: ',', header: true});
+    zip.append(stream.pipe(csv), {name});
+  }
+  zip.finalize();
 });
