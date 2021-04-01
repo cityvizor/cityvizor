@@ -3,6 +3,10 @@ import http from 'http';
 import express from 'express';
 import 'express-async-errors';
 
+/* DOTENV */
+import dotenv from 'dotenv';
+dotenv.config();
+
 /* CONFIG */
 import config from './config';
 
