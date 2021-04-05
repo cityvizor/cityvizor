@@ -33,7 +33,7 @@ export function exportStream(
       'attachment; filename=' + filename + '.csv'
     );
 
-    const csv = CsvStringify({delimiter: ',', header: true});
+    const csv = CsvStringify({delimiter: ';', header: true});
     csv.on('error', err => res.status(500).send(err.message));
 
     stream.pipe(csv).pipe(res);

@@ -138,7 +138,7 @@ router.get('/:profile/all/:year', async (req, res) => {
   for (const [query, name] of queries) {
     const stream = query(req.params).stream();
     req.on('close', stream.end.bind(stream));
-    const csv = CsvStringify({delimiter: ',', header: true});
+    const csv = CsvStringify({delimiter: ';', header: true});
     zip.append(stream.pipe(csv), {name});
   }
   zip.finalize();
