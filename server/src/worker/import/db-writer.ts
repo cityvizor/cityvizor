@@ -15,14 +15,6 @@ export class DatabaseWriter extends Writable {
     });
   }
 
-  async _write(
-    chunk: Import.ImportChunk,
-    encoding: string,
-    callback: (err?: Error) => void
-  ) {
-    await this._writev([{chunk, encoding}], callback);
-  }
-
   async _writev(
     chunks: {chunk: Import.ImportChunk; encoding: string}[],
     callback: (err?: Error) => void

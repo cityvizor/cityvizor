@@ -17,12 +17,28 @@ const headerAliases = {
   description: ['description', 'POZNAMKA'],
   id: ['id', 'eventId', 'srcId', 'AKCE', 'ORG'],
   name: ['name', 'eventName', 'AKCE_NAZEV'],
+  // Used when parsing data exported from Cityvizor
+  expenditureAmount: ['expenditureAmount'],
+  budgetExpenditureAmount: ['budgetExpenditureAmount'],
+  incomeAmount: ['incomeAmount'],
+  budgetIncomeAmount: ['budgetIncomeAmount'],
 };
 
 // Shared with paymentsFile (and thus with dataFile)
-const mandatoryAccountingHeaders = ['type', 'paragraph', 'item', 'amount'];
+// Data exported from Cityvizor do not contain 'amount' column, but contain the other four columns
+const mandatoryAccountingHeaders = [
+  ['paragraph'],
+  ['item'],
+  [
+    'amount',
+    'expenditureAmount',
+    'budgetExpenditureAmount',
+    'incomeAmount',
+    'budgetIncomeAmount',
+  ],
+];
 
-const mandatoryEventHeaders = ['id', 'name'];
+const mandatoryEventHeaders = [['id'], ['name']];
 
 export enum CityvizorFileType {
   ACCOUNTING,
@@ -34,7 +50,7 @@ export enum CityvizorFileType {
 export function createCityvizorParser(
   type: CityvizorFileType
 ): csvparse.Parser {
-  let headers: string[] = [];
+  let headers: string[][] = [];
   switch (type) {
     case CityvizorFileType.ACCOUNTING:
       headers = mandatoryAccountingHeaders;
@@ -52,7 +68,7 @@ export function createCityvizorParser(
 
   const parseHeader = (
     headerLine: string[],
-    mandatoryHeaders: string[]
+    mandatoryHeaders: string[][]
   ): string[] => {
     // remove possible BOM at the beginning of file, also removes extra whitespaces
     headerLine = headerLine.map(item => item.trim());
@@ -66,10 +82,16 @@ export function createCityvizorParser(
       );
     }) as string[];
     logger.log(`Found headers: [${foundHeaders}]`);
-    mandatoryHeaders.forEach(h => {
-      if (foundHeaders.indexOf(h) === -1) {
-        throw Error(`
-Failed to find mandatory column header "${h}", or any of it's aliases: [${headerAliases[h]}]`);
+
+    // Check if each group of mandatory headers has at least one member present in found headers
+    mandatoryHeaders.forEach(mandatoryHeaderGroup => {
+      if (
+        mandatoryHeaderGroup.filter(header => foundHeaders.includes(header))
+          .length === 0
+      ) {
+        throw Error(
+          `Failed to find mandatory column header group [${mandatoryHeaderGroup}]`
+        );
       }
     });
     return foundHeaders;
@@ -107,14 +129,15 @@ function createDataTransformer(options: Import.Options) {
         const accounting = createAccountingRecord(line, options);
         this.push({type: 'accounting', record: accounting});
         // TODO: Why does the paymentRecord have to be pushed twice, once as payment and once as accounting?
+        // Answer: Due to the app's architecture and internal representation of the data. Weird, but let's roll with it
         if (recordType === 'KDF' || recordType === 'KOF') {
           const payment = createPaymentRecord(line, options);
           this.push({type: 'payment', record: payment});
         }
+        callback();
       } catch (err) {
         callback(err);
       }
-      callback();
     },
   });
 }
@@ -124,15 +147,37 @@ function createEventsTransformer(options: Import.Options) {
     writableObjectMode: true,
     readableObjectMode: true,
     transform(line, enc, callback) {
-      const event = createEventRecord(line, options);
-      this.push({type: 'event', record: event});
-      callback();
+      try {
+        const event = createEventRecord(line, options);
+        this.push({type: 'event', record: event});
+        callback();
+      } catch (err) {
+        callback(err);
+      }
     },
   });
 }
 
+// Data exported from Cityvizor contain 4 payment columns, only one of them should contain a non-zero amount
+function mergeAmount<T extends PaymentRecord | AccountingRecord>(
+  row: {},
+  record: T
+): T {
+  const nonzeroField = [
+    'amount',
+    'incomeAmount',
+    'budgetIncomeAmount',
+    'expenditureAmount',
+    'budgetExpenditureAmount',
+  ].find(field => row[field] && row[field] !== '0');
+  if (nonzeroField) {
+    record.amount = row[nonzeroField];
+  }
+  return record;
+}
+
 function createPaymentRecord(row: {}, options: Import.Options): PaymentRecord {
-  return [
+  const record = [
     'paragraph',
     'item',
     'unit',
@@ -152,13 +197,21 @@ function createPaymentRecord(row: {}, options: Import.Options): PaymentRecord {
       year: options.year,
     } as PaymentRecord
   );
+  return mergeAmount(row, record);
 }
 
 function createAccountingRecord(
   row: {},
   options: Import.Options
 ): AccountingRecord {
-  return ['type', 'paragraph', 'item', 'event', 'unit', 'amount'].reduce(
+  const record = [
+    'type',
+    'paragraph',
+    'item',
+    'event',
+    'unit',
+    'amount',
+  ].reduce(
     (acc, c) => {
       if (row[c]) acc[c] = row[c];
       return acc;
@@ -168,6 +221,7 @@ function createAccountingRecord(
       year: options.year,
     } as AccountingRecord
   );
+  return mergeAmount(row, record);
 }
 
 function createEventRecord(row: {}, options: Import.Options): EventRecord {

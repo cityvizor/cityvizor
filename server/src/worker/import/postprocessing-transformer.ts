@@ -21,6 +21,7 @@ export class PostprocessingTransformer extends Transform {
             `Duplicate event with id ${chunk.record.id} found, aborting!`
           )
         );
+        return;
       }
 
       this.eventIds.push(chunk.record.id);

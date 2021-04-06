@@ -28,13 +28,19 @@
     <tr><td>item</td><td>číslo</td><td>Ano</td><td>Rozpočtová položka</td></tr>
     <tr><td>event</td><td>číslo</td><td>Ne</td><td>Číslo akce dle číselníku</td></tr>
     <tr><td>unit</td><td>číslo</td><td>Ne</td><td>Číslo jednotky dle číselníku</td></tr>
-    <tr><td>amount</td><td>částka</td><td>Ano</td><td>Částka v Kč</td></tr>
+    <tr><td>amount</td><td>částka</td><td>Ano* </td><td>Částka v Kč</td></tr>
+    <tr><td>incomeAmount</td><td>částka</td><td>Ano*</td><td>Částka v Kč</td></tr>
+    <tr><td>budgetIncomeAmount</td><td>částka</td><td>Ano*</td><td>Částka v Kč</td></tr>
+    <tr><td>expenditureAmount</td><td>částka</td><td>Ano*</td><td>Částka v Kč</td></tr>
+    <tr><td>budgetExpenditureAmount</td><td>částka</td><td>Ano*</td><td>Částka v Kč</td></tr>
     <tr><td>date</td><td>datum ve formátu ISO 8601 (YYYY-MM-DD)</td><td>Ne</td><td>Datum, pouze u faktur</td></tr>
     <tr><td>counterpartyId</td><td>text</td><td>Ne</td><td>IČO protistrany, pouze u faktur</td></tr>
     <tr><td>counterpartyName</td><td>text</td><td>Ne</td><td>Jméno protistrany, pouze u faktur</td></tr>
     <tr><td>description</td><td>text</td><td>Ne</td><td>Popis faktury, pouze u faktur</td></tr>
   </tbody>
 </table>
+
+<p>Sloupce <i>incomeAmount</i>, <i>budgetIncomeAmount</i>, <i>expenditureAmount</i> a <i>budgetExpenditureAmount</i> jsou přítomny v datech exportovaných z Cityvizoru. Pro úspěšný import je potřeba, aby byly přítomny buď tyto čtyři sloupce, nebo sloupec <i>amount</i>. Pokud jsou přítomny tyto čtyři sloupce, očekává se, že každý řádek má právě pro jeden sloupec nenulovou hodnotu, která se následně použije pro potřeby importu. Pro potřeby integrace importu dat do Cityvizoru je nejjednodušší použít sloupec <i>amount</i>.</p>
 
 <h4>Číselník akcí</h4>
 <table class="table table-condensed table-hover table-striped">
