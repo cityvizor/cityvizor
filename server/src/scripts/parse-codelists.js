@@ -15,7 +15,7 @@ const converted = codelistJson
   .map(item => {
     return {
       id: item.id,
-      name: item.text_popis,
+      name: item.text_popis_dlouhy,
       // HACK
       validFrom: '1900-01-01T00:00:00.000Z',
     };
