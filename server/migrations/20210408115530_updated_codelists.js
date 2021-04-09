@@ -1,4 +1,4 @@
-// Previous migration contained shortened codelist names, this one contains full names.
+// Previous migration contained shortened codelist names, this one contains full names. Still inserts items as 'paragraphs'.
 const data = [
   {
     id: '1111',

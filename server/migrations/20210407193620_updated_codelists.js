@@ -1,3 +1,4 @@
+// This migration is not correct; contains shortened names, and it insert new items as 'paragraphs'.
 const data = [
   {
     id: '1111',
