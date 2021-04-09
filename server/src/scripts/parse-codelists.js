@@ -22,5 +22,5 @@ const converted = codelistJson
   });
 
 process.stdout.write(
-  JSON.stringify({name: 'paragraphs', data: converted}).replace(/},/g, '},\n')
+  JSON.stringify({name: 'items', data: converted}).replace(/},/g, '},\n')
 );

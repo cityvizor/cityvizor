@@ -1,4 +1,5 @@
 // Previous migration inserted new rows as paragraphs, but they should have been inserted as items.
+// ...this is also wrong, because the column to update should have been the codelist one, not the name one.
 const itemIds = [
   '1229',
   '1235',
