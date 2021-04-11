@@ -40,7 +40,8 @@ export class ExportService {
         amount: record.budgetAmount
       });
       records.push({
-        type: null,
+        // HACK, this field has to be non-empty, otherwise Cityvizor won't parse it as a payment 
+        type: "POK",
         paragraph: record.paragraph,
         item: record.item,
         event: record.event,
@@ -112,7 +113,7 @@ export class ExportService {
           const value = row[key];
           if (typeof value === "string") return "\"" + value.replace(/"/g, "\"\"") + "\"";
           if (typeof value === "number") return String(value);
-          if (value instanceof Date) return "\"" + value.toISOString() + "\"";
+          if (value instanceof Date) return "\"" + value.toISOString().substr(0, 10) + "\"";
           if (!value) return "";
           return "[Invalid value]";
         })
