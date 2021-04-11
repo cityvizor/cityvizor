@@ -7,7 +7,8 @@ const router = express.Router();
 
 const cache = getExpeditiousCache({
   namespace: 'cv',
-  defaultTtl: '5 minutes',
+  // Disable caching when running in dev mode
+  defaultTtl: process.env.NODE_ENV === 'local' ? '1 second' : '5 minutes',
   engine: redisEngine({
     redis: {
       host: config.redis.host,
