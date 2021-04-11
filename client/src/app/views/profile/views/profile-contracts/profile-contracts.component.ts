@@ -14,7 +14,7 @@ import { ProfileService } from 'app/services/profile.service';
 })
 export class ProfileContractsComponent implements OnInit {
 
-	ico: string;
+	ico?: string;
 
 	loading: boolean = false;
 	infoWindowClosed: boolean = false;

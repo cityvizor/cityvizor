@@ -17,7 +17,7 @@ export class Profile {
     entity: any;
     gpsX: number;
     gpsY: number;
-    ico: string;
+    ico?: string;
     edesky?: number;
     mapasamospravy: number;
 
