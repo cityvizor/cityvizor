@@ -249,17 +249,24 @@
 
   <section *ngSwitchCase="'status'">
 
-
     <h2>Data jsou nahrána!</h2>
     <p>Data jsou v načtena do aplikace CityVizor Demo na tomto počítači. Pokud data neuložíte volbou níže, zavřením nebo obnovením stránky budou vymazána.</p>
 
     <div class="my-5">
       <h3>Stažení dat ve formátu pro import do CityVizoru</h3>
-      <p>Tato data si můžete stáhnout, prohlídnout v editoru CSV a následně nahrát do ostré verze aplikace CityVizor.</p>
+      <p>Tato data si můžete stáhnout, prohlédnout v editoru CSV a následně nahrát do ostré verze aplikace CityVizor.</p>
       <p>
         <a class="btn btn-primary text-light mr-3" (click)="exportCityVizorData()">Datový soubor</a>
-        <a class="btn btn-primary text-light" (click)="exportCityVizorEvents()">Číselník akcí</a>
+        <a class="btn btn-primary text-light" (click)="openEventDownloadMenu()">Číselník akcí</a>
       </p>
+      <div *ngIf="downloadingEvents">
+        Zvolte syntetický účet, ze kterého se mají vyexportovat akce. Pokud nevíte, zvolte účet 231.
+        <select [(ngModel)]="syntheticAccount">
+          <option [value]="sa" *ngFor="let sa of dataService.distinctEventSyntheticAccounts">{{sa}}</option>
+        </select>
+        <br>
+        <a class="btn btn-primary text-light" (click)="exportCityVizorEvents()">Stáhnout číselník</a>
+      </div>
     </div>
     <div class="my-5">
       <h3>Uložit data na tomto počítači</h3>

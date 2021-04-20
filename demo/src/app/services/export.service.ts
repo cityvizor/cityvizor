@@ -79,12 +79,14 @@ export class ExportService {
     
     await this.downloadFile(this.createCSV(records, options), "data.csv", options.encoding);
   }
-
-  async exportCityVizorEvents(data: ImportedData | AccountingData) {
-    const events = (<(ImportedEvent | AccountingEvent)[]>data.events).map(event => ({
-      srcId: event.srcId,
-      name: event.name
-    }));
+  async exportCityVizorEvents(data: ImportedData | AccountingData, syntheticAccount: number) {
+    const events = data.events.filter(e => e.syntheticAccount === syntheticAccount)
+      .map(event => {
+        return {
+          srcId: event.srcId,
+          name: event.name
+        }
+      });
     const options: ExportOptions = { delimiter: ";", encoding: "utf8", newline: "\r\n" };
     await this.downloadFile(this.createCSV(events, options), "events.csv", options.encoding);
   }

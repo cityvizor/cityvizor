@@ -12,6 +12,8 @@ import { ExportService } from 'app/services/export.service';
 import { PersonalDataCheck, PersonalDataCheckWarning } from "@smallhillcz/personal-data-check";
 import { cs } from "@smallhillcz/personal-data-check/lib/regional/cs";
 
+// As ugly as this import may be, it also enables hot-reloading when the referenced file changes.
+import { ImporterGinis } from '../../../../../import/importers/importer-ginis'
 @Component({
 	selector: 'import',
 	templateUrl: './import.component.html',
@@ -36,6 +38,9 @@ export class ImportComponent {
 		"utf": { encoding: "utf-8", delimiter: ",", newline: "\r\n" },
 		"excel": { encoding: "win1250", delimiter: ";", newline: "\r\n" }
 	};
+
+	syntheticAccount: number;
+	downloadingEvents: boolean = false;
 
 	constructor(private importService: ImportService, private exportService: ExportService, private dataService: DataService, private toastService: ToastService, private router: Router, cdRef: ChangeDetectorRef) {
 
@@ -72,11 +77,11 @@ export class ImportComponent {
 		}
 
 		this.step = "progress";
-
+		await ImporterGinis.validate(files).catch(e => {
+			alert(`Při validaci nahraných dat došlo k následující chybě: \n${e}\nImport a analýza dat se nemusí povést a výsledky mohou být chybné či neúplné.`);
+		});
 		this.data = await this.importService.importGordic(files);
-
 		this.step = "confirmation";
-
 		this.checkData();
 
 	}
@@ -159,7 +164,7 @@ export class ImportComponent {
 		this.exportService.exportCityVizorData(this.dataService.data)
 	}
 	exportCityVizorEvents(optionsName: string) {
-		this.exportService.exportCityVizorEvents(this.dataService.data)
+		this.exportService.exportCityVizorEvents(this.dataService.data, Number(this.syntheticAccount))
 	}
 	exportRecords() {
 		this.exportService.exportRecords(this.data.records, {
@@ -203,6 +208,11 @@ export class ImportComponent {
 				name: "Název akce"
 			}
 		})
+	}
+
+	openEventDownloadMenu() {
+		if (this.dataService.distinctEventSyntheticAccounts.includes(231)) this.syntheticAccount = 231
+		this.downloadingEvents = true;
 	}
 
 }

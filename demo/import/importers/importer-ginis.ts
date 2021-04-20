@@ -6,6 +6,7 @@ declare var self: WindowOrWorkerGlobalScope & { streamsPolyfill: boolean };
 
 import * as Papa from "papaparse";
 import { Importer } from "../schema/importer";
+import { rejects } from "node:assert";
 
 export class ImporterGinis implements Importer {
 
@@ -26,6 +27,61 @@ export class ImporterGinis implements Importer {
   constructor() {
   }
 
+  // Throws an exception if validation fails
+  static async validate(files: { budget?: File, accounting?: File, events?: File }) {
+    const promises: Promise<void>[] = []
+    if (files.budget) promises.push(this.validateAccounting(files.budget))
+    if (files.accounting) promises.push(this.validateAccounting(files.accounting))
+    if (files.events) promises.push(this.validateEvents(files.events))
+    return Promise.all(promises)
+   
+  }
+
+ // Because the parsing is done in a completely separate module, the validating is done here
+  static async validateAccounting(file: File): Promise<void> {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onload = () => {
+        const regexes = [
+          /^[56G]\/[\$@#].*$/
+        ];
+        
+        const lines = (reader.result as string).split("\n").filter(line => line)
+        let rejected = false
+        for (let line of lines) {
+          line = line.trim()
+          if (!regexes.some((r: RegExp) => r.test(line))) {
+            reject(`Datový soubor obsahuje řádku v neočekávaném formátu: ${line}\n Je možné, že i jiné řádky jsou v neočekávaném formátu.`)
+            rejected = true
+            break
+          }
+        };
+        if (!rejected) resolve();
+      }
+      reader.readAsText(file, "windows-1250");
+    })
+  }
+
+static async validateEvents(file: File): Promise<void> {
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true,
+      delimiter: ";",
+      quoteChar: "@$^&*(",
+      encoding: "windows-1250",
+
+      complete: (results, file) => {
+        const mandatoryHeaders = ["ORG", "NAZEV", "SU"];
+        if (!mandatoryHeaders.some(field => results.meta.fields?.includes(field))) {
+          reject(`Číselník neobsahuje sloupce ${mandatoryHeaders.join(",")}`)
+        }
+        resolve()
+      },
+      error: (err, file) => reject(err)
+    });
+
+  }) 
+} 
   async import(files: { budget?: File, accounting?: File, events?: File }) {
 
     this.bytesTotal = (files.budget ? files.budget.size : 0) + (files.accounting ? files.accounting.size : 0) + (files.events ? files.events.size : 0);
@@ -75,8 +131,9 @@ export class ImporterGinis implements Importer {
           this.updateProgress(this.bytesRead + result.meta.cursor);
 
           result.data.forEach(row => {
-            if (row["ORG"] && row["NAZEV"]) {
+            if (row["ORG"] && row["NAZEV"] && row["SU"]) {
               this.events.push({
+                syntheticAccount: Number(row["SU"].replace(".", "")),
                 srcId: Number(row["ORG"].replace(".", "")),
                 name: row["NAZEV"] !== "." ? row["NAZEV"] : null
               })

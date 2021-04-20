@@ -24,6 +24,7 @@ export class ImportedPayment {
 }
 
 export class ImportedEvent {
+	syntheticAccount?: number;
 	srcId: number;
 	name: string;
 }

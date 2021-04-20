@@ -37,7 +37,9 @@ export class DataService {
 		catch (e) { }
 	}
 
-
+	get distinctEventSyntheticAccounts() {
+		return [...new Set(this.data.events.map(e => e.syntheticAccount))]
+	}
 	async getProfile(profileId: string) {
 		return this.profile;
 	}

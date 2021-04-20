@@ -21,6 +21,7 @@ export class AccountingEvent {
 
 	srcId: number;
 	name: string;
+	syntheticAccount?: number;
 }
 
 export class AccountingRecord {
