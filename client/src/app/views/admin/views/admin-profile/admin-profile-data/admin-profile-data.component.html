@@ -40,7 +40,7 @@
           <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
             <li><a class="dropdown-item" (click)="currentYear = year.year; openModal(uploadModal)">Nahrát data z CSV</a></li>
             <li><a class="dropdown-item" (click)="downloadYear(year)">Stáhnout data</a></li>
-            <li *ngIf="!year.hidden"><a class="dropdown-item" (click)="(year)">Skrýt</a></li>
+            <li *ngIf="!year.hidden"><a class="dropdown-item" (click)="hideYear(year)">Skrýt</a></li>
             <li *ngIf="year.hidden"><a class="dropdown-item" (click)="publishYear(year)">Zveřejnit</a></li>
             <li class="divider dropdown-divider"></li>
             <li><a class="dropdown-item" (click)="currentYear = year.year; currentYearBudget = year; openModal(deleteYearModal)"><span class="text-danger">Smazat</span></a>
