@@ -57,9 +57,9 @@ export class CodelistService {
 		return row ? row.name : "???";
 	}
 
-	async loadCodelist(id: string): Promise<Codelist> {
+	async loadCodelist(codelistName: string): Promise<Codelist> {
 
-		const codelist = await this.dataService.getCodelist(id);
+		const codelist = await this.dataService.getCodelist(codelistName);
 
 		codelist.forEach(row => {
 			row.validFromDate = row.validFrom ? DateTime.fromISO(row.validFrom) : undefined;

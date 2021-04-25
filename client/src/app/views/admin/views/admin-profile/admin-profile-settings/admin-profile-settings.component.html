@@ -3,6 +3,13 @@
     <h3>Základní informace</h3>
     <form class="form" #settingsForm="ngForm" (ngSubmit)="saveProfile(settingsForm)">
       <div class="form-group">
+        <label>Typ profilu</label>
+        <select name="type" [ngModel]="profile?.type" class="form-control">
+          <option value="municipality">Municipalita (město)</option>
+          <option value="pbo">Příspěvková organizace</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label>Název</label>
         <input type="text" name="name" [ngModel]="profile?.name" class="form-control" required>
       </div>

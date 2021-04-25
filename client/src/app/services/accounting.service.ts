@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Accounting, BudgetGroup, AccountingRow, BudgetAmounts, BudgetGroupEvent, BudgetTypedAmounts } from 'app/schema';
+import { Accounting, BudgetGroup, AccountingRow, BudgetAmounts, BudgetGroupEvent, BudgetTypedAmounts, Profile, ProfileType } from 'app/schema';
 import { CodelistService } from './codelist.service';
 import { DataService } from './data.service';
 
@@ -8,6 +8,7 @@ type AmountField = "expenditureAmount" | "budgetExpenditureAmount" | "incomeAmou
 export type AccountingGroupType = "exp" | "inc";
 
 interface TypeConfig {
+  codelistGroup: string,
   codelist: string,
   field: "paragraph" | "item",
   amount: AmountField,
@@ -19,25 +20,32 @@ interface TypeConfig {
 })
 export class AccountingService {
 
-  typeConfig: { [type in AccountingGroupType]: TypeConfig } = {
-    "exp": { codelist: "paragraph-groups", field: "paragraph", amount: "expenditureAmount", budgetAmount: "budgetExpenditureAmount" },
-    "inc": { codelist: "item-groups", field: "item", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" }
-  };
+ 
+  config: { [type in ProfileType]: { [type in AccountingGroupType]: TypeConfig} } = {
+    "municipality": {
+      "exp": { codelistGroup: "paragraph-groups", codelist: "items", field: "paragraph", amount: "expenditureAmount", budgetAmount: "budgetExpenditureAmount" },
+      "inc": { codelistGroup: "item-groups", codelist: "items", field: "item", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" }
+    },
+    "pbo": {
+      "exp": { codelistGroup: "pbo-su-exp-groups", codelist: "pbo-su", field: "paragraph", amount: "expenditureAmount", budgetAmount: "budgetExpenditureAmount" },
+      "inc": { codelistGroup: "pbo-su-inc-groups", codelist: "pbo-su", field: "paragraph", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" }
+    }
+  }
 
   constructor(private codelistService: CodelistService, private dataService: DataService) { }
 
-  async getGroups(profileId: number, type: AccountingGroupType, year: number): Promise<BudgetGroup[]> {
+  async getGroups(profile: Profile, type: AccountingGroupType, year: number): Promise<BudgetGroup[]> {
 
-    const typeConfig = this.typeConfig[type];
+    const typeConfig = this.config[profile.type][type];
 
-    const groups: BudgetGroup[] = (await this.codelistService.getCurrentCodelist(typeConfig.codelist, new Date(year, 0, 1)))
+    const groups: BudgetGroup[] = (await this.codelistService.getCurrentCodelist(typeConfig.codelistGroup, new Date(year, 0, 1)))
       .map(group => new BudgetGroup(group.id, group.name));
 
     const groupIndex = groups.reduce((acc, cur) => (acc[cur.id!] = cur, acc), {} as { [id: string]: BudgetGroup }); // not null bcs "other" group is not present yet
 
     const other = new BudgetGroup(null, "Ostatní");
 
-    const accounting = await this.dataService.getProfileAccountingGroups(profileId, year, typeConfig.field);
+    const accounting = await this.dataService.getProfileAccountingGroups(profile.id, year, typeConfig.field);
 
     for (let row of accounting) {
       const group = groupIndex[row.id] || other;
@@ -48,14 +56,14 @@ export class AccountingService {
     return other.amount || other.budgetAmount ? [...groups, other] : groups;
   }
 
-  async getGroupEvents(profileId: number, year: number, type: AccountingGroupType, groupId: string): Promise<BudgetGroupEvent[]> {
+  async getGroupEvents(profile: Profile, year: number, type: AccountingGroupType, groupId: string): Promise<BudgetGroupEvent[]> {
 
-    const typeConfig = this.typeConfig[type];
+    const typeConfig = this.config[profile.type][type];
 
-    const itemCodelist = (await this.codelistService.getCurrentCodelist("items", new Date(year, 0, 1)))
+    const itemCodelist = (await this.codelistService.getCurrentCodelist(typeConfig.codelist, new Date(year, 0, 1)))
       .reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string })
 
-    const events: BudgetGroupEvent[] = (await this.dataService.getProfileAccountingEvents(profileId, year, typeConfig.field, groupId))
+    const events: BudgetGroupEvent[] = (await this.dataService.getProfileAccountingEvents(profile.id, year, typeConfig.field, groupId))
       .filter(row => row[typeConfig.amount] || row[typeConfig.budgetAmount])
       .map(row => {
 
@@ -88,11 +96,5 @@ export class AccountingService {
     item.budgetIncomeAmount += row.budgetIncomeAmount;
     item.expenditureAmount += row.expenditureAmount;
     item.budgetExpenditureAmount += row.budgetExpenditureAmount;
-  }
-
-  assignTypedAmounts(item: BudgetTypedAmounts, row: AccountingRow, type: AccountingGroupType): void {
-    const typeConfig = this.typeConfig[type];
-    item.amount += row[typeConfig.amount];
-    item.budgetAmount += row[typeConfig.budgetAmount];
   }
 }

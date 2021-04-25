@@ -1,6 +1,8 @@
 /**
  * User object to save data concerning profile
  */
+export type ProfileType = "municipality" | "pbo"
+
 export class Profile {
 
     /**
@@ -9,6 +11,7 @@ export class Profile {
     id: number;
 
     status: "visible" | "hidden" | "pending" | "preview";
+    type: ProfileType;
 
     main: boolean;
 

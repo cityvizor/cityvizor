@@ -39,7 +39,6 @@ export class AdminProfileSettingsComponent implements OnInit {
 
   async loadProfile(profileId: number) {
     this.profile = await this.adminService.getProfile(profileId);
-    console.log('Got profile', this.profile);
   }
 
   async reloadProfile(){

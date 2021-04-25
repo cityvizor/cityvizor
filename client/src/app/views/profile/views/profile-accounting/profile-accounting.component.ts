@@ -10,7 +10,7 @@ import { CodelistService } from 'app/services/codelist.service';
 import { ProfileService } from 'app/services/profile.service';
 import { AccountingService, AccountingGroupType } from 'app/services/accounting.service';
 
-import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent } from 'app/schema';
+import { BudgetEvent, Accounting, BudgetGroup, Budget, BudgetGroupEvent, Profile } from 'app/schema';
 
 import { ChartBigbangData, ChartBigbangDataRow } from 'app/shared/charts/chart-bigbang/chart-bigbang.component';
 import { EventDetailModalComponent } from "app/shared/components/event-detail-modal/event-detail-modal.component";
@@ -86,7 +86,7 @@ export class ProfileAccountingComponent implements OnInit {
 		this.profile.subscribe(async (profile) => {
 			const params = this.route.snapshot.params
 			if (params.rok && params.type && params.skupina) {
-				this.groupEvents = await this.accountingService.getGroupEvents(profile.id, params.rok, this.typeLocalParams[params.type], params.skupina);
+				this.groupEvents = await this.accountingService.getGroupEvents(profile, params.rok, this.typeLocalParams[params.type], params.skupina);
 			}
 		})
 
@@ -104,7 +104,7 @@ export class ProfileAccountingComponent implements OnInit {
 		combineLatest(this.profile, this.type, this.year)
 			.subscribe(async ([profile, type, year]) => {
 				if (!profile || !type || !year) return;
-				await this.getGroups(profile.id, type, year)
+				await this.getGroups(profile, type, year)
 			});
 
 		// download events
@@ -116,7 +116,7 @@ export class ProfileAccountingComponent implements OnInit {
 				this.resetEventsLimit();
 
 				if (!groupId) { this.groupEvents = []; return; }
-				this.groupEvents = await this.accountingService.getGroupEvents(profile.id, year, type, groupId);
+				this.groupEvents = await this.accountingService.getGroupEvents(profile, year, type, groupId);
 				this.sortEvents(sort);
 			})
 
@@ -134,7 +134,7 @@ export class ProfileAccountingComponent implements OnInit {
 			.subscribe(async ([[year, type], groupId, profile]) => {
 				// If groupId is not selected, fetch groups and select a nonempty group
 				if (year && type && !groupId) {
-					const groups = await this.getGroups(profile.id, type, year);
+					const groups = await this.getGroups(profile, type, year);
 					const nonemptyGroup = groups.find((group: BudgetGroup) => group.amount > 0 || group.budgetAmount > 0)?.id
 					if (nonemptyGroup) {
 						this.selectGroup(nonemptyGroup)
@@ -179,8 +179,8 @@ export class ProfileAccountingComponent implements OnInit {
 		}
 	}
 
-	async getGroups(id: number, type: AccountingGroupType, year: number) {
-		const groups = await this.accountingService.getGroups(id, type, year);
+	async getGroups(profile: Profile, type: AccountingGroupType, year: number) {
+		const groups = await this.accountingService.getGroups(profile, type, year);
 		groups.sort((a, b) => a.name && b.name ? a.name.localeCompare(b.name) : 0);
 		this.groups.next(groups)
 		return groups

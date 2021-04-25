@@ -12,7 +12,7 @@ import { ChartBigbangData, ChartBigbangDataRow } from 'app/shared/charts/chart-b
 })
 export class ProfileExpendituresWidgetComponent implements OnChanges {
 
-  @Input() profileId: number;
+  @Input() profile: Profile;
   @Input() year: number;
 
   @Output() openGroup = new EventEmitter<string>();
@@ -22,13 +22,13 @@ export class ProfileExpendituresWidgetComponent implements OnChanges {
   constructor(private dataService: DataService, private accountingService: AccountingService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.profileId && this.year) this.loadData(this.profileId, this.year);
+    if (this.profile && this.year) this.loadData(this.profile, this.year);
     else this.chartData = null;
   }
 
-  async loadData(profileId: number, year: number) {
+  async loadData(profile: Profile, year: number) {
 
-    this.chartData = (await this.accountingService.getGroups(profileId, "exp", this.year))
+    this.chartData = (await this.accountingService.getGroups(profile, "exp", this.year))
       .map(group => ({
         id: group.id,
         innerAmount: group.amount,

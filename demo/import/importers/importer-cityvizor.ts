@@ -20,7 +20,7 @@ export interface CityVizorDataFile {
 
 export interface CityVizorEventsFile {
   srcId: number;
-  name: string;
+  name: stringSELECT DISTINCT(codelist) FROM data.codelists;;
   description?: string;
 }
 

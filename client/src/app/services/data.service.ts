@@ -38,8 +38,8 @@ export class DataService {
 
 	constructor(private http: HttpClient) { }
 
-	getCodelist(id: string) {
-		return this.http.get<Codelist>(this.root + "/codelists/" + id).toPromise();
+	getCodelist(codelistName: string) {
+		return this.http.get<Codelist>(this.root + "/codelists/" + codelistName).toPromise();
 	}
 
 	/* PROFILES */
