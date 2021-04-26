@@ -4,10 +4,10 @@ https://monitor.statnipokladna.cz/data/xml/uctosnova.xml
 Requires xml2js lib (install it globally, as it isn't needed in the codebase)
 (sudo) npm install -g xml2js
 
-You're going to need a moderately recent node.mjs (>= 14.8.0) to allow top-level await (notice the .mjs extension)
+You're going to need a moderately recent node.js (>= 14.8.0) to allow top-level await (notice the .mjs extension)
 
 Description: Parses ucetni osnova .XML from MFCR and creates a knex migration file
-Usage: node parse-ucetni-osnova.js <OSNOVA.xml> | xclip -selection c
+Usage: node parse-ucetni-osnova.mjs <OSNOVA.xml> | xclip -selection c
 
 Paste the resulting JSON string into a migration file and code up the DB logic (insert on duplicate key)
 */
