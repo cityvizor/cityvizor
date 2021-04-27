@@ -17,12 +17,12 @@
         <b-col v-for="city in cities" :key="city.name" class="city-item-margin-top text-justify" md="4" sm="6" xl="3">
           <b-row cols="12" no-gutters>
               <b-col class="city-item-icon-right-margin" cols="1">
-                <a :href="cityUrl(city.url)">
+                <a :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
                   <img src="@/assets/images/pages/home/city_avatar.svg">
                 </a>
               </b-col>
               <b-col cols="10">
-                <a :href="cityUrl(city.url)">
+                <a :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
                   <b>{{ city.name }}</b>
                 </a>
               </b-col>
@@ -47,7 +47,13 @@ export default {
   mounted() {
     axios.get(`${this.apiBaseUrl}/public/profiles`, { params: { status: "visible"}})
         .then((response) => {
-          this.cities = response.data.sort((a, b) => {
+          this.cities = response.data.map(city => {
+              return {
+                url: city.type == 'external' ? city.url : `/${city.url}`,
+                name: city.name,
+                type: city.type
+              }
+            }).sort((a, b) => {
             return a.name.localeCompare(b.name, undefined, {
               numeric: true,
               sensitivity: 'base'
@@ -56,11 +62,6 @@ export default {
           this.loading = false 
          })
   },
-  methods: {
-    cityUrl: function(url) {
-      return `/${url}`
-    }
-  }
 }
 </script>
 

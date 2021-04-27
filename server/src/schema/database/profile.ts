@@ -2,7 +2,7 @@ export interface ProfileRecord {
   id: number;
 
   status: 'visible' | 'pending' | 'hidden';
-  type: 'municipality' | 'pbo';
+  type: 'municipality' | 'pbo' | 'external';
   main: boolean;
 
   url: string;

@@ -1,7 +1,7 @@
 /**
  * User object to save data concerning profile
  */
-export type ProfileType = "municipality" | "pbo"
+export type ProfileType = "municipality" | "pbo" | "external"
 
 export class Profile {
 
