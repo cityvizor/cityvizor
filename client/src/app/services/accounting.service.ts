@@ -21,7 +21,7 @@ interface TypeConfig {
 export class AccountingService {
 
  
-  config: { [type in ProfileType]: { [type in AccountingGroupType]: TypeConfig} } = {
+  config: { [type in Exclude<ProfileType, "external">]: { [type in AccountingGroupType]: TypeConfig} } = {
     "municipality": {
       "exp": { codelistGroup: "paragraph-groups", codelist: "items", field: "paragraph", amount: "expenditureAmount", budgetAmount: "budgetExpenditureAmount" },
       "inc": { codelistGroup: "item-groups", codelist: "items", field: "item", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" }
