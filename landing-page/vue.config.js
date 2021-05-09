@@ -11,12 +11,15 @@ module.exports = {
             poll: 1000
         },
         port: 80,
+        host: '0.0.0.0',
+        public: 'localhost:4200',
+        disableHostCheck: true,
         // https://cli.vuejs.org/config/#devserver-proxy
         proxy: {
             '^/api': {
                 target: "http://server.cityvizor.otevrenamesta:3000"
             }
-        }
+        },
     },
     configureWebpack: {
         plugins: [

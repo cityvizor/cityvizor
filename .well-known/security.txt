@@ -1,5 +1,0 @@
-# Kam nahlásit bezpečnostní chybu / Where to report security issue
-Contact: mailto:cityvizor@otevrenamesta.cz
-
-# Jakým jazykům rozumíme / Languages we speak
-Preferred-Languages: cs, en

@@ -19,3 +19,4 @@ WORKDIR /usr/share/nginx/html
 RUN rm -f /etc/nginx/conf.d/*
 COPY ./nginx /etc/nginx/conf.d/
 COPY --from=build /user/src/app/dist ./
+COPY ./entrypoint.sh .

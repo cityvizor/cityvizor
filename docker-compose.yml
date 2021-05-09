@@ -19,8 +19,6 @@ services:
       target: prod
     command: -w db.cityvizor.otevrenamesta -a -m server 
     container_name: server.cityvizor.otevrenamesta
-    env_file:
-      - .env
     environment:
       NODE_ENV: local
     volumes:
@@ -54,17 +52,6 @@ services:
     container_name: client.cityvizor.otevrenamesta
     environment:
       NODE_ENV: local
-    depends_on:
-      - nginx.cityvizor.otevrenamesta
-
-  demo.cityvizor.otevrenamesta:
-    image: cityvizor-demo
-    build:
-      context: ./demo
-      target: prod
-    container_name: demo.cityvizor.otevrenamesta
-    environment:
-      NODE_ENV: production
     depends_on:
       - nginx.cityvizor.otevrenamesta
 
