@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ProfileService } from 'app/services/profile.service';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Profile, BudgetYear } from 'app/schema';
+import { Profile, BudgetYear, ProfileType } from 'app/schema';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AdminService } from 'app/services/admin.service';
 
@@ -16,6 +16,7 @@ export class AdminProfileDataComponent implements OnInit {
   profile$: Observable<Profile>;
 
   profileId: number;
+  profileType: ProfileType;
 
   years: BudgetYear[] = [];
 
@@ -36,9 +37,10 @@ export class AdminProfileDataComponent implements OnInit {
     this.profile$ = this.profileService.profile;
 
 
-    this.profile$.pipe(map(profile => profile.id), distinctUntilChanged()).subscribe(profileId => {
-      this.profileId = profileId;
-      this.loadYears(profileId)
+    this.profile$.pipe(map(profile => profile), distinctUntilChanged()).subscribe(profile => {
+      this.profileId = profile.id;
+      this.profileType = profile.type
+      this.loadYears(profile.id)
     });
   }
 

@@ -37,7 +37,16 @@ enum FileType {
   PAYMENTS_FILE = 'payments',
   EVENTS_FILE = 'events',
   ACCOUNTING_FILE = 'accounting',
+  PLAN_FILE = 'plan',
 }
+
+const importFormats: {[key in FileType]: Import.Format} = {
+  data: 'cityvizor',
+  payments: 'cityvizor',
+  accounting: 'cityvizor',
+  events: 'cityvizor',
+  plan: 'pbo',
+};
 
 const upload = multer({dest: config.storage.tmp});
 
@@ -102,7 +111,25 @@ router.patch(
     return createWorkerTask(req, res, FileType.DATA_FILE, true);
   }
 );
+router.post(
+  '/profiles/:profile/plan',
+  upload.fields([{name: 'plan'}]),
+  schema.validate(importAccountingSchema),
+  acl('profile-accounting:write'),
+  async (req, res) => {
+    return createWorkerTask(req, res, FileType.PLAN_FILE, false);
+  }
+);
 
+router.patch(
+  '/profiles/:profile/plan',
+  upload.fields([{name: 'plan'}]),
+  schema.validate(importAccountingSchema),
+  acl('profile-accounting:write'),
+  async (req, res) => {
+    return createWorkerTask(req, res, FileType.PLAN_FILE, true);
+  }
+);
 router.patch(
   '/profiles/:profile/accounting',
   upload.fields([{name: 'accounting'}]),
@@ -113,9 +140,14 @@ router.patch(
   }
 );
 
-async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
+async function createWorkerTask(
+  req,
+  res,
+  fileType: FileType,
+  isAppend: boolean
+) {
   // When file missing throw error immediately
-  if (!req.files || !req.files[type.toString()])
+  if (!req.files || !req.files[fileType.toString()])
     return res.status(400).send('Missing data file or zip file');
   if (isNaN(req.body.year)) return res.status(400).send('Invalid year value');
 
@@ -154,10 +186,10 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
 
   const importDir = await Import.createImportDir();
 
-  if (req.files[type.toString()] && req.files[type.toString()][0]) {
+  if (req.files[fileType.toString()] && req.files[fileType.toString()][0]) {
     await move(
-      req.files[type.toString()][0].path,
-      path.join(importDir, `${type.toString()}.csv`)
+      req.files[fileType.toString()][0].path,
+      path.join(importDir, `${fileType.toString()}.csv`)
     );
   }
   // add import task to database queue (worker checks the table)
@@ -173,7 +205,7 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
     error: undefined,
 
     validity: req.body.validity || undefined,
-    format: 'cityvizor',
+    format: importFormats[fileType],
     append: isAppend,
     importDir,
   };
@@ -196,7 +228,7 @@ async function createWorkerTask(req, res, type: FileType, isAppend: boolean) {
 
 // Technical debt for historial reasons to not break backwards compatibility.
 // TODO: Properly refactor this one day. Keeping this code to enable upload via ZIP.
-// Ginis imports the data using the .zip functionality.
+// Ginis imports the data using the .zip functionality via ODT module
 router.post(
   '/profiles/:profile/accounting',
   upload.fields([

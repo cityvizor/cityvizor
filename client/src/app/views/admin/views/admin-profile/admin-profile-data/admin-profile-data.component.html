@@ -61,7 +61,7 @@
 </div>
 
 <ng-template #uploadModal>
-  <data-upload-modal [profileId]="profileId" [year]="currentYear" (close)="closeModal($event)"></data-upload-modal>
+  <data-upload-modal [profileId]="profileId" [profileType]="profileType" [year]="currentYear" (close)="closeModal($event)"></data-upload-modal>
 </ng-template>
 
 <ng-template #addModifyYearModal>

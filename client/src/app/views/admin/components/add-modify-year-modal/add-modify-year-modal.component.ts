@@ -16,7 +16,7 @@ export class AddModifyYearModalComponent implements OnInit {
 
   importFormats: Array<{ value: string; label: string }> = [
     { value: "cityvizor", label: "CityVizor CSV (ZIP)" },
-    { value: "internetstream", label: "Internet Stream CSV (ZIP)" }
+    { value: "internetstream", label: "Internet Stream CSV (ZIP)" },
   ];
 
   isUpdate: boolean = false;

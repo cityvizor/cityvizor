@@ -8,6 +8,7 @@ import {YearRecord} from '../../schema';
 import logger from './logger';
 import {importCityvizor} from './cityvizor/importer';
 import {importInternetStream} from './internetstream/importer';
+import {importPbo} from './pbo/importer';
 
 export async function checkImportQueue() {
   const runningJob = await db<ImportRecord>('app.imports')
@@ -46,10 +47,6 @@ export async function checkImportQueue() {
     .first();
   if (!currentJob) return;
 
-  if (!['internetstream', 'cityvizor'].includes(currentJob.format)) {
-    throw Error(`Unsupported import format: ${currentJob.format}`);
-  }
-
   console.log(
     `[WORKER] ${DateTime.local().toJSDate()} Found a new ${
       currentJob.format
@@ -74,11 +71,13 @@ export async function checkImportQueue() {
   // Any exception catched in this try block will rollback the import transaction
   let error: Error | null = null;
   try {
-    // TODO: ugly
+    // TODO: ugly. pattern matching?
     if (currentJob.format === 'cityvizor') {
       await importCityvizor(options);
     } else if (currentJob.format === 'internetstream') {
       await importInternetStream(options);
+    } else if (currentJob.format === 'pbo') {
+      await importPbo(options);
     } else {
       throw Error(`Unsupported import type: ${currentJob.format}`);
     }
@@ -104,7 +103,7 @@ export async function checkImportQueue() {
 
   console.log('___LOGS____');
   console.log(logger.getLogs());
-  console.log('____________');
+  console.log('_____________');
 
   const updateData: Partial<ImportRecord> = {
     status: error ? 'error' : 'success',

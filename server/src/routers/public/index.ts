@@ -10,6 +10,7 @@ import {ProfileDashboardRouter} from './profile-dashboard';
 import {ProfileEventsRouter} from './profile-events';
 import {ProfileNoticeboardRouter} from './profile-noticeboard';
 import {ProfilePaymentsRouter} from './profile-payments';
+import {ProfilePlansRouter} from './profile-plans';
 import {FeedbackRouter} from './feedback';
 
 const router = express.Router();
@@ -52,6 +53,8 @@ router.use('/profiles/:profile/events', ProfileEventsRouter);
 router.use('/profiles/:profile/payments', ProfilePaymentsRouter);
 
 router.use('/profiles/:profile/noticeboard', ProfileNoticeboardRouter);
+
+router.use('/profiles/:profile/plans', ProfilePlansRouter);
 
 /* OTHER REQUESTS TO /api AS 404 */
 

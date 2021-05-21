@@ -6,6 +6,7 @@ import { DashboardRow } from "app/schema/dashboard";
 
 import { environment } from "environments/environment";
 import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts, Budget, Profile, Codelist } from 'app/schema';
+import { profile } from 'console';
 
 function toParams(options) {
 	if (!options) return "";
@@ -72,6 +73,15 @@ export class DataService {
 	}
 	getProfileAccountingPayments(profileId, year, options?) {
 		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/payments", { params: options }).toPromise();
+	}
+
+	/* PLANS */
+	getProfilePlansGroups(profileId: number, year: number, group: string) {
+		return this.http.get<any>(`${this.root}/profiles/${profileId}/plans/${year}/groups/${group}`).toPromise()
+	}
+
+	getProfilePlansDetails(profileId: number, year: number, field: string) {
+		return this.http.get<any>(`${this.root}/profiles/${profileId}/plans/${year}/groups/${field}/details`).toPromise()
 	}
 
 	/* YEARS */

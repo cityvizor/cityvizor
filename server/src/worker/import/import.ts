@@ -21,7 +21,7 @@ export namespace Import {
     await fs.ensureDir(fullPath);
     return fullPath;
   }
-  export type Format = 'cityvizor' | 'internetstream';
+  export type Format = 'cityvizor' | 'internetstream' | 'pbo';
   export interface Options {
     profileId: YearRecord['profileId'];
     year: YearRecord['year'];

@@ -7,3 +7,4 @@ export * from './payment';
 export * from './profile';
 export * from './user';
 export * from './year';
+export * from './plan';
