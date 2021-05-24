@@ -1,14 +1,23 @@
 <div id="entity">
 
-	<header-menu [title]="(profile | async)?.name" backLink="/">
-		<li><a routerLink="prehled" routerLinkActive="active">Přehled</a></li>
-		<li><a routerLink="hospodareni/vydaje" routerLinkActive="active">Výdaje</a></li>
-		<li><a routerLink="hospodareni/prijmy" routerLinkActive="active">Příjmy</a></li>
-		<li><a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
-		<li><a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a></li>
-		<li *ngIf="(profile | async)?.edesky"><a routerLink="uredni-deska" routerLinkActive="active">Úřední deska</a></li>
-		<li *ngIf="(profile | async)?.ico"><a routerLink="registr-smluv" routerLinkActive="active">Registr smluv</a></li>
-	</header-menu>
+	<div *ngIf="(profile | async)?.type == 'municipality'; else pboHeader">
+		<header-menu [title]="(profile | async)?.name" backLink="/">
+			<li><a routerLink="prehled" routerLinkActive="active">Přehled</a></li>
+			<li><a routerLink="hospodareni/vydaje" routerLinkActive="active">Výdaje</a></li>
+			<li><a routerLink="hospodareni/prijmy" routerLinkActive="active">Příjmy</a></li>
+			<li><a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
+			<li><a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a></li>
+			<li *ngIf="(profile | async)?.edesky"><a routerLink="uredni-deska" routerLinkActive="active">Úřední deska</a></li>
+			<li *ngIf="(profile | async)?.ico"><a routerLink="registr-smluv" routerLinkActive="active">Registr smluv</a></li>
+		</header-menu>
+	</div>
+	<ng-template #pboHeader>
+		<header-menu [title]="(profile | async)?.name" backLink="/">
+			<li><a routerLink="prehled" routerLinkActive="active">Přehled</a></li>
+			<li><a routerLink="hospodareni/vydaje" routerLinkActive="active">Výdaje</a></li>
+			<li><a routerLink="hospodareni/prijmy" routerLinkActive="active">Příjmy</a></li>
+		</header-menu>
+	</ng-template>
 
 	<div id="content">
 		<router-outlet></router-outlet>

@@ -6,7 +6,7 @@ import { DataService } from 'app/services/data.service';
 import { Dashboard } from "app/schema/dashboard";
 import { ProfileService } from 'app/services/profile.service';
 
-import { Budget, BudgetPayment, Counterparty, Contract } from 'app/schema';
+import { Budget, BudgetPayment, Counterparty, Contract, Profile } from 'app/schema';
 
 @Component({
 	selector: 'profile-dashboard',
@@ -15,8 +15,7 @@ import { Budget, BudgetPayment, Counterparty, Contract } from 'app/schema';
 })
 export class ProfileDashboardComponent {
 
-	@Input()
-	profile: any;
+	profile: Profile;
 
 	payments: BudgetPayment[] = [];
 	contracts: Contract[] = [];
@@ -35,6 +34,7 @@ export class ProfileDashboardComponent {
 	ngOnInit() {
 
 		this.profileService.profile.subscribe(profile => {
+			this.profile = profile;
 			this.loadPayments(profile.id);
 			this.loadContracts(profile.id);
 			this.loadDashboard(profile.id);
@@ -63,7 +63,11 @@ export class ProfileDashboardComponent {
 
 	async loadBudgets(profileId: number) {
 		
-		this.budgets = await this.dataService.getProfileBudgets(profileId, { limit: 3 });
+		if (this.isMunicipality) {
+			this.budgets = await this.dataService.getProfileBudgets(profileId, { limit: 3 });
+		} else {
+			this.budgets = await this.dataService.getProfilePlans(profileId);
+		}
 
 		this.budgets.sort((a,b) => b.year - a.year);
 
@@ -78,12 +82,15 @@ export class ProfileDashboardComponent {
 	}
 
 	openExpenditures(group: number, year: number) {
-		console.log(this.route)
 		this.router.navigate(["./hospodareni/vydaje", { rok: year, skupina: group }], { relativeTo: this.route.parent });
 	}
 
 	get onlyPayments() {
 		return this.contracts.length == 0
+	}
+	
+	get isMunicipality() {
+		return this.profile.type == "municipality";
 	}
 
 }

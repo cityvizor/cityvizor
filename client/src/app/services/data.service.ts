@@ -84,6 +84,10 @@ export class DataService {
 		return this.http.get<any>(`${this.root}/profiles/${profileId}/plans/${year}/groups/${field}/details`).toPromise()
 	}
 
+	getProfilePlans(profileId: number) {
+		return this.http.get<any>(`${this.root}/profiles/${profileId}/plans`).toPromise()
+	}
+
 	/* YEARS */
 	getProfileBudget(profileId: number, year: number) {
 		return this.http.get<Budget>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();

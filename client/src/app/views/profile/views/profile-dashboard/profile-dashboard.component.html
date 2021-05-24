@@ -1,82 +1,81 @@
 <div class="container">
-	<div *ngIf="!!dashboard">
-		<h3>Přehled výdajů obce</h3>
-		<div class="row dashboard">
-			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history name="Doprava" icon="fa-automobile" [data]="dashboard.transportation" (click)="openExpenditures(22,$event)"></chart-history>
-			</div>
-			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history name="Školy" icon="fa-book" [data]="dashboard.schools" (click)="openExpenditures(31,$event)"></chart-history>
-			</div>
-			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history name="Sport" icon="fa-bicycle" [data]="dashboard.sports" (click)="openExpenditures(34,$event)"></chart-history>
-			</div>
-			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history name="Bydlení" icon="fa-home" [data]="dashboard.housing" (click)="openExpenditures(36,$event)"></chart-history>
-			</div>
-			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history name="Kultura" icon="fa-picture-o" [data]="dashboard.culture" (click)="openExpenditures(33,$event)"></chart-history>
-			</div>
-			<div class="col-sm-6 col-md-4 text-center">
-				<chart-history name="Samospráva" icon="fa-institution" [data]="dashboard.government" (click)="openExpenditures(61,$event)"></chart-history>
+	<div *ngIf="isMunicipality; else pbo">
+		<div *ngIf="!!dashboard">
+			<h3>Přehled výdajů obce</h3>
+			<div class="row dashboard">
+				<div class="col-sm-6 col-md-4 text-center">
+					<chart-history name="Doprava" icon="fa-automobile" [data]="dashboard.transportation" (click)="openExpenditures(22,$event)"></chart-history>
+				</div>
+				<div class="col-sm-6 col-md-4 text-center">
+					<chart-history name="Školy" icon="fa-book" [data]="dashboard.schools" (click)="openExpenditures(31,$event)"></chart-history>
+				</div>
+				<div class="col-sm-6 col-md-4 text-center">
+					<chart-history name="Sport" icon="fa-bicycle" [data]="dashboard.sports" (click)="openExpenditures(34,$event)"></chart-history>
+				</div>
+				<div class="col-sm-6 col-md-4 text-center">
+					<chart-history name="Bydlení" icon="fa-home" [data]="dashboard.housing" (click)="openExpenditures(36,$event)"></chart-history>
+				</div>
+				<div class="col-sm-6 col-md-4 text-center">
+					<chart-history name="Kultura" icon="fa-picture-o" [data]="dashboard.culture" (click)="openExpenditures(33,$event)"></chart-history>
+				</div>
+				<div class="col-sm-6 col-md-4 text-center">
+					<chart-history name="Samospráva" icon="fa-institution" [data]="dashboard.government" (click)="openExpenditures(61,$event)"></chart-history>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="row">
+		<div class="row">
 
-		<div [ngClass]="{'col-sm-6': !this.onlyPayments, 'col-sm-12': this.onlyPayments}">
-			<div class="row">
-				<div class="col-xs-12">
-					<h3>Poslední faktury</h3>
-				</div>
-			</div>
-			<div [ngClass]= "{'bg-line': !this.onlyPayments}" class="bg-timeline">
-				<div [ngClass]="{'col-sm-6': this.onlyPayments }" class="row news" *ngFor="let payment of this.payments.slice(0, this.onlyPayments ? 10 : 5)">
-					<div class="col-xs-12">
-						<div class="row">
-							<div class="col-xs-9">
-								<h5 class="service-heading">
-									{{payment.counterpartyName || "Protistrana neuvedena"}}
-									<small *ngIf="payment.counterpartyId">
-										<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+ (payment.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES">[ARES] </a>
-										<a *ngIf="payment.counterpartyId" [href]="'https://www.hlidacstatu.cz/hledat?Q=ico%3A' + (payment.counterpartyId | ico)" target="_blank"> [Hlídač státu]</a>
-									</small>
-								</h5>
-							</div>
-							<div class="col-xs-3 small text-right">
-								<h5>
-									<small *ngIf="payment.date">{{payment.date | date:"d. M. y"}}</small>
-								</h5>
-							</div>
-						</div>
-						<div class="row vertical-align">
-							<div class="col-xs-9">
-								<p class="text-muted" *ngIf="payment.description">
-									{{payment.description}}
-								</p>
-								<p class="text-muted small" *ngIf="!payment.description">
-									(bez popisu)
-								</p>
-							</div>
-							<div class="col-xs-3 text-right vertical-align-end">
-								<p><strong>
-										{{(payment.incomeAmount + payment.expenditureAmount) | money:0:false}} Kč
-										<!-- one of amounts is always zero -->
-									</strong></p>
-							</div>
-						</div>
-					</div>
-				</div>
+			<div [ngClass]="{'col-sm-6': !this.onlyPayments, 'col-sm-12': this.onlyPayments}">
 				<div class="row">
-					<div class="text-center more">
-						<a routerLink="../faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+					<div class="col-xs-12">
+						<h3>Poslední faktury</h3>
 					</div>
 				</div>
-
+				<div [ngClass]= "{'bg-line': !this.onlyPayments}" class="bg-timeline">
+					<div [ngClass]="{'col-sm-6': this.onlyPayments }" class="row news" *ngFor="let payment of this.payments.slice(0, this.onlyPayments ? 10 : 5)">
+						<div class="col-xs-12">
+							<div class="row">
+								<div class="col-xs-9">
+									<h5 class="service-heading">
+										{{payment.counterpartyName || "Protistrana neuvedena"}}
+										<small *ngIf="payment.counterpartyId">
+											<a [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico='+ (payment.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES">[ARES] </a>
+											<a *ngIf="payment.counterpartyId" [href]="'https://www.hlidacstatu.cz/hledat?Q=ico%3A' + (payment.counterpartyId | ico)" target="_blank"> [Hlídač státu]</a>
+										</small>
+									</h5>
+								</div>
+								<div class="col-xs-3 small text-right">
+									<h5>
+										<small *ngIf="payment.date">{{payment.date | date:"d. M. y"}}</small>
+									</h5>
+								</div>
+							</div>
+							<div class="row vertical-align">
+								<div class="col-xs-9">
+									<p class="text-muted" *ngIf="payment.description">
+										{{payment.description}}
+									</p>
+									<p class="text-muted small" *ngIf="!payment.description">
+										(bez popisu)
+									</p>
+								</div>
+								<div class="col-xs-3 text-right vertical-align-end">
+									<p><strong>
+											{{(payment.incomeAmount + payment.expenditureAmount) | money:0:false}} Kč
+											<!-- one of amounts is always zero -->
+										</strong></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="text-center more">
+							<a routerLink="../faktury" routerLinkActive="active" class="btn btn-xs btn-red">Zobrazit další</a>
+						</div>
+					</div>
+			</div>
 		</div>
-		</div>
-
 		<div *ngIf="this.contracts.length != 0" class="col-sm-6">
 			<div class="row">
 				<div class="col-xs-12">
@@ -128,6 +127,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-12">

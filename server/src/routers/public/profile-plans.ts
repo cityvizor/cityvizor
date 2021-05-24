@@ -8,10 +8,13 @@ const router = express.Router({mergeParams: true});
 export const ProfilePlansRouter = router;
 router.get('/', async (req, res) => {
   const years = await db<PlanRecord>('pbo_plans')
-    .select('year', 'type')
-    .sum({amount: 'amount'})
-    .where('profile_id', req.params.id)
-    .groupBy('year', 'type');
+    .select('year', 'profileId')
+    .sum({incomeAmount: 'incomeAmount'})
+    .sum({expenditureAmount: 'expenditureAmount'})
+    .sum({budgetIncomeAmount: 'budgetIncomeAmount'})
+    .sum({budgetExpenditureAmount: 'budgetExpenditureAmount'})
+    .where('profile_id', req.params.profile)
+    .groupBy('year', 'profileId');
 
   if (years.length) res.json(years);
   else res.sendStatus(404);

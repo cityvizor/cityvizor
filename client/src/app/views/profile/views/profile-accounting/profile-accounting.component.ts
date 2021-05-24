@@ -78,10 +78,11 @@ export class ProfileAccountingComponent implements OnInit {
 		this.route.params.pipe(map(params => params.razeni || "nejvetsi"), distinctUntilChanged()).subscribe(this.sort);
 
 		// load budgets based on profile
-		this.profile.subscribe(profile => this.dataService.getProfileBudgets(profile.id)
+		this.profile.subscribe(profile => {
+			(profile.type == "municipality" ? this.dataService.getProfileBudgets(profile.id) : this.dataService.getProfilePlans(profile.id))
 			.then(budgets => budgets.sort((a, b) => b.year - a.year))
-			.then(budgets => this.budgets.next(budgets)));
-
+			.then(budgets => this.budgets.next(budgets));
+		})
 		// load group events if passed via url (refreshed page or clicked on a link)
 		this.profile.subscribe(async (profile) => {
 			const params = this.route.snapshot.params
