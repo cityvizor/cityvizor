@@ -9,14 +9,18 @@ import {pipeline} from 'stream';
 
 export async function importPbo(options: Import.Options) {
   const dirFiles = await fs.readdir(options.importDir);
-  const planFile = dirFiles.find(file => file === 'plan.csv');
+  const planFile = dirFiles.find(file => file.match(/.?Plan.csv/));
   if (!planFile) {
-    throw Error('plan.csv file not found');
+    throw Error('*Plan.csv file not found');
   }
 
   if (!options.append) {
     await options
-      .transaction('data.pbo_plans')
+      .transaction(
+        options.format === 'pbo_expected_plan'
+          ? 'data.pbo_expected_plans'
+          : 'data.pbo_real_plans'
+      )
       .where({profileId: options.profileId, year: options.year})
       .delete();
   }

@@ -37,7 +37,8 @@ enum FileType {
   PAYMENTS_FILE = 'payments',
   EVENTS_FILE = 'events',
   ACCOUNTING_FILE = 'accounting',
-  PLAN_FILE = 'plan',
+  EXPECTED_PLAN_FILE = 'expectedPlan',
+  REAL_PLAN_FILE = 'realPlan',
 }
 
 const importFormats: {[key in FileType]: Import.Format} = {
@@ -45,7 +46,8 @@ const importFormats: {[key in FileType]: Import.Format} = {
   payments: 'cityvizor',
   accounting: 'cityvizor',
   events: 'cityvizor',
-  plan: 'pbo',
+  expectedPlan: 'pbo_expected_plan',
+  realPlan: 'pbo_real_plan',
 };
 
 const upload = multer({dest: config.storage.tmp});
@@ -92,6 +94,7 @@ router.patch(
     return createWorkerTask(req, res, FileType.EVENTS_FILE, true);
   }
 );
+
 router.post(
   '/profiles/:profile/data',
   upload.fields([{name: 'data'}]),
@@ -111,32 +114,44 @@ router.patch(
     return createWorkerTask(req, res, FileType.DATA_FILE, true);
   }
 );
+
 router.post(
-  '/profiles/:profile/plan',
-  upload.fields([{name: 'plan'}]),
+  '/profiles/:profile/plans/expected',
+  upload.fields([{name: 'expectedPlan'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting:write'),
   async (req, res) => {
-    return createWorkerTask(req, res, FileType.PLAN_FILE, false);
+    return createWorkerTask(req, res, FileType.EXPECTED_PLAN_FILE, false);
+  }
+);
+
+router.post(
+  '/profiles/:profile/plans/real',
+  upload.fields([{name: 'realPlan'}]),
+  schema.validate(importAccountingSchema),
+  acl('profile-accounting:write'),
+  async (req, res) => {
+    return createWorkerTask(req, res, FileType.REAL_PLAN_FILE, false);
   }
 );
 
 router.patch(
-  '/profiles/:profile/plan',
-  upload.fields([{name: 'plan'}]),
+  '/profiles/:profile/plans/expected',
+  upload.fields([{name: 'expectedPlan'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting:write'),
   async (req, res) => {
-    return createWorkerTask(req, res, FileType.PLAN_FILE, true);
+    return createWorkerTask(req, res, FileType.EXPECTED_PLAN_FILE, true);
   }
 );
+
 router.patch(
-  '/profiles/:profile/accounting',
-  upload.fields([{name: 'accounting'}]),
+  '/profiles/:profile/plans/real',
+  upload.fields([{name: 'realPlan'}]),
   schema.validate(importAccountingSchema),
   acl('profile-accounting:write'),
   async (req, res) => {
-    return createWorkerTask(req, res, FileType.ACCOUNTING_FILE, true);
+    return createWorkerTask(req, res, FileType.REAL_PLAN_FILE, true);
   }
 );
 

@@ -66,6 +66,7 @@ export async function checkImportQueue() {
     transaction: trx,
     importDir: currentJob.importDir,
     append: currentJob.append,
+    format: currentJob.format,
   };
 
   // Any exception catched in this try block will rollback the import transaction
@@ -76,7 +77,10 @@ export async function checkImportQueue() {
       await importCityvizor(options);
     } else if (currentJob.format === 'internetstream') {
       await importInternetStream(options);
-    } else if (currentJob.format === 'pbo') {
+    } else if (
+      currentJob.format === 'pbo_expected_plan' ||
+      currentJob.format === 'pbo_real_plan'
+    ) {
       await importPbo(options);
     } else {
       throw Error(`Unsupported import type: ${currentJob.format}`);

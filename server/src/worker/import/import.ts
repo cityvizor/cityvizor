@@ -21,7 +21,11 @@ export namespace Import {
     await fs.ensureDir(fullPath);
     return fullPath;
   }
-  export type Format = 'cityvizor' | 'internetstream' | 'pbo';
+  export type Format =
+    | 'cityvizor'
+    | 'internetstream'
+    | 'pbo_expected_plan'
+    | 'pbo_real_plan';
   export interface Options {
     profileId: YearRecord['profileId'];
     year: YearRecord['year'];
@@ -29,6 +33,7 @@ export namespace Import {
     importDir: string;
     append: boolean;
     fileName?: string;
+    format: Format;
   }
 
   export type ImportChunk = PaymentChunk | EventChunk | AccountingChunk;

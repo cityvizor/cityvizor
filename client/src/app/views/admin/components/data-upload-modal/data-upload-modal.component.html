@@ -4,7 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form #uploadForm="ngForm" (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput, accountingFileInput, paymentsFileInput, planFileInput)">
+<form #uploadForm="ngForm" (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput, accountingFileInput, paymentsFileInput, expectedPlanFileInput, realPlanFileInput)">
   <div class="modal-body">
 
       <div [hidden]="isPbo" class="form-group">
@@ -43,9 +43,18 @@
         </select>
       </div>
       <div [hidden]="!isPbo" class="form-group">
-        <label>Plán</label>
-        <input type="file" name="planFile" accept=".csv" class="form-control" ngModel #planFileInput>
-        <select class="form-group" name="planFileMode" ngModel>
+        <label>Očekávaný plán</label>
+        <input type="file" name="expectedPlanFile" accept=".csv" class="form-control" ngModel #expectedPlanFileInput>
+        <select class="form-group" name="expectedPlanFileMode" ngModel>
+          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
+          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+        </select>
+      </div>
+
+      <div [hidden]="!isPbo" class="form-group">
+        <label>Reálný plán</label>
+        <input type="file" name="realPlanFile" accept=".csv" class="form-control" ngModel #realPlanFileInput>
+        <select class="form-group" name="realPlanFileMode" ngModel>
           <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
           <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
         </select>

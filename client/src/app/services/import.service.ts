@@ -35,7 +35,10 @@ export class ImportService {
     return this.generateRequest(profileId, formData, "data", isAppend)
   }
 
-  async importPlan(profileId: Profile["id"], formData: FormData, isAppend: boolean) {
-    return this.generateRequest(profileId, formData, "plan", isAppend);
+  async importExpectedPlan(profileId: Profile["id"], formData: FormData, isAppend: boolean) {
+    return this.generateRequest(profileId, formData, "plans/expected", isAppend);
+  }
+  async importRealPlan(profileId: Profile["id"], formData: FormData, isAppend: boolean) {
+    return this.generateRequest(profileId, formData, "plans/real", isAppend);
   }
 }

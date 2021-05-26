@@ -5,7 +5,7 @@ import logger from '../logger';
 import {db} from '../../../db';
 
 export class DatabaseWriter extends Writable {
-  planCount = 0;
+  count = 0;
 
   constructor(private options: Import.Options) {
     super({
@@ -20,7 +20,7 @@ export class DatabaseWriter extends Writable {
     try {
       if (chunks.length) {
         await this.writePlans(chunks.map(chunk => chunk.chunk));
-        this.planCount += chunks.length;
+        this.count += chunks.length;
       }
       callback();
     } catch (err) {
@@ -29,13 +29,21 @@ export class DatabaseWriter extends Writable {
   }
 
   _final(callback) {
-    logger.log(`Written ${this.planCount} plan records to the DB.`);
+    logger.log(`Written ${this.count} plan records to the DB.`);
     callback();
   }
 
   async writePlans(plans: PlanRecord[]) {
-    await db<PlanRecord>('data.pbo_plans')
-      .insert(plans)
-      .transacting(this.options.transaction);
+    if (this.options.format === 'pbo_expected_plan') {
+      await db<PlanRecord>('data.pbo_expected_plans')
+        .insert(plans)
+        .transacting(this.options.transaction);
+    } else if (this.options.format === 'pbo_real_plan') {
+      await db<PlanRecord>('data.pbo_real_plans')
+        .insert(plans)
+        .transacting(this.options.transaction);
+    } else {
+      throw new Error(`Unsupported format: ${this.options.format}`);
+    }
   }
 }

@@ -75,7 +75,7 @@ router.get('/:year/groups/:group/details', async (req, res) => {
         0
       ),
       budgetIncomeAmount: details.reduce(
-        (acc, detail) => (acc += detail.incomeAmount),
+        (acc, detail) => (acc += detail.budgetIncomeAmount),
         0
       ),
       expenditureAmount: details.reduce(
@@ -83,7 +83,7 @@ router.get('/:year/groups/:group/details', async (req, res) => {
         0
       ),
       budgetExpenditureAmount: details.reduce(
-        (acc, detail) => (acc += detail.expenditureAmount),
+        (acc, detail) => (acc += detail.budgetExpenditureAmount),
         0
       ),
     },

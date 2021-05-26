@@ -76,7 +76,6 @@ export class AccountingService {
     } else {
       events = await this.dataService.getProfilePlansDetails(profile.id, year, groupId)
     }
-    console.log(events)
     return events.filter(row => row[typeConfig.amount] || row[typeConfig.budgetAmount])
       .map(row => {
         const event: BudgetGroupEvent = {
