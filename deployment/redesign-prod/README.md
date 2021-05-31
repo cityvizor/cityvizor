@@ -45,7 +45,7 @@ helm upgrade -f test_values.yml cityvizor ./cityvizor
 ```
 
 ### Automatic deployment
-You can use Keel for automatic deployement. By default it watches tag specified in `values.yml` and deploys new versions. Regrettably, Keel does not seem to work smoothly with Helm3, so some work here is still needed.
+You can use Keel for automatic deployment. By default, it watches tag specified in `values.yml` and deploys new versions. Regrettably, Keel does not seem to work smoothly with Helm3, so some work here is still needed.
 
 ```shell script
 helm repo add keel-charts https://charts.keel.sh 
@@ -61,4 +61,4 @@ create database cityvizor_test;
 grant all privileges on database cityvizor_test to cityvizor_test;
 ```
 
-Do not forgot to configure Postgres, so it is accessible from EC2
+Do not forget to configure Postgres, so it is accessible from EC2.
