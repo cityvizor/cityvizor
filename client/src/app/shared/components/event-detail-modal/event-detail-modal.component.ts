@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BsModalRef} from "ngx-bootstrap/modal";
-
+import {Profile} from "app/schema/profile"
 @Component({
     selector: 'event-detail-modal',
     templateUrl: './event-detail-modal.component.html',
@@ -10,7 +10,7 @@ export class EventDetailModalComponent implements OnInit {
 
     openTab: string;
 
-    profileId: number;
+    profile: Profile;
     eventId: number;
     year: number;
 

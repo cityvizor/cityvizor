@@ -88,6 +88,15 @@ export class DataService {
 		return this.http.get<any>(`${this.root}/profiles/${profileId}/plans`).toPromise()
 	}
 
+	/* AA */
+	getProfileAa(profileId: number, year: number, aa: number) {
+		return this.http.get<BudgetEvent>(`${this.root}/profiles/${profileId}/aa/${aa}/year/${year}`).toPromise()
+	}
+
+	getProfileAaHistory(profileId: number, aa: number) {
+		return this.http.get<BudgetEvent[]>(`${this.root}/profiles/${profileId}/aa/${aa}/history`).toPromise()
+	}
+
 	/* YEARS */
 	getProfileBudget(profileId: number, year: number) {
 		return this.http.get<Budget>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
@@ -109,10 +118,10 @@ export class DataService {
 	getProfileEvents(profileId: number, year: number, options?) {
 		return this.http.get<BudgetEvent[]>(this.root + "/profiles/" + profileId + "/events/" + year + toParams(options)).toPromise();
 	}
-	getProfileEvent(profileId: string, eventId: number, year: number) {
+	getProfileEvent(profileId: number, eventId: number, year: number) {
 		return this.http.get<BudgetEvent>(this.root + "/profiles/" + profileId + "/events/" + year + "/" + eventId).toPromise();
 	}
-	getProfileEventHistory(profileId: string, eventId: number) {
+	getProfileEventHistory(profileId: number, eventId: number) {
 		return this.http.get<BudgetEvent[]>(this.root + "/profiles/" + profileId + "/events/history/" + eventId).toPromise();
 	}
 

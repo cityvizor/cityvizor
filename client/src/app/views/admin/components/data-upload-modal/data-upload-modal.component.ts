@@ -31,7 +31,7 @@ export class DataUploadModalComponent implements OnInit {
 
   get isPbo() { return this.profileType == 'pbo' }
 
-  async uploadData(form: NgForm, dataFileInput: HTMLInputElement, eventsFileInput: HTMLInputElement, accountingFileInput: HTMLInputElement, paymentsFileInput: HTMLInputElement, expectedPlanFileInput: HTMLInputElement, realPlanFileInput: HTMLInputElement) {
+  async uploadData(form: NgForm, dataFileInput: HTMLInputElement, eventsFileInput: HTMLInputElement, accountingFileInput: HTMLInputElement, paymentsFileInput: HTMLInputElement, expectedPlanFileInput: HTMLInputElement, realPlanFileInput: HTMLInputElement, aaNamesFileInput: HTMLInputElement) {
     const fields: [HTMLInputElement, string, string, string][] = [
       [dataFileInput, "data", "dataFileMode", "Datový soubor nemá"],
       [eventsFileInput, "events", "eventsFileMode", "Číselník nemá"],
@@ -39,6 +39,7 @@ export class DataUploadModalComponent implements OnInit {
       [paymentsFileInput, "payments", "paymentsFileMode", "Faktury nemají"],
       [expectedPlanFileInput, "expectedPlan", "expectedPlanFileMode", "Očekávaný plán nemá"],
       [realPlanFileInput, "realPlan", "realPlanFileMode", "Reálný plán nemá"],
+      [aaNamesFileInput, "aaNames", "aaNamesFileMode", "Číselník analytických účtů nemá"],
     ]
     if (!this.year) {
       this.toastService.toast("Nezvolený rok", "notice") 
@@ -84,6 +85,8 @@ export class DataUploadModalComponent implements OnInit {
           case "realPlan":
             tasks.push(this.importService.importRealPlan(this.profileId, data, v[mode] == "append"))
             break
+          case "aaNames":
+            tasks.push(this.importService.importAaNames(this.profileId, data, v[mode] == "append"))
         }
       } 
     }

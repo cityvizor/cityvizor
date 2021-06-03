@@ -194,13 +194,20 @@
 
 			<br>
 			<form>
-				<div class="form-group">
+				<div *ngIf="isMunicipality; else pbo" class="form-group">
 					<input type="radio" [(ngModel)]="budgetView" value="expenditureParagraphs" name="budgetView" id="input_budgetView_expenditureParagraphs">&nbsp;<label for="input_budgetView_expenditureParagraphs">Výdaje dle odvětvového členení (dle paragrafů)</label>
 					<br>
 					<input type="radio" [(ngModel)]="budgetView" value="expenditureItems" name="budgetView" id="input_budgetView_expenditureItems">&nbsp;<label for="input_budgetView_expenditureItems">Výdaje dle druhového členení (dle položek)</label>
 					<br>
 					<input type="radio" [(ngModel)]="budgetView" value="incomeItems" name="budgetView" id="input_budgetView_incomeItems">&nbsp;<label for="input_budgetView_incomeItems">Příjmy dle druhového členení (dle položek)</label>
 				</div>
+				<ng-template #pbo>
+					<div class="form-group">
+						<input type="radio" [(ngModel)]="budgetView" value="expenditureParagraphs" name="budgetView" id="input_budgetView_expenditureParagraphs">&nbsp;<label for="input_budgetView_expenditureParagraphs">Výdaje dle syntetických účtů</label>
+						<br>
+						<input type="radio" [(ngModel)]="budgetView" value="incomeItems" name="budgetView" id="input_budgetView_incomeItems">&nbsp;<label for="input_budgetView_incomeItems">Příjmy dle syntetických účtů</label>
+					</div>
+				</ng-template>
 			</form>
 
 			<div [ngSwitch]="budgetView">
@@ -212,9 +219,9 @@
 					<table *ngIf="event.budgetExpenditureAmount || event.expenditureAmount" class="table table-responsive table-title-number-number">
 						<thead>
 							<tr>
-								<th colspan="2">Rozpočtové paragrafy</th>
+								<th colspan="2"> {{ isMunicipality ? 'Rozpočtové paragrafy' : 'Syntetické účty' }}</th>
 								<th class="text-right">
-									Rozpočtovaná částka
+									{{ isMunicipality ? 'Rozpočtovaná částka' : 'Plánovaná částka' }}
 								</th>
 								<th class="text-right">
 									Skutečné výdaje
@@ -223,7 +230,7 @@
 						</thead>
 						<tbody>
 							<tr *ngFor="let paragraph of expenditureParagraphs" class="small">
-								<td class="text-nowrap">§ {{paragraph.id}}</td>
+								<td class="text-nowrap"> {{ isMunicipality ? '§' : '#' }} {{paragraph.id}}</td>
 								<td>{{paragraphNames[paragraph.id]}}</td>
 								<td class="text-right font-number">{{paragraph.budgetExpenditureAmount | money:0:false}} Kč</td>
 								<td class="text-right font-number">
@@ -254,9 +261,11 @@
 					<table *ngIf="event.budgetExpenditureAmount || event.expenditureAmount" class="table table-responsive table-title-number-number">
 						<thead>
 							<tr>
-								<th colspan="2">Rozpočtové položky</th>
+								<th colspan="2">
+									{{ isMunicipality ? 'Rozpočtové položky' : 'Syntetické účty' }}
+								</th>
 								<th class="text-right">
-									Rozpočtovaná částka
+									{{ isMunicipality ? 'Rozpočtovaná částka' : 'Plánovaná částka' }}									
 								</th>
 								<th class="text-right">
 									Skutečné výdaje
@@ -299,8 +308,12 @@
 					<table *ngIf="event.budgetIncomeAmount || event.incomeAmount" class="table table-responsive table-title-number-number">
 						<thead>
 							<tr>
-								<th colspan="2">Rozpočtové položky</th>
-								<th class="text-right">Rozpočtovaná částka</th>
+								<th colspan="2">
+									{{ isMunicipality ? 'Rozpočtové položky' : 'Syntetické účty' }}
+								</th>
+								<th class="text-right">
+									{{ isMunicipality ? 'Rozpočtovaná částka' : 'Plánovaná částka' }}									
+								</th>
 								<th class="text-right">Skutečný příjem</th>
 							</tr>
 						</thead>

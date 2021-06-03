@@ -5,7 +5,7 @@ import { DataService } from 'app/services/data.service';
 import { CodelistService } from 'app/services/codelist.service';
 import { ToastService } from 'app/services/toast.service';
 
-import { BudgetEvent, BudgetPayment, Counterparty, BudgetItem } from 'app/schema';
+import { BudgetEvent, BudgetPayment, Counterparty, BudgetItem, Profile } from 'app/schema';
 
 type CounterpartyOpenable = (Counterparty & { open: boolean });
 
@@ -26,7 +26,7 @@ type CounterpartyOpenable = (Counterparty & { open: boolean });
 export class EventDetailComponent implements OnChanges {
 
 	/* DATA */
-	@Input() profileId: string;
+	@Input() profile: Profile;
 	@Input() eventId: number;
 	@Input() year: number;
 
@@ -65,19 +65,31 @@ export class EventDetailComponent implements OnChanges {
 			this.isCurrentYear = this.year === (new Date()).getFullYear();
 		}
 
-		if ((changes.profileId || changes.eventId || changes.year) && this.profileId && this.eventId && this.year) {
-			this.loadEvent(this.profileId, this.eventId, this.year);
+		if ((changes.profileId || changes.eventId || changes.year) && this.profile?.id && this.eventId && this.year) {
+			this.loadEvent(this.profile.id, this.eventId, this.year);
 		}
 	}
 
 	async loadCodelists(year: number) {
-		const date = new Date(year, 0, 1);
-		this.itemNames = await this.codelistService.getCurrentIndex("items", date);
-		this.paragraphNames = await this.codelistService.getCurrentIndex("paragraphs", date);
+		if (this.isMunicipality) {
+			const date = new Date(year, 0, 1);
+			this.itemNames = await this.codelistService.getCurrentIndex("items", date);
+			this.paragraphNames = await this.codelistService.getCurrentIndex("paragraphs", date);
+		} else {
+			const suNames = await this.dataService.getCodelist("pbo-su")
+			const convertedNames = suNames.reduce((acc, c)=> {
+				acc[c.id] = c.name
+				return acc
+			}, {})
+			this.itemNames = convertedNames
+			this.paragraphNames = convertedNames
+		}
 	}
 
-	async loadEvent(profileId: string, eventId: number, year: number) {
-		const event = await this.dataService.getProfileEvent(profileId, eventId, year);
+	async loadEvent(profileId: number, eventId: number, year: number) {
+		const event = this.isMunicipality
+			? await this.dataService.getProfileEvent(profileId, eventId, year)
+			: await this.dataService.getProfileAa(profileId, year, eventId)
 
 		this.maxExpenditureAmount = Math.max(event.expenditureAmount, event.budgetExpenditureAmount);
 		this.maxIncomeAmount = Math.max(event.incomeAmount, event.budgetIncomeAmount);
@@ -85,7 +97,9 @@ export class EventDetailComponent implements OnChanges {
 		this.event = event;
 
 		// get event accross years;
-		this.history = await this.dataService.getProfileEventHistory(this.profileId, this.eventId);
+		this.history = this.isMunicipality
+			? await this.dataService.getProfileEventHistory(this.profile.id, this.eventId)
+			: await this.dataService.getProfileAaHistory(this.profile.id, this.eventId)
 
 		this.maxHistoryAmount = this.history.reduce((acc, cur) => Math.max(acc, cur.expenditureAmount, cur.incomeAmount, cur.budgetExpenditureAmount, cur.budgetIncomeAmount), -Infinity);
 
@@ -132,11 +146,15 @@ export class EventDetailComponent implements OnChanges {
 
 	openYear(year: number) {
 		this.year = year;
-		this.loadEvent(this.profileId, this.eventId, this.year);
+		this.loadEvent(this.profile.id, this.eventId, this.year);
 	}
 
 	openPayments(counterparty) {
 		counterparty.open = !counterparty.open;
+	}
+
+	get isMunicipality() {
+		return this.profile.type === "municipality"
 	}
 
 }

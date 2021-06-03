@@ -151,11 +151,11 @@ export class ProfileAccountingComponent implements OnInit {
 			} as ChartBigbangDataRow))
 		});
 
-		combineLatest(this.eventId, this.profile.pipe(map(profile => profile.id)), this.year)
+		combineLatest(this.eventId, this.profile, this.year)
 			.pipe(filter(values => values.every(value => !!value))) // only if all not null
-			.subscribe(([eventId, profileId, year]) => {
-				if (eventId !== null && year !== null && typeof profileId !== 'undefined') {
-					this.modalService.show(EventDetailModalComponent, { initialState: { eventId, profileId, year }, class: "modal-lg" });
+			.subscribe(([eventId, profile, year]) => {
+				if (eventId !== null && year !== null && typeof profile?.id !== 'undefined') {
+					this.modalService.show(EventDetailModalComponent, { initialState: { eventId, profile, year }, class: "modal-lg" });
 				}
 			})
 

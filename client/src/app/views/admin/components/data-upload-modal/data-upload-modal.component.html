@@ -4,7 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form #uploadForm="ngForm" (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput, accountingFileInput, paymentsFileInput, expectedPlanFileInput, realPlanFileInput)">
+<form #uploadForm="ngForm" (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput, accountingFileInput, paymentsFileInput, expectedPlanFileInput, realPlanFileInput, aaNamesFileInput)">
   <div class="modal-body">
 
       <div [hidden]="isPbo" class="form-group">
@@ -55,6 +55,15 @@
         <label>Reálný plán</label>
         <input type="file" name="realPlanFile" accept=".csv" class="form-control" ngModel #realPlanFileInput>
         <select class="form-group" name="realPlanFileMode" ngModel>
+          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
+          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+        </select>
+      </div>
+
+      <div [hidden]="!isPbo" class="form-group">
+        <label>Číselník analytických účtů</label>
+        <input type="file" name="aaNamesFile" accept=".csv" class="form-control" ngModel #aaNamesFileInput>
+        <select class="form-group" name="aaNamesFileMode" ngModel>
           <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
           <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
         </select>
