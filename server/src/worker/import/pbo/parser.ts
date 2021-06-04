@@ -2,14 +2,27 @@ import {Transform} from 'stream';
 import csvparse from 'csv-parse';
 import {PlanRecord} from '../../../schema/database/plan';
 import {Import} from '../import';
+import {AaNameRecord} from '../../../schema/database/aaName';
 
-const mandatoryHeaders: string[] = ['type', 'sa', 'aa', 'amount'];
+// Headers/columns that must be present in the csv
+const mandatoryPlanHeaders: string[] = ['type', 'sa', 'aa', 'amount'];
+const mandatoryAaNamesHeaders: string[] = ['aa', 'name'];
 
-export function createCsvParser(): Transform {
+// Fields to be checked if they contain integers
+const checkedPlanFields = ['sa', 'aa', 'amount'];
+const checkedAaNamesFields = ['aa'];
+
+const isPlan = (format: Import.Format): boolean => format !== 'pbo_aa_names';
+const getMandatoryHeaders = (options: Import.Options): string[] =>
+  isPlan(options.format) ? mandatoryPlanHeaders : mandatoryAaNamesHeaders;
+const getCheckedHeaders = (options: Import.Options): string[] =>
+  isPlan(options.format) ? checkedPlanFields : checkedAaNamesFields;
+
+export function createCsvParser(options: Import.Options): Transform {
   return csvparse({
     delimiter: ';',
     columns: (line: string[]) => {
-      const missingHeaders = mandatoryHeaders.filter(
+      const missingHeaders = getMandatoryHeaders(options).filter(
         header => !line.includes(header)
       );
       if (missingHeaders.length !== 0) {
@@ -18,7 +31,7 @@ export function createCsvParser(): Transform {
         );
       }
       return line.map(header =>
-        mandatoryHeaders.includes(header) ? header : false
+        getMandatoryHeaders(options).includes(header) ? header : false
       );
     },
     relax_column_count: true,
@@ -32,7 +45,7 @@ export function createPboParser(options: Import.Options): Transform {
     transform(line, enc, callback) {
       // Sanity check, are we getting numbers?
       let err: Error | null = null;
-      ['sa', 'aa', 'amount'].forEach(field => {
+      getCheckedHeaders(options).forEach(field => {
         if (isNaN(Number(line[field]))) {
           err = new Error(`Field ${field} of value "${
             line[field]
@@ -44,16 +57,28 @@ export function createPboParser(options: Import.Options): Transform {
       if (err) {
         callback(err);
       } else {
-        const planRecord: PlanRecord = {
-          profileId: options.profileId,
-          year: options.year,
-          type: line.type,
-          sa: line.sa,
-          aa: line.aa,
-          amount: line.amount,
-        };
-        this.push(planRecord);
-        callback();
+        if (isPlan(options.format)) {
+          const planRecord: PlanRecord = {
+            profileId: options.profileId,
+            year: options.year,
+            type: line.type,
+            sa: line.sa,
+            aa: line.aa,
+            amount: line.amount,
+          };
+          this.push(planRecord);
+          callback();
+        } else {
+          const aaNameRecord: AaNameRecord = {
+            profileId: options.profileId,
+            year: options.year,
+
+            aa: line.aa,
+            name: line.name,
+          };
+          this.push(aaNameRecord);
+          callback();
+        }
       }
     },
   });

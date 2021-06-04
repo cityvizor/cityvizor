@@ -41,4 +41,7 @@ export class ImportService {
   async importRealPlan(profileId: Profile["id"], formData: FormData, isAppend: boolean) {
     return this.generateRequest(profileId, formData, "plans/real", isAppend);
   }
+  async importAaNames(profileId: Profile["id"], formData: FormData, isAppend: boolean) {
+    return this.generateRequest(profileId, formData, "aa/names", isAppend);
+  }
 }

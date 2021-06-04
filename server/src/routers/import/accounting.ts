@@ -39,6 +39,7 @@ enum FileType {
   ACCOUNTING_FILE = 'accounting',
   EXPECTED_PLAN_FILE = 'expectedPlan',
   REAL_PLAN_FILE = 'realPlan',
+  AA_NAMES_FILE = 'aaNames',
 }
 
 const importFormats: {[key in FileType]: Import.Format} = {
@@ -48,6 +49,7 @@ const importFormats: {[key in FileType]: Import.Format} = {
   events: 'cityvizor',
   expectedPlan: 'pbo_expected_plan',
   realPlan: 'pbo_real_plan',
+  aaNames: 'pbo_aa_names',
 };
 
 const upload = multer({dest: config.storage.tmp});
@@ -154,7 +156,25 @@ router.patch(
     return createWorkerTask(req, res, FileType.REAL_PLAN_FILE, true);
   }
 );
+router.post(
+  '/profiles/:profile/aa/names',
+  upload.fields([{name: 'aaNames'}]),
+  schema.validate(importAccountingSchema),
+  acl('profile-accounting:write'),
+  async (req, res) => {
+    return createWorkerTask(req, res, FileType.AA_NAMES_FILE, false);
+  }
+);
 
+router.patch(
+  '/profiles/:profile/plans/real',
+  upload.fields([{name: 'aaNames'}]),
+  schema.validate(importAccountingSchema),
+  acl('profile-accounting:write'),
+  async (req, res) => {
+    return createWorkerTask(req, res, FileType.AA_NAMES_FILE, true);
+  }
+);
 async function createWorkerTask(
   req,
   res,

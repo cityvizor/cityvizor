@@ -3,9 +3,11 @@ import {Import} from '../import';
 import {Writable} from 'stream';
 import logger from '../logger';
 import {db} from '../../../db';
+import {AaNameRecord} from '../../../schema/database/aaName';
 
 export class DatabaseWriter extends Writable {
-  count = 0;
+  planCount = 0;
+  aaNameCount = 0;
 
   constructor(private options: Import.Options) {
     super({
@@ -14,13 +16,26 @@ export class DatabaseWriter extends Writable {
   }
 
   async _writev(
-    chunks: {chunk: PlanRecord; encoding: string}[],
+    chunks: {chunk: PlanRecord | AaNameRecord; encoding: string}[],
     callback: (err?: Error) => void
   ) {
     try {
       if (chunks.length) {
-        await this.writePlans(chunks.map(chunk => chunk.chunk));
-        this.count += chunks.length;
+        if (this.options.format === 'pbo_aa_names') {
+          await this.writeAaNames(
+            chunks.map(chunk => chunk.chunk as AaNameRecord)
+          );
+          this.aaNameCount += chunks.length;
+          this.aaNameCount += chunks.length;
+        } else if (
+          this.options.format === 'pbo_expected_plan' ||
+          this.options.format === 'pbo_real_plan'
+        ) {
+          await this.writePlans(chunks.map(chunk => chunk.chunk as PlanRecord));
+          this.planCount += chunks.length;
+        } else {
+          throw new Error(`Unsupported format: ${this.options.format}`);
+        }
       }
       callback();
     } catch (err) {
@@ -29,8 +44,19 @@ export class DatabaseWriter extends Writable {
   }
 
   _final(callback) {
-    logger.log(`Written ${this.count} plan records to the DB.`);
+    if (this.planCount > 0)
+      logger.log(`Written ${this.planCount} plan records to the DB.`);
+    if (this.aaNameCount > 0)
+      logger.log(
+        `Written ${this.aaNameCount} analytic account name records to the DB.`
+      );
     callback();
+  }
+
+  async writeAaNames(aaNames: AaNameRecord[]) {
+    await db<AaNameRecord>('data.pbo_aa_names')
+      .insert(aaNames)
+      .transacting(this.options.transaction);
   }
 
   async writePlans(plans: PlanRecord[]) {

@@ -79,7 +79,8 @@ export async function checkImportQueue() {
       await importInternetStream(options);
     } else if (
       currentJob.format === 'pbo_expected_plan' ||
-      currentJob.format === 'pbo_real_plan'
+      currentJob.format === 'pbo_real_plan' ||
+      currentJob.format === 'pbo_aa_names'
     ) {
       await importPbo(options);
     } else {

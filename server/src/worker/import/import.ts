@@ -25,7 +25,8 @@ export namespace Import {
     | 'cityvizor'
     | 'internetstream'
     | 'pbo_expected_plan'
-    | 'pbo_real_plan';
+    | 'pbo_real_plan'
+    | 'pbo_aa_names';
   export interface Options {
     profileId: YearRecord['profileId'];
     year: YearRecord['year'];
