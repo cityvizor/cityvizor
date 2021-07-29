@@ -12,7 +12,7 @@ export interface ProfileRecord {
   avatarUrl?: string;
 
   ico: string;
-  dataBox: string;
+  databox: string;
   edesky: number;
   mapasamospravy: number;
   gpsX: number;

@@ -6,6 +6,7 @@ import { Profile } from 'app/schema';
 import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ProfileService } from 'app/services/profile.service';
+import { profile } from 'console';
 
 @Component({
 	selector: 'profile-contracts',
@@ -14,7 +15,7 @@ import { ProfileService } from 'app/services/profile.service';
 })
 export class ProfileContractsComponent implements OnInit {
 
-	ico?: string;
+	profile: Profile;
 
 	loading: boolean = false;
 	infoWindowClosed: boolean = false;
@@ -25,7 +26,7 @@ export class ProfileContractsComponent implements OnInit {
 
 	ngOnInit() {
 		this.profileService.profile.subscribe(profile => {
-			this.ico = profile.ico;
+			this.profile = profile;
 			this.loadData(profile.id);
 		});
 	}
@@ -54,6 +55,10 @@ export class ProfileContractsComponent implements OnInit {
 	}
 
 	getRegisterUrl() {
-		return "https://smlouvy.gov.cz/vyhledavani?publication_date%5Bfrom%5D=&publication_date%5Bto%5D=&subject_name=&subject_box=&subject_idnum=" + this.ico + "&subject_address=&value_foreign%5Bfrom%5D=&value_foreign%5Bto%5D=&foreign_currency=&contract_id=&party_name=&party_box=&party_idnum=&party_address=&value_no_vat%5Bfrom%5D=&value_no_vat%5Bto%5D=&file_text=&version_id=&contr_num=&sign_date%5Bfrom%5D=&sign_date%5Bto%5D=&contract_descr=&sign_person_name=&value_vat%5Bfrom%5D=&value_vat%5Bto%5D=&all_versions=0&search=Vyhledat&do=detailedSearchForm-submit#snippet-searchResultList-list";
+		if (this.profile.databox) {
+			return `https://smlouvy.gov.cz/vyhledavani?publication_date%5Bfrom%5D=&publication_date%5Bto%5D=&subject_name=&subject_box=&subject_box=${this.profile.databox}&subject_address=&value_foreign%5Bfrom%5D=&value_foreign%5Bto%5D=&foreign_currency=&contract_id=&party_name=&party_box=&party_idnum=&party_address=&value_no_vat%5Bfrom%5D=&value_no_vat%5Bto%5D=&file_text=&version_id=&contr_num=&sign_date%5Bfrom%5D=&sign_date%5Bto%5D=&contract_descr=&sign_person_name=&value_vat%5Bfrom%5D=&value_vat%5Bto%5D=&all_versions=0&search=Vyhledat&do=detailedSearchForm-submit#snippet-searchResultList-list`;
+		} else if (this.profile.ico) {
+			return `https://smlouvy.gov.cz/vyhledavani?publication_date%5Bfrom%5D=&publication_date%5Bto%5D=&subject_name=&subject_box=&subject_idnum=${this.profile.ico}&subject_address=&value_foreign%5Bfrom%5D=&value_foreign%5Bto%5D=&foreign_currency=&contract_id=&party_name=&party_box=&party_idnum=&party_address=&value_no_vat%5Bfrom%5D=&value_no_vat%5Bto%5D=&file_text=&version_id=&contr_num=&sign_date%5Bfrom%5D=&sign_date%5Bto%5D=&contract_descr=&sign_person_name=&value_vat%5Bfrom%5D=&value_vat%5Bto%5D=&all_versions=0&search=Vyhledat&do=detailedSearchForm-submit#snippet-searchResultList-list`;
+		}
 	}
 }

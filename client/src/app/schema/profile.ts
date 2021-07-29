@@ -21,6 +21,7 @@ export class Profile {
     gpsX: number;
     gpsY: number;
     ico?: string;
+    databox?: string;
     edesky?: number;
     mapasamospravy: number;
 

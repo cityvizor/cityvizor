@@ -34,21 +34,24 @@ export const TaskDownloadContracts: CronTask = {
   },
 };
 
-async function downloadContracts(profile) {
+async function downloadContracts(profile: ProfileRecord) {
   console.log('---');
   console.log(profile.name);
 
-  if (!profile.ico) {
-    console.log('ICO not available, aborting.');
+  if (!profile.ico && !profile.databox) {
+    console.log('ICO or databox not available, aborting.');
     return;
   }
 
-  const url =
-    'https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=' +
-    limit +
-    '&do=searchResultList-setLimit&subject_idnum=' +
-    profile.ico +
-    '&all_versions=0';
+  // Using databox is preferred, as it's a more unique identifier.
+  // Multiple districts can have the same ico, but different databoxes.
+
+  let url = `https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=${limit}&all_versions=0&do=searchResultList-setLimit`;
+  if (profile.databox) {
+    url += `&subject_box=${profile.databox}`;
+  } else {
+    url += `&subject_idnum=${profile.ico}`;
+  }
 
   // request data from YQL by HTTPS
   const html = (await axios.get(url)).data;

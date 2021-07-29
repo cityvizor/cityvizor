@@ -8,7 +8,7 @@
 			<li><a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
 			<li><a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a></li>
 			<li *ngIf="(profile | async)?.edesky"><a routerLink="uredni-deska" routerLinkActive="active">Úřední deska</a></li>
-			<li *ngIf="(profile | async)?.ico"><a routerLink="registr-smluv" routerLinkActive="active">Registr smluv</a></li>
+			<li *ngIf="(profile | async)?.ico || (profile | async)?.databox"><a routerLink="registr-smluv" routerLinkActive="active">Registr smluv</a></li>
 		</header-menu>
 	</div>
 	<ng-template #pboHeader>
