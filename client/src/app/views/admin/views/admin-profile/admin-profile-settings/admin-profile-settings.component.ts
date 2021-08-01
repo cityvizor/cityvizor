@@ -19,6 +19,8 @@ export class AdminProfileSettingsComponent implements OnInit {
   profileId: Observable<number | null>;
 
   profile: Profile;
+  profiles: Profile[];
+  parentProfileName?: string;
 
   constructor(
     private profileService: ProfileService,
@@ -29,9 +31,9 @@ export class AdminProfileSettingsComponent implements OnInit {
     public configService: ConfigService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit () {
     this.profileId = this.profileService.profileId;
-
+    this.profiles = await this.dataService.getProfiles();
     this.profileId.subscribe(profileId => {
       if(profileId) this.loadProfile(profileId)
     });
@@ -89,6 +91,10 @@ export class AdminProfileSettingsComponent implements OnInit {
 
   getProfileAvatarUrl(profile: Profile): string | null {
     return this.adminService.getProfileAvatarUrl(profile);
+  }
+
+  getParentProfileName() {
+    return this.profiles.find(p => p.id === this.profile.parent)?.name;
   }
 
 }

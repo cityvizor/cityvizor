@@ -14,9 +14,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../../assets/styles/common/_variables.scss';
+@import '../../assets/styles/main.scss';
 
 .modal-button {
+    background-color: $primary;
     color: $black;
     border: 2px solid $black;
     font-size: 20px;

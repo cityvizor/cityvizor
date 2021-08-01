@@ -40,3 +40,12 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import '../../assets/styles/main.scss';
+  .l-footer {
+    background-color: $gray;
+    padding: 20px;
+    margin: 3rem 0 0 0;
+  }
+</style>

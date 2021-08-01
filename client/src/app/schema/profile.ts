@@ -23,6 +23,7 @@ export class Profile {
     ico?: string;
     databox?: string;
     edesky?: number;
+    parent?: number;
     mapasamospravy: number;
 
     avatarType: string;

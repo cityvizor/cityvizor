@@ -1,10 +1,10 @@
 <template>
-  <div class="modal">
-    <div class="modal__overlay" @click.stop="close"></div>
-    <div class="modal__content">
-      <div class="modal__content__header">
+  <div class="cv_modal">
+    <div class="cv_modal__overlay" @click.stop="close"></div>
+    <div class="cv_modal__content">
+      <div class="cv_modal__content__header">
         <slot name="header" />
-        <div class="close-button" @click.stop="close">
+        <div class="cv_close-button" @click.stop="close">
           <Close
             :size="16"
             :thickness="5"
@@ -12,10 +12,10 @@
             linecap="round" />
         </div>
       </div>
-      <div class="modal__content__body">
+      <div class="cv_modal__content__body">
         <slot name="body" />
       </div>
-      <div class="modal__content__footer">
+      <div class="cv_modal__content__footer">
         <slot name="footer" />
       </div>
     </div>
@@ -58,7 +58,7 @@ export default {
 @import './../../assets/styles/common/variables';
 
 // TODO: get rid of magic values, convert into variables
-.modal {
+.cv_modal {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -67,7 +67,7 @@ export default {
   z-index: 1000;
 }
 
-.modal__overlay {
+.cv_modal__overlay {
   width: 100%;
   height: 100%;
   background: #000;
@@ -75,7 +75,7 @@ export default {
   cursor: pointer;
 }
 
-.modal__content {
+.cv_modal__content {
   width: 532px;
   position: absolute;
   top: 50%;
@@ -87,7 +87,7 @@ export default {
   border-radius: 8px;
 }
 
-.modal__content__header {
+.cv_modal__content__header {
   position: relative;
 
   h1 {
@@ -110,7 +110,7 @@ export default {
     margin: 0;
   }
 
-  .close-button {
+  .cv_close-button {
     position: absolute;
     top: 0;
     right: 0;
@@ -118,11 +118,11 @@ export default {
   }
 }
 
-.modal__content__body {
+.cv_modal__content__body {
   margin-top: 24px;
 }
 
-.modal__content__footer {
+.cv_modal__content__footer {
   margin-top: 24px;
   display: flex;
   justify-content: center;
@@ -130,12 +130,12 @@ export default {
 
 // TODO: replace temp layout fix for mobile devices
 @media screen and (max-width: 480px) {
-  .modal__content {
+  .cv_modal__content {
     width: calc(100vw - 48px);
     padding: 32px 18px 24px 18px;
   }
 
-  .modal__content__header {
+  .cv_modal__content__header {
     h1 {
       font-size: 24px;
     }
@@ -144,7 +144,7 @@ export default {
     }
   }
 
-  .modal__content__body {
+  .cv_modal__content__body {
     margin-top: 32px;
   }
 }

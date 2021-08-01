@@ -1,9 +1,7 @@
 <template>
-    <header 
-        class="l-header"
-    >
+    <header>
         <nav 
-        class="navbar row align-items-center" 
+        class="navigation-bar align-items-center" 
         role="navigation" 
         aria-label="Main">
             <div class="col-4 col-md-4">
@@ -87,3 +85,18 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+@import '../../assets/styles/main.scss';
+.navigation-bar {
+    position: relative;
+    z-index: 2;
+    padding: 40px 50px;
+    display: flex;
+}
+
+.underline {
+    text-decoration: underline $primary;
+}
+
+</style>

@@ -14,6 +14,7 @@ export interface ProfileRecord {
   ico: string;
   databox: string;
   edesky: number;
+  parent: number;
   mapasamospravy: number;
   gpsX: number;
   gpsY: number;

@@ -14,29 +14,17 @@
 @import 'common/icons';
 @import 'common/breakpoints';
 
-/* Fixes */
-@import 'fixes/sizing';
 
 /* Brand */
 @import 'brand/features';
 
-/* Layout */
-@import 'layout/common';
-@import 'layout/header';
-@import 'layout/footer';
-@import 'layout/grid';
-@import 'layout/page';
 
 /* Components */
 @import 'components/brand';
-@import 'components/buttons';
 @import 'components/form';
 @import 'components/hamburger';
 @import 'components/heroclaim';
-@import 'components/herosearch';
 @import 'components/menu';
-@import 'components/municipalities';
-@import 'components/underline';
 
 body {
     background-color: $body-bg;
@@ -137,3 +125,5 @@ th {
 }
 td { vertical-align: top; }
 
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';

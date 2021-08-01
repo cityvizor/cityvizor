@@ -5,7 +5,7 @@
     <Header></Header>
 
     <!-- Main -->
-    <router-view></router-view>
+    <router-view id="main"></router-view>
     
     <!-- Footer -->
     <Footer></Footer>
@@ -38,5 +38,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import './assets/styles/main';
+  #main {
+    max-width: 70vw;
+    margin: 0 auto;
+  }
 </style>

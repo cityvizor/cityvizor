@@ -28,11 +28,14 @@
     </b-row>
 
     <b-row class="benefits-box">
-        <b-card v-for="benefit in benefits" :key="benefit.description" class="description-image-margin text-center description-box" :img-src="benefit.image" img-top img-height="150" img-width="150">
+      <b-col v-for="benefit in benefits" :key="benefit.description">
+        <b-card class="description-image-margin text-center description-box">
           <b-card-body>
+          <img :src="benefit.image" width="150" height="150">
             <b-card-text class="description-text">{{ benefit.description }}</b-card-text>
           </b-card-body>
         </b-card>
+      </b-col>
     </b-row>
 
     <b-row>
