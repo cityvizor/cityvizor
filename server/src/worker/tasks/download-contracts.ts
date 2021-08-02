@@ -48,7 +48,7 @@ async function downloadContracts(profile: ProfileRecord) {
 
   let url = `https://smlouvy.gov.cz/vyhledavani?searchResultList-limit=${limit}&all_versions=0&do=searchResultList-setLimit`;
   if (profile.databox) {
-    url += `&subject_box=${profile.databox}`;
+    url += `&party_box=${profile.databox}`;
   } else {
     url += `&subject_idnum=${profile.ico}`;
   }
