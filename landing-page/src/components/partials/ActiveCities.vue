@@ -36,7 +36,7 @@
           <b-collapse v-model="selectedCities[city.id]">
             <b-card class="selectCard text-center">
               <b-card-text>
-                <b-row class="center">
+                <b-row v-if="city.type !== 'empty'" class="center">
                   <a :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
                     <u>Hospodaření obce</u>
                   </a>
