@@ -28,7 +28,7 @@
     </b-row>
 
     <b-row class="benefits-box">
-      <b-col v-for="benefit in benefits" :key="benefit.description">
+      <b-col class="benefits-column" v-for="benefit in benefits" :key="benefit.description">
         <b-card class="description-image-margin text-center description-box">
           <b-card-body>
           <img :src="benefit.image" width="150" height="150">
@@ -125,9 +125,10 @@ $extra-large-margin: 64px;
 
 .description-box {
   background: $white;
-  border: 1px solid $text-gray;
+  border: 1px solid $text-gray !important;
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 15px !important;
+  flex: 1;
 }
 
 .description-text {
@@ -143,6 +144,11 @@ $extra-large-margin: 64px;
 
 .why-link-margins {
   margin-bottom: $extra-large-margin;
+}
+
+.benefits-column {
+  display: flex;
+  flex-direction: column;
 }
 
 </style>
