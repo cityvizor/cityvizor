@@ -20,6 +20,6 @@ FROM dev as prod
 USER node
 # Copy server source code and build it
 COPY --chown=node:node . .
-COPY ./entrypoint.sh .
+COPY ./entrypoint.sh /home/node/app/entrypoint.sh
 RUN npm install
 RUN npm run build
