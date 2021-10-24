@@ -36,23 +36,42 @@
           <b-collapse v-model="selectedCities[city.id]">
             <b-card class="selectCard text-center">
               <b-card-text>
-                <b-row v-if="city.type !== 'empty'" class="center">
-                  <a :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
-                    <u>Hospodaření obce</u>
+                <b-row class="center">
+                  <a v-if="city.type !== 'empty'" :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
+                    <b>{{ city.name }}</b>
                   </a>
+                  <b v-else>{{ city.name }}</b>
                 <hr class="w-100 divider"/>
                 </b-row>
-                <b-row>
-                  <b>Příspěvkové organizace</b>
-                </b-row>
-                <b-row>
-                  <ul>
-                    <li v-for="child in children[city.id]" :key="child.id" class="children-list">
-                      <a target="child.type == 'external' ? '_blank' : ''" :href="child.url">
-                        {{child.name}}
-                      </a>
-                    </li>
-                  </ul>
+                <b-row align-h="between">
+                  <div v-if="filterType(children[city.id], 'municipality').length" class="children-margin">
+                    <b-row>
+                      <b>Městské obvody</b>
+                    </b-row>
+                    <b-row>
+                      <ul>
+                        <li v-for="child in filterType(children[city.id], 'municipality')" :key="child.id" class="children-list">
+                          <a target="child.type == 'external' ? '_blank' : ''" :href="child.url">
+                            {{child.name}}
+                          </a>
+                        </li>
+                      </ul>
+                    </b-row>
+                  </div>
+                  <div v-if="filterType(children[city.id], 'pbo').length" class="children-margin">
+                    <b-row>
+                      <b>Příspěvkové organizace</b>
+                    </b-row>
+                    <b-row>
+                      <ul>
+                        <li v-for="child in filterType(children[city.id], 'pbo')" :key="child.id" class="children-list">
+                          <a target="child.type == 'external' ? '_blank' : ''" :href="child.url">
+                            {{child.name}}
+                          </a>
+                        </li>
+                      </ul>
+                    </b-row>
+                  </div>
                 </b-row>
               </b-card-text>
             </b-card>
@@ -79,10 +98,13 @@ export default {
   methods: {
     selectCity: function (id) {
       this.selectedCities[id] = !this.selectedCities[id];
+    },
+    filterType(arr, type) {
+      return arr.filter(city => city.type == type);
     }
   },
   mounted() {
-    axios.get(`${this.apiBaseUrl}/public/profiles`, { params: { status: "visible"}})
+    axios.get(`${this.apiBaseUrl}/public/profiles`, {params: { status: "visible,preview"} })
         .then((response) => {
           this.selectedCities = response.data.reduce((acc, c) => (acc[c.id] = false, acc), {}),
           
@@ -91,14 +113,16 @@ export default {
             acc[c.id] = response.data.filter(cc => cc.parent == c.id)
             return acc
           }, {});
-          this.cities = response.data.map(city => {
+          this.cities = response.data.filter(city =>
+              city.status == "visible"
+          ).map(city => {
               return {
                 url: city.type == 'external' ? city.url : `/${city.url}`,
                 name: city.name,
                 type: city.type,
                 id: city.id
               }
-            }).sort((a, b) => {
+          }).sort((a, b) => {
             return a.name.localeCompare(b.name, undefined, {
               numeric: true,
               sensitivity: 'base'
@@ -150,5 +174,10 @@ a {
 
 .fake-link {
   cursor: pointer;
+}
+
+.children-margin {
+  margin-right: 15px;
+  text-align: left;
 }
 </style>
