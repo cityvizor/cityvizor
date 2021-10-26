@@ -72,7 +72,7 @@ export class ProfileDashboardComponent {
 		this.budgets.sort((a,b) => b.year - a.year);
 
 		this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
-			return Math.max(acc, budget.budgetIncomeAmount, budget.incomeAmount, budget.budgetExpenditureAmount, budget.expenditureAmount);
+			return Math.max(acc, budget.budgetIncomeAmount, budget.incomeAmount, budget.budgetExpenditureAmount, budget.expenditureAmount, budget.financingAmount, budget.budgetFinancingAmount );
 		}, 0);
 	}
 
@@ -86,7 +86,7 @@ export class ProfileDashboardComponent {
 	}
 
 	get onlyPayments() {
-		return this.contracts.length == 0
+		return this.contracts.length == 0;
 	}
 	
 	get isMunicipality() {

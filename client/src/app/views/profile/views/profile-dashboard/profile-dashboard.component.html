@@ -135,7 +135,7 @@
 		</div>
 	</div>
 	<div class="row budgets">
-		<div class="col-xs-12 col-sm-6 col-lg-4" *ngFor="let budget of budgets">
+		<div class="col-xs-12 col-lg-6" *ngFor="let budget of budgets">
 			<div class="budget">
 				<h4>Rok {{budget.year}}</h4>
 				<table class="table table-responsive">
@@ -150,6 +150,11 @@
 								<chart-budget [data]="budget" [type]="'income'" [max]="maxBudgetAmount" (click)="openBudget($event,budget.year)"></chart-budget>
 								<span class="label label-blue" (click)="openBudget($event,budget.year)">Příjmy</span>
 							</th>
+							<!-- TODO -->
+							<th class="text-center" (click)="openBudget($event,budget.year)">
+								<chart-budget [data]="budget" [type]="'financing_income'" [max]="maxBudgetAmount" (click)="openBudget($event,budget.year)"></chart-budget>
+								<span class="label label-yellow" (click)="openBudget($event,budget.year)">Financování</span>
+							</th>
 						</tr>
 					</thead>
 					<tbody class="small">
@@ -157,11 +162,13 @@
 							<td class="text-strong">Rozpočet</td>
 							<td class="font-number">{{budget.budgetExpenditureAmount | money:0:false}} Kč</td>
 							<td class="font-number">{{budget.budgetIncomeAmount | money:0:false}} Kč</td>
+							<td class="font-number">{{budget.budgetFinancingIncomeAmount | money:0:false}} Kč</td>
 						</tr>
 						<tr>
 							<td class="text-strong">Čerpáno</td>
 							<td class="font-number">{{budget.expenditureAmount | money:0:false}} Kč</td>
 							<td class="font-number">{{budget.incomeAmount | money:0:false}} Kč</td>
+							<td class="font-number">{{budget.financingIncomeAmount | money:0:false}} Kč</td>
 						</tr>
 					</tbody>
 				</table>

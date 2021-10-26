@@ -32,12 +32,12 @@ exports.up = async function (knex) {
         CASE
             WHEN acc.item >= 8000 AND acc.type::text <> 'ROZ'::text THEN acc.amount
             ELSE 0::numeric
-        END) AS financovani_income_amount,
+        END) AS financing_income_amount,
     sum(
         CASE
             WHEN acc.item >= 8000 AND acc.type::text = 'ROZ'::text THEN acc.amount
             ELSE 0::numeric
-        END) AS budget_financovani_income_amount
+        END) AS budget_financing_income_amount
    FROM app.profiles p
      LEFT JOIN data.accounting acc ON acc.profile_id = p.id
      JOIN years y ON y.year = acc.year AND y.profile_id = acc.profile_id

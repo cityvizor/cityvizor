@@ -14,6 +14,8 @@ router.get('/', async (req, res) => {
     .sum('a.budgetExpenditureAmount as budgetExpenditureAmount')
     .sum('a.incomeAmount as incomeAmount')
     .sum('a.budgetIncomeAmount as budgetIncomeAmount')
+    .sum('a.financingIncomeAmount as financingIncomeAmount')
+    .sum('a.budgetFinancingIncomeAmount as budgetFinancingIncomeAmount')
     .leftJoin('accounting as a', {
       'a.profileId': 'y.profileId',
       'a.year': 'y.year',

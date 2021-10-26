@@ -11,5 +11,12 @@
 		<rect x="25" [attr.y]="getYOffset(data.budgetIncomeAmount)" rx="10" ry="10" width="50" [attr.height]="getHeight(data.budgetIncomeAmount)" style="fill:#adf" />
 		<rect x="25" [attr.y]="getYOffset(data.incomeAmount)" rx="10" ry="10" width="50" [attr.height]="getHeight(data.incomeAmount)" style="fill:#2581C4" />
 	</g>
+
+	<!-- FinancingIncome -->
+	<!-- TODO color -->
+	<g *ngIf="type=='financing_income'" (click)="click.emit('inc');$event.stopPropagation();" style="cursor:pointer;">
+		<rect x="25" [attr.y]="getYOffset(data.budgetFinancingIncomeAmount)" rx="10" ry="10" width="50" [attr.height]="getHeight(data.budgetFinancingIncomeAmount)" style="fill:#FDFD90" />
+		<rect x="25" [attr.y]="getYOffset(data.financingIncomeAmount)" rx="10" ry="10" width="50" [attr.height]="getHeight(data.financingIncomeAmount)" style="fill:#c8c804" />
+	</g>
 	
 </svg>
