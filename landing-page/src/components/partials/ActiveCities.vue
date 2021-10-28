@@ -34,7 +34,8 @@
               </b-col>
           </b-row>
           <b-collapse v-model="selectedCities[city.id]">
-            <b-card class="selectCard text-center">
+            <div v-on:click="selectCity(city.id)" class = "whole-screen" style="z-index:1"></div>
+            <b-card class="selectCard text-center" style="z-index:2" >
               <b-card-text>
                 <b-row class="center">
                   <a v-if="city.type !== 'empty'" :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
@@ -176,8 +177,18 @@ a {
   cursor: pointer;
 }
 
+
 .children-margin {
   margin-right: 15px;
   text-align: left;
 }
+
+.whole-screen {
+  position:fixed;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+}
+
 </style>
