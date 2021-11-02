@@ -5,7 +5,7 @@ import { DataService } from 'app/services/data.service';
 import { CodelistService } from 'app/services/codelist.service';
 import { ToastService } from 'app/services/toast.service';
 
-import { BudgetEvent, BudgetPayment, Counterparty, BudgetItem, Profile } from 'app/schema';
+import { BudgetEvent, BudgetPayment, Counterparty, BudgetItem, Profile, Budget } from 'app/schema';
 
 type CounterpartyOpenable = (Counterparty & { open: boolean });
 
@@ -29,6 +29,7 @@ export class EventDetailComponent implements OnChanges {
 	@Input() profile: Profile;
 	@Input() eventId: number;
 	@Input() year: number;
+	@Input() sa: number; // Only for PBOs
 
 	@Output()
 	selectEvent: EventEmitter<string> = new EventEmitter();
@@ -87,19 +88,27 @@ export class EventDetailComponent implements OnChanges {
 	}
 
 	async loadEvent(profileId: number, eventId: number, year: number) {
-		const event = this.isMunicipality
-			? await this.dataService.getProfileEvent(profileId, eventId, year)
-			: await this.dataService.getProfileAa(profileId, year, eventId)
+		let event: BudgetEvent;
+		if (this.isMunicipality) {
+			event = await this.dataService.getProfileEvent(profileId, eventId, year);
+		} else {
+			const aa = Number(this.eventId.toString().substring(0, 3))
+			const sa = Number(this.eventId.toString().substring(3))
+			event =  await this.dataService.getProfileAa(profileId, year, aa, sa)
+		}
 
 		this.maxExpenditureAmount = Math.max(event.expenditureAmount, event.budgetExpenditureAmount);
 		this.maxIncomeAmount = Math.max(event.incomeAmount, event.budgetIncomeAmount);
 
 		this.event = event;
 
-		// get event accross years;
-		this.history = this.isMunicipality
-			? await this.dataService.getProfileEventHistory(this.profile.id, this.eventId)
-			: await this.dataService.getProfileAaHistory(this.profile.id, this.eventId)
+		if (this.isMunicipality) {
+			this.history = await this.dataService.getProfileEventHistory(this.profile.id, this.eventId)
+		} else {
+			const aa = Number(this.eventId.toString().substring(0, 3))
+			const sa = Number(this.eventId.toString().substring(3))
+			this.history =  await this.dataService.getProfileAaHistory(this.profile.id, aa, sa)
+		}
 
 		this.maxHistoryAmount = this.history.reduce((acc, cur) => Math.max(acc, cur.expenditureAmount, cur.incomeAmount, cur.budgetExpenditureAmount, cur.budgetIncomeAmount), -Infinity);
 

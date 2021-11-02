@@ -6,7 +6,7 @@ import {AaNameRecord} from '../../../schema/database/aaName';
 
 // Headers/columns that must be present in the csv
 const mandatoryPlanHeaders: string[] = ['type', 'sa', 'aa', 'amount'];
-const mandatoryAaNamesHeaders: string[] = ['aa', 'name'];
+const mandatoryAaNamesHeaders: string[] = ['aa', 'sa', 'name'];
 
 // Fields to be checked if they contain integers
 const checkedPlanFields = ['sa', 'aa', 'amount'];
@@ -74,6 +74,7 @@ export function createPboParser(options: Import.Options): Transform {
             year: options.year,
 
             aa: line.aa,
+            sa: line.sa,
             name: line.name,
           };
           this.push(aaNameRecord);

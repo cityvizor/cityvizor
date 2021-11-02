@@ -10,11 +10,12 @@ const sumField = (arr, field) => arr.reduce((acc, c) => (acc += c[field]), 0);
 
 export const ProfileAaRouter = router;
 
-router.get('/:aa/history', async (req, res) => {
+router.get('/:aa/sa/:sa/history', async (req, res) => {
   const qAaRecords = db<AaNameRecord>('data.pbo_aa_names')
     .select('year', 'name')
     .where('profileId', req.params.profile)
-    .andWhere('aa', req.params.aa);
+    .andWhere('aa', req.params.aa)
+    .andWhere('sa', req.params.sa);
 
   const qRecords = db<PlanRecord>('pbo_plans')
     .select()
@@ -42,7 +43,8 @@ router.get('/:aa/history', async (req, res) => {
     const name = aaRecords.find(record => record.year === year)?.name;
     return {
       id: req.params.aa,
-      name: name || `Analytický účet č. ${req.params.aa}`,
+      name:
+        name || `Analytický účet č. ${req.params.aa} (SÚ: ${req.params.sa})`,
       year,
       ...summed,
     };
@@ -50,7 +52,7 @@ router.get('/:aa/history', async (req, res) => {
   res.json(groupedYears);
 });
 
-router.get('/:aa/year/:year', async (req, res) => {
+router.get('/:aa/sa/:sa/year/:year', async (req, res) => {
   const qAaInfo = db<AaNameRecord>('data.pbo_aa_names')
     .select('aa as id', 'name')
     .where('profileId', req.params.profile)
@@ -62,10 +64,10 @@ router.get('/:aa/year/:year', async (req, res) => {
     .select()
     .where('year', req.params.year)
     .andWhere('profileId', req.params.profile)
-    .andWhere('aa', req.params.aa);
+    .andWhere('aa', req.params.aa)
+    .andWhere('sa', req.params.sa);
 
   const [aaInfo, records] = await Promise.all([qAaInfo, qRecords]);
-
   const summed = [
     'incomeAmount',
     'budgetIncomeAmount',
@@ -91,7 +93,7 @@ router.get('/:aa/year/:year', async (req, res) => {
   res.json({
     ...(aaInfo || {
       id: req.params.aa,
-      name: `Analytický účet č. ${req.params.aa}`,
+      name: `Analytický účet č. ${req.params.aa} (SÚ: ${req.params.sa})`,
     }),
     year: req.params.year,
     ...summed,

@@ -3,5 +3,6 @@ export interface AaNameRecord {
   year: number;
 
   aa: number;
+  sa: number;
   name: string;
 }

@@ -56,7 +56,7 @@ router.get('/:year/groups/:group/details', async (req, res) => {
     return res.status(400).send('Parameter group must be a number');
 
   const details = await db('pbo_plans as p')
-    .select('p.sa as id')
+    .select('p.sa as sa')
     .select('p.aa as aa')
     .sum('incomeAmount as incomeAmount')
     .sum('budgetIncomeAmount as budgetIncomeAmount')
@@ -65,25 +65,37 @@ router.get('/:year/groups/:group/details', async (req, res) => {
     .where('profileId', req.params.profile)
     .andWhere('year', req.params.year)
     .whereRaw('SUBSTRING(p.sa::varchar, 1, 2) = ?', [group])
-    .groupBy('id')
+    .groupBy('sa')
     .groupBy('aa')
     .orderBy('aa');
 
   const aaNames = await db('data.pbo_aa_names as names')
     .select('aa')
+    .select('sa')
     .select('name')
     .where('profileId', req.params.profile)
     .andWhere('year', req.params.year);
 
-  const aas = [...new Set(details.map(detail => detail.aa))];
+  const aas = [
+    ...new Set(
+      details.map(detail => {
+        return {
+          aa: detail.aa,
+          sa: detail.sa,
+        };
+      })
+    ),
+  ];
 
   return res.json(
-    aas.map(aa => {
+    aas.map(({aa, sa}) => {
       const items = details.filter(detail => detail.aa === aa);
       return {
         name:
-          aaNames.find(n => n.aa === aa)?.name || `Analytický účet č. ${aa}`,
-        id: aa,
+          aaNames.find(n => n.aa === aa && n.sa === sa)?.name ||
+          `Analytický účet č. ${aa} (SÚ: ${sa})`,
+        id: `${aa}${sa}`,
+        sa,
         items,
         incomeAmount: items.reduce(
           (acc, detail) => (acc += detail.incomeAmount),

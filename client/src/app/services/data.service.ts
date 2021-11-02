@@ -89,12 +89,12 @@ export class DataService {
 	}
 
 	/* AA */
-	getProfileAa(profileId: number, year: number, aa: number) {
-		return this.http.get<BudgetEvent>(`${this.root}/profiles/${profileId}/aa/${aa}/year/${year}`).toPromise()
+	getProfileAa(profileId: number, year: number, aa: number, sa: number) {
+		return this.http.get<BudgetEvent>(`${this.root}/profiles/${profileId}/aa/${aa}/sa/${sa}/year/${year}`).toPromise()
 	}
 
-	getProfileAaHistory(profileId: number, aa: number) {
-		return this.http.get<BudgetEvent[]>(`${this.root}/profiles/${profileId}/aa/${aa}/history`).toPromise()
+	getProfileAaHistory(profileId: number, aa: number, sa: number) {
+		return this.http.get<BudgetEvent[]>(`${this.root}/profiles/${profileId}/aa/${aa}/sa/${sa}/history`).toPromise()
 	}
 
 	/* YEARS */
