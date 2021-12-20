@@ -17,6 +17,7 @@ export class Profile {
 
     url: string;
     name: string;
+    popupName: string;
     entity: any;
     gpsX: number;
     gpsY: number;
