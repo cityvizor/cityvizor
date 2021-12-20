@@ -15,4 +15,6 @@ export interface AccountingRow {
     budgetExpenditureAmount: number;
     incomeAmount: number;
     budgetIncomeAmount: number;
+    financingAmount: number;
+    budgetFinancingAmount: number;
 };

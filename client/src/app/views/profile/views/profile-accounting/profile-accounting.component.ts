@@ -53,7 +53,7 @@ export class ProfileAccountingComponent implements OnInit {
 
 	chartBigbangData: ChartBigbangData;
 
-	typeLocalParams = { "vydaje": "exp", "prijmy": "inc" };
+	typeLocalParams = { "vydaje": "exp", "prijmy": "inc", "financovani": "fin" };
 
 	// store subscriptions to unsubscribe on destroy
 	subscriptions: Subscription[] = [];
@@ -178,6 +178,11 @@ export class ProfileAccountingComponent implements OnInit {
 		if (eventId && eventId > 0) {
 			this.modifyParams({ akce: eventId }, false)
 		}
+		/*
+		else if (eventId && eventId == -1) {
+			this.modifyParams({ akce: eventId }, false)
+		}
+		 */
 	}
 
 	async getGroups(profile: Profile, type: AccountingGroupType, year: number) {

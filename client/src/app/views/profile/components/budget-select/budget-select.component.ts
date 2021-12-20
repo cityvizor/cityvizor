@@ -59,6 +59,7 @@ export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
 		if (!budget) return 0;
 		if (this.type === "exp") return budget.expenditureAmount;
 		if (this.type === "inc") return budget.incomeAmount;
+		if (this.type === "fin") return	budget.financingAmount;
 		return 0;
 	}
 
@@ -66,8 +67,8 @@ export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
 		if (!budget) return 0;
 		if (this.type === "exp") return budget.budgetExpenditureAmount;
 		if (this.type === "inc") return budget.budgetIncomeAmount;
+		if (this.type === "fin") return budget.budgetFinancingAmount;
 		return 0;
 	}
-
 
 }

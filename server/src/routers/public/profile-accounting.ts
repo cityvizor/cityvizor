@@ -40,6 +40,8 @@ router.get('/:year/groups/:field', async (req, res) => {
     .sum('budgetIncomeAmount as budgetIncomeAmount')
     .sum('expenditureAmount as expenditureAmount')
     .sum('budgetExpenditureAmount as budgetExpenditureAmount')
+    .sum('financingAmount as financingAmount')
+    .sum('budgetFinancingAmount as budgetFinancingAmount')
     .where('profileId', req.params.profile)
     .andWhere('year', req.params.year)
     .groupBy('id');
@@ -70,6 +72,8 @@ router.get('/:year/groups/:field/:group/events', async (req, res) => {
     .sum('a.budgetIncomeAmount as budgetIncomeAmount')
     .sum('a.expenditureAmount as expenditureAmount')
     .sum('a.budgetExpenditureAmount as budgetExpenditureAmount')
+    .sum('financingAmount as financingAmount')
+    .sum('budgetFinancingAmount as budgetFinancingAmount')
     .where({'a.profileId': req.params.profile, 'a.year': req.params.year})
     .andWhereRaw(`SUBSTRING(a.${field}::varchar, 1, 2) = ?`, [group])
     .groupBy('id');
@@ -94,6 +98,8 @@ router.get('/:year/groups/:field/:group/events', async (req, res) => {
     .sum('a.budgetIncomeAmount as budgetIncomeAmount')
     .sum('a.expenditureAmount as expenditureAmount')
     .sum('a.budgetExpenditureAmount as budgetExpenditureAmount')
+    .sum('financingAmount as financingAmount')
+    .sum('budgetFinancingAmount as budgetFinancingAmount')
     .where({'a.profileId': req.params.profile, 'a.year': req.params.year})
     .andWhereRaw(`SUBSTRING(a.${field}::varchar, 1, 2) = ?`, [group])
     .groupBy('id', 'item');
@@ -113,6 +119,8 @@ router.get('/:year/groups/:field/:group/events', async (req, res) => {
     item.budgetIncomeAmount = row.budgetIncomeAmount;
     item.expenditureAmount = row.expenditureAmount;
     item.budgetExpenditureAmount = row.budgetExpenditureAmount;
+    item.financingAmount = row.financingAmount;
+    item.budgetFinancingAmount = row.budgetFinancingAmount;
   }
 
   return res.json(events);

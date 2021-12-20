@@ -3,6 +3,8 @@ export interface BudgetAmounts {
     budgetIncomeAmount: number;
     expenditureAmount: number;
     budgetExpenditureAmount: number;
+    financingAmount: number;
+    budgetFinancingAmount: number;
 }
 
 export interface BudgetTypedAmounts {
@@ -10,16 +12,14 @@ export interface BudgetTypedAmounts {
     budgetAmount: number;
 }
 
-// TODO
-
 export class Budget implements BudgetAmounts {
     year: number;
     validity: string;
 
     incomeAmount: number = 0;
     budgetIncomeAmount: number = 0;
-    financingIncomeAmount: number = 0;
-    budgetFinancingIncomeAmount: number = 0;
+    financingAmount: number = 0;
+    budgetFinancingAmount: number = 0;
     expenditureAmount: number = 0;
     budgetExpenditureAmount: number = 0;
 }
@@ -27,8 +27,8 @@ export class Budget implements BudgetAmounts {
 export class BudgetEvent implements BudgetAmounts {
     incomeAmount: number = 0;
     budgetIncomeAmount: number = 0;
-    financingIncomeAmount: number = 0;
-    budgetFinancingIncomeAmount: number = 0;
+    financingAmount: number = 0;
+    budgetFinancingAmount: number = 0;
     expenditureAmount: number = 0;
     budgetExpenditureAmount: number = 0;
 
@@ -78,8 +78,8 @@ export class BudgetItem implements BudgetAmounts {
 
     incomeAmount: number;
     budgetIncomeAmount: number;
-    financingIncomeAmount: number;
-    budgetFinancingIncomeAmount: number;
+    financingAmount: number;
+    budgetFinancingAmount: number;
     expenditureAmount: number;
     budgetExpenditureAmount: number;
 
@@ -91,7 +91,7 @@ export class BudgetParagraph implements BudgetAmounts {
 
     incomeAmount: number;
     budgetIncomeAmount: number;
-    financingIncomeAmount: number;
+    financingAmount: number;
     budgetFinancingAmount: number;
     expenditureAmount: number;
     budgetExpenditureAmount: number;

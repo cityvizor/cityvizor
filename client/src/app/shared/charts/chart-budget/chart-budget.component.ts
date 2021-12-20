@@ -12,8 +12,8 @@ export class ChartBudgetComponent {
 		budgetExpenditureAmount:number,
 		incomeAmount:number,
 		budgetIncomeAmount:number,
-		budgetFinancingIncomeAmount:number,
-		financingIncomeAmount:number
+		financingAmount:number
+		budgetFinancingAmount:number,
 	};
 
 	@Input() max:number;
@@ -33,8 +33,8 @@ export class ChartBudgetComponent {
 			this.data.budgetExpenditureAmount,
 			this.data.incomeAmount,
 			this.data.budgetIncomeAmount,
-			this.data.financingIncomeAmount,
-			this.data.budgetFinancingIncomeAmount
+			this.data.financingAmount,
+			this.data.budgetFinancingAmount
 		);
 
 

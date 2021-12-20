@@ -4,9 +4,14 @@ import { ProfileComponent } from 'app/views/profile/profile.component';
 import { CodelistService } from './codelist.service';
 import { DataService } from './data.service';
 
-type AmountField = "expenditureAmount" | "budgetExpenditureAmount" | "incomeAmount" | "budgetIncomeAmount";
+type AmountField = "expenditureAmount"
+                 | "budgetExpenditureAmount"
+                 | "incomeAmount"
+                 | "budgetIncomeAmount"
+                 | "financingAmount"
+                 | "budgetFinancingAmount";
 
-export type AccountingGroupType = "exp" | "inc";
+export type AccountingGroupType = "exp" | "inc" | "fin";
 
 interface TypeConfig {
   codelistGroup: string,
@@ -24,11 +29,13 @@ export class AccountingService {
   config: { [type in Exclude<ProfileType, "external">]: { [type in AccountingGroupType]: TypeConfig} } = {
     "municipality": {
       "exp": { codelistGroup: "paragraph-groups", codelist: "items", field: "paragraph", amount: "expenditureAmount", budgetAmount: "budgetExpenditureAmount" },
-      "inc": { codelistGroup: "item-groups", codelist: "items", field: "item", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" }
+      "inc": { codelistGroup: "item-groups", codelist: "items", field: "item", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" },
+      "fin": { codelistGroup: "item-groups", codelist: "items", field: "item", amount: "financingAmount", budgetAmount: "budgetFinancingAmount" }
     },
     "pbo": {
       "exp": { codelistGroup: "pbo-su-exp-groups", codelist: "pbo-su", field: "expenditures", amount: "expenditureAmount", budgetAmount: "budgetExpenditureAmount" },
-      "inc": { codelistGroup: "pbo-su-inc-groups", codelist: "pbo-su", field: "incomes", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" }
+      "inc": { codelistGroup: "pbo-su-inc-groups", codelist: "pbo-su", field: "incomes", amount: "incomeAmount", budgetAmount: "budgetIncomeAmount" },
+      "fin": { codelistGroup: "item-groups", codelist: "items", field: "item", amount: "financingAmount", budgetAmount: "budgetFinancingAmount" }
     }
   }
 
@@ -43,7 +50,7 @@ export class AccountingService {
 
     const groupIndex = groups.reduce((acc, cur) => (acc[cur.id!] = cur, acc), {} as { [id: string]: BudgetGroup }); // not null bcs "other" group is not present yet
 
-    const other = new BudgetGroup(null, "Ostatní");
+    const other = new BudgetGroup("-1", "Ostatní");
 
     // HACK
     let accounting: any;
@@ -55,8 +62,8 @@ export class AccountingService {
 
     for (let row of accounting) {
       const group = groupIndex[row.id] || other;
-      group.amount = row[typeConfig.amount];
-      group.budgetAmount = row[typeConfig.budgetAmount];
+      group.amount += row[typeConfig.amount];
+      group.budgetAmount += row[typeConfig.budgetAmount];
     }
 
     return other.amount || other.budgetAmount ? [...groups, other] : groups;
@@ -106,5 +113,7 @@ export class AccountingService {
     item.budgetIncomeAmount += row.budgetIncomeAmount;
     item.expenditureAmount += row.expenditureAmount;
     item.budgetExpenditureAmount += row.budgetExpenditureAmount;
+    item.financingAmount += row.financingAmount;
+    item.budgetFinancingAmount += row.financingAmount;
   }
 }
