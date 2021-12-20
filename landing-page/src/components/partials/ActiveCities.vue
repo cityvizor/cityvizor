@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div v-if="pendingPopupOpen" v-on:click="pendingPopup()"  class ="whole-screen transparent-gray" style="z-index: 1"></div>
+    <div v-if="pendingPopupOpen" v-on:click="pendingPopup()"  class ="popup">
+      <div class="popup-text">
+        Připravujeme
+      </div>
+    </div>
     <b-row v-if="loading">
         <b-col>
           <div class="text-center">
@@ -17,7 +23,10 @@
         <b-col v-for="city in cities" :key="city.name" class="city-item-margin-top text-justify" md="4" sm="6" xl="3">
           <b-row cols="12" no-gutters>
               <b-col class="city-item-icon-right-margin" cols="1">
-                <a class="fake-link" v-if="children[city.id].length > 0" v-on:click="selectCity(city.id)">
+                <a class="fake-link" v-if=" city.status == 'pending'" v-on:click="pendingPopup()">
+                  <img src="@/assets/images/pages/home/city_avatar.svg">
+                </a>
+                <a class="fake-link" v-else-if="children[city.id].length > 0" v-on:click="selectCity(city.id)">
                   <img src="@/assets/images/pages/home/city_avatar.svg">
                 </a>
                 <a v-else :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
@@ -25,7 +34,10 @@
                 </a>
               </b-col>
               <b-col cols="10">
-                <a class="fake-link" v-if="children[city.id].length > 0" v-on:click="selectCity(city.id)">
+                <a class="fake-link"  v-if=" city.status == 'pending'" v-on:click="pendingPopup()">
+                  <b class="pending">{{ city.name }}</b>
+                </a>
+                <a class="fake-link" v-else-if="children[city.id].length > 0" v-on:click="selectCity(city.id)">
                   <b>{{ city.name }}</b>
                 </a>
                 <a v-else :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
@@ -39,8 +51,10 @@
               <b-card-text>
                 <b-row class="center">
                   <a v-if="city.type !== 'empty'" :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
-                    <b>{{ city.name }}</b>
+                    <b v-if="city.popupName">{{ city.popupName }}</b>
+                    <b v-else>{{ city.name }}</b>
                   </a>
+                  <b v-else-if="city.popupName">{{ city.popupName }}</b>
                   <b v-else>{{ city.name }}</b>
                 <hr class="w-100 divider"/>
                 </b-row>
@@ -92,6 +106,7 @@ export default {
     return {
       cities: [],
       loading: true,
+      pendingPopupOpen: false,
       selectedCities: {},
       children: {}
     }
@@ -102,10 +117,13 @@ export default {
     },
     filterType(arr, type) {
       return arr.filter(city => city.type == type);
+    },
+    pendingPopup() {
+      this.pendingPopupOpen = ! this.pendingPopupOpen;
     }
   },
   mounted() {
-    axios.get(`${this.apiBaseUrl}/public/profiles`, {params: { status: "visible,preview"} })
+    axios.get(`${this.apiBaseUrl}/public/profiles`, {params: { status: "pending,visible"} })
         .then((response) => {
           this.selectedCities = response.data.reduce((acc, c) => (acc[c.id] = false, acc), {}),
           
@@ -115,13 +133,15 @@ export default {
             return acc
           }, {});
           this.cities = response.data.filter(city =>
-              city.status == "visible"
+              city.parent == null
           ).map(city => {
               return {
                 url: city.type == 'external' ? city.url : `/${city.url}`,
                 name: city.name,
+                popupName: city.popupName,
                 type: city.type,
-                id: city.id
+                id: city.id,
+                status: city.status
               }
           }).sort((a, b) => {
             return a.name.localeCompare(b.name, undefined, {
@@ -189,6 +209,37 @@ a {
   top:0;
   right:0;
   bottom:0;
+}
+
+.pending {
+  color: grey;
+}
+
+.transparent-gray {
+  background-color: gray;
+  opacity: 0.1;
+}
+
+.popup {
+  position:absolute;
+  border-radius: 15px;
+  width: 250px;
+  height: 150px;
+  left:50%;
+  top:50%;
+  z-index: 2;
+  background-color: white;
+  opacity: 1;
+  border: solid 1px $primary;
+  transform: translate(-50%,-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-text {
+
+  font-size: $font-size-md;
 }
 
 </style>
