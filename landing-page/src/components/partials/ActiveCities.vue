@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-if="pendingPopupOpen" v-on:click="pendingPopup()"  class ="whole-screen transparent-gray" style="z-index: 1"></div>
+    <div v-if="pendingPopupOpen" v-on:click="pendingPopup()"  class ="whole-screen transparent-gray" style="z-index: 3"></div>
     <div v-if="pendingPopupOpen" v-on:click="pendingPopup()"  class ="popup">
       <div class="popup-text">
-        Připravujeme
+        Data pro tento profil připravujeme
       </div>
     </div>
     <b-row v-if="loading">
@@ -66,7 +66,10 @@
                     <b-row>
                       <ul>
                         <li v-for="child in filterType(children[city.id], 'municipality')" :key="child.id" class="children-list">
-                          <a target="child.type == 'external' ? '_blank' : ''" :href="child.url">
+                          <a v-if="child.status == 'pending'" class="fake-link pending" v-on:click="pendingPopup()">
+                            {{child.name}}
+                          </a>
+                          <a v-else target="child.type == 'external' ? '_blank' : ''" :href="child.url">
                             {{child.name}}
                           </a>
                         </li>
@@ -80,7 +83,10 @@
                     <b-row>
                       <ul>
                         <li v-for="child in filterType(children[city.id], 'pbo')" :key="child.id" class="children-list">
-                          <a target="child.type == 'external' ? '_blank' : ''" :href="child.url">
+                          <a v-if="child.status == 'pending'" class="fake-link pending"  v-on:click="pendingPopup()">
+                            {{child.name}}
+                          </a>
+                          <a v-else target="child.type == 'external' ? '_blank' : ''" :href="child.url">
                             {{child.name}}
                           </a>
                         </li>
@@ -212,7 +218,7 @@ a {
 }
 
 .pending {
-  color: grey;
+  color: grey !important;
 }
 
 .transparent-gray {
@@ -221,13 +227,13 @@ a {
 }
 
 .popup {
-  position:absolute;
+  position: fixed;
   border-radius: 15px;
-  width: 250px;
+  width: 400px;
   height: 150px;
   left:50%;
   top:50%;
-  z-index: 2;
+  z-index: 4;
   background-color: white;
   opacity: 1;
   border: solid 1px $primary;
