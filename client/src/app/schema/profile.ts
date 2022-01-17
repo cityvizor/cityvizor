@@ -17,14 +17,14 @@ export class Profile {
 
     url: string;
     name: string;
-    popupName: string;
+    popupName?: string;
     entity: any;
     gpsX: number;
     gpsY: number;
     ico?: string;
     databox?: string;
     edesky?: number;
-    parent?: number;
+    parent?: number | null;
     mapasamospravy: number;
 
     avatarType: string;

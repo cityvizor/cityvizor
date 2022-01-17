@@ -18,8 +18,6 @@
             <nav>
               <p>Vyvinuto na <a href="https://www.mfcr.cz/">Ministerstvu financí ČR</a></p>
               <p>Provozují <a href="https://www.otevrenamesta.cz/">Otevřená města, z.s.</a></p>
-              <p>Servery poskytuje <a href="https://vpsfree.cz/" class="text-black"><span
-                  style="color:#f6914b">vps</span><span style="color:#000">Free.cz, z.s.</span></a></p>
             </nav>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ProfileService } from 'app/services/profile.service';
 import { Observable } from 'rxjs';
-import { Profile } from 'app/schema';
+import { Profile, ProfileType } from 'app/schema';
 import { AdminService } from 'app/services/admin.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -50,7 +50,7 @@ export class AdminProfileSettingsComponent implements OnInit {
 
   async saveProfile(form: NgForm) {
     const data = form.value;
-
+    if(data.parent == "null") data.parent = null;
     await this.adminService.saveProfile(this.profile.id, data)
     this.reloadProfile();
 
