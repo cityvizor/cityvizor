@@ -16,8 +16,9 @@
           </div>
           <div class="col-6 text-right">
             <nav>
-              <p>Vyvinuto na <a href="https://www.mfcr.cz/">Ministerstvu financí ČR</a></p>
-              <p>Provozují <a href="https://www.otevrenamesta.cz/">Otevřená města, z.s.</a></p>
+              <p>
+                © <a href="https://www.mfcr.cz/">Ministerstvo financí</a> & <a href="https://www.otevrenamesta.cz/">Otevřená města</a>
+              </p>
             </nav>
           </div>
         </div>
