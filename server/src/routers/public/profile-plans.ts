@@ -58,6 +58,7 @@ router.get('/:year/groups/:group/details', async (req, res) => {
   const details = await db('pbo_plans as p')
     .select('p.sa as sa')
     .select('p.aa as aa')
+    .select('p.sa as id')
     .sum('incomeAmount as incomeAmount')
     .sum('budgetIncomeAmount as budgetIncomeAmount')
     .sum('expenditureAmount as expenditureAmount')
