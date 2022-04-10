@@ -20,7 +20,7 @@
 <footer class="bs-docs-footer">
 	<div class="container text-muted small">
 		<div class="row">
-			<div class="col-sm-5 col-xs-12">
+			<div class="col-sm-6 col-xs-12">
 				<a href="/landing/dokumentace">Technická dokumentace</a><br>
 				<ng-container *ngIf="!authService.logged">
 					<a routerLink="/login">Přihlásit se</a>
@@ -32,7 +32,7 @@
 				</ng-container>
 			</div>
 			<div *ngIf="alternativeFooterHtml" [innerHtml]="alternativeFooterHtml"></div>
-			<div *ngIf="!alternativeFooterHtml" class="col-sm-5 col-xs-12 text-right">
+			<div *ngIf="!alternativeFooterHtml" class="col-sm-6 col-xs-12 text-right">
 				© <a href="https://www.mfcr.cz/">Ministerstvo financí</a> & <a href="https://www.otevrenamesta.cz/">Otevřená města</a><br>
 			</div>
 		</div>
