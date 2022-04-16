@@ -9,8 +9,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let profile of profiles" [routerLink]="'./' + profile.id">
-        <th>
+      <tr *ngFor="let profile of profiles">
+        <th [routerLink]="'./' + profile.id">
           <a>
             {{profile.name}}
           </a>
