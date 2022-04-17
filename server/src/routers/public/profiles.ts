@@ -8,6 +8,7 @@ import {db} from '../../db';
 import {ProfileRecord} from '../../schema';
 import * as fs from 'fs';
 import {getS3AvatarPublicObjectPath} from '../../s3storage';
+import {userManagesProfile} from '../../config/roles';
 
 const router = express.Router();
 
@@ -35,15 +36,33 @@ router.get('/main', async (req, res) => {
 });
 
 router.get('/:profile', async (req, res) => {
-  const profile = await db<ProfileRecord>('profiles')
+  const profile: ProfileRecord | null = await db<ProfileRecord>('profiles')
     .modify(function () {
       this.where('url', String(req.params.profile));
-      if (!isNaN(Number(req.params.profile)))
+      if (!isNaN(Number(req.params.profile))) {
         this.orWhere({id: Number(req.params.profile)});
+      }
     })
     .first();
 
-  if (!profile) return res.sendStatus(404);
+  if (!profile) {
+    return res.sendStatus(404);
+  }
+
+  if (profile.status === 'hidden') {
+    const userRoles = req.user?.roles ?? [];
+    const canAccess = userRoles.some(role => {
+      return (
+        role === 'admin' ||
+        (role === 'profile-admin' && userManagesProfile(req.user, profile.id))
+      );
+    });
+
+    if (!canAccess) {
+      return res.sendStatus(404);
+    }
+  }
+
   return res.json(profile);
 });
 

@@ -1,17 +1,7 @@
-function isManagedProfile(req) {
+function isManagedProfile(req): boolean {
   const user = req.user;
   const profileId = Number(req.params.profile);
-
-  // we need logged user
-  if (!user) return false;
-
-  // we need profile id
-  if (!profileId) return false;
-
-  if (!user.managedProfiles || !user.managedProfiles.length) return false;
-
-  // if any of the profile ids is NOT found in managed profiles, some() returns true, then we return false;
-  return profileId && user.managedProfiles.indexOf(profileId) !== -1;
+  return userManagesProfile(user, profileId);
 }
 
 function isLoggedUser(req) {
@@ -19,6 +9,18 @@ function isLoggedUser(req) {
   const userId = Number(req.params.user);
 
   return userId && user.id === userId;
+}
+
+export function userManagesProfile(user, profileId: number): boolean {
+  // we need logged user
+  if (!user) return false;
+
+  // we need profile id
+  if (!profileId) return false;
+
+  if (!user.managedProfiles || user.managedProfiles.length === 0) return false;
+
+  return user.managedProfiles.indexOf(profileId) !== -1;
 }
 
 export const aclRoles = {

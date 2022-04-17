@@ -32,14 +32,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.paramsSubscription = this.route.params.subscribe((params: Params) => {
 			this.dataService.getProfile(params["profile"]).then(profile => {
-				this.profileService.setProfile(profile);
+				if (profile) {
+					this.profileService.setProfile(profile);
+				}
 			});
 		});
 
 		this.profile = this.profileService.profile;
 
 		this.profile.subscribe(profile => {
-			this.titleService.setTitle(profile.name)
+			if (profile) {
+				this.titleService.setTitle(profile.name)
+			}
 		});
 	}
 
