@@ -49,9 +49,9 @@
       </div>
       <div class="form-group">
         <label>Rodičovský profil</label>
-        <select name="parent" [ngModel]="profile.parent" class="form-control">
+        <select name="parent" [ngModel]="profile?.parent" class="form-control">
           <option value="null" selected="p.id == null">žádný</option>
-          <option *ngFor="let p of profiles" [value]="p.id" [selected]="p.id === profile.parent">
+          <option *ngFor="let p of profiles" [value]="p.id" [selected]="p.id === profile?.parent">
             {{p.name}}
           </option>
         </select>

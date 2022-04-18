@@ -90,7 +90,7 @@ export class ProfileDashboardComponent {
 	}
 	
 	get isMunicipality() {
-		return this.profile.type == "municipality";
+		return this.profile?.type === "municipality";
 	}
 
 }
