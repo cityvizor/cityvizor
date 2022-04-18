@@ -67,7 +67,7 @@
     "minimist": "^1.2.5",
     "minio": "^7.0.18",
     "multer": "^1.4.2",
-    "nodemailer": "^6.4.18",
+    "nodemailer": "^6.6.1",
     "path": "^0.12.7",
     "pg": "^8.0.3",
     "pg-query-stream": "^4.0.0",
