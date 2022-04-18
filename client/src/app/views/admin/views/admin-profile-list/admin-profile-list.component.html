@@ -4,8 +4,8 @@
     <thead>
       <tr>
         <th>Název</th>
+        <th>Typ</th>
         <th>Url</th>
-        <th>Poslední aktualizace</th>
       </tr>
     </thead>
     <tbody>
@@ -19,6 +19,14 @@
           <span *ngIf="profile.status === 'pending'" class="label label-warning">připravovaný</span>          
           <span *ngIf="profile.main" class="label label-primary">{{profile.main ? "hlavní profil" : ""}}</span>
         </th>
+        <td>
+          <ng-container [ngSwitch]="profile.type">
+            <span i18n *ngSwitchCase="'municipality'">Municipalita</span>
+            <span i18n *ngSwitchCase="'pbo'">Příspěvková organizace</span>
+            <span i18n *ngSwitchCase="'external'">Externí profil</span>
+            <span i18n *ngSwitchCase="'empty'">Bez rozpočtu</span>
+          </ng-container>
+        </td>
         <td><a [routerLink]="'/' + profile.url">{{configService.config.siteUrl}}/{{profile.url}}</a></td>
         <td (click)="$event.stopImmediatePropagation()">
           <div class="btn-group pull-right" dropdown>

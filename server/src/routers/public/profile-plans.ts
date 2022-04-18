@@ -90,7 +90,9 @@ router.get('/:year/groups/:group/details', async (req, res) => {
 
   return res.json(
     aas.map(({aa, sa}) => {
-      const items = details.filter(detail => detail.aa === aa);
+      const items = details.filter(
+        detail => detail.aa === aa && detail.sa === sa
+      );
       return {
         name:
           aaNames.find(n => n.aa === aa && n.sa === sa)?.name ||
