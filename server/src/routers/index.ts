@@ -15,6 +15,8 @@ const cache = getExpeditiousCache({
       port: config.redis.port,
     },
   }),
+  // Don't cache requests of logged in users to avoid leaking protected data via cache
+  shouldCache: req => !req?.user,
 });
 
 export const Routers = router;
