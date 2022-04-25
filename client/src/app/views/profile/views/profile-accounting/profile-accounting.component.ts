@@ -33,6 +33,7 @@ export class ProfileAccountingComponent implements OnInit {
 	groupId = new ReplaySubject<string | null>(1);
 	eventId = new ReplaySubject<number | null>(1);
 	sort = new ReplaySubject<string>(1);
+	showDetail = new BehaviorSubject<boolean>(false);
 
 	// view data
 	profile = this.profileService.profile;
@@ -79,9 +80,12 @@ export class ProfileAccountingComponent implements OnInit {
 
 		// load budgets based on profile
 		this.profile.subscribe(profile => {
+			// Remove Show detail button for PBO profiles (temporary fix)
+			this.showDetail.next(profile.type !== "pbo");
+
 			(profile.type == "municipality" ? this.dataService.getProfileBudgets(profile.id) : this.dataService.getProfilePlans(profile.id))
-			.then(budgets => budgets.sort((a, b) => b.year - a.year))
-			.then(budgets => this.budgets.next(budgets));
+				.then(budgets => budgets.sort((a, b) => b.year - a.year))
+				.then(budgets => this.budgets.next(budgets));
 		})
 		// load group events if passed via url (refreshed page or clicked on a link)
 		this.profile.subscribe(async (profile) => {
@@ -166,7 +170,7 @@ export class ProfileAccountingComponent implements OnInit {
 	selectBudget(year: string | number | null, replace: boolean = false): void {
 		if (!year) return;
 		this.modifyParams({ rok: year, akce: null }, true)
-		
+
 	}
 
 	selectGroup(groupId: string | null): void {
