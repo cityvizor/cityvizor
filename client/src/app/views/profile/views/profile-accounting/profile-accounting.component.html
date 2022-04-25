@@ -115,7 +115,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="showMore text-center">
+				<div class="showMore text-center" *ngIf="showDetail | async">
 					<button class="btn btn-primary" (click)="selectEvent(event.id)">Otevřít detail akce</button>
 				</div>
 			</div>
