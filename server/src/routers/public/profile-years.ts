@@ -7,7 +7,7 @@ const router = express.Router({mergeParams: true});
 
 export const ProfileYearsRouter = router;
 
-const getYearQuery = (profileId: string) =>
+const getBaseQuery = (profileId: string) =>
   db('years as y')
     .select('y.profileId', 'y.year', 'y.validity')
     .leftJoin('accounting as a', {
@@ -19,29 +19,28 @@ const getYearQuery = (profileId: string) =>
     .orderBy('y.year');
 
 router.get('/', async (req, res) => {
-  const budgetAmounts = await getYearQuery(req.params.profile)
-    .sum('a.budgetExpenditureAmount as budgetExpenditureAmount')
-    .sum('a.budgetIncomeAmount as budgetIncomeAmount');
-
-  const incomeAmounts = await getYearQuery(req.params.profile)
+  const incomeAmounts = await getBaseQuery(req.params.profile)
     .sum('a.incomeAmount as incomeAmount')
+    .sum('a.budgetIncomeAmount as budgetIncomeAmount')
     .innerJoin('codelists as c', {
       'c.id': db.raw('SUBSTRING(a.item::varchar, 1, 2)'),
     })
     .where({'c.codelist': 'item-groups'});
 
-  const expenditureAmounts = await getYearQuery(req.params.profile)
+  const expenditureAmounts = await getBaseQuery(req.params.profile)
     .sum('a.expenditureAmount as expenditureAmount')
+    .sum('a.budgetExpenditureAmount as budgetExpenditureAmount')
     .innerJoin('codelists as c', {
       'c.id': db.raw('SUBSTRING(a.paragraph::varchar, 1, 2)'),
     })
     .where({'c.codelist': 'paragraph-groups'});
 
-  const years = budgetAmounts.map((year, index) => {
+  const years = incomeAmounts.map((year, index) => {
     return {
       ...year,
-      incomeAmount: incomeAmounts[index]?.incomeAmount ?? 0,
       expenditureAmount: expenditureAmounts[index]?.expenditureAmount ?? 0,
+      budgetExpenditureAmount:
+        expenditureAmounts[index]?.budgetExpenditureAmount ?? 0,
     };
   });
 
