@@ -134,19 +134,6 @@ export class ProfileAccountingComponent implements OnInit {
 				}
 			})
 
-		combineLatest(this.year, this.type)
-			.pipe(withLatestFrom(this.groupId, this.profile))
-			.subscribe(async ([[year, type], groupId, profile]) => {
-				// If groupId is not selected, fetch groups and select a nonempty group
-				if (year && type && !groupId) {
-					const groups = await this.getGroups(profile, type, year);
-					const nonemptyGroup = groups.find((group: BudgetGroup) => group.amount > 0 || group.budgetAmount > 0)?.id
-					if (nonemptyGroup) {
-						this.selectGroup(nonemptyGroup)
-					}
-				}
-			})
-
 		this.groups.subscribe(groups => {
 			this.chartBigbangData = groups.map(group => ({
 				id: group.id,
