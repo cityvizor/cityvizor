@@ -6,7 +6,7 @@ import { DataService } from 'app/services/data.service';
 import { Dashboard } from "app/schema/dashboard";
 import { ProfileService } from 'app/services/profile.service';
 
-import { Budget, BudgetPayment, Counterparty, Contract, Profile } from 'app/schema';
+import { Budget, BudgetPayment, Counterparty, Contract, Profile, ProfileSumMode } from 'app/schema';
 
 @Component({
 	selector: 'profile-dashboard',
@@ -38,7 +38,7 @@ export class ProfileDashboardComponent {
 			this.loadPayments(profile.id);
 			this.loadContracts(profile.id);
 			this.loadDashboard(profile.id);
-			this.loadBudgets(profile.id);
+			this.loadBudgets(profile.id, profile.sumMode);
 		})
 
 	}
@@ -61,10 +61,10 @@ export class ProfileDashboardComponent {
 
 	}
 
-	async loadBudgets(profileId: number) {
+	async loadBudgets(profileId: number, sumMode: ProfileSumMode) {
 		
 		if (this.isMunicipality) {
-			this.budgets = await this.dataService.getProfileBudgets(profileId, { limit: 3 });
+			this.budgets = await this.dataService.getProfileBudgets(profileId, { limit: 3, sumMode });
 		} else {
 			this.budgets = await this.dataService.getProfilePlans(profileId);
 		}

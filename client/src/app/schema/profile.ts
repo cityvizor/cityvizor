@@ -1,16 +1,14 @@
-/**
- * User object to save data concerning profile
- */
+export type ProfileStatus = "visible" | "hidden" | "pending" | "preview";
+
+export type ProfileSumMode = "complete" | "visible";
+
 export type ProfileType = "municipality" | "pbo" | "external"
 
 export class Profile {
-
-    /**
-     * profile identification
-     */
     id: number;
 
-    status: "visible" | "hidden" | "pending" | "preview";
+    status: ProfileStatus;
+    sumMode: ProfileSumMode;
     type: ProfileType;
 
     main: boolean;
@@ -29,5 +27,4 @@ export class Profile {
 
     avatarType: string;
     avatarUrl: string;
-
 }

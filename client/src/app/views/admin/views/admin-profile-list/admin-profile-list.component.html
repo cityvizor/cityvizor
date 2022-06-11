@@ -6,6 +6,7 @@
         <th>Název</th>
         <th>Typ</th>
         <th>Url</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -22,14 +23,14 @@
         <td>
           <ng-container [ngSwitch]="profile.type">
             <span i18n *ngSwitchCase="'municipality'">Municipalita</span>
-            <span i18n *ngSwitchCase="'pbo'">Příspěvková organizace</span>
+            <span i18n *ngSwitchCase="'pbo'">Příspěvkovka</span>
             <span i18n *ngSwitchCase="'external'">Externí profil</span>
             <span i18n *ngSwitchCase="'empty'">Bez rozpočtu</span>
           </ng-container>
         </td>
         <td><a [routerLink]="'/' + profile.url">{{configService.config.siteUrl}}/{{profile.url}}</a></td>
         <td (click)="$event.stopImmediatePropagation()">
-          <div class="btn-group pull-right" dropdown>
+          <div class="btn-group pull-right text-nowrap" dropdown>
             <a dropdownToggle>Akce <span class="caret"></span></a>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
               <li><a class="dropdown-item" (click)="currentProfile = profile; openModal(deleteProfileModal)"><span class="text-danger">Smazat</span></a></li>
