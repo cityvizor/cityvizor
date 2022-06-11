@@ -19,32 +19,46 @@ const getBaseQuery = (profileId: string) =>
     .orderBy('y.year');
 
 router.get('/', async (req, res) => {
-  const incomeAmounts = await getBaseQuery(req.params.profile)
-    .sum('a.incomeAmount as incomeAmount')
-    .sum('a.budgetIncomeAmount as budgetIncomeAmount')
-    .innerJoin('codelists as c', {
-      'c.id': db.raw('SUBSTRING(a.item::varchar, 1, 2)'),
-    })
-    .where({'c.codelist': 'item-groups'});
+  const sumMode = req.query.sumMode ?? 'complete';
 
-  const expenditureAmounts = await getBaseQuery(req.params.profile)
-    .sum('a.expenditureAmount as expenditureAmount')
-    .sum('a.budgetExpenditureAmount as budgetExpenditureAmount')
-    .innerJoin('codelists as c', {
-      'c.id': db.raw('SUBSTRING(a.paragraph::varchar, 1, 2)'),
-    })
-    .where({'c.codelist': 'paragraph-groups'});
+  if (sumMode === 'complete') {
+    const years = await getBaseQuery(req.params.profile)
+      .sum('a.expenditureAmount as expenditureAmount')
+      .sum('a.budgetExpenditureAmount as budgetExpenditureAmount')
+      .sum('a.incomeAmount as incomeAmount')
+      .sum('a.budgetIncomeAmount as budgetIncomeAmount');
 
-  const years = incomeAmounts.map((year, index) => {
-    return {
-      ...year,
-      expenditureAmount: expenditureAmounts[index]?.expenditureAmount ?? 0,
-      budgetExpenditureAmount:
-        expenditureAmounts[index]?.budgetExpenditureAmount ?? 0,
-    };
-  });
+    return res.json(years);
+  } else if (sumMode === 'visible') {
+    const incomeAmounts = await getBaseQuery(req.params.profile)
+      .sum('a.incomeAmount as incomeAmount')
+      .sum('a.budgetIncomeAmount as budgetIncomeAmount')
+      .innerJoin('codelists as c', {
+        'c.id': db.raw('SUBSTRING(a.item::varchar, 1, 2)'),
+      })
+      .where({'c.codelist': 'item-groups'});
 
-  res.json(years);
+    const expenditureAmounts = await getBaseQuery(req.params.profile)
+      .sum('a.expenditureAmount as expenditureAmount')
+      .sum('a.budgetExpenditureAmount as budgetExpenditureAmount')
+      .innerJoin('codelists as c', {
+        'c.id': db.raw('SUBSTRING(a.paragraph::varchar, 1, 2)'),
+      })
+      .where({'c.codelist': 'paragraph-groups'});
+
+    const years = incomeAmounts.map((year, index) => {
+      return {
+        ...year,
+        expenditureAmount: expenditureAmounts[index]?.expenditureAmount ?? 0,
+        budgetExpenditureAmount:
+          expenditureAmounts[index]?.budgetExpenditureAmount ?? 0,
+      };
+    });
+
+    return res.json(years);
+  } else {
+    return res.sendStatus(400);
+  }
 });
 
 router.get('/:year', async (req, res) => {

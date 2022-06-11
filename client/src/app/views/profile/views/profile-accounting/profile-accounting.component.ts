@@ -83,7 +83,9 @@ export class ProfileAccountingComponent implements OnInit {
 			// Remove Show detail button for PBO profiles (temporary fix)
 			this.showDetail.next(profile.type !== "pbo");
 
-			(profile.type == "municipality" ? this.dataService.getProfileBudgets(profile.id) : this.dataService.getProfilePlans(profile.id))
+			(profile.type == "municipality"
+				? this.dataService.getProfileBudgets(profile.id, { sumMode: profile.sumMode })
+				: this.dataService.getProfilePlans(profile.id))
 				.then(budgets => budgets.sort((a, b) => b.year - a.year))
 				.then(budgets => this.budgets.next(budgets));
 		})
