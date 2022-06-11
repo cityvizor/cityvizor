@@ -3,6 +3,7 @@ export interface ProfileRecord {
 
   status: 'visible' | 'pending' | 'hidden';
   type: 'municipality' | 'pbo' | 'external';
+  sumMode: 'complete' | 'visible';
   main: boolean;
 
   url: string;

@@ -5,8 +5,7 @@ import { Counterparty } from "app/schema/counterparty";
 import { DashboardRow } from "app/schema/dashboard";
 
 import { environment } from "environments/environment";
-import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts, Budget, Profile, Codelist } from 'app/schema';
-import { profile } from 'console';
+import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts, Budget, Profile, Codelist, ProfileSumMode } from 'app/schema';
 
 function toParams(options) {
 	if (!options) return "";
@@ -101,7 +100,7 @@ export class DataService {
 	getProfileBudget(profileId: number, year: number) {
 		return this.http.get<Budget>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
 	}
-	getProfileBudgets(profileId: number, options?) {
+	getProfileBudgets(profileId: number, options?: { limit?: number; sumMode?: ProfileSumMode }) {
 		return this.http.get<Budget[]>(this.root + "/profiles/" + profileId + "/years" + toParams(options)).toPromise();
 	}
 
