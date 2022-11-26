@@ -11,6 +11,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
@@ -22,7 +23,6 @@
     "strictNullChecks": true
   },
   "angularCompilerOptions": {
-    "enableIvy": false,
     "fullTemplateTypeCheck": true
   }
 }

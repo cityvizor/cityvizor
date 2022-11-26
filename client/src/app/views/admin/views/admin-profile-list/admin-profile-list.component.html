@@ -22,10 +22,10 @@
         </th>
         <td>
           <ng-container [ngSwitch]="profile.type">
-            <span i18n *ngSwitchCase="'municipality'">Municipalita</span>
-            <span i18n *ngSwitchCase="'pbo'">Příspěvkovka</span>
-            <span i18n *ngSwitchCase="'external'">Externí profil</span>
-            <span i18n *ngSwitchCase="'empty'">Bez rozpočtu</span>
+            <span *ngSwitchCase="'municipality'">Municipalita</span>
+            <span *ngSwitchCase="'pbo'">Příspěvkovka</span>
+            <span *ngSwitchCase="'external'">Externí profil</span>
+            <span *ngSwitchCase="'empty'">Bez rozpočtu</span>
           </ng-container>
         </td>
         <td><a [routerLink]="'/' + profile.url">{{configService.config.siteUrl}}/{{profile.url}}</a></td>

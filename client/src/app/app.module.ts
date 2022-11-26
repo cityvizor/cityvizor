@@ -44,9 +44,7 @@ var jwtOptions = {
 	BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
-		
 		AppRoutingModule,
-		
 		SharedModule,
 		LoginModule,
 		NotFoundPageModule,
