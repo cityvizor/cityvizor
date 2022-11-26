@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ViewChild, Inject } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { trigger, style, animate, transition } from '@angular/animations';
 
@@ -8,13 +8,8 @@ import { ACLService } from './services/acl.service';
 
 import { ConfigService } from 'config/config';
 
-import * as packageJSON from "../../package.json";
-import { config } from 'process';
+import { default as packageConfig } from "../../package.json";
 
-class LoginData {
-	login: string = "";
-	password: string = "";
-}
 
 @Component({
 	selector: 'cityvizor-app',
@@ -33,7 +28,7 @@ export class AppComponent {
 	// array to link toasts from toastService
 	toasts: Array<any>;
 
-	version = packageJSON.version;
+	version = packageConfig.version;
 
 	wrongPassword: boolean = false;
 
@@ -61,6 +56,4 @@ export class AppComponent {
 		this.router.navigate(['/login']);
 		this.authService.logout();
 	}
-
-
 }
