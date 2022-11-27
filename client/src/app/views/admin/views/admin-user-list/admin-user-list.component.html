@@ -1,19 +1,64 @@
 <div class="container">
-
-  <table class="table table-hover">
-    <thead>
+  <p-table [value]="users" [rowHover]="true" sortField="name">
+    <ng-template pTemplate="header">
+      <!-- Column labels + sorting -->
       <tr>
-        <th>Jméno</th>
-        <th>E-mail</th>
-        <th>Login</th>
-        <th>Role</th>
-        <th>Poslední přihlášení</th>
-        <th></th>
+        <th pSortableColumn="name">
+          Jméno <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th>
+          E-mail
+        </th>
+        <th>
+          Login
+        </th>
+        <th pSortableColumn="role">
+          Role <p-sortIcon field="role"></p-sortIcon>
+        </th>
+        <th pSortableColumn="lastLogin">
+          Poslední přihlášení <p-sortIcon field="lastLogin"></p-sortIcon>
+        </th>
+        <th>
+          <!-- Akce -->
+        </th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users" [routerLink]="'./' + user.id">
-        <th>{{user.name}}</th>
+
+      <!-- Column filters -->
+      <tr>
+        <th>
+          <p-columnFilter type="text" field="name" matchMode="contains"></p-columnFilter>
+        </th>
+        <th>
+          <!-- E-mail -->
+        </th>
+        <th>
+          <!-- Login -->
+        </th>
+        <th>
+          <!-- Role -->
+          <p-columnFilter field="role" matchMode="equals" display="row" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [ngModel]="value" [options]="roles" (onChange)="filter($event.value)" placeholder="Všechny">
+                <ng-template let-option pTemplate="item">
+                  <div>{{option.label}}</div>
+                </ng-template>
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th>
+          <!-- Poslední přihlášení -->
+        </th>
+        <th>
+          <!-- Akce -->
+        </th>
+      </tr>
+    </ng-template>
+
+    <!-- Data rows -->
+    <ng-template pTemplate="body" let-user>
+      <tr [routerLink]="'./' + user.id">
+        <td>{{user.name}}</td>
         <td>{{user.email}}</td>
         <td>{{user.login}}</td>
         <td>{{user.role}}</td>
@@ -22,18 +67,17 @@
           <div class="btn-group pull-right" dropdown>
             <a dropdownToggle>Akce <span class="caret"></span></a>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
-              <li><a class="dropdown-item" (click)="currentUser = user; openModal(changePasswordModal)">Nastavit heslo</a></li>
+              <li><a class="dropdown-item" (click)="currentUser = user; openModal(changePasswordModal)">Nastavit
+                  heslo</a></li>
               <li class="divider dropdown-divider"></li>
-              <li><a class="dropdown-item" (click)="currentUser = user; openModal(deleteUserModal)"><span class="text-danger">Smazat</span></a></li>
+              <li><a class="dropdown-item" (click)="currentUser = user; openModal(deleteUserModal)"><span
+                    class="text-danger">Smazat</span></a></li>
             </ul>
           </div>
         </td>
       </tr>
-      <tr *ngIf="loading">
-        <td colspan="3">Načítání&hellip;</td>
-      </tr>
-    </tbody>
-  </table>
+    </ng-template>
+  </p-table>
 
   <button (click)="openModal(createUserModal)" class="btn btn-primary">Přidat správce</button>
 </div>
