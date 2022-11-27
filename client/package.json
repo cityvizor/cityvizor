@@ -33,7 +33,7 @@
     "intl": "^1.2.5",
     "luxon": "^1.25.0",
     "ngx-bootstrap": "^8.0.0",
-    "npm": "^7.6.1",
+    "npm": "^8.11.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.3",
     "tslib": "^2.1.0",
