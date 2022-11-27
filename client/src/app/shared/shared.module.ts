@@ -9,6 +9,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ModalModule } from "ngx-bootstrap/modal";
+import { TableModule } from 'primeng/table';
 
 // Charts
 import { ChartBigbangComponent } from './charts/chart-bigbang/chart-bigbang.component';
@@ -39,7 +40,10 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
     CommonModule,
     FormsModule,
     RouterModule,
-    ButtonsModule.forRoot(), CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot()
+    ButtonsModule.forRoot(),
+    CollapseModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot()
   ],
   declarations: [
     
@@ -83,8 +87,12 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
     ChartBudgetComponent,
     ChartEventOverviewComponent,
 
+    /* PrimeNG */
+    TableModule,
+
     /* Components */
-    EventDetailComponent, EventDetailModalComponent,
+    EventDetailComponent,
+    EventDetailModalComponent,
     HelpModalComponent,
     ChartHistoryComponent,
     WordCloudComponent,

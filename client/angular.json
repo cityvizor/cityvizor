@@ -21,7 +21,10 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",
+              "node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",
+              "node_modules/primeng/resources/themes/bootstrap4-light-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
               "src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
@@ -57,6 +60,7 @@
               ]
             },
             "localnginx": {
+              "aot": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -70,8 +74,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cityvizor-app:build",
-            "aot": true
+            "browserTarget": "cityvizor-app:build"
           },
           "configurations": {
             "production": {
@@ -97,15 +100,15 @@
   "defaultProject": "cityvizor-app",
   "schematics": {
     "@schematics/angular:component": {
-      "spec": false,
-      "styleext": "scss"
+      "style": "scss",
+      "skipTests": true
     },
     "@schematics/angular:directive": {
       "prefix": "",
-      "spec": false
+      "skipTests": true
     },
     "@schematics/angular:service": {
-      "spec": false
+      "skipTests": true
     }
   }
 }
