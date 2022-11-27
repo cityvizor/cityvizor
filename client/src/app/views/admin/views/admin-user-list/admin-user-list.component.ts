@@ -18,6 +18,12 @@ export class AdminUserListComponent implements OnInit {
 
   modalRef: BsModalRef;
 
+  roles = [
+    { value: "admin", label: "Admin" },
+    { value: "profile-admin", label: "Profile admin" },
+    { value: "-", label: "Žádná" },
+  ]
+
   constructor(
     private adminService: AdminService,
     private modalService: BsModalService
@@ -30,7 +36,13 @@ export class AdminUserListComponent implements OnInit {
   async loadUsers() {
     this.users = [];
     this.loading = true;
-    this.users = await this.adminService.getUsers();
+    const userData = await this.adminService.getUsers();
+    this.users = userData.map(user => {
+      if (user.role == null || user.role === "") {
+        user.role = "-";
+      }
+      return user;
+    })
     this.loading = false;
   }
 

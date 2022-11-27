@@ -9,6 +9,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ModalModule } from "ngx-bootstrap/modal";
+import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 
 // Charts
@@ -76,6 +77,7 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
   exports: [
 
     /* Angular */
+    DropdownModule,
     FormsModule,
     
     /* Bootstrap */
