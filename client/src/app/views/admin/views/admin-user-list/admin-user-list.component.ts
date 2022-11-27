@@ -18,6 +18,12 @@ export class AdminUserListComponent implements OnInit {
 
   modalRef: BsModalRef;
 
+  roles = [
+    { value: "admin", label: "Admin" },
+    { value: "profile-admin", label: "Profile admin" },
+    { value: "", label: "Žádná" },
+  ]
+
   constructor(
     private adminService: AdminService,
     private modalService: BsModalService
