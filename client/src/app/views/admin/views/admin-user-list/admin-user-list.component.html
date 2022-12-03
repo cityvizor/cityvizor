@@ -6,11 +6,11 @@
         <th pSortableColumn="name">
           Jméno <p-sortIcon field="name"></p-sortIcon>
         </th>
-        <th>
-          E-mail
+        <th  pSortableColumn="email">
+          E-mail <p-sortIcon field="email"></p-sortIcon>
         </th>
-        <th>
-          Login
+        <th  pSortableColumn="login">
+          Login <p-sortIcon field="login"></p-sortIcon>
         </th>
         <th pSortableColumn="role">
           Role <p-sortIcon field="role"></p-sortIcon>
@@ -26,13 +26,15 @@
       <!-- Column filters -->
       <tr>
         <th>
+          <!-- Name -->
           <p-columnFilter type="text" field="name" matchMode="contains"></p-columnFilter>
         </th>
         <th>
           <!-- E-mail -->
-        </th>
+          <p-columnFilter type="text" field="email" matchMode="contains"></p-columnFilter>
         <th>
           <!-- Login -->
+          <p-columnFilter type="text" field="login" matchMode="contains"></p-columnFilter>
         </th>
         <th>
           <!-- Role -->
@@ -48,6 +50,7 @@
         </th>
         <th>
           <!-- Poslední přihlášení -->
+          <p-columnFilter type="text" field="lastLogin" matchMode="contains"></p-columnFilter>
         </th>
         <th>
           <!-- Akce -->
