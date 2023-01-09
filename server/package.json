@@ -62,7 +62,7 @@
     "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.17",
-    "luxon": "^1.21.3",
+    "luxon": "^2.5.2",
     "merge-stream": "^2.0.0",
     "minimist": "^1.2.5",
     "minio": "^7.0.18",
