@@ -33,7 +33,7 @@
     "core-js": "^3.8.3",
     "font-awesome": "^4.7.0",
     "intl": "^1.2.5",
-    "luxon": "^1.25.0",
+    "luxon": "^1.28.1",
     "ngx-bootstrap": "^8.0.0",
     "npm": "^8.19.2",
     "primeicons": "^5.0.0",
