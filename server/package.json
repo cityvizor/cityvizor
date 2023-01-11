@@ -61,7 +61,7 @@
     "fs-extra": "^9.1.0",
     "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.17",
+    "knex": "^2.4.0",
     "luxon": "^1.21.3",
     "merge-stream": "^2.0.0",
     "minimist": "^1.2.5",
