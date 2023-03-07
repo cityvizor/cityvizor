@@ -1,5 +1,9 @@
 <div class="container">
 
+  <button (click)="openModal(createProfileModal)" class="btn btn-primary" style="margin-bottom: 1.5em">
+    Vytvořit profil
+  </button>
+
   <p-table [value]="profiles" [rowHover]="true" sortField="name">
     <ng-template pTemplate="header">
       <!-- Column labels + sorting -->
@@ -79,9 +83,6 @@
       </tr>
     </ng-template>
   </p-table>
-
-  <button (click)="openModal(createProfileModal)" class="btn btn-primary" style="margin-top: 2em">Vytvořit
-    profil</button>
 </div>
 
 <ng-template #createProfileModal>

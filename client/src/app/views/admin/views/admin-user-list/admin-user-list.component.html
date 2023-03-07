@@ -1,4 +1,9 @@
 <div class="container">
+  <button (click)="openModal(createUserModal)" class="btn btn-primary" style="margin-bottom: 1.5em">
+    Přidat správce
+  </button>
+
+
   <p-table [value]="users" [rowHover]="true" sortField="name">
     <ng-template pTemplate="header">
       <!-- Column labels + sorting -->
@@ -6,10 +11,10 @@
         <th pSortableColumn="name">
           Jméno <p-sortIcon field="name"></p-sortIcon>
         </th>
-        <th  pSortableColumn="email">
+        <th pSortableColumn="email">
           E-mail <p-sortIcon field="email"></p-sortIcon>
         </th>
-        <th  pSortableColumn="login">
+        <th pSortableColumn="login">
           Login <p-sortIcon field="login"></p-sortIcon>
         </th>
         <th pSortableColumn="role">
@@ -82,7 +87,6 @@
     </ng-template>
   </p-table>
 
-  <button (click)="openModal(createUserModal)" class="btn btn-primary">Přidat správce</button>
 </div>
 
 <ng-template #createUserModal>
