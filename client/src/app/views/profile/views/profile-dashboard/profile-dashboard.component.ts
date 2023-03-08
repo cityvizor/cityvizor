@@ -62,14 +62,14 @@ export class ProfileDashboardComponent {
 	}
 
 	async loadBudgets(profileId: number, sumMode: ProfileSumMode) {
-		
+
 		if (this.isMunicipality) {
 			this.budgets = await this.dataService.getProfileBudgets(profileId, { limit: 3, sumMode });
 		} else {
 			this.budgets = await this.dataService.getProfilePlans(profileId);
 		}
 
-		this.budgets.sort((a,b) => b.year - a.year);
+		this.budgets.sort((a, b) => b.year - a.year);
 
 		this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
 			return Math.max(acc, budget.budgetIncomeAmount, budget.incomeAmount, budget.budgetExpenditureAmount, budget.expenditureAmount);
@@ -81,14 +81,15 @@ export class ProfileDashboardComponent {
 		if (type === 'exp') this.router.navigate(["./hospodareni/vydaje", { rok: year }], { relativeTo: this.route.parent });
 	}
 
-	openExpenditures(group: number, year: number) {
-		this.router.navigate(["./hospodareni/vydaje", { rok: year, skupina: group }], { relativeTo: this.route.parent });
+	openExpenditures(group: number, year?: number) {
+		const yearToOpen = typeof year === "number" ? year : this.budgets[0]?.year ?? 0;
+		this.router.navigate(["./hospodareni/vydaje", { rok: yearToOpen, skupina: group }], { relativeTo: this.route.parent });
 	}
 
 	get onlyPayments() {
 		return this.contracts.length == 0
 	}
-	
+
 	get isMunicipality() {
 		return this.profile?.type === "municipality";
 	}
