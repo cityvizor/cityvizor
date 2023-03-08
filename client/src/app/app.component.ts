@@ -10,6 +10,7 @@ import { ACLService } from './services/acl.service';
 import { ConfigService } from 'config/config';
 
 import { default as packageConfig } from "../../package.json";
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -40,13 +41,23 @@ export class AppComponent {
 		scripts: string[]
 	}
 
-	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, private route: ActivatedRoute, public configService: ConfigService) {
+	constructor(
+		private toastService: ToastService,
+		public authService: AuthService,
+		public aclService: ACLService,
+		private router: Router,
+		public configService: ConfigService,
+		translateService: TranslateService,
+	) {
 		// Explicitly configure ngx-bootstrap to use Bootstrap 3, otherwise newer version is used
 		setTheme("bs3");
 
 		this.toasts = this.toastService.toasts;
 		this.alternativeFooterHtml = this.configService.config.alternativePageContent.footerHtml
 		this.tracking = this.configService.config.alternativePageContent.tracking
+
+		translateService.setDefaultLang('cs');
+		translateService.use('cs');
 	}
 
 	ngOnInit() {

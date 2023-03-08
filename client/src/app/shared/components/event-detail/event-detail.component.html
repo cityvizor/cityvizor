@@ -9,18 +9,18 @@
 				<p>{{event.description}}</p>
 			</ng-container>
 
-			<h3>Výdaje</h3>
+			<h3>{{'profile.municipality.expenditures' | translate}}</h3>
 
 			<div class="overview">
 				<ng-container *ngIf="event.expenditureAmount || event.budgetExpenditureAmount; else noExpenditures">
 
 					<table class="amounts">
 						<tr>
-							<th>Rozpočet:</th>
+							<th>{{'profile.budget' | translate}}:</th>
 							<td>{{event.budgetExpenditureAmount | money:0:false}} Kč</td>
 						</tr>
 						<tr>
-							<th>Plnění:</th>
+							<th>{{'profile.utilization' | translate}}:</th>
 							<td>{{event.expenditureAmount | money:0:false}} Kč</td>
 						</tr>
 					</table>
@@ -34,18 +34,18 @@
 				</ng-template>
 			</div>
 
-			<h3>Příjmy</h3>
+			<h3>{{'profile.municipality.income' | translate}}</h3>
 			<div class="overview">
 
 				<ng-container *ngIf="event.incomeAmount || event.budgetIncomeAmount; else noIncome">
 
 					<table class="amounts">
 						<tr>
-							<th>Rozpočet:</th>
+							<th>{{'profile.budget' | translate}}:</th>
 							<td>{{event.budgetIncomeAmount | money:0:false}} Kč</td>
 						</tr>
 						<tr>
-							<th>Plnění:</th>
+							<th>{{'profile.utilization' | translate}}:</th>
 							<td>{{event.incomeAmount | money:0:false}} Kč</td>
 						</tr>
 					</table>
@@ -76,10 +76,10 @@
 									<td></td>
 								</tr>
 								<tr style="height:60px;">
-									<td>Výdaje</td>
+									<td>{{'profile.municipality.expenditures' | translate}}</td>
 								</tr>
 								<tr style="height:60px;">
-									<td>Příjmy</td>
+									<td>{{'profile.municipality.income' | translate}}</td>
 								</tr>
 							</thead>
 						</table>
@@ -112,15 +112,15 @@
 								</tr>
 								<tr style="height:60px;">
 									<td *ngFor="let historyEvent of history">
-										<i class="fa fa-square" style="color:#ff9491;"></i> Rozpočet: <span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span><br>
-										<i class="fa fa-square" style="color:#e73431;"></i> Skutečnost: <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span><br>
+										<i class="fa fa-square" style="color:#ff9491;"></i> {{'profile.budget' | translate}}: <span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span><br>
+										<i class="fa fa-square" style="color:#e73431;"></i> {{'profile.actual' | translate}}: <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span><br>
 									</td>
 									<td></td>
 								</tr>
 								<tr style="height:60px;">
 									<td *ngFor="let historyEvent of history">
-										<i class="fa fa-square" style="color:#adf;"></i> Rozpočet: <span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span><br>
-										<i class="fa fa-square" style="color:#2581c4;"></i> Skutečnost: <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
+										<i class="fa fa-square" style="color:#adf;"></i> {{'profile.budget' | translate}}: <span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span><br>
+										<i class="fa fa-square" style="color:#2581c4;"></i> {{'profile.actual' | translate}}: <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
 									</td>
 									<td></td>
 								</tr>

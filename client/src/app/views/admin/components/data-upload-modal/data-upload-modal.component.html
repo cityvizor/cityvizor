@@ -17,7 +17,7 @@
       </div>
 
       <div [hidden]="isPbo" class="form-group">
-        <label>Rozpočet</label>
+        <label>{{'profile.budget' | translate}}</label>
         <input type="file" name="accountingFile" accept=".csv" class="form-control" ngModel #accountingFileInput>
         <select class="form-group" name="accountingFileMode" ngModel>
           <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
