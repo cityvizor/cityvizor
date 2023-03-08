@@ -1,0 +1,21 @@
+{
+    "profile": {
+        "budget": "Rozpočet",
+        "actual": "Skutečnost",
+        "utilization": "Plnění",
+        "municipality": {
+            "budget": "Rozpočet",
+            "actual": "Skutečnost",
+            "utilization": "Plnění",
+            "expenditures": "Výdaje",
+            "income": "Příjmy"
+        },
+        "pbo": {
+            "budget": "Plán",
+            "actual": "Skutečnost",
+            "plan": "Plán",
+            "expenditures": "Náklady",
+            "income": "Výnosy"
+        }
+    }
+}

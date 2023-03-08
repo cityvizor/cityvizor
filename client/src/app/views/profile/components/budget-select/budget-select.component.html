@@ -23,7 +23,7 @@
             </div>
             <div class="row">
               <div class="col-xs-4 col-sm-3">
-                <strong>Rozpočet</strong>
+                <strong>{{'profile.budget' | translate}}</strong>
               </div>
               <div class="hidden-xs col-sm-4">
                 <span class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(budget) / maxAmount * 100) + '%'"></span>
@@ -34,7 +34,7 @@
             </div>
             <div class="row">
               <div class="col-xs-4 col-sm-3">
-                <strong>Plnění</strong>
+                <strong>{{'profile.utilization' | translate}}</strong>
               </div>
               <div class="hidden-xs col-sm-4">
                 <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(budget) / maxAmount * 100) + '%'"></span>
@@ -51,7 +51,7 @@
   <button type="button" class="btn btn-lg btn-default btn-label bl-btn-selected bl-budget">
     <div class="row">
       <div class="col-xs-4 col-sm-3 text-left">
-        <strong>Rozpočet</strong>
+        <strong>{{'profile.budget' | translate}}</strong>
       </div>
       <div class="hidden-xs col-sm-4 text-left">
         <span class="bl-bar bl-bar-budget" [style.width]="(getBudgetAmount(selectedBudget) / maxAmount * 100) + '%'"></span>
@@ -62,7 +62,7 @@
     </div>
     <div class="row">
       <div class="col-xs-4 col-sm-3 text-left">
-        <strong>Plnění</strong>
+        <strong>{{'profile.utilization' | translate}}</strong>
       </div>
       <div class="hidden-xs col-sm-4 text-left">
         <span class="bl-bar bl-bar-expenditure" [style.width]="(getAmount(selectedBudget) / maxAmount * 100) + '%'"></span>

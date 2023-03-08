@@ -10,7 +10,7 @@
       <table style="width: 100%;">
         <tr>
           <td style="width: 50%;">
-              <div class="amount-title">Rozpočet</div>
+              <div class="amount-title">{{'profile.budget' | translate}}</div>
               <h4>
                 <span  style="color: #2581C4;">
                   <span style="white-space: nowrap;">{{barsIndex[hoverYear]?.budgetAmount | money:0:true}}</span>
@@ -20,7 +20,7 @@
               </h4>
           </td>
           <td>
-              <div class="amount-title">Skutečnost</div>
+              <div class="amount-title">{{'profile.actual' | translate}}</div>
               <h4>
                 <span  style="color: #E73431;">
                   <span style="white-space: nowrap;">{{barsIndex[hoverYear]?.amount | money:0:true}}</span>

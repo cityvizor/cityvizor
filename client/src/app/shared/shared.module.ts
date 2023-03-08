@@ -35,6 +35,7 @@ import { MoneyPipe } from './pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './pipes/address.pipe';
 import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pipes/utils.pipe';
 import { Gps2stringPipe } from './pipes/gps2string.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
     ButtonsModule.forRoot(),
     CollapseModule.forRoot(),
     BsDropdownModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    TranslateModule,
   ],
   declarations: [
     
@@ -106,7 +108,10 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
 
     /* Pipes */ 
     MoneyPipe,
-    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe, Gps2stringPipe
+    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe, Gps2stringPipe,
+
+    /* ngx-translate */
+    TranslateModule,
   ]
 })
 export class SharedModule { }

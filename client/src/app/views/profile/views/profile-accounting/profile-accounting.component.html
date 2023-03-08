@@ -93,11 +93,11 @@
 										<td rowspan=3>
 											<chart-donut [data]="event"></chart-donut>
 										</td>
-										<td>Rozpočet</td>
+										<td>{{'profile.budget' | translate}}</td>
 										<td class="text-right font-number">{{event.budgetAmount | money:0:false}} Kč</td>
 									</tr>
 									<tr>
-										<td><span style="color:#E73431;">&#9632;</span> Plnění</td>
+										<td><span style="color:#E73431;">&#9632;</span> {{'profile.utilization' | translate}}</td>
 										<td class="text-right font-number">{{event.amount | money:0:false}} Kč</td>
 									</tr>
 									<tr *ngIf="event.amount <= event.budgetAmount">
