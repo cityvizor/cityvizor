@@ -20,7 +20,14 @@ například najít, jak nastartovat Postgres v Dockeru tak aby v něm byla něja
 
 ## Lokální vývoj
 
-Příkaz `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build` spustí celou aplikaci s hot reloadem klienta, landing page a JS serveru pro rychlý vývoj. Pokud spouštíte celý příkaz opakovaně, může se hodit před znovuspuštěním celý stack zresetovat přes `docker-compose down`. Při použití tohoto příkazu se také vytvoří defaultní administrátorský účet; login: `admin`, heslo: `admin`.
+Příkaz
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+spustí celou aplikaci s hot reloadem klienta, landing page a JS serveru pro rychlý vývoj. Pokud spouštíte celý příkaz opakovaně, může se hodit před znovuspuštěním celý stack zresetovat přes `docker-compose down`. Při použití tohoto příkazu se také vytvoří defaultní administrátorský účet; login: `admin`, heslo: `admin`.
+
 ## Testy
 Projekt aktuálně nemá vytvořené testy, ale budeme rádi když s nimi pomůžeš.
 

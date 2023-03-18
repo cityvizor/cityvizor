@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { MinLengthValidator } from '@angular/forms';
 
 class ChartHistoryBar {
 
