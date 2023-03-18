@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { DataService } from 'app/services/data.service';
@@ -6,7 +6,7 @@ import { DataService } from 'app/services/data.service';
 import { Dashboard } from "app/schema/dashboard";
 import { ProfileService } from 'app/services/profile.service';
 
-import { Budget, BudgetPayment, Counterparty, Contract, Profile, ProfileSumMode } from 'app/schema';
+import { Budget, BudgetPayment, Contract, Profile, ProfileSumMode } from 'app/schema';
 
 @Component({
 	selector: 'profile-dashboard',
@@ -93,5 +93,4 @@ export class ProfileDashboardComponent {
 	get isMunicipality() {
 		return this.profile?.type === "municipality";
 	}
-
 }

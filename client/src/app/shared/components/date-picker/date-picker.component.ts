@@ -20,11 +20,11 @@ export class DatePickerComponent implements OnInit {
 
 	params: Observable<Params>;
 	profile: Observable<Profile>;
-	
+
 	months: { [year: number]: number[] } = {};
 	years: number[] = [];
 
-	currentYear: number;
+	currentYear?: number;
 	currentMonth?: number;
 
 	constructor(private route: ActivatedRoute, private router: Router, private dataService: DataService, private profileService: ProfileService) { }
@@ -35,19 +35,19 @@ export class DatePickerComponent implements OnInit {
 		combineLatest(this.profile, this.params)
 			.subscribe(async ([profile, params]) => {
 				if (!profile) return;
-				this.currentYear = Number(params["rok"]);
+				this.currentYear = params["rok"] ? Number(params["rok"]) : undefined;
 				this.currentMonth = params["mesic"] ? Number(params["mesic"]) : undefined;
 				await this.updateDates(profile.id)
 			});
 	}
 
 	selectYear(year: number): void {
-		this.router.navigate(this.getMonthLink(year, 1), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth});
+		this.router.navigate(this.getMonthLink(year, 1), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth });
 	}
 	selectMonth(year: number, month: number): void {
 		this.router.navigate(this.getMonthLink(year, month), { relativeTo: this.route, replaceUrl: !this.currentYear || !this.currentMonth });
 	}
-	
+
 	getYearLink(year: number): any {
 		return ["./", { "rok": year }];
 	}
@@ -74,6 +74,8 @@ export class DatePickerComponent implements OnInit {
 		this.years = Object.keys(this.months).map(year => Number(year));
 		this.years.sort((a, b) => b - a);
 
-		if (!this.currentYear) this.selectMonth(this.years[0], Math.max(...this.months[this.years[0]]));
+		if (!this.currentYear && this.years.length > 0) {
+			this.selectMonth(this.years[0], Math.max(...this.months[this.years[0]]));
+		}
 	}
 }

@@ -1,4 +1,7 @@
 {
+    "common": {
+        "noData": "Žádná data"
+    },
     "profile": {
         "budget": "Rozpočet",
         "actual": "Skutečnost",
