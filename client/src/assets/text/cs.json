@@ -1,11 +1,15 @@
 {
     "common": {
-        "noData": "Žádná data"
+        "noData": "Žádná data",
+        "upload": "Nahrát",
+        "delete": "Smazat",
+        "save": "Uložit"
     },
     "profile": {
         "budget": "Rozpočet",
         "actual": "Skutečnost",
         "utilization": "Plnění",
+        "payments": "Faktury",
         "municipality": {
             "budget": "Rozpočet",
             "actual": "Skutečnost",
@@ -19,6 +23,9 @@
             "plan": "Plán",
             "expenditures": "Náklady",
             "income": "Výnosy"
+        },
+        "import": {
+            "replaceOrAdd": "Nahradit nebo přidat data?"
         }
     }
 }

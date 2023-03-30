@@ -76,7 +76,7 @@
             <a dropdownToggle>Akce <span class="caret"></span></a>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
               <li><a class="dropdown-item" (click)="currentProfile = profile; openModal(deleteProfileModal)"><span
-                    class="text-danger">Smazat</span></a></li>
+                    class="text-danger">{{'common.delete' | translate}}</span></a></li>
             </ul>
           </div>
         </td>
@@ -121,6 +121,6 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-default" (click)="closeModal();">Zrušit</button>
-    <button class="btn btn-danger" (click)="deleteProfile(currentProfile.id);closeModal();">Smazat</button>
+    <button class="btn btn-danger" (click)="deleteProfile(currentProfile.id);closeModal();">{{'common.delete' | translate}}</button>
   </div>
 </ng-template>

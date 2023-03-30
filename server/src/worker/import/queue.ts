@@ -4,7 +4,7 @@ import {remove} from 'fs-extra';
 import {ImportRecord} from '../../schema/database/import';
 import {db} from '../../db';
 import {Import} from './import';
-import {YearRecord} from '../../schema';
+import {ProfileRecord, YearRecord} from '../../schema';
 import logger from './logger';
 import {importCityvizor} from './cityvizor/importer';
 import {importInternetStream} from './internetstream/importer';
@@ -45,12 +45,22 @@ export async function checkImportQueue() {
     .where({status: 'pending'})
     .orderBy('created', 'asc')
     .first();
+
   if (!currentJob) return;
+
+  const profile = await db<ProfileRecord>('app.profiles')
+    .where({id: currentJob.profileId})
+    .first()
+    .then(row => row);
+
+  if (!profile) return;
 
   console.log(
     `[WORKER] ${DateTime.local().toJSDate()} Found a new ${
       currentJob.format
-    } job, starting import.`
+    } job, starting import for profile "${profile.name}" with type "${
+      profile.type
+    }"`
   );
 
   await db<ImportRecord>('app.imports')
@@ -67,12 +77,12 @@ export async function checkImportQueue() {
     importDir: currentJob.importDir,
     append: currentJob.append,
     format: currentJob.format,
+    profileType: profile.type,
   };
 
   // Any exception catched in this try block will rollback the import transaction
   let error: Error | null = null;
   try {
-    // TODO: ugly. pattern matching?
     if (currentJob.format === 'cityvizor') {
       await importCityvizor(options);
     } else if (currentJob.format === 'internetstream') {
