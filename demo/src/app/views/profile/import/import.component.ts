@@ -1,5 +1,4 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
 
 import { DataService } from 'app/services/data.service';
 import { ImportService } from 'app/services/import.service';

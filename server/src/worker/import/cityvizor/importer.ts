@@ -4,13 +4,10 @@ import logger from '../logger';
 import path from 'path';
 import {pipeline} from 'stream';
 import {promisify} from 'util';
-import {
-  createCityvizorParser,
-  createCityvizorTransformer,
-  CityvizorFileType,
-} from './parser';
+import {createCityvizorParser, createCityvizorTransformer} from './parser';
 import {DatabaseWriter} from '../db-writer';
 import {PostprocessingTransformer} from '../postprocessing-transformer';
+import {CityvizorFileType} from './cityvizor-file-type';
 
 export async function importCityvizor(options: Import.Options) {
   const dirFiles = await fs.readdir(options.importDir);
@@ -74,7 +71,7 @@ export async function importCityvizor(options: Import.Options) {
     const [file, type] = fileType;
     const filePath = path.join(options.importDir, file);
     const fileReader = fs.createReadStream(filePath);
-    const cvParser = createCityvizorParser(type);
+    const cvParser = createCityvizorParser(type, options.profileType);
     const cvTransformer = createCityvizorTransformer(type, options);
 
     // The pipeline construct ensures every stream obtains the close signals

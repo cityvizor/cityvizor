@@ -79,7 +79,7 @@
                   heslo</a></li>
               <li class="divider dropdown-divider"></li>
               <li><a class="dropdown-item" (click)="currentUser = user; openModal(deleteUserModal)"><span
-                    class="text-danger">Smazat</span></a></li>
+                    class="text-danger">{{'common.delete' | translate}}</span></a></li>
             </ul>
           </div>
         </td>
@@ -109,6 +109,6 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-default" (click)="closeModal(false);">Zrušit</button>
-    <button class="btn btn-danger" (click)="deleteUser(currentUser.id);closeModal(false);">Smazat</button>
+    <button class="btn btn-danger" (click)="deleteUser(currentUser.id);closeModal(false);">{{'common.delete' | translate}}</button>
   </div>
 </ng-template>

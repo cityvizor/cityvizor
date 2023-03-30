@@ -21,18 +21,18 @@ export class ImportService {
   constructor(private http: HttpClient) { }
 
   async importAccounting(profileId: Profile["id"], formData: FormData, isAppend?: boolean) {
-    return this.generateRequest(profileId, formData, "accounting", isAppend)
+    return this.generateRequest(profileId, formData, "accounting", isAppend);
   }
 
   async importPayments(profileId: Profile["id"], formData: FormData, isAppend: boolean) {
-    return this.generateRequest(profileId, formData, "payments", isAppend)
+    return this.generateRequest(profileId, formData, "payments", isAppend);
   }
 
   async importEvents(profileId: Profile["id"], formData: FormData, isAppend: boolean) {
-    return this.generateRequest(profileId, formData, "events", isAppend)
+    return this.generateRequest(profileId, formData, "events", isAppend);
   }
   async importData(profileId: Profile["id"], formData: FormData, isAppend: boolean) {
-    return this.generateRequest(profileId, formData, "data", isAppend)
+    return this.generateRequest(profileId, formData, "data", isAppend);
   }
 
   async importExpectedPlan(profileId: Profile["id"], formData: FormData, isAppend: boolean) {

@@ -76,7 +76,7 @@
         <label><input type="checkbox" name="main" [value]="true" [ngModel]="profile?.main">&nbsp;Hlavní profil</label>
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="!settingsForm.valid">Uložit</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!settingsForm.valid">{{'common.save' | translate}}</button>
 
     </form>
   </div>
@@ -94,14 +94,14 @@
         <div class="input-group">
           <input type="file" name="avatar" class="form-control" #avatarFileInput>
           <div class="input-group-btn">
-            <button type="submit" (click)="uploadAvatar(avatarFileInput)" class="btn btn-primary">Nahrát</button>
+            <button type="submit" (click)="uploadAvatar(avatarFileInput)" class="btn btn-primary">{{'common.upload' | translate}}</button>
           </div>
         </div>
       </div>
       <div class="form-group">
         <label>Smazat znak</label>
         <br>
-        <button type="button" (click)="deleteAvatar()" class="btn btn-danger">Smazat</button>
+        <button type="button" (click)="deleteAvatar()" class="btn btn-danger">{{'common.delete' | translate}}</button>
       </div>
     </form>
   </div>

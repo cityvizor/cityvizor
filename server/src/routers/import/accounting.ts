@@ -370,8 +370,8 @@ router.post(
 async function extractZip(zipFile: string, unzipDir: string) {
   try {
     await extract(zipFile, {dir: unzipDir});
-  } catch (e) {
-    throw new Error('Unable to extract ZIP file: ' + e.message);
+  } catch (err) {
+    throw new Error('Unable to extract ZIP file: ' + (err as Error)?.message);
   }
 
   const extractedFiles = await fs.readdir(unzipDir);
