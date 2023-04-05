@@ -16,8 +16,7 @@ router.get('/', async (req, res) => {
     .where('profile_id', req.params.profile)
     .groupBy('year', 'profileId');
 
-  if (years.length) res.json(years);
-  else res.sendStatus(404);
+  res.json(years);
 });
 
 router.get('/:year', async (req, res) => {

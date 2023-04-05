@@ -1,14 +1,29 @@
 import express from 'express';
 
 import {db, getValidDateString, isValidDateString, sort2order} from '../../db';
-import {PaymentRecord, EventRecord} from '../../schema';
+import {PaymentRecord, EventRecord, ProfileRecord} from '../../schema';
 
 const router = express.Router({mergeParams: true});
 
 export const ProfilePaymentsRouter = router;
 
 router.get('/', async (req, res) => {
-  const payments = await db<PaymentRecord>('payments')
+  // const profileType = await db<ProfileRecord>('profiles');
+
+  const profile = await db<ProfileRecord>('app.profiles')
+    .where({id: Number(req.params.profile)})
+    .first()
+    .then(row => row);
+
+  if (!profile) {
+    res.sendStatus(404);
+    return;
+  }
+
+  const view =
+    profile.type === 'pbo' ? 'public.pbo_payments' : 'public.payments';
+
+  const payments = await db<PaymentRecord>(view)
     .where('profile_id', req.params.profile)
     .limit(req.query.limit ? Math.min(Number(req.query.limit), 10000) : 10000)
     .offset(Number(req.query.offset || 0))
