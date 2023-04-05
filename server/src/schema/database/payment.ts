@@ -2,7 +2,7 @@ export interface PaymentRecord {
   profileId: number;
   year: number;
 
-  paragraph: number;
+  paragraph?: number;
   item: number;
   unit?: number;
   event?: number;
