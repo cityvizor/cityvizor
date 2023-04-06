@@ -18,8 +18,12 @@
 			<tbody>
 				<tr *ngFor="let invoice of invoices">
 					<td>
-							<span *ngIf="invoice.expenditureAmount > invoice.incomeAmount" class="label label-red">Výdaj</span>
-							<span *ngIf="invoice.expenditureAmount < invoice.incomeAmount" class="label label-success">Příjem</span>
+						<span *ngIf="invoice.expenditureAmount > invoice.incomeAmount" class="label label-red">
+              {{ 'profile.' + profileType + '.expenditure' | translate }}
+            </span>
+						<span *ngIf="invoice.expenditureAmount < invoice.incomeAmount" class="label label-success">
+              {{ 'profile.' + profileType + '.income' | translate }}
+            </span>
 					</td>
 					<td>{{invoice.date | date:"d. M. y"}}</td>
 					<td class="small text-muted"><ng-container *ngIf="invoice.paragraph">§{{invoice.paragraph}}</ng-container></td>
