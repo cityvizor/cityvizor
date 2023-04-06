@@ -34,7 +34,7 @@
 				</ng-template>
 			</div>
 
-			<h3>{{'profile.municipality.income' | translate}}</h3>
+			<h3>{{'profile.municipality.incomes' | translate}}</h3>
 			<div class="overview">
 
 				<ng-container *ngIf="event.incomeAmount || event.budgetIncomeAmount; else noIncome">
@@ -79,7 +79,7 @@
 									<td>{{'profile.municipality.expenditures' | translate}}</td>
 								</tr>
 								<tr style="height:60px;">
-									<td>{{'profile.municipality.income' | translate}}</td>
+									<td>{{'profile.municipality.incomes' | translate}}</td>
 								</tr>
 							</thead>
 						</table>
@@ -164,8 +164,12 @@
 									<table class="table table-responsive small table-label-date-title-number table-nobottommargin">
 										<tr *ngFor="let payment of counterparty.payments">
 											<td>
-												<span *ngIf="payment.incomeAmount - payment.expenditureAmount > 0" class="label label-success">Příjem</span>
-												<span *ngIf="payment.incomeAmount - payment.expenditureAmount < 0" class="label label-red">Výdaj</span>
+												<span *ngIf="payment.incomeAmount - payment.expenditureAmount > 0" class="label label-success">
+													{{ 'profile.' + profile.type + '.income' | translate }}
+												</span>
+												<span *ngIf="payment.incomeAmount - payment.expenditureAmount < 0" class="label label-red">
+													{{ 'profile.' + profile.type + '.expenditure' | translate }}
+												</span>
 												&nbsp;
 												<span class="small text-muted" [title]="paragraphNames[payment.paragraph] || ''">§{{payment.paragraph}}</span>
 												&nbsp;
@@ -314,7 +318,7 @@
 								<th class="text-right">
 									{{ isMunicipality ? 'Rozpočtovaná částka' : 'Plánovaná částka' }}									
 								</th>
-								<th class="text-right">Skutečný příjem</th>
+								<th class="text-right">{{ 'profile.' + profile.type + '.realIncome' | translate }}</th>
 							</tr>
 						</thead>
 						<tbody>
