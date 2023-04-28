@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {Profile} from 'app/schema';
+import {Profile, ProfileType} from 'app/schema';
 import {ConfigService} from 'config/config';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {NgForm} from '@angular/forms';
@@ -14,6 +14,12 @@ import {AuthService} from "../../../../services/auth.service";
 export class AdminProfileListComponent implements OnInit {
 
     profiles: Profile[] = [];
+
+    profileTypes = [
+        { value: "municipality", label: "Municipalita" },
+        { value: "pbo", label: "Příspěvkovka" },
+        { value: "external", label: "Externí" },
+    ];
 
     loading: boolean = false;
 

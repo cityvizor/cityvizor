@@ -12,6 +12,7 @@ import crypto from 'crypto';
 import * as fs from 'fs-extra';
 import path from 'path';
 import config from '../../config';
+import {ProfileType} from '../../schema/profile-type';
 
 export namespace Import {
   export async function createImportDir(): Promise<string> {
@@ -35,6 +36,7 @@ export namespace Import {
     append: boolean;
     fileName?: string;
     format: Format;
+    profileType: ProfileType;
   }
 
   export type ImportChunk = PaymentChunk | EventChunk | AccountingChunk;

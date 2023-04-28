@@ -34,7 +34,7 @@
     <button type="button" class="btn btn-lg btn-label">
       <div class="row">
         <div class="col-xs-3 text-right">
-          <strong>Rozpočet</strong>
+          <strong>{{'profile.budget' | translate}}</strong>
         </div>
         <div *ngIf="selectedGroup" class="col-xs-9 text-right font-number">
           {{selectedGroup!.budgetAmount | money:0:false}} Kč
@@ -43,7 +43,7 @@
       </div>
       <div class="row">
         <div class="col-xs-3 text-right">
-          <strong>Plnění</strong>
+          <strong>{{'profile.utilization' | translate}}</strong>
         </div>
         <div *ngIf="selectedGroup"  class="col-xs-9 text-right font-number">
           {{selectedGroup!.amount | money:0:false}} Kč

@@ -1,6 +1,7 @@
-import { Component, ViewContainerRef, ViewChild, Inject } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { setTheme } from 'ngx-bootstrap/utils';
 
 import { ToastService } from './services/toast.service';
 import { AuthService } from './services/auth.service';
@@ -8,13 +9,9 @@ import { ACLService } from './services/acl.service';
 
 import { ConfigService } from 'config/config';
 
-import * as packageJSON from "../../package.json";
-import { config } from 'process';
+import { default as packageConfig } from "../../package.json";
+import { TranslateService } from '@ngx-translate/core';
 
-class LoginData {
-	login: string = "";
-	password: string = "";
-}
 
 @Component({
 	selector: 'cityvizor-app',
@@ -33,7 +30,7 @@ export class AppComponent {
 	// array to link toasts from toastService
 	toasts: Array<any>;
 
-	version = packageJSON.version;
+	version = packageConfig.version;
 
 	wrongPassword: boolean = false;
 
@@ -44,10 +41,23 @@ export class AppComponent {
 		scripts: string[]
 	}
 
-	constructor(private toastService: ToastService, public authService: AuthService, public aclService: ACLService, private router: Router, private route: ActivatedRoute, public configService: ConfigService) {
+	constructor(
+		private toastService: ToastService,
+		public authService: AuthService,
+		public aclService: ACLService,
+		private router: Router,
+		public configService: ConfigService,
+		translateService: TranslateService,
+	) {
+		// Explicitly configure ngx-bootstrap to use Bootstrap 3, otherwise newer version is used
+		setTheme("bs3");
+
 		this.toasts = this.toastService.toasts;
 		this.alternativeFooterHtml = this.configService.config.alternativePageContent.footerHtml
 		this.tracking = this.configService.config.alternativePageContent.tracking
+
+		translateService.setDefaultLang('cs');
+		translateService.use('cs');
 	}
 
 	ngOnInit() {
@@ -61,6 +71,4 @@ export class AppComponent {
 		this.router.navigate(['/login']);
 		this.authService.logout();
 	}
-
-
 }

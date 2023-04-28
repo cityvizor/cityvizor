@@ -7,15 +7,15 @@ Paste the resulting JSON string into a migration file and code up the DB logic (
 */
 
 const datasets = {
-  "paragraphs": "https://opendata.mfcr.cz/exports/paragraf/paragraf.json"
-}
+  paragraphs: 'https://opendata.mfcr.cz/exports/paragraf/paragraf.json',
+};
 
 // Change this
-const name = "paragraphs"
-const dataset = datasets[name]
+const name = 'paragraphs';
+const dataset = datasets[name];
 
-import axios from 'axios'
-const rawJson = (await axios.get(dataset)).data
+import axios from 'axios';
+const rawJson = (await axios.get(dataset)).data;
 
 const converted = rawJson
   .filter(item => item.id_level === 4)
@@ -28,7 +28,7 @@ const converted = rawJson
       older_date = newer_date;
       newer_date = tmp;
     }
-    return older_date < Date.now() && newer_date > Date.now()
+    return older_date < Date.now() && newer_date > Date.now();
   })
   .map(item => {
     return {

@@ -1,12 +1,12 @@
 {
   "name": "cityvizor-client",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "CityVizor web client for CityVizor API (Server)",
   "homepage": "https://cityvizor.cz/",
   "repository": "otevrena-data-mfcr/CityVizor",
   "main": "server/server.js",
   "scripts": {
-    "build": "cp -R node_modules/bootstrap-sass/assets/fonts node_modules/bootstrap-sass/assets/stylesheets/ && ng build --prod",
+    "build": "cp -R node_modules/bootstrap-sass/assets/fonts node_modules/bootstrap-sass/assets/stylesheets/ && ng build --configuration production",
     "start-dev": "npm run build && ng serve --disable-host-check --configuration=local --host 0.0.0.0"
   },
   "keywords": [
@@ -15,15 +15,18 @@
     "faktury"
   ],
   "dependencies": {
-    "@angular/animations": "^11.1.2",
-    "@angular/common": "^11.1.2",
-    "@angular/compiler": "^11.1.2",
-    "@angular/core": "^11.1.1",
-    "@angular/forms": "^11.1.2",
-    "@angular/platform-browser": "^11.1.2",
-    "@angular/platform-browser-dynamic": "^11.1.2",
-    "@angular/router": "^11.1.2",
+    "@angular/animations": "^13.3.12",
+    "@angular/cdk": "^13.3.9",
+    "@angular/common": "^13.3.12",
+    "@angular/compiler": "^13.3.12",
+    "@angular/core": "^13.3.12",
+    "@angular/forms": "^13.3.12",
+    "@angular/platform-browser": "^13.3.12",
+    "@angular/platform-browser-dynamic": "^13.3.12",
+    "@angular/router": "^13.3.12",
     "@auth0/angular-jwt": "^5.0.2",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "ajv": "^7.0.4",
     "angular-jwt": "^0.1.11",
     "bootstrap-sass": "^3.4.1",
@@ -32,8 +35,10 @@
     "font-awesome": "^4.7.0",
     "intl": "^1.2.5",
     "luxon": "^1.25.0",
-    "ngx-bootstrap": "^6.2.0",
-    "npm": "^7.6.1",
+    "ngx-bootstrap": "^8.0.0",
+    "npm": "^8.19.2",
+    "primeicons": "^5.0.0",
+    "primeng": "^13.4.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.3",
     "tslib": "^2.1.0",
@@ -43,14 +48,14 @@
     "zone.js": "^0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1102.3",
-    "@angular/cli": "^11.1.4",
-    "@angular/compiler-cli": "^11.1.2",
-    "@angular/language-service": "^11.1.2",
+    "@angular-devkit/build-angular": "^13.3.10",
+    "@angular/cli": "^13.3.10",
+    "@angular/compiler-cli": "^13.3.12",
+    "@angular/language-service": "^13.3.12",
     "@types/luxon": "^1.25.1",
     "@types/node": "^14.14.25",
     "@types/wordcloud": "^1.1.2",
-    "typescript": "^4.1.5"
+    "typescript": "^4.6.4"
   },
   "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
   "license": "GPL-3.0"

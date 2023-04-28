@@ -1,8 +1,10 @@
+import {ProfileType} from '../profile-type';
+
 export interface ProfileRecord {
   id: number;
 
   status: 'visible' | 'pending' | 'hidden';
-  type: 'municipality' | 'pbo' | 'external';
+  type: ProfileType;
   sumMode: 'complete' | 'visible';
   main: boolean;
 

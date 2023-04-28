@@ -3,6 +3,8 @@ import {Transform} from 'stream';
 import {Import} from '../import';
 import logger from '../logger';
 import {AccountingRecord, PaymentRecord, EventRecord} from '../../../schema';
+import {ProfileType} from '../../../schema/profile-type';
+import {CityvizorFileType} from './cityvizor-file-type';
 
 const headerAliases = {
   type: ['type', 'recordType', 'MODUL', 'DOKLAD_AGENDA'],
@@ -17,6 +19,8 @@ const headerAliases = {
   description: ['description', 'POZNAMKA'],
   id: ['id', 'eventId', 'srcId', 'AKCE', 'ORG'],
   name: ['name', 'eventName', 'AKCE_NAZEV'],
+  su: ['su', 'sa'],
+  au: ['au', 'aa'],
   // Used when parsing data exported from Cityvizor
   expenditureAmount: ['expenditureAmount'],
   budgetExpenditureAmount: ['budgetExpenditureAmount'],
@@ -24,47 +28,63 @@ const headerAliases = {
   budgetIncomeAmount: ['budgetIncomeAmount'],
 };
 
-// Shared with paymentsFile (and thus with dataFile)
-// Data exported from Cityvizor do not contain 'amount' column, but contain the other four columns
-const mandatoryAccountingHeaders = [
-  ['paragraph'],
-  ['item'],
-  [
-    'amount',
-    'expenditureAmount',
-    'budgetExpenditureAmount',
-    'incomeAmount',
-    'budgetIncomeAmount',
-  ],
-];
+function getMandatoryHeaders(
+  fileType: CityvizorFileType,
+  profileType: ProfileType
+): string[][] {
+  // Data exported from Cityvizor do not contain 'amount' column, but contain the other four columns
+  const municipalityHeaders = [
+    ['paragraph'],
+    ['item'],
+    [
+      'amount',
+      'expenditureAmount',
+      'budgetExpenditureAmount',
+      'incomeAmount',
+      'budgetIncomeAmount',
+    ],
+  ];
 
-const mandatoryEventHeaders = [['id'], ['name']];
+  const pboHeaders = [
+    ['item'],
+    ['date'],
+    [
+      'amount',
+      'expenditureAmount',
+      'budgetExpenditureAmount',
+      'incomeAmount',
+      'budgetIncomeAmount',
+    ],
+  ];
 
-export enum CityvizorFileType {
-  ACCOUNTING,
-  PAYMENTS,
-  DATA,
-  EVENTS,
+  const eventHeaders = [['id'], ['name']];
+
+  if (profileType === 'pbo') {
+    switch (fileType) {
+      case CityvizorFileType.ACCOUNTING:
+      case CityvizorFileType.DATA:
+      case CityvizorFileType.PAYMENTS:
+        return pboHeaders;
+      case CityvizorFileType.EVENTS:
+        return eventHeaders;
+    }
+  } else {
+    switch (fileType) {
+      case CityvizorFileType.ACCOUNTING:
+      case CityvizorFileType.DATA:
+      case CityvizorFileType.PAYMENTS:
+        return municipalityHeaders;
+      case CityvizorFileType.EVENTS:
+        return eventHeaders;
+    }
+  }
 }
 
 export function createCityvizorParser(
-  type: CityvizorFileType
+  fileType: CityvizorFileType,
+  profileType: ProfileType
 ): csvparse.Parser {
-  let headers: string[][] = [];
-  switch (type) {
-    case CityvizorFileType.ACCOUNTING:
-      headers = mandatoryAccountingHeaders;
-      break;
-    case CityvizorFileType.DATA:
-      headers = mandatoryAccountingHeaders;
-      break;
-    case CityvizorFileType.PAYMENTS:
-      headers = mandatoryAccountingHeaders;
-      break;
-    case CityvizorFileType.EVENTS:
-      headers = mandatoryEventHeaders;
-      break;
-  }
+  const headers: string[][] = getMandatoryHeaders(fileType, profileType);
 
   const parseHeader = (
     headerLine: string[],
@@ -136,7 +156,7 @@ function createDataTransformer(options: Import.Options) {
         }
         callback();
       } catch (err) {
-        callback(err);
+        callback(err as Error);
       }
     },
   });
@@ -152,7 +172,7 @@ function createEventsTransformer(options: Import.Options) {
         this.push({type: 'event', record: event});
         callback();
       } catch (err) {
-        callback(err);
+        callback(err as Error);
       }
     },
   });
@@ -169,7 +189,7 @@ function mergeAmount<T extends PaymentRecord | AccountingRecord>(
     'budgetIncomeAmount',
     'expenditureAmount',
     'budgetExpenditureAmount',
-  ].find(field => row[field] && row[field] !== '0');
+  ].find((field: string) => row[field] && row[field] !== '0');
   if (nonzeroField) {
     record.amount = row[nonzeroField];
   }

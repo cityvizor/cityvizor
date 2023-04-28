@@ -4,78 +4,79 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form #uploadForm="ngForm" (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput, accountingFileInput, paymentsFileInput, expectedPlanFileInput, realPlanFileInput, aaNamesFileInput)">
+<form #uploadForm="ngForm"
+  (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput, accountingFileInput, paymentsFileInput, expectedPlanFileInput, realPlanFileInput, aaNamesFileInput)">
   <div class="modal-body">
 
-      <div [hidden]="isPbo" class="form-group">
-        <label>Datový soubor (rozpočet a faktury v jednom souboru)</label>
-        <input type="file" name="dataFile" accept=".csv" class="form-control" ngModel #dataFileInput>
-        <select class="form-group" name="dataFileMode" ngModel>
-          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>  sh
-          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
-        </select>
-      </div>
+    <div class="form-group">
+      <label>Datový soubor (rozpočet a faktury v jednom souboru)</label>
+      <input type="file" name="dataFile" accept=".csv" class="form-control" ngModel #dataFileInput>
+      <select class="form-group" name="dataFileMode" ngModel>
+        <option value="" selected disabled hidden>{{'profile.import.replaceOrAdd' | translate}}</option> sh
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
 
-      <div [hidden]="isPbo" class="form-group">
-        <label>Rozpočet</label>
-        <input type="file" name="accountingFile" accept=".csv" class="form-control" ngModel #accountingFileInput>
-        <select class="form-group" name="accountingFileMode" ngModel>
-          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
-          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
-        </select>
-      </div>
+    <div [hidden]="isPbo" class="form-group">
+      <label>{{'profile.budget' | translate}}</label>
+      <input type="file" name="accountingFile" accept=".csv" class="form-control" ngModel #accountingFileInput>
+      <select class="form-group" name="accountingFileMode" ngModel>
+        <option value="" selected disabled hidden>{{'profile.import.replaceOrAdd' | translate}}</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
 
-      <div [hidden]="isPbo" class="form-group">
-        <label>Faktury</label>
-        <input type="file" name="paymentsFile" accept=".csv" class="form-control" ngModel #paymentsFileInput>
-        <select class="form-group" name="paymentsFileMode" ngModel>
-          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
-          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
-        </select>
-      </div>
+    <div class="form-group">
+      <label>{{'profile.payments' | translate}}</label>
+      <input type="file" name="paymentsFile" accept=".csv" class="form-control" ngModel #paymentsFileInput>
+      <select class="form-group" name="paymentsFileMode" ngModel>
+        <option value="" selected disabled hidden>{{'profile.import.replaceOrAdd' | translate}}</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
 
-      <div [hidden]="isPbo" class="form-group">
-        <label>Číselník</label>
-        <input type="file" name="eventsFile" accept=".csv" class="form-control" ngModel #eventsFileInput>
-        <select class="form-group" name="eventsFileMode" ngModel>
-          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
-          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
-        </select>
-      </div>
-      <div [hidden]="!isPbo" class="form-group">
-        <label>Očekávaný plán</label>
-        <input type="file" name="expectedPlanFile" accept=".csv" class="form-control" ngModel #expectedPlanFileInput>
-        <select class="form-group" name="expectedPlanFileMode" ngModel>
-          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
-          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
-        </select>
-      </div>
+    <div [hidden]="isPbo" class="form-group">
+      <label>Číselník</label>
+      <input type="file" name="eventsFile" accept=".csv" class="form-control" ngModel #eventsFileInput>
+      <select class="form-group" name="eventsFileMode" ngModel>
+        <option value="" selected disabled hidden>{{'profile.import.replaceOrAdd' | translate}}</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
+    <div [hidden]="!isPbo" class="form-group">
+      <label>Očekávaný plán</label>
+      <input type="file" name="expectedPlanFile" accept=".csv" class="form-control" ngModel #expectedPlanFileInput>
+      <select class="form-group" name="expectedPlanFileMode" ngModel>
+        <option value="" selected disabled hidden>{{'profile.import.replaceOrAdd' | translate}}</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
 
-      <div [hidden]="!isPbo" class="form-group">
-        <label>Reálný plán</label>
-        <input type="file" name="realPlanFile" accept=".csv" class="form-control" ngModel #realPlanFileInput>
-        <select class="form-group" name="realPlanFileMode" ngModel>
-          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
-          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
-        </select>
-      </div>
+    <div [hidden]="!isPbo" class="form-group">
+      <label>Reálný plán</label>
+      <input type="file" name="realPlanFile" accept=".csv" class="form-control" ngModel #realPlanFileInput>
+      <select class="form-group" name="realPlanFileMode" ngModel>
+        <option value="" selected disabled hidden>{{'profile.import.replaceOrAdd' | translate}}</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
 
-      <div [hidden]="!isPbo" class="form-group">
-        <label>Číselník analytických účtů</label>
-        <input type="file" name="aaNamesFile" accept=".csv" class="form-control" ngModel #aaNamesFileInput>
-        <select class="form-group" name="aaNamesFileMode" ngModel>
-          <option value="" selected disabled hidden>Nahradit nebo přidat data?</option>
-          <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
-        </select>
-      </div>
+    <div [hidden]="!isPbo" class="form-group">
+      <label>Číselník analytických účtů</label>
+      <input type="file" name="aaNamesFile" accept=".csv" class="form-control" ngModel #aaNamesFileInput>
+      <select class="form-group" name="aaNamesFileMode" ngModel>
+        <option value="" selected disabled hidden>{{'profile.import.replaceOrAdd' | translate}}</option>
+        <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
+      </select>
+    </div>
 
-      <div class="form-group">
-        <label>Validita dat</label>
-        <input type="date" name="validity" class="form-control" ngModel required>
-      </div>
+    <div class="form-group">
+      <label>Validita dat</label>
+      <input type="date" name="validity" class="form-control" ngModel required>
+    </div>
 
     <div class="modal-footer">
-      <button type="submit" class="btn btn-primary" [disabled]="!uploadForm.valid">Nahrát</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!uploadForm.valid">{{'common.upload' | translate}}</button>
     </div>
   </div>
 </form>

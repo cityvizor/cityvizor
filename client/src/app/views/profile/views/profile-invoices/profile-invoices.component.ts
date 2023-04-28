@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
 import { DataService } from 'app/services/data.service';
 import { ProfileService } from 'app/services/profile.service';
-import { Profile } from 'app/schema';
+import { Profile, ProfileType } from 'app/schema';
 import { DateTime } from 'luxon';
 
 @Component({
@@ -21,6 +21,8 @@ export class ProfileInvoicesComponent implements OnInit {
 	invoices: any[] = [];
 	loading: boolean = false;
 
+	profileType: ProfileType = "municipality";
+
 	constructor(private dataService: DataService, private profileService: ProfileService, private route: ActivatedRoute, private router: Router) { }
 
 	ngOnInit() {
@@ -31,8 +33,9 @@ export class ProfileInvoicesComponent implements OnInit {
 		combineLatest(this.profile, this.params)
 			.subscribe(([profile, params]) => {
 				if (!profile) return;
-				let year = Number(params["rok"]);
-				let month = Number(params["mesic"]);
+				this.profileType = profile.type;
+				const year = Number(params["rok"]);
+				const month = Number(params["mesic"]);
 				if (year) this.loadData(profile.id, year, month);
 			});
 	}

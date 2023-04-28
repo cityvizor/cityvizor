@@ -9,6 +9,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ModalModule } from "ngx-bootstrap/modal";
+import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 // Charts
 import { ChartBigbangComponent } from './charts/chart-bigbang/chart-bigbang.component';
@@ -33,13 +35,18 @@ import { MoneyPipe } from './pipes/money.pipe';
 import { AddressPipe, PostalCodePipe } from './pipes/address.pipe';
 import { IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, ArrayPipe } from './pipes/utils.pipe';
 import { Gps2stringPipe } from './pipes/gps2string.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     RouterModule,
-    ButtonsModule.forRoot(), CollapseModule.forRoot(), BsDropdownModule.forRoot(), TabsModule.forRoot()
+    ButtonsModule.forRoot(),
+    CollapseModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
+    TranslateModule,
   ],
   declarations: [
     
@@ -72,6 +79,7 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
   exports: [
 
     /* Angular */
+    DropdownModule,
     FormsModule,
     
     /* Bootstrap */
@@ -83,8 +91,12 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
     ChartBudgetComponent,
     ChartEventOverviewComponent,
 
+    /* PrimeNG */
+    TableModule,
+
     /* Components */
-    EventDetailComponent, EventDetailModalComponent,
+    EventDetailComponent,
+    EventDetailModalComponent,
     HelpModalComponent,
     ChartHistoryComponent,
     WordCloudComponent,
@@ -96,7 +108,10 @@ import { Gps2stringPipe } from './pipes/gps2string.pipe';
 
     /* Pipes */ 
     MoneyPipe,
-    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe, Gps2stringPipe
+    IcoPipe, AbsPipe, ConcatPipe, ArrayChildrenPipe, AddressPipe, PostalCodePipe, ArrayPipe, Gps2stringPipe,
+
+    /* ngx-translate */
+    TranslateModule,
   ]
 })
 export class SharedModule { }
