@@ -10,8 +10,8 @@
         <a href="https://www.otevrenamesta.cz/"><img class="logo" src="@/assets/images/om_logo.png" width="200px"/></a>
         <p>
             <a href="https://www.otevrenamesta.cz/">Otevřená města, z. s.</a><br/>
-            <a href="http://www.openstreetmap.org/?mlat=49.1958&amp;mlon=16.6152#map=16/49.1958/16.6152">Malinovského náměstí 624/3L</a><br/>
-            602 00 Brno
+            <a href="https://www.openstreetmap.org/#map=18/49.24064/16.57369">Hudcova 239/7, Medlánky</a><br/>
+            621 00 Brno
         </p>
 
         <h2>Provozovatel aplikace na doméně <a href="https://cityvizor.praha.eu/">cityvizor.praha.eu</a></h2>
