@@ -5,7 +5,8 @@ module.exports = {
     // Notice: It only affects the settings used by Vetur.
     settings: {
       "vetur.useWorkspaceDependencies": true,
-      "vetur.experimental.templateInterpolationService": true
+      "vetur.experimental.templateInterpolationService": true,
+      "vetur.valdiation.interpolation": false
     },
     // **optional** default: `[{ root: './' }]`
     // support monorepos
