@@ -79,7 +79,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass
     volumes:
-      - ./database/demo_dump.sql:/docker-entrypoint-initdb.d/demo_dump.sql
+     - ./database/development_db_data.sql:/docker-entrypoint-initdb.d/development_db_data.sql
     ports:
       - 5432:5432
 
