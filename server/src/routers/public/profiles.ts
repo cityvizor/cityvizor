@@ -27,6 +27,11 @@ function createQueryWithStatusFilter(statuses, tableName: string){
   return query;
 }
 
+/*request: {
+  string[] status - filtes profiles by provided statuses
+  bool countChildren - if true, for each returned profile counts its children profiles
+  bool orphansOnly -  only returs profiles whose parent is NULL
+}*/
 router.get('/', async (req, res) => {
   console.log(req.query);
   
@@ -47,7 +52,21 @@ router.get('/', async (req, res) => {
     query = query.whereNull('profile.parent');
   }
   const profiles = await query.orderBy('profile.id');
-  console.log(query.toSQL())
+  res.json(profiles);
+});
+
+/*
+returns children profiles of profile with specified id
+request: {
+  string[] status - filtes profiles by provided statuses
+}*/
+router.get('/:id/children', async (req, res) => {
+  if(!Number(req.params.id)){
+    res.sendStatus(400);
+  }
+  let query = createQueryWithStatusFilter(req.query.status, 'profile')
+    .where('profile.parent', Number(req.params.id))
+  const profiles = await query.orderBy('profile.id');
   res.json(profiles);
 });
 
