@@ -64,10 +64,16 @@ router.get('/:id/children', async (req, res) => {
   if(!Number(req.params.id)){
     res.sendStatus(400);
   }
+  const parentProfile = await createQueryWithStatusFilter(req.query.status, 'profile')
+    .where('profile.id', Number(req.params.id))
+    .first();
+    if (!parentProfile) return res.sendStatus(404);
+
   let query = createQueryWithStatusFilter(req.query.status, 'profile')
     .where('profile.parent', Number(req.params.id))
   const profiles = await query.orderBy('profile.id');
-  res.json(profiles);
+
+  return res.json({parent: parentProfile, children: profiles});
 });
 
 router.get('/main', async (req, res) => {

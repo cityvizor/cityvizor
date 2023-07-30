@@ -20,32 +20,32 @@
         </h2>
       </b-row>
       <b-row>
-        <b-col v-for="city in cities" :key="city.name" class="city-item-margin-top text-justify" md="4" sm="6" xl="3">
+        <b-col v-for="profile in profiles" :key="profile.name" class="city-item-margin-top text-justify" md="4" sm="6" xl="3">
           <b-row cols="12" no-gutters>
               <b-col class="city-item-icon-right-margin" cols="1">
-                <a class="fake-link" v-if=" city.status == 'pending'" v-on:click="pendingPopup()">
+                <a class="fake-link" v-if=" profile.status == 'pending'" v-on:click="pendingPopup()">
                   <img src="@/assets/images/pages/home/city_avatar.svg">
                 </a>
-                <a class="fake-link" v-else-if="children[city.id].length > 0" v-on:click="selectCity(city.id)">
+                <a  v-else-if="profile.childrenCount > 0" :href="'/landing/profil-rozcestnik/' + profile.id">
                   <img src="@/assets/images/pages/home/city_avatar.svg">
                 </a>
-                <a v-else :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
+                <a v-else :target="profile.type == 'external' ? '_blank' : ''" :href="profile.url">
                   <img src="@/assets/images/pages/home/city_avatar.svg">
                 </a>
               </b-col>
               <b-col cols="10">
-                <a class="fake-link"  v-if=" city.status == 'pending'" v-on:click="pendingPopup()">
-                  <b class="pending">{{ city.name }}</b>
+                <a class="fake-link"  v-if=" profile.status == 'pending'" v-on:click="pendingPopup()">
+                  <b class="pending">{{ profile.name }}</b>
                 </a>
-                <a class="fake-link" v-else-if="children[city.id].length > 0" v-on:click="selectCity(city.id)">
-                  <b>{{ city.name }}</b>
+                <a class="fake-link" v-else-if="profile.childrenCount > 0" :href="'/landing/profil-rozcestnik/' + profile.id">
+                  <b>{{ profile.name }}</b>
                 </a>
-                <a v-else :target="city.type == 'external' ? '_blank' : ''" :href="city.url">
-                  <b>{{ city.name }}</b>
+                <a v-else :target="profile.type == 'external' ? '_blank' : ''" :href="profile.url">
+                  <b>{{ profile.name }}</b>
                 </a>
               </b-col>
           </b-row>
-          <b-collapse v-model="selectedCities[city.id]">
+          <!-- <b-collapse v-model="selectedCities[city.id]">
             <div v-on:click="selectCity(city.id)" class = "whole-screen" style="z-index:1"></div>
             <b-card class="selectCard text-center" style="z-index:2" >
               <b-card-text>
@@ -96,7 +96,7 @@
                 </b-row>
               </b-card-text>
             </b-card>
-          </b-collapse>
+          </b-collapse> -->
         </b-col>
       </b-row>
     </div>
@@ -110,44 +110,44 @@ export default {
   props: {},
   data() {
     return {
-      cities: [],
+      profiles: [],
       loading: true,
       pendingPopupOpen: false,
-      selectedCities: {},
-      children: {}
+      //selectedCities: {},
+      //children: {}
     }
   },
   methods: {
-    selectCity: function (id) {
-      this.selectedCities[id] = !this.selectedCities[id];
-    },
-    filterType(arr, type) {
-      return arr.filter(city => city.type == type);
-    },
+    // selectCity: function (id) {
+    //   this.selectedCities[id] = !this.selectedCities[id];
+    // },
+    // filterType(arr, type) {
+    //   return arr.filter(city => city.type == type);
+    // },
     pendingPopup() {
       this.pendingPopupOpen = ! this.pendingPopupOpen;
     }
   },
   mounted() {
-    axios.get(`${this.apiBaseUrl}/public/profiles`, {params: { status: "pending,visible"} })
+    axios.get(`${this.apiBaseUrl}/public/profiles`, {params: { status: "pending,visible", countChildren: true, orphansOnly: true} })
         .then((response) => {
           this.selectedCities = response.data.reduce((acc, c) => (acc[c.id] = false, acc), {}),
           
           // Create a dict where the key is the city id and the value is an array of it's childrens
-          this.children = response.data.reduce((acc, c) => {
-            acc[c.id] = response.data.filter(cc => cc.parent == c.id)
-            return acc
-          }, {});
-          this.cities = response.data.filter(city =>
-              city.parent == null
-          ).map(city => {
+          // this.children = response.data.reduce((acc, c) => {
+          //   acc[c.id] = response.data.filter(cc => cc.parent == c.id)
+          //   return acc
+          // }, {});
+          this.profiles = response.data
+            .map(profile => {
               return {
-                url: city.type == 'external' ? city.url : `/${city.url}`,
-                name: city.name,
-                popupName: city.popupName,
-                type: city.type,
-                id: city.id,
-                status: city.status
+                url: profile.type == 'external' ? profile.url : `/${profile.url}`,
+                name: profile.name,
+                popupName: profile.popupName,
+                type: profile.type,
+                id: profile.id,
+                status: profile.status,
+                childrenCount: profile.childrencount
               }
           }).sort((a, b) => {
             return a.name.localeCompare(b.name, undefined, {
