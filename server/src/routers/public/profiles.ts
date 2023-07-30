@@ -5,7 +5,7 @@ import config from '../../config';
 import path from 'path';
 
 import {db} from '../../db';
-import {ProfileRecord} from '../../schema';
+import {ProfileRecord, ProfileRecordWithChildrenCount} from '../../schema';
 import * as fs from 'fs';
 import {getS3AvatarPublicObjectPath} from '../../s3storage';
 import {userManagesProfile} from '../../config/roles';
@@ -14,15 +14,40 @@ const router = express.Router();
 
 export const ProfilesRouter = router;
 
-router.get('/', async (req, res) => {
-  const profiles = await db<ProfileRecord>('profiles').modify(function () {
-    if (req.query.status) {
-      const status = req.query.status.toString().split(',');
-      this.where('status', '=', status[0]);
-      status.splice(1).map(stat => this.orWhere('status', '=', stat));
-    }
-  });
+function createQueryWithStatusFilter(statuses, tableName: string){
+  let query = db<ProfileRecordWithChildrenCount>('profiles AS ' + tableName)
+  if(statuses){
+    const columnName = tableName + '.status';
+    const status = statuses.toString().split(',');
+    query.where(function() {
+      this.where(columnName, '=', status[0])
+      status.splice(1).map(stat => this.orWhere(columnName, '=', stat));
+    })
+  }
+  return query;
+}
 
+router.get('/', async (req, res) => {
+  console.log(req.query);
+  
+  let query = createQueryWithStatusFilter(req.query.status, 'profile');
+  
+  if(req.query.countChildren){
+    let innerQuery = createQueryWithStatusFilter(req.query.status, 'innerProfile')
+      .select('innerProfile.id' , db.raw('COUNT(child.id) AS childrenCount'))
+      .leftJoin('profiles AS child', 'innerProfile.id', 'child.parent');
+    innerQuery = innerQuery
+      .groupBy('innerProfile.id')
+      .as('counts');
+
+    query = query.join(innerQuery, 'profile.id', 'counts.id');
+  }
+
+  if(req.query.orphansOnly){
+    query = query.whereNull('profile.parent');
+  }
+  const profiles = await query.orderBy('profile.id');
+  console.log(query.toSQL())
   res.json(profiles);
 });
 

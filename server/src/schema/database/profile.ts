@@ -1,4 +1,4 @@
-import {ProfileType} from '../profile-type';
+import { ProfileType } from '../profile-type';
 
 export interface ProfileRecord {
   id: number;
@@ -17,10 +17,14 @@ export interface ProfileRecord {
   ico: string;
   databox: string;
   edesky: number;
-  parent: number;
+  parent: number | null;
   mapasamospravy: number;
   gpsX: number;
   gpsY: number;
 
   tokenCode: number;
+}
+
+export interface ProfileRecordWithChildrenCount extends ProfileRecord {
+  childrenCount: number
 }
