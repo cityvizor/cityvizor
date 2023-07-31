@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div v-if="pendingPopupOpen" v-on:click="pendingPopup()"  class ="whole-screen transparent-gray" style="z-index: 3"></div>
-    <div v-if="pendingPopupOpen" v-on:click="pendingPopup()"  class ="popup">
-      <div class="popup-text">
-        Data pro tento profil připravujeme
-      </div>
-    </div>
+    <Pending-popup ref="pendingPopup"></Pending-popup>
     <b-row v-if="loading">
         <b-col>
           <div class="text-center">
@@ -105,16 +100,16 @@
 
 <script lang="ts">
 import axios from "axios";
+import PendingPopup from './PendingPopup.vue';
+
 export default {
+  components: { PendingPopup },
   name: 'ActiveCities',
   props: {},
   data() {
     return {
       profiles: [],
       loading: true,
-      pendingPopupOpen: false,
-      //selectedCities: {},
-      //children: {}
     }
   },
   methods: {
@@ -125,7 +120,7 @@ export default {
     //   return arr.filter(city => city.type == type);
     // },
     pendingPopup() {
-      this.pendingPopupOpen = ! this.pendingPopupOpen;
+      this.$refs.pendingPopup.pendingPopup();
     }
   },
   mounted() {
@@ -173,7 +168,7 @@ a {
 }
 .city-item-icon-right-margin {
   margin-right: 8px;
-  max-width: 64px;
+  width: 16px;
 }
 .loading-right-margin {
   margin-right: 8px;
@@ -225,27 +220,4 @@ a {
   background-color: gray;
   opacity: 0.1;
 }
-
-.popup {
-  position: fixed;
-  border-radius: 15px;
-  width: 400px;
-  height: 150px;
-  left:50%;
-  top:50%;
-  z-index: 4;
-  background-color: white;
-  opacity: 1;
-  border: solid 1px $primary;
-  transform: translate(-50%,-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-text {
-
-  font-size: $font-size-md;
-}
-
 </style>
