@@ -1,22 +1,22 @@
 exports.up = function (knex) {
   return knex.schema
-    .createTable('app.profile_categories', table => {
+    .createTable('app.pbo_categories', table => {
       table.increments('id')
-      table.string('cs_name', 50)
-      table.string('en_name', 50)
+      table.string('category_cs_name', 50)
+      table.string('category_en_name', 50)
     })
     .then(() => {
-      return knex('app.profile_categories')
-        .insert([{ cs_name: "Nezařazeno", en_name: "Undefined" },
-        { cs_name: "Jiné", en_name: "Other" },
-        { cs_name: "Vzdělávání", en_name: "Education" },
-        { cs_name: "Sociální služby", en_name: "Social services" },
-        { cs_name: "Kultura", en_name: "Culture" }]);
+      return knex('app.pbo_categories')
+        .insert([{ category_cs_name: "Nezařazeno", category_en_name: "Undefined" },
+        { category_cs_name: "Jiné", category_en_name: "Other" },
+        { category_cs_name: "Vzdělávání", category_en_name: "Education" },
+        { category_cs_name: "Sociální služby", category_en_name: "Social services" },
+        { category_cs_name: "Kultura", category_en_name: "Culture" }]);
     })
     .then(() => {
       return knex.schema.alterTable('app.profiles', table => {
-        table.integer('category_id').notNullable().default(1)
-        table.foreign('category_id').references('id').inTable('app.profile_categories')
+        table.integer('category_id')
+        table.foreign('category_id').references('id').inTable('app.pbo_categories')
       })
     })
     .then(() => {
@@ -72,6 +72,6 @@ exports.down = function (knex) {
       })
     })
     .then(() => {
-      return knex.schema.dropTable('app.profile_categories')
+      return knex.schema.dropTable('app.pbo_categories')
     });
 };

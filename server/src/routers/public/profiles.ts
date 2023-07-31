@@ -24,6 +24,8 @@ function createQueryWithStatusFilter(statuses, tableName: string){
       status.splice(1).map(stat => this.orWhere(columnName, '=', stat));
     })
   }
+
+  query.leftJoin('app.pbo_categories AS category', tableName +'.category_id', 'category.id')
   return query;
 }
 
