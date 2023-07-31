@@ -115,29 +115,33 @@ export class AuthService {
         const token = this.getToken();
 
         // check if token valid
-        if (token && !this.jwtHelper.isTokenExpired(token)) {
+        try {
+            if (token != null && !this.jwtHelper.isTokenExpired(token)) {
 
-            // save the token
-            this.token = token;
-
-            // set user
-            this.setUser(this.jwtHelper.decodeToken(token));
-
-            // announce login to subscribers if applicable
-            if (!this.logged) this.onLogin.next(this.user);
-
-            this.logged = true;
-
-        } else {
-
-            // announce logout to subscribers if applicable
-            if (this.logged) this.onLogout.next();
-
-            // token invalid or missing, so set empty token and user
-            this.token = null;
-            this.logged = false;
-            this.setUser(null);
+                // save the token
+                this.token = token;
+    
+                // set user
+                this.setUser(this.jwtHelper.decodeToken(token));
+    
+                // announce login to subscribers if applicable
+                if (!this.logged) this.onLogin.next(this.user);
+    
+                this.logged = true;
+                return;
+            } 
+        } catch {
+            console.log("Invalid token. Please refresh the page.")
         }
+
+        // announce logout to subscribers if applicable
+        if (this.logged) this.onLogout.next();
+
+        // token invalid or missing, so set empty token and user
+        this.token = null;
+        this.logged = false;
+        this.setUser(null);
+        this.deleteToken();
     }
 
     /*
