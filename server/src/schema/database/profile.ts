@@ -6,6 +6,7 @@ export interface ProfileRecord {
   status: 'visible' | 'pending' | 'hidden';
   type: ProfileType;
   sumMode: 'complete' | 'visible';
+  category: string,
   main: boolean;
 
   url: string;
