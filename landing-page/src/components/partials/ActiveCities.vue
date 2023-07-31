@@ -168,7 +168,7 @@ a {
 }
 .city-item-icon-right-margin {
   margin-right: 8px;
-  width: 16px;
+  max-width: 64px;
 }
 .loading-right-margin {
   margin-right: 8px;

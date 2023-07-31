@@ -1,6 +1,7 @@
 <template>
-  <div class="container">
-    <b-row v-if="loading">
+ <div>
+    <div class="container">
+        <b-row v-if="loading">
       <b-col>
         <div class="text-center">
           <b-spinner class="loading-right-margin"></b-spinner
@@ -9,10 +10,12 @@
       </b-col>
     </b-row>
     <div v-if="!loading">
-      <h1>
-        {{ this.profile.name }}
-      </h1>
-      <b-row align-v="center" class="mb-3 ">
+      <b-row>
+        <h1 class="underlined">
+          {{ this.profile.name }}
+        </h1>
+      </b-row>
+      <b-row align-v="center" class="mb-3">
         <b-col class="city-item-icon-right-margin" cols="1">
           <a
             :target="profile.type == 'external' ? '_blank' : ''"
@@ -22,19 +25,23 @@
           </a>
         </b-col>
         <b-col>
-          <a 
+          <a
             :target="profile.type == 'external' ? '_blank' : ''"
             :href="'/' + profile.url"
           >
-            <b class="ml-2 type-lg font-weight-bold">{{ this.profile.popupName }}</b>
+            <b class="ml-2 type-lg font-weight-bold">{{
+              this.profile.popupName
+            }}</b>
           </a>
         </b-col>
       </b-row>
-      <b-row>
-      </b-row>
+      <b-row> </b-row>
       <Municipalities :municipatilies="municipatilies"></Municipalities>
       <Pbos :pbos="pbos"></Pbos>
     </div>
+    </div>
+
+    
   </div>
 </template>
 

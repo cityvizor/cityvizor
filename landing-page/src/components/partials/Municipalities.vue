@@ -1,7 +1,6 @@
 <template>
 <div>
    <Pending-popup ref="pendingPopup"></Pending-popup>
-  <div class="container">
     <b-row>
         <h2>Městské obvody</h2>
     </b-row>
@@ -20,7 +19,7 @@
                 <a class="fake-link"  v-if=" muni.status == 'pending'" v-on:click="pendingPopup()">
                   <b class="pending">{{ muni.name }}</b>
                 </a>
-                <a v-else :target="muni.type == 'external' ? '_blank' : ''" :href="'/' + muni.url">
+                <a v-else :href="'/' + muni.url">
                   <b>{{ muni.name }}</b>
                 </a>
               </b-col>
@@ -28,7 +27,6 @@
         </b-col>
     </b-row>
   </div>
-</div>
 </template>
 
 <script>
