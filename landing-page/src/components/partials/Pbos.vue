@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <Pending-popup ref="pendingPopup"></Pending-popup>
     <h2>Příspěvkové organizace</h2>
     <div>
       <b-row>
@@ -30,7 +31,8 @@
         responsive="sm"
       >
         <template #cell(name)="data">
-          <a :href="`/${data.value.Url}`">{{ data.value.Name }}</a>
+          <a class="fake-link pending"  v-if=" data.value.Status == 'pending'" v-on:click="pendingPopup()">{{ data.value.Name}}</a>
+          <a v-else :href="`/${data.value.Url}`">{{ data.value.Name}}</a>
         </template>
       </b-table>
       <div>
@@ -41,7 +43,10 @@
 </template>
 
 <script>
+import PendingPopup from './PendingPopup.vue';
+
 export default {
+  components: { PendingPopup },
   name: "ProfileSelectionPage",
   props: {
     pbos: {
@@ -49,7 +54,7 @@ export default {
       required: true,
     },
   },
-  data() { // todo: pending popup
+  data() {
     return {
       fields: [
         { key: "Name", label: "Název", sortable: true },
@@ -61,10 +66,14 @@ export default {
       selectedCategory: null
     };
   },
-  methods: {},
+  methods: {
+    pendingPopup() {
+      this.$refs.pendingPopup.pendingPopup();
+    }
+  },
   mounted() {
     this.items = this.pbos.map((pbo) => {
-      return { Name: { Name: pbo.name, Url: pbo.url }, Category: pbo.categoryCsName, CategoryId: pbo.categoryId };
+      return { Name: { Name: pbo.name, Url: pbo.url, Status: pbo.status }, Category: pbo.categoryCsName ?? 'Nezařazeno', CategoryId: pbo.categoryId ?? 1 };
     });
     this.categories = [... new Map(this.pbos.map(pbo => [pbo.categoryId, {text: pbo.categoryCsName, value: {id: pbo.categoryId, csName: pbo.categoryCsName}}])).values()]; // create set of categories 
   },
@@ -83,5 +92,13 @@ export default {
 .table-header-green {
   border-bottom: 2px solid rgb(112, 204, 148);
   font-weight: 700;
+}
+
+.pending {
+  color: grey !important;
+}
+
+.fake-link {
+  cursor: pointer;
 }
 </style>

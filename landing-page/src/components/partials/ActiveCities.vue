@@ -198,7 +198,6 @@ a {
   cursor: pointer;
 }
 
-
 .children-margin {
   margin-right: 15px;
   text-align: left;
