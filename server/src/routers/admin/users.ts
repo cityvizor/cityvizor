@@ -43,11 +43,12 @@ router.get('/:user', acl('users:read'), async (req, res) => {
 
   if (!user) return res.sendStatus(404);
 
-  const managedProfiles: UserProfileRecord[] | undefined =
-    await db<UserProfileRecord>('app.user_profiles as up')
-      .select('p.id as id', 'p.name as name')
-      .leftJoin('app.profiles as p', {'up.profileId': 'p.id'})
-      .where({userId: user.id});
+  const managedProfiles:
+    | UserProfileRecord[]
+    | undefined = await db<UserProfileRecord>('app.user_profiles as up')
+    .select('p.id as id', 'p.name as name')
+    .leftJoin('app.profiles as p', {'up.profileId': 'p.id'})
+    .where({userId: user.id});
 
   return res.json({
     id: user.id,

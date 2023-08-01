@@ -10,7 +10,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '0', name: 'Pro příjmy (technický záznam)'},
       {
         id: '1011',
-        name: 'Udržování výrobního potenciálu zemědělství, zemědělský půdní fond a mimoprodukční funkce zemědělství',
+        name:
+          'Udržování výrobního potenciálu zemědělství, zemědělský půdní fond a mimoprodukční funkce zemědělství',
       },
       {
         id: '1012',
@@ -22,22 +23,26 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '1014',
-        name: 'Ozdravování hospodářských zvířat, polních a speciálních plodin a zvláštní veterinární péče',
+        name:
+          'Ozdravování hospodářských zvířat, polních a speciálních plodin a zvláštní veterinární péče',
       },
       {id: '1019', name: 'Ostatní zemědělská a potravinářská činnost a rozvoj'},
       {id: '1021', name: 'Organizace trhu s produkty rostlinné výroby'},
       {
         id: '1022',
-        name: 'Organizace trhu s výrobky vzniklými zpracováním produktů rostlinné výroby',
+        name:
+          'Organizace trhu s výrobky vzniklými zpracováním produktů rostlinné výroby',
       },
       {id: '1023', name: 'Organizace trhu s produkty živočišné výroby'},
       {
         id: '1024',
-        name: 'Organizace trhu s výrobky vzniklými zpracováním produktů živočišné výroby',
+        name:
+          'Organizace trhu s výrobky vzniklými zpracováním produktů živočišné výroby',
       },
       {
         id: '1029',
-        name: 'Ostatní záležitosti regulace zemědělské produkce, organizace zemědělského trhu a poskytování podpor',
+        name:
+          'Ostatní záležitosti regulace zemědělské produkce, organizace zemědělského trhu a poskytování podpor',
       },
       {id: '1031', name: 'Pěstební činnost'},
       {id: '1032', name: 'Podpora ostatních produkčních činností'},
@@ -87,11 +92,13 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '2144', name: 'Ostatní služby'},
       {
         id: '2161',
-        name: 'Činnost ústředního orgánu státní správy v odvětví energetiky, průmyslu, stavebnictví, obchodu a služeb',
+        name:
+          'Činnost ústředního orgánu státní správy v odvětví energetiky, průmyslu, stavebnictví, obchodu a služeb',
       },
       {
         id: '2162',
-        name: 'Činnost ostatních orgánů státní správy v průmyslu, stavebnictví, obchodu a službách',
+        name:
+          'Činnost ostatních orgánů státní správy v průmyslu, stavebnictví, obchodu a službách',
       },
       {
         id: '2169',
@@ -104,11 +111,13 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '2185', name: 'Výzkum a vývoj ve stavebnictví'},
       {
         id: '2191',
-        name: 'Mezinárodní spolupráce v průmyslu, stavebnictví, obchodu a službách',
+        name:
+          'Mezinárodní spolupráce v průmyslu, stavebnictví, obchodu a službách',
       },
       {
         id: '2199',
-        name: 'Záležitosti průmyslu, stavebnictví, obchodu a služeb jinde nezařazené',
+        name:
+          'Záležitosti průmyslu, stavebnictví, obchodu a služeb jinde nezařazené',
       },
       {id: '2211', name: 'Dálnice'},
       {id: '2212', name: 'Silnice'},
@@ -155,7 +164,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '2334', name: 'Revitalizace říčních systémů'},
       {
         id: '2339',
-        name: 'Záležitosti vodních toků a vodohospodářských děl jinde nezařazené',
+        name:
+          'Záležitosti vodních toků a vodohospodářských děl jinde nezařazené',
       },
       {id: '2341', name: 'Vodní díla v zemědělské krajině'},
       {id: '2342', name: 'Protierozní ochrana'},
@@ -199,16 +209,19 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2562',
-        name: 'Činnost ostatních orgánů a organizací v oblasti normalizace, standardizace a metrologie',
+        name:
+          'Činnost ostatních orgánů a organizací v oblasti normalizace, standardizace a metrologie',
       },
       {
         id: '2563',
-        name: 'Činnost ostatních orgánů státní správy v zeměměřictví a katastru',
+        name:
+          'Činnost ostatních orgánů státní správy v zeměměřictví a katastru',
       },
       {id: '2564', name: 'Správa národního majetku'},
       {
         id: '2565',
-        name: 'Činnost ostatních orgánů státní správy v oblasti bezpečnosti práce',
+        name:
+          'Činnost ostatních orgánů státní správy v oblasti bezpečnosti práce',
       },
       {id: '2569', name: 'Všeobecná hospodářská správa jinde nezařazená'},
       {
@@ -217,7 +230,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2590',
-        name: 'Mezinárodní spolupráce ve všeobecných hospodářských záležitostech.',
+        name:
+          'Mezinárodní spolupráce ve všeobecných hospodářských záležitostech.',
       },
       {id: '3111', name: 'Mateřské školy'},
       {
@@ -241,7 +255,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '3124',
-        name: 'Střední školy a konzervatoře pro žáky se speciálními vzdělávacími potřebami',
+        name:
+          'Střední školy a konzervatoře pro žáky se speciálními vzdělávacími potřebami',
       },
       {
         id: '3125',
@@ -308,7 +323,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '3312', name: 'Hudební činnost'},
       {
         id: '3313',
-        name: 'Filmová tvorba, distribuce, kina a shromažďování audiovizuálních archiválií',
+        name:
+          'Filmová tvorba, distribuce, kina a shromažďování audiovizuálních archiválií',
       },
       {id: '3314', name: 'Činnosti knihovnické'},
       {id: '3315', name: 'Činnosti muzeí a galerií'},
@@ -321,7 +337,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '3325', name: 'Pražský hrad'},
       {
         id: '3326',
-        name: 'Pořízení, zachování a obnova hodnot místního kulturního, národního a historického povědomí',
+        name:
+          'Pořízení, zachování a obnova hodnot místního kulturního, národního a historického povědomí',
       },
       {
         id: '3329',
@@ -335,23 +352,28 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '3349', name: 'Ostatní záležitosti sdělovacích prostředků'},
       {
         id: '3361',
-        name: 'Činnost ústředního orgánu státní správy v oblasti kultury a církví',
+        name:
+          'Činnost ústředního orgánu státní správy v oblasti kultury a církví',
       },
       {
         id: '3362',
-        name: 'Činnost ostatních orgánů státní správy v oblasti kultury, církví a sdělovacích prostředků',
+        name:
+          'Činnost ostatních orgánů státní správy v oblasti kultury, církví a sdělovacích prostředků',
       },
       {
         id: '3369',
-        name: 'Ostatní správa v oblasti kultury, církví a sdělovacích prostředků',
+        name:
+          'Ostatní správa v oblasti kultury, církví a sdělovacích prostředků',
       },
       {
         id: '3380',
-        name: 'Výzkum a vývoj v oblasti kultury, církví a sdělovacích prostředků',
+        name:
+          'Výzkum a vývoj v oblasti kultury, církví a sdělovacích prostředků',
       },
       {
         id: '3391',
-        name: 'Mezinárodní spolupráce v kultuře, církvích a sdělovacích prostředcích',
+        name:
+          'Mezinárodní spolupráce v kultuře, církvích a sdělovacích prostředcích',
       },
       {id: '3392', name: 'Zájmová činnost v kultuře'},
       {
@@ -382,13 +404,15 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '3526', name: 'Lázeňské léčebny, ozdravovny, sanatoria'},
       {
         id: '3527',
-        name: 'Vysoce specializovaná pracoviště a jednooborové zařízení lůžkové péče',
+        name:
+          'Vysoce specializovaná pracoviště a jednooborové zařízení lůžkové péče',
       },
       {id: '3529', name: 'Ostatní ústavní péče'},
       {id: '3531', name: 'Hygienická služba a ochrana veřejného zdraví'},
       {
         id: '3532',
-        name: 'Lékárenská služba (léky, protézy a přístroje pro užití vně zdravotnických zařízení)',
+        name:
+          'Lékárenská služba (léky, protézy a přístroje pro užití vně zdravotnických zařízení)',
       },
       {id: '3533', name: 'Zdravotnická záchranná služba'},
       {id: '3534', name: 'Doprava ve zdravotnictví'},
@@ -434,38 +458,46 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '3639', name: 'Komunální služby a územní rozvoj jinde nezařazené'},
       {
         id: '3661',
-        name: 'Činnost ústředního orgánu státní správy v oblasti bydlení, komunálních služeb a územního rozvoje',
+        name:
+          'Činnost ústředního orgánu státní správy v oblasti bydlení, komunálních služeb a územního rozvoje',
       },
       {
         id: '3662',
-        name: 'Činnost ostatních orgánů státní správy v oblasti bydlení, komunálních služeb a územního rozvoje',
+        name:
+          'Činnost ostatních orgánů státní správy v oblasti bydlení, komunálních služeb a územního rozvoje',
       },
       {
         id: '3669',
-        name: 'Ostatní správa v oblasti v oblasti bydlení, komunálních služeb a územního rozvoje jinde nezařazená',
+        name:
+          'Ostatní správa v oblasti v oblasti bydlení, komunálních služeb a územního rozvoje jinde nezařazená',
       },
       {
         id: '3680',
-        name: 'Výzkum a vývoj v oblasti bydlení, komunálních služeb a územního rozvoje',
+        name:
+          'Výzkum a vývoj v oblasti bydlení, komunálních služeb a územního rozvoje',
       },
       {
         id: '3691',
-        name: 'Mezinárodní spolupráce v oblasti bydlení, komunálních služeb a územního rozvoje',
+        name:
+          'Mezinárodní spolupráce v oblasti bydlení, komunálních služeb a územního rozvoje',
       },
       {
         id: '3699',
-        name: 'Ostatní záležitosti bydlení, komunálních služeb a územního rozvoje',
+        name:
+          'Ostatní záležitosti bydlení, komunálních služeb a územního rozvoje',
       },
       {id: '3711', name: 'Odstraňování tuhých emisí'},
       {id: '3712', name: 'Odstraňování plynných emisí'},
       {id: '3713', name: 'Změny technologií vytápění'},
       {
         id: '3714',
-        name: 'Opatření ke snižování produkce skleníkových plynů a plynů poškozujících ozónovou vrstvu',
+        name:
+          'Opatření ke snižování produkce skleníkových plynů a plynů poškozujících ozónovou vrstvu',
       },
       {
         id: '3715',
-        name: 'Změny výrobních technologií za účelem výrazného odstranění emisí',
+        name:
+          'Změny výrobních technologií za účelem výrazného odstranění emisí',
       },
       {id: '3716', name: 'Monitoring ochrany ovzduší'},
       {id: '3719', name: 'Ostatní činnosti k ochraně ovzduší'},
@@ -473,7 +505,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '3722', name: 'Sběr a svoz komunálních odpadů'},
       {
         id: '3723',
-        name: 'Sběr a svoz ostatních odpadů (jiných než nebezpečných a komunálních)',
+        name:
+          'Sběr a svoz ostatních odpadů (jiných než nebezpečných a komunálních)',
       },
       {id: '3724', name: 'Využívání a zneškodňování nebezpečných odpadů'},
       {id: '3725', name: 'Využívání a zneškodňování komunálních odpadů'},
@@ -493,24 +526,28 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '3742', name: 'Chráněné části přírody'},
       {
         id: '3743',
-        name: 'Rekultivace půdy v důsledku těžební a důlní činnosti, po skládkách odpadů apod.',
+        name:
+          'Rekultivace půdy v důsledku těžební a důlní činnosti, po skládkách odpadů apod.',
       },
       {id: '3744', name: 'Protierozní, protilavinová a protipožární ochrana'},
       {id: '3745', name: 'Péče o vzhled obcí a veřejnou zeleň'},
       {id: '3749', name: 'Ostatní činnosti k ochraně přírody a krajiny'},
       {
         id: '3751',
-        name: 'Konstrukce a uplatnění protihlukových zařízení (protihlukové stěny a bariéry, okna, zapouzdření strojů apod.)',
+        name:
+          'Konstrukce a uplatnění protihlukových zařízení (protihlukové stěny a bariéry, okna, zapouzdření strojů apod.)',
       },
       {id: '3753', name: 'Monitoring ke zjišťování úrovně hluku a vibrací'},
       {id: '3759', name: 'Ostatní činnosti k omezení hluku a vibrací'},
       {
         id: '3761',
-        name: 'Činnost ústředního orgánu státní správy v ochraně životního prostředí',
+        name:
+          'Činnost ústředního orgánu státní správy v ochraně životního prostředí',
       },
       {
         id: '3762',
-        name: 'Činnost ostatních orgánů státní správy v ochraně životního prostředí',
+        name:
+          'Činnost ostatních orgánů státní správy v ochraně životního prostředí',
       },
       {id: '3769', name: 'Ostatní správa v ochraně životního prostředí'},
       {id: '3771', name: 'Protiradonová opatření'},
@@ -561,7 +598,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '4154', name: 'Odbytné'},
       {
         id: '4159',
-        name: 'Ostatní sociální dávky příslušníků ozbrojených sil při skončení služebního poměru',
+        name:
+          'Ostatní sociální dávky příslušníků ozbrojených sil při skončení služebního poměru',
       },
       {id: '4161', name: 'Úrazový příplatek'},
       {id: '4162', name: 'Úrazové vyrovnání'},
@@ -584,7 +622,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '4183', name: 'Příspěvek na úpravu a provoz bezbariérového bytu'},
       {
         id: '4184',
-        name: 'Příspěvky na zakoupení, opravu a zvláštní úpravu motorového vozidla',
+        name:
+          'Příspěvky na zakoupení, opravu a zvláštní úpravu motorového vozidla',
       },
       {id: '4185', name: 'Příspěvek na provoz motorového vozidla'},
       {id: '4186', name: 'Příspěvek na individuální dopravu'},
@@ -617,7 +656,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4240',
-        name: 'Příspěvek zaměstnavatelům zaměstnávajícím více než 50% občanů se změněnou pracovní schopností',
+        name:
+          'Příspěvek zaměstnavatelům zaměstnávajícím více než 50% občanů se změněnou pracovní schopností',
       },
       {id: '4250', name: 'Příspěvky na sociální důsledky restrukturalizace'},
       {id: '4280', name: 'Výzkum a vývoj v politice zaměstnanosti'},
@@ -634,7 +674,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '4339', name: 'Ostatní sociální péče a pomoc rodině a manželství'},
       {
         id: '4341',
-        name: 'Sociální pomoc osobám v hmotné nouzi a občanům sociálně nepřizpůsobivým',
+        name:
+          'Sociální pomoc osobám v hmotné nouzi a občanům sociálně nepřizpůsobivým',
       },
       {
         id: '4342',
@@ -642,7 +683,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4343',
-        name: 'Sociální pomoc osobám v souvislosti s živelní pohromou nebo požárem',
+        name:
+          'Sociální pomoc osobám v souvislosti s živelní pohromou nebo požárem',
       },
       {id: '4344', name: 'Sociální poradenství pro staré občany'},
       {id: '4345', name: 'Centra sociálně rehabilitačních služeb'},
@@ -653,7 +695,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '4350', name: 'Domovy pro seniory'},
       {
         id: '4351',
-        name: 'Osobní asistence, pečovatelská služba a podpora samostatného bydlení',
+        name:
+          'Osobní asistence, pečovatelská služba a podpora samostatného bydlení',
       },
       {id: '4352', name: 'Tísňová péče'},
       {id: '4353', name: 'Průvodcovské a předčitatelské služby'},
@@ -662,16 +705,19 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '4356', name: 'Denní stacionáře a centra denních služeb'},
       {
         id: '4357',
-        name: 'Domovy pro osoby se zdravotním postižením a domovy se zvláštním režimem',
+        name:
+          'Domovy pro osoby se zdravotním postižením a domovy se zvláštním režimem',
       },
       {
         id: '4358',
-        name: 'Sociální služby poskytované ve zdravotnických zařízeních ústavní péče',
+        name:
+          'Sociální služby poskytované ve zdravotnických zařízeních ústavní péče',
       },
       {id: '4359', name: 'Ostatní služby a činnosti v oblasti sociální péče'},
       {
         id: '4361',
-        name: 'Činnost ústředního orgánu státní správy v sociálním zabezpečení, politice zaměstnanosti a rodinné politice',
+        name:
+          'Činnost ústředního orgánu státní správy v sociálním zabezpečení, politice zaměstnanosti a rodinné politice',
       },
       {
         id: '4362',
@@ -712,7 +758,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4391',
-        name: 'Mezinárodní spolupráce v sociálním zabezpečení a podpoře zaměstnanosti',
+        name:
+          'Mezinárodní spolupráce v sociálním zabezpečení a podpoře zaměstnanosti',
       },
       {id: '4392', name: 'Inspekce poskytování sociálních služeb'},
       {
@@ -748,23 +795,28 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '5220', name: 'Hospodářská opatření pro krizové stavy'},
       {
         id: '5261',
-        name: 'Státní správa v oblasti hospodářských opatření pro krizové stavy a v oblasti krizového řízení',
+        name:
+          'Státní správa v oblasti hospodářských opatření pro krizové stavy a v oblasti krizového řízení',
       },
       {
         id: '5262',
-        name: 'Činnost ostatních orgánů státní správy v oblasti civilního nouzového hospodářství',
+        name:
+          'Činnost ostatních orgánů státní správy v oblasti civilního nouzového hospodářství',
       },
       {
         id: '5269',
-        name: 'Ostatní správa v oblasti hospodářských opatření pro krizové stavy',
+        name:
+          'Ostatní správa v oblasti hospodářských opatření pro krizové stavy',
       },
       {
         id: '5271',
-        name: 'Činnost orgánů krizového řízení na ústřední úrovni a dalších správních úřadů v oblasti krizového řízení',
+        name:
+          'Činnost orgánů krizového řízení na ústřední úrovni a dalších správních úřadů v oblasti krizového řízení',
       },
       {
         id: '5272',
-        name: 'Činnost orgánů krizového řízení na územní úrovni a dalších územních správních úřadů v oblasti krizového řízení',
+        name:
+          'Činnost orgánů krizového řízení na územní úrovni a dalších územních správních úřadů v oblasti krizového řízení',
       },
       {id: '5273', name: 'Ostatní správa v oblasti krizového řízení'},
       {id: '5274', name: 'Podpora krizového řízení a nouzového plánování'},
@@ -783,14 +835,16 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '5311', name: 'Bezpečnost a veřejný pořádek'},
       {
         id: '5316',
-        name: 'Činnost ústředního orgánu státní správy v oblasti bezpečnosti a veřejného pořádku',
+        name:
+          'Činnost ústředního orgánu státní správy v oblasti bezpečnosti a veřejného pořádku',
       },
       {id: '5317', name: 'Hraniční přechody'},
       {id: '5319', name: 'Ostatní záležitosti bezpečnosti a veřejného pořádku'},
       {id: '5380', name: 'Výzkum týkající se bezpečnosti a veřejného pořádku'},
       {
         id: '5391',
-        name: 'Mezinárodní spolupráce v oblasti bezpečnosti a veřejného pořádku',
+        name:
+          'Mezinárodní spolupráce v oblasti bezpečnosti a veřejného pořádku',
       },
       {id: '5399', name: 'Ostatní záležitosti bezpečnosti,veřejného pořádku'},
       {id: '5410', name: 'Ústavní soud'},
@@ -805,7 +859,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '5450', name: 'Činnost probační a mediační služby'},
       {
         id: '5461',
-        name: 'Činnost ústředního orgánu státní správy v oblasti právní ochrany',
+        name:
+          'Činnost ústředního orgánu státní správy v oblasti právní ochrany',
       },
       {
         id: '5462',
@@ -823,7 +878,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '5519', name: 'Ostatní záležitosti požární ochrany'},
       {
         id: '5521',
-        name: 'Operační a informační střediska integrovaného záchranného systému.',
+        name:
+          'Operační a informační střediska integrovaného záchranného systému.',
       },
       {id: '5522', name: 'Ostatní činnosti v integrovaném záchranném systému'},
       {
@@ -836,19 +892,23 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5562',
-        name: 'Činnost ústředních orgánů státní správy v integrovaném záchranném systému',
+        name:
+          'Činnost ústředních orgánů státní správy v integrovaném záchranném systému',
       },
       {
         id: '5563',
-        name: 'Činnost ostatních orgánů státní správy v integrovaném záchranném systému',
+        name:
+          'Činnost ostatních orgánů státní správy v integrovaném záchranném systému',
       },
       {
         id: '5580',
-        name: 'Výzkum a vývoj v požární ochraně a integrovaném záchranném systému',
+        name:
+          'Výzkum a vývoj v požární ochraně a integrovaném záchranném systému',
       },
       {
         id: '5591',
-        name: 'Mezinárodní spolupráce v oblasti požární ochrany a integrovaném záchranném systému',
+        name:
+          'Mezinárodní spolupráce v oblasti požární ochrany a integrovaném záchranném systému',
       },
       {
         id: '5592',
@@ -856,7 +916,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5599',
-        name: 'Ostatní záležitosti požární ochrany a integrovaného záchranného systému',
+        name:
+          'Ostatní záležitosti požární ochrany a integrovaného záchranného systému',
       },
       {id: '6111', name: 'Parlament'},
       {id: '6112', name: 'Zastupitelstva obcí'},
@@ -874,7 +935,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '6130', name: 'Nejvyšší kontrolní úřad'},
       {
         id: '6141',
-        name: 'Ústřední orgány vnitřní státní správy a jejich dislokovaná pracoviště (nezařazené v jiných funkcích)',
+        name:
+          'Ústřední orgány vnitřní státní správy a jejich dislokovaná pracoviště (nezařazené v jiných funkcích)',
       },
       {id: '6142', name: 'Finanční správa'},
       {id: '6143', name: 'Celní správa'},
@@ -902,7 +964,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '6223', name: 'Mezinárodní spolupráce (jinde nezařazená)'},
       {
         id: '6224',
-        name: 'Humanitární zahraniční pomoc poskytovaná prostřednictvím mezinárodních organizací',
+        name:
+          'Humanitární zahraniční pomoc poskytovaná prostřednictvím mezinárodních organizací',
       },
       {id: '6229', name: 'Ostatní zahraniční pomoc'},
       {id: '6310', name: 'Obecné příjmy a výdaje z finančních operací'},
@@ -980,7 +1043,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '1382',
-        name: 'Zrušený odvod z loterií a podobných her kromě z výherních hracích přístrojů',
+        name:
+          'Zrušený odvod z loterií a podobných her kromě z výherních hracích přístrojů',
         validFrom: '2017-01-01T00:00:00.000Z',
       },
       {
@@ -1071,32 +1135,38 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2140',
-        name: 'Neúrokové příjmy z finančních derivátů kromě k vlastním dluhopisům',
+        name:
+          'Neúrokové příjmy z finančních derivátů kromě k vlastním dluhopisům',
         validFrom: '2015-01-01T00:00:00.000Z',
       },
       {
         id: '4137',
-        name: 'Převody mezi statutárními městy (hl.m. Prahou) a jejich městskými obvody nebo částmi - příjmy',
+        name:
+          'Převody mezi statutárními městy (hl.m. Prahou) a jejich městskými obvody nebo částmi - příjmy',
         validFrom: '2015-01-01T00:00:00.000Z',
       },
       {
         id: '5148',
-        name: 'Neúrokové výdaje na finanční deriváty kromě k vlastním dluhopisům',
+        name:
+          'Neúrokové výdaje na finanční deriváty kromě k vlastním dluhopisům',
         validFrom: '2015-01-01T00:00:00.000Z',
       },
       {
         id: '5347',
-        name: 'Převody mezi statutárními městy (hl.m.Prahou) a jejich městskými obvody nebo částmi - výdaje',
+        name:
+          'Převody mezi statutárními městy (hl.m.Prahou) a jejich městskými obvody nebo částmi - výdaje',
         validFrom: '2015-01-01T00:00:00.000Z',
       },
       {
         id: '2148',
-        name: 'Úrokové příjmy z finančních derivátů kromě k vlastním dluhopisům',
+        name:
+          'Úrokové příjmy z finančních derivátů kromě k vlastním dluhopisům',
         validFrom: '2014-01-01T00:00:00.000Z',
       },
       {
         id: '2513',
-        name: 'Podíl na DPH z telekomunikačních a podobných služeb spravované pro EU',
+        name:
+          'Podíl na DPH z telekomunikačních a podobných služeb spravované pro EU',
         validFrom: '2014-01-01T00:00:00.000Z',
       },
       {
@@ -1116,7 +1186,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5425',
-        name: 'Příspěvek na náklady pohřbu dárce orgánu a náhrada poskytovaná žijícímu dárci',
+        name:
+          'Příspěvek na náklady pohřbu dárce orgánu a náhrada poskytovaná žijícímu dárci',
         validFrom: '2014-01-01T00:00:00.000Z',
       },
       {
@@ -1151,12 +1222,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '8116',
-        name: 'Změny stavu bankovních účtů krátkodobých prostředků státních finančních aktiv, které  tvoří kapitolu OSFA',
+        name:
+          'Změny stavu bankovních účtů krátkodobých prostředků státních finančních aktiv, které  tvoří kapitolu OSFA',
         validFrom: '2013-01-01T00:00:00.000Z',
       },
       {
         id: '8216',
-        name: 'Změna stavu bankovních účtů krátkodobých prostředků z dlouhodobých úvěrů ze zahraničí',
+        name:
+          'Změna stavu bankovních účtů krátkodobých prostředků z dlouhodobých úvěrů ze zahraničí',
         validFrom: '2013-01-01T00:00:00.000Z',
       },
       {
@@ -1166,32 +1239,38 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '8302',
-        name: 'Operace na bankovních účtech státních finančních aktiv, které tvoří kapitolu OSFA',
+        name:
+          'Operace na bankovních účtech státních finančních aktiv, které tvoří kapitolu OSFA',
         validFrom: '2013-01-01T00:00:00.000Z',
       },
       {
         id: '8417',
-        name: 'Krátkodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - příjmy',
+        name:
+          'Krátkodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - příjmy',
         validFrom: '2013-01-01T00:00:00.000Z',
       },
       {
         id: '8418',
-        name: 'Krátkodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - výdaje',
+        name:
+          'Krátkodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - výdaje',
         validFrom: '2013-01-01T00:00:00.000Z',
       },
       {
         id: '8427',
-        name: 'Dlouhodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - příjmy',
+        name:
+          'Dlouhodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - příjmy',
         validFrom: '2013-01-01T00:00:00.000Z',
       },
       {
         id: '8428',
-        name: 'Dlouhodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - výdaje',
+        name:
+          'Dlouhodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - výdaje',
         validFrom: '2013-01-01T00:00:00.000Z',
       },
       {
         id: '1340',
-        name: 'Poplatek za provoz systému shromažďování, sběru, přepravy, třídění, využívání a odstraňování komunálních odpadů',
+        name:
+          'Poplatek za provoz systému shromažďování, sběru, přepravy, třídění, využívání a odstraňování komunálních odpadů',
         validFrom: '2012-01-01T00:00:00.000Z',
       },
       {
@@ -1201,7 +1280,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '1372',
-        name: 'Poplatek Státnímu úřadu pro jadernou bezpečnost za žádost o vydání povolení',
+        name:
+          'Poplatek Státnímu úřadu pro jadernou bezpečnost za žádost o vydání povolení',
         validFrom: '2012-01-01T00:00:00.000Z',
       },
       {
@@ -1241,12 +1321,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '8300',
-        name: 'Pohyby na účtech pro financování nepatřící na jiné financující položky',
+        name:
+          'Pohyby na účtech pro financování nepatřící na jiné financující položky',
         validFrom: '2012-01-01T00:00:00.000Z',
       },
       {
         id: '8905',
-        name: 'Nepřevedené částky vyrovnávající schodek a saldo státní pokladny',
+        name:
+          'Nepřevedené částky vyrovnávající schodek a saldo státní pokladny',
         validFrom: '2012-01-01T00:00:00.000Z',
       },
       {
@@ -1326,7 +1408,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '1226',
-        name: 'Poplatek za látky poškozující nebo ohrožující ozónovou vrstvu Země',
+        name:
+          'Poplatek za látky poškozující nebo ohrožující ozónovou vrstvu Země',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1447,7 +1530,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '1353',
-        name: 'Příjmy za zkoušky z odborné způsobilosti od žadatelů o řidičské oprávnění',
+        name:
+          'Příjmy za zkoušky z odborné způsobilosti od žadatelů o řidičské oprávnění',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1500,7 +1584,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '1613',
-        name: 'Pojistné na důchodové pojištění od osob samostatně výdělečně činných (dále jen "OSVČ")',
+        name:
+          'Pojistné na důchodové pojištění od osob samostatně výdělečně činných (dále jen "OSVČ")',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1540,7 +1625,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '1629',
-        name: 'Nevyjasněné, neidentifikované a nezařazené příjmy z pojistného na sociální zabezpečení',
+        name:
+          'Nevyjasněné, neidentifikované a nezařazené příjmy z pojistného na sociální zabezpečení',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1580,7 +1666,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '1703',
-        name: 'Odvody nahrazující zaměstnávání občanů se změněnou pracovní schopností',
+        name:
+          'Odvody nahrazující zaměstnávání občanů se změněnou pracovní schopností',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1631,7 +1718,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2124',
-        name: 'Odvody školských právnických osob zřízených státem, kraji a obcemi',
+        name:
+          'Odvody školských právnických osob zřízených státem, kraji a obcemi',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1711,12 +1799,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2222',
-        name: 'Ostatní příjmy z finančního vypořádání předchozích let od jiných veřejných rozpočtů',
+        name:
+          'Ostatní příjmy z finančního vypořádání předchozích let od jiných veřejných rozpočtů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '2223',
-        name: 'Příjmy z finančního vypořádání minulých let mezi krajem a obcemi',
+        name:
+          'Příjmy z finančního vypořádání minulých let mezi krajem a obcemi',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1726,7 +1816,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2225',
-        name: 'Úhrady prostředků vynaložených podle zákona o ochraně zaměstnanců při platební neschopnosti zaměstnavatele',
+        name:
+          'Úhrady prostředků vynaložených podle zákona o ochraně zaměstnanců při platební neschopnosti zaměstnavatele',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1736,7 +1827,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2227',
-        name: 'Příjmy z finančního vypořádání minulých let mezi regionální radou a kraji, obcemi a dobrovolnými svazky obcí',
+        name:
+          'Příjmy z finančního vypořádání minulých let mezi regionální radou a kraji, obcemi a dobrovolnými svazky obcí',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1766,17 +1858,20 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2325',
-        name: 'Vratky prostředků z Národního fondu pro vyrovnání kursových rozdílů',
+        name:
+          'Vratky prostředků z Národního fondu pro vyrovnání kursových rozdílů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '2326',
-        name: 'Vratky prostředků z Národního fondu související s neplněním závazků z mezinárodních smluv',
+        name:
+          'Vratky prostředků z Národního fondu související s neplněním závazků z mezinárodních smluv',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '2327',
-        name: 'Úhrada prostředků, které státní rozpočet odvedl Evropské unii za Národní fond',
+        name:
+          'Úhrada prostředků, které státní rozpočet odvedl Evropské unii za Národní fond',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1796,12 +1891,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2342',
-        name: 'Platby za odebrané množství podzemní vody a za správu vodních toků',
+        name:
+          'Platby za odebrané množství podzemní vody a za správu vodních toků',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '2343',
-        name: 'Příjmy dobíhajících úhrad z dobývacího prostoru a z vydobytých nerostů',
+        name:
+          'Příjmy dobíhajících úhrad z dobývacího prostoru a z vydobytých nerostů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1816,7 +1913,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2353',
-        name: 'Poplatky za udržování dodatkového ochranného osvědčení pro léčiva',
+        name:
+          'Poplatky za udržování dodatkového ochranného osvědčení pro léčiva',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1831,17 +1929,20 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2411',
-        name: 'Splátky půjčených prostředků od podnikatelských subjektů-fyzických osob',
+        name:
+          'Splátky půjčených prostředků od podnikatelských subjektů-fyzických osob',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '2412',
-        name: 'Splátky půjčených prostředků od podnikatelských subjektů-právnických  osob',
+        name:
+          'Splátky půjčených prostředků od podnikatelských subjektů-právnických  osob',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '2413',
-        name: 'Splátky půjčených prostředků od podnikatelských finančních subjektů-právnických osob',
+        name:
+          'Splátky půjčených prostředků od podnikatelských finančních subjektů-právnických osob',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1851,7 +1952,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2420',
-        name: 'Splátky půjčených prostředků od obecně prospěšných společností a podobných subjektů',
+        name:
+          'Splátky půjčených prostředků od obecně prospěšných společností a podobných subjektů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1866,12 +1968,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2433',
-        name: 'Splátky půjčených prostředků od zvláštních fondů ústřední úrovně',
+        name:
+          'Splátky půjčených prostředků od zvláštních fondů ústřední úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '2434',
-        name: 'Splátky půjčených prostředků  od fondů sociálního a zdravotního pojištění',
+        name:
+          'Splátky půjčených prostředků  od fondů sociálního a zdravotního pojištění',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1896,7 +2000,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2449',
-        name: 'Ostatní splátky půjčených prostředků od veřejných rozpočtů územní úrovně',
+        name:
+          'Ostatní splátky půjčených prostředků od veřejných rozpočtů územní úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1911,7 +2016,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '2459',
-        name: 'Splátky půjčených prostředků od ostatních zřízených a podobných subjektů',
+        name:
+          'Splátky půjčených prostředků od ostatních zřízených a podobných subjektů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -1996,12 +2102,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4111',
-        name: 'Neinvestiční přijaté transfery z všeobecné pokladní správy státního rozpočtu',
+        name:
+          'Neinvestiční přijaté transfery z všeobecné pokladní správy státního rozpočtu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '4112',
-        name: 'Neinvestiční přijaté transfery ze státního rozpočtu v rámci souhrnného dotačního vztahu',
+        name:
+          'Neinvestiční přijaté transfery ze státního rozpočtu v rámci souhrnného dotačního vztahu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2011,12 +2119,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4114',
-        name: 'Neinvestiční přijaté transfery ze zvláštních fondů ústřední úrovně',
+        name:
+          'Neinvestiční přijaté transfery ze zvláštních fondů ústřední úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '4115',
-        name: 'Neinvestiční přijaté transfery od fondů sociálního a zdravotního pojištění',
+        name:
+          'Neinvestiční přijaté transfery od fondů sociálního a zdravotního pojištění',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2031,7 +2141,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4119',
-        name: 'Ostatní neinvestiční přijaté transfery od rozpočtů ústřední úrovně',
+        name:
+          'Ostatní neinvestiční přijaté transfery od rozpočtů ústřední úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2051,7 +2162,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4129',
-        name: 'Ostatní neinvestiční přijaté transfery od rozpočtů územní úrovně',
+        name:
+          'Ostatní neinvestiční přijaté transfery od rozpočtů územní úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2066,7 +2178,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4133',
-        name: 'Převody z vlastních rezervních fondů (jiných než organizačních složek státu)',
+        name:
+          'Převody z vlastních rezervních fondů (jiných než organizačních složek státu)',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2096,7 +2209,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4152',
-        name: 'Neinvestiční přijaté transfery od mezinárodních institucí a některých cizích orgánů a právnických osob',
+        name:
+          'Neinvestiční přijaté transfery od mezinárodních institucí a některých cizích orgánů a právnických osob',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2116,12 +2230,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4211',
-        name: 'Investiční přijaté transfery z všeobecné pokladní správy státního rozpočtu',
+        name:
+          'Investiční přijaté transfery z všeobecné pokladní správy státního rozpočtu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '4212',
-        name: 'Investiční přijaté transfery ze státního rozpočtu v rámci souhrnného dotačního vztahu',
+        name:
+          'Investiční přijaté transfery ze státního rozpočtu v rámci souhrnného dotačního vztahu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2131,7 +2247,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4214',
-        name: 'Investiční přijaté transfery ze zvláštních fondů ústřední úrovně',
+        name:
+          'Investiční přijaté transfery ze zvláštních fondů ústřední úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2146,7 +2263,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '4219',
-        name: 'Ostatní investiční přijaté transfery od veřejných rozpočtů ústřední úrovně',
+        name:
+          'Ostatní investiční přijaté transfery od veřejných rozpočtů ústřední úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2191,22 +2309,26 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5011',
-        name: 'Platy zaměstnanců v pracovním poměru vyjma zaměstnanců na služebních místech',
+        name:
+          'Platy zaměstnanců v pracovním poměru vyjma zaměstnanců na služebních místech',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5012',
-        name: 'Platy zaměstnanců bezpečnostních sborů a ozbrojených sil ve služebním poměru',
+        name:
+          'Platy zaměstnanců bezpečnostních sborů a ozbrojených sil ve služebním poměru',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5013',
-        name: 'Platy zaměstnanců na služebních místech podle zákona o státní službě',
+        name:
+          'Platy zaměstnanců na služebních místech podle zákona o státní službě',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5014',
-        name: 'Platy zaměstnanců v pracovním poměru odvozované od platů ústavních činitelů',
+        name:
+          'Platy zaměstnanců v pracovním poměru odvozované od platů ústavních činitelů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2244,7 +2366,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5031',
-        name: 'Povinné pojistné na sociální zabezpečení a příspěvek na státní politiku zaměstnanosti',
+        name:
+          'Povinné pojistné na sociální zabezpečení a příspěvek na státní politiku zaměstnanosti',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2396,7 +2519,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5168',
-        name: 'Zpracování dat a služby související s informačními a komunikačními technologiemi',
+        name:
+          'Zpracování dat a služby související s informačními a komunikačními technologiemi',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2483,12 +2607,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5196',
-        name: 'Náhrady a příspěvky související s výkonem ústavní funkce a funkce soudce',
+        name:
+          'Náhrady a příspěvky související s výkonem ústavní funkce a funkce soudce',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5197',
-        name: 'Náhrady zvýšených nákladů spojených s výkonem funkce v zahraničí',
+        name:
+          'Náhrady zvýšených nákladů spojených s výkonem funkce v zahraničí',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2503,22 +2629,26 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5212',
-        name: 'Neinvestiční transfery nefinančním podnikatelskýmsubjektům-fyzickým osobám',
+        name:
+          'Neinvestiční transfery nefinančním podnikatelskýmsubjektům-fyzickým osobám',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5213',
-        name: 'Neinvestiční transfery nefinančním podnikatelským subjektům-právnickým osobám',
+        name:
+          'Neinvestiční transfery nefinančním podnikatelským subjektům-právnickým osobám',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5214',
-        name: 'Neinvestiční transfery finančním a podobným institucím ve vlastnictví státu',
+        name:
+          'Neinvestiční transfery finančním a podobným institucím ve vlastnictví státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5215',
-        name: 'Neinvestiční transfery vybraným podnikatelským subjektům ve vlastnictví státu',
+        name:
+          'Neinvestiční transfery vybraným podnikatelským subjektům ve vlastnictví státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2553,12 +2683,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5229',
-        name: 'Ostatní neinvestiční transfery neziskovým a podobným organizacím',
+        name:
+          'Ostatní neinvestiční transfery neziskovým a podobným organizacím',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5250',
-        name: 'Refundace poloviny náhrady mzdy za dočasnou pracovní neschopnost',
+        name:
+          'Refundace poloviny náhrady mzdy za dočasnou pracovní neschopnost',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2578,7 +2710,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5314',
-        name: 'Neinvestiční transfery fondům sociálního a veřejného zdravotního pojištění',
+        name:
+          'Neinvestiční transfery fondům sociálního a veřejného zdravotního pojištění',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2588,7 +2721,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5316',
-        name: 'Odvod pojistného na sociální zabezpečení a  příspěvku na státní politiku zaměstnanosti za zaměstnance',
+        name:
+          'Odvod pojistného na sociální zabezpečení a  příspěvku na státní politiku zaměstnanosti za zaměstnance',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2613,7 +2747,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5322',
-        name: 'Neinvestiční transfery obcím v rámci souhrnného dotačního vztahu',
+        name:
+          'Neinvestiční transfery obcím v rámci souhrnného dotačního vztahu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2623,7 +2758,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5324',
-        name: 'Neinvestiční transfery krajům v rámci souhrnného dotačního vztahu',
+        name:
+          'Neinvestiční transfery krajům v rámci souhrnného dotačního vztahu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2648,7 +2784,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5333',
-        name: 'Neinvestiční transfery školským právnickým osobámzřízeným státem, kraji a obcemi',
+        name:
+          'Neinvestiční transfery školským právnickým osobámzřízeným státem, kraji a obcemi',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2673,7 +2810,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5342',
-        name: 'Převody fondu kulturních a sociálních potřeb a sociálnímu fondu obcí a krajů',
+        name:
+          'Převody fondu kulturních a sociálních potřeb a sociálnímu fondu obcí a krajů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2714,7 +2852,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5364',
-        name: 'Vratky transferů poskytnutých z veřejných rozpočtů ústřední úrovně',
+        name:
+          'Vratky transferů poskytnutých z veřejných rozpočtů ústřední úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2724,7 +2863,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5366',
-        name: 'Výdaje z finančního vypořádání minulých let mezi krajem a obcemi',
+        name:
+          'Výdaje z finančního vypořádání minulých let mezi krajem a obcemi',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2734,7 +2874,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5368',
-        name: 'Výdaje z finančního vypořádání minulých let mezi regionální radou a kraji, obcemi a dobrovolnými svazky obcí',
+        name:
+          'Výdaje z finančního vypořádání minulých let mezi regionální radou a kraji, obcemi a dobrovolnými svazky obcí',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2809,17 +2950,20 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5513',
-        name: 'Vratky neoprávněně použitých nebo zadržených prostředků Evropské unii',
+        name:
+          'Vratky neoprávněně použitých nebo zadržených prostředků Evropské unii',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5514',
-        name: 'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle daně z přidané hodnoty',
+        name:
+          'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle daně z přidané hodnoty',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5515',
-        name: 'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle hrubého národního důchodu',
+        name:
+          'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle hrubého národního důchodu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2844,27 +2988,32 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5612',
-        name: 'Neinvestiční půjčené prostředky nefinančním podnikatelským subjektům-fyzickým osobám',
+        name:
+          'Neinvestiční půjčené prostředky nefinančním podnikatelským subjektům-fyzickým osobám',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5613',
-        name: 'Neinvestiční půjčené prostředky nefinančním podnikatelským subjektům-právnickým osobám',
+        name:
+          'Neinvestiční půjčené prostředky nefinančním podnikatelským subjektům-právnickým osobám',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5614',
-        name: 'Neinvestiční půjčené prostředky finančním a podobným institucím ve vlastnictví státu',
+        name:
+          'Neinvestiční půjčené prostředky finančním a podobným institucím ve vlastnictví státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5615',
-        name: 'Neinvestiční půjčené prostředky vybraným podnikatelským subjektům ve vlastnictví státu',
+        name:
+          'Neinvestiční půjčené prostředky vybraným podnikatelským subjektům ve vlastnictví státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5619',
-        name: 'Ostatní neinvestiční půjčené prostředky podnikatelským subjektům',
+        name:
+          'Ostatní neinvestiční půjčené prostředky podnikatelským subjektům',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2879,17 +3028,20 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5623',
-        name: 'Neinvestiční půjčené prostředky církvím a náboženským společnostem',
+        name:
+          'Neinvestiční půjčené prostředky církvím a náboženským společnostem',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5624',
-        name: 'Neinvestiční půjčené prostředky společenstvím vlastníků jednotek',
+        name:
+          'Neinvestiční půjčené prostředky společenstvím vlastníků jednotek',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5629',
-        name: 'Ostatní neinvestiční půjčené prostředky neziskovým a podobným organizacím',
+        name:
+          'Ostatní neinvestiční půjčené prostředky neziskovým a podobným organizacím',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2904,17 +3056,20 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5633',
-        name: 'Neinvestiční půjčené prostředky zvláštním fondům ústřední úrovně',
+        name:
+          'Neinvestiční půjčené prostředky zvláštním fondům ústřední úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5634',
-        name: 'Neinvestiční půjčené prostředky fondům sociálního a zdravotního pojištění',
+        name:
+          'Neinvestiční půjčené prostředky fondům sociálního a zdravotního pojištění',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5639',
-        name: 'Ostatní neinvestiční půjčené prostředky jiným veřejným rozpočtům',
+        name:
+          'Ostatní neinvestiční půjčené prostředky jiným veřejným rozpočtům',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2934,12 +3089,14 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5649',
-        name: 'Ostatní neinvestiční půjčené prostředky veřejným rozpočtům územní úrovně',
+        name:
+          'Ostatní neinvestiční půjčené prostředky veřejným rozpočtům územní úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5651',
-        name: 'Neinvestiční půjčené prostředky zřízeným příspěvkovým organizacím',
+        name:
+          'Neinvestiční půjčené prostředky zřízeným příspěvkovým organizacím',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2949,7 +3106,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5659',
-        name: 'Neinvestiční půjčené prostředky ostatním příspěvkovým organizacím',
+        name:
+          'Neinvestiční půjčené prostředky ostatním příspěvkovým organizacím',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -2979,22 +3137,26 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '5740',
-        name: 'Převody Národnímu fondu na spolufinancování komunitárních programů',
+        name:
+          'Převody Národnímu fondu na spolufinancování komunitárních programů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5750',
-        name: 'Převody Národnímu fondu na spolufinancování ostatních programů Evropské unie a ČR',
+        name:
+          'Převody Národnímu fondu na spolufinancování ostatních programů Evropské unie a ČR',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5760',
-        name: 'Převody Národnímu fondu na spolufinancování související s poskytnutím pomoci ČR ze zahraničí',
+        name:
+          'Převody Národnímu fondu na spolufinancování související s poskytnutím pomoci ČR ze zahraničí',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '5770',
-        name: 'Převody ze státního rozpočtu do Národního fondu na vyrovnání kursových rozdílů',
+        name:
+          'Převody ze státního rozpočtu do Národního fondu na vyrovnání kursových rozdílů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3091,22 +3253,26 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6312',
-        name: 'Investiční transfery nefinančním podnikatelským subjektům-fyzickým osobám',
+        name:
+          'Investiční transfery nefinančním podnikatelským subjektům-fyzickým osobám',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6313',
-        name: 'Investiční transfery nefinančním podnikatelským subjektům-právnickým osobám',
+        name:
+          'Investiční transfery nefinančním podnikatelským subjektům-právnickým osobám',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6314',
-        name: 'Investiční transfery finančním a podobným institucím ve vlastnictví státu',
+        name:
+          'Investiční transfery finančním a podobným institucím ve vlastnictví státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6315',
-        name: 'Investiční transfery vybraným podnikatelským subjektům ve vlastnictví státu',
+        name:
+          'Investiční transfery vybraným podnikatelským subjektům ve vlastnictví státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3211,7 +3377,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6353',
-        name: 'Investiční transfery školským právnickým osobám zřízeným státem, kraji a obcemi',
+        name:
+          'Investiční transfery školským právnickým osobám zřízeným státem, kraji a obcemi',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3226,7 +3393,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6361',
-        name: 'Investiční převody do rezervního fondu organizačních složek státu',
+        name:
+          'Investiční převody do rezervního fondu organizačních složek státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3251,22 +3419,26 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6412',
-        name: 'Investiční půjčené prostředky nefinančním podnikatelským subjektům-fyzickým osobám',
+        name:
+          'Investiční půjčené prostředky nefinančním podnikatelským subjektům-fyzickým osobám',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6413',
-        name: 'Investiční půjčené prostředky nefinančním podnikatelským subjektům-právnickým osobám',
+        name:
+          'Investiční půjčené prostředky nefinančním podnikatelským subjektům-právnickým osobám',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6414',
-        name: 'Investiční půjčené prostředky finančním a podobným institucím ve vlastnictví státu',
+        name:
+          'Investiční půjčené prostředky finančním a podobným institucím ve vlastnictví státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6415',
-        name: 'Investiční půjčené prostředky vybraným podnikatelským subjektům ve vlastnictví státu',
+        name:
+          'Investiční půjčené prostředky vybraným podnikatelským subjektům ve vlastnictví státu',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3286,7 +3458,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6423',
-        name: 'Investiční půjčené prostředky církvím a náboženským společnostem',
+        name:
+          'Investiční půjčené prostředky církvím a náboženským společnostem',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3296,7 +3469,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6429',
-        name: 'Ostatní investiční půjčené prostředky neziskovým a podobným organizacím',
+        name:
+          'Ostatní investiční půjčené prostředky neziskovým a podobným organizacím',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3316,7 +3490,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6434',
-        name: 'Investiční půjčené prostředky fondům sociálního a zdravotního pojištění',
+        name:
+          'Investiční půjčené prostředky fondům sociálního a zdravotního pojištění',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3341,7 +3516,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6449',
-        name: 'Ostatní investiční půjčené prostředky veřejným rozpočtům místní úrovně',
+        name:
+          'Ostatní investiční půjčené prostředky veřejným rozpočtům místní úrovně',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3371,32 +3547,38 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '6710',
-        name: 'Investiční převody Národnímu fondu na spolufinancování programu Phare',
+        name:
+          'Investiční převody Národnímu fondu na spolufinancování programu Phare',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6720',
-        name: 'Investiční převody Národnímu fondu na spolufinancování programu Ispa',
+        name:
+          'Investiční převody Národnímu fondu na spolufinancování programu Ispa',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6730',
-        name: 'Investiční převody Národnímu fondu na spolufinancování programu Sapard',
+        name:
+          'Investiční převody Národnímu fondu na spolufinancování programu Sapard',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6740',
-        name: 'Investiční převody Národnímu fondu na spolufinancování komunitárních programů',
+        name:
+          'Investiční převody Národnímu fondu na spolufinancování komunitárních programů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6750',
-        name: 'Investiční převody Národnímu fondu na spolufinancování ostatních programů Evropské unie a ČR',
+        name:
+          'Investiční převody Národnímu fondu na spolufinancování ostatních programů Evropské unie a ČR',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
         id: '6760',
-        name: 'Investiční převody Národnímu fondu na spolufinancování související s poskytnutím pomoci ČR ze zahraničí',
+        name:
+          'Investiční převody Národnímu fondu na spolufinancování související s poskytnutím pomoci ČR ze zahraničí',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3436,7 +3618,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '8115',
-        name: 'Změny stavu krátkodobých prostředků na bankovních účtech kromě změn stavů účtů státních finančních aktiv, které tvoří kapitolu OSFA',
+        name:
+          'Změny stavu krátkodobých prostředků na bankovních účtech kromě změn stavů účtů státních finančních aktiv, které tvoří kapitolu OSFA',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3506,7 +3689,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '8215',
-        name: 'Změna stavu bankovních účtů krátkodobých prostředků ze zahraničí jiných než ze zahraničních dlouhodobých úvěrů',
+        name:
+          'Změna stavu bankovních účtů krátkodobých prostředků ze zahraničí jiných než ze zahraničních dlouhodobých úvěrů',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3556,7 +3740,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '8901',
-        name: 'Operace z peněžních účtů organizace nemající charakter příjmů a výdajů vládního sektoru',
+        name:
+          'Operace z peněžních účtů organizace nemající charakter příjmů a výdajů vládního sektoru',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3644,7 +3829,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '43',
-        name: 'Sociální služby a společné činnosti v sociálním zabezpečení a politice zaměstnanosti',
+        name:
+          'Sociální služby a společné činnosti v sociálním zabezpečení a politice zaměstnanosti',
         validFrom: '1990-01-01T00:00:00.000Z',
       },
       {id: '51', name: 'Obrana', validFrom: '1990-01-01T00:00:00.000Z'},
@@ -3712,7 +3898,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       {id: '15', name: 'Majetkové daně', validFrom: '1900-01-01T00:00:00.000Z'},
       {
         id: '16',
-        name: 'Povinné pojistné na sociální zabezpečení, příspěvek na státní politiku zaměstnanosti a veřejné zdravotní pojištění',
+        name:
+          'Povinné pojistné na sociální zabezpečení, příspěvek na státní politiku zaměstnanosti a veřejné zdravotní pojištění',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3722,7 +3909,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '21',
-        name: 'Příjmy z vlastní činnosti a odvody přebytků organizací s přímým vztahem',
+        name:
+          'Příjmy z vlastní činnosti a odvody přebytků organizací s přímým vztahem',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3732,7 +3920,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '23',
-        name: 'Příjmy z prodeje nekapitálového majetku a ostatní nedaňové příjmy',
+        name:
+          'Příjmy z prodeje nekapitálového majetku a ostatní nedaňové příjmy',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
@@ -3747,7 +3936,8 @@ const data: {name: string; data: Partial<CodelistRecord>[]}[] = [
       },
       {
         id: '31',
-        name: 'Příjmy z prodeje dlouhodobého majetku a ostatní kapitálové příjmy',
+        name:
+          'Příjmy z prodeje dlouhodobého majetku a ostatní kapitálové příjmy',
         validFrom: '1900-01-01T00:00:00.000Z',
       },
       {
