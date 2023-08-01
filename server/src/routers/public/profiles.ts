@@ -14,18 +14,22 @@ const router = express.Router();
 
 export const ProfilesRouter = router;
 
-function createQueryWithStatusFilter(statuses, tableName: string){
-  let query = db<ProfileRecordWithChildrenCount>('profiles AS ' + tableName)
-  if(statuses){
+function createQueryWithStatusFilter(statuses, tableName: string) {
+  const query = db<ProfileRecordWithChildrenCount>('profiles AS ' + tableName);
+  if (statuses) {
     const columnName = tableName + '.status';
     const status = statuses.toString().split(',');
-    query.where(function() {
-      this.where(columnName, '=', status[0])
+    query.where(function () {
+      this.where(columnName, '=', status[0]);
       status.splice(1).map(stat => this.orWhere(columnName, '=', stat));
-    })
+    });
   }
 
-  query.leftJoin('app.pbo_categories AS category', tableName +'.category_id', 'category.id')
+  query.leftJoin(
+    'app.pbo_categories AS category',
+    tableName + '.category_id',
+    'category.id'
+  );
   return query;
 }
 
@@ -35,23 +39,22 @@ function createQueryWithStatusFilter(statuses, tableName: string){
   bool orphansOnly -  only returs profiles whose parent is NULL
 }*/
 router.get('/', async (req, res) => {
-  console.log(req.query);
-  
-  let query = createQueryWithStatusFilter(req.query.status, 'profile');
-  
-  if(req.query.countChildren){
-    let innerQuery = createQueryWithStatusFilter(req.query.status, 'innerProfile')
-      .select('innerProfile.id' , db.raw('COUNT(child.id) AS childrenCount'))
-      .leftJoin('profiles AS child', 'innerProfile.id', 'child.parent');
-    innerQuery = innerQuery
-      .groupBy('innerProfile.id')
-      .as('counts');
+  const query = createQueryWithStatusFilter(req.query.status, 'profile');
 
-    query = query.join(innerQuery, 'profile.id', 'counts.id');
+  if (req.query.countChildren) {
+    const innerQuery = createQueryWithStatusFilter(
+      req.query.status,
+      'innerProfile'
+    )
+      .select('innerProfile.id', db.raw('COUNT(child.id) AS childrenCount'))
+      .leftJoin('profiles AS child', 'innerProfile.id', 'child.parent');
+    innerQuery.groupBy('innerProfile.id').as('counts');
+
+    query.join(innerQuery, 'profile.id', 'counts.id');
   }
 
-  if(req.query.orphansOnly){
-    query = query.whereNull('profile.parent');
+  if (req.query.orphansOnly) {
+    query.whereNull('profile.parent');
   }
   const profiles = await query.orderBy('profile.id');
   res.json(profiles);
@@ -63,16 +66,21 @@ request: {
   string[] status - filtes profiles by provided statuses
 }*/
 router.get('/:id/children', async (req, res) => {
-  if(!Number(req.params.id)){
+  if (!Number(req.params.id)) {
     res.sendStatus(400);
   }
-  const parentProfile = await createQueryWithStatusFilter(req.query.status, 'profile')
+  const parentProfile = await createQueryWithStatusFilter(
+    req.query.status,
+    'profile'
+  )
     .where('profile.id', Number(req.params.id))
     .first();
-    if (!parentProfile) return res.sendStatus(404);
+  if (!parentProfile) return res.sendStatus(404);
 
-  let query = createQueryWithStatusFilter(req.query.status, 'profile')
-    .where('profile.parent', Number(req.params.id))
+  let query = createQueryWithStatusFilter(req.query.status, 'profile').where(
+    'profile.parent',
+    Number(req.params.id)
+  );
   const profiles = await query.orderBy('profile.id');
 
   return res.json({parent: parentProfile, children: profiles});

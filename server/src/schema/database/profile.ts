@@ -1,4 +1,4 @@
-import { ProfileType } from '../profile-type';
+import {ProfileType} from '../profile-type';
 
 export interface ProfileRecord {
   id: number;
@@ -7,9 +7,9 @@ export interface ProfileRecord {
   type: ProfileType;
   sumMode: 'complete' | 'visible';
   category: {
-    cs: string,
-    en: string
-  }
+    cs: string;
+    en: string;
+  };
   main: boolean;
 
   url: string;
@@ -30,5 +30,5 @@ export interface ProfileRecord {
 }
 
 export interface ProfileRecordWithChildrenCount extends ProfileRecord {
-  childrenCount: number
+  childrenCount: number;
 }
