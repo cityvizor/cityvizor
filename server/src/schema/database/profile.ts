@@ -17,10 +17,16 @@ export interface ProfileRecord {
   ico: string;
   databox: string;
   edesky: number;
-  parent: number;
+  parent: number | null;
   mapasamospravy: number;
   gpsX: number;
   gpsY: number;
 
   tokenCode: number;
+
+  pbo_category_id: number | null;
+  pbo_category_cs_name: string | null;
+  pbo_category_en_name: string | null;
+
+  childrenCount: number | null;
 }
