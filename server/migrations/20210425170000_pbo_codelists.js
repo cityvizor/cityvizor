@@ -7,7 +7,8 @@ const rows = [
   {
     codelist: 'pbo-su-exp-groups',
     id: 55,
-    name: 'Odpisy, rezervy, komplexní náklady příštích období a opravné položky v provozní oblasti',
+    name:
+      'Odpisy, rezervy, komplexní náklady příštích období a opravné položky v provozní oblasti',
   },
   {codelist: 'pbo-su-exp-groups', id: 56, name: 'Finanční náklady'},
   {
@@ -105,7 +106,8 @@ const rows = [
   {
     codelist: 'pbo-su',
     id: '575',
-    name: 'Náklady vybraných ústředních vládních institucí na předfinancování transferů',
+    name:
+      'Náklady vybraných ústředních vládních institucí na předfinancování transferů',
   },
   {
     codelist: 'pbo-su',
@@ -203,7 +205,8 @@ const rows = [
   {
     codelist: 'pbo-su',
     id: '675',
-    name: 'Výnosy vybraných ústředních vládních institucí z předfinancování transferů',
+    name:
+      'Výnosy vybraných ústředních vládních institucí z předfinancování transferů',
   },
   {
     codelist: 'pbo-su',

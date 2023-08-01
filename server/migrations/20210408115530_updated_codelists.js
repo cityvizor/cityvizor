@@ -169,7 +169,8 @@ const data = [
   },
   {
     id: '1340',
-    name: 'Poplatek za provoz systému shromažďování, sběru, přepravy, třídění, využívání a odstraňování komunálních odpadů',
+    name:
+      'Poplatek za provoz systému shromažďování, sběru, přepravy, třídění, využívání a odstraňování komunálních odpadů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {id: '1341', name: 'Poplatek ze psů', validFrom: '1900-01-01T00:00:00.000Z'},
@@ -205,7 +206,8 @@ const data = [
   },
   {
     id: '1353',
-    name: 'Příjmy za zkoušky z odborné způsobilosti od žadatelů o řidičské oprávnění',
+    name:
+      'Příjmy za zkoušky z odborné způsobilosti od žadatelů o řidičské oprávnění',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -242,7 +244,8 @@ const data = [
   },
   {
     id: '1372',
-    name: 'Poplatek Státnímu úřadu pro jadernou bezpečnost za žádost o vydání povolení',
+    name:
+      'Poplatek Státnímu úřadu pro jadernou bezpečnost za žádost o vydání povolení',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -262,7 +265,8 @@ const data = [
   },
   {
     id: '1382',
-    name: 'Zrušený odvod z loterií a podobných her kromě z výherních hracích přístrojů',
+    name:
+      'Zrušený odvod z loterií a podobných her kromě z výherních hracích přístrojů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -315,7 +319,8 @@ const data = [
   },
   {
     id: '1613',
-    name: '"Pojistné na důchodové pojištění od osob samostatně výdělečně činných (dále jen ""OSVČ"")"',
+    name:
+      '"Pojistné na důchodové pojištění od osob samostatně výdělečně činných (dále jen ""OSVČ"")"',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -355,7 +360,8 @@ const data = [
   },
   {
     id: '1629',
-    name: 'Nevyjasněné, neidentifikované a nezařazené příjmy z pojistného na sociální zabezpečení',
+    name:
+      'Nevyjasněné, neidentifikované a nezařazené příjmy z pojistného na sociální zabezpečení',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -395,7 +401,8 @@ const data = [
   },
   {
     id: '1703',
-    name: 'Odvody nahrazující zaměstnávání občanů se změněnou pracovní schopností',
+    name:
+      'Odvody nahrazující zaměstnávání občanů se změněnou pracovní schopností',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {id: '1704', name: 'Příslušenství', validFrom: '1900-01-01T00:00:00.000Z'},
@@ -538,7 +545,8 @@ const data = [
   },
   {
     id: '2222',
-    name: 'Ostatní příjmy z finančního vypořádání předchozích let od jiných veřejných rozpočtů',
+    name:
+      'Ostatní příjmy z finančního vypořádání předchozích let od jiných veřejných rozpočtů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -553,7 +561,8 @@ const data = [
   },
   {
     id: '2225',
-    name: 'Úhrady prostředků vynaložených podle zákona o ochraně zaměstnanců při platební neschopnosti zaměstnavatele',
+    name:
+      'Úhrady prostředků vynaložených podle zákona o ochraně zaměstnanců při platební neschopnosti zaměstnavatele',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -563,7 +572,8 @@ const data = [
   },
   {
     id: '2227',
-    name: 'Příjmy z finančního vypořádání minulých let mezi regionální radou a kraji, obcemi a dobrovolnými svazky obcí',
+    name:
+      'Příjmy z finančního vypořádání minulých let mezi regionální radou a kraji, obcemi a dobrovolnými svazky obcí',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -598,12 +608,14 @@ const data = [
   },
   {
     id: '2326',
-    name: 'Prostředky přijaté z Národního fondu související s neplněním závazků z mezinárodních smluv',
+    name:
+      'Prostředky přijaté z Národního fondu související s neplněním závazků z mezinárodních smluv',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '2327',
-    name: 'Úhrada prostředků, které státní rozpočet odvedl Evropské unii za Národní fond',
+    name:
+      'Úhrada prostředků, které státní rozpočet odvedl Evropské unii za Národní fond',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -623,7 +635,8 @@ const data = [
   },
   {
     id: '2343',
-    name: 'Příjmy dobíhajících úhrad z dobývacího prostoru a z vydobytých nerostů',
+    name:
+      'Příjmy dobíhajících úhrad z dobývacího prostoru a z vydobytých nerostů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -658,17 +671,20 @@ const data = [
   },
   {
     id: '2411',
-    name: 'Splátky půjčených prostředků od podnikatelských subjektů-fyzických osob',
+    name:
+      'Splátky půjčených prostředků od podnikatelských subjektů-fyzických osob',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '2412',
-    name: 'Splátky půjčených prostředků od podnikatelských subjektů-právnických  osob',
+    name:
+      'Splátky půjčených prostředků od podnikatelských subjektů-právnických  osob',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '2413',
-    name: 'Splátky půjčených prostředků od podnikatelských finančních subjektů-právnických osob',
+    name:
+      'Splátky půjčených prostředků od podnikatelských finančních subjektů-právnických osob',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -678,7 +694,8 @@ const data = [
   },
   {
     id: '2420',
-    name: 'Splátky půjčených prostředků od obecně prospěšných společností a podobných subjektů',
+    name:
+      'Splátky půjčených prostředků od obecně prospěšných společností a podobných subjektů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -698,7 +715,8 @@ const data = [
   },
   {
     id: '2434',
-    name: 'Splátky půjčených prostředků  od fondů sociálního a zdravotního pojištění',
+    name:
+      'Splátky půjčených prostředků  od fondů sociálního a zdravotního pojištění',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -723,7 +741,8 @@ const data = [
   },
   {
     id: '2449',
-    name: 'Ostatní splátky půjčených prostředků od veřejných rozpočtů územní úrovně',
+    name:
+      'Ostatní splátky půjčených prostředků od veřejných rozpočtů územní úrovně',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -738,7 +757,8 @@ const data = [
   },
   {
     id: '2459',
-    name: 'Splátky půjčených prostředků od ostatních zřízených a podobných subjektů',
+    name:
+      'Splátky půjčených prostředků od ostatních zřízených a podobných subjektů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -769,7 +789,8 @@ const data = [
   },
   {
     id: '2513',
-    name: 'Podíl na DPH z telekomunikačních a podobných služeb spravované pro EU',
+    name:
+      'Podíl na DPH z telekomunikačních a podobných služeb spravované pro EU',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -834,12 +855,14 @@ const data = [
   },
   {
     id: '4111',
-    name: 'Neinvestiční přijaté transfery z všeobecné pokladní správy státního rozpočtu',
+    name:
+      'Neinvestiční přijaté transfery z všeobecné pokladní správy státního rozpočtu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '4112',
-    name: 'Neinvestiční přijaté transfery ze státního rozpočtu v rámci souhrnného dotačního vztahu',
+    name:
+      'Neinvestiční přijaté transfery ze státního rozpočtu v rámci souhrnného dotačního vztahu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -854,7 +877,8 @@ const data = [
   },
   {
     id: '4115',
-    name: 'Neinvestiční přijaté transfery od fondů sociálního a zdravotního pojištění',
+    name:
+      'Neinvestiční přijaté transfery od fondů sociálního a zdravotního pojištění',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -904,7 +928,8 @@ const data = [
   },
   {
     id: '4133',
-    name: 'Převody z vlastních rezervních fondů (jiných než organizačních složek státu)',
+    name:
+      'Převody z vlastních rezervních fondů (jiných než organizačních složek státu)',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -924,7 +949,8 @@ const data = [
   },
   {
     id: '4137',
-    name: 'Neinvestiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - příjmy',
+    name:
+      'Neinvestiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - příjmy',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -949,7 +975,8 @@ const data = [
   },
   {
     id: '4152',
-    name: 'Neinvestiční přijaté transfery od mezinárodních institucí a některých cizích orgánů a právnických osob',
+    name:
+      'Neinvestiční přijaté transfery od mezinárodních institucí a některých cizích orgánů a právnických osob',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -979,12 +1006,14 @@ const data = [
   },
   {
     id: '4211',
-    name: 'Investiční přijaté transfery z všeobecné pokladní správy státního rozpočtu',
+    name:
+      'Investiční přijaté transfery z všeobecné pokladní správy státního rozpočtu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '4212',
-    name: 'Investiční přijaté transfery ze státního rozpočtu v rámci souhrnného dotačního vztahu',
+    name:
+      'Investiční přijaté transfery ze státního rozpočtu v rámci souhrnného dotačního vztahu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1009,7 +1038,8 @@ const data = [
   },
   {
     id: '4219',
-    name: 'Ostatní investiční přijaté transfery od veřejných rozpočtů ústřední úrovně',
+    name:
+      'Ostatní investiční přijaté transfery od veřejných rozpočtů ústřední úrovně',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1064,27 +1094,32 @@ const data = [
   },
   {
     id: '4251',
-    name: 'Investiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - příjmy',
+    name:
+      'Investiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - příjmy',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5011',
-    name: 'Platy zaměstnanců v pracovním poměru vyjma zaměstnanců na služebních místech',
+    name:
+      'Platy zaměstnanců v pracovním poměru vyjma zaměstnanců na služebních místech',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5012',
-    name: 'Platy zaměstnanců bezpečnostních sborů a ozbrojených sil ve služebním poměru',
+    name:
+      'Platy zaměstnanců bezpečnostních sborů a ozbrojených sil ve služebním poměru',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5013',
-    name: 'Platy zaměstnanců na služebních místech podle zákona o státní službě',
+    name:
+      'Platy zaměstnanců na služebních místech podle zákona o státní službě',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5014',
-    name: 'Platy zaměstnanců v pracovním poměru odvozované od platů ústavních činitelů',
+    name:
+      'Platy zaměstnanců v pracovním poměru odvozované od platů ústavních činitelů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {id: '5019', name: 'Ostatní platy', validFrom: '1900-01-01T00:00:00.000Z'},
@@ -1123,7 +1158,8 @@ const data = [
   },
   {
     id: '5031',
-    name: 'Povinné pojistné na sociální zabezpečení a příspěvek na státní politiku zaměstnanosti',
+    name:
+      'Povinné pojistné na sociální zabezpečení a příspěvek na státní politiku zaměstnanosti',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1290,7 +1326,8 @@ const data = [
   },
   {
     id: '5168',
-    name: 'Zpracování dat a služby související s informačními a komunikačními technologiemi',
+    name:
+      'Zpracování dat a služby související s informačními a komunikačními technologiemi',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1371,7 +1408,8 @@ const data = [
   },
   {
     id: '5196',
-    name: 'Náhrady a příspěvky související s výkonem ústavní funkce a funkce soudce',
+    name:
+      'Náhrady a příspěvky související s výkonem ústavní funkce a funkce soudce',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1396,27 +1434,32 @@ const data = [
   },
   {
     id: '5212',
-    name: 'Neinvestiční transfery nefinančním podnikatelskýmsubjektům-fyzickým osobám',
+    name:
+      'Neinvestiční transfery nefinančním podnikatelskýmsubjektům-fyzickým osobám',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5213',
-    name: 'Neinvestiční transfery nefinančním podnikatelským subjektům-právnickým osobám',
+    name:
+      'Neinvestiční transfery nefinančním podnikatelským subjektům-právnickým osobám',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5214',
-    name: 'Neinvestiční transfery finančním a podobným institucím ve vlastnictví státu',
+    name:
+      'Neinvestiční transfery finančním a podobným institucím ve vlastnictví státu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5215',
-    name: 'Neinvestiční transfery vybraným podnikatelským subjektům ve vlastnictví státu',
+    name:
+      'Neinvestiční transfery vybraným podnikatelským subjektům ve vlastnictví státu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5216',
-    name: 'Neinvestiční transfery obecním a krajským nemocnicím - obchodním společnostem',
+    name:
+      'Neinvestiční transfery obecním a krajským nemocnicím - obchodním společnostem',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1426,7 +1469,8 @@ const data = [
   },
   {
     id: '5221',
-    name: 'Neinvestiční transfery fundacím, ústavům a obecně prospěšným společnostem',
+    name:
+      'Neinvestiční transfery fundacím, ústavům a obecně prospěšným společnostem',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1476,7 +1520,8 @@ const data = [
   },
   {
     id: '5314',
-    name: 'Neinvestiční transfery fondům sociálního a veřejného zdravotního pojištění',
+    name:
+      'Neinvestiční transfery fondům sociálního a veřejného zdravotního pojištění',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1486,7 +1531,8 @@ const data = [
   },
   {
     id: '5316',
-    name: 'Odvod pojistného na sociální zabezpečení a  příspěvku na státní politiku zaměstnanosti za zaměstnance',
+    name:
+      'Odvod pojistného na sociální zabezpečení a  příspěvku na státní politiku zaměstnanosti za zaměstnance',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1546,7 +1592,8 @@ const data = [
   },
   {
     id: '5333',
-    name: 'Neinvestiční transfery školským právnickým osobámzřízeným státem, kraji a obcemi',
+    name:
+      'Neinvestiční transfery školským právnickým osobámzřízeným státem, kraji a obcemi',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1571,7 +1618,8 @@ const data = [
   },
   {
     id: '5342',
-    name: 'Základní příděl fondu kulturních a sociálních potřeb a sociálnímu fondu obcí a krajů',
+    name:
+      'Základní příděl fondu kulturních a sociálních potřeb a sociálnímu fondu obcí a krajů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1596,7 +1644,8 @@ const data = [
   },
   {
     id: '5347',
-    name: 'Neinvestiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - výdaje',
+    name:
+      'Neinvestiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - výdaje',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1647,7 +1696,8 @@ const data = [
   },
   {
     id: '5368',
-    name: 'Výdaje z finančního vypořádání minulých let mezi regionální radou a kraji, obcemi a dobrovolnými svazky obcí',
+    name:
+      'Výdaje z finančního vypořádání minulých let mezi regionální radou a kraji, obcemi a dobrovolnými svazky obcí',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1673,7 +1723,8 @@ const data = [
   },
   {
     id: '5425',
-    name: 'Příspěvek na náklady pohřbu dárce orgánu a náhrada poskytovaná žijícímu dárci',
+    name:
+      'Příspěvek na náklady pohřbu dárce orgánu a náhrada poskytovaná žijícímu dárci',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1733,17 +1784,20 @@ const data = [
   },
   {
     id: '5513',
-    name: 'Vratky neoprávněně použitých nebo zadržených prostředků Evropské unii',
+    name:
+      'Vratky neoprávněně použitých nebo zadržených prostředků Evropské unii',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5514',
-    name: 'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle daně z přidané hodnoty',
+    name:
+      'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle daně z přidané hodnoty',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5515',
-    name: 'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle hrubého národního důchodu',
+    name:
+      'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle hrubého národního důchodu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1753,7 +1807,8 @@ const data = [
   },
   {
     id: '5517',
-    name: 'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle objemu nerecyklovaných plastových obalů',
+    name:
+      'Odvody vlastních zdrojů Evropské unie do rozpočtu Evropské unie podle objemu nerecyklovaných plastových obalů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1788,22 +1843,26 @@ const data = [
   },
   {
     id: '5612',
-    name: 'Neinvestiční půjčené prostředky nefinančním podnikatelským subjektům-fyzickým osobám',
+    name:
+      'Neinvestiční půjčené prostředky nefinančním podnikatelským subjektům-fyzickým osobám',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5613',
-    name: 'Neinvestiční půjčené prostředky nefinančním podnikatelským subjektům-právnickým osobám',
+    name:
+      'Neinvestiční půjčené prostředky nefinančním podnikatelským subjektům-právnickým osobám',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5614',
-    name: 'Neinvestiční půjčené prostředky finančním a podobným institucím ve vlastnictví státu',
+    name:
+      'Neinvestiční půjčené prostředky finančním a podobným institucím ve vlastnictví státu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5615',
-    name: 'Neinvestiční půjčené prostředky vybraným podnikatelským subjektům ve vlastnictví státu',
+    name:
+      'Neinvestiční půjčené prostředky vybraným podnikatelským subjektům ve vlastnictví státu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1813,7 +1872,8 @@ const data = [
   },
   {
     id: '5621',
-    name: 'Neinvestiční půjčené prostředky fundacím, ústavům a obecně prospěšným společnostem',
+    name:
+      'Neinvestiční půjčené prostředky fundacím, ústavům a obecně prospěšným společnostem',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1833,7 +1893,8 @@ const data = [
   },
   {
     id: '5629',
-    name: 'Ostatní neinvestiční půjčené prostředky neziskovým a podobným organizacím',
+    name:
+      'Ostatní neinvestiční půjčené prostředky neziskovým a podobným organizacím',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1853,7 +1914,8 @@ const data = [
   },
   {
     id: '5634',
-    name: 'Neinvestiční půjčené prostředky fondům sociálního a zdravotního pojištění',
+    name:
+      'Neinvestiční půjčené prostředky fondům sociálního a zdravotního pojištění',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1878,7 +1940,8 @@ const data = [
   },
   {
     id: '5649',
-    name: 'Ostatní neinvestiční půjčené prostředky veřejným rozpočtům územní úrovně',
+    name:
+      'Ostatní neinvestiční půjčené prostředky veřejným rozpočtům územní úrovně',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -1928,17 +1991,20 @@ const data = [
   },
   {
     id: '5750',
-    name: 'Převody Národnímu fondu na spolufinancování ostatních programů Evropské unie a ČR',
+    name:
+      'Převody Národnímu fondu na spolufinancování ostatních programů Evropské unie a ČR',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5760',
-    name: 'Převody Národnímu fondu na spolufinancování související s poskytnutím pomoci ČR ze zahraničí',
+    name:
+      'Převody Národnímu fondu na spolufinancování související s poskytnutím pomoci ČR ze zahraničí',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '5770',
-    name: 'Převody ze státního rozpočtu do Národního fondu na vyrovnání kursových rozdílů',
+    name:
+      'Převody ze státního rozpočtu do Národního fondu na vyrovnání kursových rozdílů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2060,27 +2126,32 @@ const data = [
   },
   {
     id: '6312',
-    name: 'Investiční transfery nefinančním podnikatelským subjektům-fyzickým osobám',
+    name:
+      'Investiční transfery nefinančním podnikatelským subjektům-fyzickým osobám',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6313',
-    name: 'Investiční transfery nefinančním podnikatelským subjektům-právnickým osobám',
+    name:
+      'Investiční transfery nefinančním podnikatelským subjektům-právnickým osobám',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6314',
-    name: 'Investiční transfery finančním a podobným institucím ve vlastnictví státu',
+    name:
+      'Investiční transfery finančním a podobným institucím ve vlastnictví státu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6315',
-    name: 'Investiční transfery vybraným podnikatelským subjektům ve vlastnictví státu',
+    name:
+      'Investiční transfery vybraným podnikatelským subjektům ve vlastnictví státu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6316',
-    name: 'Investiční transfery obecním a krajským nemocnicím - obchodním společnostem',
+    name:
+      'Investiční transfery obecním a krajským nemocnicím - obchodním společnostem',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2090,7 +2161,8 @@ const data = [
   },
   {
     id: '6321',
-    name: 'Investiční transfery fundacím, ústavům a obecně prospěšným společnostem',
+    name:
+      'Investiční transfery fundacím, ústavům a obecně prospěšným společnostem',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2185,7 +2257,8 @@ const data = [
   },
   {
     id: '6353',
-    name: 'Investiční transfery školským právnickým osobám zřízeným státem, kraji a obcemi',
+    name:
+      'Investiční transfery školským právnickým osobám zřízeným státem, kraji a obcemi',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2215,7 +2288,8 @@ const data = [
   },
   {
     id: '6363',
-    name: 'Investiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - výdaje',
+    name:
+      'Investiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - výdaje',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2240,22 +2314,26 @@ const data = [
   },
   {
     id: '6412',
-    name: 'Investiční půjčené prostředky nefinančním podnikatelským subjektům-fyzickým osobám',
+    name:
+      'Investiční půjčené prostředky nefinančním podnikatelským subjektům-fyzickým osobám',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6413',
-    name: 'Investiční půjčené prostředky nefinančním podnikatelským subjektům-právnickým osobám',
+    name:
+      'Investiční půjčené prostředky nefinančním podnikatelským subjektům-právnickým osobám',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6414',
-    name: 'Investiční půjčené prostředky finančním a podobným institucím ve vlastnictví státu',
+    name:
+      'Investiční půjčené prostředky finančním a podobným institucím ve vlastnictví státu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6415',
-    name: 'Investiční půjčené prostředky vybraným podnikatelským subjektům ve vlastnictví státu',
+    name:
+      'Investiční půjčené prostředky vybraným podnikatelským subjektům ve vlastnictví státu',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2265,7 +2343,8 @@ const data = [
   },
   {
     id: '6421',
-    name: 'Investiční půjčené prostředky fundacím, ústavům a obecně prospěšným společnostem',
+    name:
+      'Investiční půjčené prostředky fundacím, ústavům a obecně prospěšným společnostem',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2285,7 +2364,8 @@ const data = [
   },
   {
     id: '6429',
-    name: 'Ostatní investiční půjčené prostředky neziskovým a podobným organizacím',
+    name:
+      'Ostatní investiční půjčené prostředky neziskovým a podobným organizacím',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2305,7 +2385,8 @@ const data = [
   },
   {
     id: '6434',
-    name: 'Investiční půjčené prostředky fondům sociálního a zdravotního pojištění',
+    name:
+      'Investiční půjčené prostředky fondům sociálního a zdravotního pojištění',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2330,7 +2411,8 @@ const data = [
   },
   {
     id: '6449',
-    name: 'Ostatní investiční půjčené prostředky veřejným rozpočtům místní úrovně',
+    name:
+      'Ostatní investiční půjčené prostředky veřejným rozpočtům místní úrovně',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2360,32 +2442,38 @@ const data = [
   },
   {
     id: '6710',
-    name: 'Investiční převody Národnímu fondu na spolufinancování programu Phare',
+    name:
+      'Investiční převody Národnímu fondu na spolufinancování programu Phare',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6720',
-    name: 'Investiční převody Národnímu fondu na spolufinancování programu Ispa',
+    name:
+      'Investiční převody Národnímu fondu na spolufinancování programu Ispa',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6730',
-    name: 'Investiční převody Národnímu fondu na spolufinancování programu Sapard',
+    name:
+      'Investiční převody Národnímu fondu na spolufinancování programu Sapard',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6740',
-    name: 'Investiční převody Národnímu fondu na spolufinancování komunitárních programů',
+    name:
+      'Investiční převody Národnímu fondu na spolufinancování komunitárních programů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6750',
-    name: 'Investiční převody Národnímu fondu na spolufinancování ostatních programů Evropské unie a ČR',
+    name:
+      'Investiční převody Národnímu fondu na spolufinancování ostatních programů Evropské unie a ČR',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '6760',
-    name: 'Investiční převody Národnímu fondu na spolufinancování související s poskytnutím pomoci ČR ze zahraničí',
+    name:
+      'Investiční převody Národnímu fondu na spolufinancování související s poskytnutím pomoci ČR ze zahraničí',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2425,12 +2513,14 @@ const data = [
   },
   {
     id: '8115',
-    name: 'Změny stavu krátkodobých prostředků na bankovních účtech kromě změn stavů účtů státních finančních aktiv, které tvoří kapitolu OSFA',
+    name:
+      'Změny stavu krátkodobých prostředků na bankovních účtech kromě změn stavů účtů státních finančních aktiv, které tvoří kapitolu OSFA',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '8116',
-    name: 'Změny stavu bankovních účtů krátkodobých prostředků státních finančních aktiv, které  tvoří kapitolu OSFA',
+    name:
+      'Změny stavu bankovních účtů krátkodobých prostředků státních finančních aktiv, které  tvoří kapitolu OSFA',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2500,12 +2590,14 @@ const data = [
   },
   {
     id: '8215',
-    name: 'Změna stavu bankovních účtů krátkodobých prostředků ze zahraničí jiných než ze zahraničních dlouhodobých úvěrů',
+    name:
+      'Změna stavu bankovních účtů krátkodobých prostředků ze zahraničí jiných než ze zahraničních dlouhodobých úvěrů',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '8216',
-    name: 'Změna stavu bankovních účtů krátkodobých prostředků z dlouhodobých úvěrů ze zahraničí',
+    name:
+      'Změna stavu bankovních účtů krátkodobých prostředků z dlouhodobých úvěrů ze zahraničí',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2555,7 +2647,8 @@ const data = [
   },
   {
     id: '8300',
-    name: 'Pohyby na účtech pro financování nepatřící na jiné financující položky',
+    name:
+      'Pohyby na účtech pro financování nepatřící na jiné financující položky',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2565,7 +2658,8 @@ const data = [
   },
   {
     id: '8302',
-    name: 'Operace na bankovních účtech státních finančních aktiv, které tvoří kapitolu OSFA',
+    name:
+      'Operace na bankovních účtech státních finančních aktiv, které tvoří kapitolu OSFA',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
@@ -2580,27 +2674,32 @@ const data = [
   },
   {
     id: '8417',
-    name: 'Krátkodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - příjmy',
+    name:
+      'Krátkodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - příjmy',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '8418',
-    name: 'Krátkodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - výdaje',
+    name:
+      'Krátkodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - výdaje',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '8427',
-    name: 'Dlouhodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - příjmy',
+    name:
+      'Dlouhodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - příjmy',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '8428',
-    name: 'Dlouhodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - výdaje',
+    name:
+      'Dlouhodobé aktivní financování z jaderného účtu a účtu rezervy důchodového pojištění - výdaje',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {
     id: '8901',
-    name: 'Operace z peněžních účtů organizace nemající charakter příjmů a výdajů vládního sektoru',
+    name:
+      'Operace z peněžních účtů organizace nemající charakter příjmů a výdajů vládního sektoru',
     validFrom: '1900-01-01T00:00:00.000Z',
   },
   {

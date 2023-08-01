@@ -1,7 +1,8 @@
 const data = [
   {
     id: '1011',
-    name: 'Udržování výrobního potenciálu zemědělství, zemědělský půdní fond a mimoprodukční funkce zemědělství',
+    name:
+      'Udržování výrobního potenciálu zemědělství, zemědělský půdní fond a mimoprodukční funkce zemědělství',
   },
   {
     id: '1012',
@@ -10,22 +11,26 @@ const data = [
   {id: '1013', name: 'Genetický potenciál hospodářských zvířat, osiv a sádí'},
   {
     id: '1014',
-    name: 'Ozdravování hospodářských zvířat, polních a speciálních plodin a zvláštní veterinární péče',
+    name:
+      'Ozdravování hospodářských zvířat, polních a speciálních plodin a zvláštní veterinární péče',
   },
   {id: '1019', name: 'Ostatní zemědělská a potravinářská činnost a rozvoj'},
   {id: '1021', name: 'Organizace trhu s produkty rostlinné výroby'},
   {
     id: '1022',
-    name: 'Organizace trhu s výrobky vzniklými zpracováním produktů rostlinné výroby',
+    name:
+      'Organizace trhu s výrobky vzniklými zpracováním produktů rostlinné výroby',
   },
   {id: '1023', name: 'Organizace trhu s produkty živočišné výroby'},
   {
     id: '1024',
-    name: 'Organizace trhu s výrobky vzniklými zpracováním produktů živočišné výroby',
+    name:
+      'Organizace trhu s výrobky vzniklými zpracováním produktů živočišné výroby',
   },
   {
     id: '1029',
-    name: 'Ostatní záležitosti regulace zemědělské produkce, organizace zemědělského trhu a poskytování podpor',
+    name:
+      'Ostatní záležitosti regulace zemědělské produkce, organizace zemědělského trhu a poskytování podpor',
   },
   {id: '1031', name: 'Pěstební činnost'},
   {id: '1032', name: 'Podpora ostatních produkčních činností'},
@@ -69,11 +74,13 @@ const data = [
   {id: '2144', name: 'Ostatní služby'},
   {
     id: '2161',
-    name: 'Činnost ústředního orgánu státní správy v odvětví energetiky, průmyslu, stavebnictví, obchodu a služeb',
+    name:
+      'Činnost ústředního orgánu státní správy v odvětví energetiky, průmyslu, stavebnictví, obchodu a služeb',
   },
   {
     id: '2162',
-    name: 'Činnost ostatních orgánů státní správy v průmyslu, stavebnictví, obchodu a službách',
+    name:
+      'Činnost ostatních orgánů státní správy v průmyslu, stavebnictví, obchodu a službách',
   },
   {
     id: '2169',
@@ -90,7 +97,8 @@ const data = [
   },
   {
     id: '2199',
-    name: 'Záležitosti průmyslu, stavebnictví, obchodu a služeb jinde nezařazené',
+    name:
+      'Záležitosti průmyslu, stavebnictví, obchodu a služeb jinde nezařazené',
   },
   {id: '2211', name: 'Dálnice'},
   {id: '2212', name: 'Silnice'},
@@ -179,7 +187,8 @@ const data = [
   },
   {
     id: '2562',
-    name: 'Činnost ostatních orgánů a organizací v oblasti normalizace, standardizace a metrologie',
+    name:
+      'Činnost ostatních orgánů a organizací v oblasti normalizace, standardizace a metrologie',
   },
   {
     id: '2563',
@@ -221,7 +230,8 @@ const data = [
   },
   {
     id: '3124',
-    name: 'Střední školy a konzervatoře pro žáky se speciálními vzdělávacími potřebami',
+    name:
+      'Střední školy a konzervatoře pro žáky se speciálními vzdělávacími potřebami',
   },
   {id: '3125', name: 'Střediska praktického vyučování a školní hospodářství'},
   {id: '3126', name: 'Konzervatoře'},
@@ -273,7 +283,8 @@ const data = [
   {id: '3312', name: 'Hudební činnost'},
   {
     id: '3313',
-    name: 'Filmová tvorba, distribuce, kina a shromažďování audiovizuálních archiválií',
+    name:
+      'Filmová tvorba, distribuce, kina a shromažďování audiovizuálních archiválií',
   },
   {id: '3314', name: 'Činnosti knihovnické'},
   {id: '3315', name: 'Činnosti muzeí a galerií'},
@@ -286,7 +297,8 @@ const data = [
   {id: '3325', name: 'Pražský hrad'},
   {
     id: '3326',
-    name: 'Pořízení, zachování a obnova hodnot místního kulturního, národního a historického povědomí',
+    name:
+      'Pořízení, zachování a obnova hodnot místního kulturního, národního a historického povědomí',
   },
   {
     id: '3329',
@@ -304,7 +316,8 @@ const data = [
   },
   {
     id: '3362',
-    name: 'Činnost ostatních orgánů státní správy v oblasti kultury, církví a sdělovacích prostředků',
+    name:
+      'Činnost ostatních orgánů státní správy v oblasti kultury, církví a sdělovacích prostředků',
   },
   {
     id: '3369',
@@ -316,7 +329,8 @@ const data = [
   },
   {
     id: '3391',
-    name: 'Mezinárodní spolupráce v kultuře, církvích a sdělovacích prostředcích',
+    name:
+      'Mezinárodní spolupráce v kultuře, církvích a sdělovacích prostředcích',
   },
   {id: '3392', name: 'Zájmová činnost v kultuře'},
   {
@@ -348,13 +362,15 @@ const data = [
   {id: '3526', name: 'Lázeňské léčebny, ozdravovny, sanatoria'},
   {
     id: '3527',
-    name: 'Vysoce specializovaná pracoviště a jednooborové zařízení lůžkové péče',
+    name:
+      'Vysoce specializovaná pracoviště a jednooborové zařízení lůžkové péče',
   },
   {id: '3529', name: 'Ostatní ústavní péče'},
   {id: '3531', name: 'Hygienická služba a ochrana veřejného zdraví'},
   {
     id: '3532',
-    name: 'Lékárenská služba (léky, protézy a přístroje pro užití vně zdravotnických zařízení)',
+    name:
+      'Lékárenská služba (léky, protézy a přístroje pro užití vně zdravotnických zařízení)',
   },
   {id: '3533', name: 'Zdravotnická záchranná služba'},
   {id: '3534', name: 'Doprava ve zdravotnictví'},
@@ -397,23 +413,28 @@ const data = [
   {id: '3639', name: 'Komunální služby a územní rozvoj jinde nezařazené'},
   {
     id: '3661',
-    name: 'Činnost ústředního orgánu státní správy v oblasti bydlení, komunálních služeb a územního rozvoje',
+    name:
+      'Činnost ústředního orgánu státní správy v oblasti bydlení, komunálních služeb a územního rozvoje',
   },
   {
     id: '3662',
-    name: 'Činnost ostatních orgánů státní správy v oblasti bydlení, komunálních služeb a územního rozvoje',
+    name:
+      'Činnost ostatních orgánů státní správy v oblasti bydlení, komunálních služeb a územního rozvoje',
   },
   {
     id: '3669',
-    name: 'Ostatní správa v oblasti v oblasti bydlení, komunálních služeb a územního rozvoje jinde nezařazená',
+    name:
+      'Ostatní správa v oblasti v oblasti bydlení, komunálních služeb a územního rozvoje jinde nezařazená',
   },
   {
     id: '3680',
-    name: 'Výzkum a vývoj v oblasti bydlení, komunálních služeb a územního rozvoje',
+    name:
+      'Výzkum a vývoj v oblasti bydlení, komunálních služeb a územního rozvoje',
   },
   {
     id: '3691',
-    name: 'Mezinárodní spolupráce v oblasti bydlení, komunálních služeb a územního rozvoje',
+    name:
+      'Mezinárodní spolupráce v oblasti bydlení, komunálních služeb a územního rozvoje',
   },
   {
     id: '3699',
@@ -424,7 +445,8 @@ const data = [
   {id: '3713', name: 'Změny technologií vytápění'},
   {
     id: '3714',
-    name: 'Opatření ke snižování produkce skleníkových plynů a plynů poškozujících ozónovou vrstvu',
+    name:
+      'Opatření ke snižování produkce skleníkových plynů a plynů poškozujících ozónovou vrstvu',
   },
   {
     id: '3715',
@@ -436,7 +458,8 @@ const data = [
   {id: '3722', name: 'Sběr a svoz komunálních odpadů'},
   {
     id: '3723',
-    name: 'Sběr a svoz ostatních odpadů (jiných než nebezpečných a komunálních)',
+    name:
+      'Sběr a svoz ostatních odpadů (jiných než nebezpečných a komunálních)',
   },
   {id: '3724', name: 'Využívání a zneškodňování nebezpečných odpadů'},
   {id: '3725', name: 'Využívání a zneškodňování komunálních odpadů'},
@@ -456,24 +479,28 @@ const data = [
   {id: '3742', name: 'Chráněné části přírody'},
   {
     id: '3743',
-    name: 'Rekultivace půdy v důsledku těžební a důlní činnosti, po skládkách odpadů apod.',
+    name:
+      'Rekultivace půdy v důsledku těžební a důlní činnosti, po skládkách odpadů apod.',
   },
   {id: '3744', name: 'Protierozní, protilavinová a protipožární ochrana'},
   {id: '3745', name: 'Péče o vzhled obcí a veřejnou zeleň'},
   {id: '3749', name: 'Ostatní činnosti k ochraně přírody a krajiny'},
   {
     id: '3751',
-    name: 'Konstrukce a uplatnění protihlukových zařízení (protihlukové stěny a bariéry, okna, zapouzdření strojů apod.)',
+    name:
+      'Konstrukce a uplatnění protihlukových zařízení (protihlukové stěny a bariéry, okna, zapouzdření strojů apod.)',
   },
   {id: '3753', name: 'Monitoring ke zjišťování úrovně hluku a vibrací'},
   {id: '3759', name: 'Ostatní činnosti k omezení hluku a vibrací'},
   {
     id: '3761',
-    name: 'Činnost ústředního orgánu státní správy v ochraně životního prostředí',
+    name:
+      'Činnost ústředního orgánu státní správy v ochraně životního prostředí',
   },
   {
     id: '3762',
-    name: 'Činnost ostatních orgánů státní správy v ochraně životního prostředí',
+    name:
+      'Činnost ostatních orgánů státní správy v ochraně životního prostředí',
   },
   {id: '3769', name: 'Ostatní správa v ochraně životního prostředí'},
   {id: '3771', name: 'Protiradonová opatření'},
@@ -523,7 +550,8 @@ const data = [
   {id: '4154', name: 'Odbytné'},
   {
     id: '4159',
-    name: 'Ostatní sociální dávky příslušníků ozbrojených sil při skončení služebního poměru',
+    name:
+      'Ostatní sociální dávky příslušníků ozbrojených sil při skončení služebního poměru',
   },
   {id: '4171', name: 'Příspěvek na živobytí'},
   {id: '4172', name: 'Doplatek na bydlení'},
@@ -570,7 +598,8 @@ const data = [
   },
   {
     id: '4240',
-    name: 'Příspěvek na podporu zaměstnávání osob se zdravotním postižením na chráněném trhu práce',
+    name:
+      'Příspěvek na podporu zaměstnávání osob se zdravotním postižením na chráněném trhu práce',
   },
   {id: '4250', name: 'Příspěvky na sociální důsledky restrukturalizace'},
   {id: '4280', name: 'Výzkum a vývoj v politice zaměstnanosti'},
@@ -578,7 +607,8 @@ const data = [
   {id: '4312', name: 'Odborné sociální poradenství'},
   {
     id: '4313',
-    name: 'Sociální ústavy pro zdravotně postiženou mládež včetně diagnostických ústavů',
+    name:
+      'Sociální ústavy pro zdravotně postiženou mládež včetně diagnostických ústavů',
   },
   {id: '4314', name: 'Pečovatelská služba'},
   {id: '4315', name: 'Sociální hospitalizace'},
@@ -595,7 +625,8 @@ const data = [
   {id: '4339', name: 'Ostatní sociální péče a pomoc rodině a manželství'},
   {
     id: '4341',
-    name: 'Sociální pomoc osobám v hmotné nouzi a občanům sociálně nepřizpůsobivým',
+    name:
+      'Sociální pomoc osobám v hmotné nouzi a občanům sociálně nepřizpůsobivým',
   },
   {id: '4342', name: 'Sociální péče a pomoc přistěhovalcům a vybraným etnikům'},
   {
@@ -611,7 +642,8 @@ const data = [
   {id: '4350', name: 'Domovy pro seniory'},
   {
     id: '4351',
-    name: 'Osobní asistence, pečovatelská služba a podpora samostatného bydlení',
+    name:
+      'Osobní asistence, pečovatelská služba a podpora samostatného bydlení',
   },
   {id: '4352', name: 'Tísňová péče'},
   {id: '4353', name: 'Průvodcovské a předčitatelské služby'},
@@ -620,16 +652,19 @@ const data = [
   {id: '4356', name: 'Denní stacionáře a centra denních služeb'},
   {
     id: '4357',
-    name: 'Domovy pro osoby se zdravotním postižením a domovy se zvláštním režimem',
+    name:
+      'Domovy pro osoby se zdravotním postižením a domovy se zvláštním režimem',
   },
   {
     id: '4358',
-    name: 'Sociální služby poskytované ve zdravotnických zařízeních ústavní péče',
+    name:
+      'Sociální služby poskytované ve zdravotnických zařízeních ústavní péče',
   },
   {id: '4359', name: 'Ostatní služby a činnosti v oblasti sociální péče'},
   {
     id: '4361',
-    name: 'Činnost ústředního orgánu státní správy v sociálním zabezpečení, politice zaměstnanosti a rodinné politice',
+    name:
+      'Činnost ústředního orgánu státní správy v sociálním zabezpečení, politice zaměstnanosti a rodinné politice',
   },
   {
     id: '4362',
@@ -661,7 +696,8 @@ const data = [
   {id: '4380', name: 'Výzkum v sociálním zabezpečení a politice zaměstnanosti'},
   {
     id: '4391',
-    name: 'Mezinárodní spolupráce v sociálním zabezpečení a podpoře zaměstnanosti',
+    name:
+      'Mezinárodní spolupráce v sociálním zabezpečení a podpoře zaměstnanosti',
   },
   {id: '4392', name: 'Inspekce poskytování sociálních služeb'},
   {
@@ -695,11 +731,13 @@ const data = [
   {id: '5220', name: 'Hospodářská opatření pro krizové stavy'},
   {
     id: '5261',
-    name: 'Státní správa v oblasti hospodářských opatření pro krizové stavy a v oblasti krizového řízení',
+    name:
+      'Státní správa v oblasti hospodářských opatření pro krizové stavy a v oblasti krizového řízení',
   },
   {
     id: '5262',
-    name: 'Činnost ostatních orgánů státní správy v oblasti civilního nouzového hospodářství',
+    name:
+      'Činnost ostatních orgánů státní správy v oblasti civilního nouzového hospodářství',
   },
   {
     id: '5269',
@@ -707,11 +745,13 @@ const data = [
   },
   {
     id: '5271',
-    name: 'Činnost orgánů krizového řízení na ústřední úrovni a dalších správních úřadů v oblasti krizového řízení',
+    name:
+      'Činnost orgánů krizového řízení na ústřední úrovni a dalších správních úřadů v oblasti krizového řízení',
   },
   {
     id: '5272',
-    name: 'Činnost orgánů krizového řízení na územní úrovni a dalších územních správních úřadů v oblasti krizového řízení',
+    name:
+      'Činnost orgánů krizového řízení na územní úrovni a dalších územních správních úřadů v oblasti krizového řízení',
   },
   {id: '5273', name: 'Ostatní správa v oblasti krizového řízení'},
   {id: '5274', name: 'Podpora krizového řízení a nouzového plánování'},
@@ -730,11 +770,13 @@ const data = [
   {id: '5311', name: 'Bezpečnost a veřejný pořádek'},
   {
     id: '5312',
-    name: 'Opatření proti legalizaci výnosů z trestné činnosti a proti financování terorismu',
+    name:
+      'Opatření proti legalizaci výnosů z trestné činnosti a proti financování terorismu',
   },
   {
     id: '5316',
-    name: 'Činnost ústředního orgánu státní správy v oblasti bezpečnosti a veřejného pořádku',
+    name:
+      'Činnost ústředního orgánu státní správy v oblasti bezpečnosti a veřejného pořádku',
   },
   {id: '5317', name: 'Hraniční přechody'},
   {id: '5319', name: 'Ostatní záležitosti bezpečnosti a veřejného pořádku'},
@@ -787,11 +829,13 @@ const data = [
   },
   {
     id: '5562',
-    name: 'Činnost ústředních orgánů státní správy v integrovaném záchranném systému',
+    name:
+      'Činnost ústředních orgánů státní správy v integrovaném záchranném systému',
   },
   {
     id: '5563',
-    name: 'Činnost ostatních orgánů státní správy v integrovaném záchranném systému',
+    name:
+      'Činnost ostatních orgánů státní správy v integrovaném záchranném systému',
   },
   {
     id: '5580',
@@ -799,7 +843,8 @@ const data = [
   },
   {
     id: '5591',
-    name: 'Mezinárodní spolupráce v oblasti požární ochrany a integrovaném záchranném systému',
+    name:
+      'Mezinárodní spolupráce v oblasti požární ochrany a integrovaném záchranném systému',
   },
   {
     id: '5592',
@@ -807,7 +852,8 @@ const data = [
   },
   {
     id: '5599',
-    name: 'Ostatní záležitosti požární ochrany a integrovaného záchranného systému',
+    name:
+      'Ostatní záležitosti požární ochrany a integrovaného záchranného systému',
   },
   {id: '6111', name: 'Parlament'},
   {id: '6112', name: 'Zastupitelstva obcí'},
@@ -822,7 +868,8 @@ const data = [
   {id: '6130', name: 'Nejvyšší kontrolní úřad'},
   {
     id: '6141',
-    name: 'Ústřední orgány vnitřní státní správy a jejich dislokovaná pracoviště (nezařazené v jiných funkcích)',
+    name:
+      'Ústřední orgány vnitřní státní správy a jejich dislokovaná pracoviště (nezařazené v jiných funkcích)',
   },
   {id: '6142', name: 'Finanční správa'},
   {id: '6143', name: 'Celní správa'},
@@ -850,7 +897,8 @@ const data = [
   {id: '6223', name: 'Mezinárodní spolupráce (jinde nezařazená)'},
   {
     id: '6224',
-    name: 'Humanitární zahraniční pomoc poskytovaná prostřednictvím mezinárodních organizací',
+    name:
+      'Humanitární zahraniční pomoc poskytovaná prostřednictvím mezinárodních organizací',
   },
   {id: '6229', name: 'Ostatní zahraniční pomoc'},
   {id: '6310', name: 'Obecné příjmy a výdaje z finančních operací'},

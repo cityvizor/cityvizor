@@ -9,12 +9,14 @@ const items = [
   {id: '1385', name: 'Dílčí daň z technických her'},
   {
     id: '4251',
-    name: 'Investiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - příjmy',
+    name:
+      'Investiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - příjmy',
   },
   {id: '5177', name: 'Nákup archiválií'},
   {
     id: '5216',
-    name: 'Neinvestiční transfery obecním a krajským nemocnicím - obchodním společnostem',
+    name:
+      'Neinvestiční transfery obecním a krajským nemocnicím - obchodním společnostem',
   },
   {id: '5811', name: 'Výdaje na náhrady za nezpůsobenou újmu'},
   {id: '5903', name: 'Rezerva na krizová opatření'},
@@ -24,11 +26,13 @@ const items = [
   },
   {
     id: '6316',
-    name: 'Investiční transfery obecním a krajským nemocnicím - obchodním společnostem',
+    name:
+      'Investiční transfery obecním a krajským nemocnicím - obchodním společnostem',
   },
   {
     id: '6363',
-    name: 'Investiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - výdaje',
+    name:
+      'Investiční převody mezi statutárními městy (hl. m. Prahou) a jejich městskými obvody nebo částmi - výdaje',
   },
 ];
 
