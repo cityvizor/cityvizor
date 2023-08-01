@@ -1,28 +1,28 @@
 exports.up = function (knex) {
   return knex.schema
     .createTable('app.pbo_categories', table => {
-      table.increments('id');
-      table.string('category_cs_name', 50);
-      table.string('category_en_name', 50);
+      table.increments('pbo_category_id');
+      table.string('pbo_category_cs_name', 50);
+      table.string('pbo_category_en_name', 50);
     })
     .then(() => {
       return knex('app.pbo_categories').insert([
-        {category_cs_name: 'Nezařazeno', category_en_name: 'Undefined'},
-        {category_cs_name: 'Jiné', category_en_name: 'Other'},
-        {category_cs_name: 'Vzdělávání', category_en_name: 'Education'},
+        {pbo_category_cs_name: 'Nezařazeno', pbo_category_en_name: 'Undefined'},
+        {pbo_category_cs_name: 'Jiné', pbo_category_en_name: 'Other'},
+        {pbo_category_cs_name: 'Vzdělávání', pbo_category_en_name: 'Education'},
         {
-          category_cs_name: 'Sociální služby',
-          category_en_name: 'Social services',
+          pbo_category_cs_name: 'Sociální služby',
+          pbo_category_en_name: 'Social services',
         },
-        {category_cs_name: 'Kultura', category_en_name: 'Culture'},
+        {pbo_category_cs_name: 'Kultura', pbo_category_en_name: 'Culture'},
       ]);
     })
     .then(() => {
       return knex.schema.alterTable('app.profiles', table => {
-        table.integer('category_id');
+        table.integer('pbo_category_id');
         table
-          .foreign('category_id')
-          .references('id')
+          .foreign('pbo_category_id')
+          .references('pbo_category_id')
           .inTable('app.pbo_categories');
       });
     })
@@ -46,7 +46,7 @@ exports.up = function (knex) {
       profiles.parent,
       profiles.popup_name,
       profiles.sum_mode,
-      profiles.category_id
+      profiles.pbo_category_id
     FROM app.profiles`);
     });
 };
@@ -77,8 +77,8 @@ exports.down = function (knex) {
     )
     .then(() => {
       return knex.schema.alterTable('app.profiles', table => {
-        table.dropForeign('category_id');
-        table.dropColumn('category_id');
+        table.dropForeign('pbo_category_id');
+        table.dropColumn('pbo_category_id');
       });
     })
     .then(() => {

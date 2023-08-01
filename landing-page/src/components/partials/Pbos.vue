@@ -85,17 +85,17 @@ export default {
         name: pbo.name,
         url: pbo.url,
         status: pbo.status,
-        category: pbo.categoryCsName ?? "Nezařazeno",
-        categoryId: pbo.categoryId ?? 1,
+        category: pbo.pboCategoryCsName ?? "Nezařazeno",
+        categoryId: pbo.pboCategoryId ?? 1,
       };
     });
     this.categories = [
       ...new Map(
         this.pbos.map((pbo) => [
-          pbo.categoryId,
+          pbo.pboCategoryId,
           {
-            text: pbo.categoryCsName,
-            value: { id: pbo.categoryId, csName: pbo.categoryCsName },
+            text: pbo.pboCategoryCsName,
+            value: { id: pbo.pboCategoryId, csName: pbo.pboCategoryCsName },
           },
         ])
       ).values(),
@@ -107,7 +107,7 @@ export default {
         return this.items;
       }
       return this.items.filter(
-        (pbo) => pbo.categoryId === this.selectedCategory.id
+        item => item.categoryId === this.selectedCategory.id
       );
     },
   },

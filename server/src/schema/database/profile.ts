@@ -6,10 +6,6 @@ export interface ProfileRecord {
   status: 'visible' | 'pending' | 'hidden';
   type: ProfileType;
   sumMode: 'complete' | 'visible';
-  category: {
-    cs: string;
-    en: string;
-  };
   main: boolean;
 
   url: string;
@@ -27,8 +23,10 @@ export interface ProfileRecord {
   gpsY: number;
 
   tokenCode: number;
-}
 
-export interface ProfileRecordWithChildrenCount extends ProfileRecord {
-  childrenCount: number;
+  pbo_category_id: number | null;
+  pbo_category_cs_name: string | null;
+  pbo_category_en_name: string | null;
+
+  childrenCount: number | null;
 }

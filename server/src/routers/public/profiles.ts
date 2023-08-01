@@ -5,7 +5,7 @@ import config from '../../config';
 import path from 'path';
 
 import {db} from '../../db';
-import {ProfileRecord, ProfileRecordWithChildrenCount} from '../../schema';
+import {ProfileRecord} from '../../schema';
 import * as fs from 'fs';
 import {getS3AvatarPublicObjectPath} from '../../s3storage';
 import {userManagesProfile} from '../../config/roles';
@@ -15,7 +15,7 @@ const router = express.Router();
 export const ProfilesRouter = router;
 
 function createQueryWithStatusFilter(statuses, tableName: string) {
-  const query = db<ProfileRecordWithChildrenCount>('profiles AS ' + tableName);
+  const query = db<ProfileRecord>('profiles AS ' + tableName);
   if (statuses) {
     const columnName = tableName + '.status';
     const status = statuses.toString().split(',');
@@ -27,8 +27,8 @@ function createQueryWithStatusFilter(statuses, tableName: string) {
 
   query.leftJoin(
     'app.pbo_categories AS category',
-    tableName + '.category_id',
-    'category.id'
+    tableName + '.pbo_category_id',
+    'category.pbo_category_id'
   );
   return query;
 }
