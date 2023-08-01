@@ -77,7 +77,7 @@ router.get('/:id/children', async (req, res) => {
     .first();
   if (!parentProfile) return res.sendStatus(404);
 
-  let query = createQueryWithStatusFilter(req.query.status, 'profile').where(
+  const query = createQueryWithStatusFilter(req.query.status, 'profile').where(
     'profile.parent',
     Number(req.params.id)
   );
