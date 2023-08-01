@@ -168,9 +168,11 @@ export class ProfileAccountingComponent implements OnInit {
 	}
 
 	selectEvent(eventId: number | null): void {
-		if (eventId && eventId > 0) {
-			this.modifyParams({ akce: eventId }, false)
-		}
+		this.modifyParams({ akce: eventId }, false);
+		// console.log(event);
+		// if (eventId && eventId > 0) {
+		// 	this.modifyParams({ akce: eventId }, false)
+		// }
 	}
 
 	async getGroups(profile: Profile, type: AccountingGroupType, year: number) {
