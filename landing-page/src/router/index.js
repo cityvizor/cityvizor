@@ -6,6 +6,7 @@ import ContactPage from '../components/pages/ContactPage'
 import AboutUsPage  from '../components/pages/AboutUsPage'
 import DocumentationPage from "../components/pages/DocumentationPage"
 import ImportGuidePage from "../components/pages/ImportGuidePage"
+import ProfileSelectionPage from "../components/pages/ProfileSelectionPage"
 import Home from '../components/pages/Home';
 
 Vue.use(Router);
@@ -43,6 +44,10 @@ const routes = [
     {
         path: '/jak-importovat',
         component: ImportGuidePage,
+    },
+    {
+        path: '/profil-rozcestnik/:id',
+        component: ProfileSelectionPage,
     }
 ]
 

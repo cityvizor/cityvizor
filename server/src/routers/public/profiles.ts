@@ -14,16 +14,76 @@ const router = express.Router();
 
 export const ProfilesRouter = router;
 
-router.get('/', async (req, res) => {
-  const profiles = await db<ProfileRecord>('profiles').modify(function () {
-    if (req.query.status) {
-      const status = req.query.status.toString().split(',');
-      this.where('status', '=', status[0]);
-      status.splice(1).map(stat => this.orWhere('status', '=', stat));
-    }
-  });
+function createQueryWithStatusFilter(statuses, tableName: string) {
+  const query = db<ProfileRecord>('profiles AS ' + tableName);
+  if (statuses) {
+    const columnName = tableName + '.status';
+    const status = statuses.toString().split(',');
+    query.where(function () {
+      this.where(columnName, '=', status[0]);
+      status.splice(1).map(stat => this.orWhere(columnName, '=', stat));
+    });
+  }
 
+  query.leftJoin(
+    'app.pbo_categories AS category',
+    tableName + '.pbo_category_id',
+    'category.pbo_category_id'
+  );
+  return query;
+}
+
+/*request: {
+  string[] status - filtes profiles by provided statuses
+  bool countChildren - if true, for each returned profile counts its children profiles
+  bool orphansOnly -  only returs profiles whose parent is NULL
+}*/
+router.get('/', async (req, res) => {
+  const query = createQueryWithStatusFilter(req.query.status, 'profile');
+
+  if (req.query.countChildren) {
+    const innerQuery = createQueryWithStatusFilter(
+      req.query.status,
+      'innerProfile'
+    )
+      .select('innerProfile.id', db.raw('COUNT(child.id) AS childrenCount'))
+      .leftJoin('profiles AS child', 'innerProfile.id', 'child.parent');
+    innerQuery.groupBy('innerProfile.id').as('counts');
+
+    query.join(innerQuery, 'profile.id', 'counts.id');
+  }
+
+  if (req.query.orphansOnly) {
+    query.whereNull('profile.parent');
+  }
+  const profiles = await query.orderBy('profile.id');
   res.json(profiles);
+});
+
+/*
+returns children profiles of profile with specified id
+request: {
+  string[] status - filtes profiles by provided statuses
+}*/
+router.get('/:id/children', async (req, res) => {
+  if (!Number(req.params.id)) {
+    res.sendStatus(400);
+  }
+  const parentProfile = await createQueryWithStatusFilter(
+    req.query.status,
+    'profile'
+  )
+    .where('profile.id', Number(req.params.id))
+    .first();
+  if (!parentProfile) return res.sendStatus(404);
+
+  const query = createQueryWithStatusFilter(req.query.status, 'profile').where(
+    'profile.parent',
+    Number(req.params.id)
+  );
+  const profiles = await query.orderBy('profile.id');
+
+  return res.json({parent: parentProfile, children: profiles});
 });
 
 router.get('/main', async (req, res) => {

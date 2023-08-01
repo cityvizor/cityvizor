@@ -29,7 +29,7 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 spustí celou aplikaci s hot reloadem klienta, landing page a JS serveru pro rychlý vývoj. Pokud spouštíte celý příkaz opakovaně, může se hodit před znovuspuštěním celý stack zresetovat přes `docker-compose down`. Při použití tohoto příkazu se také vytvoří defaultní administrátorský účet; login: `admin`, heslo: `admin`.
 
 ### Testovací data
-Data do lokální databáze jsou nahrávána ze souboru `database/development_db_data.sql`, který lze vygenerovat z aktuálního stavu databáze příkazem `pg_dump -E UTF8  -U postgres -h localhost cityvizor -f  database/development_db_data.sql`. 
+Data do lokální databáze jsou nahrávána ze souboru `database/development_db_data.sql`, který lze vygenerovat z aktuálního stavu databáze příkazem `pg_dump -E UTF8  -U postgres  -f  database/development_db_data.sql  -h localhost cityvizor`. 
 
 ## Testy
 Projekt aktuálně nemá vytvořené testy, ale budeme rádi když s nimi pomůžeš.
