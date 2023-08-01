@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ConfigService } from 'config/config';
 import { ToastService } from 'app/services/toast.service';
 import { DataService } from 'app/services/data.service';
+import { PboCategory } from 'app/schema/pbo-category';
 
 @Component({
   selector: 'admin-profile-settings',
@@ -15,12 +16,11 @@ import { DataService } from 'app/services/data.service';
   styleUrls: ['./admin-profile-settings.component.scss']
 })
 export class AdminProfileSettingsComponent implements OnInit {
-
   profileId: Observable<number | null>;
-
   profile: Profile;
   profiles: Profile[];
   parentProfileName?: string;
+  pboCategories: PboCategory[];
 
   constructor(
     private profileService: ProfileService,
@@ -31,11 +31,11 @@ export class AdminProfileSettingsComponent implements OnInit {
     public configService: ConfigService
   ) { }
 
-  async ngOnInit () {
+  async ngOnInit() {
     this.profileId = this.profileService.profileId;
     this.profiles = await this.dataService.getProfiles();
     this.profileId.subscribe(profileId => {
-      if(profileId) this.loadProfile(profileId)
+      if (profileId) this.loadProfile(profileId)
     });
   }
 
@@ -43,19 +43,21 @@ export class AdminProfileSettingsComponent implements OnInit {
     this.profile = await this.adminService.getProfile(profileId);
   }
 
-  async reloadProfile(){
+  async reloadProfile() {
     this.profile = await this.adminService.getProfile(this.profile.id);
     this.profileService.setProfile(this.profile);
   }
 
   async saveProfile(form: NgForm) {
     const data = form.value;
-    if(data.parent == "null") data.parent = null;
+    
+    if (data.parent == "null") data.parent = null;
+    
     await this.adminService.saveProfile(this.profile.id, data)
+    
     this.reloadProfile();
 
     this.toastService.toast("Uloženo.", "notice")
-
   }
 
   async uploadAvatar(fileInput: HTMLInputElement) {
@@ -97,4 +99,9 @@ export class AdminProfileSettingsComponent implements OnInit {
     return this.profiles.find(p => p.id === this.profile.parent)?.name;
   }
 
+  onProfileTypeChange(newValue: ProfileType) {
+    if (this.profile) {
+      this.profile.type = newValue;
+    }
+  }
 }

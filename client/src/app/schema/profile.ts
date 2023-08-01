@@ -10,6 +10,7 @@ export class Profile {
     status: ProfileStatus;
     sumMode: ProfileSumMode;
     type: ProfileType;
+    pboCategoryId?: number | null;
 
     main: boolean;
 
