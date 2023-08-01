@@ -1,47 +1,47 @@
 <template>
- <div>
+  <div>
     <div class="container">
-        <b-row v-if="loading">
-      <b-col>
-        <div class="text-center">
-          <b-spinner class="loading-right-margin"></b-spinner
-          ><span>Načítání zapojených obcí...</span>
-        </div>
-      </b-col>
-    </b-row>
-    <div v-if="!loading">
-      <b-row>
-        <h1 class="underlined">
-          {{ this.profile.name }}
-        </h1>
-      </b-row>
-      <b-row align-v="center" class="mb-3">
-        <b-col class="city-item-icon-right-margin" cols="1">
-          <a
-            :target="profile.type == 'external' ? '_blank' : ''"
-            :href="'/' + profile.url"
-          >
-            <img width="64" src="@/assets/images/pages/home/city_avatar.svg" />
-          </a>
-        </b-col>
+      <b-row v-if="loading">
         <b-col>
-          <a
-            :target="profile.type == 'external' ? '_blank' : ''"
-            :href="'/' + profile.url"
-          >
-            <b class="ml-2 type-lg font-weight-bold">{{
-              this.profile.popupName
-            }}</b>
-          </a>
+          <div class="text-center">
+            <b-spinner class="loading-right-margin"></b-spinner
+            ><span>Načítání zapojených obcí...</span>
+          </div>
         </b-col>
       </b-row>
-      <b-row> </b-row>
-      <Municipalities :municipatilies="municipatilies"></Municipalities>
-      <Pbos :pbos="pbos"></Pbos>
+      <div v-if="!loading">
+        <b-row>
+          <h1 class="underlined">
+            {{ this.profile.name }}
+          </h1>
+        </b-row>
+        <b-row align-v="center" class="mb-3">
+          <b-col class="city-item-icon-right-margin" cols="1">
+            <a
+              :target="profile.type == 'external' ? '_blank' : ''"
+              :href="'/' + profile.url"
+            >
+              <img
+                width="64"
+                src="@/assets/images/pages/home/city_avatar.svg"
+              />
+            </a>
+          </b-col>
+          <b-col>
+            <a
+              :target="profile.type == 'external' ? '_blank' : ''"
+              :href="'/' + profile.url"
+            >
+              <b class="ml-2 type-lg font-weight-bold">{{
+                this.profile.popupName
+              }}</b>
+            </a>
+          </b-col>
+        </b-row>
+        <Municipalities :municipatilies="municipatilies" class="mt-lg-3"></Municipalities>
+        <Pbos :pbos="pbos" class="mt-lg-3"></Pbos>
+      </div>
     </div>
-    </div>
-
-    
   </div>
 </template>
 
