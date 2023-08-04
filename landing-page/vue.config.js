@@ -5,23 +5,20 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
     lintOnSave: false,
     devServer: {
-        // Required for hot reload with docker container on Windows 10
         watchFiles: {
+            paths: ["src/**/*", "public/**/*"],
             options: {
                 ignored: /node_modules/,
-                poll: 2000
+                // Required for hot reload with docker container on Windows 10
+                // poll: 1000
             }
         },
-        // watchOptions: {
-        //     ignored: /node_modules/,
-        //     poll: 1000
-        // },
         port: 80,
         host: '0.0.0.0',
-        // public: 'localhost:4200',
         client: {
-            webSocketURL: "auto://localhost:4200/ws"
+            webSocketURL: "auto://localhost:4200/ws",
         },
+        webSocketServer: "ws",
         allowedHosts: "all",
         // https://cli.vuejs.org/config/#devserver-proxy
         proxy: {
@@ -35,16 +32,16 @@ module.exports = {
             new BootstrapVueLoader(),
             new CopyPlugin(
                 [
-                    {from: "cfg", to: "cfg"}
+                    { from: "cfg", to: "cfg" }
                 ]
             )
         ],
         module: {
             rules: [
-            {
-                test: /\.md$/i,
-                use: 'raw-loader',
-            },
+                {
+                    test: /\.md$/i,
+                    use: 'raw-loader',
+                },
             ],
         },
     },

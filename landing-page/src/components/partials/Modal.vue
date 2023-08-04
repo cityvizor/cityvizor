@@ -37,18 +37,19 @@ export default {
   },
   methods: {
     adjustModalHeight() {
-      const modalContentElement = document.getElementsByClassName("modal__content")[0]
-      const elementRect = modalContentElement.getBoundingClientRect()
-      const elementHeight = Math.floor(elementRect.height)
-      if (elementHeight < window.innerHeight) return
-      modalContentElement.style.height = `${window.innerHeight - 64}px`
-      modalContentElement.style['overflow-y'] = 'auto'
+      const modalContentElement = document.getElementsByClassName("modal__content")[0];
+      const elementRect = modalContentElement.getBoundingClientRect();
+      const elementHeight = Math.floor(elementRect.height);
+      console.log(this, modalContentElement, elementRect, elementHeight);
+      if (elementHeight < window.innerHeight) return;
+      modalContentElement.style.height = `${window.innerHeight - 64}px`;
+      modalContentElement.style['overflow-y'] = 'auto';
     },
     close() {
-      this.$emit('close')
+      this.$emit('close');
     },
     keydownHandler (e) {
-      if (e.key === 'Escape') this.close()
+      if (e.key === 'Escape') this.close();
     }
   }
 }
