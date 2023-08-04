@@ -7,7 +7,7 @@
   "main": "server/server.js",
   "scripts": {
     "build": "cp -R node_modules/bootstrap-sass/assets/fonts node_modules/bootstrap-sass/assets/stylesheets/ && ng build --configuration production",
-    "start-dev": "npm run build && ng serve --disable-host-check --configuration=local --host 0.0.0.0 --poll 3000"
+    "start-dev": "npm run build && ng serve --disable-host-check --configuration=local --host 0.0.0.0"
   },
   "keywords": [
     "opendata",
@@ -15,15 +15,16 @@
     "faktury"
   ],
   "dependencies": {
-    "@angular/animations": "^13.3.12",
+    "@angular/animations": "^14.3.0",
     "@angular/cdk": "^13.3.9",
-    "@angular/common": "^13.3.12",
-    "@angular/compiler": "^13.3.12",
-    "@angular/core": "^13.3.12",
-    "@angular/forms": "^13.3.12",
-    "@angular/platform-browser": "^13.3.12",
-    "@angular/platform-browser-dynamic": "^13.3.12",
-    "@angular/router": "^13.3.12",
+    "@angular/common": "^14.3.0",
+    "@angular/compiler": "^14.3.0",
+    "@angular/core": "^14.3.0",
+    "@angular/forms": "^14.3.0",
+    "@angular/localize": "^14.3.0",
+    "@angular/platform-browser": "^14.3.0",
+    "@angular/platform-browser-dynamic": "^14.3.0",
+    "@angular/router": "^14.3.0",
     "@auth0/angular-jwt": "^5.0.2",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
@@ -35,10 +36,10 @@
     "font-awesome": "^4.7.0",
     "intl": "^1.2.5",
     "luxon": "^1.25.0",
-    "ngx-bootstrap": "^8.0.0",
+    "ngx-bootstrap": "^9.0.0",
     "npm": "^8.19.2",
-    "primeicons": "^5.0.0",
-    "primeng": "^13.4.1",
+    "primeicons": "^6.0.1",
+    "primeng": "^14.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.3",
     "tslib": "^2.1.0",
@@ -48,10 +49,10 @@
     "zone.js": "^0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.3.10",
-    "@angular/cli": "^13.3.10",
-    "@angular/compiler-cli": "^13.3.12",
-    "@angular/language-service": "^13.3.12",
+    "@angular-devkit/build-angular": "^14.2.12",
+    "@angular/cli": "^14.2.12",
+    "@angular/compiler-cli": "^14.3.0",
+    "@angular/language-service": "^14.3.0",
     "@types/luxon": "^1.25.1",
     "@types/node": "^14.14.25",
     "@types/wordcloud": "^1.1.2",

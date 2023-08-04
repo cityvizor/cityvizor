@@ -25,40 +25,28 @@ import { UserSetPasswordModalComponent } from './components/user-set-password-mo
 
 
 @NgModule({
-  declarations: [
-    AdminComponent,
-    AdminProfileListComponent,
-    AdminUserListComponent,
-    AdminProfileComponent,
-    AdminProfileDataComponent,
-    AdminProfileSettingsComponent,
-    AdminProfileLogsComponent,
-    
-    DataUploadModalComponent,
-    
-    AddModifyYearModalComponent,
-    
-    DeleteYearModalComponent,
-    
-    CreateProfileModalComponent,
-    
-    CreateUserModalComponent,
-    
-    AdminUserComponent,
-    
-    ManagedProfilesSelectorComponent,
-    
-    AdminProfileApiComponent,
-    
-    UserSetPasswordModalComponent,
-    
-  ],
-  entryComponents: [
-  ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    SharedModule
-  ]
+    declarations: [
+        AdminComponent,
+        AdminProfileListComponent,
+        AdminUserListComponent,
+        AdminProfileComponent,
+        AdminProfileDataComponent,
+        AdminProfileSettingsComponent,
+        AdminProfileLogsComponent,
+        DataUploadModalComponent,
+        AddModifyYearModalComponent,
+        DeleteYearModalComponent,
+        CreateProfileModalComponent,
+        CreateUserModalComponent,
+        AdminUserComponent,
+        ManagedProfilesSelectorComponent,
+        AdminProfileApiComponent,
+        UserSetPasswordModalComponent,
+    ],
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        SharedModule
+    ]
 })
 export class AdminModule { }
