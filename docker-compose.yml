@@ -6,7 +6,6 @@ services:
     container_name: nginx.cityvizor.otevrenamesta
     ports:
       - "4200:80"
-      - "4201:81"
     volumes:
       - ./nginx/production/:/etc/nginx:ro
     environment:
