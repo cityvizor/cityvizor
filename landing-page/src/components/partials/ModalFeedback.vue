@@ -1,10 +1,10 @@
 <template>
   <Modal @close="close">
-    <template slot="header">
+    <template v-slot:header>
       <h1>Napište nám, co můžeme zlepšit.</h1>
     </template>
 
-    <template slot="body">
+    <template v-slot:body>
       <ModalForm 
         :form-name="formName"
         :ref="formName"
@@ -26,7 +26,7 @@
       </ModalForm>
     </template>
     
-    <template slot="footer">
+    <template v-slot:footer>
       <ModalButton @clicked="trySubmit" label="Odeslat"/>
     </template>
   </Modal>

@@ -1,11 +1,11 @@
 <template>
   <Modal @close="close">
-    <template slot="header">
+    <template v-slot:header>
       <h1>Chcete Cityvizor i ve vaší obci?</h1>
       <h2>Vyplněním následujícího formuláře nám o tom dáte vědět.</h2>
     </template>
 
-    <template slot="body">
+    <template v-slot:body>
       <ModalForm 
         :form-name="formName"
         :ref="formName"

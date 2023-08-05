@@ -6,7 +6,7 @@ COPY . .
 RUN npm run build
 
 FROM build as dev
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@14.2.12
 
 # Expose the webpack port for automatic hot reloading.
 # https://stackoverflow.com/a/44196594/5127149
