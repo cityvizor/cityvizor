@@ -18,7 +18,7 @@ router.get('/search', async (req, res) => {
 
   const counterparties = await db<PaymentRecord>('payments')
     .select('counterpartyId', 'counterpartyName')
-    .where('counterpartyName', 'like', '%' + req.query.query + '%')
+    .where('counterpartyName', 'like', `%${req.query.query as string}%`)
     .orWhere('counterpartyId', String(req.query.query));
 
   res.json(counterparties);

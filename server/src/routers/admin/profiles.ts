@@ -39,7 +39,7 @@ router.get('/', acl('profiles:list'), async (req, res) => {
     )
     .modify(function () {
       if (req.query.status) {
-        this.where('status', '=', req.query.status.toString());
+        this.where('status', '=', req.query.status);
       }
     });
 
@@ -195,12 +195,11 @@ router.delete('/:profile/avatar', acl('profiles:write'), async (req, res) => {
   }
 
   if (config.s3.enabled) {
-    await getS3Client().removeObject(
+    getS3Client().removeObject(
       config.s3.public_bucket,
       getS3AvatarPublicObjectPath(profile.id, profile.avatarType),
       (error: Error | null) => {
         if (error) {
-          // tslint:disable-next-line:no-console
           console.log('Delete from S3 error', error);
         }
       }

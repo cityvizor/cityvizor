@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request} from 'express';
 
 import {db} from '../../db';
 
@@ -6,7 +6,7 @@ const router = express.Router({mergeParams: true});
 
 export const ProfileDashboardRouter = router;
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request<{profile: string}>, res) => {
   const categoriesDef = [
     {name: 'transportation', where: 'paragraph >= 2200 AND paragraph <= 2299'},
     {name: 'schools', where: 'paragraph >= 3100 AND paragraph <= 3299'},

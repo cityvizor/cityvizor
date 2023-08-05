@@ -6,6 +6,8 @@ import {AccountingRecord, PaymentRecord, EventRecord} from '../../../schema';
 import {ProfileType} from '../../../schema/profile-type';
 import {CityvizorFileType} from './cityvizor-file-type';
 
+type Row = Record<string, string | number>;
+
 const headerAliases = {
   type: ['type', 'recordType', 'MODUL', 'DOKLAD_AGENDA'],
   paragraph: ['paragraph', 'PARAGRAF'],
@@ -180,7 +182,7 @@ function createEventsTransformer(options: Import.Options) {
 
 // Data exported from Cityvizor contain 4 payment columns, only one of them should contain a non-zero amount
 function mergeAmount<T extends PaymentRecord | AccountingRecord>(
-  row: {},
+  row: Row,
   record: T
 ): T {
   const nonzeroField = [
@@ -191,12 +193,12 @@ function mergeAmount<T extends PaymentRecord | AccountingRecord>(
     'budgetExpenditureAmount',
   ].find((field: string) => row[field] && row[field] !== '0');
   if (nonzeroField) {
-    record.amount = row[nonzeroField];
+    record.amount = Number(row[nonzeroField]);
   }
   return record;
 }
 
-function createPaymentRecord(row: {}, options: Import.Options): PaymentRecord {
+function createPaymentRecord(row: Row, options: Import.Options): PaymentRecord {
   const record = [
     'paragraph',
     'item',
@@ -221,7 +223,7 @@ function createPaymentRecord(row: {}, options: Import.Options): PaymentRecord {
 }
 
 function createAccountingRecord(
-  row: {},
+  row: Row,
   options: Import.Options
 ): AccountingRecord {
   const record = [
@@ -244,7 +246,7 @@ function createAccountingRecord(
   return mergeAmount(row, record);
 }
 
-function createEventRecord(row: {}, options: Import.Options): EventRecord {
+function createEventRecord(row: Row, options: Import.Options): EventRecord {
   return ['id', 'name', 'description'].reduce(
     (acc, c) => {
       if (row[c]) acc[c] = row[c];

@@ -1,9 +1,6 @@
-import Knex from 'knex';
-
+import {Knex} from 'knex';
 import path from 'path';
-
 import environment from '../../environment';
-
 import {snakeCase, camelCase} from 'change-case';
 
 // rather ineffective way of converting case for a finished row :(

@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import axios from 'axios';
 import cheerio from 'cheerio';
 
@@ -35,10 +34,9 @@ export const TaskDownloadNoticeboards: CronTask = {
         await downloadNoticeboards(profile);
       } catch (err) {
         console.error(
-          "Couldn't download noticeboard for " +
-            profile.name +
-            ': ' +
-            err.message
+          `Couldn't download noticeboard for ${profile.name}: ${
+            err instanceof Error ? err.message : err
+          }`
         );
       }
     }
