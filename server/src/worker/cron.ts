@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import {DateTime} from 'luxon';
 import {CronJob} from 'cron';
 

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request} from 'express';
 
 import {db} from '../../db';
 import {YearRecord} from '../../schema';
@@ -18,7 +18,7 @@ const getBaseQuery = (profileId: string) =>
     .groupBy('y.profileId', 'y.year', 'y.validity')
     .orderBy('y.year');
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request<{profile: string; year: string}>, res) => {
   const sumMode = req.query.sumMode ?? 'complete';
 
   if (sumMode === 'complete') {
@@ -61,10 +61,13 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:year', async (req, res) => {
-  const year = await db<YearRecord>('years')
-    .where('profile_id', req.params.profile)
-    .andWhere('year', Number(req.params.year));
+router.get(
+  '/:year',
+  async (req: Request<{profile: string; year: string}>, res) => {
+    const year = await db<YearRecord>('years')
+      .where('profile_id', req.params.profile)
+      .andWhere('year', Number(req.params.year));
 
-  res.json(year);
-});
+    res.json(year);
+  }
+);

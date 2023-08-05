@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import {YearRecord} from '../../schema';
 import {ImportRecord} from '../../schema/database/import';
 import {CronTask} from '../../schema/cron';
@@ -29,18 +28,16 @@ export const TaskDownloadYears: CronTask = {
             new Date(Date.now() - 1000 * 60 * year.importPeriodMinutes)
         ) {
           const importDir = await Import.createImportDir();
-          await axios
-            .get(year.importUrl, {responseType: 'stream'})
-            .then(async r => {
-              const dataPath = path.join(importDir, 'data.zip');
-              const dataFileStream = fs.createWriteStream(dataPath);
-              r.data.pipe(dataFileStream);
-              dataFileStream.on('finish', async () => {
-                // TODO: Assuming each imported year has to be unzipped for now
-                await extract(dataPath, {dir: importDir});
-                dataFileStream.close();
-              });
+          await axios.get(year.importUrl, {responseType: 'stream'}).then(r => {
+            const dataPath = path.join(importDir, 'data.zip');
+            const dataFileStream = fs.createWriteStream(dataPath);
+            r.data.pipe(dataFileStream);
+            dataFileStream.on('finish', async () => {
+              // TODO: Assuming each imported year has to be unzipped for now
+              await extract(dataPath, {dir: importDir});
+              dataFileStream.close();
             });
+          });
           const importData: Partial<ImportRecord> = {
             profileId: year.profileId,
             year: year.year,
@@ -55,8 +52,12 @@ export const TaskDownloadYears: CronTask = {
           await db<ImportRecord>('app.imports').insert(importData);
           console.log(`Downloaded ${year.importUrl}`);
         }
-      } catch (err) {
-        console.error(`Downloading ${year.importUrl} failed: ${err.message}`);
+      } catch (err: unknown) {
+        console.error(
+          `Downloading ${year.importUrl} failed: ${
+            err instanceof Error ? err.message : err
+          }`
+        );
       }
     }
   },

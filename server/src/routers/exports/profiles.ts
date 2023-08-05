@@ -1,6 +1,6 @@
 import express from 'express';
 import archiver from 'archiver';
-import Knex from 'knex';
+import {Knex} from 'knex';
 import CsvStringify from 'csv-stringify';
 import {db} from '../../db';
 import config from '../../config';
@@ -58,7 +58,7 @@ const paymentsQuery = (params): Knex.QueryBuilder => {
     .andWhere('year', params.year);
 };
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   const profiles = db<ProfileRecord>('profiles')
     .select(
       'id',
@@ -77,7 +77,7 @@ router.get('/', async (req, res) => {
   exportQuery(req, res, profiles, 'profiles');
 });
 
-router.get('/:profile/years', async (req, res) => {
+router.get('/:profile/years', (req, res) => {
   const years = db('years as y')
     .select('y.year', 'y.validity')
     .sum('a.expenditureAmount as expenditureAmount')
@@ -94,7 +94,7 @@ router.get('/:profile/years', async (req, res) => {
   exportQuery(req, res, years, `profile-${req.params.profile}-years`);
 });
 
-router.get('/:profile/accounting/:year', async (req, res) => {
+router.get('/:profile/accounting/:year', (req, res) => {
   exportQuery(
     req,
     res,
@@ -103,7 +103,7 @@ router.get('/:profile/accounting/:year', async (req, res) => {
   );
 });
 
-router.get('/:profile/events/:year', async (req, res) => {
+router.get('/:profile/events/:year', (req, res) => {
   exportQuery(
     req,
     res,
@@ -112,7 +112,7 @@ router.get('/:profile/events/:year', async (req, res) => {
   );
 });
 
-router.get('/:profile/payments/:year', async (req, res) => {
+router.get('/:profile/payments/:year', (req, res) => {
   exportQuery(
     req,
     res,
@@ -121,7 +121,7 @@ router.get('/:profile/payments/:year', async (req, res) => {
   );
 });
 
-router.get('/:profile/all/:year', async (req, res) => {
+router.get('/:profile/all/:year', (req, res) => {
   res.writeHead(200, {
     'Content-Type': 'application/zip',
     'Content-disposition': `attachment; filename=profile-${req.params.profile}-${req.params.year}.zip`,

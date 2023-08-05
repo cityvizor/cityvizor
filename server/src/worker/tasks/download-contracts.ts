@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import axios from 'axios';
 
 import cheerio from 'cheerio';
@@ -27,7 +26,9 @@ export const TaskDownloadContracts: CronTask = {
         await downloadContracts(profile);
       } catch (err) {
         console.error(
-          "Couldn't download contracts for " + profile.name + ': ' + err.message
+          `Couldn't download contracts for ${profile.name}: ${
+            err instanceof Error ? err.message : err
+          }`
         );
       }
     }

@@ -1,5 +1,5 @@
 import express from 'express';
-import Knex from 'knex';
+import {Knex} from 'knex';
 
 import CsvStringify from 'csv-stringify';
 import {Readable} from 'stream';

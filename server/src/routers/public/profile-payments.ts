@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request} from 'express';
 
 import {db, getValidDateString, isValidDateString, sort2order} from '../../db';
 import {PaymentRecord, EventRecord, ProfileRecord} from '../../schema';
@@ -7,7 +7,7 @@ const router = express.Router({mergeParams: true});
 
 export const ProfilePaymentsRouter = router;
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request<{profile: string}>, res) => {
   // const profileType = await db<ProfileRecord>('profiles');
 
   const profile = await db<ProfileRecord>('app.profiles')
@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
   res.json(payments);
 });
 
-router.get('/months', async (req, res) => {
+router.get('/months', async (req: Request<{profile: string}>, res) => {
   const months = await db('payments')
     .select(
       db.raw(
@@ -58,69 +58,72 @@ router.get('/months', async (req, res) => {
   res.json(months);
 });
 
-router.get('/:year/csv', async (req, res) => {
-  const payments = await db<PaymentRecord>('payments')
-    .where('profile_id', 'req.params.profile')
-    .andWhere('year', req.params.year);
-  const events = await db<EventRecord>('events')
-    .where('profile_id', 'req.params.profile')
-    .andWhere('year', req.params.year);
+router.get(
+  '/:year/csv',
+  async (req: Request<{profile: string; year: string}>, res) => {
+    const payments = await db<PaymentRecord>('payments')
+      .where('profile_id', 'req.params.profile')
+      .andWhere('year', req.params.year);
+    const events = await db<EventRecord>('events')
+      .where('profile_id', 'req.params.profile')
+      .andWhere('year', req.params.year);
 
-  const eventIndex = events.reduce((acc, cur) => {
-    acc[String(cur.id)] = cur.name;
-    return acc;
-  }, {});
+    const eventIndex = events.reduce((acc, cur) => {
+      acc[String(cur.id)] = cur.name;
+      return acc;
+    }, {});
 
-  res.statusCode = 200;
-  res.setHeader(
-    'Content-disposition',
-    'attachment; filename=' +
-      req.params.profile +
-      '-' +
-      req.params.year +
-      '.payments.csv'
-  );
-  res.setHeader('Content-Type', 'text/csv');
-
-  const header = [
-    'profileId',
-    'year',
-    'paragraph',
-    'item',
-    'unit',
-    'event',
-    'eventName',
-    'date',
-    'amount',
-    'counterpartyId',
-    'counterpartyName',
-    'description',
-  ];
-
-  // UTF BOM for MS EXCEL
-  res.write('\ufeff');
-
-  // write header
-  res.write(header.map(field => '"' + field + '"').join(';') + '\r\n');
-
-  // write data
-  payments.forEach(payment => {
-    res.write(
-      makeCSVLine(
-        header.map(field => {
-          switch (field) {
-            case 'eventName':
-              return eventIndex[String(payment.event)];
-            default:
-              return payment[field];
-          }
-        })
-      )
+    res.statusCode = 200;
+    res.setHeader(
+      'Content-disposition',
+      'attachment; filename=' +
+        req.params.profile +
+        '-' +
+        req.params.year +
+        '.payments.csv'
     );
-  });
+    res.setHeader('Content-Type', 'text/csv');
 
-  res.end();
-});
+    const header = [
+      'profileId',
+      'year',
+      'paragraph',
+      'item',
+      'unit',
+      'event',
+      'eventName',
+      'date',
+      'amount',
+      'counterpartyId',
+      'counterpartyName',
+      'description',
+    ];
+
+    // UTF BOM for MS EXCEL
+    res.write('\ufeff');
+
+    // write header
+    res.write(header.map(field => '"' + field + '"').join(';') + '\r\n');
+
+    // write data
+    payments.forEach(payment => {
+      res.write(
+        makeCSVLine(
+          header.map(field => {
+            switch (field) {
+              case 'eventName':
+                return eventIndex[String(payment.event)];
+              default:
+                return payment[field];
+            }
+          })
+        )
+      );
+    });
+
+    res.end();
+  }
+);
 
 function makeCSVLine(array) {
   // clean and format values

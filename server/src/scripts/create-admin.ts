@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import {UserRecord} from '../schema';
 
 import {db, dbDestroy} from '../db';

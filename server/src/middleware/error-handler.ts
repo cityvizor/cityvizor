@@ -1,11 +1,9 @@
-/* tslint:disable:no-console */
 import {ErrorRequestHandler, Request, Response, NextFunction} from 'express';
-import {ValidationError, JsonSchemaValidation} from 'express-jsonschema';
+import {JsonSchemaValidation} from 'express-jsonschema';
 import {UnauthorizedError} from 'express-jwt';
-import {MulterError} from 'multer';
 
 export const ErrorHandler: ErrorRequestHandler = (
-  err: UnauthorizedError | ValidationError | MulterError,
+  err: Error,
   req: Request,
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,13 +15,13 @@ export const ErrorHandler: ErrorRequestHandler = (
   } else if (err instanceof JsonSchemaValidation) {
     console.log(
       'Request validation failed. Validation output: ' +
-        JSON.stringify(err.validations)
+        JSON.stringify((err as JsonSchemaValidation).validations)
     );
     res
       .status(400)
       .send(
         'Request validation failed. Validation output: ' +
-          JSON.stringify(err.validations)
+          JSON.stringify((err as JsonSchemaValidation).validations)
       );
   } else if (err.name === 'MulterError') {
     console.log('Upload Error: ' + err.message);
