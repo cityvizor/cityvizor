@@ -1,5 +1,12 @@
 import {Transform, TransformCallback} from 'stream';
 import {Import} from './import';
+import {
+  AccountingRecord,
+  EventRecord,
+  PaymentRecord,
+} from '../../schema/database';
+
+type Row = EventRecord | PaymentRecord | AccountingRecord;
 
 export class PostprocessingTransformer extends Transform {
   eventIds: number[] = [];
@@ -58,7 +65,7 @@ export class PostprocessingTransformer extends Transform {
     let err: Error | null = null;
     fields.forEach(([field, types]) => {
       types.forEach(type => {
-        if (!tests[type](chunk.record[field])) {
+        if (!tests[`${type}Test`](chunk.record[field])) {
           // Can't call the callback here, only one callback call is allowed per transform
           err = invalidField(field, type, chunk.record);
         }
@@ -69,15 +76,15 @@ export class PostprocessingTransformer extends Transform {
 }
 
 const tests = {
-  number: (n?: string | number) => (n ? !isNaN(Number(n)) : true),
-  date: (n?: string | number) =>
+  numberTest: (n?: string | number) => (n ? !isNaN(Number(n)) : true),
+  dateTest: (n?: string | number) =>
     n
       ? /^\d{4}-\d{2}-\d{2}$/.test(String(n)) && !isNaN(Date.parse(String(n)))
       : true,
-  mandatory: (n?: string | number) => String(n)?.length > 0,
+  mandatoryTest: (n?: string | number) => String(n)?.length > 0,
 };
 
-function invalidField(field: string, type: string, row: {}): Error {
+function invalidField(field: string, type: string, row: Row): Error {
   if (type === 'mandatory') {
     return new Error(
       `Field "${field}" is mandatory and is missing.\nRow processed: ${JSON.stringify(

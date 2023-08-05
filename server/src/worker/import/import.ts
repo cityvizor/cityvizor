@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-/* tslint:disable:no-namespace max-classes-per-file */
 // remove when import of ZIP sorted out
 import {
   AccountingRecord,
@@ -7,12 +6,12 @@ import {
   PaymentRecord,
   YearRecord,
 } from '../../schema';
-import {Transaction} from 'knex';
 import crypto from 'crypto';
 import * as fs from 'fs-extra';
 import path from 'path';
 import config from '../../config';
 import {ProfileType} from '../../schema/profile-type';
+import {Knex} from 'knex';
 
 export namespace Import {
   export async function createImportDir(): Promise<string> {
@@ -31,7 +30,7 @@ export namespace Import {
   export interface Options {
     profileId: YearRecord['profileId'];
     year: YearRecord['year'];
-    transaction: Transaction;
+    transaction: Knex.Transaction;
     importDir: string;
     append: boolean;
     fileName?: string;

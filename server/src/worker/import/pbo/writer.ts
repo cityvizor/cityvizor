@@ -39,7 +39,9 @@ export class DatabaseWriter extends Writable {
       }
       callback();
     } catch (err) {
-      callback(err);
+      if (err instanceof Error) {
+        callback(err);
+      }
     }
   }
 

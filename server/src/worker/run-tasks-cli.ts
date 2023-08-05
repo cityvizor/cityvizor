@@ -1,8 +1,7 @@
-/* tslint:disable */
 import {dbConnect, dbDestroy} from '../db';
 import {runTasks} from './run-tasks';
 
-(async function () {
+await (async function () {
   const tasks = process.argv.slice(2);
 
   if (!tasks.length) {

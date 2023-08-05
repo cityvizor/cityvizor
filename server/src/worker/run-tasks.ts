@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import {CronTask} from '../schema/cron';
 
 import {cronTasks} from './tasks';
@@ -23,7 +22,7 @@ export async function runTasks(tasks?: (string | CronTask)[]) {
       await task.exec();
       console.log('Task finished.');
     } catch (err) {
-      console.error('Error: ' + err.message);
+      console.error(`Error: ${err instanceof Error ? err.message : err}`);
     }
 
     await new Promise(resolve =>

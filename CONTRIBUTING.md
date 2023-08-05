@@ -36,7 +36,7 @@ Projekt aktuálně nemá vytvořené testy, ale budeme rádi když s nimi pomů�
 
 ## Coding Standards
 Frontend dle [Angular Style Guide](https://angular.io/guide/styleguide).
-Code Quality dle [Google/GTS](https://github.com/google/gts), a automaticky kontrolovaných ESLint / TSLint pravidel (pre-commit hook a kontrola každého pull-request/push)
+Code Quality dle automaticky kontrolovaných ESLint pravidel (pre-commit hook a kontrola každého pull-request/push)
 
 ## Pravidla přispívání
 - kód a commity **v angličtině**,

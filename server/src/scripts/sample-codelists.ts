@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import {db} from '../db.js';
 
 import {CodelistRecord} from '../schema';

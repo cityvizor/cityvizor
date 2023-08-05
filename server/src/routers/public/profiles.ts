@@ -33,11 +33,13 @@ function createQueryWithStatusFilter(statuses, tableName: string) {
   return query;
 }
 
-/*request: {
+/*
+Query params: {
   string[] status - filtes profiles by provided statuses
   bool countChildren - if true, for each returned profile counts its children profiles
   bool orphansOnly -  only returs profiles whose parent is NULL
-}*/
+}
+*/
 router.get('/', async (req, res) => {
   const query = createQueryWithStatusFilter(req.query.status, 'profile');
 

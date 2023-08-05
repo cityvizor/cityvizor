@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import http from 'http';
 import express from 'express';
 import 'express-async-errors';
@@ -20,6 +19,7 @@ import bodyParser from 'body-parser';
 import * as acl from 'express-dynacl';
 import {ensureDirs} from './file-storage';
 import {dbConnect} from './db';
+import {Params} from 'express-jwt';
 
 (async () => {
   // init environment
@@ -61,8 +61,8 @@ import {dbConnect} from './db';
   ); // support urlencoded bodies
 
   /* AUTHENTICATION */
-  const jwt = (await import('express-jwt')).default;
-  app.use(jwt(config.jwt), (err, req, res, next) =>
+  const {expressjwt: jwt} = await import('express-jwt');
+  app.use(jwt(config.jwt as Params), (err, req, res, next) =>
     err.code === 'invalid_token' ? next() : next(err)
   );
 

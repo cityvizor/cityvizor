@@ -1,6 +1,4 @@
-/* tslint:disable:no-console */
-import Knex from 'knex';
-
+import knex, {Knex} from 'knex';
 import knexConfig from './config/knexfile';
 import {DateTime} from 'luxon';
 import {types} from 'pg';
@@ -30,7 +28,7 @@ console.log(`[DB] DB connection set to ${connectionString}`);
 // fix parsing numeric fields, https://github.com/tgriesser/knex/issues/387
 types.setTypeParser(1700, 'text', parseFloat);
 
-export const db = Knex(knexConfig);
+export const db: Knex = knex(knexConfig);
 
 export async function dbConnect() {
   return db.raw('SELECT 1+1 AS result');

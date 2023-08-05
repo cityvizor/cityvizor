@@ -1,4 +1,4 @@
-/* tslint:disable:no-console */
+/* eslint-disable @typescript-eslint/dot-notation */
 import {DateTime} from 'luxon';
 import {remove} from 'fs-extra';
 import {ImportRecord} from '../../schema/database/import';
@@ -101,17 +101,21 @@ export async function checkImportQueue() {
       .update({validity: currentJob.validity});
   } catch (err) {
     console.error(`[WORKER] ${DateTime.local().toJSDate()} Import error`, err);
-    logger.log(`Import failed: ${err.message}`);
-    logger.log(`Additonal information: ${err.detail}`);
-    error = err;
+    if (err instanceof Error) {
+      logger.log(`Import failed: ${err.message}`);
+      logger.log(`Additonal information: ${err['detail']}`);
+      error = err;
+    } else {
+      logger.log(`Import failed: ${err}`);
+    }
   } finally {
     // remove used import data
     if (error) {
       logger.log('Aborting the DB transaction, no changes made to the DB.');
-      trx.rollback();
+      await trx.rollback();
     } else {
       logger.log('Import successful, committing the DB transaction.');
-      trx.commit();
+      await trx.commit();
     }
     await remove(currentJob.importDir);
   }

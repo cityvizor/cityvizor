@@ -43,7 +43,9 @@ export class DatabaseWriter extends Writable {
       }
       callback();
     } catch (err) {
-      callback(err);
+      if (err instanceof Error) {
+        callback(err);
+      }
     }
   }
 
@@ -52,8 +54,11 @@ export class DatabaseWriter extends Writable {
       [this.accountingCount, 'accounting'],
       [this.paymentCount, 'payment'],
       [this.eventCount, 'event'],
-    ].forEach(([v, name]) => {
-      if (v > 0) logger.log(`Written ${v} ${name} records to the DB.`);
+    ].forEach(([count, name]) => {
+      const countNum = Number(count);
+      if (countNum > 0) {
+        logger.log(`Written ${countNum} ${name} records to the DB.`);
+      }
     });
     callback();
   }

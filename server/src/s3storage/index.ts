@@ -1,4 +1,4 @@
-import {Client, ClientOptions} from 'minio';
+import {Client, ClientOptions, UploadedObjectInfo} from 'minio';
 import config from '../config';
 import * as fs from 'fs';
 
@@ -30,7 +30,7 @@ export async function S3uploadFile(
   objectPath: string,
   localPath: string,
   metadata: object = {}
-): Promise<string> {
+): Promise<UploadedObjectInfo> {
   if (!fs.existsSync(localPath)) {
     throw new Error(`local path does not exist: ${localPath}`);
   }
@@ -42,7 +42,7 @@ export async function S3uploadPublicFile(
   objectPath: string,
   localPath: string,
   metadata: object = {}
-): Promise<string> {
+): Promise<UploadedObjectInfo> {
   return S3uploadFile(config.s3.public_bucket, objectPath, localPath, metadata);
 }
 
@@ -50,7 +50,7 @@ export async function S3uploadPrivateFile(
   objectPath: string,
   localPath: string,
   metadata: object = {}
-): Promise<string> {
+): Promise<UploadedObjectInfo> {
   return S3uploadFile(
     config.s3.private_bucket,
     objectPath,
