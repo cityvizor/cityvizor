@@ -90,7 +90,6 @@
       }
     }
   },
-  "defaultProject": "cityvizor-app",
   "schematics": {
     "@schematics/angular:component": {
       "style": "scss",

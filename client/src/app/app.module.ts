@@ -45,39 +45,37 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-	imports: [
-		BrowserModule,
-		BrowserAnimationsModule,
-		HttpClientModule,
-		AppRoutingModule,
-		SharedModule,
-		LoginModule,
-		NotFoundPageModule,
-		ModalModule.forRoot(),
-		JwtModule.forRoot(jwtOptions),
-		TranslateModule.forRoot({
-			defaultLanguage: 'cs',
-			loader: {
-				provide: TranslateLoader,
-				useFactory: createTranslateLoader,
-				deps: [HttpClient],
-			}
-		}),
-	],
-	declarations: [
-		AppComponent
-	],
-	entryComponents: [
-	],
-	providers: [
-		{
-			provide: APP_INITIALIZER,
-			useFactory: configFactory,
-			deps: [ConfigService],
-			multi: true
-		},
-		httpInterceptorProviders
-	],
-	bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        SharedModule,
+        LoginModule,
+        NotFoundPageModule,
+        ModalModule.forRoot(),
+        JwtModule.forRoot(jwtOptions),
+        TranslateModule.forRoot({
+            defaultLanguage: 'cs',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient],
+            }
+        }),
+    ],
+    declarations: [
+        AppComponent
+    ],
+    providers: [
+        {
+            provide: APP_INITIALIZER,
+            useFactory: configFactory,
+            deps: [ConfigService],
+            multi: true
+        },
+        httpInterceptorProviders
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
