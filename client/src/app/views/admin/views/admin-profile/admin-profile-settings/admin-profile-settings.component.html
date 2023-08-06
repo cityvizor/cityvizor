@@ -6,7 +6,8 @@
     <form class="form" #settingsForm="ngForm" (ngSubmit)="saveProfile(settingsForm)">
       <div class="form-group">
         <label>Typ profilu</label>
-        <select name="type" [ngModel]="profile?.type" (ngModelChange)="onProfileTypeChange($event)" class="form-control">
+        <select name="type" [ngModel]="profile?.type" (ngModelChange)="onProfileTypeChange($event)"
+          class="form-control">
           <option value="municipality">Municipalita (město / kraj)</option>
           <option value="pbo">Příspěvková organizace</option>
           <option value="external">Externí profil</option>
@@ -16,7 +17,6 @@
       <div *ngIf="profile?.type === 'pbo'" class="form-group">
         <label>Kategorie příspěvkové organizace</label>
         <select name="pboCategoryId" [ngModel]="profile?.pboCategoryId" class="form-control">
-          <option value="null" [selected]="profile?.pboCategoryId == null">Nezařazeno</option>
           <option *ngFor="let c of pboCategories" [value]="c.pboCategoryId"
             [selected]="c.pboCategoryId === profile?.pboCategoryId">
             {{c.pboCategoryCsName}}
@@ -63,7 +63,7 @@
         <label>Rodičovský profil</label>
         <select name="parent" [ngModel]="profile?.parent" class="form-control">
           <option value="null" [selected]="profile?.parent == null">žádný</option>
-          <option *ngFor="let p of profiles" [value]="p.id" [selected]="p.id === profile?.parent">
+          <option *ngFor="let p of profilesValidAsParent" [value]="p.id" [selected]="p.id === profile?.parent">
             {{p.name}}
           </option>
         </select>
@@ -88,7 +88,7 @@
         <label><input type="checkbox" name="main" [value]="true" [ngModel]="profile?.main">&nbsp;Hlavní profil</label>
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="!settingsForm.valid">{{'common.save' |
+      <button type="submit" class="btn btn-primary" style="margin-bottom: 2em;" [disabled]="!settingsForm.valid">{{'common.save' |
         translate}}</button>
 
     </form>

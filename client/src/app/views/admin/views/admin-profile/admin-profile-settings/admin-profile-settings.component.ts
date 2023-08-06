@@ -19,6 +19,7 @@ export class AdminProfileSettingsComponent implements OnInit {
   profileId: Observable<number | null>;
   profile: Profile;
   profiles: Profile[];
+  profilesValidAsParent: Profile[];
   parentProfileName?: string;
   pboCategories: PboCategory[];
 
@@ -34,6 +35,9 @@ export class AdminProfileSettingsComponent implements OnInit {
   async ngOnInit() {
     this.profileId = this.profileService.profileId;
     this.profiles = await this.dataService.getProfiles();
+    this.updateProfilesValidAsParent();
+    this.pboCategories = await this.adminService.getPboCategories();
+
     this.profileId.subscribe(profileId => {
       if (profileId) this.loadProfile(profileId)
     });
@@ -41,23 +45,36 @@ export class AdminProfileSettingsComponent implements OnInit {
 
   async loadProfile(profileId: number) {
     this.profile = await this.adminService.getProfile(profileId);
+
+    // Use default PBO category if not set
+    if (this.profile.type === "pbo" && this.pboCategories.length > 0) {
+      this.profile.pboCategoryId ??= this.pboCategories[0].pboCategoryId;
+    }
+
+    this.updateProfilesValidAsParent();
   }
 
   async reloadProfile() {
-    this.profile = await this.adminService.getProfile(this.profile.id);
+    this.loadProfile(this.profile.id);
     this.profileService.setProfile(this.profile);
   }
 
   async saveProfile(form: NgForm) {
     const data = form.value;
-    
+
     if (data.parent == "null") data.parent = null;
-    
+
     await this.adminService.saveProfile(this.profile.id, data)
-    
+
     this.reloadProfile();
 
     this.toastService.toast("Uloženo.", "notice")
+  }
+
+  updateProfilesValidAsParent() {
+    this.profilesValidAsParent = this.profiles
+      ? this.profiles.filter(p => p.parent == null && (this.profile == null || this.profile.id !== p.id))
+      : [];
   }
 
   async uploadAvatar(fileInput: HTMLInputElement) {
