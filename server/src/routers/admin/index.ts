@@ -5,6 +5,7 @@ import {AdminProfilesRouter} from './profiles';
 import {AdminUsersRouter} from './users';
 import {AdminProfileImportTokenRouter} from './profile-import-token';
 import {AdminProfileImportsRouter} from './profile-imports';
+import { PboCategoriesRouter } from './pbo-categories';
 
 const router = express.Router();
 
@@ -22,4 +23,8 @@ router.use('/profiles/:profile/imports', AdminProfileImportsRouter);
 /* USERS */
 router.use('/users', AdminUsersRouter);
 
+/* SETTINGS OPTIONS */
+router.use('/pbo-categories', PboCategoriesRouter);
+
+/* FALLBACK */
 router.use('**', (req, res) => res.sendStatus(404));

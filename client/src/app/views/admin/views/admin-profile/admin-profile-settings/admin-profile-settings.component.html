@@ -1,14 +1,26 @@
 <div class="row">
   <div class="col-md-7">
     <h3>Základní informace</h3>
+    {{ profile | json }}
+
     <form class="form" #settingsForm="ngForm" (ngSubmit)="saveProfile(settingsForm)">
       <div class="form-group">
         <label>Typ profilu</label>
-        <select name="type" [ngModel]="profile?.type" class="form-control">
-          <option value="municipality">Municipalita (město)</option>
+        <select name="type" [ngModel]="profile?.type" (ngModelChange)="onProfileTypeChange($event)"
+          class="form-control">
+          <option value="municipality">Municipalita (město / kraj)</option>
           <option value="pbo">Příspěvková organizace</option>
           <option value="external">Externí profil</option>
           <option value="empty">Profil bez rozpočtu</option>
+        </select>
+      </div>
+      <div *ngIf="profile?.type === 'pbo'" class="form-group">
+        <label>Kategorie příspěvkové organizace</label>
+        <select name="pboCategoryId" [ngModel]="profile?.pboCategoryId" class="form-control">
+          <option *ngFor="let c of pboCategories" [value]="c.pboCategoryId"
+            [selected]="c.pboCategoryId === profile?.pboCategoryId">
+            {{c.pboCategoryCsName}}
+          </option>
         </select>
       </div>
       <div class="form-group">
@@ -50,8 +62,8 @@
       <div class="form-group">
         <label>Rodičovský profil</label>
         <select name="parent" [ngModel]="profile?.parent" class="form-control">
-          <option value="null" selected="p.id == null">žádný</option>
-          <option *ngFor="let p of profiles" [value]="p.id" [selected]="p.id === profile?.parent">
+          <option value="null" [selected]="profile?.parent == null">žádný</option>
+          <option *ngFor="let p of profilesValidAsParent" [value]="p.id" [selected]="p.id === profile?.parent">
             {{p.name}}
           </option>
         </select>
@@ -76,7 +88,8 @@
         <label><input type="checkbox" name="main" [value]="true" [ngModel]="profile?.main">&nbsp;Hlavní profil</label>
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="!settingsForm.valid">{{'common.save' | translate}}</button>
+      <button type="submit" class="btn btn-primary" style="margin-bottom: 2em;" [disabled]="!settingsForm.valid">{{'common.save' |
+        translate}}</button>
 
     </form>
   </div>
@@ -94,7 +107,8 @@
         <div class="input-group">
           <input type="file" name="avatar" class="form-control" #avatarFileInput>
           <div class="input-group-btn">
-            <button type="submit" (click)="uploadAvatar(avatarFileInput)" class="btn btn-primary">{{'common.upload' | translate}}</button>
+            <button type="submit" (click)="uploadAvatar(avatarFileInput)" class="btn btn-primary">{{'common.upload' |
+              translate}}</button>
           </div>
         </div>
       </div>
