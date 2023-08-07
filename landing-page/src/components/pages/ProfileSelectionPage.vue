@@ -38,8 +38,8 @@
             </a>
           </b-col>
         </b-row>
-        <Municipalities :municipatilies="municipatilies" class="mt-lg-3"></Municipalities>
-        <Pbos :pbos="pbos" class="mt-lg-3"></Pbos>
+        <Municipalities v-if="municipatilies.length > 0" :municipatilies="municipatilies" class="mt-lg-4"></Municipalities>
+        <Pbos v-if="pbos.length > 0" :pbos="pbos" class="mt-lg-4"></Pbos>
       </div>
     </div>
   </div>
