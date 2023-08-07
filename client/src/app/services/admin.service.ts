@@ -4,6 +4,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from "environments/environment";
 import { Profile, BudgetYear, User } from 'app/schema';
 import { Import } from 'app/schema/import';
+import { PboCategory } from 'app/schema/pbo-category';
 
 @Injectable({
   providedIn: 'root'
@@ -108,5 +109,10 @@ export class AdminService {
   }
   deleteUser(userId: User["id"]) {
     return this.http.delete(this.root + "/users/" + userId, { responseType: 'text' }).toPromise();
+  }
+
+  /* OPTIONS */
+  getPboCategories(): Promise<PboCategory[]> {
+    return this.http.get<PboCategory[]>(this.root + "/pbo-categories").toPromise();
   }
 }
