@@ -71,6 +71,12 @@ export class AdminProfileSettingsComponent implements OnInit {
     this.toastService.toast("Uloženo.", "notice")
   }
 
+
+  /**
+   * Filters array of all {@link profiles} and updates the {@link profilesValidAsParent} array
+   * used to populate the Parent profile selection dropdown.
+   * Filters out profiles that have a parent and the current profile itself (if already loaded).
+   */
   updateProfilesValidAsParent() {
     this.profilesValidAsParent = this.profiles
       ? this.profiles.filter(p => p.parent == null && (this.profile == null || this.profile.id !== p.id))
