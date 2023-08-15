@@ -17,9 +17,7 @@
             :options="categories"
             placeholder="Filtrujte dle kategorie"
             class="mb-3"
-            ><b-form-select-option :value="null" class="placeholder"
-              >Všechny kategorie</b-form-select-option
-            >
+          >
           </b-form-select>
         </b-col>
       </b-row>
@@ -52,6 +50,8 @@
 <script>
 import PendingPopup from "./PendingPopup.vue";
 
+const allCategoriesOption = { id: 0, csName: null };
+
 export default {
   components: { PendingPopup },
   name: "ProfileSelectionPage",
@@ -71,7 +71,7 @@ export default {
       categories: [],
       filter: "",
       filterOn: ["name"],
-      selectedCategory: null,
+      selectedCategory: allCategoriesOption,
     };
   },
   methods: {
@@ -90,24 +90,25 @@ export default {
       };
     });
     this.categories = [
-      ...new Map(
-        this.pbos.map((pbo) => [
-          pbo.pboCategoryId,
+      { text: "Všechny kategorie", value: allCategoriesOption }, // Add default option
+      ...new Map( // Create set of categories
+        this.items.map((pbo) => [
+          pbo.categoryId,
           {
-            text: pbo.pboCategoryCsName,
-            value: { id: pbo.pboCategoryId, csName: pbo.pboCategoryCsName },
+            text: pbo.category,
+            value: { id: pbo.categoryId, csName: pbo.category },
           },
         ])
       ).values(),
-    ]; // create set of categories
+    ].sort((a, b) => a.value.id >= b.value.id); // Sort by id
   },
   computed: {
     itemsFilteredByCategory: function () {
-      if (this.selectedCategory === null) {
+      if ((this.selectedCategory?.id ?? 0) === 0) {
         return this.items;
       }
       return this.items.filter(
-        item => item.categoryId === this.selectedCategory.id
+        (item) => item.categoryId === this.selectedCategory.id
       );
     },
   },
