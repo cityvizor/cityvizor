@@ -66,7 +66,7 @@ export class EventDetailComponent implements OnChanges {
 			this.isCurrentYear = this.year === (new Date()).getFullYear();
 		}
 
-		if ((changes.profileId || changes.eventId || changes.year) && this.profile?.id && this.eventId && this.year) {
+		if ((changes.profileId || changes.eventId || changes.year) && this.profile?.id != null && this.eventId != null && this.year != null) {
 			this.loadEvent(this.profile.id, this.eventId, this.year);
 		}
 	}
