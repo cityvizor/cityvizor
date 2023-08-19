@@ -76,6 +76,14 @@ body.modal-open {
 	overflow-y: scroll;
 }
 
+@media (min-width: 992px) {
+	.modal-xl {
+		max-width: 1250px;
+		width: 80%;
+	}
+}
+
+
 /* NAVBAR */
 .container-fluid>.navbar-collapse,
 .container-fluid>.navbar-header,
