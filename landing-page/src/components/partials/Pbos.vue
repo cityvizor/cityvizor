@@ -86,7 +86,7 @@ export default {
         url: pbo.url,
         status: pbo.status,
         category: pbo.pboCategoryCsName ?? "Nezařazeno",
-        categoryId: pbo.pboCategoryId ?? 1,
+        categoryId: pbo.pboCategoryId ?? "unclassified",
       };
     });
     this.categories = [
@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     itemsFilteredByCategory: function () {
-      if ((this.selectedCategory?.id ?? 0) === 0) {
+      if ((this.selectedCategory?.id ?? "") === "") {
         return this.items;
       }
       return this.items.filter(
