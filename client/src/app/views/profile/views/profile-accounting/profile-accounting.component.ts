@@ -75,7 +75,7 @@ export class ProfileAccountingComponent implements OnInit {
 		this.route.params.pipe(map(params => this.typeLocalParams[params.type] || null), distinctUntilChanged()).subscribe(this.type);
 		this.route.params.pipe(map(params => Number(params.rok) || null), distinctUntilChanged()).subscribe(this.year);
 		this.route.params.pipe(map(params => params.skupina || null), distinctUntilChanged()).subscribe(this.groupId);
-		this.route.params.pipe(map(params => Number(params.akce) || null), distinctUntilChanged()).subscribe(this.eventId);
+		this.route.params.pipe(map(params => this.parseEventId(params.akce)), distinctUntilChanged()).subscribe(this.eventId);
 		this.route.params.pipe(map(params => params.razeni || "nejvetsi"), distinctUntilChanged()).subscribe(this.sort);
 
 		// load budgets based on profile
@@ -88,14 +88,15 @@ export class ProfileAccountingComponent implements OnInit {
 				: this.dataService.getProfilePlans(profile.id))
 				.then(budgets => budgets.sort((a, b) => b.year - a.year))
 				.then(budgets => this.budgets.next(budgets));
-		})
+		});
+
 		// load group events if passed via url (refreshed page or clicked on a link)
 		this.profile.subscribe(async (profile) => {
 			const params = this.route.snapshot.params
 			if (params.rok && params.type && params.skupina) {
 				this.groupEvents = await this.accountingService.getGroupEvents(profile, params.rok, this.typeLocalParams[params.type], params.skupina);
 			}
-		})
+		});
 
 		// set selected budget on year change
 		combineLatest(this.year, this.budgets)
@@ -125,7 +126,7 @@ export class ProfileAccountingComponent implements OnInit {
 				if (!groupId) { this.groupEvents = []; return; }
 				this.groupEvents = await this.accountingService.getGroupEvents(profile, year, type, groupId);
 				this.sortEvents(sort);
-			})
+			});
 
 		this.sort.subscribe(sort => this.sortEvents(sort));
 
@@ -134,7 +135,7 @@ export class ProfileAccountingComponent implements OnInit {
 				if (groups.length > 0 && groupId) {
 					this.group = groups.find(group => "id" in group && group.id === groupId) || null
 				}
-			})
+			});
 
 		this.groups.subscribe(groups => {
 			this.chartBigbangData = groups.map(group => ({
@@ -145,15 +146,14 @@ export class ProfileAccountingComponent implements OnInit {
 		});
 
 		combineLatest(this.eventId, this.profile, this.year)
-			.pipe(filter(values => values.every(value => !!value))) // only if all not null
+			.pipe(filter(values => values.every(value => value != null))) // only if all not null
 			.subscribe(([eventId, profile, year]) => {
-				if (eventId !== null && year !== null && typeof profile?.id !== 'undefined') {
-					this.modalService.show(EventDetailModalComponent, { initialState: { eventId, profile, year }, class: "modal-lg" });
+				if (eventId != null && year != null && profile?.id != null) {
+					this.modalService.show(EventDetailModalComponent, { initialState: { eventId, profile, year }, class: "modal-xl" });
 				}
-			})
+			});
 
 		this.modalService.onHide.subscribe(() => this.selectEvent(null));
-
 	}
 
 	selectBudget(year: string | number | null, replace: boolean = false): void {
@@ -168,9 +168,7 @@ export class ProfileAccountingComponent implements OnInit {
 	}
 
 	selectEvent(eventId: number | null): void {
-		if (eventId && eventId > 0) {
-			this.modifyParams({ akce: eventId }, false)
-		}
+		this.modifyParams({ akce: eventId }, false)
 	}
 
 	async getGroups(profile: Profile, type: AccountingGroupType, year: number) {
@@ -262,4 +260,9 @@ export class ProfileAccountingComponent implements OnInit {
 		this.eventsLimit = 20;
 	}
 
+	private parseEventId(value: number | null | undefined): number | null {
+		return value != null && !isNaN(value)
+			? Number(value)
+			: null;
+	}
 }
