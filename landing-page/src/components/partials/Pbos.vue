@@ -50,7 +50,7 @@
 <script>
 import PendingPopup from "./PendingPopup.vue";
 
-const allCategoriesOption = { id: 0, csName: null };
+const allCategoriesOption = { id: "", csName: null };
 
 export default {
   components: { PendingPopup },
