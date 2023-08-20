@@ -1,5 +1,5 @@
 export interface PboCategory {
-    pboCategoryId: number;
+    pboCategoryId: string;
     pboCategoryCsName: string;
     pboCategoryEnName: string;
 }

@@ -1,25 +1,18 @@
 exports.up = function (knex) {
   return knex.schema
     .createTable('app.pbo_categories', table => {
-      table.increments('pbo_category_id');
-      table.string('pbo_category_cs_name', 50);
-      table.string('pbo_category_en_name', 50);
+      table.string('pbo_category_id', 16).notNullable().unique();
+      table.string('pbo_category_cs_name', 50).notNullable();
+      table.string('pbo_category_en_name', 50).notNullable();
     })
     .then(() => {
       return knex('app.pbo_categories').insert([
-        {pbo_category_cs_name: 'Nezařazeno', pbo_category_en_name: 'Undefined'},
-        {pbo_category_cs_name: 'Jiné', pbo_category_en_name: 'Other'},
-        {pbo_category_cs_name: 'Vzdělávání', pbo_category_en_name: 'Education'},
-        {
-          pbo_category_cs_name: 'Sociální služby',
-          pbo_category_en_name: 'Social services',
-        },
-        {pbo_category_cs_name: 'Kultura', pbo_category_en_name: 'Culture'},
+        { pbo_category_id: 'unclassified', pbo_category_cs_name: 'Nezařazeno', pbo_category_en_name: 'Unclassified'},
       ]);
     })
     .then(() => {
       return knex.schema.alterTable('app.profiles', table => {
-        table.integer('pbo_category_id');
+        table.string('pbo_category_id').nullable();
         table
           .foreign('pbo_category_id')
           .references('pbo_category_id')

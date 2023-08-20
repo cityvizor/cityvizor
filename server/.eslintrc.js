@@ -21,7 +21,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
   ],
-  ignorePatterns: ['build/', 'dist/'],
+  ignorePatterns: ['build/', 'dist/', 'migrations/'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
