@@ -38,11 +38,15 @@ router.get('/:id', acl('options:read'), async (req: Request<{ id: string }>, res
 // CREATE
 router.post('/', acl('options:write'), async (req: Request, res: Response) => {
   try {
-    const body: Omit<PboCategoryRecord, "pboCategoryId"> = req.body;
+    const body: PboCategoryRecord = req.body;
+    const idIsValid: boolean = /^\w[\w-]{1,14}\w$/.test(body.pboCategoryId);
 
-    const [id] = await db('app.pbo_categories').insert(body, ['pboCategoryId']);
-
-    res.status(201).json(id);
+    if (!idIsValid) {
+      res.status(400).json({ error: 'Invalid \'pboCategoryId\' value' });
+    } else {
+      const [id] = await db('app.pbo_categories').insert(body, ['pboCategoryId']);
+      res.status(201).json(id);
+    }
   } catch (err) {
     res.status(500).json({ error: err instanceof Error ? err.message : err });
   }
