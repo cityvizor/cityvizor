@@ -66,6 +66,7 @@ export default {
       fields: [
         { key: "name", label: "Název", sortable: true },
         { key: "category", label: "Kategorie", sortable: true },
+        { key: "parentName", label: "Zřizovatel", sortable: true },
       ],
       items: [],
       categories: [],
@@ -87,6 +88,7 @@ export default {
         status: pbo.status,
         category: pbo.pboCategoryCsName ?? "Nezařazeno",
         categoryId: pbo.pboCategoryId ?? "unclassified",
+        parentName: pbo.parentName
       };
     });
     this.categories = [
