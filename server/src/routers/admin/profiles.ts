@@ -25,23 +25,11 @@ export const AdminProfilesRouter = router;
 const upload = multer({dest: config.storage.tmp});
 
 router.get('/', acl('profiles:list'), async (req, res) => {
-  const profiles = await db<ProfileRecord>('app.profiles')
-    .select(
-      'id',
-      'status',
-      'name',
-      'url',
-      'gpsX',
-      'gpsY',
-      'main',
-      'popup_name',
-      'type'
-    )
-    .modify(function () {
-      if (req.query.status) {
-        this.where('status', '=', req.query.status);
-      }
-    });
+  const profiles = await db<ProfileRecord>('app.profiles').modify(function () {
+    if (req.query.status) {
+      this.where('status', '=', req.query.status);
+    }
+  });
 
   res.json(profiles);
 });
