@@ -5,7 +5,7 @@ import {AdminProfilesRouter} from './profiles';
 import {AdminUsersRouter} from './users';
 import {AdminProfileImportTokenRouter} from './profile-import-token';
 import {AdminProfileImportsRouter} from './profile-imports';
-import { PboCategoriesRouter } from './pbo-categories';
+import {PboCategoriesRouter} from './pbo-categories';
 
 const router = express.Router();
 
