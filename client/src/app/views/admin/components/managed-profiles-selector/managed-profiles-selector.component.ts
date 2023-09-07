@@ -91,7 +91,6 @@ export class ManagedProfilesSelectorComponent implements OnInit, ControlValueAcc
 
   async loadProfiles() {
     this.profiles = await this.adminService.getProfiles();
-    this.profiles.sort((a, b) => (Number(this.userManagesProfile(b.id)) - Number(this.userManagesProfile(a.id))) || (a.name.localeCompare(b.name)));
     this.updateSelectionModels();
   }
 
@@ -107,6 +106,12 @@ export class ManagedProfilesSelectorComponent implements OnInit, ControlValueAcc
 
       return { profile, children, isManaged, isAnyChildrenManaged };
     });
+
+    this.selectionModels.sort((a, b) => 
+      (Number(b.isManaged) - Number(a.isManaged))
+      || (Number(b.children.length > 0) - Number(a.children.length > 0))
+      || (a.profile.name.localeCompare(b.profile.name)));
+
 
     console.log(this.selectionModels);
   }
