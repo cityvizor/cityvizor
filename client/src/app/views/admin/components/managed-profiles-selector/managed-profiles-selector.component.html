@@ -2,7 +2,7 @@
   <tbody>
     <tr *ngFor="let model of selectionModels">
       <th>{{model.profile.name}}</th>
-      <td class="text-right">
+      <td class="text-right" style="width:50%">
         <button *ngIf="model.children.length > 0 && !model.isAnyChildrenManaged" class="btn btn-success btn-sm mr-3"
           (click)="addChildren(model)">Přidat podřazené profily</button>
         <button *ngIf="model.children.length > 0 && model.isAnyChildrenManaged" class="btn btn-danger btn-sm mr-3"
