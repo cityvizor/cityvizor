@@ -7,7 +7,11 @@ exports.up = function (knex) {
     })
     .then(() => {
       return knex('app.pbo_categories').insert([
-        { pbo_category_id: 'unclassified', pbo_category_cs_name: 'Nezařazeno', pbo_category_en_name: 'Unclassified'},
+        {
+          pbo_category_id: 'unclassified',
+          pbo_category_cs_name: 'Nezařazeno',
+          pbo_category_en_name: 'Unclassified',
+        },
       ]);
     })
     .then(() => {

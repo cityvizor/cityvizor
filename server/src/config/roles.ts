@@ -54,7 +54,7 @@ export const aclRoles = {
       'users:read': true,
       'users:write': true,
       'options:read': true,
-      "options:write": true,
+      'options:write': true,
     },
   },
 
@@ -76,7 +76,7 @@ export const aclRoles = {
       'profile-accounting:list': true,
       'profile-accounting:write': req => isManagedProfile(req),
       'options:read': true,
-      "options:write": false,
+      'options:write': false,
     },
   },
 };

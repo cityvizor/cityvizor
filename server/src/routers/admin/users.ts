@@ -80,7 +80,7 @@ router.patch('/:user', acl('users:write'), async (req, res) => {
   if (userData.password)
     userData.password = await bcrypt.hash(userData.password, 10);
 
-  if (userData.managedProfiles) {
+  if (userData.managedProfiles != null) {
     const managedProfiles = userData.managedProfiles.map(profile => ({
       userId: req.params.user,
       profileId: profile,
@@ -88,7 +88,10 @@ router.patch('/:user', acl('users:write'), async (req, res) => {
     delete userData.managedProfiles;
 
     await db('app.user_profiles').where({userId: req.params.user}).delete();
-    await db('app.user_profiles').insert(managedProfiles);
+
+    if (managedProfiles.length > 0) {
+      await db('app.user_profiles').insert(managedProfiles);
+    }
   }
 
   await db('app.users').where({id: req.params.user}).update(userData);
@@ -123,7 +126,10 @@ router.put('/:user/profiles', acl('users:write'), async (req, res) => {
     .select('profileId')
     .where('userId', req.params.user)
     .delete();
-  await db<UserProfileRecord>('app.user_profiles').insert(data);
+
+  if (data != null && data.length > 0) {
+    await db<UserProfileRecord>('app.user_profiles').insert(data);
+  }
 
   res.sendStatus(204);
 });
