@@ -1,0 +1,14 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "Cityvizor Docker Compose",
+            "Group": "Servers",
+            "Host": "db.cityvizor.otevrenamesta",
+            "Port": 5432,
+            "MaintenanceDB": "postgres",
+            "Username": "postgres",
+            "PassFile": "/var/lib/pgadmin/pgpass",
+            "SSLMode": "prefer"
+        }
+    }
+}
