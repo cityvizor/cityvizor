@@ -11,11 +11,20 @@
             class="mb-3"
           ></b-form-input>
         </b-col>
-        <b-col>
+        <b-col class="mr-3">
           <b-form-select
             v-model="selectedCategory"
             :options="categories"
             placeholder="Filtrujte dle kategorie"
+            class="mb-3"
+          >
+          </b-form-select>
+        </b-col>
+        <b-col>
+          <b-form-select
+            v-model="selectedParent"
+            :options="parents"
+            placeholder="Filtrujte dle zřizovatele"
             class="mb-3"
           >
           </b-form-select>
@@ -26,7 +35,7 @@
         hover
         borderless
         small
-        :items="itemsFilteredByCategory"
+        :items="itemsFilteredByCategoryAndParent"
         :fields="fields"
         :filter-included-fields="filterOn"
         :filter="filter"
@@ -51,6 +60,7 @@
 import PendingPopup from "./PendingPopup.vue";
 
 const allCategoriesOption = { id: "", csName: null };
+const allParentsOption = { parentId: "", parentName: null };
 
 export default {
   components: { PendingPopup },
@@ -66,12 +76,15 @@ export default {
       fields: [
         { key: "name", label: "Název", sortable: true },
         { key: "category", label: "Kategorie", sortable: true },
+        { key: "parentName", label: "Zřizovatel", sortable: true },
       ],
       items: [],
       categories: [],
       filter: "",
       filterOn: ["name"],
       selectedCategory: allCategoriesOption,
+      parents: [],
+      selectedParent: allParentsOption
     };
   },
   methods: {
@@ -87,6 +100,8 @@ export default {
         status: pbo.status,
         category: pbo.pboCategoryCsName ?? "Nezařazeno",
         categoryId: pbo.pboCategoryId ?? "unclassified",
+        parentName: pbo.parentName,
+        parentId: pbo.parent
       };
     });
     this.categories = [
@@ -101,15 +116,34 @@ export default {
         ])
       ).values(),
     ].sort((a, b) => a.value.id >= b.value.id); // Sort by id
+    this.parents = [
+      { text: "Všichni zřizovatelé", value: allParentsOption },
+      ...new Map(
+        this.items.map((profile) => [
+          profile.parentId,
+          {
+            text: profile.parentName,
+            value: { parentId: profile.parentId, parentName: profile.parentName }
+          }
+        ])
+      ).values()
+    ]
   },
   computed: {
-    itemsFilteredByCategory: function () {
-      if ((this.selectedCategory?.id ?? "") === "") {
-        return this.items;
+    itemsFilteredByCategoryAndParent: function () {
+      let filteredItems = this.items;
+      if (((this.selectedCategory?.id ?? "") !== "")){
+        filteredItems = filteredItems.filter(
+          (item) => item.categoryId === this.selectedCategory.id
+        );
       }
-      return this.items.filter(
-        (item) => item.categoryId === this.selectedCategory.id
-      );
+      if(((this.selectedParent?.parentId ?? "") !== "")){
+        filteredItems = filteredItems.filter(
+          (item) => item.parentId === this.selectedParent.parentId
+        );
+      }
+
+      return filteredItems
     },
   },
 };
