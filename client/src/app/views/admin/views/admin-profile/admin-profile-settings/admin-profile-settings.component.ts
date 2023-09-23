@@ -22,6 +22,7 @@ export class AdminProfileSettingsComponent implements OnInit {
   profilesValidAsParent: Profile[];
   parentProfileName?: string;
   pboCategories: PboCategory[];
+  profileIdParentIdMap: Map<number, number | null>;
 
   constructor(
     private profileService: ProfileService,
@@ -35,12 +36,18 @@ export class AdminProfileSettingsComponent implements OnInit {
   async ngOnInit() {
     this.profileId = this.profileService.profileId;
     this.profiles = await this.dataService.getProfiles();
+    this.initializeProfileParentMap();
     this.updateProfilesValidAsParent();
     this.pboCategories = await this.adminService.getPboCategories();
 
     this.profileId.subscribe(profileId => {
       if (profileId) this.loadProfile(profileId)
     });
+  }
+
+  initializeProfileParentMap() {
+    const idParentPairs = this.profiles.map((profile) => [profile.id, profile.parent] as [number, number | null]);
+    this.profileIdParentIdMap = new Map(idParentPairs);
   }
 
   async loadProfile(profileId: number) {
@@ -75,12 +82,17 @@ export class AdminProfileSettingsComponent implements OnInit {
   /**
    * Filters array of all {@link profiles} and updates the {@link profilesValidAsParent} array
    * used to populate the Parent profile selection dropdown.
-   * Filters out profiles that have a parent and the current profile itself (if already loaded).
+   * Filters out profiles that have a grandparent and the current profile itself (if already loaded).
    */
   updateProfilesValidAsParent() {
-    this.profilesValidAsParent = this.profiles
-      ? this.profiles.filter(p => p.parent == null && (this.profile == null || this.profile.id !== p.id))
-      : [];
+    if (this.profile == null || this.profiles == null) {
+      this.profilesValidAsParent = [];
+    }
+    else {
+      this.profilesValidAsParent = this.profiles.filter(p => p.type == "municipality"
+        && (p.parent == null || (this.profile.type == "pbo" && this.profileIdParentIdMap[p.parent] == null))
+        && (this.profile.id !== p.id));
+    }
   }
 
   async uploadAvatar(fileInput: HTMLInputElement) {
