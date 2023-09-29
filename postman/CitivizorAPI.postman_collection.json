@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "a8f35f13-3adf-4dd4-a095-c35ba3a10c96",
+		"name": "Citivizor API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18039308"
+	},
+	"item": [
+		{
+			"name": "public",
+			"item": [
+				{
+					"name": "Profiles",
+					"item": [
+						{
+							"name": "get-all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseApiUrl}}/public/profiles?status=pending,visible&countChildren=true",
+									"host": [
+										"{{baseApiUrl}}"
+									],
+									"path": [
+										"public",
+										"profiles"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "pending,visible"
+										},
+										{
+											"key": "orphansOnly",
+											"value": "true",
+											"disabled": true
+										},
+										{
+											"key": "countChildren",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "Pbo-categories",
+					"item": [
+						{
+							"name": "get-all",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImxvZ2luIjoiYWRtaW4iLCJyb2xlcyI6WyJ1c2VyIiwiYWRtaW4iXSwibWFuYWdlZFByb2ZpbGVzIjpbXSwiaWF0IjoxNjk1OTk2MDEzLCJleHAiOjE2OTYwODI0MTN9.PQesIm5HgKVl8izpViXpyeg_5-LwJog2tAWFR7fwbNU",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:4200/api/admin/pbo-categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4200",
+									"path": [
+										"api",
+										"admin",
+										"pbo-categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Sections",
+					"item": [
+						{
+							"name": "get-all",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminApiToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseApiUrl}}/admin/sections",
+									"host": [
+										"{{baseApiUrl}}"
+									],
+									"path": [
+										"admin",
+										"sections"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminApiToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sectionId\": 4,\r\n    \"csName\":\"Abraka seckce\",\r\n    \"enName\":\"Abraka section\",\r\n    \"orderOnLanding\":\"3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseApiUrl}}/admin/sections",
+									"host": [
+										"{{baseApiUrl}}"
+									],
+									"path": [
+										"admin",
+										"sections"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminApiToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseApiUrl}}/admin/sections/2",
+									"host": [
+										"{{baseApiUrl}}"
+									],
+									"path": [
+										"admin",
+										"sections",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{adminApiToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseApiUrl}}/admin/sections/3",
+									"host": [
+										"{{baseApiUrl}}"
+									],
+									"path": [
+										"admin",
+										"sections",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
