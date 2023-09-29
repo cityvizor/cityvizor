@@ -10,7 +10,7 @@ type Row = {
   aa: number;
   amount: number;
   name: string;
-}
+};
 
 type ColumnName = keyof Row;
 
@@ -19,7 +19,7 @@ const columnAliases: Record<ColumnName, string[]> = {
   sa: ['su'],
   aa: ['au'],
   amount: [],
-  name: []
+  name: [],
 };
 
 // Headers/columns that must be present in the csv
@@ -47,17 +47,25 @@ function resolveColumnAlias(alias: string): ColumnName | null {
     return alias as ColumnName;
   } else {
     // Try to find the column name for which this is declared as alias.
-    return Object.keys(columnAliases)
-      .find(mainName => columnAliases[mainName].includes(alias)) as ColumnName
-      ?? null; // This is not a known column name.
+    return (
+      (Object.keys(columnAliases).find(mainName =>
+        columnAliases[mainName].includes(alias)
+      ) as ColumnName) ?? null // This is not a known column name.
+    );
   }
 }
 
-function mapHeaderColumns(header: string[], options: Import.Options): (ColumnName | false)[] {
-  const missingColumns = getMandatoryColumns(options)
-    .filter(requiredColumn => !(
-      header.includes(requiredColumn) || columnAliases[requiredColumn].some(alias => header.includes(alias))
-    ));
+function mapHeaderColumns(
+  header: string[],
+  options: Import.Options
+): (ColumnName | false)[] {
+  const missingColumns = getMandatoryColumns(options).filter(
+    requiredColumn =>
+      !(
+        header.includes(requiredColumn) ||
+        columnAliases[requiredColumn].some(alias => header.includes(alias))
+      )
+  );
 
   if (missingColumns.length !== 0) {
     throw Error(

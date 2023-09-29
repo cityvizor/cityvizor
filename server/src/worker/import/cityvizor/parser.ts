@@ -94,9 +94,7 @@ export function createCityvizorParser(
   ): string[] => {
     // remove possible BOM at the beginning of file, also removes extra whitespaces
     header = header.map(item => item.trim());
-    logger.log(
-      `The header array being searched for column names: [${header}]`
-    );
+    logger.log(`The header array being searched for column names: [${header}]`);
     const foundColumns: string[] = header.map(originalField => {
       // browse through all the target fields if originalField is someones alias
       return Object.keys(columnAliases).find(

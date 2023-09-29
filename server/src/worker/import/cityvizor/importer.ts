@@ -1,13 +1,13 @@
-import { Import } from '../import';
+import {Import} from '../import';
 import fs from 'fs-extra';
 import logger from '../logger';
 import path from 'path';
-import { pipeline } from 'stream';
-import { promisify } from 'util';
-import { createCityvizorParser, createCityvizorTransformer } from './parser';
-import { DatabaseWriter } from '../db-writer';
-import { PostprocessingTransformer } from '../postprocessing-transformer';
-import { CityvizorFileType } from './cityvizor-file-type';
+import {pipeline} from 'stream';
+import {promisify} from 'util';
+import {createCityvizorParser, createCityvizorTransformer} from './parser';
+import {DatabaseWriter} from '../db-writer';
+import {PostprocessingTransformer} from '../postprocessing-transformer';
+import {CityvizorFileType} from './cityvizor-file-type';
 
 export async function importCityvizor(options: Import.Options) {
   logger.log(`Starting import: ${JSON.stringify(options)}}`);
@@ -31,32 +31,32 @@ export async function importCityvizor(options: Import.Options) {
     if (paymentsFile) {
       await options
         .transaction('data.payments')
-        .where({ profileId: options.profileId, year: options.year })
+        .where({profileId: options.profileId, year: options.year})
         .delete();
       logger.log('Deleted previous payment records from the DB.');
     }
     if (eventsFile) {
       await options
         .transaction('data.events')
-        .where({ profileId: options.profileId, year: options.year })
+        .where({profileId: options.profileId, year: options.year})
         .delete();
       logger.log('Deleted previous event records from the DB.');
     }
     if (accountingFile) {
       await options
         .transaction('data.accounting')
-        .where({ profileId: options.profileId, year: options.year })
+        .where({profileId: options.profileId, year: options.year})
         .delete();
       logger.log('Deleted previous accounting records from the DB.');
     }
     if (dataFile) {
       await options
         .transaction('data.payments')
-        .where({ profileId: options.profileId, year: options.year })
+        .where({profileId: options.profileId, year: options.year})
         .delete();
       await options
         .transaction('data.accounting')
-        .where({ profileId: options.profileId, year: options.year })
+        .where({profileId: options.profileId, year: options.year})
         .delete();
       logger.log(
         'Deleted previous payment and accounting records from the DB.'

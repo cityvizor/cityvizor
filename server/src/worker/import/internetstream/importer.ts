@@ -1,12 +1,12 @@
 import csvparse from 'csv-parse';
 import * as fs from 'fs-extra';
 import path from 'path';
-import { pipeline, Transform } from 'stream';
-import { Import } from '../import';
-import { promisify } from 'util';
-import { PostprocessingTransformer } from '../postprocessing-transformer';
-import { DatabaseWriter } from '../db-writer';
-import { PaymentRecord, AccountingRecord } from '../../../schema';
+import {pipeline, Transform} from 'stream';
+import {Import} from '../import';
+import {promisify} from 'util';
+import {PostprocessingTransformer} from '../postprocessing-transformer';
+import {DatabaseWriter} from '../db-writer';
+import {PaymentRecord, AccountingRecord} from '../../../schema';
 import logger from '../logger';
 
 export async function importInternetStream(options: Import.Options) {
@@ -14,11 +14,11 @@ export async function importInternetStream(options: Import.Options) {
 
   await options
     .transaction('data.payments')
-    .where({ profileId: options.profileId, year: options.year })
+    .where({profileId: options.profileId, year: options.year})
     .delete();
   await options
     .transaction('data.accounting')
-    .where({ profileId: options.profileId, year: options.year })
+    .where({profileId: options.profileId, year: options.year})
     .delete();
 
   const csvPaths = [
@@ -106,7 +106,7 @@ function createTransformer(options: Import.Options) {
         profileId: options.profileId,
         year: options.year,
       };
-      this.push({ type: 'accounting', record: accounting });
+      this.push({type: 'accounting', record: accounting});
       if (recordType === 'KDF' || recordType === 'KOF') {
         const payment: PaymentRecord = {
           paragraph: line.PARAGRAF,
@@ -121,7 +121,7 @@ function createTransformer(options: Import.Options) {
           profileId: options.profileId,
           year: options.year,
         };
-        this.push({ type: 'payment', record: payment });
+        this.push({type: 'payment', record: payment});
       }
       callback();
     },
