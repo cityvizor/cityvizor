@@ -1,6 +1,9 @@
 <div class="row">
   <div class="col-md-7">
     <h3>Základní informace</h3>
+    <div *ngIf="(profile.status === 'visible' || profile.status === 'pending') && (profile.parent == null && profile.sectionId == null)" class="pb-3">
+      <span class="label label-red">Tento profil je {{profile.status == 'visible' ? 'viditelný' : 'připravovaný'}},  ale nemá nastavený rodičovský profil ani sekci na hlavní stránce, <br> ve které by měl být zobrazen. Uživatelé aplikace tento profil aktuálně nevidí.</span>
+    </div>
     <form class="form" #settingsForm="ngForm" (ngSubmit)="saveProfile(settingsForm)">
       <div class="form-group">
         <label>Typ profilu</label>
