@@ -76,6 +76,16 @@
         </select>
       </div>
       <div class="form-group">
+        <label>Sekce na hlavní stránce</label>
+        <select name="sectionId" [ngModel]="profile?.sectionId" class="form-control">
+          <option value="null" [selected]="profile?.sectionId == null">Nezobrazovat na hlavní stránce</option>
+          <option *ngFor="let sec of sections" [value]="sec.sectionId"
+            [selected]="sec.sectionId === profile?.sectionId">
+            {{sec.csName}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
         <label>Položky zahrnuté do součtů</label>
         <select name="sum_mode" [ngModel]="profile?.sumMode" class="form-control">
           <option value="complete">Všechny</option>
