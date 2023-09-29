@@ -9,13 +9,13 @@
         </div>
       </b-col>
     </b-row>
-    <div v-if="!loading">
+    <div v-if="!loading" v-for="section in sections" class="pb-4">
       <b-row>
-        <h2>Zapojené obce</h2>
+        <h2>{{section.sectionName}}</h2>
       </b-row>
       <b-row>
         <b-col
-          v-for="profile in profiles"
+          v-for="profile in section.profiles"
           :key="profile.name"
           class="city-item-margin-top text-justify"
           md="4"
@@ -85,7 +85,7 @@ export default {
   props: {},
   data() {
     return {
-      profiles: [],
+      sections: [],
       loading: true,
     };
   },
@@ -100,7 +100,6 @@ export default {
         params: {
           status: "pending,visible",
           countChildren: true,
-          orphansOnly: true,
         },
       })
       .then((response) => {
@@ -108,25 +107,36 @@ export default {
           (acc, c) => ((acc[c.id] = false), acc),
           {}
         )),
-          (this.profiles = response.data
-            .map((profile) => {
+          (this.sections = response.data
+            .map((section) => {
+                const profiles = [];
+                section.profiles.forEach((profile) => {
+                  const p = {
+                    url:
+                      profile.type == "external" ? profile.url : `/${profile.url}`,
+                    name: profile.name,
+                    popupName: profile.popupName,
+                    type: profile.type,
+                    id: profile.id,
+                    status: profile.status,
+                    childrenCount: profile.childrencount,
+                  };
+                  profiles.push(p);
+                });
+                console.log(profiles);
+                profiles.sort((a, b) => {
+                  return a.name.localeCompare(b.name, undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                  })});
               return {
-                url:
-                  profile.type == "external" ? profile.url : `/${profile.url}`,
-                name: profile.name,
-                popupName: profile.popupName,
-                type: profile.type,
-                id: profile.id,
-                status: profile.status,
-                childrenCount: profile.childrencount,
+                sectionName: section.section.csName,
+                sectionId: section.section.sectionId,
+                order: section.section.orderOnLanding,
+                profiles: profiles
               };
             })
-            .sort((a, b) => {
-              return a.name.localeCompare(b.name, undefined, {
-                numeric: true,
-                sensitivity: "base",
-              });
-            }));
+            .sort((a, b) => b.orderOnLanding - a.orderOnLanding ));
         this.loading = false;
       });
   },

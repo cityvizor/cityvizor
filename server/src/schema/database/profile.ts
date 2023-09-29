@@ -30,5 +30,5 @@ export interface ProfileRecord {
 
   childrenCount: number | null;
 
-  section_id: number;
+  sectionId: number;
 }

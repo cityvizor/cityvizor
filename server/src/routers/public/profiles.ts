@@ -9,6 +9,7 @@ import {ProfileRecord} from '../../schema';
 import * as fs from 'fs';
 import {getS3AvatarPublicObjectPath} from '../../s3storage';
 import {userManagesProfile} from '../../config/roles';
+import { SectionRecord } from '../../schema/database/section';
 
 const router = express.Router();
 
@@ -33,34 +34,57 @@ function createQueryWithStatusFilter(statuses, tableName: string) {
   return query;
 }
 
+function addCountChildrenInnerQuery(query, statusses) {
+  const innerQuery = createQueryWithStatusFilter(
+    statusses,
+    'innerProfile'
+  )
+    .select('innerProfile.id', db.raw('COUNT(child.id) AS childrenCount'))
+    .leftJoin('profiles AS child', 'innerProfile.id', 'child.parent');
+  innerQuery.groupBy('innerProfile.id').as('counts');
+
+  query.join(innerQuery, 'profile.id', 'counts.id');
+  return query;
+}
+
 /*
 Query params: {
   string[] status - filtes profiles by provided statuses
   bool countChildren - if true, for each returned profile counts its children profiles
-  bool orphansOnly -  only returs profiles whose parent is NULL
 }
 */
 router.get('/', async (req, res) => {
-  const query = createQueryWithStatusFilter(req.query.status, 'profile');
+  const sectionQuery = db<SectionRecord>('app.sections AS section');
+
+  let profileQuery = createQueryWithStatusFilter(req.query.status, 'profile');
 
   if (req.query.countChildren) {
-    const innerQuery = createQueryWithStatusFilter(
-      req.query.status,
-      'innerProfile'
-    )
-      .select('innerProfile.id', db.raw('COUNT(child.id) AS childrenCount'))
-      .leftJoin('profiles AS child', 'innerProfile.id', 'child.parent');
-    innerQuery.groupBy('innerProfile.id').as('counts');
-
-    query.join(innerQuery, 'profile.id', 'counts.id');
+    profileQuery = addCountChildrenInnerQuery(profileQuery, req.query.status);
   }
 
-  if (req.query.orphansOnly) {
-    query.whereNull('profile.parent');
-  }
-  const profiles = await query.orderBy('profile.id');
-  res.json(profiles);
+  profileQuery.orderBy('profile.id');
+
+  const profiles = await profileQuery;
+  const sections = await sectionQuery;
+
+  const grouped = {};
+  sections.forEach((section) => {
+    const sectionProfiles = profiles.filter((profile) => profile.sectionId === section.sectionId);
+
+    if(sectionProfiles.length > 0) {
+      grouped[section.sectionId] = {
+        section,
+        profiles: sectionProfiles,
+      };
+    }
+  });
+
+  const result = Object.values(grouped);
+
+  res.json(result);
 });
+
+
 
 /*
 returns children profiles of profile with specified id and grandchildren of these profiles
