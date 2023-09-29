@@ -29,4 +29,6 @@ export interface ProfileRecord {
   pbo_category_en_name: string | null;
 
   childrenCount: number | null;
+
+  section_id: number;
 }
