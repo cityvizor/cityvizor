@@ -10,6 +10,8 @@ import {PostprocessingTransformer} from '../postprocessing-transformer';
 import {CityvizorFileType} from './cityvizor-file-type';
 
 export async function importCityvizor(options: Import.Options) {
+  logger.log(`Starting import: ${JSON.stringify(options)}}`);
+
   const dirFiles = await fs.readdir(options.importDir);
 
   // identify the usable files in import dir

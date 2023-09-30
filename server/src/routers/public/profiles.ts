@@ -121,17 +121,18 @@ router.get('/:id/children', async (req, res) => {
     .first();
   if (!parentProfile) return res.sendStatus(404);
 
-  const query = createQueryWithStatusFilter(req.query.status, 'profile')
-    .where(
-      'profile.parent',
-      Number(req.params.id)
-    );
+  const query = createQueryWithStatusFilter(req.query.status, 'profile').where(
+    'profile.parent',
+    Number(req.params.id)
+  );
   let profiles = await query;
 
   const profileIds = profiles.map(p => Number(p.id));
 
-  const grandchildrenQuery = createQueryWithStatusFilter(req.query.status, 'profile')
-    .whereIn('profile.parent', profileIds);
+  const grandchildrenQuery = createQueryWithStatusFilter(
+    req.query.status,
+    'profile'
+  ).whereIn('profile.parent', profileIds);
   const grandchildrenProfiles = await grandchildrenQuery;
 
   profiles = profiles.concat(grandchildrenProfiles).sort((a, b) => a.id - b.id);

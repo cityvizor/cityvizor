@@ -41,6 +41,14 @@ Projekt aktuálně nemá vytvořené testy, ale budeme rádi když s nimi pomů�
 Frontend dle [Angular Style Guide](https://angular.io/guide/styleguide).
 Code Quality dle automaticky kontrolovaných ESLint pravidel (pre-commit hook a kontrola každého pull-request/push)
 
+### Prettier formatter
+
+Kód lze nechat automaticky zformátovat pomocí příkazu:
+
+```bash
+prettier . --write
+```
+
 ## Pravidla přispívání
 - kód a commity **v angličtině**,
 - všechno ostatní (pull requesty, issues, dokumentace) **v češtině**,

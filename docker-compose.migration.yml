@@ -2,4 +2,4 @@ version: "3.8"
 
 services:
   server.cityvizor.otevrenamesta:
-    command: -w db.cityvizor.otevrenamesta -a -m test -i
+    command: -w db.cityvizor.otevrenamesta:5432 -a -m test -i
