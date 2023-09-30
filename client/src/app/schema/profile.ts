@@ -12,8 +12,6 @@ export class Profile {
     type: ProfileType;
     pboCategoryId?: string | null;
 
-    main: boolean;
-
     url: string;
     name: string;
     popupName?: string;

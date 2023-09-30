@@ -51,10 +51,6 @@ export class DataService {
 		return this.http.get<Profile>(this.root + "/profiles/" + profileId).toPromise();
 	}
 
-	getMainProfile() {
-		return this.http.get<Profile>(this.root + "/profiles/main").toPromise();
-	}
-
 	/* AVATARS */
 	getProfileAvatarUrl(profile: Profile): string | null {
 		if (profile.avatarType) return this.root + "/profiles/" + profile.id + "/avatar";

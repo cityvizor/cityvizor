@@ -46,13 +46,11 @@ router.post('/', acl('options:write'), async (req: Request, res: Response) => {
         if(!body){
             res.status(400).json({error: "Invalid 'selection' request."});
         }
-        console.log("$$$$$$$$$$$$$$ HERE")
 
         const [id] = await db('app.sections').insert(body, [
             'sectionId',
           ]);
 
-        console.log("$$$$$$$$$$$$$$ HERE2")
         res.status(201).json(id);
     } catch (err) {
         res.status(500).json({ error: err instanceof Error ? err.message : err });

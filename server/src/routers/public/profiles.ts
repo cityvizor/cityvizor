@@ -34,9 +34,9 @@ function createQueryWithStatusFilter(statuses, tableName: string) {
   return query;
 }
 
-function addCountChildrenInnerQuery(query, statusses) {
+function addCountChildrenInnerQuery(query, statuses) {
   const innerQuery = createQueryWithStatusFilter(
-    statusses,
+    statuses,
     'innerProfile'
   )
     .select('innerProfile.id', db.raw('COUNT(child.id) AS childrenCount'))
@@ -119,15 +119,6 @@ router.get('/:id/children', async (req, res) => {
   profiles = profiles.concat(grandchildrenProfiles).sort((a, b) => a.id - b.id);
 
   return res.json({parent: parentProfile, children: profiles});
-});
-
-router.get('/main', async (req, res) => {
-  const profile = await db<ProfileRecord>('profiles')
-    .where({main: true})
-    .first();
-
-  if (!profile) return res.sendStatus(404);
-  return res.json(profile);
 });
 
 router.get('/:profile', async (req, res) => {

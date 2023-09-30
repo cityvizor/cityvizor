@@ -95,9 +95,6 @@
           <option value="visible">Viditelné kategorie</option>
         </select>
       </div>
-      <div class="form-group">
-        <label><input type="checkbox" name="main" [value]="true" [ngModel]="profile?.main">&nbsp;Hlavní profil</label>
-      </div>
 
       <button type="submit" class="btn btn-primary" style="margin-bottom: 2em;" [disabled]="!settingsForm.valid">{{'common.save' |
         translate}}</button>

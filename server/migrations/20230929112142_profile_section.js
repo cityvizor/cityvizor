@@ -39,7 +39,6 @@ exports.up = function (knex) {
                     profiles.mapasamospravy,
                     profiles.gps_x,
                     profiles.gps_y,
-                    profiles.main,
                     profiles.type,
                     profiles.parent,
                     profiles.popup_name,
@@ -47,6 +46,11 @@ exports.up = function (knex) {
                     profiles.pbo_category_id,
                     profiles.section_id
                 FROM app.profiles`);
+        })
+        .then(() => {
+            return knex.schema.alterTable('app.profiles', (table) => {
+                table.dropColumn('main');
+            });
         })
         .then(() => { // update existing profiles so landing page displays the same set of profiles as before this migration
             return knex.raw(`
@@ -68,7 +72,11 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
     return knex
-        .raw(
+    .schema.alterTable('app.profiles', (table) => {
+        table.boolean('main').defaultTo(false);
+      })
+      .then(() => {
+        return knex.raw(
             `CREATE OR REPLACE VIEW public.profiles AS SELECT 
                 profiles.id,
                 profiles.status,
@@ -89,7 +97,7 @@ exports.down = function (knex) {
                 profiles.sum_mode,
                 profiles.pbo_category_id,
             FROM app.profiles`
-        )
+        )})
         .then(() => {
             return knex.schema.alterTable('app.profiles', table => {
                 table.dropForeign('section_id');
