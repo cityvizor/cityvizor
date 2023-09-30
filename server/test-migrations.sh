@@ -7,4 +7,4 @@ BASE="${SCRIPT_DIR}/.."
 
 docker-compose -f ${BASE}/docker-compose.yml -f ${BASE}/docker-compose.dev.yml down --volumes
 
-docker-compose -f ${BASE}/docker-compose.yml -f ${BASE}/docker-compose.dev.yml -f ${BASE}/docker-compose.migration.yml up --attach server.cityvizor.otevrenamesta --build server.cityvizor.otevrenamesta
+docker-compose -f ${BASE}/docker-compose.yml -f ${BASE}/docker-compose.dev.yml -f ${BASE}/docker-compose.migration.yml up --build server.cityvizor.otevrenamesta db.cityvizor.otevrenamesta pgadmin.cityvizor.otevrenamesta

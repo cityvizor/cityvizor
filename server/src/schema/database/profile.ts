@@ -6,7 +6,6 @@ export interface ProfileRecord {
   status: 'visible' | 'pending' | 'hidden';
   type: ProfileType;
   sumMode: 'complete' | 'visible';
-  main: boolean;
 
   url: string;
   name: string;
@@ -29,4 +28,6 @@ export interface ProfileRecord {
   pbo_category_en_name: string | null;
 
   childrenCount: number | null;
+
+  sectionId: number | null;
 }

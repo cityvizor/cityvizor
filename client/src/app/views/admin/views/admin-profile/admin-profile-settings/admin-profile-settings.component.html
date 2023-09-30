@@ -1,6 +1,9 @@
 <div class="row">
   <div class="col-md-7">
     <h3>Základní informace</h3>
+    <div *ngIf="(profile.status === 'visible' || profile.status === 'pending') && (profile.parent == null && profile.sectionId == null)" class="pb-3">
+      <span class="label label-red">Tento profil je {{profile.status == 'visible' ? 'viditelný' : 'připravovaný'}},  ale nemá nastavený rodičovský profil ani sekci na hlavní stránce, <br> ve které by měl být zobrazen. Uživatelé aplikace tento profil aktuálně nevidí.</span>
+    </div>
     <form class="form" #settingsForm="ngForm" (ngSubmit)="saveProfile(settingsForm)">
       <div class="form-group">
         <label>Typ profilu</label>
@@ -76,14 +79,21 @@
         </select>
       </div>
       <div class="form-group">
+        <label>Sekce na hlavní stránce</label>
+        <select name="sectionId" [ngModel]="profile?.sectionId" class="form-control">
+          <option value="null" [selected]="profile?.sectionId == null">Nezobrazovat na hlavní stránce</option>
+          <option *ngFor="let sec of sections" [value]="sec.sectionId"
+            [selected]="sec.sectionId === profile?.sectionId">
+            {{sec.csName}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
         <label>Položky zahrnuté do součtů</label>
         <select name="sum_mode" [ngModel]="profile?.sumMode" class="form-control">
           <option value="complete">Všechny</option>
           <option value="visible">Viditelné kategorie</option>
         </select>
-      </div>
-      <div class="form-group">
-        <label><input type="checkbox" name="main" [value]="true" [ngModel]="profile?.main">&nbsp;Hlavní profil</label>
       </div>
 
       <button type="submit" class="btn btn-primary" style="margin-bottom: 2em;" [disabled]="!settingsForm.valid">{{'common.save' |

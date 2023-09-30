@@ -9,6 +9,7 @@ import { ConfigService } from 'config/config';
 import { ToastService } from 'app/services/toast.service';
 import { DataService } from 'app/services/data.service';
 import { PboCategory } from 'app/schema/pbo-category';
+import { Section } from 'app/schema/section';
 
 @Component({
   selector: 'admin-profile-settings',
@@ -23,6 +24,7 @@ export class AdminProfileSettingsComponent implements OnInit {
   parentProfileName?: string;
   pboCategories: PboCategory[];
   profileIdParentIdMap: Map<number, number | null>;
+  sections: Section[];
 
   constructor(
     private profileService: ProfileService,
@@ -39,6 +41,7 @@ export class AdminProfileSettingsComponent implements OnInit {
     this.initializeProfileParentMap();
     this.updateProfilesValidAsParent();
     this.pboCategories = await this.adminService.getPboCategories();
+    this.sections = await this.adminService.getSections();
 
     this.profileId.subscribe(profileId => {
       if (profileId) this.loadProfile(profileId)
@@ -70,6 +73,7 @@ export class AdminProfileSettingsComponent implements OnInit {
     const data = form.value;
 
     if (data.parent == "null") data.parent = null;
+    if (data.sectionId == "null") data.sectionId = null;
 
     await this.adminService.saveProfile(this.profile.id, data)
 
