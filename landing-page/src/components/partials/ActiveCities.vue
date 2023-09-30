@@ -96,7 +96,7 @@ export default {
   },
   mounted() {
     axios
-      .get(`${this.apiBaseUrl}/public/profiles`, {
+      .get(`${this.apiBaseUrl}/public/profiles/sections`, {
         params: {
           status: "pending,visible",
           countChildren: true,

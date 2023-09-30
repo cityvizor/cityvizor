@@ -54,6 +54,26 @@ Query params: {
 }
 */
 router.get('/', async (req, res) => {
+  let profileQuery = createQueryWithStatusFilter(req.query.status, 'profile');
+
+  if (req.query.countChildren) {
+    profileQuery = addCountChildrenInnerQuery(profileQuery, req.query.status);
+  }
+
+  profileQuery.orderBy('profile.id');
+
+  const profiles = await profileQuery;
+
+  res.json(profiles);
+});
+
+/*
+Query params: {
+  string[] status - filtes profiles by provided statuses
+  bool countChildren - if true, for each returned profile counts its children profiles
+}
+*/
+router.get('/sections', async (req, res) => {
   const sectionQuery = db<SectionRecord>('app.sections AS section');
 
   let profileQuery = createQueryWithStatusFilter(req.query.status, 'profile');
@@ -83,8 +103,6 @@ router.get('/', async (req, res) => {
 
   res.json(result);
 });
-
-
 
 /*
 returns children profiles of profile with specified id and grandchildren of these profiles
