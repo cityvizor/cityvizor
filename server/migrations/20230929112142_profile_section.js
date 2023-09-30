@@ -24,6 +24,9 @@ exports.up = function (knex) {
                     .inTable('app.sections');
             });
         })
+        .then(() => { 
+            return knex.raw('DROP VIEW IF EXISTS profiles');
+        })
         .then(() => {
             return knex.raw(`
                 CREATE OR REPLACE VIEW public.profiles AS SELECT 
