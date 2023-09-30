@@ -17,7 +17,7 @@ services:
     build: 
       context: ./server
       target: prod
-    command: -w db.cityvizor.otevrenamesta -a -m server 
+    command: -w db.cityvizor.otevrenamesta:5432 -a -m server 
     container_name: server.cityvizor.otevrenamesta
     environment:
       NODE_ENV: local
@@ -34,7 +34,7 @@ services:
     build: 
       context: ./server
       target: prod
-    command: -w db.cityvizor.otevrenamesta -a -m worker
+    command: -w db.cityvizor.otevrenamesta:5432 -a -m worker
     container_name: worker.cityvizor.otevrenamesta
     environment:
       NODE_ENV: local

@@ -8,7 +8,7 @@ import {CityvizorFileType} from './cityvizor-file-type';
 
 type Row = Record<string, string | number>;
 
-const headerAliases = {
+const columnAliases: Record<string, string[]> = {
   type: ['type', 'recordType', 'MODUL', 'DOKLAD_AGENDA'],
   paragraph: ['paragraph', 'PARAGRAF'],
   item: ['item', 'POLOZKA'],
@@ -30,12 +30,12 @@ const headerAliases = {
   budgetIncomeAmount: ['budgetIncomeAmount'],
 };
 
-function getMandatoryHeaders(
+function getMandatoryColumns(
   fileType: CityvizorFileType,
   profileType: ProfileType
 ): string[][] {
   // Data exported from Cityvizor do not contain 'amount' column, but contain the other four columns
-  const municipalityHeaders = [
+  const municipalityColumns = [
     ['paragraph'],
     ['item'],
     [
@@ -47,7 +47,7 @@ function getMandatoryHeaders(
     ],
   ];
 
-  const pboHeaders = [
+  const pboColumns = [
     ['item'],
     ['date'],
     [
@@ -59,25 +59,25 @@ function getMandatoryHeaders(
     ],
   ];
 
-  const eventHeaders = [['id'], ['name']];
+  const eventColumns = [['id'], ['name']];
 
   if (profileType === 'pbo') {
     switch (fileType) {
       case CityvizorFileType.ACCOUNTING:
       case CityvizorFileType.DATA:
       case CityvizorFileType.PAYMENTS:
-        return pboHeaders;
+        return pboColumns;
       case CityvizorFileType.EVENTS:
-        return eventHeaders;
+        return eventColumns;
     }
   } else {
     switch (fileType) {
       case CityvizorFileType.ACCOUNTING:
       case CityvizorFileType.DATA:
       case CityvizorFileType.PAYMENTS:
-        return municipalityHeaders;
+        return municipalityColumns;
       case CityvizorFileType.EVENTS:
-        return eventHeaders;
+        return eventColumns;
     }
   }
 }
@@ -86,42 +86,40 @@ export function createCityvizorParser(
   fileType: CityvizorFileType,
   profileType: ProfileType
 ): csvparse.Parser {
-  const headers: string[][] = getMandatoryHeaders(fileType, profileType);
+  const columns: string[][] = getMandatoryColumns(fileType, profileType);
 
-  const parseHeader = (
-    headerLine: string[],
-    mandatoryHeaders: string[][]
+  const mapHeaderColumns = (
+    header: string[],
+    mandatoryColumns: string[][]
   ): string[] => {
     // remove possible BOM at the beginning of file, also removes extra whitespaces
-    headerLine = headerLine.map(item => item.trim());
-    logger.log(
-      `The header array being searched for field names: [${headerLine}]`
-    );
-    const foundHeaders: string[] = headerLine.map(originalField => {
+    header = header.map(item => item.trim());
+    logger.log(`The header array being searched for column names: [${header}]`);
+    const foundColumns: string[] = header.map(originalField => {
       // browse through all the target fields if originalField is someones alias
-      return Object.keys(headerAliases).find(
-        key => headerAliases[key].indexOf(originalField) !== -1
+      return Object.keys(columnAliases).find(
+        key => columnAliases[key].indexOf(originalField) !== -1
       );
     }) as string[];
-    logger.log(`Found headers: [${foundHeaders}]`);
+    logger.log(`Found columns: [${foundColumns}]`);
 
-    // Check if each group of mandatory headers has at least one member present in found headers
-    mandatoryHeaders.forEach(mandatoryHeaderGroup => {
+    // Check if each group of mandatory columns has at least one member present in found column names
+    mandatoryColumns.forEach(mandatoryColumnGroup => {
       if (
-        mandatoryHeaderGroup.filter(header => foundHeaders.includes(header))
+        mandatoryColumnGroup.filter(column => foundColumns.includes(column))
           .length === 0
       ) {
         throw Error(
-          `Failed to find mandatory column header group [${mandatoryHeaderGroup}]`
+          `Failed to find a column for the mandatory column group [${mandatoryColumnGroup}]`
         );
       }
     });
-    return foundHeaders;
+    return foundColumns;
   };
 
   return csvparse({
     delimiter: ';',
-    columns: line => parseHeader(line, headers),
+    columns: line => mapHeaderColumns(line, columns),
     relax_column_count: true,
   });
 }

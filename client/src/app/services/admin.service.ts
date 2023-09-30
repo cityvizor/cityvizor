@@ -5,6 +5,7 @@ import { environment } from "environments/environment";
 import { Profile, BudgetYear, User } from 'app/schema';
 import { Import } from 'app/schema/import';
 import { PboCategory } from 'app/schema/pbo-category';
+import { Section } from 'app/schema/section';
 
 @Injectable({
   providedIn: 'root'
@@ -114,5 +115,9 @@ export class AdminService {
   /* OPTIONS */
   getPboCategories(): Promise<PboCategory[]> {
     return this.http.get<PboCategory[]>(this.root + "/pbo-categories").toPromise();
+  }
+
+  getSections(): Promise<Section[]> {
+    return this.http.get<Section[]>(this.root + "/sections").toPromise();
   }
 }

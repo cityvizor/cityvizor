@@ -12,8 +12,6 @@ export class Profile {
     type: ProfileType;
     pboCategoryId?: string | null;
 
-    main: boolean;
-
     url: string;
     name: string;
     popupName?: string;
@@ -25,6 +23,7 @@ export class Profile {
     edesky?: number;
     parent?: number | null;
     mapasamospravy: number;
+    sectionId: number | null;
 
     avatarType: string;
     avatarUrl: string;

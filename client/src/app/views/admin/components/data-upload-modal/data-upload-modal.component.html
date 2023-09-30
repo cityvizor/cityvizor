@@ -8,7 +8,7 @@
   (ngSubmit)="uploadData(uploadForm, dataFileInput, eventsFileInput, accountingFileInput, paymentsFileInput, expectedPlanFileInput, realPlanFileInput, aaNamesFileInput)">
   <div class="modal-body">
 
-    <div class="form-group">
+    <div [hidden]="isPbo" class="form-group">
       <label>Datový soubor (rozpočet a faktury v jednom souboru)</label>
       <input type="file" name="dataFile" accept=".csv" class="form-control" ngModel #dataFileInput>
       <select class="form-group" name="dataFileMode" ngModel>
@@ -43,6 +43,7 @@
         <option *ngFor="let mode of modes" [value]="mode.value">{{mode.display}}</option>
       </select>
     </div>
+
     <div [hidden]="!isPbo" class="form-group">
       <label>Očekávaný plán</label>
       <input type="file" name="expectedPlanFile" accept=".csv" class="form-control" ngModel #expectedPlanFileInput>

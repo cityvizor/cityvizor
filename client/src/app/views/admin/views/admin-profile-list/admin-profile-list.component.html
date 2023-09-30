@@ -54,13 +54,13 @@
     <ng-template pTemplate="body" let-profile>
       <tr>
         <td [routerLink]="'./' + profile.id">
-          <a style="font-weight: 500;">
+          <a class="mr-1" style="font-weight: 500;">
             {{profile.name}}
           </a>
-          <span *ngIf="profile.status === 'hidden'" class="label label-danger">skrytý</span>
-          <span *ngIf="profile.status === 'preview'" class="label label-warning">skrytý na úvodu</span>
-          <span *ngIf="profile.status === 'pending'" class="label label-warning">připravovaný</span>
-          <span *ngIf="profile.main" class="label label-primary">{{profile.main ? "hlavní profil" : ""}}</span>
+          <span *ngIf="profile.status === 'hidden'" class="label label-warning">skrytý</span>
+          <span *ngIf="profile.status === 'pending'" class="label label-default">připravovaný</span>
+          <span *ngIf="(profile.status === 'visible' || profile.status === 'pending') && (profile.parent == null && profile.sectionId == null)"
+             class="label label-danger">nezobrazený</span>
         </td>
         <td [routerLink]="'./' + profile.id">
           <ng-container [ngSwitch]="profile.type">

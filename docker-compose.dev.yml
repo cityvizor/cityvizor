@@ -19,7 +19,7 @@ services:
     server.cityvizor.otevrenamesta:
         build:
             target: dev
-        command: -w db.cityvizor.otevrenamesta -a -m server-dev -i
+        command: -w db.cityvizor.otevrenamesta:5432 -a -m server-dev -i
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
@@ -27,13 +27,43 @@ services:
     worker.cityvizor.otevrenamesta:
         build:
             target: dev
-        command: -w db.cityvizor.otevrenamesta -a -m worker-dev -i
+        command: -w db.cityvizor.otevrenamesta:5432 -a -m worker-dev -i
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
+
     landing.cityvizor.otevrenamesta:
         build:
             target: dev
         volumes:
             - ./landing-page/src:/user/src/app/src
             - ./landing-page/cfg:/user/src/app/cfg
+
+    pgadmin.cityvizor.otevrenamesta:
+        container_name: pgadmin.cityvizor.otevrenamesta
+        image: dpage/pgadmin4:7.7
+        restart: always
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@admin.com
+            PGADMIN_DEFAULT_PASSWORD: pass
+            PGADMIN_CONFIG_SERVER_MODE: "False"
+            PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+            PGADMIN_CONFIG_WTF_CSRF_CHECK_DEFAULT: "False"
+            PGADMIN_CONFIG_WTF_CSRF_ENABLED: "False"
+            PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+        ports:
+            - "5050:80"
+        volumes:
+            - pgadmin-data:/var/lib/pgadmin
+            - ./database/pgadmin/servers.json:/pgadmin4/servers.json
+            - ./database/pgadmin/pgpass:/pgadmin4/pgpass
+        entrypoint: >
+            /bin/sh -c "
+            cp -f /pgadmin4/pgpass /var/lib/pgadmin/;
+            chmod 600 /var/lib/pgadmin/pgpass;
+            chown pgadmin:pgadmin /var/lib/pgadmin/pgpass;
+            /entrypoint.sh
+            "
+
+volumes:
+    pgadmin-data:

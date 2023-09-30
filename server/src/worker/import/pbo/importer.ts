@@ -8,6 +8,8 @@ import {promisify} from 'util';
 import {pipeline} from 'stream';
 
 export async function importPbo(options: Import.Options) {
+  logger.log(`Starting import: ${JSON.stringify(options)}}`);
+
   const dirFiles = await fs.readdir(options.importDir);
   const file = dirFiles.find(filename => filename.match(/.*.csv/));
   if (!file) {

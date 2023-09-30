@@ -78,7 +78,16 @@ export default {
         });
 
         this.profile = response.data.parent;
-        this.pbos = sortedData.filter((profile) => profile.type == "pbo");
+
+       let profilesByIds = sortedData.reduce((acc, item) => {
+          acc[item.id] = item;
+          return acc;
+        }, {});
+        profilesByIds[this.profile.id] = this.profile
+
+        this.pbos = sortedData
+          .filter((profile) => profile.type == "pbo")
+          .map((profile) => ({...profile, parentName: profilesByIds[profile.parent]?.name ?? "Neznámý"}));
         this.municipatilies = sortedData.filter(
           (profile) => profile.type == "municipality"
         );
