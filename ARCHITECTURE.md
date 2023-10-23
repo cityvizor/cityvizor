@@ -26,7 +26,7 @@ Součást serveru; nicméně se spouští jako samostatný proces (viz `./server
 Průběh importu je popsán v [technické dokumentaci](https://cityvizor.cz/landing/dokumentace). Po nahrání dat do formuláře v administraci v klientovi server tyto data umístí do složky sdílené s workerem (pomocí bind-mountu) a zapíše záznam do tabulky v DB, kterou worker pravidelně kontroluje. Samotný import dat pak provede worker. 
 
 ## Databáze
-Postgres. Do databáze v development módu je možné se dostat pomocí `docker exec -it db.cityvizor.otevrenamesta psql -U postgres -d cityvizor`, kde by měly být testovací data. 
+Postgres. Do databáze v development módu je možné se dostat pomocí `docker exec -it db.cityvizor psql -U postgres -d cityvizor`, kde by měly být testovací data. 
 
 ### Migrace
 Migrace probíhá pomocí Knex migračních skriptů, které se umisťují do `server/migrations` složky.

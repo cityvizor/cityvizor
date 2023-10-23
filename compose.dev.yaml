@@ -1,11 +1,11 @@
 version: "3.8"
 
 services:
-    nginx.cityvizor.otevrenamesta:
+    nginx.cityvizor:
       volumes:
         - ./nginx/dev-with-nginx/:/etc/nginx:ro
 
-    client.cityvizor.otevrenamesta:
+    client.cityvizor:
         build:
             target: dev
         volumes:
@@ -16,31 +16,31 @@ services:
         environment:
             NODE_ENV: localnginx
 
-    server.cityvizor.otevrenamesta:
+    server.cityvizor:
         build:
             target: dev
-        command: -w db.cityvizor.otevrenamesta:5432 -a -m server-dev -i
+        command: -w db.cityvizor:5432 -a -m server-dev -i
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
 
-    worker.cityvizor.otevrenamesta:
+    worker.cityvizor:
         build:
             target: dev
-        command: -w db.cityvizor.otevrenamesta:5432 -a -m worker-dev -i
+        command: -w db.cityvizor:5432 -a -m worker-dev -i
         volumes:
             - ./server:/home/node/app/
             - /home/node/app/node_modules
 
-    landing.cityvizor.otevrenamesta:
+    landing.cityvizor:
         build:
             target: dev
         volumes:
             - ./landing-page/src:/user/src/app/src
             - ./landing-page/cfg:/user/src/app/cfg
 
-    pgadmin.cityvizor.otevrenamesta:
-        container_name: pgadmin.cityvizor.otevrenamesta
+    pgadmin.cityvizor:
+        container_name: pgadmin.cityvizor
         image: dpage/pgadmin4:7.7
         restart: always
         environment:
