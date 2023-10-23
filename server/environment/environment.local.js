@@ -18,7 +18,7 @@ module.exports = {
 
   database: {
     client: 'pg',
-    host: 'db.cityvizor.otevrenamesta',
+    host: 'db.cityvizor',
     user: 'postgres',
     password: 'pass',
     database: 'cityvizor',
@@ -26,14 +26,14 @@ module.exports = {
 
   redis: {
     port: 6379,
-    host: 'redis.cityvizor.otevrenamesta',
+    host: 'redis.cityvizor',
     // 10 minutes
     ttl: 600,
   },
 
   s3: {
     enabled: true,
-    host: 'minio.cityvizor.otevrenamesta',
+    host: 'minio.cityvizor',
     cdn_host: 'http://localhost:9000',
     port: 9000,
     access_key: 'minioadmin',

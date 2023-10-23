@@ -6,8 +6,8 @@ Příkaz `mc` je **Minio Client**, který si můžete nainstalovat dle návodu h
 
 ```shell
 # $ACCESS_KEY a $SECRET_KEY jsou přístupové oprávnění administrátora minio serveru
-# URL http://minio.cityvizor.otevrenamesta je použitelná, pokud máte CityVizor spuštěný pomocí docker-compose, případně použijte vlastní URL
-mc alias set cv http://minio.cityvizor.otevrenamesta $ACCESS_KEY $SECRET_KEY
+# URL http://minio.cityvizor je použitelná, pokud máte CityVizor spuštěný pomocí docker-compose, případně použijte vlastní URL
+mc alias set cv http://minio.cityvizor $ACCESS_KEY $SECRET_KEY
 # Přidáme uživatele ACCESS_KEY=cityvizor SECRET_KEY=cityvizor
 mc admin user add cv cityvizor cityvizor
 # Vytvoříme 2 buckety, jeden pro server/worker a druhý pro veřejně dostupné soubory (CDN)

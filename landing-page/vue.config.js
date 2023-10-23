@@ -23,7 +23,7 @@ module.exports = {
         // https://cli.vuejs.org/config/#devserver-proxy
         proxy: {
             '^/api': {
-                target: "http://server.cityvizor.otevrenamesta:3000"
+                target: "http://server.cityvizor:3000"
             }
         },
     },

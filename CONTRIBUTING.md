@@ -15,7 +15,7 @@
 Pro prvotní osahání je nejjednodušší použít Docker compose, který nastartuje všechny potřebné služby. Stačí spustit
 `docker-compose up --build` a aplikace bude běžet na http://localhost:4200/. Tento způsob spuštění by měl simulovat produkci.
 
-Soubor `docker-compose.yml` je i dobrý i pro představu jak se jednotivé služby konfigurují a startují. Dá se tam 
+Soubor `compose.yaml` je i dobrý i pro představu jak se jednotivé služby konfigurují a startují. Dá se tam 
 například najít, jak nastartovat Postgres v Dockeru tak aby v něm byla nějaká data. 
 
 ## Lokální vývoj
@@ -23,7 +23,7 @@ například najít, jak nastartovat Postgres v Dockeru tak aby v něm byla něja
 Příkaz
 
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+docker-compose -f compose.yaml -f compose.dev.yaml up --build
 ```
 
 spustí celou aplikaci s hot reloadem klienta, landing page a JS serveru pro rychlý vývoj. Pokud spouštíte celý příkaz opakovaně, může se hodit před znovuspuštěním celý stack zresetovat přes `docker-compose down`. Při použití tohoto příkazu se také vytvoří defaultní administrátorský účet; login: `admin`, heslo: `admin`.

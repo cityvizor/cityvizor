@@ -1,2 +1,2 @@
-db.cityvizor.otevrenamesta:5432:postgres:postgres:pass
-db.cityvizor.otevrenamesta:5432:cityvizor:postgres:pass
+db.cityvizor:5432:postgres:postgres:pass
+db.cityvizor:5432:cityvizor:postgres:pass

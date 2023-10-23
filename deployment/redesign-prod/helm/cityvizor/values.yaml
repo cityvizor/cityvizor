@@ -5,7 +5,7 @@
 cityvizor_server:
   image: cityvizor/cityvizor-server
   tag: prod
-  database_host: db.cityvizor.otevrenamesta
+  database_host: db.cityvizor
   database_name: postgres
   database_username: postgres
   database_password: pass
@@ -28,9 +28,6 @@ ingress:
   main_host: localhost
   landing_page_host: localhost-landing-page
  
-shared_env:
-  images_url: https://cityvizor-images.s3.eu-central-1.amazonaws.com/
-
 shared_env:
   images_url: https://cityvizor-images.s3.eu-central-1.amazonaws.com/
 
