@@ -18,7 +18,11 @@
             "expenditures": "Výdaje",
             "income": "Příjem",
             "incomes": "Příjmy",
-            "realIncome": "Skutečný příjem"
+            "realIncome": "Skutečný příjem",
+            "unclassified": {
+                "exp": "Nezařazené výdaje",
+                "inc": "Nezařazené příjmy"
+            }
         },
         "pbo": {
             "budget": "Plán",
