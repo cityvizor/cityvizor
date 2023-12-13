@@ -1,9 +1,12 @@
-<div class="container">
-  <button (click)="openModal(createProfileModal)" class="btn btn-primary" style="margin-bottom: 1.5em">
-    Vytvořit profil
-  </button>
+<h4>Subprofiles {{profileId ?? "None"}}</h4>
+  <!-- <div>{{ subprofiles | json }}</div> -->
 
-  <p-table [value]="profilesWithParentName" [rowHover]="true" sortField="name">
+  <!-- <div *ngFor="let profile of subprofiles">
+    <p>{{ profile.name}}XXXX {{ profile.id }}</p>
+  </div> -->
+
+  <div>
+  <p-table [value]="subprofiles" [rowHover]="true" sortField="name">
     <ng-template pTemplate="header">
       <!-- Column labels + sorting -->
       <tr>
@@ -12,9 +15,6 @@
         </th>
         <th pSortableColumn="type" style="width: 16em">
           Typ <p-sortIcon field="type"></p-sortIcon>
-        </th>
-        <th pSortableColumn="parentName" style="width: 16em">
-          Nadřazený profil <p-sortIcon field="parent"></p-sortIcon>
         </th>
         <th pSortableColumn="url" style="min-width: 10em">
           URL <p-sortIcon field="url"></p-sortIcon>
@@ -41,10 +41,6 @@
               </p-dropdown>
             </ng-template>
           </p-columnFilter>
-        </th>
-        <th>
-          <!-- Parent -->
-          <p-columnFilter type="text" field="parentName" matchMode="contains"></p-columnFilter>
         </th>
         <th>
           <!-- URL -->
@@ -76,7 +72,6 @@
             <span *ngSwitchCase="'empty'">Bez rozpočtu</span>
           </ng-container>
         </td>
-        <td>{{profile.parentName ?? "žádný" }}</td>
         <td [routerLink]="'/' + profile.url"><a>{{configService.config.siteUrl}}/{{profile.url}}</a></td>
         <td (click)="$event.stopImmediatePropagation()">
           <div class="btn-group pull-right text-nowrap" dropdown>
