@@ -4,7 +4,7 @@ export type ProfileSumMode = "complete" | "visible";
 
 export type ProfileType = "municipality" | "pbo" | "external"
 
-export class Profile {
+export interface Profile {
     id: number;
 
     status: ProfileStatus;
