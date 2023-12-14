@@ -1,10 +1,3 @@
-<h4>Subprofiles {{profileId ?? "None"}}</h4>
-  <!-- <div>{{ subprofiles | json }}</div> -->
-
-  <!-- <div *ngFor="let profile of subprofiles">
-    <p>{{ profile.name}}XXXX {{ profile.id }}</p>
-  </div> -->
-
   <div>
   <p-table [value]="subprofiles" [rowHover]="true" sortField="name">
     <ng-template pTemplate="header">
@@ -55,7 +48,7 @@
     <!-- Data rows -->
     <ng-template pTemplate="body" let-profile>
       <tr>
-        <td [routerLink]="'./' + profile.id">
+        <td [routerLink]="'../../' + profile.id">
           <a class="mr-1" style="font-weight: 500;">
             {{profile.name}}
           </a>
@@ -64,7 +57,7 @@
           <span *ngIf="(profile.status === 'visible' || profile.status === 'pending') && (profile.parent == null && profile.sectionId == null)"
              class="label label-danger">nezobrazený</span>
         </td>
-        <td [routerLink]="'./' + profile.id">
+        <td [routerLink]="'../../' + profile.id">
           <ng-container [ngSwitch]="profile.type">
             <span *ngSwitchCase="'municipality'">Municipalita</span>
             <span *ngSwitchCase="'pbo'">Příspěvkovka</span>
