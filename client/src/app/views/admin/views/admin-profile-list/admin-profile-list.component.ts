@@ -6,14 +6,17 @@ import {NgForm} from '@angular/forms';
 import {AdminService} from 'app/services/admin.service';
 import {AuthService} from "../../../../services/auth.service";
 
+interface ProfileWithParentName extends Profile {
+    parentName: String
+}
+
 @Component({
     selector: 'admin-profile-list',
     templateUrl: './admin-profile-list.component.html',
     styleUrls: ['./admin-profile-list.component.scss']
 })
 export class AdminProfileListComponent implements OnInit {
-
-    profiles: Profile[] = [];
+    profilesWithParentName: ProfileWithParentName[] = [];
 
     profileTypes = [
         { value: "municipality", label: "Municipalita" },
@@ -40,14 +43,12 @@ export class AdminProfileListComponent implements OnInit {
     }
 
     async loadProfiles(): Promise<void> {
-        this.profiles = [];
         this.loading = true;
-        this.profiles = (await this.adminService.getProfiles())
-            .filter((profile) => {
-                    return this.authService.userManagesProfile(profile.id)
-                }
-            )
-            .sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true, sensitivity: 'base'}));
+        let profilesByIds =  (await this.adminService.getProfiles()).reduce((acc, profile) => {
+            acc[profile.id] = profile;
+            return acc;
+          }, {});
+        this.profilesWithParentName = this.getProfilesWithParentNames(profilesByIds);
         this.loading = false;
     }
 
@@ -63,6 +64,21 @@ export class AdminProfileListComponent implements OnInit {
     async deleteProfile(profileId: Profile["id"]) {
         await this.adminService.deleteProfile(profileId);
         this.loadProfiles();
+    }
+
+    getProfilesWithParentNames(profilesByIds: Record<number, Profile>): ProfileWithParentName[] {
+        const result: ProfileWithParentName[] = [];
+      
+        for (const profileId in profilesByIds) {
+          const profile = profilesByIds[profileId];
+          const parentProfile = profile.parent ? profilesByIds[profile.parent] : null;
+          const parentName = parentProfile ? parentProfile.name : 'žádný';
+      
+          result.push({ parentName, ...profile});
+        }
+
+        result.sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true, sensitivity: 'base'}));
+        return result;
     }
 
     openModal(template: TemplateRef<any>) {

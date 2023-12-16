@@ -22,6 +22,8 @@ import { AdminUserComponent } from './views/admin-user/admin-user.component';
 import { ManagedProfilesSelectorComponent } from './components/managed-profiles-selector/managed-profiles-selector.component';
 import { AdminProfileApiComponent } from './views/admin-profile/admin-profile-api/admin-profile-api.component';
 import { UserSetPasswordModalComponent } from './components/user-set-password-modal/user-set-password-modal.component';
+import { AdminProfileSubprofilesComponent } from './views/admin-profile/admin-profile-subprofiles/admin-profile-subprofiles.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -32,6 +34,7 @@ import { UserSetPasswordModalComponent } from './components/user-set-password-mo
         AdminProfileComponent,
         AdminProfileDataComponent,
         AdminProfileSettingsComponent,
+        AdminProfileSubprofilesComponent,
         AdminProfileLogsComponent,
         DataUploadModalComponent,
         AddModifyYearModalComponent,
@@ -46,7 +49,8 @@ import { UserSetPasswordModalComponent } from './components/user-set-password-mo
     imports: [
         CommonModule,
         AdminRoutingModule,
-        SharedModule
+        SharedModule,
+        ProgressSpinnerModule
     ]
 })
 export class AdminModule { }
