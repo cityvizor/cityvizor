@@ -14,7 +14,7 @@
           Typ <p-sortIcon field="type"></p-sortIcon>
         </th>
         <th pSortableColumn="parentName" style="width: 16em">
-          Nadřazený profil <p-sortIcon field="parent"></p-sortIcon>
+          Rodičovský profil <p-sortIcon field="parent"></p-sortIcon>
         </th>
         <th pSortableColumn="url" style="min-width: 10em">
           URL <p-sortIcon field="url"></p-sortIcon>
@@ -76,7 +76,7 @@
             <span *ngSwitchCase="'empty'">Bez rozpočtu</span>
           </ng-container>
         </td>
-        <td>{{profile.parentName ?? "žádný" }}</td>
+        <td>{{profile?.parentName ?? "žádný" }}</td>
         <td [routerLink]="'/' + profile.url"><a>{{configService.config.siteUrl}}/{{profile.url}}</a></td>
         <td (click)="$event.stopImmediatePropagation()">
           <div class="btn-group pull-right text-nowrap" dropdown>

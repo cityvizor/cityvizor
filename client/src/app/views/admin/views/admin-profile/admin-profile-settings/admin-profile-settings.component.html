@@ -1,4 +1,4 @@
-<div class="row">
+<div *ngIf="!loading else spinner" class="row">
   <div class="col-md-7">
     <h3>Základní informace</h3>
     <div
@@ -145,3 +145,9 @@
     </form>
   </div>
 </div>
+
+<ng-template #spinner>
+  <div layout="row" layout-align="center center" class="zero">
+      <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-template>

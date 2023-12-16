@@ -10,6 +10,7 @@ import { ToastService } from 'app/services/toast.service';
 import { DataService } from 'app/services/data.service';
 import { PboCategory } from 'app/schema/pbo-category';
 import { Section } from 'app/schema/section';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'admin-profile-settings',
@@ -25,8 +26,7 @@ export class AdminProfileSettingsComponent implements OnInit {
   pboCategories: PboCategory[];
   profileIdParentIdMap: Map<number, number | null>;
   sections: Section[];
-
-// TODO: fix parent field when there is no parent set- visual
+  loading: Boolean = true;
 
   constructor(
     private profileService: ProfileService,
@@ -47,6 +47,7 @@ export class AdminProfileSettingsComponent implements OnInit {
 
     this.profileId.subscribe(profileId => {
       if (profileId) this.loadProfile(profileId)
+      this.loading = false;
     });
   }
 
