@@ -3,16 +3,15 @@
     <ng-template pTemplate="header">
       <!-- Column labels + sorting -->
       <tr>
-        <th pSortableColumn="name" style="width: 40%">
+        <th pSortableColumn="name" style="min-width: 30em">
           Název <p-sortIcon field="name"></p-sortIcon>
         </th>
         <th pSortableColumn="type" style="width: 16em">
           Typ <p-sortIcon field="type"></p-sortIcon>
         </th>
-        <th pSortableColumn="url" style="min-width: 10em">
-          URL <p-sortIcon field="url"></p-sortIcon>
+        <th  style="width: 10em">     
         </th>
-        <th>
+        <th style="width: 10em">
         </th>
       </tr>
 
@@ -37,7 +36,6 @@
         </th>
         <th>
           <!-- URL -->
-          <p-columnFilter type="text" field="url" matchMode="contains"></p-columnFilter>
         </th>
         <th>
           <!-- Akce -->
@@ -65,7 +63,7 @@
             <span *ngSwitchCase="'empty'">Bez rozpočtu</span>
           </ng-container>
         </td>
-        <td [routerLink]="'/' + profile.url"><a>{{configService.config.siteUrl}}/{{profile.url}}</a></td>
+        <td [routerLink]="'/' + profile.url" class="btn btn-default"><a>Navštívit profil</a></td>
         <td (click)="$event.stopImmediatePropagation()">
           <div class="btn-group pull-right text-nowrap" dropdown>
             <a dropdownToggle>Akce <span class="caret"></span></a>

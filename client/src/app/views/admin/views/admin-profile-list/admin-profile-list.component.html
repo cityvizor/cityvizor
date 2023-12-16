@@ -13,11 +13,10 @@
         <th pSortableColumn="type" style="width: 16em">
           Typ <p-sortIcon field="type"></p-sortIcon>
         </th>
-        <th pSortableColumn="parentName" style="width: 16em">
+        <th pSortableColumn="parentName" style="width: 30%">
           Rodičovský profil <p-sortIcon field="parent"></p-sortIcon>
         </th>
-        <th pSortableColumn="url" style="min-width: 10em">
-          URL <p-sortIcon field="url"></p-sortIcon>
+        <th  style="width: 10em">     
         </th>
         <th>
         </th>
@@ -48,7 +47,6 @@
         </th>
         <th>
           <!-- URL -->
-          <p-columnFilter type="text" field="url" matchMode="contains"></p-columnFilter>
         </th>
         <th>
           <!-- Akce -->
@@ -77,7 +75,7 @@
           </ng-container>
         </td>
         <td>{{profile?.parentName ?? "žádný" }}</td>
-        <td [routerLink]="'/' + profile.url"><a>{{configService.config.siteUrl}}/{{profile.url}}</a></td>
+        <td [routerLink]="'/' + profile.url" class="btn btn-default"><a>Navštívit profil</a></td>
         <td (click)="$event.stopImmediatePropagation()">
           <div class="btn-group pull-right text-nowrap" dropdown>
             <a dropdownToggle>Akce <span class="caret"></span></a>
