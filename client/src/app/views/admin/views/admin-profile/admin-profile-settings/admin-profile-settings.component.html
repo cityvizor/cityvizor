@@ -1,8 +1,12 @@
 <div class="row">
   <div class="col-md-7">
     <h3>Základní informace</h3>
-    <div *ngIf="(profile.status === 'visible' || profile.status === 'pending') && (profile.parent == null && profile.sectionId == null)" class="pb-3">
-      <span class="label label-red">Tento profil je {{profile.status == 'visible' ? 'viditelný' : 'připravovaný'}},  ale nemá nastavený rodičovský profil ani sekci na hlavní stránce, <br> ve které by měl být zobrazen. Uživatelé aplikace tento profil aktuálně nevidí.</span>
+    <div
+      *ngIf="(profile.status === 'visible' || profile.status === 'pending') && (profile.parent == null && profile.sectionId == null)"
+      class="pb-3">
+      <span class="label label-red">Tento profil je {{profile.status == 'visible' ? 'viditelný' : 'připravovaný'}}, ale
+        nemá nastavený rodičovský profil ani sekci na hlavní stránce, <br> ve které by měl být zobrazen. Uživatelé
+        aplikace tento profil aktuálně nevidí.</span>
     </div>
     <form class="form" #settingsForm="ngForm" (ngSubmit)="saveProfile(settingsForm)">
       <div class="form-group">
@@ -62,15 +66,24 @@
       </div>
       <div class="form-group">
         <label>Rodičovský profil</label>
-        <div class="input-group">
-            <select name="parent" [ngModel]="profile?.parent" class="form-control">
-              <option value="null" [selected]="profile?.parent == null">žádný</option>
-              <option *ngFor="let p of profilesValidAsParent" [value]="p.id" [selected]="p.id === profile?.parent">
-                {{p.name}}
-              </option>
-            </select>
-            <span *ngIf="profile?.parent !== null" [routerLink]="'../../' + profile?.parent"  class="input-group-addon btn btn-default">Navštívit profil</span>
+        <div *ngIf="profile?.parent !== null else noParent" class="input-group">
+          <select name="parent" [ngModel]="profile?.parent" class="form-control">
+            <option value="null" [selected]="profile?.parent == null">žádný</option>
+            <option *ngFor="let p of profilesValidAsParent" [value]="p.id" [selected]="p.id === profile?.parent">
+              {{p.name}}
+            </option>
+          </select>
+          <span [routerLink]="'../../' + profile?.parent" class="input-group-addon btn btn-default">Navštívit
+            profil</span>
         </div>
+        <ng-template #noParent>
+          <select name="parent" [ngModel]="profile?.parent" class="form-control">
+            <option value="null" [selected]="profile?.parent == null">žádný</option>
+            <option *ngFor="let p of profilesValidAsParent" [value]="p.id" [selected]="p.id === profile?.parent">
+              {{p.name}}
+            </option>
+          </select>
+        </ng-template>
       </div>
       <div class="form-group">
         <label>Viditelnost</label>
@@ -99,7 +112,8 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-primary" style="margin-bottom: 2em;" [disabled]="!settingsForm.valid">{{'common.save' |
+      <button type="submit" class="btn btn-primary" style="margin-bottom: 2em;"
+        [disabled]="!settingsForm.valid">{{'common.save' |
         translate}}</button>
 
     </form>

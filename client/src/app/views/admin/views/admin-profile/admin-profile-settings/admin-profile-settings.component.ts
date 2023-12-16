@@ -26,6 +26,8 @@ export class AdminProfileSettingsComponent implements OnInit {
   profileIdParentIdMap: Map<number, number | null>;
   sections: Section[];
 
+// TODO: fix parent field when there is no parent set- visual
+
   constructor(
     private profileService: ProfileService,
     private adminService: AdminService,
