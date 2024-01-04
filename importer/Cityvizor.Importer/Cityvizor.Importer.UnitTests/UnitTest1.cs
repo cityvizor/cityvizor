@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace Cityvizor.Importer.UnitTests;
 
 public class UnitTest1

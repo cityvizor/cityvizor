@@ -1,5 +1,6 @@
 using Cityvizor.Importer.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Cityvizor.Importer.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CityvizorDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"))
     .UseSnakeCaseNamingConvention());
+
+builder.Services.RegisterImporterBackgroundService(builder.Configuration);
 
 var app = builder.Build();
 
