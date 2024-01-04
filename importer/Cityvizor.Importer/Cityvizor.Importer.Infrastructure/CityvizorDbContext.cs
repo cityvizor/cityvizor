@@ -1,6 +1,7 @@
 ﻿using Cityvizor.Importer.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Reflection;
 
 namespace Cityvizor.Importer.Infrastructure;
 
@@ -14,8 +15,13 @@ public class CityvizorDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Import>().ToTable("Imports", schema: "app");
+        
+        Assembly assemblyWithConfigurations = GetType().Assembly; //get whatever assembly you want
+        modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
+
+        // modelBuilder.NamesToSnakeCase();
         //Configure default schema
         //modelBuilder.HasDefaultSchema("app");
     }
+
 }
