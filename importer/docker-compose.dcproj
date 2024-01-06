@@ -5,12 +5,10 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
     <ProjectGuid>1ee3834f-d099-4b84-8ce5-4b3dc51f43ed</ProjectGuid>
+    <DockerComposeBaseFilePath>../compose</DockerComposeBaseFilePath>
+    <AdditionalComposeFilePaths>../compose.dev.yml</AdditionalComposeFilePaths>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="docker-compose.override.yml">
-      <DependentUpon>docker-compose.yml</DependentUpon>
-    </None>
-    <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
   </ItemGroup>
 </Project>
