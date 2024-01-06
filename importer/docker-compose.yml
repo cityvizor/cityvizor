@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  cityvizor.importer:
+    image: ${DOCKER_REGISTRY-}cityvizorimporter
+    build:
+      context: .
+      dockerfile: Cityvizor.Importer/Dockerfile

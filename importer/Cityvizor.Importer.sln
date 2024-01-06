@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cityvizor.Importer", "Cityvizor.Importer\Cityvizor.Importer.csproj", "{5E08D71F-A08F-4BA2-920B-E4C4DC5A3DF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer", "Cityvizor.Importer\Cityvizor.Importer.csproj", "{5E08D71F-A08F-4BA2-920B-E4C4DC5A3DF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cityvizor.Importer.Convertor", "Cityvizor.Importer.Convertor\Cityvizor.Importer.Convertor.csproj", "{E60B2E80-E9F5-445B-A1DC-47B5D19E45FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer.Convertor", "Cityvizor.Importer.Convertor\Cityvizor.Importer.Convertor.csproj", "{E60B2E80-E9F5-445B-A1DC-47B5D19E45FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cityvizor.Importer.Writer", "Cityvizor.Importer.Writer\Cityvizor.Importer.Writer.csproj", "{AC385AF9-E30A-40C8-B054-0F3E16AD1073}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer.Writer", "Cityvizor.Importer.Writer\Cityvizor.Importer.Writer.csproj", "{AC385AF9-E30A-40C8-B054-0F3E16AD1073}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cityvizor.Importer.Core", "Cityvizor.Importer.Core\Cityvizor.Importer.Core.csproj", "{75E8327E-E6A4-496E-A334-F14767E19149}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer.Core", "Cityvizor.Importer.Core\Cityvizor.Importer.Core.csproj", "{75E8327E-E6A4-496E-A334-F14767E19149}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cityvizor.Importer.Infrastructure", "Cityvizor.Importer.Infrastructure\Cityvizor.Importer.Infrastructure.csproj", "{9BDE27AA-8E2A-4E2B-B164-B12F939069D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer.Infrastructure", "Cityvizor.Importer.Infrastructure\Cityvizor.Importer.Infrastructure.csproj", "{9BDE27AA-8E2A-4E2B-B164-B12F939069D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cityvizor.Importer.UnitTests", "Cityvizor.Importer.UnitTests\Cityvizor.Importer.UnitTests.csproj", "{8C35D43E-9D64-4441-8856-18F4457CFFB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer.UnitTests", "Cityvizor.Importer.UnitTests\Cityvizor.Importer.UnitTests.csproj", "{8C35D43E-9D64-4441-8856-18F4457CFFB5}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1EE3834F-D099-4B84-8CE5-4B3DC51F43ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{8C35D43E-9D64-4441-8856-18F4457CFFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C35D43E-9D64-4441-8856-18F4457CFFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C35D43E-9D64-4441-8856-18F4457CFFB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EE3834F-D099-4B84-8CE5-4B3DC51F43ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EE3834F-D099-4B84-8CE5-4B3DC51F43ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EE3834F-D099-4B84-8CE5-4B3DC51F43ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EE3834F-D099-4B84-8CE5-4B3DC51F43ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,6 +29,18 @@ services:
       - redis.cityvizor
       - minio.cityvizor
 
+  importer.cityvizor:
+    image: cityvizor-importer
+    build: 
+      dockerfile: ./Cityvizor.Importer/Dockerfile
+      context: ./importer
+    container_name: importer.cityvizor
+    environment:
+      ConnectionStrings__PosgreSql: "Host=db.cityvizor;Database=cityvizor;Username=postgres;Password=pass"
+    depends_on:
+      - db.cityvizor
+      - nginx.cityvizor
+
   worker.cityvizor:
     image: cityvizor-server
     build:

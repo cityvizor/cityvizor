@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CityvizorDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"))
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PosgreSql"))
     .UseSnakeCaseNamingConvention());
 
 builder.Services.RegisterImporterBackgroundService(builder.Configuration);
@@ -25,7 +25,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
