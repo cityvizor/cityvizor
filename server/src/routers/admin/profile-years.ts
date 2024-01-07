@@ -1,11 +1,12 @@
-import express, {Request} from 'express';
-import {db} from '../../db';
-import {YearRecord} from '../../schema';
-import {ImportRecord} from '../../schema/database/import';
+import express, { Request } from 'express';
+import { db } from '../../db';
+import { YearRecord } from '../../schema';
+import { ImportRecord } from '../../schema/database/import';
 
 import acl from 'express-dynacl';
+import { logger } from '../../logger';
 
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 
 export const AdminProfileYearsRouter = router;
 
@@ -15,7 +16,7 @@ export type YearRecordWithImportStatus = YearRecord &
 router.get(
   '/',
   acl('profile-years:list'),
-  async (req: Request<{profile: string}>, res) => {
+  async (req: Request<{ profile: string }>, res) => {
     // select status and last time for the latest import
     const years = await db<YearRecordWithImportStatus[]>('app.years AS y')
       .select(
@@ -35,13 +36,13 @@ router.get(
         'i.profileId': 'y.profileId',
         'i.year': 'y.year',
       })
-      .where({'y.profileId': req.params.profile})
+      .where({ 'y.profileId': req.params.profile })
       .orderBy([
-        {column: 'y.profileId', order: 'asc'},
-        {column: 'y.year', order: 'asc'},
-        {column: 'y.importUrl', order: 'asc'},
-        {column: 'y.importFormat', order: 'asc'},
-        {column: 'y.importPeriodMinutes', order: 'asc'},
+        { column: 'y.profileId', order: 'asc' },
+        { column: 'y.year', order: 'asc' },
+        { column: 'y.importUrl', order: 'asc' },
+        { column: 'y.importFormat', order: 'asc' },
+        { column: 'y.importPeriodMinutes', order: 'asc' },
         {
           column: 'i.id',
           order: 'desc',
@@ -55,7 +56,7 @@ router.get(
 router.put(
   '/:year',
   acl('profile-years:write'),
-  async (req: Request<{profile: string; year: string}>, res) => {
+  async (req: Request<{ profile: string; year: string }>, res) => {
     const data = {
       profile_id: req.params.profile,
       year: Number(req.params.year),
@@ -78,7 +79,7 @@ router.put(
 router.patch(
   '/:year',
   acl('profile-years:write'),
-  async (req: Request<{profile: string; year: string}>, res) => {
+  async (req: Request<{ profile: string; year: string }>, res) => {
     const updateData = {
       profile_id: req.params.profile,
       year: Number(req.params.year),
@@ -99,11 +100,35 @@ router.patch(
 router.delete(
   '/:year',
   acl('profile-years:write'),
-  async (req: Request<{profile: string; year: string}>, res) => {
-    await db<YearRecord>('app.years')
-      .where('profile_id', req.params.profile)
-      .andWhere('year', Number(req.params.year))
-      .delete();
+  async (req: Request<{ profile: string; year: string }>, res) => {
+    const profile = req.params.profile;
+    const year = Number(req.params.year);
+
+    logger.info(`Deleting year ${year} in profile ${profile}.`);
+
+    try {
+      await db.transaction(async trx => {
+        await trx('data.pbo_expected_plans')
+          .where('profile_id', req.params.profile)
+          .andWhere('year', Number(req.params.year))
+          .delete();
+
+        await trx('data.pbo_real_plans')
+          .where('profile_id', req.params.profile)
+          .andWhere('year', Number(req.params.year))
+          .delete();
+
+        await trx<YearRecord>('app.years')
+          .where('profile_id', req.params.profile)
+          .andWhere('year', Number(req.params.year))
+          .delete();
+
+        logger.info(`Deleted year ${year} in profile ${profile}.`);
+      });
+    } catch (error) {
+      // Transaction is rolled back.
+      logger.error(error);
+    }
 
     res.sendStatus(204);
   }
