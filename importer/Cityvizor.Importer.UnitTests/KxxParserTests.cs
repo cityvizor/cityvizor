@@ -39,6 +39,24 @@ public class KxxParserTests
     }
 
     [Fact]
+    public void ParseHeaderFlawdIcoTest()
+    {
+        string input = "5/@1230009000MBMC";
+
+        KxxParser parser = new();
+        var func = () => parser.ParseKxxHeader(input);
+
+        func.Should().Throw<KxxParserException>();
+
+        input = "5/@123456789120009000MBMC";
+
+        parser = new();
+        func = () => parser.ParseKxxHeader(input);
+
+        func.Should().Throw<KxxParserException>();
+    }
+
+    [Fact]
     public void ParseDocumentHeaderTest()
     {
         string input = "6/@449927850102 2 2023";

@@ -24,4 +24,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cityvizor.Importer.Convertor\Cityvizor.Importer.Convertor.csproj" />
+  </ItemGroup>
+
 </Project>
