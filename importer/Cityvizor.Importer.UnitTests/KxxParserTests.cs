@@ -155,4 +155,31 @@ public class KxxParserTests
 
         res.Should().Be(expected);
     }
+
+    [Fact]
+    public void ParseDocumentLineDescriptionTest()
+    {
+        string input = "G/$0001   100003Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\"";
+
+        KxxDocumentLineDescription expected = new KxxDocumentLineDescription(
+            DocumentLineNumber: 1,
+            DocumentNumber: 100003,
+            LineDescription: "Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\"");
+
+        KxxParser parser = new();
+        KxxDocumentLineDescription res = parser.ParseKxxDocumentLineDescription(input);
+
+        res.Should().Be(expected);
+    }
+
+    [Fact]
+    public void ParseDocumentLineDescriptionEmptyTest()
+    {
+        string input = "G/$0001   100003";
+
+        KxxParser parser = new();
+        var func = () => parser.ParseKxxDocumentLineDescription(input);
+
+        func.Should().Throw<KxxParserException>();
+    }
 }

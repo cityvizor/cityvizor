@@ -18,6 +18,7 @@ internal class KxxParser
 
     const int _headerLineMinimalLength = 20;
     const int _documentBlockHeaderMinimalLength = 22;
+    const int _documentNumberLen = 9;
 
     [DoesNotReturn]
     private void ThrowParserException(string message)
@@ -122,7 +123,6 @@ internal class KxxParser
     internal KxxDocumentLine ParseKxxDocumentLine(string input)
     {
         const int dayLen = 2;
-        const int documentNumLen = 9;
         const int delimiterLen = 3;
         const int synteticLen = 3;
         const int analyticLen = 4;
@@ -136,7 +136,7 @@ internal class KxxParser
         const int shouldGiveLen = 18;
         const int gaveLen = 18;
 
-        string pattern = $@"^G/@([0-9]{{{dayLen}}})(.{{{documentNumLen}}})(0{{{delimiterLen}}})([0-9]{{{synteticLen}}})([0-9]{{{analyticLen}}})([0-9]{{{chapterLen}}})([0-9]{{{paragraphLen}}})([0-9]{{{itemLen}}})([0-9]{{{recordUnitLen}}})([0-9]{{{purposeMarkLen}}})([0-9]{{{oraganizationUnitLen}}})([0-9]{{{organizationLen}}})([0-9]{{{shouldGiveLen}}})([ cC-]{{1}})([0-9]{{{gaveLen}}})([ cC-]{{1}})$";
+        string pattern = $@"^G/@([0-9]{{{dayLen}}})(.{{{_documentNumberLen}}})(0{{{delimiterLen}}})([0-9]{{{synteticLen}}})([0-9]{{{analyticLen}}})([0-9]{{{chapterLen}}})([0-9]{{{paragraphLen}}})([0-9]{{{itemLen}}})([0-9]{{{recordUnitLen}}})([0-9]{{{purposeMarkLen}}})([0-9]{{{oraganizationUnitLen}}})([0-9]{{{organizationLen}}})([0-9]{{{shouldGiveLen}}})([ cC-]{{1}})([0-9]{{{gaveLen}}})([ cC-]{{1}})$";
         Match match = Regex.Match(input, pattern);
 
         if (!match.Success)
@@ -210,5 +210,33 @@ internal class KxxParser
             Organization: organization,
             ShouldGive: shouldGive.Value,
             Gave: gave.Value);
+    }
+
+    internal KxxDocumentLineDescription ParseKxxDocumentLineDescription(string input)
+    {
+        const int lineNumLen = 4;
+
+        string pattern = $@"^G/\$([0-9]{{{lineNumLen}}})(.{{{_documentNumberLen}}})(.+)$";
+        Match match = Regex.Match(input, pattern);
+
+        if (!match.Success)
+        {
+            ThrowParserException($"invalid format of G/$ line. Found: {input}. Expected format: G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...");
+        }
+
+        if (!uint.TryParse(match.Groups[1].Value, out uint lineNum))
+        {
+            ThrowParserException($"invalid format of G/$ line. Failed to parse line number {match.Groups[1].Value}");
+        }
+        if (!uint.TryParse(match.Groups[2].Value, out uint documentNumber))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse document number {match.Groups[2].Value}");
+        }
+        string description = match.Groups[3].Value;
+
+        return new KxxDocumentLineDescription(
+            DocumentLineNumber: lineNum,
+            DocumentNumber: documentNumber,
+            LineDescription: description);
     }
 }

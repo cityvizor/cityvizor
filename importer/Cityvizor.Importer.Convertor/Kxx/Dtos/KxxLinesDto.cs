@@ -68,13 +68,11 @@ internal record struct KxxDocumentLine(
 /// Represents G/$ line in .kxx file - document line description
 /// G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...
 /// </summary>
-/// <param name="DocumentLineNumber"></param>
-/// <param name="DocumentNumber"></param>
-/// <param name="LineDescription"></param>
+/// <param name="DocumentLineNumber">jednoznačné číslo řádky v dokladu v rámci dokladu </param>
+/// <param name="DocumentNumber">číslo dokladu</param>
+/// <param name="LineDescription"> text k řádku dokladu</param>
 internal record struct KxxDocumentLineDescription(
     uint DocumentLineNumber,
     uint DocumentNumber,
     string LineDescription
 );
-
-
