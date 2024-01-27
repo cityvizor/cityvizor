@@ -1,6 +1,7 @@
 using Cityvizor.Importer.Convertor.Kxx;
 using Cityvizor.Importer.Convertor.Kxx.Dtos;
 using Cityvizor.Importer.Convertor.Kxx.Enums;
+using System;
 
 namespace Cityvizor.Importer.UnitTests;
 
@@ -72,6 +73,17 @@ public class KxxParserTests
         KxxDocumentBlockHeader res = parser.ParseKxxDocumentBlockHeader(input);
 
         res.Should().Be(expected);
+    }
+
+    [Fact]
+    public void ParseDocumentHeaderMissingIdentifierTest()
+    {
+        string input = "6/@449927850102   2023";
+
+        KxxParser parser = new();
+        var func = () => parser.ParseKxxDocumentBlockHeader(input);
+
+        func.Should().Throw<KxxParserException>();
     }
 
     [Fact]
