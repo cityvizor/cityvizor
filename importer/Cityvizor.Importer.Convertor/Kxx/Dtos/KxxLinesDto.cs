@@ -64,3 +64,17 @@ internal record struct KxxDocumentLine(
     decimal Gave
 );
 
+/// <summary>
+/// Represents G/$ line in .kxx file - document line description
+/// G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...
+/// </summary>
+/// <param name="DocumentLineNumber"></param>
+/// <param name="DocumentNumber"></param>
+/// <param name="LineDescription"></param>
+internal record struct KxxDocumentLineDescription(
+    uint DocumentLineNumber,
+    uint DocumentNumber,
+    string LineDescription
+);
+
+
