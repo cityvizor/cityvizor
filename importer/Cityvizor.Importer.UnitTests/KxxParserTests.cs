@@ -120,9 +120,35 @@ public class KxxParserTests
             RecordUnit: 0,
             PurposeMark: 0,
             OrganizationUnit: 0,
-            Organization: 6_100_000_000_000u,
+            Organization: 1610000000000u,
             ShouldGive: 0.0m,
             Gave: 27.60m);
+
+        KxxParser parser = new();
+        KxxDocumentLine res = parser.ParseKxxDocumentLine(input);
+
+        res.Should().Be(expected);
+    }
+
+    [Fact]
+    public void ParseDocumentLineNegativeTest()
+    {
+        string input = "G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000004273c000000000000002760-";
+
+        KxxDocumentLine expected = new KxxDocumentLine(
+            AccountedDay: 1,
+            DocumentNumber: 100001,
+            SynteticAccount: 231,
+            AnalyticAccount: 10,
+            Chapter: 0,
+            Paraghraph: 6310,
+            Item: 5163,
+            RecordUnit: 0,
+            PurposeMark: 0,
+            OrganizationUnit: 0,
+            Organization: 1610000000000u,
+            ShouldGive: -42.73m,
+            Gave: -27.60m);
 
         KxxParser parser = new();
         KxxDocumentLine res = parser.ParseKxxDocumentLine(input);

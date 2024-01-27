@@ -121,6 +121,94 @@ internal class KxxParser
     /// <returns></returns>
     internal KxxDocumentLine ParseKxxDocumentLine(string input)
     {
-        throw new NotImplementedException();
+        const int dayLen = 2;
+        const int documentNumLen = 9;
+        const int delimiterLen = 3;
+        const int synteticLen = 3;
+        const int analyticLen = 4;
+        const int chapterLen = 2;
+        const int paragraphLen = 6;
+        const int itemLen = 4;
+        const int recordUnitLen = 3;
+        const int purposeMarkLen = 9;
+        const int oraganizationUnitLen = 10;
+        const int organizationLen = 13;
+        const int shouldGiveLen = 18;
+        const int gaveLen = 18;
+
+        string pattern = $@"^G/@([0-9]{{{dayLen}}})(.{{{documentNumLen}}})(0{{{delimiterLen}}})([0-9]{{{synteticLen}}})([0-9]{{{analyticLen}}})([0-9]{{{chapterLen}}})([0-9]{{{paragraphLen}}})([0-9]{{{itemLen}}})([0-9]{{{recordUnitLen}}})([0-9]{{{purposeMarkLen}}})([0-9]{{{oraganizationUnitLen}}})([0-9]{{{organizationLen}}})([0-9]{{{shouldGiveLen}}})([ cC-]{{1}})([0-9]{{{gaveLen}}})([ cC-]{{1}})$";
+        Match match = Regex.Match(input, pattern);
+
+        if (!match.Success)
+        {
+            ThrowParserException($"invalid format of G/@ line. Found: {input}. Expected format: G/@ddccccccccc000sssaaaakkoooooollllzzzuuuuuuuuujjjjjjjjjjgggggggggggggmmmmmmmmmmmmmmmmmm_dddddddddddddddddd_");
+        }
+        if (!byte.TryParse(match.Groups[1].Value, out byte accountedDay))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse accounted day {match.Groups[1].Value}");
+        }
+        if (!uint.TryParse(match.Groups[2].Value, out uint documentNumber))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse document number {match.Groups[2].Value}");
+        }
+        // 000 delimiter
+        if (!uint.TryParse(match.Groups[4].Value, out uint synteticAccount))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse syntetic account {match.Groups[4].Value}");
+        }
+        if (!uint.TryParse(match.Groups[5].Value, out uint analyticAccount))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse document number {match.Groups[5].Value}");
+        }
+        if (!uint.TryParse(match.Groups[6].Value, out uint chapter))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse chapter {match.Groups[6].Value}");
+        }
+        if (!uint.TryParse(match.Groups[7].Value, out uint paragraph))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse paragraph {match.Groups[7].Value}");
+        }
+        if (!uint.TryParse(match.Groups[8].Value, out uint item))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse item {match.Groups[8].Value}");
+        }
+        if (!uint.TryParse(match.Groups[9].Value, out uint recordUnit))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse record unit {match.Groups[9].Value}");
+        }
+        if (!uint.TryParse(match.Groups[10].Value, out uint purposeMark))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse purpose mark {match.Groups[10].Value}");
+        }
+        if (!ulong.TryParse(match.Groups[11].Value, out ulong organizaionUnit))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse organization unit {match.Groups[11].Value}");
+        }
+        if (!ulong.TryParse(match.Groups[12].Value, out ulong organization))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to parse organization {match.Groups[12].Value}");
+        }
+        if (!ParserHelpers.TryParseAmount(match.Groups[13].Value, match.Groups[14].Value, out decimal? shouldGive))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to should give amount {match.Groups[14].Value} {match.Groups[13].Value}");
+        }
+        if (!ParserHelpers.TryParseAmount(match.Groups[15].Value, match.Groups[16].Value, out decimal? gave))
+        {
+            ThrowParserException($"invalid format of G/@ line. Failed to gave amount {match.Groups[15].Value} {match.Groups[16].Value}");
+        }
+        return new KxxDocumentLine(
+            AccountedDay: accountedDay,
+            DocumentNumber: documentNumber,
+            SynteticAccount: synteticAccount,
+            AnalyticAccount: analyticAccount,
+            Chapter: chapter,
+            Paraghraph: paragraph,
+            Item: item,
+            RecordUnit: recordUnit,
+            PurposeMark: purposeMark,
+            OrganizationUnit: organizaionUnit,
+            Organization: organization,
+            ShouldGive: shouldGive.Value,
+            Gave: gave.Value);
     }
 }
