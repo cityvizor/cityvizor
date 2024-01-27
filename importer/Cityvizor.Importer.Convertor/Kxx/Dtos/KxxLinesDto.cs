@@ -9,10 +9,10 @@ namespace Cityvizor.Importer.Convertor.Kxx.Dtos;
 /// <param name="Ico"></param>
 /// <param name="Month">`yy` obdobi zpracovani - mesic</param>
 /// <param name="ProgramLicence">cislo licence zpracovatelskeho programu</param>
-internal record struct KxxHeaderDto(
+internal record struct KxxHeader(
     string Ico,
     byte Month,
-    int ProgramLicence);
+    string ProgramLicence);
 
 /// <summary>
 /// Represents line 6/@ of .kxx file - header of a block representing one document (invoice?)
@@ -47,19 +47,19 @@ internal record struct KxxDocumentBlockHeader(
 /// <param name="OrganizationUnit"> organizační jednotka (ORJ) </param>
 /// <param name="Organization">organizace (ORG) </param>
 /// <param name="ShouldGive">má dáti </param>
-/// <param name="Gave"></param>
-internal record struct KxxDocumentLineDto(
+/// <param name="Gave">dal</param>
+internal record struct KxxDocumentLine(
     byte AccountedDay,
-    int DocumentNumber,
-    int SynteticAccount,
-    int AnalyticAccount,
-    int Chapter,
-    int Paraghraph,
-    int Item,
-    int RecordUnit,
-    int PurposeMark,
-    int OrganizationUnit,
-    int Organization,
+    uint DocumentNumber,
+    uint SynteticAccount,
+    uint AnalyticAccount,
+    uint Chapter,
+    uint Paraghraph,
+    uint Item,
+    uint RecordUnit,
+    uint PurposeMark,
+    ulong OrganizationUnit,
+    ulong Organization,
     decimal ShouldGive,
     decimal Gave
 );

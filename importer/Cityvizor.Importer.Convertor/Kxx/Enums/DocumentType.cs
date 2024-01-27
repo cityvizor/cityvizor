@@ -1,5 +1,6 @@
 ﻿namespace Cityvizor.Importer.Convertor.Kxx.Enums;
-enum DocumentType
+
+internal enum DocumentType
 {
     /// <summary>
     /// 00 = běžný měsíc 
