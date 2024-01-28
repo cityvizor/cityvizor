@@ -17,6 +17,7 @@ import {
   getS3Client,
   S3uploadPublicFile,
 } from '../../s3storage';
+import { logger } from '../../logger';
 
 const router = express.Router();
 
@@ -92,7 +93,31 @@ router.get('/:profile/avatar', async (req, res) => {
 });
 
 router.delete('/:profile', acl('profiles:write'), async (req, res) => {
-  await db('app.profiles').where({id: req.params.profile}).delete();
+  const profile = req.params.profile;
+
+  logger.info(`Deleting profile ${profile}.`);
+
+  try {
+    await db.transaction(async trx => {
+      await trx('data.pbo_expected_plans')
+        .where('profile_id', req.params.profile)
+        .delete();
+
+      await trx('data.pbo_real_plans')
+        .where('profile_id', req.params.profile)
+        .delete();
+
+      await trx('app.profiles')
+        .where('id', req.params.profile)
+        .delete();
+
+      logger.info(`Deleted profile ${profile}.`);
+    });
+  } catch (error) {
+    // Transaction is rolled back.
+    logger.error(error);
+  }
+
   res.sendStatus(204);
 });
 
