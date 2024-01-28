@@ -1,5 +1,5 @@
-﻿using Cityvizor.Importer.Convertor.Kxx.Dtos;
-using Cityvizor.Importer.Convertor.Kxx.Enums;
+﻿using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
+using Cityvizor.Importer.Convertor.Kxx.Dtos;
 using Cityvizor.Importer.Convertor.Kxx.Helpers;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -8,22 +8,36 @@ using System.Text.RegularExpressions;
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
 namespace Cityvizor.Importer.Convertor.Kxx;
-internal class KxxParser
+public class KxxParser
 {
-    ulong _lineCounter = 0;
-
-    string? _fileIco = null;
-    uint? _fileAccountingYear = null;
-
     const int _headerLineMinimalLength = 20;
     const int _documentBlockHeaderMinimalLength = 22;
     const int _documentNumberLen = 9;
 
-    [DoesNotReturn]
-    private void ThrowParserException(string message)
+    ulong _lineCounter = 1;
+    bool _parsingFinished = false;
+    private readonly StreamReader _stream;
+
+    KxxHeader? _fileHeader;
+    uint? _fileAccountingYear = null;
+
+    public KxxParser(StreamReader stream)
     {
-        throw new KxxParserException($"Line: {_lineCounter}: {message}");
+        this._stream = stream;
     }
+
+    //public Document[] Parse() // TODO: return stream somehow
+    //{
+    //    if (_parsingFinished)
+    //    {
+    //        throw new KxxParserException("This instance of parser already finished parsing its stream. Cannot use the same KxxParser instance multiple times.");
+    //    }
+
+    //    string headerLine = _stream.ReadLine() ?? throw new KxxParserException("Trying to parse empty .kxx file.");
+    //    _fileHeader = ParseKxxHeader(headerLine);
+
+
+    //}
 
     /// <summary>
     /// Parses line 5/@ of .kxx file - header of the whole .kxx file
@@ -301,5 +315,11 @@ internal class KxxParser
             DocumentNumber: documentNumber,
             Descriptions: descriptions,
             EvkDescriptions: evkDescriptions);
+    }
+
+    [DoesNotReturn]
+    private void ThrowParserException(string message)
+    {
+        throw new KxxParserException($"Line: {_lineCounter}: {message}");
     }
 }

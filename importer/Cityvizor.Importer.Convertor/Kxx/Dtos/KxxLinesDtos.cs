@@ -1,4 +1,4 @@
-﻿using Cityvizor.Importer.Convertor.Kxx.Enums;
+﻿using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
 
 namespace Cityvizor.Importer.Convertor.Kxx.Dtos;
 

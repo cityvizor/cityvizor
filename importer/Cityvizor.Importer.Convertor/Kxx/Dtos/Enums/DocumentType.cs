@@ -1,4 +1,4 @@
-﻿namespace Cityvizor.Importer.Convertor.Kxx.Enums;
+﻿namespace Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
 
 internal enum DocumentType
 {

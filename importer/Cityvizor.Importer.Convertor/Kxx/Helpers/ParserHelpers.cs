@@ -1,4 +1,5 @@
-﻿using Cityvizor.Importer.Convertor.Kxx.Enums;
+﻿using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
+using Cityvizor.Importer.Convertor.Kxx.Enums;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Cityvizor.Importer.Convertor.Kxx.Helpers;
@@ -28,7 +29,7 @@ internal static class ParserHelpers
 
     internal static bool TryParseAmount(string amountString, string signString, [NotNullWhen(true)] out decimal? amount)
     {
-        if(!decimal.TryParse(amountString, out decimal parsedAmount))
+        if (!decimal.TryParse(amountString, out decimal parsedAmount))
         {
             amount = null;
             return false;
@@ -49,5 +50,22 @@ internal static class ParserHelpers
             'C' => -1,
             _ => throw new InvalidOperationException($"Unexpected sign string {signChar}")
         };
+    }
+
+    internal static bool TryDetermineLineType(string input, [NotNullWhen(true)] out KxxLineType? lineType)
+    {
+        string lineIndetifier = input.Trim().Substring(0, 3);
+
+        (bool res, lineType) = lineIndetifier switch
+        {
+            "5/@" => (true, KxxLineType.FileHeader),
+            "6/@" => (true, KxxLineType.DocumentHeader),
+            "G/@" => (true, KxxLineType.DocumentLine),
+            "G/#" => (true, KxxLineType.DocumentDescription),
+            "G/$" => (true, KxxLineType.DocumentLineDescription),
+            _ => (false, default(KxxLineType?))
+        };
+
+        return res;
     }
 }
