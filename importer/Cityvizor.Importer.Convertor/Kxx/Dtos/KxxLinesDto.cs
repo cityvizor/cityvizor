@@ -76,3 +76,18 @@ internal record struct KxxDocumentLineDescription(
     uint DocumentNumber,
     string LineDescription
 );
+
+/// <summary>
+/// Represents G/# line in .kxx file - document description
+/// G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...
+/// </summary>
+/// <param name="DocumentLineNumber"> jednoznačné číslo řádky popisu v rámci dokladu </param>
+/// <param name="DocumentNumber">číslo dokladu</param>
+/// <param name="Descriptions"> text k řádku dokladu</param>
+/// <param name="EvkDescriptions"> text k řádku dokladu</param>
+internal record struct KxxDocumentDescription (
+    uint DocumentLineNumber,
+    uint DocumentNumber,
+    Dictionary<string, string> Descriptions,
+    Dictionary<string, string> EvkDescriptions
+);

@@ -11,7 +11,6 @@ namespace Cityvizor.Importer.Convertor.Kxx;
 internal class KxxParser
 {
     ulong _lineCounter = 0;
-    List<string> _errors = new();
 
     string? _fileIco = null;
     uint? _fileAccountingYear = null;
@@ -212,6 +211,12 @@ internal class KxxParser
             Gave: gave.Value);
     }
 
+    /// <summary>
+    ///  Represents G/$ line in .kxx file - document line description
+    /// G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     internal KxxDocumentLineDescription ParseKxxDocumentLineDescription(string input)
     {
         const int lineNumLen = 4;
@@ -238,5 +243,63 @@ internal class KxxParser
             DocumentLineNumber: lineNum,
             DocumentNumber: documentNumber,
             LineDescription: description);
+    }
+
+    /// <summary>
+    /// Parses G/# line in .kxx file - document description
+    /// G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    internal KxxDocumentDescription ParseKxxDocumentDescription(string input)
+    {
+        const int lineNumLen = 4;
+
+        string pattern = $@"^G/#([0-9]{{{lineNumLen}}})(.{{{_documentNumberLen}}})(.+)$";
+        Match match = Regex.Match(input, pattern);
+
+        if (!match.Success)
+        {
+            ThrowParserException($"invalid format of G/# line. Found: {input}. Expected format: G/#rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...");
+        }
+
+        if (!uint.TryParse(match.Groups[1].Value, out uint lineNum))
+        {
+            ThrowParserException($"invalid format of G/# line. Failed to parse line number {match.Groups[1].Value}");
+        }
+        if (!uint.TryParse(match.Groups[2].Value, out uint documentNumber))
+        {
+            ThrowParserException($"invalid format of G/# line. Failed to parse document number {match.Groups[2].Value}");
+        }
+
+        string[] descriptionParts = match.Groups[3].Value.Split(new char[] { '*', ';'}, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        string nonEvkPattern = $@"^([^-]+)-([^-]+)$";
+        string evkPattern = $@"^EVK-([^-]+)-([^-]+)$";
+
+        Dictionary<string, string> descriptions = new();
+        Dictionary<string, string> evkDescriptions = new();
+
+        foreach (string descriptionItem in descriptionParts)
+        {
+            Match nonEvkMatch = Regex.Match(descriptionItem, nonEvkPattern);
+            if(nonEvkMatch.Success) 
+            {
+                descriptions.Add(nonEvkMatch.Groups[1].Value, nonEvkMatch.Groups[2].Value);
+                continue;
+            }
+            Match evkMatch = Regex.Match(descriptionItem, evkPattern);
+            if (evkMatch.Success)
+            {
+                evkDescriptions.Add(evkMatch.Groups[1].Value, evkMatch.Groups[2].Value);
+                continue;
+            }
+            ThrowParserException($"invalid format of G/# line. Failed to parse description {descriptionItem}");
+        }
+
+        return new KxxDocumentDescription(
+            DocumentLineNumber: lineNum,
+            DocumentNumber: documentNumber,
+            Descriptions: descriptions,
+            EvkDescriptions: evkDescriptions);
     }
 }

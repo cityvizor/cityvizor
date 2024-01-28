@@ -1,7 +1,6 @@
 using Cityvizor.Importer.Convertor.Kxx;
 using Cityvizor.Importer.Convertor.Kxx.Dtos;
 using Cityvizor.Importer.Convertor.Kxx.Enums;
-using System;
 
 namespace Cityvizor.Importer.UnitTests;
 
@@ -20,7 +19,7 @@ public class KxxParserTests
         KxxParser parser = new();
         KxxHeader res = parser.ParseKxxHeader(input);
 
-        res.Should().Be(expected);
+        res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -36,7 +35,7 @@ public class KxxParserTests
         KxxParser parser = new();
         KxxHeader res = parser.ParseKxxHeader(input);
 
-        res.Should().Be(expected);
+        res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -72,7 +71,7 @@ public class KxxParserTests
         KxxParser parser = new();
         KxxDocumentBlockHeader res = parser.ParseKxxDocumentBlockHeader(input);
 
-        res.Should().Be(expected);
+        res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -101,7 +100,7 @@ public class KxxParserTests
         KxxParser parser = new();
         KxxDocumentBlockHeader res = parser.ParseKxxDocumentBlockHeader(input);
 
-        res.Should().Be(expected);
+        res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -127,7 +126,7 @@ public class KxxParserTests
         KxxParser parser = new();
         KxxDocumentLine res = parser.ParseKxxDocumentLine(input);
 
-        res.Should().Be(expected);
+        res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -153,7 +152,7 @@ public class KxxParserTests
         KxxParser parser = new();
         KxxDocumentLine res = parser.ParseKxxDocumentLine(input);
 
-        res.Should().Be(expected);
+        res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -169,7 +168,7 @@ public class KxxParserTests
         KxxParser parser = new();
         KxxDocumentLineDescription res = parser.ParseKxxDocumentLineDescription(input);
 
-        res.Should().Be(expected);
+        res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -180,6 +179,64 @@ public class KxxParserTests
         KxxParser parser = new();
         var func = () => parser.ParseKxxDocumentLineDescription(input);
 
+        func.Should().Throw<KxxParserException>();
+    }
+
+    [Fact]
+    public void ParseDocumentDescriptionTest()
+    {
+        string input = "G/#0003   830041*OFJP-Vlasák Petr;*OFMP-Žebìtínek 178/15, Brno, 62100, Èeská republika;*DZP-20220301;*DUD-20220301;";
+
+        KxxDocumentDescription expected = new KxxDocumentDescription(
+            DocumentLineNumber: 3,
+            DocumentNumber: 830041,
+            Descriptions: new Dictionary<string, string>
+            {
+                { "OFJP", "Vlasák Petr" },
+                { "OFMP", "Žebìtínek 178/15, Brno, 62100, Èeská republika" },
+                { "DZP", "20220301"},
+                { "DUD", "20220301" },
+            },
+            EvkDescriptions: new Dictionary<string, string>()
+        );
+
+        KxxParser parser = new();
+        KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
+        res.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void ParseDocumentDescriptionEvkTest()
+    {
+        string input = "G/#0001   830041*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;";
+
+        KxxDocumentDescription expected = new KxxDocumentDescription(
+            DocumentLineNumber: 1,
+            DocumentNumber: 830041,
+            Descriptions: new Dictionary<string, string>
+            {
+                { "PDD", "A" },
+                { "ODPH", "2022" },
+                { "ECDD", "16000448/17" },
+                { "DICT", "Vlasák Petr" }
+            },
+            EvkDescriptions: new Dictionary<string, string>
+            {
+                { "DDP", "201316000448" }
+            }
+        );
+
+        KxxParser parser = new();
+        KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
+        res.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void ParseDocumentDescriptionFlawedTest()
+    {
+        string input = "G/#0001   830041*PDD-A;*ODPH-2022;*ECDD-16000-448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;";
+        KxxParser parser = new();
+        var func = () => parser.ParseKxxDocumentDescription(input);
         func.Should().Throw<KxxParserException>();
     }
 }
