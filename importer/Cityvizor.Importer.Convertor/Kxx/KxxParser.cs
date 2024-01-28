@@ -4,6 +4,8 @@ using Cityvizor.Importer.Convertor.Kxx.Helpers;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Cityvizor.Importer.Convertor.Kxx.Enums;
+using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
@@ -17,27 +19,80 @@ public class KxxParser
     ulong _lineCounter = 1;
     bool _parsingFinished = false;
     private readonly StreamReader _stream;
+    private readonly ILogger<KxxParser> _logger;
 
-    KxxHeader? _fileHeader;
+    KxxHeader _fileHeader;
+    Document? _currentDocument;
     uint? _fileAccountingYear = null;
 
-    public KxxParser(StreamReader stream)
+    public KxxParser(StreamReader stream, ILogger<KxxParser> logger)
     {
         this._stream = stream;
+        this._logger = logger;
     }
 
-    //public Document[] Parse() // TODO: return stream somehow
-    //{
-    //    if (_parsingFinished)
-    //    {
-    //        throw new KxxParserException("This instance of parser already finished parsing its stream. Cannot use the same KxxParser instance multiple times.");
-    //    }
+    public Document[] Parse() // TODO: return stream somehow
+    {
+        if (_parsingFinished)
+        {
+            throw new KxxParserException("This instance of parser already finished parsing its stream. Cannot use the same KxxParser instance multiple times.");
+        }
 
-    //    string headerLine = _stream.ReadLine() ?? throw new KxxParserException("Trying to parse empty .kxx file.");
-    //    _fileHeader = ParseKxxHeader(headerLine);
+        string headerLine = _stream.ReadLine() ?? throw new KxxParserException("Trying to parse empty .kxx file.");
+        _fileHeader = ParseKxxHeader(headerLine);
 
+        List<Document> documnets = new();
 
-    //}
+        string? line = _stream.ReadLine();
+        _lineCounter++;
+        while (line is not null)
+        {
+            if (!ParserHelpers.TryDetermineLineType(line, out KxxLineType? lineType))
+            {
+                ThrowParserException($"Unexpected type of line {line}.");
+            }
+            switch (lineType)
+            {
+                case KxxLineType.DocumentHeader:
+                    if (_currentDocument is not null)
+                    {
+                        documnets.Add(_currentDocument);
+                    }
+                    ProcessDocumentHeader(line);
+                    break;
+                case KxxLineType.DocumentLine:
+                    break;
+                case KxxLineType.DocumentDescription:
+                    break;
+                case KxxLineType.DocumentLineDescription:
+                    break;
+                case KxxLineType.FileHeader:
+                    ThrowParserException($"Unexpected type of line {line}.");
+                    break; // unreachable
+                case null:
+                    break;
+            }
+
+            line = _stream.ReadLine();
+            _lineCounter++;
+        }
+    }
+
+    internal void ProcessDocumentHeader(string line)
+    {
+        KxxDocumentBlockHeader documentHeader = ParseKxxDocumentBlockHeader(line);
+        ValidateDocumentHeader(documentHeader);
+        Document document = new(documentHeader);
+        _currentDocument = document;
+    }
+
+    private void ValidateDocumentHeader(KxxDocumentBlockHeader documentHeader)
+    {
+        if (!documentHeader.Ico.Equals(_fileHeader.Ico, StringComparison.OrdinalIgnoreCase))
+        {
+            _logger.LogError($"Kxx document block header contains Ico {documentHeader.Ico} that does not match Ico {_fileHeader.Ico} in .kxx file header.");
+        }
+    }
 
     /// <summary>
     /// Parses line 5/@ of .kxx file - header of the whole .kxx file
