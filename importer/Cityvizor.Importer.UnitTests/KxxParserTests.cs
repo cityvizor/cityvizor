@@ -3,7 +3,6 @@ using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
 using Cityvizor.Importer.Convertor.Kxx.Dtos;
 using Cityvizor.Importer.Convertor.Kxx.Helpers;
 using Cityvizor.Importer.Convertor.Kxx.Enums;
-using System.Reflection.PortableExecutable;
 
 namespace Cityvizor.Importer.UnitTests;
 
@@ -14,13 +13,13 @@ public class KxxParserTests
     {
         string input = "5/@449927850009000MBMC";
 
-        KxxHeader expected = new KxxHeader(
+        KxxFileHeader expected = new KxxFileHeader(
             Ico: "44992785",
-            Month: 9,
+            AccountingMonth: 9,
             ProgramLicence: "MBMC");
 
         KxxParser parser = new(StreamReader.Null);
-        KxxHeader res = parser.ParseKxxHeader(input);
+        KxxFileHeader res = parser.ParseKxxFileHeader(input);
 
         res.Should().BeEquivalentTo(expected);
     }
@@ -30,13 +29,13 @@ public class KxxParserTests
     {
         string input = "5/@44992785160009000MBMC";
 
-        KxxHeader expected = new KxxHeader(
+        KxxFileHeader expected = new KxxFileHeader(
             Ico: "4499278516",
-            Month: 9,
+            AccountingMonth: 9,
             ProgramLicence: "MBMC");
 
         KxxParser parser = new(StreamReader.Null);
-        KxxHeader res = parser.ParseKxxHeader(input);
+        KxxFileHeader res = parser.ParseKxxFileHeader(input);
 
         res.Should().BeEquivalentTo(expected);
     }
@@ -47,14 +46,14 @@ public class KxxParserTests
         string input = "5/@1230009000MBMC";
 
         KxxParser parser = new(StreamReader.Null);
-        var func = () => parser.ParseKxxHeader(input);
+        var func = () => parser.ParseKxxFileHeader(input);
 
         func.Should().Throw<KxxParserException>();
 
         input = "5/@123456789120009000MBMC";
 
         parser = new(StreamReader.Null);
-        func = () => parser.ParseKxxHeader(input);
+        func = () => parser.ParseKxxFileHeader(input);
 
         func.Should().Throw<KxxParserException>();
     }
@@ -64,15 +63,15 @@ public class KxxParserTests
     {
         string input = "6/@449927850102 2 2023";
 
-        KxxDocumentBlockHeader expected = new KxxDocumentBlockHeader(
+        KxxSectionHeader expected = new KxxSectionHeader(
             Ico: "44992785",
-            Month: 1,
-            DocumentType: DocumentType.ApprovedBudget,
+            AccountingMonth: 1,
+            SectionType: SectionType.ApprovedBudget,
             InputIndetifier: InputIndetifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
         KxxParser parser = new(StreamReader.Null);
-        KxxDocumentBlockHeader res = parser.ParseKxxDocumentBlockHeader(input);
+        KxxSectionHeader res = parser.ParseKxxSectionHeader(input);
 
         res.Should().BeEquivalentTo(expected);
     }
@@ -83,7 +82,7 @@ public class KxxParserTests
         string input = "6/@449927850102   2023";
 
         KxxParser parser = new(StreamReader.Null);
-        var func = () => parser.ParseKxxDocumentBlockHeader(input);
+        var func = () => parser.ParseKxxSectionHeader(input);
 
         func.Should().Throw<KxxParserException>();
     }
@@ -93,15 +92,15 @@ public class KxxParserTests
     {
         string input = "6/@44992785160102 2 2023";
 
-        KxxDocumentBlockHeader expected = new KxxDocumentBlockHeader(
+        KxxSectionHeader expected = new KxxSectionHeader(
             Ico: "4499278516",
-            Month: 1,
-            DocumentType: DocumentType.ApprovedBudget,
+            AccountingMonth: 1,
+            SectionType: SectionType.ApprovedBudget,
             InputIndetifier: InputIndetifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
         KxxParser parser = new(StreamReader.Null);
-        KxxDocumentBlockHeader res = parser.ParseKxxDocumentBlockHeader(input);
+        KxxSectionHeader res = parser.ParseKxxSectionHeader(input);
 
         res.Should().BeEquivalentTo(expected);
     }
@@ -111,9 +110,9 @@ public class KxxParserTests
     {
         string input = "G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000000000 000000000000002760 ";
 
-        KxxDocumentLine expected = new KxxDocumentLine(
+        KxxDocumentBalance expected = new KxxDocumentBalance(
             AccountedDay: 1,
-            DocumentNumber: 100001,
+            DocumentId: 100001,
             SynteticAccount: 231,
             AnalyticAccount: 10,
             Chapter: 0,
@@ -127,7 +126,7 @@ public class KxxParserTests
             Gave: 27.60m);
 
         KxxParser parser = new(StreamReader.Null);
-        KxxDocumentLine res = parser.ParseKxxDocumentLine(input);
+        KxxDocumentBalance res = parser.ParseKxxDocumentBalance(input);
 
         res.Should().BeEquivalentTo(expected);
     }
@@ -137,9 +136,9 @@ public class KxxParserTests
     {
         string input = "G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000004273c000000000000002760-";
 
-        KxxDocumentLine expected = new KxxDocumentLine(
+        KxxDocumentBalance expected = new KxxDocumentBalance(
             AccountedDay: 1,
-            DocumentNumber: 100001,
+            DocumentId: 100001,
             SynteticAccount: 231,
             AnalyticAccount: 10,
             Chapter: 0,
@@ -153,7 +152,7 @@ public class KxxParserTests
             Gave: -27.60m);
 
         KxxParser parser = new(StreamReader.Null);
-        KxxDocumentLine res = parser.ParseKxxDocumentLine(input);
+        KxxDocumentBalance res = parser.ParseKxxDocumentBalance(input);
 
         res.Should().BeEquivalentTo(expected);
     }
@@ -163,13 +162,13 @@ public class KxxParserTests
     {
         string input = "G/$0001   100003Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\"";
 
-        KxxDocumentLineDescription expected = new KxxDocumentLineDescription(
+        KxxDocumentBalanceDescription expected = new KxxDocumentBalanceDescription(
             DocumentLineNumber: 1,
             DocumentNumber: 100003,
             LineDescription: "Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\"");
 
         KxxParser parser = new(StreamReader.Null);
-        KxxDocumentLineDescription res = parser.ParseKxxDocumentLineDescription(input);
+        KxxDocumentBalanceDescription res = parser.ParseKxxDocumentBalanceDescription(input);
 
         res.Should().BeEquivalentTo(expected);
     }
@@ -180,7 +179,7 @@ public class KxxParserTests
         string input = "G/$0001   100003";
 
         KxxParser parser = new(StreamReader.Null);
-        var func = () => parser.ParseKxxDocumentLineDescription(input);
+        var func = () => parser.ParseKxxDocumentBalanceDescription(input);
 
         func.Should().Throw<KxxParserException>();
     }
@@ -192,7 +191,7 @@ public class KxxParserTests
 
         KxxDocumentDescription expected = new KxxDocumentDescription(
             DocumentLineNumber: 3,
-            DocumentNumber: 830041,
+            DocumentId: 830041,
             Descriptions: new Dictionary<string, string>
             {
                 { "OFJP", "Vlasák Petr" },
@@ -215,7 +214,7 @@ public class KxxParserTests
 
         KxxDocumentDescription expected = new KxxDocumentDescription(
             DocumentLineNumber: 1,
-            DocumentNumber: 830041,
+            DocumentId: 830041,
             Descriptions: new Dictionary<string, string>
             {
                 { "PDD", "A" },
@@ -252,15 +251,15 @@ public class KxxParserTests
 
         input = "6/@44992785160102 2 2023";
         ParserHelpers.TryDetermineLineType(input, out lineType);
-        lineType.Should().Be(KxxLineType.DocumentHeader);
+        lineType.Should().Be(KxxLineType.SectionHeader);
 
         input = "G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000000000 000000000000002760 ";
         ParserHelpers.TryDetermineLineType(input, out lineType);
-        lineType.Should().Be(KxxLineType.DocumentLine);
+        lineType.Should().Be(KxxLineType.DocumentBalance);
 
         input = "G/$0001   100003Základní škola - zapojení investièního transferu na akci\"Projekt na Sportovištì a další prostory pro ZŠ Hudcova 35 a komunitní èinnost v Medlánkách\"";
         ParserHelpers.TryDetermineLineType(input, out lineType);
-        lineType.Should().Be(KxxLineType.DocumentLineDescription);
+        lineType.Should().Be(KxxLineType.DocumentBalanceDescription);
 
         input = "G/#0001   830041*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;";
         ParserHelpers.TryDetermineLineType(input, out lineType);

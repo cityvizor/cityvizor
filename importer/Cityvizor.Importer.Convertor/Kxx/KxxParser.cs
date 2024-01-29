@@ -21,14 +21,31 @@ public class KxxParser
     private readonly StreamReader _stream;
     private readonly ILogger<KxxParser> _logger;
 
-    KxxHeader _fileHeader;
-    Document? _currentDocument;
+    KxxFileHeader _fileHeader;
     uint? _fileAccountingYear = null;
 
+    KxxSectionHeader? _currentSectionHeader = null;
+    Dictionary<uint, Document> _currentSectionDocuments = new();
+    
+    List<Document> _finishedDocuments = new List<Document>();
+    
     public KxxParser(StreamReader stream, ILogger<KxxParser> logger)
     {
         this._stream = stream;
         this._logger = logger;
+    }
+
+    private void FlushSectionDocuments()
+    {
+        _finishedDocuments.AddRange(_currentSectionDocuments.Values);
+        _currentSectionDocuments.Clear();
+    }
+
+    private void OpenNewSection(KxxSectionHeader newSectionHeader)
+    {
+        // flush documents of section that is being closed to the list of finished documents
+        FlushSectionDocuments();
+        _currentSectionHeader = newSectionHeader;
     }
 
     public Document[] Parse() // TODO: return stream somehow
@@ -39,9 +56,7 @@ public class KxxParser
         }
 
         string headerLine = _stream.ReadLine() ?? throw new KxxParserException("Trying to parse empty .kxx file.");
-        _fileHeader = ParseKxxHeader(headerLine);
-
-        List<Document> documnets = new();
+        _fileHeader = ParseKxxFileHeader(headerLine);
 
         string? line = _stream.ReadLine();
         _lineCounter++;
@@ -53,44 +68,154 @@ public class KxxParser
             }
             switch (lineType)
             {
-                case KxxLineType.DocumentHeader:
-                    if (_currentDocument is not null)
-                    {
-                        documnets.Add(_currentDocument);
-                    }
-                    ProcessDocumentHeader(line);
+                case KxxLineType.SectionHeader:
+                    ProcessSectionHeader(line);
                     break;
-                case KxxLineType.DocumentLine:
+                case KxxLineType.DocumentBalance:
+                    ProcessDocumentBalance(line);
                     break;
                 case KxxLineType.DocumentDescription:
+                    ProccessDocumentDescription(line);
                     break;
-                case KxxLineType.DocumentLineDescription:
+                case KxxLineType.DocumentBalanceDescription:
+                    ProcessDocumentLineDescription(line);
                     break;
                 case KxxLineType.FileHeader:
                     ThrowParserException($"Unexpected type of line {line}.");
                     break; // unreachable
                 case null:
+                    ThrowParserException($"Unexpected type of line {line}.");
                     break;
             }
 
             line = _stream.ReadLine();
             _lineCounter++;
         }
+
+        FlushSectionDocuments();
+        _parsingFinished = true;
+        return _finishedDocuments.ToArray();
     }
 
-    internal void ProcessDocumentHeader(string line)
+    internal void ProccessDocumentDescription(string line)
     {
-        KxxDocumentBlockHeader documentHeader = ParseKxxDocumentBlockHeader(line);
-        ValidateDocumentHeader(documentHeader);
-        Document document = new(documentHeader);
-        _currentDocument = document;
-    }
-
-    private void ValidateDocumentHeader(KxxDocumentBlockHeader documentHeader)
-    {
-        if (!documentHeader.Ico.Equals(_fileHeader.Ico, StringComparison.OrdinalIgnoreCase))
+        if (_currentSectionHeader is null)
         {
-            _logger.LogError($"Kxx document block header contains Ico {documentHeader.Ico} that does not match Ico {_fileHeader.Ico} in .kxx file header.");
+            ThrowParserException($"Document description (G/# line) found outside of document block (starting with 6/@ line): {line}");
+        }
+
+        KxxDocumentDescription documentDescription = ParseKxxDocumentDescription(line);
+        if (!_currentSectionDocuments.TryGetValue(documentDescription.DocumentId, out Document? document))
+        {
+            ThrowParserException($"Found document description with document id {documentDescription.DocumentId} that does not correspond to any document in given section.");
+        }
+
+        foreach ((string key, string value) in documentDescription.Descriptions)
+        {
+            if (!document.Descriptions.TryAdd(key, value))
+            {
+                ThrowParserException($"Found duplicate key in document description. Key: {key}. Line {line}");
+            }
+        }
+        foreach ((string key, string value) in documentDescription.EvkDescriptions)
+        {
+            if (!document.EvkDescriptions.TryAdd(key, value))
+            {
+                ThrowParserException($"Found duplicate key in document description. Key: {key}. Line {line}");
+            }
+        }
+    }
+
+    internal void ProcessDocumentLineDescription(string line)
+    {
+        if (_currentSectionHeader is null)
+        {
+            ThrowParserException($"Document balance line description (G/$ line) found outside of document block (starting with 6/@ line): {line}");
+        }
+
+        KxxDocumentBalanceDescription balanceDescription = ParseKxxDocumentBalanceDescription(line);
+        if(!_currentSectionDocuments.TryGetValue(balanceDescription.DocumentId, out Document? document))
+        {
+            ThrowParserException($"Found balance description with document id {balanceDescription.DocumentId} that does not correspond to any document in given section.");
+        }
+
+        ValidateDocumentBalandeDesription(balanceDescription, line);
+
+        // we add description to the last balance in the given document we encountered, because .kxx specification say 
+        // that description should directly follow the balance it is related to 
+        // and we don't understand the meaning of line numbers on G/$ lines as we have only seen .kkx files where line number is equal to one
+        // but we have seen G/# lines with larger line number then the number of balance lines in related document
+        document.Balances.Last().Descriptions.Add(balanceDescription.BalanceDescription);
+    }
+
+    internal void ValidateDocumentBalandeDesription(KxxDocumentBalanceDescription lineDescription, string line)
+    {
+        if (lineDescription.DocumentLineNumber != 1)
+        {
+            LogWarning($"Document balance line description (G/$ line) with document line number different from 1 found: {lineDescription.DocumentId}, line: {line}");
+        }
+    }
+
+    internal void ProcessDocumentBalance(string line)
+    {
+        if(!_currentSectionHeader.HasValue)
+        {
+            ThrowParserException($"Document balance line (G/@ line) found outside of document block (starting with 6/@ line): {line}");
+        }
+
+        KxxDocumentBalance documentBalance = ParseKxxDocumentBalance(line);
+        ValidateDocumentBalance(documentBalance, line);
+
+        Document balanceDocument = GetOrCreateDocument(documentBalance);
+
+        DocumentBalance balance = new(documentBalance, _currentSectionHeader.Value.AccountingYear, _currentSectionHeader.Value.AccountingMonth);
+        balanceDocument.Balances.Add(balance);
+    }
+
+    internal void ValidateDocumentBalance(KxxDocumentBalance kxxDocumentBalance, string line)
+    {
+        if (kxxDocumentBalance.Gave != 0 && kxxDocumentBalance.ShouldGive != 0)
+        {
+           LogError($"Found document balance with both ShouldGive and Gave non-zero. Line {line}");
+        }
+    }
+
+    /// <summary>
+    /// Returns document with given documentId, if such does not exists in current section, creates it and adds it to the section
+    /// </summary>
+    /// <param name="documentBalance"></param>
+    /// <returns></returns>
+    private Document GetOrCreateDocument(KxxDocumentBalance documentBalance)
+    {
+        if (_currentSectionDocuments.TryGetValue(documentBalance.DocumentId, out Document? document))
+        {
+            return document;
+        }
+        Document newDocument = new(_currentSectionHeader!.Value, documentBalance.DocumentId);
+        _currentSectionDocuments.Add(newDocument.DocumentId, newDocument);
+        return newDocument;
+    }
+
+    internal void ProcessSectionHeader(string line)
+    {
+        KxxSectionHeader sectionHeader = ParseKxxSectionHeader(line);
+        if (!_fileAccountingYear.HasValue)
+        {
+            _fileAccountingYear = sectionHeader.AccountingYear;
+        }
+        ValidateSectionHeader(sectionHeader);
+        OpenNewSection(sectionHeader);
+    }
+
+    private void ValidateSectionHeader(KxxSectionHeader sectionHeader)
+    {
+        if (!sectionHeader.Ico.Equals(_fileHeader.Ico, StringComparison.OrdinalIgnoreCase))
+        {
+            LogError($"Kxx section header contains Ico {sectionHeader.Ico} that does not match Ico {_fileHeader.Ico} in .kxx file header.");
+        }
+        if(sectionHeader.AccountingYear != _fileAccountingYear)
+        {
+            LogError($"Kxx section header contains year {sectionHeader.AccountingYear} that does not match previous year {_fileAccountingYear} in .kxx file.");
         }
     }
 
@@ -100,7 +225,7 @@ public class KxxParser
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    internal KxxHeader ParseKxxHeader(string input)
+    internal KxxFileHeader ParseKxxFileHeader(string input)
     {
         input = input.Trim();
         if (input.Length < _headerLineMinimalLength)
@@ -128,17 +253,17 @@ public class KxxParser
 
         string licence = match.Groups[5].Value;
 
-        return new KxxHeader(Ico: ico, Month: month, ProgramLicence: licence);
+        return new KxxFileHeader(Ico: ico, AccountingMonth: month, ProgramLicence: licence);
     }
 
     /// <summary>
-    /// Represents line 6/@ of .kxx file - header of a block representing one document (invoice?)
+    /// Represents line 6/@ of .kxx file - header of a block representing one section
     /// 6/@xxxxxxxxyyzz_t_rrrr 
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    internal KxxDocumentBlockHeader ParseKxxDocumentBlockHeader(string input)
+    internal KxxSectionHeader ParseKxxSectionHeader(string input)
     {
         input = input.Trim();
         if (input.Length < _documentBlockHeaderMinimalLength)
@@ -164,7 +289,7 @@ public class KxxParser
             ThrowParserException($"invalid format of 6/@ line. Failed to parse month {match.Groups[2].Value}");
         }
 
-        if (!Enum.TryParse(match.Groups[3].Value, out DocumentType documentType))
+        if (!Enum.TryParse(match.Groups[3].Value, out SectionType documentType))
         {
             ThrowParserException($"invalid format of 6/@ line. Failed to parse document type {match.Groups[3].Value}");
         }
@@ -174,21 +299,21 @@ public class KxxParser
             ThrowParserException($"invalid format of 6/@ line. Failed to parse input identifier {match.Groups[4].Value}");
         }
 
-        if (!uint.TryParse(match.Groups[5].Value, out uint accoutingYear))
+        if (!ushort.TryParse(match.Groups[5].Value, out ushort accoutingYear))
         {
             ThrowParserException($"invalid format of 6/@ line. Failed to parse accounting year {match.Groups[5].Value}");
         }
 
-        return new KxxDocumentBlockHeader(Ico: ico, Month: month, DocumentType: documentType, InputIndetifier: inputIndetifier.Value, AccountingYear: accoutingYear);
+        return new KxxSectionHeader(Ico: ico, AccountingMonth: month, SectionType: documentType, InputIndetifier: inputIndetifier.Value, AccountingYear: accoutingYear);
     }
 
     /// <summary>
-    /// Parses G/@ line of .kxx file - one item in document (invoice)
+    /// Parses G/@ line of .kxx file - one balance in document (invoice)
     /// G/@ddccccccccc000sssaaaakkoooooollllzzzuuuuuuuuujjjjjjjjjjgggggggggggggmmmmmmmmmmmmmmmmmm_dddddddddddddddddd_
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    internal KxxDocumentLine ParseKxxDocumentLine(string input)
+    internal KxxDocumentBalance ParseKxxDocumentBalance(string input)
     {
         const int dayLen = 2;
         const int delimiterLen = 3;
@@ -264,9 +389,9 @@ public class KxxParser
         {
             ThrowParserException($"invalid format of G/@ line. Failed to gave amount {match.Groups[15].Value} {match.Groups[16].Value}");
         }
-        return new KxxDocumentLine(
+        return new KxxDocumentBalance(
             AccountedDay: accountedDay,
-            DocumentNumber: documentNumber,
+            DocumentId: documentNumber,
             SynteticAccount: synteticAccount,
             AnalyticAccount: analyticAccount,
             Chapter: chapter,
@@ -281,12 +406,12 @@ public class KxxParser
     }
 
     /// <summary>
-    ///  Represents G/$ line in .kxx file - document line description
+    ///  Represents G/$ line in .kxx file - document balance description
     /// G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    internal KxxDocumentLineDescription ParseKxxDocumentLineDescription(string input)
+    internal KxxDocumentBalanceDescription ParseKxxDocumentBalanceDescription(string input)
     {
         const int lineNumLen = 4;
 
@@ -308,10 +433,10 @@ public class KxxParser
         }
         string description = match.Groups[3].Value;
 
-        return new KxxDocumentLineDescription(
+        return new KxxDocumentBalanceDescription(
             DocumentLineNumber: lineNum,
-            DocumentNumber: documentNumber,
-            LineDescription: description);
+            DocumentId: documentNumber,
+            BalanceDescription: description);
     }
 
     /// <summary>
@@ -341,6 +466,17 @@ public class KxxParser
             ThrowParserException($"invalid format of G/# line. Failed to parse document number {match.Groups[2].Value}");
         }
 
+        string descriptionsString = match.Groups[3].Value;
+        if (!descriptionsString.StartsWith('*'))
+        {
+            LogWarning($"Document description in non-dictionary format: {input}");
+            return new KxxDocumentDescription(
+               DocumentLineNumber: lineNum,
+               DocumentId: documentNumber,
+               Descriptions: new(),
+               EvkDescriptions: new());
+        }
+
         string[] descriptionParts = match.Groups[3].Value.Split(new char[] { '*', ';'}, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         string nonEvkPattern = $@"^([^-]+)-([^-]+)$";
         string evkPattern = $@"^EVK-([^-]+)-([^-]+)$";
@@ -367,7 +503,7 @@ public class KxxParser
 
         return new KxxDocumentDescription(
             DocumentLineNumber: lineNum,
-            DocumentNumber: documentNumber,
+            DocumentId: documentNumber,
             Descriptions: descriptions,
             EvkDescriptions: evkDescriptions);
     }
@@ -376,5 +512,15 @@ public class KxxParser
     private void ThrowParserException(string message)
     {
         throw new KxxParserException($"Line: {_lineCounter}: {message}");
+    }
+
+    private void LogError(string message)
+    {
+        _logger.LogError($"Line: {_lineCounter}: {message}");
+    }
+
+    private void LogWarning(string message)
+    {
+        _logger.LogWarning($"Line: {_lineCounter}: {message}");
     }
 }

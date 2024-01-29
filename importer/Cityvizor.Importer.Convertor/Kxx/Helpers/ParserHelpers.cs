@@ -59,10 +59,10 @@ internal static class ParserHelpers
         (bool res, lineType) = lineIndetifier switch
         {
             "5/@" => (true, KxxLineType.FileHeader),
-            "6/@" => (true, KxxLineType.DocumentHeader),
-            "G/@" => (true, KxxLineType.DocumentLine),
+            "6/@" => (true, KxxLineType.SectionHeader),
+            "G/@" => (true, KxxLineType.DocumentBalance),
             "G/#" => (true, KxxLineType.DocumentDescription),
-            "G/$" => (true, KxxLineType.DocumentLineDescription),
+            "G/$" => (true, KxxLineType.DocumentBalanceDescription),
             _ => (false, default(KxxLineType?))
         };
 

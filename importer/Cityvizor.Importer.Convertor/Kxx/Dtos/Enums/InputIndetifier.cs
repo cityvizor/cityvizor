@@ -1,6 +1,6 @@
 ﻿namespace Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
 
-internal enum InputIndetifier
+public enum InputIndetifier
 {
     /// <summary>
     /// 0,1 = připojí doklad k existujícímu dokladu

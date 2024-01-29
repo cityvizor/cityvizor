@@ -7,36 +7,36 @@ namespace Cityvizor.Importer.Convertor.Kxx.Dtos;
 /// 5/@xxxxxxxx00yy000cccc 
 /// </summary>
 /// <param name="Ico"></param>
-/// <param name="Month">`yy` obdobi zpracovani - mesic</param>
+/// <param name="AccountingMonth">`yy` obdobi zpracovani - mesic</param>
 /// <param name="ProgramLicence">cislo licence zpracovatelskeho programu</param>
-internal record struct KxxHeader(
+internal record struct KxxFileHeader(
     string Ico,
-    byte Month,
+    byte AccountingMonth, // we don't use it for anything rn
     string ProgramLicence);
 
 /// <summary>
-/// Represents line 6/@ of .kxx file - header of a block representing one document (invoice?)
+/// Represents line 6/@ of .kxx file - header of a block representing one section (month + input identifier)
 /// 6/@xxxxxxxxyyzz_t_rrrr 
 /// </summary>
 /// <param name="Ico"></param>
-/// <param name="Month">`yy` obdobi zpracovani - mesic</param>
-/// <param name="DocumentType"> druh dokladu</param>
+/// <param name="AccountingMonth">`yy` obdobi zpracovani - mesic</param>
+/// <param name="SectionType"> druh dokladu</param>
 /// <param name="InputIndetifier">dentifikátor vstupu</param>
 /// <param name="AccountingYear"> účetní rok</param>
-internal record struct KxxDocumentBlockHeader(
+internal record struct KxxSectionHeader(
     string Ico,
-    byte Month,
-    DocumentType DocumentType,
+    byte AccountingMonth,
+    SectionType SectionType,
     InputIndetifier InputIndetifier,
-    uint AccountingYear 
+    ushort AccountingYear 
 );
 
 /// <summary>
-/// Represents G/@ line of .kxx file - one item in document (invoice)
+/// Represents G/@ line of .kxx file - one balance in document (invoice)
 /// G/@ddccccccccc000sssaaaakkoooooollllzzzuuuuuuuuujjjjjjjjjjgggggggggggggmmmmmmmmmmmmmmmmmm_dddddddddddddddddd_
 /// </summary>
 /// <param name="AccountedDay">den zauctovani</param>
-/// <param name="DocumentNumber">cislo dokladu</param>
+/// <param name="DocumentId">cislo dokladu</param>
 /// <param name="SynteticAccount"> syntetika (SU) </param>
 /// <param name="AnalyticAccount">analytika (AU)</param>
 /// <param name="Chapter">kapitola(KAP) </param>
@@ -48,9 +48,9 @@ internal record struct KxxDocumentBlockHeader(
 /// <param name="Organization">organizace (ORG) </param>
 /// <param name="ShouldGive">má dáti </param>
 /// <param name="Gave">dal</param>
-internal record struct KxxDocumentLine(
+internal record struct KxxDocumentBalance(
     byte AccountedDay,
-    uint DocumentNumber,
+    uint DocumentId,
     uint SynteticAccount,
     uint AnalyticAccount,
     uint Chapter,
@@ -65,16 +65,16 @@ internal record struct KxxDocumentLine(
 );
 
 /// <summary>
-/// Represents G/$ line in .kxx file - document line description
+/// Represents G/$ line in .kxx file - balance description
 /// G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...
 /// </summary>
 /// <param name="DocumentLineNumber">jednoznačné číslo řádky v dokladu v rámci dokladu </param>
 /// <param name="DocumentNumber">číslo dokladu</param>
 /// <param name="LineDescription"> text k řádku dokladu</param>
-internal record struct KxxDocumentLineDescription(
+internal record struct KxxDocumentBalanceDescription(
     uint DocumentLineNumber,
-    uint DocumentNumber,
-    string LineDescription
+    uint DocumentId,
+    string BalanceDescription
 );
 
 /// <summary>
@@ -82,12 +82,12 @@ internal record struct KxxDocumentLineDescription(
 /// G/$rrrrccccccccctttttttttttttttttttttttttttttttttttttttt...
 /// </summary>
 /// <param name="DocumentLineNumber"> jednoznačné číslo řádky popisu v rámci dokladu </param>
-/// <param name="DocumentNumber">číslo dokladu</param>
+/// <param name="DocumentId">číslo dokladu</param>
 /// <param name="Descriptions"> text k řádku dokladu</param>
 /// <param name="EvkDescriptions"> text k řádku dokladu</param>
 internal record struct KxxDocumentDescription (
     uint DocumentLineNumber,
-    uint DocumentNumber,
+    uint DocumentId,
     Dictionary<string, string> Descriptions,
     Dictionary<string, string> EvkDescriptions
 );

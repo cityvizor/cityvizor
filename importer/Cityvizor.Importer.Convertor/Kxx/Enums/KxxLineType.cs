@@ -4,11 +4,11 @@ internal enum KxxLineType
     // 5/@
     FileHeader,
     // 6/@
-    DocumentHeader,
+    SectionHeader,
     // G/@ 
-    DocumentLine,
+    DocumentBalance,
     // G/#
     DocumentDescription,
     // G/$
-    DocumentLineDescription,
+    DocumentBalanceDescription,
 }

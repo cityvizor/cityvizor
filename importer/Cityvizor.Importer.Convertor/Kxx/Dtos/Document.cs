@@ -1,22 +1,27 @@
 ﻿using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
 
 namespace Cityvizor.Importer.Convertor.Kxx.Dtos;
-internal record Document(
-    string Ico,
-    uint AccountingYear,
-    byte Month,
-    DocumentType DocumentType,
+
+public record Document(
+    SectionType SectionType,
     InputIndetifier InputIndetifier,
+
+    string Ico,
+    ushort AccountingYear,
+    byte AccountingMonth,
+    uint DocumentId,
+
     Dictionary<string, string> Descriptions,
     Dictionary<string, string> EvkDescriptions,
     List<DocumentBalance> Balances
 )
 {
-    internal Document(KxxDocumentBlockHeader header) : this(
+    internal Document(KxxSectionHeader header, uint documentId) : this(
         Ico: header.Ico,
         AccountingYear: header.AccountingYear,
-        Month: header.Month,
-        DocumentType: header.DocumentType,
+        AccountingMonth: header.AccountingMonth,
+        DocumentId: documentId,
+        SectionType: header.SectionType,
         InputIndetifier: header.InputIndetifier,
         Descriptions: new(),
         EvkDescriptions: new(),
@@ -24,10 +29,9 @@ internal record Document(
     { }
 }
 
-internal record DocumentBalance(
+public record DocumentBalance(
     DateOnly AccountedDate,
-    byte AccountedDay,
-    uint DocumentNumber,
+    uint DocumentId,
     uint SynteticAccount,
     uint AnalyticAccount,
     uint Chapter,
@@ -40,4 +44,23 @@ internal record DocumentBalance(
     decimal ShouldGive,
     decimal Gave,
     List<string> Descriptions
-);
+)
+{
+    internal DocumentBalance(KxxDocumentBalance balanceLine, ushort year, byte month) : this(
+        AccountedDate: new DateOnly(year, month, balanceLine.AccountedDay), // compose balance date from day on the balance line and year and month in balance header
+        DocumentId: balanceLine.DocumentId,
+        SynteticAccount: balanceLine.SynteticAccount,
+        AnalyticAccount: balanceLine.AnalyticAccount,
+        Chapter: balanceLine.Chapter,
+        Paraghraph: balanceLine.Paraghraph,
+        Item: balanceLine.Item,
+        RecordUnit: balanceLine.RecordUnit,
+        PurposeMark: balanceLine.PurposeMark,
+        OrganizationUnit: balanceLine.OrganizationUnit,
+        Organization: balanceLine.Organization,
+        ShouldGive: balanceLine.ShouldGive,
+        Gave: balanceLine.Gave,
+        Descriptions: new()
+        )
+    { }
+}
