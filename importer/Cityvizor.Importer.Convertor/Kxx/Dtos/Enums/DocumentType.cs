@@ -1,6 +1,6 @@
 ﻿namespace Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
 
-internal enum SectionType
+public enum SectionType
 {
     /// <summary>
     /// 00 = běžný měsíc 

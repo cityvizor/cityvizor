@@ -3,11 +3,20 @@ using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
 using Cityvizor.Importer.Convertor.Kxx.Dtos;
 using Cityvizor.Importer.Convertor.Kxx.Helpers;
 using Cityvizor.Importer.Convertor.Kxx.Enums;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Cityvizor.Importer.Services;
 
 namespace Cityvizor.Importer.UnitTests;
 
-public class KxxParserTests
+public class KxxParserTests : WebTestBase
 {
+    public KxxParserTests(WebApplicationFactory<Program> factory): base(factory)
+    {
+        _parserService = GetRequiredService<KxxParserService>();
+    }
+
+    private readonly KxxParserService _parserService;
+
     [Fact]
     public void ParseHeaderTest()
     {
@@ -18,7 +27,7 @@ public class KxxParserTests
             AccountingMonth: 9,
             ProgramLicence: "MBMC");
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxFileHeader res = parser.ParseKxxFileHeader(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -34,7 +43,7 @@ public class KxxParserTests
             AccountingMonth: 9,
             ProgramLicence: "MBMC");
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxFileHeader res = parser.ParseKxxFileHeader(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -45,14 +54,14 @@ public class KxxParserTests
     {
         string input = "5/@1230009000MBMC";
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         var func = () => parser.ParseKxxFileHeader(input);
 
         func.Should().Throw<KxxParserException>();
 
         input = "5/@123456789120009000MBMC";
 
-        parser = new(StreamReader.Null);
+        parser = _parserService.CreateParser(StreamReader.Null);
         func = () => parser.ParseKxxFileHeader(input);
 
         func.Should().Throw<KxxParserException>();
@@ -70,7 +79,7 @@ public class KxxParserTests
             InputIndetifier: InputIndetifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxSectionHeader res = parser.ParseKxxSectionHeader(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -81,7 +90,7 @@ public class KxxParserTests
     {
         string input = "6/@449927850102   2023";
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         var func = () => parser.ParseKxxSectionHeader(input);
 
         func.Should().Throw<KxxParserException>();
@@ -99,7 +108,7 @@ public class KxxParserTests
             InputIndetifier: InputIndetifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxSectionHeader res = parser.ParseKxxSectionHeader(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -125,7 +134,7 @@ public class KxxParserTests
             ShouldGive: 0.0m,
             Gave: 27.60m);
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxDocumentBalance res = parser.ParseKxxDocumentBalance(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -151,7 +160,7 @@ public class KxxParserTests
             ShouldGive: -42.73m,
             Gave: -27.60m);
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxDocumentBalance res = parser.ParseKxxDocumentBalance(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -164,10 +173,10 @@ public class KxxParserTests
 
         KxxDocumentBalanceDescription expected = new KxxDocumentBalanceDescription(
             DocumentLineNumber: 1,
-            DocumentNumber: 100003,
-            LineDescription: "Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\"");
+            DocumentId: 100003,
+            BalanceDescription: "Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\"");
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxDocumentBalanceDescription res = parser.ParseKxxDocumentBalanceDescription(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -178,7 +187,7 @@ public class KxxParserTests
     {
         string input = "G/$0001   100003";
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         var func = () => parser.ParseKxxDocumentBalanceDescription(input);
 
         func.Should().Throw<KxxParserException>();
@@ -202,7 +211,7 @@ public class KxxParserTests
             EvkDescriptions: new Dictionary<string, string>()
         );
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
         res.Should().BeEquivalentTo(expected);
     }
@@ -228,7 +237,7 @@ public class KxxParserTests
             }
         );
 
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
         res.Should().BeEquivalentTo(expected);
     }
@@ -237,7 +246,7 @@ public class KxxParserTests
     public void ParseDocumentDescriptionFlawedTest()
     {
         string input = "G/#0001   830041*PDD-A;*ODPH-2022;*ECDD-16000-448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;";
-        KxxParser parser = new(StreamReader.Null);
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
         var func = () => parser.ParseKxxDocumentDescription(input);
         func.Should().Throw<KxxParserException>();
     }

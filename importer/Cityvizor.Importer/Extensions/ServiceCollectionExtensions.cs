@@ -1,5 +1,7 @@
 ﻿using Cityvizor.Importer.BackgroungServices;
+using Cityvizor.Importer.Convertor.Kxx;
 using Cityvizor.Importer.Options;
+using Cityvizor.Importer.Services;
 using Cityvizor.Importer.Validators;
 using Microsoft.Extensions.Options;
 
@@ -15,5 +17,11 @@ public static class ServiceCollectionExtensions
             .Bind(configuration.GetSection("BackgroundServices"))
             .ValidateOnStart();
         return services.AddHostedService<ImporterBackgroundService>();
+    }
+
+    public static IServiceCollection RegisterKxxParser(this IServiceCollection services)
+    {
+        services.AddSingleton<KxxParserService>();
+        return services;
     }
 }
