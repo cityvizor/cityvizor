@@ -5,6 +5,7 @@ using Cityvizor.Importer.Convertor.Kxx.Helpers;
 using Cityvizor.Importer.Convertor.Kxx.Enums;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Cityvizor.Importer.Services;
+using System.IO;
 
 namespace Cityvizor.Importer.UnitTests;
 
@@ -16,6 +17,116 @@ public class KxxParserTests : WebTestBase
     }
 
     private readonly KxxParserService _parserService;
+
+    [Fact]
+    public void TestParsingWeirdDescriptions()
+    {
+        string input = @"5/@449927850009000MBMC
+6/@449927850102 2 2023
+G/@01   830041000311030400000000000000000000000000000000000000000000000000000000000481100 000000000000000000 
+G/@01   830041000603030000000000000025000000000000000000000000000000000000000000000000000 000000000000481100 
+G/@01   830041000797031100000000060100000000011100000000000000000000000000000000000481100 000000000000000000 
+G/@01   830041000797060300000001000500000000000000000000000000000000111000000000000000000 000000000000481100 
+G/#0001   830041*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;
+G/#0002   830041*EVKT-16DDP1602 - pronájmy zahrádek;*PID-MBMCX001RAK2;
+G/#0003   830041*OFJP-Vlasák Petr;*OFMP-Žebìtínek 178/15, Brno, 62100, Èeská republika;*DZP-20220301;*DUD-20220301;
+G/#0004   830041*DVD-20220301;*DEV-20220301;*OZP-A;*POP-N;*INR-N;*ECDDO-16000448/17;*DUDO-20220301;
+";
+
+        StreamReader reader = Utils.StreamReaderFromString(input);
+
+        KxxParser parser = _parserService.CreateParser(reader);
+
+        Document[] res = parser.Parse();
+    }
+
+
+    [Fact]
+    public void TestParsingSimpleFile()
+    {
+        string input = @"5/@44992785160009000MBMC
+6/@44992785160102 2 2023
+G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000000000 000000000000002760 
+G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000004273c000000000000002760-
+G/$0001   100001Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci ""Prvky pro psí výbìh""
+G/#0001   100001*OFJP-Vlasák Petr;*OFMP-Žebìtínek 178/15, Brno, 62100, Èeská republika;*DZP-20220301;*DUD-20220301;
+G/#0002   100001*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;
+6/@44992785160102 2 2023
+G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000000000 000000000000002760 
+G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000004273c000000000000002760-
+G/$0001   100001Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci ""Prvky pro psí výbìh""
+G/#0001   100001*OFJP-Vlasák Petr;*OFMP-Žebìtínek 178/15, Brno, 62100, Èeská republika;*DZP-20220301;*DUD-20220301;
+G/#0002   100001*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;
+";
+
+        StreamReader reader = Utils.StreamReaderFromString(input);
+        KxxParser parser = _parserService.CreateParser(reader);
+        Document[] res = parser.Parse();
+
+        Document expected = new Document(
+            SectionType: SectionType.ApprovedBudget,
+            InputIndetifier: InputIndetifier.RewriteWithSameLicence,
+            Ico: "4499278516",
+            AccountingYear: 2023,
+            AccountingMonth: 1,
+            DocumentId: 100001,
+            Descriptions: new Dictionary<string, string>
+            {
+                { "OFJP", "Vlasák Petr" },
+                { "OFMP", "Žebìtínek 178/15, Brno, 62100, Èeská republika" },
+                { "DZP", "20220301"},
+                { "DUD", "20220301" },
+                { "PDD", "A" },
+                { "ODPH", "2022" },
+                { "ECDD", "16000448/17" },
+                { "DICT", "Vlasák Petr" }
+            },
+            EvkDescriptions: new Dictionary<string, string>
+            {
+                { "DDP", "201316000448" }
+            },
+            Balances: new List<DocumentBalance>
+            {
+                new DocumentBalance(
+                    AccountedDate: new DateOnly(2023,1,1),
+                    DocumentId: 100001,
+                    SynteticAccount: 231,
+                    AnalyticAccount: 10,
+                    Chapter: 0,
+                    Paraghraph: 6310,
+                    Item: 5163,
+                    RecordUnit: 0,
+                    PurposeMark: 0,
+                    OrganizationUnit: 0,
+                    Organization: 1610000000000u,
+                    ShouldGive: 0.0m,
+                    Gave: 27.60m,
+                    Descriptions: new List<string>
+                    {
+                    }),
+                new DocumentBalance(
+                    AccountedDate: new DateOnly(2023,1,1),
+                    DocumentId: 100001,
+                    SynteticAccount: 231,
+                    AnalyticAccount: 10,
+                    Chapter: 0,
+                    Paraghraph: 6310,
+                    Item: 5163,
+                    RecordUnit: 0,
+                    PurposeMark: 0,
+                    OrganizationUnit: 0,
+                    Organization: 1610000000000u,
+                    ShouldGive: -42.73m,
+                    Gave: -27.60m,
+                    Descriptions: new List<string>
+                    {
+                         "Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\""
+                    })
+                }
+            );
+
+        res.Should().BeEquivalentTo(new Document[] { expected, expected });
+    }
 
     [Fact]
     public void ParseHeaderTest()
