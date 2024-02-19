@@ -67,12 +67,14 @@ G/@01   100001000231001000006310516300000000000000000000001610000000000000000000
 G/$0001   100001Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci ""Prvky pro psí výbìh""
 G/#0001   100001*OFJP-Vlasák Petr;*OFMP-Žebìtínek 178/15, Brno, 62100, Èeská republika;*DZP-20220301;*DUD-20220301;
 G/#0002   100001*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;
+G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
 6/@44992785160102 2 2023
 G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000000000 000000000000002760 
 G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000004273c000000000000002760-
 G/$0001   100001Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci ""Prvky pro psí výbìh""
 G/#0001   100001*OFJP-Vlasák Petr;*OFMP-Žebìtínek 178/15, Brno, 62100, Èeská republika;*DZP-20220301;*DUD-20220301;
 G/#0002   100001*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;
+G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
 ";
 
         StreamReader reader = Utils.StreamReaderFromString(input);
@@ -101,6 +103,7 @@ G/#0002   100001*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-2
             {
                 { "DDP", "201316000448" }
             },
+            PlainTextDescriptions: new List<string> { "Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023" },
             Balances: new List<DocumentBalance>
             {
                 new DocumentBalance(

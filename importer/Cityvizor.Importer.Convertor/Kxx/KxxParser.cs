@@ -124,6 +124,7 @@ public class KxxParser
                 ThrowParserException($"Found duplicate key in document description. Key: {key}. Line {line}");
             }
         }
+        document.PlainTextDescriptions.AddRange(documentDescription.PlainTextDescription);
     }
 
     internal void ProcessDocumentLineDescription(string line)

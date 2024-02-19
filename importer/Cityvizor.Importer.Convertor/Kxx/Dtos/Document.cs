@@ -13,6 +13,7 @@ public record Document(
 
     Dictionary<string, string> Descriptions,
     Dictionary<string, string> EvkDescriptions,
+    List<string> PlainTextDescriptions,
     List<DocumentBalance> Balances
 )
 {
@@ -25,6 +26,7 @@ public record Document(
         InputIndetifier: header.InputIndetifier,
         Descriptions: new(),
         EvkDescriptions: new(),
+        PlainTextDescriptions: new(),
         Balances: new())
     { }
 }
