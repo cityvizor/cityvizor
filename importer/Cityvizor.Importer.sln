@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer", "Cityvizor.Importer\Cityvizor.Importer.csproj", "{5E08D71F-A08F-4BA2-920B-E4C4DC5A3DF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer.Convertor", "Cityvizor.Importer.Convertor\Cityvizor.Importer.Convertor.csproj", "{E60B2E80-E9F5-445B-A1DC-47B5D19E45FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer.Converter", "Cityvizor.Importer.Converter\Cityvizor.Importer.Converter.csproj", "{E60B2E80-E9F5-445B-A1DC-47B5D19E45FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cityvizor.Importer.Writer", "Cityvizor.Importer.Writer\Cityvizor.Importer.Writer.csproj", "{AC385AF9-E30A-40C8-B054-0F3E16AD1073}"
 EndProject

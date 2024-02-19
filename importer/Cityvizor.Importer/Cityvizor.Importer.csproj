@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cityvizor.Importer.Convertor\Cityvizor.Importer.Convertor.csproj" />
+    <ProjectReference Include="..\Cityvizor.Importer.Converter\Cityvizor.Importer.Converter.csproj" />
     <ProjectReference Include="..\Cityvizor.Importer.Writer\Cityvizor.Importer.Writer.csproj" />
   </ItemGroup>
 
