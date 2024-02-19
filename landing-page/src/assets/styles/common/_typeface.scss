@@ -5,25 +5,25 @@
 */
 
 .type-xl {
-    font-size: 48px;
-    font-weight: 400;
+  font-size: 48px;
+  font-weight: 400;
 }
 
 .type-lg {
-    font-size: $font-size-lg;
-    font-weight: 400;
+  font-size: $font-size-lg;
+  font-weight: 400;
 }
 
 .type-md {
-    font-size: $font-size-md;
-    font-weight: 400;
+  font-size: $font-size-md;
+  font-weight: 400;
 }
 
 .type-sm {
-    font-size: $font-size-sm;
-    font-weight: 400;
+  font-size: $font-size-sm;
+  font-weight: 400;
 }
 
 h1 {
-    @extend .type-xl;
+  @extend .type-xl;
 }

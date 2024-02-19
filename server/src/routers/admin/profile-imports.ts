@@ -1,20 +1,20 @@
-import express, {Request} from 'express';
-import {ImportRecord} from '../../schema/database/import';
-import {db} from '../../db';
+import express, { Request } from "express";
+import { ImportRecord } from "../../schema/database/import";
+import { db } from "../../db";
 
-import acl from 'express-dynacl';
+import acl from "express-dynacl";
 
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 
 export const AdminProfileImportsRouter = router;
 
 router.get(
-  '/',
-  acl('profile-imports:list'),
-  async (req: Request<{profile: string}>, res) => {
-    const records = await db<ImportRecord>('app.imports')
-      .where('profileId', req.params.profile)
-      .orderBy('started', 'desc');
+  "/",
+  acl("profile-imports:list"),
+  async (req: Request<{ profile: string }>, res) => {
+    const records = await db<ImportRecord>("app.imports")
+      .where("profileId", req.params.profile)
+      .orderBy("started", "desc");
 
     res.json(records);
   }

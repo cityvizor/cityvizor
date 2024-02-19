@@ -6,7 +6,7 @@ import { BudgetYear } from "../../../../schema";
 @Component({
   selector: "add-modify-year-modal",
   templateUrl: "./add-modify-year-modal.component.html",
-  styleUrls: ["./add-modify-year-modal.component.scss"]
+  styleUrls: ["./add-modify-year-modal.component.scss"],
 })
 export class AddModifyYearModalComponent implements OnInit {
   @Input() profileId: number;
@@ -42,14 +42,16 @@ export class AddModifyYearModalComponent implements OnInit {
 
   async addModifyYear(form: NgForm): Promise<void> {
     this.year.importFormat = form.value.import_format;
-    this.year.importPeriodMinutes = Math.floor(Number(form.value.import_period_minutes));
+    this.year.importPeriodMinutes = Math.floor(
+      Number(form.value.import_period_minutes)
+    );
     this.year.importUrl = form.value.import_url;
 
     if (!this.isUpdate) {
       await this.adminService.createProfileYear(
         this.profileId,
         form.value.year,
-        this.year,
+        this.year
       );
     } else {
       await this.adminService.updateProfileYear(
@@ -58,7 +60,7 @@ export class AddModifyYearModalComponent implements OnInit {
         this.year
       );
     }
-    form.reset()
+    form.reset();
     this.close.emit(true);
   }
 }

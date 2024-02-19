@@ -9,6 +9,6 @@ export default {
   },
 
   getLogs(): string {
-    return logs.join('\n');
+    return logs.join("\n");
   },
 };

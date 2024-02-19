@@ -10,23 +10,23 @@
 
 <script>
 export default {
-  name: 'Close',
+  name: "Close",
   props: {
     size: {
       type: Number,
-      default: 12
+      default: 12,
     },
     thickness: {
       type: Number,
-      default: 2
+      default: 2,
     },
     stroke: {
       type: String,
-      default: '#000'
+      default: "#000",
     },
     linecap: {
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
     diff() {
@@ -38,10 +38,9 @@ export default {
         stroke-width:${this.thickness};
         stroke-linecap:${this.linecap}
       `;
-    }
+    },
   },
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>

@@ -26,57 +26,57 @@ export function userManagesProfile(user, profileId: number): boolean {
 export const aclRoles = {
   guest: {
     can: {
-      'login:login': true,
+      "login:login": true,
     },
   },
 
   user: {
     can: {
-      'users:list': true,
-      'users:read': req => isLoggedUser(req),
-      'users:write': req => isLoggedUser(req),
-      'login:renew': true,
+      "users:list": true,
+      "users:read": req => isLoggedUser(req),
+      "users:write": req => isLoggedUser(req),
+      "login:renew": true,
     },
   },
 
   admin: {
     can: {
-      'profiles:list': true,
-      'profiles:read': true,
-      'profiles:write': true,
-      'profile-years:list': true,
-      'profile-years:read': true,
-      'profile-years:write': true,
-      'profile-imports:list': true,
-      'profile-accounting:list': true,
-      'profile-accounting:write': true,
-      'users:list': true,
-      'users:read': true,
-      'users:write': true,
-      'options:read': true,
-      'options:write': true,
+      "profiles:list": true,
+      "profiles:read": true,
+      "profiles:write": true,
+      "profile-years:list": true,
+      "profile-years:read": true,
+      "profile-years:write": true,
+      "profile-imports:list": true,
+      "profile-accounting:list": true,
+      "profile-accounting:write": true,
+      "users:list": true,
+      "users:read": true,
+      "users:write": true,
+      "options:read": true,
+      "options:write": true,
     },
   },
 
   importer: {
     can: {
-      'profile-accounting:write': req => isManagedProfile(req),
+      "profile-accounting:write": req => isManagedProfile(req),
     },
   },
 
-  'profile-admin': {
+  "profile-admin": {
     can: {
-      'profiles:list': true,
-      'profiles:read': true,
-      'profiles:write': req => isManagedProfile(req),
-      'profile-years:list': true,
-      'profile-years:read': true,
-      'profile-years:write': req => isManagedProfile(req),
-      'profile-imports:list': true,
-      'profile-accounting:list': true,
-      'profile-accounting:write': req => isManagedProfile(req),
-      'options:read': true,
-      'options:write': false,
+      "profiles:list": true,
+      "profiles:read": true,
+      "profiles:write": req => isManagedProfile(req),
+      "profile-years:list": true,
+      "profile-years:read": true,
+      "profile-years:write": req => isManagedProfile(req),
+      "profile-imports:list": true,
+      "profile-accounting:list": true,
+      "profile-accounting:write": req => isManagedProfile(req),
+      "options:read": true,
+      "options:write": false,
     },
   },
 };

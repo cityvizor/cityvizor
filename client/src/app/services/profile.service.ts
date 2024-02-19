@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { Profile } from 'app/schema/profile';
-import { ReplaySubject, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Profile } from "app/schema/profile";
+import { ReplaySubject, BehaviorSubject } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class ProfileService {
-
   profileId = new BehaviorSubject<number | null>(null);
 
   profile = new ReplaySubject<Profile>(1);

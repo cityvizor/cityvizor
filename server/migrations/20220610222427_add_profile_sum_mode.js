@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema
-    .alterTable('app.profiles', table => {
-      table.string('sum_mode', 20).notNullable().default('complete');
+    .alterTable("app.profiles", table => {
+      table.string("sum_mode", 20).notNullable().default("complete");
     })
     .then(() => {
       return knex.raw(`
@@ -29,8 +29,8 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema
-    .alterTable('app.profiles', table => {
-      table.dropColumn('sum_mode');
+    .alterTable("app.profiles", table => {
+      table.dropColumn("sum_mode");
     })
     .then(() => {
       return knex.raw(`

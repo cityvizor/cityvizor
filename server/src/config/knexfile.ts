@@ -1,7 +1,7 @@
-import {Knex} from 'knex';
-import path from 'path';
-import environment from '../../environment';
-import {snakeCase, camelCase} from 'change-case';
+import { Knex } from "knex";
+import path from "path";
+import environment from "../../environment";
+import { snakeCase, camelCase } from "change-case";
 
 // rather ineffective way of converting case for a finished row :(
 // would be better before executing just for identifiers, but not possible currrently by Knex
@@ -27,7 +27,7 @@ const knexConfig: Knex.Config = {
   },
   migrations: {
     // extension: 'ts',
-    directory: path.resolve(__dirname, '../../migrations'),
+    directory: path.resolve(__dirname, "../../migrations"),
   },
 
   pool: {

@@ -1,11 +1,11 @@
-import {ProfileType} from '../profile-type';
+import { ProfileType } from "../profile-type";
 
 export interface ProfileRecord {
   id: number;
 
-  status: 'visible' | 'pending' | 'hidden';
+  status: "visible" | "pending" | "hidden";
   type: ProfileType;
-  sumMode: 'complete' | 'visible';
+  sumMode: "complete" | "visible";
 
   url: string;
   name: string;

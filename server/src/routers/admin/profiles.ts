@@ -1,53 +1,53 @@
-import express from 'express';
+import express from "express";
 
-import config from '../../config';
-import multer from 'multer';
-import path from 'path';
-import axios from 'axios';
+import config from "../../config";
+import multer from "multer";
+import path from "path";
+import axios from "axios";
 
-import * as fs from 'fs-extra';
+import * as fs from "fs-extra";
 
-import {db} from '../../db';
-import {ProfileRecord} from '../../schema';
+import { db } from "../../db";
+import { ProfileRecord } from "../../schema";
 
-import acl from 'express-dynacl';
-import {URL} from 'url';
+import acl from "express-dynacl";
+import { URL } from "url";
 import {
   getS3AvatarPublicObjectPath,
   getS3Client,
   S3uploadPublicFile,
-} from '../../s3storage';
-import { logger } from '../../logger';
+} from "../../s3storage";
+import { logger } from "../../logger";
 
 const router = express.Router();
 
 export const AdminProfilesRouter = router;
 
-const upload = multer({dest: config.storage.tmp});
+const upload = multer({ dest: config.storage.tmp });
 
-router.get('/', acl('profiles:list'), async (req, res) => {
-  const profiles = await db<ProfileRecord>('app.profiles').modify(function () {
+router.get("/", acl("profiles:list"), async (req, res) => {
+  const profiles = await db<ProfileRecord>("app.profiles").modify(function () {
     if (req.query.status) {
-      this.where('status', '=', req.query.status);
+      this.where("status", "=", req.query.status);
     }
   });
 
   res.json(profiles);
 });
 
-router.post('/', acl('profiles:write'), async (req, res) => {
-  const id = await db<ProfileRecord>('app.profiles')
-    .insert(req.body, ['id'])
+router.post("/", acl("profiles:write"), async (req, res) => {
+  const id = await db<ProfileRecord>("app.profiles")
+    .insert(req.body, ["id"])
     .then(result => result[0].id);
 
-  res.location('/profiles/' + id);
+  res.location("/profiles/" + id);
 
   res.sendStatus(201);
 });
 
-router.get('/:profile', acl('profiles:read'), async (req, res) => {
-  const profile = await db<ProfileRecord>('app.profiles')
-    .where('id', req.params.profile)
+router.get("/:profile", acl("profiles:read"), async (req, res) => {
+  const profile = await db<ProfileRecord>("app.profiles")
+    .where("id", req.params.profile)
     .first();
 
   if (!profile) {
@@ -56,27 +56,27 @@ router.get('/:profile', acl('profiles:read'), async (req, res) => {
 
   profile.avatarUrl = config.s3.enabled
     ? getS3AvatarPublicObjectPath(profile.id, profile.avatarType, true)
-    : config.apiRoot + '/public/profiles/' + profile.id + '/avatar';
+    : config.apiRoot + "/public/profiles/" + profile.id + "/avatar";
 
   return res.json(profile);
 });
 
-router.patch('/:profile', acl('profiles:write'), async (req, res) => {
-  await db('app.profiles').where({id: req.params.profile}).update(req.body);
+router.patch("/:profile", acl("profiles:write"), async (req, res) => {
+  await db("app.profiles").where({ id: req.params.profile }).update(req.body);
 
   res.sendStatus(204);
 });
 
-router.get('/:profile/avatar', async (req, res) => {
-  const profile = await db<ProfileRecord>('app.profiles')
-    .where('id', Number(req.params.profile))
+router.get("/:profile/avatar", async (req, res) => {
+  const profile = await db<ProfileRecord>("app.profiles")
+    .where("id", Number(req.params.profile))
     .first();
 
   if (!profile) return res.sendStatus(404);
 
   const avatarPath = path.join(
     config.storage.avatars,
-    'avatar_' + req.params.profile + profile.avatarType
+    "avatar_" + req.params.profile + profile.avatarType
   );
 
   if (config.s3.enabled) {
@@ -92,24 +92,22 @@ router.get('/:profile/avatar', async (req, res) => {
   return res.sendFile(avatarPath);
 });
 
-router.delete('/:profile', acl('profiles:write'), async (req, res) => {
+router.delete("/:profile", acl("profiles:write"), async (req, res) => {
   const profile = req.params.profile;
 
   logger.info(`Deleting profile ${profile}.`);
 
   try {
     await db.transaction(async trx => {
-      await trx('data.pbo_expected_plans')
-        .where('profile_id', req.params.profile)
+      await trx("data.pbo_expected_plans")
+        .where("profile_id", req.params.profile)
         .delete();
 
-      await trx('data.pbo_real_plans')
-        .where('profile_id', req.params.profile)
+      await trx("data.pbo_real_plans")
+        .where("profile_id", req.params.profile)
         .delete();
 
-      await trx('app.profiles')
-        .where('id', req.params.profile)
-        .delete();
+      await trx("app.profiles").where("id", req.params.profile).delete();
 
       logger.info(`Deleted profile ${profile}.`);
     });
@@ -122,20 +120,20 @@ router.delete('/:profile', acl('profiles:write'), async (req, res) => {
 });
 
 router.put(
-  '/:profile/avatar',
-  acl('profiles:write'),
-  upload.single('avatar'),
+  "/:profile/avatar",
+  acl("profiles:write"),
+  upload.single("avatar"),
   async (req, res) => {
     if (!req.file && !req.body.url)
-      return res.status(400).send('Missing file.');
+      return res.status(400).send("Missing file.");
 
-    const profile = await db<ProfileRecord>('app.profiles')
-      .select('id', 'avatarType')
-      .where('id', req.params.profile)
+    const profile = await db<ProfileRecord>("app.profiles")
+      .select("id", "avatarType")
+      .where("id", req.params.profile)
       .first();
     if (!profile) return res.sendStatus(404);
 
-    const allowedTypes = ['.png', '.jpg', '.jpe', '.jpeg', '.gif', '.svg'];
+    const allowedTypes = [".png", ".jpg", ".jpe", ".jpeg", ".gif", ".svg"];
 
     const extname = req.file
       ? path.extname(req.file.originalname).toLowerCase()
@@ -143,10 +141,10 @@ router.put(
     if (allowedTypes.indexOf(extname) === -1)
       return res
         .status(400)
-        .send('Allowed file types are: ' + allowedTypes.join(', '));
+        .send("Allowed file types are: " + allowedTypes.join(", "));
     const avatarPath = path.join(
       config.storage.avatars,
-      'avatar_' + req.params.profile + extname
+      "avatar_" + req.params.profile + extname
     );
 
     if (req.file) {
@@ -169,7 +167,7 @@ router.put(
           .includes(new URL(req.body.url).host)
       )
         return;
-      await axios.get(req.body.url, {responseType: 'stream'}).then(r => {
+      await axios.get(req.body.url, { responseType: "stream" }).then(r => {
         r.data.pipe(fs.createWriteStream(avatarPath));
         // TODO: WTF is this piping, re-upload to S3 in case this is still used
         if (config.s3.enabled) {
@@ -181,18 +179,18 @@ router.put(
       });
     }
 
-    await db<ProfileRecord>('app.profiles')
-      .where('id', req.params.profile)
-      .update({avatarType: extname});
+    await db<ProfileRecord>("app.profiles")
+      .where("id", req.params.profile)
+      .update({ avatarType: extname });
 
     return res.sendStatus(204);
   }
 );
 
-router.delete('/:profile/avatar', acl('profiles:write'), async (req, res) => {
-  const profile = await db<ProfileRecord>('app.profiles')
-    .select('id', 'avatarType')
-    .where('id', req.params.profile)
+router.delete("/:profile/avatar", acl("profiles:write"), async (req, res) => {
+  const profile = await db<ProfileRecord>("app.profiles")
+    .select("id", "avatarType")
+    .where("id", req.params.profile)
     .first();
   if (!profile) return res.sendStatus(404);
 
@@ -200,7 +198,7 @@ router.delete('/:profile/avatar', acl('profiles:write'), async (req, res) => {
 
   const avatarPath = path.join(
     config.storage.avatars,
-    'avatar_' + profile.id + profile.avatarType
+    "avatar_" + profile.id + profile.avatarType
   );
 
   if (fs.existsSync(avatarPath)) {
@@ -213,15 +211,15 @@ router.delete('/:profile/avatar', acl('profiles:write'), async (req, res) => {
       getS3AvatarPublicObjectPath(profile.id, profile.avatarType),
       (error: Error | null) => {
         if (error) {
-          console.log('Delete from S3 error', error);
+          console.log("Delete from S3 error", error);
         }
       }
     );
   }
 
-  await db<ProfileRecord>('app.profiles')
-    .where('id', req.params.profile)
-    .update({avatarType: null});
+  await db<ProfileRecord>("app.profiles")
+    .where("id", req.params.profile)
+    .update({ avatarType: null });
 
   return res.sendStatus(204);
 });

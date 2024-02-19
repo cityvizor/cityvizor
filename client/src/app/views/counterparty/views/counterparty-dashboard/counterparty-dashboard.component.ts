@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'counterparty-dashboard',
-  templateUrl: './counterparty-dashboard.component.html',
-  styleUrls: ['./counterparty-dashboard.component.scss']
+  selector: "counterparty-dashboard",
+  templateUrl: "./counterparty-dashboard.component.html",
+  styleUrls: ["./counterparty-dashboard.component.scss"],
 })
-export class CounterpartyDashboardComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class CounterpartyDashboardComponent {
+  constructor() {}
 }

@@ -1,8 +1,8 @@
 export default function () {
-  return getRandomString() + getRandomString()
+  return getRandomString() + getRandomString();
 }
 
-function getRandomString () {
-  const radix = 36
-  return Math.random().toString(radix).substring(2, 15)
+function getRandomString() {
+  const radix = 36;
+  return Math.random().toString(radix).substring(2, 15);
 }

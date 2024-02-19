@@ -5,37 +5,37 @@
 */
 
 /* Alignment */
-.text-center { 
-    text-align: center;
+.text-center {
+  text-align: center;
 }
 
-.text-right { 
-    text-align: right; 
+.text-right {
+  text-align: right;
 }
 
-.text-left { 
-    text-align: left; 
+.text-left {
+  text-align: left;
 }
 
 /* Flex alignment */
 .align-items-center {
-    align-items: center;
+  align-items: center;
 }
 
 /* Colors */
 .text-primary {
-    color: $primary;
+  color: $primary;
 }
 
 .text-secondary {
-    color: $secondary;
+  color: $secondary;
 }
 
 .text-black {
-    color: $black;
+  color: $black;
 }
 
 /* Selection */
 .unselectable {
-    user-select: none;
+  user-select: none;
 }

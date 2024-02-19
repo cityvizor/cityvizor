@@ -1,76 +1,80 @@
 <template>
   <div>
     <Pending-popup ref="pendingPopup"></Pending-popup>
-    <b-row v-if="loading">
-      <b-col>
-        <div class="text-center">
-          <b-spinner class="loading-right-margin"></b-spinner
-          ><span>Načítání zapojených obcí...</span>
-        </div>
-      </b-col>
-    </b-row>
-    <div v-if="!loading" v-for="section in sections" class="pb-4">
+    <div v-if="loading">
       <b-row>
-        <h2>{{section.sectionName}}</h2>
-      </b-row>
-      <b-row>
-        <b-col
-          v-for="profile in section.profiles"
-          :key="profile.name"
-          class="city-item-margin-top text-justify"
-          md="4"
-          sm="6"
-          xl="3"
-        >
-          <b-row cols="12" no-gutters>
-            <b-col class="city-item-icon-right-margin" cols="1">
-              <a
-                class="fake-link"
-                v-if="profile.status == 'pending'"
-                v-on:click="pendingPopup()"
-              >
-                <img src="@/assets/images/pages/home/city_avatar.svg" />
-              </a>
-              <a
-                v-else-if="profile.childrenCount > 0"
-                :href="'/landing/profil-rozcestnik/' + profile.id"
-              >
-                <img src="@/assets/images/pages/home/city_avatar.svg" />
-              </a>
-              <a
-                v-else
-                :target="profile.type == 'external' ? '_blank' : ''"
-                :href="profile.url"
-              >
-                <img src="@/assets/images/pages/home/city_avatar.svg" />
-              </a>
-            </b-col>
-            <b-col cols="10">
-              <a
-                class="fake-link"
-                v-if="profile.status == 'pending'"
-                v-on:click="pendingPopup()"
-              >
-                <b class="pending">{{ profile.name }}</b>
-              </a>
-              <a
-                class="fake-link"
-                v-else-if="profile.childrenCount > 0"
-                :href="'/landing/profil-rozcestnik/' + profile.id"
-              >
-                <b>{{ profile.name }}</b>
-              </a>
-              <a
-                v-else
-                :target="profile.type == 'external' ? '_blank' : ''"
-                :href="profile.url"
-              >
-                <b>{{ profile.name }}</b>
-              </a>
-            </b-col>
-          </b-row>
+        <b-col>
+          <div class="text-center">
+            <b-spinner class="loading-right-margin"></b-spinner
+            ><span>Načítání zapojených obcí...</span>
+          </div>
         </b-col>
       </b-row>
+    </div>
+    <div v-if="!loading">
+      <div v-for="section in sections" :key="section.sectionId" class="pb-4">
+        <b-row>
+          <h2>{{ section.sectionName }}</h2>
+        </b-row>
+        <b-row>
+          <b-col
+            v-for="profile in section.profiles"
+            :key="profile.name"
+            class="city-item-margin-top text-justify"
+            md="4"
+            sm="6"
+            xl="3"
+          >
+            <b-row cols="12" no-gutters>
+              <b-col class="city-item-icon-right-margin" cols="1">
+                <a
+                  v-if="profile.status == 'pending'"
+                  class="fake-link"
+                  @click="pendingPopup()"
+                >
+                  <img src="@/assets/images/pages/home/city_avatar.svg" />
+                </a>
+                <a
+                  v-else-if="profile.childrenCount > 0"
+                  :href="'/landing/profil-rozcestnik/' + profile.id"
+                >
+                  <img src="@/assets/images/pages/home/city_avatar.svg" />
+                </a>
+                <a
+                  v-else
+                  :target="profile.type == 'external' ? '_blank' : ''"
+                  :href="profile.url"
+                >
+                  <img src="@/assets/images/pages/home/city_avatar.svg" />
+                </a>
+              </b-col>
+              <b-col cols="10">
+                <a
+                  v-if="profile.status == 'pending'"
+                  class="fake-link"
+                  @click="pendingPopup()"
+                >
+                  <b class="pending">{{ profile.name }}</b>
+                </a>
+                <a
+                  v-else-if="profile.childrenCount > 0"
+                  class="fake-link"
+                  :href="'/landing/profil-rozcestnik/' + profile.id"
+                >
+                  <b>{{ profile.name }}</b>
+                </a>
+                <a
+                  v-else
+                  :target="profile.type == 'external' ? '_blank' : ''"
+                  :href="profile.url"
+                >
+                  <b>{{ profile.name }}</b>
+                </a>
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+      </div>
     </div>
   </div>
 </template>
@@ -80,19 +84,14 @@ import axios from "axios";
 import PendingPopup from "./PendingPopup.vue";
 
 export default {
-  components: { PendingPopup },
   name: "ActiveCities",
+  components: { PendingPopup },
   props: {},
   data() {
     return {
       sections: [],
       loading: true,
     };
-  },
-  methods: {
-    pendingPopup() {
-      this.$refs.pendingPopup.pendingPopup();
-    },
   },
   mounted() {
     axios
@@ -102,43 +101,50 @@ export default {
           countChildren: true,
         },
       })
-      .then((response) => {
+      .then(response => {
         (this.selectedCities = response.data.reduce(
           (acc, c) => ((acc[c.id] = false), acc),
           {}
         )),
           (this.sections = response.data
-            .map((section) => {
-                const profiles = [];
-                section.profiles.forEach((profile) => {
-                  const p = {
-                    url:
-                      profile.type == "external" ? profile.url : `/${profile.url}`,
-                    name: profile.name,
-                    popupName: profile.popupName,
-                    type: profile.type,
-                    id: profile.id,
-                    status: profile.status,
-                    childrenCount: profile.childrencount,
-                  };
-                  profiles.push(p);
+            .map(section => {
+              const profiles = [];
+              section.profiles.forEach(profile => {
+                const p = {
+                  url:
+                    profile.type == "external"
+                      ? profile.url
+                      : `/${profile.url}`,
+                  name: profile.name,
+                  popupName: profile.popupName,
+                  type: profile.type,
+                  id: profile.id,
+                  status: profile.status,
+                  childrenCount: profile.childrencount,
+                };
+                profiles.push(p);
+              });
+              profiles.sort((a, b) => {
+                return a.name.localeCompare(b.name, undefined, {
+                  numeric: true,
+                  sensitivity: "base",
                 });
-                console.log(profiles);
-                profiles.sort((a, b) => {
-                  return a.name.localeCompare(b.name, undefined, {
-                    numeric: true,
-                    sensitivity: "base",
-                  })});
+              });
               return {
                 sectionName: section.section.csName,
                 sectionId: section.section.sectionId,
                 order: section.section.orderOnLanding,
-                profiles: profiles
+                profiles: profiles,
               };
             })
-            .sort((a, b) => b.orderOnLanding - a.orderOnLanding ));
+            .sort((a, b) => b.orderOnLanding - a.orderOnLanding));
         this.loading = false;
       });
+  },
+  methods: {
+    pendingPopup() {
+      this.$refs.pendingPopup.pendingPopup();
+    },
   },
 };
 </script>

@@ -5,9 +5,9 @@
 */
 
 .container {
-    max-width: $container-max-width;
-    margin: 0 auto;
-    @media (max-width: $container-max-width) {
-        padding: 0 20px;
-    }
+  max-width: $container-max-width;
+  margin: 0 auto;
+  @media (max-width: $container-max-width) {
+    padding: 0 20px;
+  }
 }
