@@ -19,6 +19,22 @@ public class KxxParserTests : WebTestBase
     private readonly KxxParserService _parserService;
 
     [Fact]
+    public void TestParsingUcto()
+    {
+        StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("ucto_medl_hc.kxx");
+        KxxParser parser = _parserService.CreateParser(reader);
+        Document[] res = parser.Parse();
+    }
+
+    [Fact]
+    public void TestParsingRozp()
+    {
+        StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("rozp_medl_hc.kxx");
+        KxxParser parser = _parserService.CreateParser(reader);
+        Document[] res = parser.Parse();
+    }
+
+    [Fact]
     public void TestParsingWeirdDescriptions()
     {
         string input = @"5/@449927850009000MBMC
@@ -319,7 +335,8 @@ G/#0002   100001*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-2
                 { "DZP", "20220301"},
                 { "DUD", "20220301" },
             },
-            EvkDescriptions: new Dictionary<string, string>()
+            EvkDescriptions: new Dictionary<string, string>(),
+            PlainTextDescription: Array.Empty<string>()
         );
 
         KxxParser parser = _parserService.CreateParser(StreamReader.Null);
@@ -345,7 +362,8 @@ G/#0002   100001*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-2
             EvkDescriptions: new Dictionary<string, string>
             {
                 { "DDP", "201316000448" }
-            }
+            },
+            PlainTextDescription: Array.Empty<string>()
         );
 
         KxxParser parser = _parserService.CreateParser(StreamReader.Null);
@@ -354,12 +372,61 @@ G/#0002   100001*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-2
     }
 
     [Fact]
-    public void ParseDocumentDescriptionFlawedTest()
+    public void ParseDocumentDescriptionPlainTextDescriptionTest()
     {
-        string input = "G/#0001   830041*PDD-A;*ODPH-2022;*ECDD-16000-448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;";
+        string input = "G/#0001   350037Obcane pro Medlanky-Obcane pro Medlanky Najemne Pr";
+
+        KxxDocumentDescription expected = new KxxDocumentDescription(
+            DocumentLineNumber: 1,
+            DocumentId: 350037,
+            Descriptions: new Dictionary<string, string>(),
+            EvkDescriptions: new Dictionary<string, string>(),
+            PlainTextDescription: new string[] { "Obcane pro Medlanky-Obcane pro Medlanky Najemne Pr" }
+        );
+
         KxxParser parser = _parserService.CreateParser(StreamReader.Null);
-        var func = () => parser.ParseKxxDocumentDescription(input);
-        func.Should().Throw<KxxParserException>();
+        KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
+        res.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void ParseDocumentDescriptionSemicolonsInPlainText()
+    {
+        string input = "G/#0002   700012*EVKT-16 - Hlavní:Drobný mateirál;  Vinaøské potøeby;*PID-MBMCX00QBH7H;";
+
+        KxxDocumentDescription expected = new KxxDocumentDescription(
+            DocumentLineNumber: 2,
+            DocumentId: 700012,
+            Descriptions: new Dictionary<string, string>()
+            {
+                { "EVKT", "16 - Hlavní:Drobný mateirál;  Vinaøské potøeby"},
+                { "PID", "MBMCX00QBH7H"}
+            },
+            EvkDescriptions: new Dictionary<string, string>(),
+            PlainTextDescription: Array.Empty<string>()
+        );
+
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
+        KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
+        res.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void ParseDocumentDescriptionPlaintextLineWithStars()
+    {
+        string input = "G/#0001   320006VÚ - vedení platební karty\\nVýdej : 390,00 Kè\\nVýpis è. 59 z 09.05.2023 è.ú. 18628621/0100, VS = 10526245, SS = 202180001\\nLikvidace : Boøecká Jana Popis : PRIME VISA - PLATEBNI KARTY CZ-00105262 PLATEBNI KARTY Annual Fee 18 4125 01** **** 1128 VISA";
+
+        KxxDocumentDescription expected = new KxxDocumentDescription(
+            DocumentLineNumber: 1,
+            DocumentId: 320006,
+            Descriptions: new Dictionary<string, string>(),
+            EvkDescriptions: new Dictionary<string, string>(),
+            PlainTextDescription: new string[] { "VÚ - vedení platební karty\\nVýdej : 390,00 Kè\\nVýpis è. 59 z 09.05.2023 è.ú. 18628621/0100, VS = 10526245, SS = 202180001\\nLikvidace : Boøecká Jana Popis : PRIME VISA - PLATEBNI KARTY CZ-00105262 PLATEBNI KARTY Annual Fee 18 4125 01** **** 1128 VISA" }
+        );
+
+        KxxParser parser = _parserService.CreateParser(StreamReader.Null);
+        KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
+        res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]

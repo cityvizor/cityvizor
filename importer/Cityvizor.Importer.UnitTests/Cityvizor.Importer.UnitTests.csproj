@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -28,6 +28,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Cityvizor.Importer.Convertor\Cityvizor.Importer.Convertor.csproj" />
     <ProjectReference Include="..\Cityvizor.Importer\Cityvizor.Importer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="KxxTestingData\rozp_medl_hc.kxx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="KxxTestingData\ucto_medl_hc.kxx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

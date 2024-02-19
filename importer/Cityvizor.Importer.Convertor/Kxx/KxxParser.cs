@@ -469,33 +469,36 @@ public class KxxParser
         string descriptionsString = match.Groups[3].Value;
         if (!descriptionsString.StartsWith('*'))
         {
-            LogWarning($"Document description in non-dictionary format: {input}");
+            // LogWarning($"Document description in non-dictionary format: {input}");
             return new KxxDocumentDescription(
                DocumentLineNumber: lineNum,
                DocumentId: documentNumber,
                Descriptions: new(),
-               EvkDescriptions: new());
+               EvkDescriptions: new(),
+               PlainTextDescription: new[] { descriptionsString });
         }
 
-        string[] descriptionParts = match.Groups[3].Value.Split(new char[] { '*', ';'}, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        string nonEvkPattern = $@"^([^-]+)-([^-]+)$";
-        string evkPattern = $@"^EVK-([^-]+)-([^-]+)$";
+        var descriptionParts = match.Groups[3].Value
+            .Split(";*", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(s => s.Trim(new char[] { ';', '*' }));
+        string nonEvkPattern = $@"^([^-]+)-(.+)$"; // disallow - in the key, allow it in the value
+        string evkPattern = $@"^EVK-([^-]+)-(.+)$";
 
         Dictionary<string, string> descriptions = new();
         Dictionary<string, string> evkDescriptions = new();
 
         foreach (string descriptionItem in descriptionParts)
         {
-            Match nonEvkMatch = Regex.Match(descriptionItem, nonEvkPattern);
-            if(nonEvkMatch.Success) 
-            {
-                descriptions.Add(nonEvkMatch.Groups[1].Value, nonEvkMatch.Groups[2].Value);
-                continue;
-            }
             Match evkMatch = Regex.Match(descriptionItem, evkPattern);
             if (evkMatch.Success)
             {
                 evkDescriptions.Add(evkMatch.Groups[1].Value, evkMatch.Groups[2].Value);
+                continue;
+            }
+            Match nonEvkMatch = Regex.Match(descriptionItem, nonEvkPattern);
+            if(nonEvkMatch.Success) 
+            {
+                descriptions.Add(nonEvkMatch.Groups[1].Value, nonEvkMatch.Groups[2].Value);
                 continue;
             }
             ThrowParserException($"invalid format of G/# line. Failed to parse description {descriptionItem}");
@@ -505,7 +508,8 @@ public class KxxParser
             DocumentLineNumber: lineNum,
             DocumentId: documentNumber,
             Descriptions: descriptions,
-            EvkDescriptions: evkDescriptions);
+            EvkDescriptions: evkDescriptions,
+            PlainTextDescription: Array.Empty<string>());
     }
 
     [DoesNotReturn]

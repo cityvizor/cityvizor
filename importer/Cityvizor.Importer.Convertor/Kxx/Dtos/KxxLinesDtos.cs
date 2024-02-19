@@ -89,5 +89,6 @@ internal record struct KxxDocumentDescription (
     uint DocumentLineNumber,
     uint DocumentId,
     Dictionary<string, string> Descriptions,
-    Dictionary<string, string> EvkDescriptions
+    Dictionary<string, string> EvkDescriptions,
+    string[] PlainTextDescription
 );
