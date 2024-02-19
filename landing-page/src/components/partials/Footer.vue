@@ -49,5 +49,8 @@ export default {
   background-color: $gray;
   padding: 20px;
   margin: 3rem 0 0 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 </style>
