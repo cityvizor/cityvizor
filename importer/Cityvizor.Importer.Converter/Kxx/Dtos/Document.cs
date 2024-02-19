@@ -3,18 +3,18 @@
 namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 
 /// <summary>
-/// 
+/// Represents one invoice document
 /// </summary>
-/// <param name="SectionType"></param>
-/// <param name="InputIdentifier"></param>
+/// <param name="SectionType">Type of the document</param>
+/// <param name="InputIdentifier">Mode in which this document should be processed - append, rewrite...</param>
 /// <param name="Ico"></param>
 /// <param name="AccountingYear"></param>
 /// <param name="AccountingMonth"></param>
 /// <param name="DocumentId"></param>
-/// <param name="Descriptions"></param>
-/// <param name="EvkDescriptions"></param>
-/// <param name="PlainTextDescriptions"></param>
-/// <param name="Balances"></param>
+/// <param name="Descriptions">from G/# line</param>
+/// <param name="EvkDescriptions">from G/# line, key-value pairs that were prefixed by EVK in original kxx data</param>
+/// <param name="PlainTextDescriptions">from G/# line that did not have dictionary format</param>
+/// <param name="Balances">list of records, one for each G/@ line belonging to this document</param>
 public record Document(
     SectionType SectionType,
     InputIdentifier InputIdentifier,
@@ -44,6 +44,23 @@ public record Document(
     { }
 }
 
+/// <summary>
+/// Represents one balance of a document
+/// </summary>
+/// <param name="AccountedDate"></param>
+/// <param name="DocumentId"></param>
+/// <param name="SyntheticAccount"></param>
+/// <param name="AnalyticAccount"></param>
+/// <param name="Chapter"></param>
+/// <param name="Paraghraph"></param>
+/// <param name="Item"></param>
+/// <param name="RecordUnit"></param>
+/// <param name="PurposeMark"></param>
+/// <param name="OrganizationUnit"></param>
+/// <param name="Organization"></param>
+/// <param name="ShouldGive"></param>
+/// <param name="Gave"></param>
+/// <param name="Descriptions">from G/$ line</param>
 public record DocumentBalance(
     DateOnly AccountedDate,
     uint DocumentId,
