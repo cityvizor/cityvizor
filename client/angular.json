@@ -17,9 +17,7 @@
             "main": "src/main.ts",
             "tsConfig": "tsconfig.json",
             "polyfills": "src/polyfills.ts",
-            "assets": [
-              "src/assets"
-            ],
+            "assets": ["src/assets"],
             "styles": [
               "node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss",
               "node_modules/primeng/resources/themes/bootstrap4-light-blue/theme.css",
@@ -28,9 +26,7 @@
               "src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/styles"
-              ]
+              "includePaths": ["src/styles"]
             },
             "scripts": []
           },
@@ -86,6 +82,12 @@
               "browserTarget": "cityvizor-app:build:localnginx"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
         }
       }
     }
@@ -102,5 +104,8 @@
     "@schematics/angular:service": {
       "skipTests": true
     }
+  },
+  "cli": {
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

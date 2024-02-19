@@ -1,42 +1,42 @@
 exports.up = async function (knex) {
   return (
     knex.schema
-      .createTable('data.pbo_real_plans', table => {
-        table.integer('profile_id');
-        table.foreign('profile_id').references('id').inTable('app.profiles');
-        table.integer('year');
+      .createTable("data.pbo_real_plans", table => {
+        table.integer("profile_id");
+        table.foreign("profile_id").references("id").inTable("app.profiles");
+        table.integer("year");
         table
-          .foreign(['year', 'profile_id'])
-          .references(['year', 'profile_id'])
-          .inTable('app.years');
-        table.string('type');
-        table.integer('sa');
-        table.integer('aa');
-        table.decimal('amount', 14, 2);
+          .foreign(["year", "profile_id"])
+          .references(["year", "profile_id"])
+          .inTable("app.years");
+        table.string("type");
+        table.integer("sa");
+        table.integer("aa");
+        table.decimal("amount", 14, 2);
       })
       .then(() => {
-        return knex('app.import_formats').insert([
-          {format: 'pbo_real_plan'},
-          {format: 'pbo_expected_plan'},
+        return knex("app.import_formats").insert([
+          { format: "pbo_real_plan" },
+          { format: "pbo_expected_plan" },
         ]);
       })
       // This allows to modify the app.import_formats table
       .then(() => {
-        return knex.schema.alterTable('app.imports', table => {
-          table.dropForeign('format');
+        return knex.schema.alterTable("app.imports", table => {
+          table.dropForeign("format");
 
           table
-            .foreign('format')
-            .references('format')
-            .inTable('app.import_formats')
-            .onDelete('CASCADE');
+            .foreign("format")
+            .references("format")
+            .inTable("app.import_formats")
+            .onDelete("CASCADE");
         });
       })
       .then(() => {
-        return knex.schema.renameTable('data.pbo_plans', 'pbo_expected_plans');
+        return knex.schema.renameTable("data.pbo_plans", "pbo_expected_plans");
       })
       .then(() => {
-        return knex.schema.raw('DROP VIEW public.pbo_plans');
+        return knex.schema.raw("DROP VIEW public.pbo_plans");
       })
       .then(() => {
         return knex.schema.raw(`
@@ -95,35 +95,35 @@ exports.up = async function (knex) {
         GROUP BY plans.profile_id, plans.year, plans.sa, plans.aa`);
       })
       .then(() => {
-        return knex('app.import_formats').where('format', 'pbo').delete();
+        return knex("app.import_formats").where("format", "pbo").delete();
       })
       .then(() => {})
   );
 };
 
 exports.down = async function (knex) {
-  return knex('app.import_formats')
-    .where('format', 'pbo_real_plan')
-    .orWhere('format', 'pbo_expected_plan')
+  return knex("app.import_formats")
+    .where("format", "pbo_real_plan")
+    .orWhere("format", "pbo_expected_plan")
     .delete()
     .then(() => {
-      return knex.schema.alterTable('app.imports', table => {
-        table.dropForeign('format');
+      return knex.schema.alterTable("app.imports", table => {
+        table.dropForeign("format");
         table
-          .foreign('format')
-          .references('format')
-          .inTable('app.import_formats')
-          .onDelete('NO ACTION');
+          .foreign("format")
+          .references("format")
+          .inTable("app.import_formats")
+          .onDelete("NO ACTION");
       });
     })
     .then(() => {
-      return knex('app.import_formats').insert({format: 'pbo'});
+      return knex("app.import_formats").insert({ format: "pbo" });
     })
     .then(() => {
-      return knex.schema.renameTable('data.pbo_expected_plans', 'pbo_plans');
+      return knex.schema.renameTable("data.pbo_expected_plans", "pbo_plans");
     })
     .then(() => {
-      return knex.schema.raw('DROP VIEW public.pbo_plans');
+      return knex.schema.raw("DROP VIEW public.pbo_plans");
     })
     .then(() => {
       return knex.schema.raw(`
@@ -163,6 +163,6 @@ exports.down = async function (knex) {
         `);
     })
     .then(() => {
-      return knex.schema.dropTable('data.pbo_real_plans');
+      return knex.schema.dropTable("data.pbo_real_plans");
     });
 };

@@ -7,14 +7,14 @@ Paste the resulting JSON string into a migration file and code up the DB logic (
 */
 
 const datasets = {
-  paragraphs: 'https://opendata.mfcr.cz/exports/paragraf/paragraf.json',
+  paragraphs: "https://opendata.mfcr.cz/exports/paragraf/paragraf.json",
 };
 
 // Change this
-const name = 'paragraphs';
+const name = "paragraphs";
 const dataset = datasets[name];
 
-import axios from 'axios';
+import axios from "axios";
 const rawJson = (await axios.get(dataset)).data;
 
 const converted = rawJson
@@ -38,5 +38,5 @@ const converted = rawJson
   });
 
 process.stdout.write(
-  JSON.stringify({name, data: converted}).replace(/},/g, '},\n')
+  JSON.stringify({ name, data: converted }).replace(/},/g, "},\n")
 );

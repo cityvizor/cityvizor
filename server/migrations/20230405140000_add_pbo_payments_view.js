@@ -28,5 +28,5 @@ exports.up = async function (knex) {
 };
 
 exports.down = async function (knex) {
-  return await knex.schema.raw('DROP VIEW public.pbo_payments');
+  return await knex.schema.raw("DROP VIEW public.pbo_payments");
 };

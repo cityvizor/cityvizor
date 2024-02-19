@@ -16,9 +16,9 @@
         <b-row cols="12" no-gutters>
           <b-col class="city-item-icon-right-margin" cols="1">
             <a
-              class="fake-link"
               v-if="muni.status == 'pending'"
-              v-on:click="pendingPopup()"
+              class="fake-link"
+              @click="pendingPopup()"
             >
               <img src="@/assets/images/pages/home/city_avatar.svg" />
             </a>
@@ -32,9 +32,9 @@
           </b-col>
           <b-col cols="10">
             <a
-              class="fake-link"
               v-if="muni.status == 'pending'"
-              v-on:click="pendingPopup()"
+              class="fake-link"
+              @click="pendingPopup()"
             >
               <b class="pending">{{ muni.name }}</b>
             </a>
@@ -52,8 +52,8 @@
 import PendingPopup from "./PendingPopup.vue";
 
 export default {
-  components: { PendingPopup },
   name: "Municipalities",
+  components: { PendingPopup },
   props: {
     municipatilies: {
       type: Array,
@@ -63,16 +63,16 @@ export default {
   data() {
     return {};
   },
+  mounted() {},
   methods: {
     pendingPopup() {
       this.$refs.pendingPopup.pendingPopup();
     },
   },
-  mounted() {},
 };
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 @import "../../assets/styles/common/_variables.scss";
 
 a {

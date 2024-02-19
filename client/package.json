@@ -7,7 +7,8 @@
   "main": "server/server.js",
   "scripts": {
     "build": "cp -R node_modules/bootstrap-sass/assets/fonts node_modules/bootstrap-sass/assets/stylesheets/ && ng build --configuration production",
-    "start-dev": "npm run build && ng serve --disable-host-check --configuration=local --host 0.0.0.0"
+    "start-dev": "npm run build && ng serve --disable-host-check --configuration=local --host 0.0.0.0",
+    "lint": "ng lint"
   },
   "keywords": [
     "opendata",
@@ -50,12 +51,21 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.12",
+    "@angular-eslint/builder": "14.4.0",
+    "@angular-eslint/eslint-plugin": "14.4.0",
+    "@angular-eslint/eslint-plugin-template": "14.4.0",
+    "@angular-eslint/schematics": "14.4.0",
+    "@angular-eslint/template-parser": "14.4.0",
     "@angular/cli": "^14.2.12",
     "@angular/compiler-cli": "^14.3.0",
     "@angular/language-service": "^14.3.0",
     "@types/luxon": "^1.25.1",
     "@types/node": "^14.14.25",
     "@types/wordcloud": "^1.1.2",
+    "@typescript-eslint/eslint-plugin": "5.43.0",
+    "@typescript-eslint/parser": "5.43.0",
+    "eslint": "^8.28.0",
+    "prettier": "^3.2.5",
     "typescript": "^4.6.4"
   },
   "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",

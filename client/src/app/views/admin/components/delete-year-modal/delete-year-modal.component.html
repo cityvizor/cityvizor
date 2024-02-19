@@ -1,14 +1,24 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Smazat rozpočtový rok {{currentYear}}</h4>
-  <button type="button" class="close pull-right" aria-label="Close" (click)="close.emit(false)">
+  <h4 class="modal-title pull-left">Smazat rozpočtový rok {{ currentYear }}</h4>
+  <button
+    type="button"
+    class="close pull-right"
+    aria-label="Close"
+    (click)="close.emit(false)"
+  >
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <form #uploadForm="ngForm" (ngSubmit)="deleteYear()">
   <div class="modal-body">
-    <p>Opravdu chcete nenávratě smazat rozpočtový rok {{currentYear}} včetně všech dat?</p>
+    <p>
+      Opravdu chcete nenávratě smazat rozpočtový rok {{ currentYear }} včetně
+      všech dat?
+    </p>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-danger">{{'common.delete' | translate}}</button>
+    <button type="submit" class="btn btn-danger">
+      {{ "common.delete" | translate }}
+    </button>
   </div>
 </form>

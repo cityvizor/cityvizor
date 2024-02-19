@@ -1,10 +1,10 @@
-import {Transform, TransformCallback} from 'stream';
-import {Import} from './import';
+import { Transform, TransformCallback } from "stream";
+import { Import } from "./import";
 import {
   AccountingRecord,
   EventRecord,
   PaymentRecord,
-} from '../../schema/database';
+} from "../../schema/database";
 
 type Row = EventRecord | PaymentRecord | AccountingRecord;
 
@@ -12,7 +12,7 @@ export class PostprocessingTransformer extends Transform {
   eventIds: number[] = [];
 
   constructor() {
-    super({readableObjectMode: true, writableObjectMode: true});
+    super({ readableObjectMode: true, writableObjectMode: true });
   }
 
   _transform(
@@ -21,7 +21,7 @@ export class PostprocessingTransformer extends Transform {
     callback: TransformCallback
   ) {
     // remove duplicate events
-    if (chunk.type === 'event') {
+    if (chunk.type === "event") {
       if (this.eventIds.indexOf(chunk.record.id) !== -1) {
         callback(
           new Error(
@@ -36,30 +36,30 @@ export class PostprocessingTransformer extends Transform {
 
     // Data integrity checking
     let fields: [string, string[]][] = [];
-    if (chunk.type === 'event') {
+    if (chunk.type === "event") {
       fields = [
-        ['id', ['number', 'mandatory']],
-        ['name', ['mandatory']],
+        ["id", ["number", "mandatory"]],
+        ["name", ["mandatory"]],
       ];
     }
-    if (chunk.type === 'accounting') {
+    if (chunk.type === "accounting") {
       fields = [
-        ['paragraph', ['number', 'mandatory']],
-        ['item', ['number', 'mandatory']],
-        ['event', ['number']],
-        ['unit', ['number']],
-        ['amount', ['number', 'mandatory']],
+        ["paragraph", ["number", "mandatory"]],
+        ["item", ["number", "mandatory"]],
+        ["event", ["number"]],
+        ["unit", ["number"]],
+        ["amount", ["number", "mandatory"]],
       ];
     }
-    if (chunk.type === 'payment') {
+    if (chunk.type === "payment") {
       fields = [
-        ['paragraph', ['number', 'mandatory']],
-        ['item', ['number', 'mandatory']],
-        ['event', ['number']],
-        ['unit', ['number']],
-        ['amount', ['number', 'mandatory']],
-        ['date', ['date']],
-        ['counterpartyId', ['number']],
+        ["paragraph", ["number", "mandatory"]],
+        ["item", ["number", "mandatory"]],
+        ["event", ["number"]],
+        ["unit", ["number"]],
+        ["amount", ["number", "mandatory"]],
+        ["date", ["date"]],
+        ["counterpartyId", ["number"]],
       ];
     }
     let err: Error | null = null;
@@ -85,7 +85,7 @@ const tests = {
 };
 
 function invalidField(field: string, type: string, row: Row): Error {
-  if (type === 'mandatory') {
+  if (type === "mandatory") {
     return new Error(
       `Field "${field}" is mandatory and is missing.\nRow processed: ${JSON.stringify(
         row

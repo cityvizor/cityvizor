@@ -1,4 +1,4 @@
-import {Import} from '../../worker/import/import';
+import { Import } from "../../worker/import/import";
 
 export interface YearRecord {
   profileId: number;

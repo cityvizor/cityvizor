@@ -1,26 +1,24 @@
-import { Profile } from './profile';
+import { Profile } from "./profile";
 
 /**
-	* User object to save data concerning current (or other) user
-	*/
+ * User object to save data concerning current (or other) user
+ */
 export interface User {
+  id: number;
 
-	id: number;
+  login: string;
 
-	login: string;
+  role: string;
+  managedProfiles: Profile["id"][];
 
-	role: string;
-	managedProfiles: Profile["id"][];
-
-	name: string;
-	email: string;
-	lastLogin: string;
-
+  name: string;
+  email: string;
+  lastLogin: string;
 }
 
 export interface UserToken {
-	id: number;
-	login: string;
-	roles: string[];
-	managedProfiles: Profile["id"][];
+  id: number;
+  login: string;
+  roles: string[];
+  managedProfiles: Profile["id"][];
 }

@@ -2,55 +2,109 @@
   <div class="row">
     <div class="col-xs-5 left-side">
       <div>
-        <i [attr.class]="'fa fa-4x '+icon" style="color: #2581C4;"></i>
-        <h4 style="color: #2581C4;">{{name}}</h4>
+        <i [attr.class]="'fa fa-4x ' + icon" style="color: #2581c4"></i>
+        <h4 style="color: #2581c4">{{ name }}</h4>
       </div>
     </div>
     <div class="col-xs-7 right-side">
-      <table style="width: 100%;">
+      <table style="width: 100%">
         <tr>
-          <td style="width: 50%;">
-              <div class="amount-title">{{'profile.budget' | translate}}</div>
-              <h4>
-                <span  style="color: #2581C4;">
-                  <span style="white-space: nowrap;">{{barsIndex[hoverYear]?.budgetAmount | money:0:true}}</span>
-                  <span class="hidden-md"> Kč</span>
-                  <span class="visible-md">Kč</span>
-                </span>
-              </h4>
+          <td style="width: 50%">
+            <div class="amount-title">{{ "profile.budget" | translate }}</div>
+            <h4>
+              <span style="color: #2581c4">
+                <span style="white-space: nowrap">{{
+                  barsIndex[hoverYear]?.budgetAmount | money: 0 : true
+                }}</span>
+                <span class="hidden-md"> Kč</span>
+                <span class="visible-md">Kč</span>
+              </span>
+            </h4>
           </td>
           <td>
-              <div class="amount-title">{{'profile.actual' | translate}}</div>
-              <h4>
-                <span  style="color: #E73431;">
-                  <span style="white-space: nowrap;">{{barsIndex[hoverYear]?.amount | money:0:true}}</span>
-                  <span class="hidden-md"> Kč</span>
-                  <span class="visible-md">Kč</span>
-                </span>
-              </h4>
+            <div class="amount-title">{{ "profile.actual" | translate }}</div>
+            <h4>
+              <span style="color: #e73431">
+                <span style="white-space: nowrap">{{
+                  barsIndex[hoverYear]?.amount | money: 0 : true
+                }}</span>
+                <span class="hidden-md"> Kč</span>
+                <span class="visible-md">Kč</span>
+              </span>
+            </h4>
           </td>
         </tr>
       </table>
-      <svg *ngIf="bars.length" [attr.viewBox]="'0 0 '+config.width+' '+config.height" style="width:100%; height: auto;">
-        <path [attr.d]="chartBudgetPathString" stroke="#2581C4" stroke-width="2" fill="none" [ngClass]="{'drawpath': true}"></path>
-        <circle class="point" cx="0" cy="0" [style.transform]="'translate('+chartPoints.budgetAmount[hoverYear][0]+'px, '+chartPoints.budgetAmount[hoverYear][1]+'px)'" r="4" fill="#2581C4"></circle>
-        <path [attr.d]="chartPathString" stroke="#E73431" stroke-width="2" fill="none" [ngClass]="{'drawpath': true}"></path>
-        <circle class="point" cx="0" cy="0" [style.transform]="'translate('+chartPoints.amount[hoverYear][0]+'px, '+chartPoints.amount[hoverYear][1]+'px)'" r="4" fill="#E73431"></circle>
+      <svg
+        *ngIf="bars.length"
+        [attr.viewBox]="'0 0 ' + config.width + ' ' + config.height"
+        style="width: 100%; height: auto"
+      >
+        <path
+          [attr.d]="chartBudgetPathString"
+          stroke="#2581C4"
+          stroke-width="2"
+          fill="none"
+          [ngClass]="{ drawpath: true }"
+        ></path>
+        <circle
+          class="point"
+          cx="0"
+          cy="0"
+          [style.transform]="
+            'translate(' +
+            chartPoints.budgetAmount[hoverYear][0] +
+            'px, ' +
+            chartPoints.budgetAmount[hoverYear][1] +
+            'px)'
+          "
+          r="4"
+          fill="#2581C4"
+        ></circle>
+        <path
+          [attr.d]="chartPathString"
+          stroke="#E73431"
+          stroke-width="2"
+          fill="none"
+          [ngClass]="{ drawpath: true }"
+        ></path>
+        <circle
+          class="point"
+          cx="0"
+          cy="0"
+          [style.transform]="
+            'translate(' +
+            chartPoints.amount[hoverYear][0] +
+            'px, ' +
+            chartPoints.amount[hoverYear][1] +
+            'px)'
+          "
+          r="4"
+          fill="#E73431"
+        ></circle>
         <g *ngFor="let bar of bars; let i = index">
-          <text 
-            [attr.x]="i*config.spacing+config.spacing/2" 
-            [attr.y]="config.height-10" 
-            text-anchor="middle" fill="#777" style="font-size: 75%;">{{bar.year}}</text>
-          <rect 
-            *ngIf="bar.amount > 0 && bar.budgetAmount > 0" 
-            [attr.x]="i*config.spacing" y="0" 
-            [attr.width]="config.spacing" [attr.height]="config.height" 
-            (mouseenter)="hoverYear = bar.year" (mouseout)="hoverYear = currentYear" 
-            style="opacity:0; cursor: pointer;"
+          <text
+            [attr.x]="i * config.spacing + config.spacing / 2"
+            [attr.y]="config.height - 10"
+            text-anchor="middle"
+            fill="#777"
+            style="font-size: 75%"
+          >
+            {{ bar.year }}
+          </text>
+          <rect
+            *ngIf="bar.amount > 0 && bar.budgetAmount > 0"
+            [attr.x]="i * config.spacing"
+            y="0"
+            [attr.width]="config.spacing"
+            [attr.height]="config.height"
+            (mouseenter)="hoverYear = bar.year"
+            (mouseout)="hoverYear = currentYear"
+            style="opacity: 0; cursor: pointer"
             (click)="click.emit(bar.year)"
-            ></rect>
+          ></rect>
         </g>
       </svg>
     </div>
-  </div> 
+  </div>
 </div>

@@ -1,18 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 
 @Component({
-	moduleId: module.id,
-	selector: 'help-modal',
-	templateUrl: 'help-modal.component.html',
-	styleUrls: ['help-modal.component.scss']
+  moduleId: module.id,
+  selector: "help-modal",
+  templateUrl: "help-modal.component.html",
+  styleUrls: ["help-modal.component.scss"],
 })
 export class HelpModalComponent {
+  @Input() topic: String;
 
-	@Input() topic:String;
-	
-	public isModalOpened: boolean = false;
-	 
-	constructor() {}
+  public isModalOpened: boolean = false;
 
-
+  constructor() {}
 }

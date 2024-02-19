@@ -1,7 +1,12 @@
-import { Component, OnInit, forwardRef, ChangeDetectorRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { AdminService } from 'app/services/admin.service';
-import { Profile } from 'app/schema';
+import {
+  Component,
+  OnInit,
+  forwardRef,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
+import { AdminService } from "app/services/admin.service";
+import { Profile } from "app/schema";
 
 interface ProfileSelectionModel {
   profile: Profile;
@@ -11,20 +16,21 @@ interface ProfileSelectionModel {
 }
 
 @Component({
-  selector: 'managed-profiles-selector',
-  templateUrl: './managed-profiles-selector.component.html',
-  styleUrls: ['./managed-profiles-selector.component.scss'],
+  selector: "managed-profiles-selector",
+  templateUrl: "./managed-profiles-selector.component.html",
+  styleUrls: ["./managed-profiles-selector.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ManagedProfilesSelectorComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-export class ManagedProfilesSelectorComponent implements OnInit, ControlValueAccessor {
-
-  managedProfiles: number[]
+export class ManagedProfilesSelectorComponent
+  implements OnInit, ControlValueAccessor
+{
+  managedProfiles: number[];
 
   profiles: Profile[];
   selectionModels: ProfileSelectionModel[];
@@ -32,24 +38,29 @@ export class ManagedProfilesSelectorComponent implements OnInit, ControlValueAcc
   constructor(
     private adminService: AdminService,
     private cdRef: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loadProfiles();
   }
 
-  onChange: any = () => { };
-  onTouch: any = () => { };
+  onChange: any = () => {};
+  onTouch: any = () => {};
 
-  registerOnChange(fn: any) { this.onChange = fn; }
-  registerOnTouched(fn: any) { this.onTouch = fn; }
+  registerOnChange(fn: any) {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any) {
+    this.onTouch = fn;
+  }
 
   writeValue(managedProfiles: number[]) {
     this.managedProfiles = managedProfiles;
   }
 
   addProfile(profileId: number) {
-    if (!this.userManagesProfile(profileId)) this.managedProfiles.push(profileId);
+    if (!this.userManagesProfile(profileId))
+      this.managedProfiles.push(profileId);
     this.onChange(this.managedProfiles);
     this.cdRef.markForCheck();
     this.updateSelectionModels();
@@ -101,17 +112,22 @@ export class ManagedProfilesSelectorComponent implements OnInit, ControlValueAcc
   private updateSelectionModels() {
     this.selectionModels = this.profiles.map(profile => {
       const isManaged = this.userManagesProfile(profile.id);
-      const children = this.profiles.filter(otherProfile => otherProfile.parent === profile.id);
-      const isAnyChildrenManaged = children.some(child => this.userManagesProfile(child.id))
+      const children = this.profiles.filter(
+        otherProfile => otherProfile.parent === profile.id
+      );
+      const isAnyChildrenManaged = children.some(child =>
+        this.userManagesProfile(child.id)
+      );
 
       return { profile, children, isManaged, isAnyChildrenManaged };
     });
 
-    this.selectionModels.sort((a, b) => 
-      (Number(b.isManaged) - Number(a.isManaged))
-      || (Number(b.children.length > 0) - Number(a.children.length > 0))
-      || (a.profile.name.localeCompare(b.profile.name)));
-
+    this.selectionModels.sort(
+      (a, b) =>
+        Number(b.isManaged) - Number(a.isManaged) ||
+        Number(b.children.length > 0) - Number(a.children.length > 0) ||
+        a.profile.name.localeCompare(b.profile.name)
+    );
 
     console.log(this.selectionModels);
   }

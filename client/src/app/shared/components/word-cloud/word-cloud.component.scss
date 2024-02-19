@@ -1,6 +1,15 @@
-:host{display:block;}
+:host {
+  display: block;
+}
 
-.wordcloud{width:100%;height:100%;}
+.wordcloud {
+  width: 100%;
+  height: 100%;
+}
 
-.wordcloud ::ng-deep .word{cursor:pointer;}
-.wordcloud ::ng-deep .word:hover{color:rgba(231, 52, 49, 1) !important;}
+.wordcloud ::ng-deep .word {
+  cursor: pointer;
+}
+.wordcloud ::ng-deep .word:hover {
+  color: rgba(231, 52, 49, 1) !important;
+}

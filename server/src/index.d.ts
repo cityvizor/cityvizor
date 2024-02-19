@@ -1,4 +1,4 @@
-import {UserToken} from './schema/user';
+import { UserToken } from "./schema/user";
 
 declare global {
   namespace Express {

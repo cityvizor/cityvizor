@@ -1,41 +1,41 @@
 {
-    "common": {
-        "noData": "Žádná data",
-        "upload": "Nahrát",
-        "delete": "Smazat",
-        "save": "Uložit"
+  "common": {
+    "noData": "Žádná data",
+    "upload": "Nahrát",
+    "delete": "Smazat",
+    "save": "Uložit"
+  },
+  "profile": {
+    "budget": "Rozpočet",
+    "actual": "Skutečnost",
+    "utilization": "Plnění",
+    "payments": "Faktury",
+    "municipality": {
+      "budget": "Rozpočet",
+      "actual": "Skutečnost",
+      "utilization": "Plnění",
+      "expenditure": "Výdaj",
+      "expenditures": "Výdaje",
+      "income": "Příjem",
+      "incomes": "Příjmy",
+      "realIncome": "Skutečný příjem",
+      "unclassified": {
+        "exp": "Nezařazené výdaje",
+        "inc": "Nezařazené příjmy"
+      }
     },
-    "profile": {
-        "budget": "Rozpočet",
-        "actual": "Skutečnost",
-        "utilization": "Plnění",
-        "payments": "Faktury",
-        "municipality": {
-            "budget": "Rozpočet",
-            "actual": "Skutečnost",
-            "utilization": "Plnění",
-            "expenditure": "Výdaj",
-            "expenditures": "Výdaje",
-            "income": "Příjem",
-            "incomes": "Příjmy",
-            "realIncome": "Skutečný příjem",
-            "unclassified": {
-                "exp": "Nezařazené výdaje",
-                "inc": "Nezařazené příjmy"
-            }
-        },
-        "pbo": {
-            "budget": "Plán",
-            "actual": "Skutečnost",
-            "plan": "Plán",
-            "expenditure": "Náklad",
-            "expenditures": "Náklady",
-            "income": "Výnos",
-            "incomes": "Výnosy",
-            "realIncome": "Skutečný výnos"
-        },
-        "import": {
-            "replaceOrAdd": "Nahradit nebo přidat data?"
-        }
+    "pbo": {
+      "budget": "Plán",
+      "actual": "Skutečnost",
+      "plan": "Plán",
+      "expenditure": "Náklad",
+      "expenditures": "Náklady",
+      "income": "Výnos",
+      "incomes": "Výnosy",
+      "realIncome": "Skutečný výnos"
+    },
+    "import": {
+      "replaceOrAdd": "Nahradit nebo přidat data?"
     }
+  }
 }

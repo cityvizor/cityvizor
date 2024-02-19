@@ -1,36 +1,47 @@
-import { Component, OnInit, Input, Output, EventEmitter, forwardRef, OnChanges } from '@angular/core';
-import { BudgetGroup, Budget } from 'app/schema';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+  OnChanges,
+} from "@angular/core";
+import { BudgetGroup, Budget } from "app/schema";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 
 @Component({
-  selector: 'group-select',
-  templateUrl: './group-select.component.html',
-  styleUrls: ['./group-select.component.scss'],
+  selector: "group-select",
+  templateUrl: "./group-select.component.html",
+  styleUrls: ["./group-select.component.scss"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => GroupSelectComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
-
   @Input() groups: BudgetGroup[];
 
   @Input("hovered") hoveredGroupId: string | null;
 
   selectedGroup: BudgetGroup | null;
 
-  onChange: any = () => { };
-  onTouch: any = () => { };
+  onChange: any = () => {};
+  onTouch: any = () => {};
 
   maxAmount: number;
 
-  constructor() { }
+  constructor() {}
 
-  registerOnChange(fn: any) { this.onChange = fn; }
-  registerOnTouched(fn: any) { this.onTouch = fn; }
+  registerOnChange(fn: any) {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any) {
+    this.onTouch = fn;
+  }
 
   writeValue(group: BudgetGroup | null) {
     this.selectedGroup = group;
@@ -48,7 +59,9 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
 
   updateMax() {
     if (!this.groups) return;
-    this.maxAmount = this.groups.reduce((acc, cur) => Math.max(acc, cur.amount, cur.budgetAmount), 0);
+    this.maxAmount = this.groups.reduce(
+      (acc, cur) => Math.max(acc, cur.amount, cur.budgetAmount),
+      0
+    );
   }
-
 }

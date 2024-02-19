@@ -1,96 +1,126 @@
-import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
-import { DataService } from 'app/services/data.service';
+import { DataService } from "app/services/data.service";
 
 import { Dashboard } from "app/schema/dashboard";
-import { ProfileService } from 'app/services/profile.service';
+import { ProfileService } from "app/services/profile.service";
 
-import { Budget, BudgetPayment, Contract, Profile, ProfileSumMode } from 'app/schema';
+import {
+  Budget,
+  BudgetPayment,
+  Contract,
+  Profile,
+  ProfileSumMode,
+} from "app/schema";
 
 @Component({
-	selector: 'profile-dashboard',
-	templateUrl: 'profile-dashboard.component.html',
-	styleUrls: ["profile-dashboard.component.scss"]
+  selector: "profile-dashboard",
+  templateUrl: "profile-dashboard.component.html",
+  styleUrls: ["profile-dashboard.component.scss"],
 })
-export class ProfileDashboardComponent {
+export class ProfileDashboardComponent implements OnInit {
+  profile: Profile;
 
-	profile: Profile;
+  payments: BudgetPayment[] = [];
+  contracts: Contract[] = [];
+  budgets: Budget[] = [];
 
-	payments: BudgetPayment[] = [];
-	contracts: Contract[] = [];
-	budgets: Budget[] = [];
+  maxBudgetAmount: number = 0;
 
-	maxBudgetAmount: number = 0;
+  maxExpenditureAmount: number = 0;
+  maxIncomeAmount: number = 0;
 
-	maxExpenditureAmount: number = 0;
-	maxIncomeAmount: number = 0;
+  dashboard: Dashboard;
 
-	dashboard: Dashboard;
+  constructor(
+    private profileService: ProfileService,
+    private dataService: DataService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-	constructor(private profileService: ProfileService, private dataService: DataService, private router: Router, private route: ActivatedRoute) {
-	}
+  ngOnInit() {
+    this.profileService.profile.subscribe(profile => {
+      this.profile = profile;
+      this.loadPayments(profile.id);
+      this.loadContracts(profile.id);
+      this.loadDashboard(profile.id);
+      this.loadBudgets(profile.id, profile.sumMode);
+    });
+  }
 
-	ngOnInit() {
+  async loadPayments(profileId: number) {
+    this.payments = await this.dataService.getProfilePayments(profileId, {
+      limit: 10,
+      sort: "-date",
+    });
+  }
 
-		this.profileService.profile.subscribe(profile => {
-			this.profile = profile;
-			this.loadPayments(profile.id);
-			this.loadContracts(profile.id);
-			this.loadDashboard(profile.id);
-			this.loadBudgets(profile.id, profile.sumMode);
-		})
+  async loadContracts(profileId: number) {
+    this.contracts = await this.dataService.getProfileContracts(profileId, {
+      limit: 5,
+      sort: "-date",
+    });
+  }
 
-	}
+  async loadDashboard(profileId: number) {
+    const dashboard = await this.dataService.getProfileDashboard(profileId);
 
-	async loadPayments(profileId: number) {
-		this.payments = await this.dataService.getProfilePayments(profileId, { limit: 10, sort: "-date" })
-	}
+    this.dashboard = dashboard.reduce((acc, cur) => {
+      acc[cur.category].push(cur);
+      return acc;
+    }, new Dashboard());
+  }
 
-	async loadContracts(profileId: number) {
-		this.contracts = await this.dataService.getProfileContracts(profileId, { limit: 5, sort: "-date" })
-	}
+  async loadBudgets(profileId: number, sumMode: ProfileSumMode) {
+    if (this.isMunicipality) {
+      this.budgets = await this.dataService.getProfileBudgets(profileId, {
+        limit: 3,
+        sumMode,
+      });
+    } else {
+      this.budgets = await this.dataService.getProfilePlans(profileId);
+    }
 
-	async loadDashboard(profileId: number) {
-		const dashboard = await this.dataService.getProfileDashboard(profileId)
+    this.budgets.sort((a, b) => b.year - a.year);
 
-		this.dashboard = dashboard.reduce((acc, cur) => {
-			acc[cur.category].push(cur);
-			return acc;
-		}, new Dashboard());
+    this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
+      return Math.max(
+        acc,
+        budget.budgetIncomeAmount,
+        budget.incomeAmount,
+        budget.budgetExpenditureAmount,
+        budget.expenditureAmount
+      );
+    }, 0);
+  }
 
-	}
+  openBudget(type: string, year: number): void {
+    if (type === "inc")
+      this.router.navigate(["./hospodareni/prijmy", { rok: year }], {
+        relativeTo: this.route.parent,
+      });
+    if (type === "exp")
+      this.router.navigate(["./hospodareni/vydaje", { rok: year }], {
+        relativeTo: this.route.parent,
+      });
+  }
 
-	async loadBudgets(profileId: number, sumMode: ProfileSumMode) {
+  openExpenditures(group: number, year?: number) {
+    const yearToOpen =
+      typeof year === "number" ? year : this.budgets[0]?.year ?? 0;
+    this.router.navigate(
+      ["./hospodareni/vydaje", { rok: yearToOpen, skupina: group }],
+      { relativeTo: this.route.parent }
+    );
+  }
 
-		if (this.isMunicipality) {
-			this.budgets = await this.dataService.getProfileBudgets(profileId, { limit: 3, sumMode });
-		} else {
-			this.budgets = await this.dataService.getProfilePlans(profileId);
-		}
+  get onlyPayments() {
+    return this.contracts.length == 0;
+  }
 
-		this.budgets.sort((a, b) => b.year - a.year);
-
-		this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
-			return Math.max(acc, budget.budgetIncomeAmount, budget.incomeAmount, budget.budgetExpenditureAmount, budget.expenditureAmount);
-		}, 0);
-	}
-
-	openBudget(type: string, year: number): void {
-		if (type === 'inc') this.router.navigate(["./hospodareni/prijmy", { rok: year }], { relativeTo: this.route.parent });
-		if (type === 'exp') this.router.navigate(["./hospodareni/vydaje", { rok: year }], { relativeTo: this.route.parent });
-	}
-
-	openExpenditures(group: number, year?: number) {
-		const yearToOpen = typeof year === "number" ? year : this.budgets[0]?.year ?? 0;
-		this.router.navigate(["./hospodareni/vydaje", { rok: yearToOpen, skupina: group }], { relativeTo: this.route.parent });
-	}
-
-	get onlyPayments() {
-		return this.contracts.length == 0
-	}
-
-	get isMunicipality() {
-		return this.profile?.type === "municipality";
-	}
+  get isMunicipality() {
+    return this.profile?.type === "municipality";
+  }
 }

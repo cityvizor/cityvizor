@@ -1,8 +1,8 @@
-import {db} from '../../db';
-import {AccountingRecord, PaymentRecord, EventRecord} from '../../schema';
-import {Writable} from 'stream';
-import logger from './logger';
-import {Import} from './import';
+import { db } from "../../db";
+import { AccountingRecord, PaymentRecord, EventRecord } from "../../schema";
+import { Writable } from "stream";
+import logger from "./logger";
+import { Import } from "./import";
 
 export class DatabaseWriter extends Writable {
   accountingCount = 0;
@@ -16,17 +16,17 @@ export class DatabaseWriter extends Writable {
   }
 
   async _writev(
-    chunks: {chunk: Import.ImportChunk; encoding: string}[],
+    chunks: { chunk: Import.ImportChunk; encoding: string }[],
     callback: (err?: Error) => void
   ) {
     const accountings = chunks
-      .filter(chunk => chunk.chunk.type === 'accounting')
+      .filter(chunk => chunk.chunk.type === "accounting")
       .map(chunk => chunk.chunk.record as AccountingRecord);
     const payments = chunks
-      .filter(chunk => chunk.chunk.type === 'payment')
+      .filter(chunk => chunk.chunk.type === "payment")
       .map(chunk => chunk.chunk.record as PaymentRecord);
     const events = chunks
-      .filter(chunk => chunk.chunk.type === 'event')
+      .filter(chunk => chunk.chunk.type === "event")
       .map(chunk => chunk.chunk.record as EventRecord);
     try {
       if (accountings.length) {
@@ -51,9 +51,9 @@ export class DatabaseWriter extends Writable {
 
   _final(callback) {
     [
-      [this.accountingCount, 'accounting'],
-      [this.paymentCount, 'payment'],
-      [this.eventCount, 'event'],
+      [this.accountingCount, "accounting"],
+      [this.paymentCount, "payment"],
+      [this.eventCount, "event"],
     ].forEach(([count, name]) => {
       const countNum = Number(count);
       if (countNum > 0) {
@@ -64,19 +64,19 @@ export class DatabaseWriter extends Writable {
   }
 
   async writeAccountings(accountings: AccountingRecord[]) {
-    await db<AccountingRecord>('data.accounting')
+    await db<AccountingRecord>("data.accounting")
       .insert(accountings)
       .transacting(this.options.transaction);
   }
 
   async writePayments(payments: PaymentRecord[]) {
-    await db<PaymentRecord>('data.payments')
+    await db<PaymentRecord>("data.payments")
       .insert(payments)
       .transacting(this.options.transaction);
   }
 
   async writeEvents(events: EventRecord[]) {
-    await db<EventRecord>('data.events')
+    await db<EventRecord>("data.events")
       .insert(events)
       .transacting(this.options.transaction);
   }

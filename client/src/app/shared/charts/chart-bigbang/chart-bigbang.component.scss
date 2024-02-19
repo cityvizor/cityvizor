@@ -1,17 +1,53 @@
+svg {
+  margin: 0 auto;
+  display: block;
+}
 
-svg{margin:0 auto;display:block;}
+.stripes {
+  transition-duration: 0.2s;
+  transform: rotate(0deg);
+  transform-origin: 0px 0px;
+  transition-timing-function: ease-in-out;
+}
+.stripe {
+  cursor: pointer;
+  border: 2px solid #fff;
+  transition-duration: 0.5s;
+}
 
-.stripes{transition-duration: .2s;transform:rotate(0deg);transform-origin:0px 0px;transition-timing-function:ease-in-out;}
-.stripe{cursor:pointer;border:2px solid #fff;transition-duration: .5s;}
+.innerStripe {
+  fill: #2581c4;
+  stroke: #fff;
+  stroke-width: 2;
+}
+.innerStripe.selected {
+  fill: #e73431;
+}
+.outerStripe {
+  fill: #adf;
+  stroke: #fff;
+  stroke-width: 2;
+}
+.outerStripe.selected {
+  fill: #ff9491;
+}
 
-.innerStripe{fill:#2581C4;stroke:#fff;stroke-width:2;}
-.innerStripe.selected{fill:#E73431;}
-.outerStripe{fill:#adf;stroke:#fff;stroke-width:2;}
-.outerStripe.selected{fill:#ff9491;}
+.zeroStripe {
+  fill: #ddd;
+  stroke: #fff;
+  stroke-width: 2;
+}
 
-.zeroStripe{fill:#DDD;stroke:#fff;stroke-width:2;}
+.bgstripe {
+  fill: #aaa;
+  opacity: 0;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+.bgstripe.hovered {
+  opacity: 0.2;
+}
 
-.bgstripe{fill:#aaa;opacity:0;cursor:pointer;transition-duration: .3s;}
-.bgstripe.hovered{opacity:0.2;}
-
-.circle{cursor:pointer;}
+.circle {
+  cursor: pointer;
+}

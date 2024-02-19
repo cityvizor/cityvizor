@@ -1,7 +1,6 @@
 export type Noticeboard = NoticeboardRow[];
 
 export interface NoticeboardRow {
-
   profileId: number;
 
   date: string;
@@ -11,5 +10,4 @@ export interface NoticeboardRow {
   documentUrl: string;
   edeskyUrl: string;
   previewUrl: string;
-  
 }

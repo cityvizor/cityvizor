@@ -1,38 +1,38 @@
-import express, {Request} from 'express';
+import express, { Request } from "express";
 
-import {db} from '../../db';
-import {PlanRecord} from '../../schema';
-import {AaNameRecord} from '../../schema/database/aaName';
+import { db } from "../../db";
+import { PlanRecord } from "../../schema";
+import { AaNameRecord } from "../../schema/database/aaName";
 
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 
 const sumField = (arr, field) => arr.reduce((acc, c) => (acc += c[field]), 0);
 
 export const ProfileAaRouter = router;
 
 router.get(
-  '/:aa/sa/:sa/history',
-  async (req: Request<{profile: string; aa: string; sa: string}>, res) => {
-    const qAaRecords = db<AaNameRecord>('data.pbo_aa_names')
-      .select('year', 'name')
-      .where('profileId', req.params.profile)
-      .andWhere('aa', req.params.aa)
-      .andWhere('sa', req.params.sa);
+  "/:aa/sa/:sa/history",
+  async (req: Request<{ profile: string; aa: string; sa: string }>, res) => {
+    const qAaRecords = db<AaNameRecord>("data.pbo_aa_names")
+      .select("year", "name")
+      .where("profileId", req.params.profile)
+      .andWhere("aa", req.params.aa)
+      .andWhere("sa", req.params.sa);
 
-    const qRecords = db<PlanRecord>('pbo_plans')
+    const qRecords = db<PlanRecord>("pbo_plans")
       .select()
-      .where('profileId', req.params.profile)
-      .andWhere('aa', req.params.aa);
+      .where("profileId", req.params.profile)
+      .andWhere("aa", req.params.aa);
 
     const [aaRecords, records] = await Promise.all([qAaRecords, qRecords]);
 
     const years = [...new Set(records.map(r => r.year))];
     const groupedYears = years.map(year => {
       const summed = [
-        'incomeAmount',
-        'budgetIncomeAmount',
-        'expenditureAmount',
-        'budgetExpenditureAmount',
+        "incomeAmount",
+        "budgetIncomeAmount",
+        "expenditureAmount",
+        "budgetExpenditureAmount",
       ].reduce((acc, c) => {
         return {
           ...acc,
@@ -56,31 +56,31 @@ router.get(
 );
 
 router.get(
-  '/:aa/sa/:sa/year/:year',
+  "/:aa/sa/:sa/year/:year",
   async (
-    req: Request<{profile: string; year: string; aa: string; sa: string}>,
+    req: Request<{ profile: string; year: string; aa: string; sa: string }>,
     res
   ) => {
-    const qAaInfo = db<AaNameRecord>('data.pbo_aa_names')
-      .select('aa as id', 'name')
-      .where('profileId', req.params.profile)
-      .andWhere('year', req.params.year)
-      .andWhere('aa', req.params.aa)
+    const qAaInfo = db<AaNameRecord>("data.pbo_aa_names")
+      .select("aa as id", "name")
+      .where("profileId", req.params.profile)
+      .andWhere("year", req.params.year)
+      .andWhere("aa", req.params.aa)
       .first();
 
-    const qRecords = db('pbo_plans')
+    const qRecords = db("pbo_plans")
       .select()
-      .where('year', req.params.year)
-      .andWhere('profileId', req.params.profile)
-      .andWhere('aa', req.params.aa)
-      .andWhere('sa', req.params.sa);
+      .where("year", req.params.year)
+      .andWhere("profileId", req.params.profile)
+      .andWhere("aa", req.params.aa)
+      .andWhere("sa", req.params.sa);
 
     const [aaInfo, records] = await Promise.all([qAaInfo, qRecords]);
     const summed = [
-      'incomeAmount',
-      'budgetIncomeAmount',
-      'expenditureAmount',
-      'budgetExpenditureAmount',
+      "incomeAmount",
+      "budgetIncomeAmount",
+      "expenditureAmount",
+      "budgetExpenditureAmount",
     ].reduce((acc, c) => {
       return {
         ...acc,
