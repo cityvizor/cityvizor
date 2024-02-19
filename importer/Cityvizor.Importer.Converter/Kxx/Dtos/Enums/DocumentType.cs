@@ -1,4 +1,4 @@
-﻿namespace Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
+﻿namespace Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
 
 public enum SectionType
 {

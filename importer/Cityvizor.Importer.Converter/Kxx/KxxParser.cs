@@ -1,33 +1,35 @@
-﻿using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
-using Cityvizor.Importer.Convertor.Kxx.Dtos;
-using Cityvizor.Importer.Convertor.Kxx.Helpers;
+﻿using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
+using Cityvizor.Importer.Converter.Kxx.Dtos;
+using Cityvizor.Importer.Converter.Kxx.Helpers;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Cityvizor.Importer.Convertor.Kxx.Enums;
+using Cityvizor.Importer.Converter.Kxx.Enums;
 using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
-namespace Cityvizor.Importer.Convertor.Kxx;
+namespace Cityvizor.Importer.Converter.Kxx;
 public class KxxParser
 {
-    const int _headerLineMinimalLength = 20;
-    const int _documentBlockHeaderMinimalLength = 22;
-    const int _documentNumberLen = 9;
+    private const int _headerLineMinimalLength = 20;
+    private const int _documentBlockHeaderMinimalLength = 22;
+    private const int _documentNumberLen = 9;
 
-    ulong _lineCounter = 1;
-    bool _parsingFinished = false;
     private readonly StreamReader _stream;
     private readonly ILogger<KxxParser> _logger;
 
-    KxxFileHeader _fileHeader;
-    uint? _fileAccountingYear = null;
+    // parsing state
+    private ulong _lineCounter = 1;
+    private bool _parsingFinished = false;
 
-    KxxSectionHeader? _currentSectionHeader = null;
-    Dictionary<uint, Document> _currentSectionDocuments = new();
+    private KxxFileHeader _fileHeader;
+    private uint? _fileAccountingYear = null;
+
+    private KxxSectionHeader? _currentSectionHeader = null;
+    private Dictionary<uint, Document> _currentSectionDocuments = new();
     
-    List<Document> _finishedDocuments = new List<Document>();
+    private List<Document> _finishedDocuments = new List<Document>();
     
     public KxxParser(StreamReader stream, ILogger<KxxParser> logger)
     {
@@ -35,20 +37,7 @@ public class KxxParser
         this._logger = logger;
     }
 
-    private void FlushSectionDocuments()
-    {
-        _finishedDocuments.AddRange(_currentSectionDocuments.Values);
-        _currentSectionDocuments.Clear();
-    }
-
-    private void OpenNewSection(KxxSectionHeader newSectionHeader)
-    {
-        // flush documents of section that is being closed to the list of finished documents
-        FlushSectionDocuments();
-        _currentSectionHeader = newSectionHeader;
-    }
-
-    public Document[] Parse() // TODO: return stream somehow
+    public Document[] Parse() // TODO: return stream
     {
         if (_parsingFinished)
         {
@@ -75,7 +64,7 @@ public class KxxParser
                     ProcessDocumentBalance(line);
                     break;
                 case KxxLineType.DocumentDescription:
-                    ProccessDocumentDescription(line);
+                    ProcessDocumentDescription(line);
                     break;
                 case KxxLineType.DocumentBalanceDescription:
                     ProcessDocumentLineDescription(line);
@@ -97,7 +86,7 @@ public class KxxParser
         return _finishedDocuments.ToArray();
     }
 
-    internal void ProccessDocumentDescription(string line)
+    internal void ProcessDocumentDescription(string line)
     {
         if (_currentSectionHeader is null)
         {
@@ -140,7 +129,7 @@ public class KxxParser
             ThrowParserException($"Found balance description with document id {balanceDescription.DocumentId} that does not correspond to any document in given section.");
         }
 
-        ValidateDocumentBalandeDesription(balanceDescription, line);
+        ValidateDocumentBalanceDesription(balanceDescription, line);
 
         // we add description to the last balance in the given document we encountered, because .kxx specification say 
         // that description should directly follow the balance it is related to 
@@ -149,7 +138,7 @@ public class KxxParser
         document.Balances.Last().Descriptions.Add(balanceDescription.BalanceDescription);
     }
 
-    internal void ValidateDocumentBalandeDesription(KxxDocumentBalanceDescription lineDescription, string line)
+    internal void ValidateDocumentBalanceDesription(KxxDocumentBalanceDescription lineDescription, string line)
     {
         if (lineDescription.DocumentLineNumber != 1)
         {
@@ -295,7 +284,7 @@ public class KxxParser
             ThrowParserException($"invalid format of 6/@ line. Failed to parse document type {match.Groups[3].Value}");
         }
 
-        if (!ParserHelpers.TryParseInputIndetifier(match.Groups[4].Value, out InputIndetifier? inputIndetifier))
+        if (!ParserHelpers.TryParseInputIndetifier(match.Groups[4].Value, out InputIdentifier? inputIndetifier))
         {
             ThrowParserException($"invalid format of 6/@ line. Failed to parse input identifier {match.Groups[4].Value}");
         }
@@ -318,7 +307,7 @@ public class KxxParser
     {
         const int dayLen = 2;
         const int delimiterLen = 3;
-        const int synteticLen = 3;
+        const int syntheticLen = 3;
         const int analyticLen = 4;
         const int chapterLen = 2;
         const int paragraphLen = 6;
@@ -330,7 +319,7 @@ public class KxxParser
         const int shouldGiveLen = 18;
         const int gaveLen = 18;
 
-        string pattern = $@"^G/@([0-9]{{{dayLen}}})(.{{{_documentNumberLen}}})(0{{{delimiterLen}}})([0-9]{{{synteticLen}}})([0-9]{{{analyticLen}}})([0-9]{{{chapterLen}}})([0-9]{{{paragraphLen}}})([0-9]{{{itemLen}}})([0-9]{{{recordUnitLen}}})([0-9]{{{purposeMarkLen}}})([0-9]{{{oraganizationUnitLen}}})([0-9]{{{organizationLen}}})([0-9]{{{shouldGiveLen}}})([ cC-]{{1}})([0-9]{{{gaveLen}}})([ cC-]{{1}})$";
+        string pattern = $@"^G/@([0-9]{{{dayLen}}})(.{{{_documentNumberLen}}})(0{{{delimiterLen}}})([0-9]{{{syntheticLen}}})([0-9]{{{analyticLen}}})([0-9]{{{chapterLen}}})([0-9]{{{paragraphLen}}})([0-9]{{{itemLen}}})([0-9]{{{recordUnitLen}}})([0-9]{{{purposeMarkLen}}})([0-9]{{{oraganizationUnitLen}}})([0-9]{{{organizationLen}}})([0-9]{{{shouldGiveLen}}})([ cC-]{{1}})([0-9]{{{gaveLen}}})([ cC-]{{1}})$";
         Match match = Regex.Match(input, pattern);
 
         if (!match.Success)
@@ -346,9 +335,9 @@ public class KxxParser
             ThrowParserException($"invalid format of G/@ line. Failed to parse document number {match.Groups[2].Value}");
         }
         // 000 delimiter
-        if (!uint.TryParse(match.Groups[4].Value, out uint synteticAccount))
+        if (!uint.TryParse(match.Groups[4].Value, out uint syntheticAccount))
         {
-            ThrowParserException($"invalid format of G/@ line. Failed to parse syntetic account {match.Groups[4].Value}");
+            ThrowParserException($"invalid format of G/@ line. Failed to parse synthetic account {match.Groups[4].Value}");
         }
         if (!uint.TryParse(match.Groups[5].Value, out uint analyticAccount))
         {
@@ -393,7 +382,7 @@ public class KxxParser
         return new KxxDocumentBalance(
             AccountedDay: accountedDay,
             DocumentId: documentNumber,
-            SynteticAccount: synteticAccount,
+            SyntheticAccount: syntheticAccount,
             AnalyticAccount: analyticAccount,
             Chapter: chapter,
             Paraghraph: paragraph,
@@ -511,6 +500,19 @@ public class KxxParser
             Descriptions: descriptions,
             EvkDescriptions: evkDescriptions,
             PlainTextDescription: Array.Empty<string>());
+    }
+
+    private void FlushSectionDocuments()
+    {
+        _finishedDocuments.AddRange(_currentSectionDocuments.Values);
+        _currentSectionDocuments.Clear();
+    }
+
+    private void OpenNewSection(KxxSectionHeader newSectionHeader)
+    {
+        // flush documents of section that is being closed to the list of finished documents
+        FlushSectionDocuments();
+        _currentSectionHeader = newSectionHeader;
     }
 
     [DoesNotReturn]

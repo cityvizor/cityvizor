@@ -1,10 +1,23 @@
-﻿using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
+﻿using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
 
-namespace Cityvizor.Importer.Convertor.Kxx.Dtos;
+namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="SectionType"></param>
+/// <param name="InputIdentifier"></param>
+/// <param name="Ico"></param>
+/// <param name="AccountingYear"></param>
+/// <param name="AccountingMonth"></param>
+/// <param name="DocumentId"></param>
+/// <param name="Descriptions"></param>
+/// <param name="EvkDescriptions"></param>
+/// <param name="PlainTextDescriptions"></param>
+/// <param name="Balances"></param>
 public record Document(
     SectionType SectionType,
-    InputIndetifier InputIndetifier,
+    InputIdentifier InputIdentifier,
 
     string Ico,
     ushort AccountingYear,
@@ -23,7 +36,7 @@ public record Document(
         AccountingMonth: header.AccountingMonth,
         DocumentId: documentId,
         SectionType: header.SectionType,
-        InputIndetifier: header.InputIndetifier,
+        InputIdentifier: header.InputIndetifier,
         Descriptions: new(),
         EvkDescriptions: new(),
         PlainTextDescriptions: new(),
@@ -34,7 +47,7 @@ public record Document(
 public record DocumentBalance(
     DateOnly AccountedDate,
     uint DocumentId,
-    uint SynteticAccount,
+    uint SyntheticAccount,
     uint AnalyticAccount,
     uint Chapter,
     uint Paraghraph,
@@ -51,7 +64,7 @@ public record DocumentBalance(
     internal DocumentBalance(KxxDocumentBalance balanceLine, ushort year, byte month) : this(
         AccountedDate: new DateOnly(year, month, balanceLine.AccountedDay), // compose balance date from day on the balance line and year and month in balance header
         DocumentId: balanceLine.DocumentId,
-        SynteticAccount: balanceLine.SynteticAccount,
+        SyntheticAccount: balanceLine.SyntheticAccount,
         AnalyticAccount: balanceLine.AnalyticAccount,
         Chapter: balanceLine.Chapter,
         Paraghraph: balanceLine.Paraghraph,

@@ -1,6 +1,6 @@
-﻿using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
+﻿using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
 
-namespace Cityvizor.Importer.Convertor.Kxx.Dtos;
+namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 
 /// <summary>
 /// Represents line 5/@ of .kxx file - header of the whole .kxx file
@@ -27,7 +27,7 @@ internal record struct KxxSectionHeader(
     string Ico,
     byte AccountingMonth,
     SectionType SectionType,
-    InputIndetifier InputIndetifier,
+    InputIdentifier InputIndetifier,
     ushort AccountingYear 
 );
 
@@ -37,7 +37,7 @@ internal record struct KxxSectionHeader(
 /// </summary>
 /// <param name="AccountedDay">den zauctovani</param>
 /// <param name="DocumentId">cislo dokladu</param>
-/// <param name="SynteticAccount"> syntetika (SU) </param>
+/// <param name="SyntheticAccount"> syntetika (SU) </param>
 /// <param name="AnalyticAccount">analytika (AU)</param>
 /// <param name="Chapter">kapitola(KAP) </param>
 /// <param name="Paraghraph"> oddíl,paragraf (ODPA)</param>
@@ -51,7 +51,7 @@ internal record struct KxxSectionHeader(
 internal record struct KxxDocumentBalance(
     byte AccountedDay,
     uint DocumentId,
-    uint SynteticAccount,
+    uint SyntheticAccount,
     uint AnalyticAccount,
     uint Chapter,
     uint Paraghraph,

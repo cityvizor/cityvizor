@@ -1,4 +1,4 @@
-﻿using Cityvizor.Importer.Convertor.Kxx;
+﻿using Cityvizor.Importer.Converter.Kxx;
 
 namespace Cityvizor.Importer.Services;
 

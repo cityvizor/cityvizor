@@ -1,4 +1,4 @@
-﻿namespace Cityvizor.Importer.Convertor.Kxx;
+﻿namespace Cityvizor.Importer.Converter.Kxx;
 public class KxxParserException : Exception
 {
     public KxxParserException()

@@ -1,5 +1,5 @@
 ﻿using Cityvizor.Importer.BackgroungServices;
-using Cityvizor.Importer.Convertor.Kxx;
+using Cityvizor.Importer.Converter.Kxx;
 using Cityvizor.Importer.Options;
 using Cityvizor.Importer.Services;
 using Cityvizor.Importer.Validators;

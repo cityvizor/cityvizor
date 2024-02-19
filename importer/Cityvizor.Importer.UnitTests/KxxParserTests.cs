@@ -1,8 +1,8 @@
-using Cityvizor.Importer.Convertor.Kxx;
-using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
-using Cityvizor.Importer.Convertor.Kxx.Dtos;
-using Cityvizor.Importer.Convertor.Kxx.Helpers;
-using Cityvizor.Importer.Convertor.Kxx.Enums;
+using Cityvizor.Importer.Converter.Kxx;
+using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
+using Cityvizor.Importer.Converter.Kxx.Dtos;
+using Cityvizor.Importer.Converter.Kxx.Helpers;
+using Cityvizor.Importer.Converter.Kxx.Enums;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Cityvizor.Importer.Services;
 using System.IO;
@@ -83,7 +83,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
 
         Document expected = new Document(
             SectionType: SectionType.ApprovedBudget,
-            InputIndetifier: InputIndetifier.RewriteWithSameLicence,
+            InputIdentifier: InputIdentifier.RewriteWithSameLicence,
             Ico: "4499278516",
             AccountingYear: 2023,
             AccountingMonth: 1,
@@ -109,7 +109,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
                 new DocumentBalance(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
-                    SynteticAccount: 231,
+                    SyntheticAccount: 231,
                     AnalyticAccount: 10,
                     Chapter: 0,
                     Paraghraph: 6310,
@@ -126,7 +126,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
                 new DocumentBalance(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
-                    SynteticAccount: 231,
+                    SyntheticAccount: 231,
                     AnalyticAccount: 10,
                     Chapter: 0,
                     Paraghraph: 6310,
@@ -206,7 +206,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
             Ico: "44992785",
             AccountingMonth: 1,
             SectionType: SectionType.ApprovedBudget,
-            InputIndetifier: InputIndetifier.RewriteWithSameLicence,
+            InputIndetifier: InputIdentifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
         KxxParser parser = _parserService.CreateParser(StreamReader.Null);
@@ -235,7 +235,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
             Ico: "4499278516",
             AccountingMonth: 1,
             SectionType: SectionType.ApprovedBudget,
-            InputIndetifier: InputIndetifier.RewriteWithSameLicence,
+            InputIndetifier: InputIdentifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
         KxxParser parser = _parserService.CreateParser(StreamReader.Null);
@@ -252,7 +252,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
         KxxDocumentBalance expected = new KxxDocumentBalance(
             AccountedDay: 1,
             DocumentId: 100001,
-            SynteticAccount: 231,
+            SyntheticAccount: 231,
             AnalyticAccount: 10,
             Chapter: 0,
             Paraghraph: 6310,
@@ -278,7 +278,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
         KxxDocumentBalance expected = new KxxDocumentBalance(
             AccountedDay: 1,
             DocumentId: 100001,
-            SynteticAccount: 231,
+            SyntheticAccount: 231,
             AnalyticAccount: 10,
             Chapter: 0,
             Paraghraph: 6310,

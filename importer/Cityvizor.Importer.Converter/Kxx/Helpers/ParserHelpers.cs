@@ -1,11 +1,11 @@
-﻿using Cityvizor.Importer.Convertor.Kxx.Dtos.Enums;
-using Cityvizor.Importer.Convertor.Kxx.Enums;
+﻿using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
+using Cityvizor.Importer.Converter.Kxx.Enums;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Cityvizor.Importer.Convertor.Kxx.Helpers;
+namespace Cityvizor.Importer.Converter.Kxx.Helpers;
 internal static class ParserHelpers
 {
-    internal static bool TryParseInputIndetifier(string identifierString, [NotNullWhen(true)] out InputIndetifier? inputIndetifier)
+    internal static bool TryParseInputIndetifier(string identifierString, [NotNullWhen(true)] out InputIdentifier? inputIndetifier)
     {
         if (!int.TryParse(identifierString, out var identifierNum))
         {
@@ -14,11 +14,11 @@ internal static class ParserHelpers
         }
         if (identifierNum == 0) // both 0 and 1 mean Add
         {
-            inputIndetifier = InputIndetifier.Add;
+            inputIndetifier = InputIdentifier.Add;
             return true;
 
         }
-        if (!Enum.TryParse(identifierString, out InputIndetifier idf))
+        if (!Enum.TryParse(identifierString, out InputIdentifier idf))
         {
             inputIndetifier = null;
             return false;
