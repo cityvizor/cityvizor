@@ -24,11 +24,19 @@
 @import "components/heroclaim";
 @import "components/menu";
 
+html {
+  height: 100%;
+}
+
 body {
   background-color: $body-bg;
   color: $body-color;
   font-family: $font-family-base;
   font-size: $font-size-md;
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 10em;
+  line-height: 1.5em;
 }
 
 // TODO: After the development stabilizes, revisit the .scss files and purge the unused ones
@@ -36,10 +44,6 @@ body {
 .underlined {
   text-decoration: underline;
   text-decoration-color: $primary;
-}
-
-body {
-  line-height: 1.5em;
 }
 
 a {
