@@ -3,6 +3,7 @@ import express from "express";
 
 import { db, getValidDateString, isValidDateString } from "../../db";
 import { PaymentRecord } from "../../schema";
+import { parseAndLimitNumber } from "../../utils";
 
 const router = express.Router();
 
@@ -25,6 +26,8 @@ router.get("/search", async (req, res) => {
 });
 
 router.get("/top", async (req, res) => {
+  const limit = parseAndLimitNumber(req.query.limit, 10000);
+
   const counterparties = await db<PaymentRecord>("payments")
     .select("counterpartyId")
     .where("profileId", String(req.query.profileId))
@@ -33,7 +36,7 @@ router.get("/top", async (req, res) => {
     .sum("expenditureAmount as amount")
     .groupBy("counterpartyId")
     .orderBy("amount", "desc")
-    .limit(req.query.limit ? Math.min(Number(req.query.limit), 10000) : 10000)
+    .limit(limit)
     .modify(function () {
       if (isValidDateString(req.query.dateFrom)) {
         this.where("date", ">=", getValidDateString(req.query.dateFrom));

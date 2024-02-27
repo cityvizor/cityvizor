@@ -76,7 +76,7 @@ export class ProfileDashboardComponent implements OnInit {
   async loadBudgets(profileId: number, sumMode: ProfileSumMode) {
     if (this.isMunicipality) {
       this.budgets = await this.dataService.getProfileBudgets(profileId, {
-        limit: 3,
+        limit: 100,
         sumMode,
       });
     } else {

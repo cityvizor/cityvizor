@@ -7,6 +7,7 @@ import {
   sort2order,
 } from "../../db";
 import { PaymentRecord, EventRecord, ProfileRecord } from "../../schema";
+import { parseAndLimitNumber } from "../../utils";
 
 const router = express.Router({ mergeParams: true });
 
@@ -28,9 +29,11 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
   const view =
     profile.type === "pbo" ? "public.pbo_payments" : "public.payments";
 
+  const limit = parseAndLimitNumber(req.query.limit, 10000);
+
   const payments = await db<PaymentRecord>(view)
     .where("profile_id", req.params.profile)
-    .limit(req.query.limit ? Math.min(Number(req.query.limit), 10000) : 10000)
+    .limit(limit)
     .offset(Number(req.query.offset || 0))
     .modify(function () {
       if (req.query.sort) {
