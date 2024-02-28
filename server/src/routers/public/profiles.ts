@@ -15,8 +15,8 @@ const router = express.Router();
 
 export const ProfilesRouter = router;
 
-function createQueryWithStatusFilter(statuses, tableName: string) {
-  const query = db<ProfileRecord>("profiles AS " + tableName);
+function createProfileQueryWithStatusFilter(statuses, tableName: string) {
+  const query = db<ProfileRecord>("public.profiles AS " + tableName);
   if (statuses) {
     const columnName = tableName + ".status";
     const status = statuses.toString().split(",");
@@ -31,57 +31,89 @@ function createQueryWithStatusFilter(statuses, tableName: string) {
     tableName + ".pbo_category_id",
     "category.pbo_category_id"
   );
+
   return query;
 }
 
-function addCountChildrenInnerQuery(query, statuses) {
-  const innerQuery = createQueryWithStatusFilter(statuses, "innerProfile")
+function createChildrenCountQuery(statuses) {
+  return createProfileQueryWithStatusFilter(statuses, "innerProfile")
     .select("innerProfile.id", db.raw("COUNT(child.id) AS childrenCount"))
-    .leftJoin("profiles AS child", "innerProfile.id", "child.parent");
-  innerQuery.groupBy("innerProfile.id").as("counts");
+    .leftJoin("public.profiles AS child", "innerProfile.id", "child.parent")
+    .groupBy("innerProfile.id");
+}
 
-  query.join(innerQuery, "profile.id", "counts.id");
-  return query;
+function addChildrenCountInnerQuery(query, statuses) {
+  const innerQuery = createChildrenCountQuery(statuses).as("counts");
+  return query.join(innerQuery, "profile.id", "counts.id");
+}
+
+function createProfileIdsWithoutPaymentsQuery() {
+  return db("public.profiles AS profiles")
+    .select("profiles.id")
+    .leftJoin(
+      "public.payments AS payments",
+      "profiles.id",
+      "payments.profile_id"
+    )
+    .whereNull("payments.profile_id");
+}
+
+async function setHasPaymentsFlag(profiles: ProfileRecord[]) {
+  const result = await createProfileIdsWithoutPaymentsQuery();
+
+  profiles.forEach(
+    profile =>
+      (profile.hasPayments = !result.some(row => row.id === profile.id))
+  );
 }
 
 /*
 Query params: {
-  string[] status - filtes profiles by provided statuses
+  string[] status - filtres profiles by provided statuses
   bool countChildren - if true, for each returned profile counts its children profiles
 }
 */
 router.get("/", async (req, res) => {
-  let profileQuery = createQueryWithStatusFilter(req.query.status, "profile");
+  let profileQuery = createProfileQueryWithStatusFilter(
+    req.query.status,
+    "profile"
+  );
 
   if (req.query.countChildren) {
-    profileQuery = addCountChildrenInnerQuery(profileQuery, req.query.status);
+    profileQuery = addChildrenCountInnerQuery(profileQuery, req.query.status);
   }
 
   profileQuery.orderBy("profile.id");
 
   const profiles = await profileQuery;
+  await setHasPaymentsFlag(profiles);
 
   res.json(profiles);
 });
 
 /*
 Query params: {
-  string[] status - filtes profiles by provided statuses
+  string[] status - filtres profiles by provided statuses
   bool countChildren - if true, for each returned profile counts its children profiles
 }
 */
 router.get("/sections", async (req, res) => {
   const sectionQuery = db<SectionRecord>("app.sections AS section");
 
-  let profileQuery = createQueryWithStatusFilter(req.query.status, "profile");
+  let profileQuery = createProfileQueryWithStatusFilter(
+    req.query.status,
+    "profile"
+  );
 
   if (req.query.countChildren) {
-    profileQuery = addCountChildrenInnerQuery(profileQuery, req.query.status);
+    profileQuery = addChildrenCountInnerQuery(profileQuery, req.query.status);
   }
 
   profileQuery.orderBy("profile.id");
 
   const profiles = await profileQuery;
+  await setHasPaymentsFlag(profiles);
+
   const sections = await sectionQuery;
 
   const grouped = {};
@@ -112,7 +144,7 @@ router.get("/:id/children", async (req, res) => {
   if (!Number(req.params.id)) {
     res.sendStatus(400);
   }
-  const parentProfile = await createQueryWithStatusFilter(
+  const parentProfile = await createProfileQueryWithStatusFilter(
     req.query.status,
     "profile"
   )
@@ -120,15 +152,15 @@ router.get("/:id/children", async (req, res) => {
     .first();
   if (!parentProfile) return res.sendStatus(404);
 
-  const query = createQueryWithStatusFilter(req.query.status, "profile").where(
-    "profile.parent",
-    Number(req.params.id)
-  );
+  const query = createProfileQueryWithStatusFilter(
+    req.query.status,
+    "profile"
+  ).where("profile.parent", Number(req.params.id));
   let profiles = await query;
 
   const profileIds = profiles.map(p => Number(p.id));
 
-  const grandchildrenQuery = createQueryWithStatusFilter(
+  const grandchildrenQuery = createProfileQueryWithStatusFilter(
     req.query.status,
     "profile"
   ).whereIn("profile.parent", profileIds);
@@ -166,6 +198,12 @@ router.get("/:profile", async (req, res) => {
       return res.sendStatus(404);
     }
   }
+
+  const anyPayment = await db("payments")
+    .first("item")
+    .where("profileId", profile.id);
+
+  profile.hasPayments = anyPayment != null;
 
   return res.json(profile);
 });

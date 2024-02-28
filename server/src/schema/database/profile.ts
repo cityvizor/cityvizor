@@ -30,4 +30,6 @@ export interface ProfileRecord {
   childrenCount: number | null;
 
   sectionId: number | null;
+
+  hasPayments: boolean | null;
 }
