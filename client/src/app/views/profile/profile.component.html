@@ -12,7 +12,8 @@
           {{ "profile.municipality.incomes" | translate }}
         </a>
       </li>
-      <li><a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
+      <li *ngIf="(profile | async)?.hasPayments">
+        <a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
       <li>
         <a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
       </li>
@@ -41,7 +42,7 @@
           {{ "profile.pbo.incomes" | translate }}
         </a>
       </li>
-      <li>
+      <li *ngIf="(profile | async)?.hasPayments">
         <a routerLink="faktury" routerLinkActive="active"> Faktury </a>
       </li>
     </header-menu>
