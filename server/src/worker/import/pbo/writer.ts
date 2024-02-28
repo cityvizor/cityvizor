@@ -1,9 +1,9 @@
 import { PlanRecord } from "../../../schema/database/plan";
 import { Import } from "../import";
 import { Writable } from "stream";
-import logger from "../logger";
 import { db } from "../../../db";
 import { AaNameRecord } from "../../../schema/database/aaName";
+import { importLogger } from "../import-logger";
 
 export class DatabaseWriter extends Writable {
   planCount = 0;
@@ -47,9 +47,9 @@ export class DatabaseWriter extends Writable {
 
   _final(callback) {
     if (this.planCount > 0)
-      logger.log(`Written ${this.planCount} plan records to the DB.`);
+      importLogger.log(`Written ${this.planCount} plan records to the DB.`);
     if (this.aaNameCount > 0)
-      logger.log(
+      importLogger.log(
         `Written ${this.aaNameCount} analytic account name records to the DB.`
       );
     callback();

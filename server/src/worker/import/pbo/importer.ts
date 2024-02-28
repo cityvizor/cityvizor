@@ -1,14 +1,14 @@
 import { Import } from "../import";
 import fs from "fs-extra";
 import path from "path";
-import logger from "../logger";
 import { createCsvParser, createPboParser } from "./parser";
 import { DatabaseWriter } from "./writer";
 import { promisify } from "util";
 import { pipeline } from "stream";
+import { importLogger } from "../import-logger";
 
 export async function importPbo(options: Import.Options) {
-  logger.log(`Starting import: ${JSON.stringify(options)}}`);
+  importLogger.log(`Starting import: ${JSON.stringify(options)}}`);
 
   const dirFiles = await fs.readdir(options.importDir);
   const file = dirFiles.find(filename => filename.match(/.*.csv/));
@@ -28,7 +28,7 @@ export async function importPbo(options: Import.Options) {
       .where({ profileId: options.profileId, year: options.year })
       .delete();
   }
-  logger.log("Deleted previous plan from the DB");
+  importLogger.log("Deleted previous plan from the DB");
 
   const planFilePath = path.join(options.importDir, file);
 
