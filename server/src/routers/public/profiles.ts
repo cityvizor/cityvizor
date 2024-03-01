@@ -58,13 +58,23 @@ function createProfileIdsWithoutPaymentsQuery() {
     .whereNull("payments.profile_id");
 }
 
-async function setHasPaymentsFlag(profiles: ProfileRecord[]) {
-  const result = await createProfileIdsWithoutPaymentsQuery();
+async function setHasPaymentsFlag(profiles: ProfileRecord | ProfileRecord[]) {
+  if (profiles instanceof Array) {
+    // Query for multiple profiles
+    const result = await createProfileIdsWithoutPaymentsQuery();
 
-  profiles.forEach(
-    profile =>
-      (profile.hasPayments = !result.some(row => row.id === profile.id))
-  );
+    profiles.forEach(
+      profile =>
+        (profile.hasPayments = !result.some(row => row.id === profile.id))
+    );
+  } else {
+    // Query for single profile
+    const anyPayment = await db("payments")
+      .first("item")
+      .where("profileId", profiles.id);
+
+    profiles.hasPayments = anyPayment != null;
+  }
 }
 
 /*
@@ -168,6 +178,8 @@ router.get("/:id/children", async (req, res) => {
 
   profiles = profiles.concat(grandchildrenProfiles).sort((a, b) => a.id - b.id);
 
+  await setHasPaymentsFlag(profiles);
+
   return res.json({ parent: parentProfile, children: profiles });
 });
 
@@ -199,11 +211,7 @@ router.get("/:profile", async (req, res) => {
     }
   }
 
-  const anyPayment = await db("payments")
-    .first("item")
-    .where("profileId", profile.id);
-
-  profile.hasPayments = anyPayment != null;
+  await setHasPaymentsFlag(profile);
 
   return res.json(profile);
 });
