@@ -26,7 +26,7 @@ internal record struct KxxFileHeader(
 internal record struct KxxSectionHeader(
     string Ico,
     byte AccountingMonth,
-    SectionType SectionType,
+    DocumentType SectionType,
     InputIdentifier InputIndetifier,
     ushort AccountingYear 
 );

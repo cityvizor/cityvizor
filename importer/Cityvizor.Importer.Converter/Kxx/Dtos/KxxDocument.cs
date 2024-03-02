@@ -15,8 +15,8 @@ namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 /// <param name="EvkDescriptions">from G/# line, key-value pairs that were prefixed by EVK in original kxx data</param>
 /// <param name="PlainTextDescriptions">from G/# line that did not have dictionary format</param>
 /// <param name="Balances">list of records, one for each G/@ line belonging to this document</param>
-public record Document(
-    SectionType SectionType,
+public record KxxDocument(
+    DocumentType SectionType,
     InputIdentifier InputIdentifier,
 
     string Ico,
@@ -30,7 +30,7 @@ public record Document(
     List<DocumentBalance> Balances
 )
 {
-    internal Document(KxxSectionHeader header, uint documentId) : this(
+    internal KxxDocument(KxxSectionHeader header, uint documentId) : this(
         Ico: header.Ico,
         AccountingYear: header.AccountingYear,
         AccountingMonth: header.AccountingMonth,
@@ -48,18 +48,18 @@ public record Document(
 /// Represents one balance of a document
 /// </summary>
 /// <param name="AccountedDate"></param>
-/// <param name="DocumentId"></param>
-/// <param name="SyntheticAccount"></param>
-/// <param name="AnalyticAccount"></param>
-/// <param name="Chapter"></param>
-/// <param name="Paraghraph"></param>
-/// <param name="Item"></param>
-/// <param name="RecordUnit"></param>
-/// <param name="PurposeMark"></param>
-/// <param name="OrganizationUnit"></param>
-/// <param name="Organization"></param>
-/// <param name="ShouldGive"></param>
-/// <param name="Gave"></param>
+/// <param name="DocumentId"> cislo dokladu</param>
+/// <param name="SyntheticAccount">syntetika (SU)</param>
+/// <param name="AnalyticAccount">analytika (AU)</param>
+/// <param name="Chapter">kapitola(KAP)</param>
+/// <param name="Paraghraph"> oddíl,paragraf (ODPA) </param>
+/// <param name="Item">položka (POL)</param>
+/// <param name="RecordUnit">záznamová jednotka (ZJ)</param>
+/// <param name="PurposeMark">účelový znak (UZ) </param>
+/// <param name="OrganizationUnit"> organizační jednotka (ORJ) </param>
+/// <param name="Organization">organizace (ORG) </param>
+/// <param name="ShouldGive">má dáti</param>
+/// <param name="Gave"> dal</param>
 /// <param name="Descriptions">from G/$ line</param>
 public record DocumentBalance(
     DateOnly AccountedDate,

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
 namespace Cityvizor.Importer.Converter.Kxx;
-public class KxxParser
+public class KxxParser //TODO: make internal
 {
     private const int _headerLineMinimalLength = 20;
     private const int _documentBlockHeaderMinimalLength = 22;
@@ -27,9 +27,9 @@ public class KxxParser
     private uint? _fileAccountingYear = null;
 
     private KxxSectionHeader? _currentSectionHeader = null;
-    private Dictionary<uint, Document> _currentSectionDocuments = new();
+    private Dictionary<uint, KxxDocument> _currentSectionDocuments = new();
     
-    private List<Document> _finishedDocuments = new List<Document>();
+    private List<KxxDocument> _finishedDocuments = new List<KxxDocument>();
     
     public KxxParser(StreamReader stream, ILogger<KxxParser> logger)
     {
@@ -37,7 +37,7 @@ public class KxxParser
         this._logger = logger;
     }
 
-    public Document[] Parse() // TODO: return stream
+    public KxxDocument[] Parse() // TODO: return stream
     {
         if (_parsingFinished)
         {
@@ -94,7 +94,7 @@ public class KxxParser
         }
 
         KxxDocumentDescription documentDescription = ParseKxxDocumentDescription(line);
-        if (!_currentSectionDocuments.TryGetValue(documentDescription.DocumentId, out Document? document))
+        if (!_currentSectionDocuments.TryGetValue(documentDescription.DocumentId, out KxxDocument? document))
         {
             ThrowParserException($"Found document description with document id {documentDescription.DocumentId} that does not correspond to any document in given section.");
         }
@@ -124,7 +124,7 @@ public class KxxParser
         }
 
         KxxDocumentBalanceDescription balanceDescription = ParseKxxDocumentBalanceDescription(line);
-        if(!_currentSectionDocuments.TryGetValue(balanceDescription.DocumentId, out Document? document))
+        if(!_currentSectionDocuments.TryGetValue(balanceDescription.DocumentId, out KxxDocument? document))
         {
             ThrowParserException($"Found balance description with document id {balanceDescription.DocumentId} that does not correspond to any document in given section.");
         }
@@ -156,7 +156,7 @@ public class KxxParser
         KxxDocumentBalance documentBalance = ParseKxxDocumentBalance(line);
         ValidateDocumentBalance(documentBalance, line);
 
-        Document balanceDocument = GetOrCreateDocument(documentBalance);
+        KxxDocument balanceDocument = GetOrCreateDocument(documentBalance);
 
         DocumentBalance balance = new(documentBalance, _currentSectionHeader.Value.AccountingYear, _currentSectionHeader.Value.AccountingMonth);
         balanceDocument.Balances.Add(balance);
@@ -175,13 +175,13 @@ public class KxxParser
     /// </summary>
     /// <param name="documentBalance"></param>
     /// <returns></returns>
-    private Document GetOrCreateDocument(KxxDocumentBalance documentBalance)
+    private KxxDocument GetOrCreateDocument(KxxDocumentBalance documentBalance)
     {
-        if (_currentSectionDocuments.TryGetValue(documentBalance.DocumentId, out Document? document))
+        if (_currentSectionDocuments.TryGetValue(documentBalance.DocumentId, out KxxDocument? document))
         {
             return document;
         }
-        Document newDocument = new(_currentSectionHeader!.Value, documentBalance.DocumentId);
+        KxxDocument newDocument = new(_currentSectionHeader!.Value, documentBalance.DocumentId);
         _currentSectionDocuments.Add(newDocument.DocumentId, newDocument);
         return newDocument;
     }
@@ -279,7 +279,7 @@ public class KxxParser
             ThrowParserException($"invalid format of 6/@ line. Failed to parse month {match.Groups[2].Value}");
         }
 
-        if (!Enum.TryParse(match.Groups[3].Value, out SectionType documentType))
+        if (!Enum.TryParse(match.Groups[3].Value, out DocumentType documentType))
         {
             ThrowParserException($"invalid format of 6/@ line. Failed to parse document type {match.Groups[3].Value}");
         }
