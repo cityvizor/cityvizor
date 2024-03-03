@@ -15,7 +15,8 @@ public record AccountingRecord(
 // this may require changes in Cityvizor logic
 public enum AccountingRecordType
 {
-    Pok, // AccountingRecord created from balance belonging to document of type OrdinaryMonth (0)
-    RozApproved, // AccountingRecord created from balance belonging to document of type ApprovedBudget (2)
-    RozEdited // AccountingRecord created from balance belonging to document of type EditedBudget (3)
+    Pok, // Pokladna - AccountingRecord created from balance belonging to document of type OrdinaryMonth (0)
+    Roz, // Rozpocet - for backwards compatibility, is likely to equal to sum of Approved and Edited
+    RozSch, // Rozpocet schvaleny - AccountingRecord created from balance belonging to document of type ApprovedBudget (2)
+    RozPz // Rozpocet po zmenach (upraveny) - AccountingRecord created from balance belonging to document of type EditedBudget (3)
 }

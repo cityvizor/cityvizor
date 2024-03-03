@@ -20,13 +20,13 @@ internal record struct KxxFileHeader(
 /// </summary>
 /// <param name="Ico"></param>
 /// <param name="AccountingMonth">`yy` obdobi zpracovani - mesic</param>
-/// <param name="SectionType"> druh dokladu</param>
+/// <param name="DocumentType"> druh dokladu</param>
 /// <param name="InputIndetifier">dentifikátor vstupu</param>
 /// <param name="AccountingYear"> účetní rok</param>
 internal record struct KxxSectionHeader(
     string Ico,
     ushort AccountingMonth,
-    DocumentType SectionType,
+    DocumentType DocumentType,
     InputIdentifier InputIndetifier,
     ushort AccountingYear 
 );

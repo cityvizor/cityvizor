@@ -294,7 +294,7 @@ public class KxxParser
             ThrowParserException($"invalid format of 6/@ line. Failed to parse accounting year {match.Groups[5].Value}");
         }
 
-        return new KxxSectionHeader(Ico: ico, AccountingMonth: month, SectionType: documentType, InputIndetifier: inputIndetifier.Value, AccountingYear: accoutingYear);
+        return new KxxSectionHeader(Ico: ico, AccountingMonth: month, DocumentType: documentType, InputIndetifier: inputIndetifier.Value, AccountingYear: accoutingYear);
     }
 
     /// <summary>

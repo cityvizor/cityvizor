@@ -5,19 +5,20 @@ using Cityvizor.Importer.Core.Dtos;
 namespace Cityvizor.Importer.Converter.Kxx;
 public class KxxConverter
 {
-    private readonly IKxxConverterService _kxxConverterService;
+    private readonly IKxxParserFactoryService _kxxConverterService;
+    private readonly KxxRecordBuilder _kxxRecordBuilder;
 
-    public KxxConverter(IKxxConverterService kxxConverterService)
+    public KxxConverter(IKxxParserFactoryService kxxConverterService, KxxRecordBuilder kxxRecordBuilder)
     {
         _kxxConverterService = kxxConverterService;
+        _kxxRecordBuilder = kxxRecordBuilder;
     }
 
     public AccountingAndPayments ParseRecords(StreamReader inputStream)
     {
         KxxParser kxxParser = _kxxConverterService.CreateParser(inputStream);
         KxxDocument[] documents = kxxParser.Parse();
-        KxxRecordBuilder kxxRecordBuilder = _kxxConverterService.CreateRecordBuilder();
-        AccountingAndPayments records = kxxRecordBuilder.BuildRecordsFromDocuments(documents);
+        AccountingAndPayments records = _kxxRecordBuilder.BuildRecordsFromDocuments(documents);
         return records;
     }
 }

@@ -35,7 +35,7 @@ public record KxxDocument(
         AccountingYear: header.AccountingYear,
         AccountingMonth: header.AccountingMonth,
         DocumentId: documentId,
-        DocumentType: header.SectionType,
+        DocumentType: header.DocumentType,
         InputIdentifier: header.InputIndetifier,
         Descriptions: new(StringComparer.InvariantCultureIgnoreCase),
         EvkDescriptions: new(StringComparer.InvariantCultureIgnoreCase), // make comparison case insensitive to be on the safe side

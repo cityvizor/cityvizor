@@ -14,10 +14,10 @@ public class KxxParserTests : WebTestBase
 {
     public KxxParserTests(WebApplicationFactory<Program> factory): base(factory)
     {
-        _parserService = GetRequiredService<IKxxConverterService>();
+        _parserService = GetRequiredService<IKxxParserFactoryService>();
     }
 
-    private readonly IKxxConverterService _parserService;
+    private readonly IKxxParserFactoryService _parserService;
 
     [Fact]
     public void TestParsingUcto()
@@ -206,7 +206,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
         KxxSectionHeader expected = new KxxSectionHeader(
             Ico: "44992785",
             AccountingMonth: 1,
-            SectionType: DocumentType.ApprovedBudget,
+            DocumentType: DocumentType.ApprovedBudget,
             InputIndetifier: InputIdentifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
@@ -235,7 +235,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
         KxxSectionHeader expected = new KxxSectionHeader(
             Ico: "4499278516",
             AccountingMonth: 1,
-            SectionType: DocumentType.ApprovedBudget,
+            DocumentType: DocumentType.ApprovedBudget,
             InputIndetifier: InputIdentifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 

@@ -11,10 +11,28 @@ public class KxxConverterTests : WebTestBase
 {
     public KxxConverterTests(WebApplicationFactory<Program> factory) : base(factory)
     {
-        _parserService = GetRequiredService<IKxxConverterService>();
+        _parserService = GetRequiredService<IKxxParserFactoryService>();
+        _kxxRecordBuilder = GetRequiredService<KxxRecordBuilder>();
+        _converter = GetRequiredService<KxxConverter>();
     }
 
-    private readonly IKxxConverterService _parserService;
+    private readonly IKxxParserFactoryService _parserService;
+    private readonly KxxRecordBuilder _kxxRecordBuilder;
+    private readonly KxxConverter _converter;
+
+    [Fact]
+    public void TestParsingUcto()
+    {
+        StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("ucto_medl_hc.kxx");
+        AccountingAndPayments res = _converter.ParseRecords(reader);
+    }
+
+    [Fact]
+    public void TestParsingRozp()
+    {
+        StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("rozp_medl_hc.kxx");
+        AccountingAndPayments res = _converter.ParseRecords(reader);
+    }
 
     [Fact]
     public void TestBuildingAccountingRecords()
@@ -84,7 +102,7 @@ public class KxxConverterTests : WebTestBase
            );
 
         AccountingRecord expectedRecord1 = new(
-            Type: AccountingRecordType.RozApproved,
+            Type: AccountingRecordType.RozSch,
             Paragraph: 6310,
             Item: 5163,
             Event: 1610000000000u,
@@ -92,7 +110,7 @@ public class KxxConverterTests : WebTestBase
             Amount: 62.60m);
 
         AccountingRecord expectedRecord2 = new(
-            Type: AccountingRecordType.RozEdited,
+            Type: AccountingRecordType.RozPz,
             Paragraph: 6310,
             Item: 5163,
             Event: 1610000000000u,
@@ -163,8 +181,7 @@ public class KxxConverterTests : WebTestBase
                }
            );
 
-        KxxRecordBuilder recordBuilder = _parserService.CreateRecordBuilder();
-        AccountingAndPayments result = recordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { document1, document2 });
+        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { document1, document2 });
         result.PaymentRecords.Should().BeEmpty();
         result.AccountingRecords.Should().BeEquivalentTo(new[] { expectedRecord1, expectedRecord2 });
     }
@@ -260,8 +277,7 @@ public class KxxConverterTests : WebTestBase
             Event: 1610000000000u,
             RecordUnit: 0);
 
-        KxxRecordBuilder recordBuilder = _parserService.CreateRecordBuilder();
-        AccountingAndPayments result = recordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { paymentDocument });
+        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { paymentDocument });
         result.PaymentRecords.Should().BeEquivalentTo(new PaymentRecord[] { expectedPayment1, expectedPayment2 });
         result.AccountingRecords.Should().BeEmpty();
     }
@@ -461,7 +477,7 @@ public class KxxConverterTests : WebTestBase
 
 
         AccountingRecord expectedRecord1 = new(
-            Type: AccountingRecordType.RozApproved,
+            Type: AccountingRecordType.RozSch,
             Paragraph: 6310,
             Item: 5163,
             Event: 1610000000000u,
@@ -469,7 +485,7 @@ public class KxxConverterTests : WebTestBase
             Amount: 62.60m);
 
         AccountingRecord expectedRecord2 = new(
-            Type: AccountingRecordType.RozEdited,
+            Type: AccountingRecordType.RozPz,
             Paragraph: 6310,
             Item: 5163,
             Event: 1610000000000u,
@@ -502,8 +518,7 @@ public class KxxConverterTests : WebTestBase
             Event: 1610000000000u,
             RecordUnit: 0);
 
-        KxxRecordBuilder recordBuilder = _parserService.CreateRecordBuilder();
-        AccountingAndPayments result = recordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { document1, document2, paymentDocument });
+        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { document1, document2, paymentDocument });
         result.PaymentRecords.Should().BeEquivalentTo(new PaymentRecord[] { expectedPayment1, expectedPayment2 });
         result.AccountingRecords.Should().BeEquivalentTo(new[] { expectedRecord1, expectedRecord2 });
     }

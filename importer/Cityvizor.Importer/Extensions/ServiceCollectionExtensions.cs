@@ -22,7 +22,8 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection RegisterKxxConverter(this IServiceCollection services)
     {
-        services.AddSingleton<IKxxConverterService, KxxConverterService>();
+        services.AddSingleton<IKxxParserFactoryService, KxxParserFactoryService>();
+        services.AddTransient<KxxRecordBuilder>();
         services.AddTransient<KxxConverter>();
         return services;
     }

@@ -14,8 +14,8 @@ public class KxxRecordBuilder
     private const int _balanceItemFilterUpperBound = 9000;
 
     // each kxx balance line contains both shouldGive and gave amounts, Item number decides how to compute overall amount for a kxx balance line
-    private const int _balanceItemIncomeLowerBound = 5000;
-    private const int _balanceItemIncomeUpperBound = 8000;
+    private const int _balanceItemExpenditureLowerBound = 5000;
+    private const int _balanceItemExpenditureUpperBound = 8000;
 
     private const string _kdf = "KDF"; // kniha doslych faktur
     private const string _kof = "KOF"; // kniha odeslych faktur
@@ -24,9 +24,6 @@ public class KxxRecordBuilder
     private const string _evkt = "EVKT";
 
     private readonly ILogger<KxxRecordBuilder> _logger;
-
-    private List<PaymentRecord> _paymentRecords = new();
-    private Dictionary<AccountingRecordIdentifier, AccountingRecordBuilder> _accountingRecords = new();
     
     /// <summary>
     /// This set of fields of Balance determines the record to which the balance belongs
@@ -48,6 +45,9 @@ public class KxxRecordBuilder
 
     public AccountingAndPayments BuildRecordsFromDocuments(KxxDocument[] documents)
     {
+        List<PaymentRecord> paymentRecords = new();
+        Dictionary<AccountingRecordIdentifier, AccountingRecordBuilder> accountingRecords = new();
+
         foreach (KxxDocument document in documents) 
         {
             if (!ValidateDocumentType(document, out AccountingRecordType? accountingRecordType) || !ValidateEvkDescriptions(document))
@@ -62,7 +62,7 @@ public class KxxRecordBuilder
                     continue;
                 }
 
-                _paymentRecords.AddRange(
+                paymentRecords.AddRange(
                     FilterRelevantBalances(document.Balances)
                     .Select(balance => BuildPaymentRecord(paymentData.Value, balance)));
             }
@@ -70,25 +70,21 @@ public class KxxRecordBuilder
             {
                 foreach(DocumentBalance relevantBalance in FilterRelevantBalances(document.Balances)) 
                 {
-                    ProcessAccountingBalance(relevantBalance, accountingRecordType.Value);
+                    ProcessAccountingBalance(relevantBalance, accountingRecordType.Value, accountingRecords);
                 }
             }
         }
 
-        AccountingAndPayments result = new(
-            AccountingRecords: _accountingRecords.Values.Select(recordBuilder => recordBuilder.ToAccountingRecord()).ToArray(),
-            PaymentRecords: _paymentRecords.ToArray()
+        return new AccountingAndPayments(
+            AccountingRecords: accountingRecords.Values.Select(recordBuilder => recordBuilder.ToAccountingRecord()).ToArray(),
+            PaymentRecords: paymentRecords.ToArray()
         );
-
-        _accountingRecords.Clear();
-        _paymentRecords.Clear();
-        return result;
     }
 
-    private void ProcessAccountingBalance(DocumentBalance balance, AccountingRecordType accountingRecordType) 
+    private void ProcessAccountingBalance(DocumentBalance balance, AccountingRecordType accountingRecordType, Dictionary<AccountingRecordIdentifier, AccountingRecordBuilder> accountingRecords) 
     {
         AccountingRecordIdentifier recordIdentifier = GetAccountingBalanceIdentifier(balance, accountingRecordType);
-        if(!_accountingRecords.TryGetValue(recordIdentifier, out AccountingRecordBuilder? accountingRecord))
+        if(!accountingRecords.TryGetValue(recordIdentifier, out AccountingRecordBuilder? accountingRecord))
         {
             accountingRecord = new AccountingRecordBuilder {
                 Type = accountingRecordType,
@@ -98,7 +94,7 @@ public class KxxRecordBuilder
                 RecordUnit = balance.OrganizationUnit,
                 Amount = ComputeAmount(balance)
             };
-            _accountingRecords.Add( recordIdentifier, accountingRecord );
+            accountingRecords.Add( recordIdentifier, accountingRecord );
         }
         else
         {
@@ -190,10 +186,10 @@ public class KxxRecordBuilder
                 accountingRecordType = AccountingRecordType.Pok;
                 return true;
             case DocumentType.ApprovedBudget:
-                accountingRecordType = AccountingRecordType.RozApproved;
+                accountingRecordType = AccountingRecordType.RozSch;
                 return true;
             case DocumentType.EditedBudget:
-                accountingRecordType = AccountingRecordType.RozEdited;
+                accountingRecordType = AccountingRecordType.RozPz;
                 return true;
             default:
                 LogDocumentError(document, $"has unexpected document type: {document.DocumentType} ({(int)document.DocumentType}).");
@@ -241,6 +237,7 @@ public class KxxRecordBuilder
         return filteredBalances.ToArray();
     }
 
+    // TODO: move this to Importer layer so that this filter gets applied to all imports not just to .kxx 
     private static bool IsRelevantBalance(DocumentBalance kxxDocumentBalance)
     {
         // other item numbers should be just technical and irrelevant for our purposes, bit I have no clue why
@@ -251,7 +248,7 @@ public class KxxRecordBuilder
     private static decimal ComputeAmount(DocumentBalance kxxDocumentBalance) 
     {
         // original javascript implementation return (Number(balance.pol) >= 5000 && Number(balance.pol) < 8000) ? balance.d - balance.md : balance.md - balance.d;
-        return (kxxDocumentBalance.Item >= _balanceItemIncomeLowerBound && kxxDocumentBalance.Item < _balanceItemIncomeUpperBound)
+        return (kxxDocumentBalance.Item >= _balanceItemExpenditureLowerBound && kxxDocumentBalance.Item < _balanceItemExpenditureUpperBound)
           ? kxxDocumentBalance.Gave - kxxDocumentBalance.ShouldGive
           : kxxDocumentBalance.ShouldGive - kxxDocumentBalance.Gave;
     }

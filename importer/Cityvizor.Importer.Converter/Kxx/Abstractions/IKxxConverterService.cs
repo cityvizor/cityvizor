@@ -5,9 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Cityvizor.Importer.Converter.Kxx.Abstractions;
-public interface IKxxConverterService
+public interface IKxxParserFactoryService
 {
     public KxxParser CreateParser(StreamReader stream);
-
-    public KxxRecordBuilder CreateRecordBuilder();
 }
