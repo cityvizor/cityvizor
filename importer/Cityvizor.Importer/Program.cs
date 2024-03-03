@@ -22,7 +22,7 @@ public class Program
             .UseSnakeCaseNamingConvention());
 
         builder.Services.RegisterImporterBackgroundService(builder.Configuration);
-        builder.Services.RegisterKxxParser();
+        builder.Services.RegisterKxxConverter();
         builder.Services.AddLogging();
 
         var app = builder.Build();

@@ -5,7 +5,7 @@ namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 /// <summary>
 /// Represents one invoice document
 /// </summary>
-/// <param name="SectionType">Type of the document</param>
+/// <param name="DocumentType">Type of the document</param>
 /// <param name="InputIdentifier">Mode in which this document should be processed - append, rewrite...</param>
 /// <param name="Ico"></param>
 /// <param name="AccountingYear"></param>
@@ -15,13 +15,13 @@ namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 /// <param name="EvkDescriptions">from G/# line, key-value pairs that were prefixed by EVK in original kxx data</param>
 /// <param name="PlainTextDescriptions">from G/# line that did not have dictionary format</param>
 /// <param name="Balances">list of records, one for each G/@ line belonging to this document</param>
-public record Document(
-    SectionType SectionType,
+public record KxxDocument(
+    DocumentType DocumentType,
     InputIdentifier InputIdentifier,
 
     string Ico,
-    ushort AccountingYear,
-    byte AccountingMonth,
+    uint AccountingYear,
+    uint AccountingMonth,
     uint DocumentId,
 
     Dictionary<string, string> Descriptions,
@@ -30,15 +30,15 @@ public record Document(
     List<DocumentBalance> Balances
 )
 {
-    internal Document(KxxSectionHeader header, uint documentId) : this(
+    internal KxxDocument(KxxSectionHeader header, uint documentId) : this(
         Ico: header.Ico,
         AccountingYear: header.AccountingYear,
         AccountingMonth: header.AccountingMonth,
         DocumentId: documentId,
-        SectionType: header.SectionType,
+        DocumentType: header.DocumentType,
         InputIdentifier: header.InputIndetifier,
-        Descriptions: new(),
-        EvkDescriptions: new(),
+        Descriptions: new(StringComparer.InvariantCultureIgnoreCase),
+        EvkDescriptions: new(StringComparer.InvariantCultureIgnoreCase), // make comparison case insensitive to be on the safe side
         PlainTextDescriptions: new(),
         Balances: new())
     { }
@@ -48,18 +48,18 @@ public record Document(
 /// Represents one balance of a document
 /// </summary>
 /// <param name="AccountedDate"></param>
-/// <param name="DocumentId"></param>
-/// <param name="SyntheticAccount"></param>
-/// <param name="AnalyticAccount"></param>
-/// <param name="Chapter"></param>
-/// <param name="Paraghraph"></param>
-/// <param name="Item"></param>
-/// <param name="RecordUnit"></param>
-/// <param name="PurposeMark"></param>
-/// <param name="OrganizationUnit"></param>
-/// <param name="Organization"></param>
-/// <param name="ShouldGive"></param>
-/// <param name="Gave"></param>
+/// <param name="DocumentId"> cislo dokladu</param>
+/// <param name="SyntheticAccount">syntetika (SU)</param>
+/// <param name="AnalyticAccount">analytika (AU)</param>
+/// <param name="Chapter">kapitola(KAP)</param>
+/// <param name="Paraghraph"> oddíl,paragraf (ODPA) </param>
+/// <param name="Item">položka (POL)</param>
+/// <param name="RecordUnit">záznamová jednotka (ZJ)</param>
+/// <param name="PurposeMark">účelový znak (UZ) </param>
+/// <param name="OrganizationUnit"> organizační jednotka (ORJ) </param>
+/// <param name="Organization">organizace (ORG) </param>
+/// <param name="ShouldGive">má dáti</param>
+/// <param name="Gave"> dal</param>
 /// <param name="Descriptions">from G/$ line</param>
 public record DocumentBalance(
     DateOnly AccountedDate,
@@ -78,7 +78,7 @@ public record DocumentBalance(
     List<string> Descriptions
 )
 {
-    internal DocumentBalance(KxxDocumentBalance balanceLine, ushort year, byte month) : this(
+    internal DocumentBalance(KxxDocumentBalance balanceLine, ushort year, ushort month) : this(
         AccountedDate: new DateOnly(year, month, balanceLine.AccountedDay), // compose balance date from day on the balance line and year and month in balance header
         DocumentId: balanceLine.DocumentId,
         SyntheticAccount: balanceLine.SyntheticAccount,
