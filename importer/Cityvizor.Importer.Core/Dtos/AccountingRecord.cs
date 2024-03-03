@@ -4,8 +4,8 @@ public record AccountingRecord(
     AccountingRecordType Type,
     uint Paragraph,
     uint Item,
-    uint Event, // TODO: what gets mapped to this?
-    uint RecordUnit,
+    ulong Event, // organization
+    ulong RecordUnit, // organizationUnit
     decimal Amount
 );
 

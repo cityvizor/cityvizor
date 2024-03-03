@@ -82,7 +82,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
         KxxDocument[] res = parser.Parse();
 
         KxxDocument expected = new KxxDocument(
-            SectionType: DocumentType.ApprovedBudget,
+            DocumentType: DocumentType.ApprovedBudget,
             InputIdentifier: InputIdentifier.RewriteWithSameLicence,
             Ico: "4499278516",
             AccountingYear: 2023,

@@ -5,7 +5,7 @@ namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 /// <summary>
 /// Represents one invoice document
 /// </summary>
-/// <param name="SectionType">Type of the document</param>
+/// <param name="DocumentType">Type of the document</param>
 /// <param name="InputIdentifier">Mode in which this document should be processed - append, rewrite...</param>
 /// <param name="Ico"></param>
 /// <param name="AccountingYear"></param>
@@ -16,7 +16,7 @@ namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 /// <param name="PlainTextDescriptions">from G/# line that did not have dictionary format</param>
 /// <param name="Balances">list of records, one for each G/@ line belonging to this document</param>
 public record KxxDocument(
-    DocumentType SectionType,
+    DocumentType DocumentType,
     InputIdentifier InputIdentifier,
 
     string Ico,
@@ -35,10 +35,10 @@ public record KxxDocument(
         AccountingYear: header.AccountingYear,
         AccountingMonth: header.AccountingMonth,
         DocumentId: documentId,
-        SectionType: header.SectionType,
+        DocumentType: header.SectionType,
         InputIdentifier: header.InputIndetifier,
-        Descriptions: new(),
-        EvkDescriptions: new(),
+        Descriptions: new(StringComparer.InvariantCultureIgnoreCase),
+        EvkDescriptions: new(StringComparer.InvariantCultureIgnoreCase), // make comparison case insensitive to be on the safe side
         PlainTextDescriptions: new(),
         Balances: new())
     { }

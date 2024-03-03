@@ -10,8 +10,8 @@ public record PaymentRecord(
     string Description,
     uint Paragraph,
     uint Item,
-    uint Event, // TODO: what gets mapped to this?
-    uint RecordUnit
+    ulong Event, // organization
+    ulong RecordUnit //  organization unit
 );
 
 public enum PaymentRecordType
