@@ -6,6 +6,7 @@ using Cityvizor.Importer.Converter.Kxx.Enums;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Cityvizor.Importer.Services;
 using System.IO;
+using Cityvizor.Importer.Converter.Kxx.Abstractions;
 
 namespace Cityvizor.Importer.UnitTests;
 
@@ -13,17 +14,17 @@ public class KxxParserTests : WebTestBase
 {
     public KxxParserTests(WebApplicationFactory<Program> factory): base(factory)
     {
-        _parserService = GetRequiredService<KxxParserService>();
+        _parserService = GetRequiredService<IKxxParserFactoryService>();
     }
 
-    private readonly KxxParserService _parserService;
+    private readonly IKxxParserFactoryService _parserService;
 
     [Fact]
     public void TestParsingUcto()
     {
         StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("ucto_medl_hc.kxx");
         KxxParser parser = _parserService.CreateParser(reader);
-        Document[] res = parser.Parse();
+        KxxDocument[] res = parser.Parse();
     }
 
     [Fact]
@@ -31,7 +32,7 @@ public class KxxParserTests : WebTestBase
     {
         StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("rozp_medl_hc.kxx");
         KxxParser parser = _parserService.CreateParser(reader);
-        Document[] res = parser.Parse();
+        KxxDocument[] res = parser.Parse();
     }
 
     [Fact]
@@ -53,7 +54,7 @@ G/#0004   830041*DVD-20220301;*DEV-20220301;*OZP-A;*POP-N;*INR-N;*ECDDO-16000448
 
         KxxParser parser = _parserService.CreateParser(reader);
 
-        Document[] res = parser.Parse();
+        KxxDocument[] res = parser.Parse();
     }
 
 
@@ -79,10 +80,10 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
 
         StreamReader reader = Utils.StreamReaderFromString(input);
         KxxParser parser = _parserService.CreateParser(reader);
-        Document[] res = parser.Parse();
+        KxxDocument[] res = parser.Parse();
 
-        Document expected = new Document(
-            SectionType: SectionType.ApprovedBudget,
+        KxxDocument expected = new KxxDocument(
+            DocumentType: DocumentType.ApprovedBudget,
             InputIdentifier: InputIdentifier.RewriteWithSameLicence,
             Ico: "4499278516",
             AccountingYear: 2023,
@@ -144,7 +145,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
                 }
             );
 
-        res.Should().BeEquivalentTo(new Document[] { expected, expected });
+        res.Should().BeEquivalentTo(new KxxDocument[] { expected, expected });
     }
 
     [Fact]
@@ -205,7 +206,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
         KxxSectionHeader expected = new KxxSectionHeader(
             Ico: "44992785",
             AccountingMonth: 1,
-            SectionType: SectionType.ApprovedBudget,
+            DocumentType: DocumentType.ApprovedBudget,
             InputIndetifier: InputIdentifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
@@ -234,7 +235,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
         KxxSectionHeader expected = new KxxSectionHeader(
             Ico: "4499278516",
             AccountingMonth: 1,
-            SectionType: SectionType.ApprovedBudget,
+            DocumentType: DocumentType.ApprovedBudget,
             InputIndetifier: InputIdentifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 

@@ -1,5 +1,6 @@
 ﻿using Cityvizor.Importer.BackgroungServices;
 using Cityvizor.Importer.Converter.Kxx;
+using Cityvizor.Importer.Converter.Kxx.Abstractions;
 using Cityvizor.Importer.Options;
 using Cityvizor.Importer.Services;
 using Cityvizor.Importer.Validators;
@@ -19,9 +20,11 @@ public static class ServiceCollectionExtensions
         return services.AddHostedService<ImporterBackgroundService>();
     }
 
-    public static IServiceCollection RegisterKxxParser(this IServiceCollection services)
+    public static IServiceCollection RegisterKxxConverter(this IServiceCollection services)
     {
-        services.AddSingleton<KxxParserService>();
+        services.AddSingleton<IKxxParserFactoryService, KxxParserFactoryService>();
+        services.AddTransient<KxxRecordBuilder>();
+        services.AddTransient<KxxConverter>();
         return services;
     }
 }

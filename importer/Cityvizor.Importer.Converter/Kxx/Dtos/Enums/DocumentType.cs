@@ -1,6 +1,6 @@
 ﻿namespace Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
 
-public enum SectionType
+public enum DocumentType
 {
     /// <summary>
     /// 00 = běžný měsíc 
@@ -17,7 +17,7 @@ public enum SectionType
     /// <summary>
     /// 03 = rozpočet upravený (interní)
     /// </summary>
-    InternalBudget = 3,
+    EditedBudget = 3,
     /// <summary>
     /// 04 = závěrečné zápisy 
     /// </summary>
