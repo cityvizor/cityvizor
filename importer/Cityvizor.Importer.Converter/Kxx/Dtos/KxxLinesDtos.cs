@@ -11,7 +11,7 @@ namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 /// <param name="ProgramLicence">cislo licence zpracovatelskeho programu</param>
 internal record struct KxxFileHeader(
     string Ico,
-    byte AccountingMonth, // we don't use it for anything rn
+    ushort AccountingMonth, // we don't use it for anything rn
     string ProgramLicence);
 
 /// <summary>
@@ -25,7 +25,7 @@ internal record struct KxxFileHeader(
 /// <param name="AccountingYear"> účetní rok</param>
 internal record struct KxxSectionHeader(
     string Ico,
-    byte AccountingMonth,
+    ushort AccountingMonth,
     DocumentType SectionType,
     InputIdentifier InputIndetifier,
     ushort AccountingYear 
@@ -49,7 +49,7 @@ internal record struct KxxSectionHeader(
 /// <param name="ShouldGive">má dáti </param>
 /// <param name="Gave">dal</param>
 internal record struct KxxDocumentBalance(
-    byte AccountedDay,
+    ushort AccountedDay,
     uint DocumentId,
     uint SyntheticAccount,
     uint AnalyticAccount,

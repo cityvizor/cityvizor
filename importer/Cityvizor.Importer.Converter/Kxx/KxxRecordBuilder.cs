@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace Cityvizor.Importer.Converter.Kxx;
-internal class KxxRecordBuilder
+public class KxxRecordBuilder
 {
     // some balances get filtered out based on Item number
     private const int _balanceItemFilterLowerBound = 1000; 
@@ -55,7 +55,7 @@ internal class KxxRecordBuilder
                 continue;
             }
 
-            if (IsPaymentDocument(document, out PaymentRecordType? paymentRecordType, out string? recordId)) // payments
+            if (IsPaymentDocument(document, out PaymentRecordType? paymentRecordType, out string? recordId)) // payment records
             {
                 if(!TryGetDocumentPaymentData(document, paymentRecordType.Value, recordId, out DocumentPaymentData? paymentData)) // parse common document data only once for all document balances
                 {
@@ -66,7 +66,7 @@ internal class KxxRecordBuilder
                     FilterRelevantBalances(document.Balances)
                     .Select(balance => BuildPaymentRecord(paymentData.Value, balance)));
             }
-            else // accounting record
+            else // accounting records
             {
                 foreach(DocumentBalance relevantBalance in FilterRelevantBalances(document.Balances)) 
                 {

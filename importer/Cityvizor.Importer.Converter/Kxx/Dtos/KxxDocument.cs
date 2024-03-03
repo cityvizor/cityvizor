@@ -20,8 +20,8 @@ public record KxxDocument(
     InputIdentifier InputIdentifier,
 
     string Ico,
-    ushort AccountingYear,
-    byte AccountingMonth,
+    uint AccountingYear,
+    uint AccountingMonth,
     uint DocumentId,
 
     Dictionary<string, string> Descriptions,
@@ -78,7 +78,7 @@ public record DocumentBalance(
     List<string> Descriptions
 )
 {
-    internal DocumentBalance(KxxDocumentBalance balanceLine, ushort year, byte month) : this(
+    internal DocumentBalance(KxxDocumentBalance balanceLine, ushort year, ushort month) : this(
         AccountedDate: new DateOnly(year, month, balanceLine.AccountedDay), // compose balance date from day on the balance line and year and month in balance header
         DocumentId: balanceLine.DocumentId,
         SyntheticAccount: balanceLine.SyntheticAccount,

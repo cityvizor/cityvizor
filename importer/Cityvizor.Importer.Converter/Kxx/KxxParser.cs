@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
 namespace Cityvizor.Importer.Converter.Kxx;
-public class KxxParser //TODO: make internal
+public class KxxParser
 {
     private const int _headerLineMinimalLength = 20;
     private const int _documentBlockHeaderMinimalLength = 22;
@@ -236,7 +236,7 @@ public class KxxParser //TODO: make internal
         }
         string ico = match.Groups[1].Value;
 
-        if (!byte.TryParse(match.Groups[3].Value, out byte month))
+        if (!ushort.TryParse(match.Groups[3].Value, out ushort month))
         {
             ThrowParserException($" invalid format of 5/@ line. Failed to parse month {match.Groups[3].Value}");
         }
@@ -274,7 +274,7 @@ public class KxxParser //TODO: make internal
         }
 
         string ico = match.Groups[1].Value;
-        if (!byte.TryParse(match.Groups[2].Value, out byte month))
+        if (!ushort.TryParse(match.Groups[2].Value, out ushort month))
         {
             ThrowParserException($"invalid format of 6/@ line. Failed to parse month {match.Groups[2].Value}");
         }
@@ -326,7 +326,7 @@ public class KxxParser //TODO: make internal
         {
             ThrowParserException($"invalid format of G/@ line. Found: {input}. Expected format: G/@ddccccccccc000sssaaaakkoooooollllzzzuuuuuuuuujjjjjjjjjjgggggggggggggmmmmmmmmmmmmmmmmmm_dddddddddddddddddd_");
         }
-        if (!byte.TryParse(match.Groups[1].Value, out byte accountedDay))
+        if (!ushort.TryParse(match.Groups[1].Value, out ushort accountedDay))
         {
             ThrowParserException($"invalid format of G/@ line. Failed to parse accounted day {match.Groups[1].Value}");
         }

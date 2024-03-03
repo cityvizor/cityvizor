@@ -6,6 +6,7 @@ using Cityvizor.Importer.Converter.Kxx.Enums;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Cityvizor.Importer.Services;
 using System.IO;
+using Cityvizor.Importer.Converter.Kxx.Abstractions;
 
 namespace Cityvizor.Importer.UnitTests;
 
@@ -13,10 +14,10 @@ public class KxxParserTests : WebTestBase
 {
     public KxxParserTests(WebApplicationFactory<Program> factory): base(factory)
     {
-        _parserService = GetRequiredService<KxxParserService>();
+        _parserService = GetRequiredService<IKxxConverterService>();
     }
 
-    private readonly KxxParserService _parserService;
+    private readonly IKxxConverterService _parserService;
 
     [Fact]
     public void TestParsingUcto()
