@@ -137,7 +137,8 @@ public class KxxRecordBuilder
     private bool TryGetDocumentPaymentData(KxxDocument document, PaymentRecordType paymentRecordType, string recordId, [NotNullWhen(true)] out DocumentPaymentData? paymentData)
     {
         bool success = true;
-        if(!document.Descriptions.TryGetValue(_ic, out string? counterpartyId))
+        paymentData = null;
+        if (!document.Descriptions.TryGetValue(_ic, out string? counterpartyId))
         {
             success = false;
             LogDocumentError(document, $"is missing description with key {_ic}: counterpartyId");
@@ -158,7 +159,6 @@ public class KxxRecordBuilder
             paymentData = new DocumentPaymentData(
                 PaymentRecordType: paymentRecordType, RecordId: recordId, CounterpartyId: counterpartyId!, CounterpartyName: counterpartyName!, Descriptions: description);
         }
-        paymentData = null;
         return success;
     }
 
