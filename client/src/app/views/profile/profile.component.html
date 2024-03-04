@@ -13,8 +13,9 @@
         </a>
       </li>
       <li *ngIf="(profile | async)?.hasPayments">
-        <a routerLink="faktury" routerLinkActive="active">Faktury</a></li>
-      <li>
+        <a routerLink="faktury" routerLinkActive="active">Faktury</a>
+      </li>
+      <li *ngIf="(profile | async)?.hasPayments">
         <a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
       </li>
       <li *ngIf="(profile | async)?.edesky">
@@ -44,6 +45,14 @@
       </li>
       <li *ngIf="(profile | async)?.hasPayments">
         <a routerLink="faktury" routerLinkActive="active"> Faktury </a>
+      </li>
+      <li *ngIf="(profile | async)?.hasPayments">
+        <a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
+      </li>
+      <li *ngIf="(profile | async)?.ico || (profile | async)?.databox">
+        <a routerLink="registr-smluv" routerLinkActive="active">
+          Registr smluv
+        </a>
       </li>
     </header-menu>
   </ng-template>
