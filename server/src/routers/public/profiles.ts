@@ -58,7 +58,13 @@ function createProfileIdsWithoutPaymentsQuery() {
     .whereNull("payments.profile_id");
 }
 
-async function setHasPaymentsFlag(profiles: ProfileRecord | ProfileRecord[]) {
+/** Determines if the input profiles have any associated Payments data and sets the result in the profile model as the hasPayments flag.
+ *
+ * The query that determines if profiles have payments is executed separately in order to keep the base Profile query more efficient.
+ * 
+ * @param profiles Profiles to be checked. The hasPayments is updated in place in the models.
+ */
+async function computeHasPaymentsFlag(profiles: ProfileRecord | ProfileRecord[]) {
   if (profiles instanceof Array) {
     // Query for multiple profiles
     const result = await createProfileIdsWithoutPaymentsQuery();
@@ -96,7 +102,7 @@ router.get("/", async (req, res) => {
   profileQuery.orderBy("profile.id");
 
   const profiles = await profileQuery;
-  await setHasPaymentsFlag(profiles);
+  await computeHasPaymentsFlag(profiles);
 
   res.json(profiles);
 });
@@ -122,7 +128,7 @@ router.get("/sections", async (req, res) => {
   profileQuery.orderBy("profile.id");
 
   const profiles = await profileQuery;
-  await setHasPaymentsFlag(profiles);
+  await computeHasPaymentsFlag(profiles);
 
   const sections = await sectionQuery;
 
@@ -178,7 +184,7 @@ router.get("/:id/children", async (req, res) => {
 
   profiles = profiles.concat(grandchildrenProfiles).sort((a, b) => a.id - b.id);
 
-  await setHasPaymentsFlag(profiles);
+  await computeHasPaymentsFlag(profiles);
 
   return res.json({ parent: parentProfile, children: profiles });
 });
@@ -211,7 +217,7 @@ router.get("/:profile", async (req, res) => {
     }
   }
 
-  await setHasPaymentsFlag(profile);
+  await computeHasPaymentsFlag(profile);
 
   return res.json(profile);
 });
