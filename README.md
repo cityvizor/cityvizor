@@ -15,4 +15,4 @@ Informace pro vývojáře jsou shnuty v [CONTRIBUTING.md](CONTRIBUTING.md) a v [
 ## Kontakt
 - **Diskuze zde na GitHub**: https://github.com/cityvizor/cityvizor/discussions
 - **Koordinátor projektu**: Pavla Kadlecová, Otevřená Města z.s. (cityvizor@otevrenamesta.cz)
-- **Tech leads**: [Marek Sebera](https://github.com/smarek), [Vojtěch Srdečný](https://github.com/srdecny)
+- **Tech leads**: [Ondřej Roztočil](mailto:ondrej.roztocil@otevrenamesta.cz), [Kateřina Průšová](https://github.com/prusovak2)
