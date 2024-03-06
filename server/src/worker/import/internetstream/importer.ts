@@ -7,10 +7,10 @@ import { promisify } from "util";
 import { PostprocessingTransformer } from "../postprocessing-transformer";
 import { DatabaseWriter } from "../db-writer";
 import { PaymentRecord, AccountingRecord } from "../../../schema";
-import logger from "../logger";
+import { importLogger } from "../import-logger";
 
 export async function importInternetStream(options: Import.Options) {
-  logger.log(`Starting import: ${JSON.stringify(options)}}`);
+  importLogger.log(`Starting import: ${JSON.stringify(options)}}`);
 
   await options
     .transaction("data.payments")

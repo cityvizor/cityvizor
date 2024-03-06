@@ -27,4 +27,6 @@ export interface Profile {
 
   avatarType: string;
   avatarUrl: string;
+
+  hasPayments: boolean | null;
 }

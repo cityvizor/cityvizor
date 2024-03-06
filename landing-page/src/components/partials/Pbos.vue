@@ -39,7 +39,7 @@
         :fields="fields"
         :filter-included-fields="filterOn"
         :filter="filter"
-        responsive="sm"
+        responsive="md"
       >
         <template #cell(name)="data">
           <a
@@ -49,6 +49,12 @@
             >{{ data.value }}</a
           >
           <a v-else :href="`/${data.item.url}`">{{ data.value }}</a>
+          <span
+            v-if="data.item.hasPayments === true"
+            class="ml-2 badge badge-pill badge-success"
+          >
+            Zveřejňuje faktury
+          </span>
         </template>
       </b-table>
       <div></div>
@@ -114,8 +120,10 @@ export default {
         categoryId: pbo.pboCategoryId ?? "unclassified",
         parentName: pbo.parentName,
         parentId: pbo.parent,
+        hasPayments: pbo.hasPayments,
       };
     });
+
     this.categories = [
       { text: "Všechny kategorie", value: allCategoriesOption }, // Add default option
       ...new Map( // Create set of categories

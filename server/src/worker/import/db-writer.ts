@@ -1,8 +1,8 @@
 import { db } from "../../db";
 import { AccountingRecord, PaymentRecord, EventRecord } from "../../schema";
 import { Writable } from "stream";
-import logger from "./logger";
 import { Import } from "./import";
+import { importLogger } from "./import-logger";
 
 export class DatabaseWriter extends Writable {
   accountingCount = 0;
@@ -57,7 +57,7 @@ export class DatabaseWriter extends Writable {
     ].forEach(([count, name]) => {
       const countNum = Number(count);
       if (countNum > 0) {
-        logger.log(`Written ${countNum} ${name} records to the DB.`);
+        importLogger.log(`Written ${countNum} ${name} records to the DB.`);
       }
     });
     callback();

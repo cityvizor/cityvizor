@@ -1,10 +1,8 @@
-import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
-import { Router, ActivatedRoute, Params } from "@angular/router";
-import { Title } from "@angular/platform-browser";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription, Observable } from "rxjs";
 
 import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
 
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema/profile";

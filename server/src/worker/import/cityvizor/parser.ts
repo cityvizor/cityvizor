@@ -1,10 +1,10 @@
 import csvparse from "csv-parse";
 import { Transform } from "stream";
 import { Import } from "../import";
-import logger from "../logger";
 import { AccountingRecord, PaymentRecord, EventRecord } from "../../../schema";
 import { ProfileType } from "../../../schema/profile-type";
 import { CityvizorFileType } from "./cityvizor-file-type";
+import { importLogger } from "../import-logger";
 
 type Row = Record<string, string | number>;
 
@@ -94,14 +94,14 @@ export function createCityvizorParser(
   ): string[] => {
     // remove possible BOM at the beginning of file, also removes extra whitespaces
     header = header.map(item => item.trim());
-    logger.log(`The header array being searched for column names: [${header}]`);
+    importLogger.log(`The header array being searched for column names: [${header}]`);
     const foundColumns: string[] = header.map(originalField => {
       // browse through all the target fields if originalField is someones alias
       return Object.keys(columnAliases).find(
         key => columnAliases[key].indexOf(originalField) !== -1
       );
     }) as string[];
-    logger.log(`Found columns: [${foundColumns}]`);
+    importLogger.log(`Found columns: [${foundColumns}]`);
 
     // Check if each group of mandatory columns has at least one member present in found column names
     mandatoryColumns.forEach(mandatoryColumnGroup => {

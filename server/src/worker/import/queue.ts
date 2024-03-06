@@ -5,10 +5,10 @@ import { ImportRecord } from "../../schema/database/import";
 import { db } from "../../db";
 import { Import } from "./import";
 import { ProfileRecord, YearRecord } from "../../schema";
-import logger from "./logger";
 import { importCityvizor } from "./cityvizor/importer";
 import { importInternetStream } from "./internetstream/importer";
 import { importPbo } from "./pbo/importer";
+import { importLogger } from "./import-logger";
 
 export async function checkImportQueue() {
   const runningJob = await db<ImportRecord>("app.imports")
@@ -67,7 +67,7 @@ export async function checkImportQueue() {
     .where({ id: currentJob.id })
     .update({ status: "processing", started: DateTime.local().toJSDate() });
 
-  logger.log("Starting the DB transaction.");
+  importLogger.log("Starting the DB transaction.");
 
   const trx = await db.transaction();
   const options: Import.Options = {
@@ -102,36 +102,36 @@ export async function checkImportQueue() {
   } catch (err) {
     console.error(`[WORKER] ${DateTime.local().toJSDate()} Import error`, err);
     if (err instanceof Error) {
-      logger.log(`Import failed: ${err.message}`);
-      logger.log(`Additonal information: ${err["detail"]}`);
+      importLogger.log(`Import failed: ${err.message}`);
+      importLogger.log(`Additonal information: ${err["detail"]}`);
       error = err;
     } else {
-      logger.log(`Import failed: ${err}`);
+      importLogger.log(`Import failed: ${err}`);
     }
   } finally {
     // remove used import data
     if (error) {
-      logger.log("Aborting the DB transaction, no changes made to the DB.");
+      importLogger.log("Aborting the DB transaction, no changes made to the DB.");
       await trx.rollback();
     } else {
-      logger.log("Import successful, committing the DB transaction.");
+      importLogger.log("Import successful, committing the DB transaction.");
       await trx.commit();
     }
     await remove(currentJob.importDir);
   }
 
   console.log("___LOGS____");
-  console.log(logger.getLogs());
+  console.log(importLogger.getLogs());
   console.log("_____________");
 
   const updateData: Partial<ImportRecord> = {
     status: error ? "error" : "success",
     error: error ? error.message : null,
     finished: DateTime.local().toJSDate(),
-    logs: logger.getLogs(),
+    logs: importLogger.getLogs(),
   } as Partial<ImportRecord>;
 
-  logger.clear();
+  importLogger.clear();
   await db<ImportRecord>("app.imports")
     .where({ id: currentJob.id })
     .update(updateData);
