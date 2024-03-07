@@ -8,7 +8,7 @@
         <p>{{ event.description }}</p>
       </ng-container>
 
-      <h3>{{ "profile.municipality.expenditures" | translate }}</h3>
+      <h3>{{ "profile." + profile.type + ".expenditures" | translate }}</h3>
 
       <div class="overview">
         <ng-container
@@ -19,11 +19,11 @@
         >
           <table class="amounts">
             <tr>
-              <th>{{ "profile.budget" | translate }}:</th>
+              <th>{{ "profile." + profile.type + ".budget" | translate }}:</th>
               <td>{{ event.budgetExpenditureAmount | money: 0 : false }} Kč</td>
             </tr>
             <tr>
-              <th>{{ "profile.utilization" | translate }}:</th>
+              <th>{{ "profile." + profile.type + ".utilization" | translate }}:</th>
               <td>{{ event.expenditureAmount | money: 0 : false }} Kč</td>
             </tr>
           </table>
@@ -43,18 +43,18 @@
         </ng-template>
       </div>
 
-      <h3>{{ "profile.municipality.incomes" | translate }}</h3>
+      <h3>{{ "profile." + profile.type + ".incomes" | translate }}</h3>
       <div class="overview">
         <ng-container
           *ngIf="event.incomeAmount || event.budgetIncomeAmount; else noIncome"
         >
           <table class="amounts">
             <tr>
-              <th>{{ "profile.budget" | translate }}:</th>
+              <th>{{ "profile." + profile.type + ".budget" | translate }}:</th>
               <td>{{ event.budgetIncomeAmount | money: 0 : false }} Kč</td>
             </tr>
             <tr>
-              <th>{{ "profile.utilization" | translate }}:</th>
+              <th>{{ "profile." + profile.type + ".utilization" | translate }}:</th>
               <td>{{ event.incomeAmount | money: 0 : false }} Kč</td>
             </tr>
           </table>
@@ -73,7 +73,7 @@
       </div>
     </tab>
 
-    <tab heading="Roční srovnání">
+    <tab heading="Roční srovnání" *ngIf="isMunicipality">
       <div class="container-fluid">
         <div class="historychart row">
           <div class="col-xs-2 header">
@@ -227,7 +227,7 @@
                 <a
                   *ngIf="counterparty.id"
                   [href]="
-                    'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
+                    'http://www.info.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
                     counterparty.id! +
                     '&cestina=cestina&xml=1'
                   "
