@@ -177,10 +177,7 @@
             </div>
           </div>
           <div class="row">
-            <div
-              class="showMore text-center"
-              *ngIf="event?.id != null && (showDetail | async)"
-            >
+            <div class="showMore text-center" *ngIf="event?.id != null">
               <button class="btn btn-primary" (click)="selectEvent(event.id)">
                 Otevřít detail akce
               </button>

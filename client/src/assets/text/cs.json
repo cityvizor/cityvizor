@@ -27,6 +27,7 @@
     "pbo": {
       "budget": "Plán",
       "actual": "Skutečnost",
+      "utilization": "Plnění",
       "plan": "Plán",
       "expenditure": "Náklad",
       "expenditures": "Náklady",
