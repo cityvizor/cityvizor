@@ -9,7 +9,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cityvizor.Importer.Domain\Cityvizor.Importer.Domain.csproj" />
-    <ProjectReference Include="..\Cityvizor.Importer.Infrastructure\Cityvizor.Importer.Infrastructure.csproj" />
+    <PackageReference Include="CsvHelper" Version="31.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cityvizor.Importer.Converter\Cityvizor.Importer.Converter.csproj" />
+    <ProjectReference Include="..\Cityvizor.Importer.Core\Cityvizor.Importer.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
+using Cityvizor.Importer.Domain.Entities;
 using Cityvizor.Importer.Infrastructure;
-using Cityvizor.Importer.Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cityvizor.Importer.Controllers;

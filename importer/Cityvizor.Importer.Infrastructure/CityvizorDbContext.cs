@@ -1,4 +1,4 @@
-﻿using Cityvizor.Importer.Infrastructure.Entities;
+﻿using Cityvizor.Importer.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -15,7 +15,7 @@ public class CityvizorDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         
-        Assembly assemblyWithConfigurations = GetType().Assembly; //get whatever assembly you want
+        Assembly assemblyWithConfigurations = GetType().Assembly;
         modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
 
         // modelBuilder.NamesToSnakeCase();

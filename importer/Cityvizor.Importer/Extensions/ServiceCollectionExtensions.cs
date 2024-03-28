@@ -1,8 +1,6 @@
 ﻿using Cityvizor.Importer.BackgroungServices;
 using Cityvizor.Importer.Converter.Kxx;
-using Cityvizor.Importer.Converter.Kxx.Abstractions;
 using Cityvizor.Importer.Options;
-using Cityvizor.Importer.Services;
 using Cityvizor.Importer.Validators;
 using Microsoft.Extensions.Options;
 
@@ -22,8 +20,6 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection RegisterKxxConverter(this IServiceCollection services)
     {
-        services.AddSingleton<IKxxParserFactoryService, KxxParserFactoryService>();
-        services.AddTransient<KxxRecordBuilder>();
         services.AddTransient<KxxConverter>();
         return services;
     }
