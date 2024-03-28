@@ -4,5 +4,5 @@ public enum ImportStatus
     Pending,
     Processing,
     Success,
-    Erros
+    Error
 }

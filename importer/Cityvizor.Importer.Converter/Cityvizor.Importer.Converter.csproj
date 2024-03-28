@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cityvizor.Importer.Core\Cityvizor.Importer.Domain.csproj" />
+    <ProjectReference Include="..\Cityvizor.Importer.Domain\Cityvizor.Importer.Domain.csproj" />
   </ItemGroup>
 
 </Project>

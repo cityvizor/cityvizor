@@ -31,7 +31,7 @@ public class Program
         builder.Services.AddDbContext<CityvizorDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("PosgreSql"))
             .UseSnakeCaseNamingConvention());
-        builder.Services.RegisterRepositoriesScoped();
+        builder.Services.RegisterRepositoriesTransient();
 
         builder.Services.RegisterImporterBackgroundService(builder.Configuration);
         builder.Services.RegisterImportServices();

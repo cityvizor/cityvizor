@@ -2,28 +2,29 @@
 using Cityvizor.Importer.Writer.Services;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
+using Serilog;
 
 namespace Cityvizor.Importer.BackgroungServices;
 
 public class ImporterBackgroundService : BackgroundService
 {
     private readonly BackgroundServicesOptions _options;
-    private readonly ILogger<ImporterBackgroundService> _logger;
-    private readonly JobManagerService _jobManagerService;
+    private readonly ILogger _logger;
+    private readonly IServiceScopeFactory _scopeFactory;
     private int _executionCount = 0; // TODO: delete
 
-    public ImporterBackgroundService(IOptions<BackgroundServicesOptions> options, ILogger<ImporterBackgroundService> logger, JobManagerService jobManagerService)
+    public ImporterBackgroundService(IOptions<BackgroundServicesOptions> options, ILogger logger, IServiceScopeFactory scopeFactory)
     {
         _options = options.Value;
         _logger = logger;
-        _jobManagerService = jobManagerService;
+        _scopeFactory = scopeFactory;
         _logger.LogInformation($"Starting ImporterBagroundService. Runs every {_options.ImporterServiceFrequency} milliseconds");
     }
 
     [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "We catch anything and alert instead of rethrowing")]
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // Awaiting Task.Yield() transitions to asyncronous operation immediatly.
+        // Awaiting Task.Yield() transitions to asynchronous operation immediately.
         // This allows startup to continue without waiting.
         // https://mjconrad.com/blog/dotnet6-managing-exceptions-in-backgroundservice-or-ihostedservice-workers
         await Task.Yield();
@@ -32,9 +33,13 @@ public class ImporterBackgroundService : BackgroundService
         {
             try
             {
-                _logger.LogInformation($"Background service run number {_executionCount}");
-                _executionCount++;
-                await _jobManagerService.RunJobsIfAny();
+                using (var scope = _scopeFactory.CreateScope())
+                {
+                    JobManagerService jobManagerService = scope.ServiceProvider.GetRequiredService<JobManagerService>();
+                    _logger.LogInformation($"Background service run number {_executionCount}");
+                    _executionCount++;
+                    await jobManagerService.RunJobsIfAny();
+                }
             }
             catch (Exception ex) 
             {

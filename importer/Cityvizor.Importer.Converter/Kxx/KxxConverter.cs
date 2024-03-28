@@ -1,24 +1,16 @@
-﻿using Cityvizor.Importer.Converter.Kxx.Abstractions;
-using Cityvizor.Importer.Converter.Kxx.Dtos;
+﻿using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Cityvizor.Importer.Domain.Dtos;
+using Serilog;
 
 namespace Cityvizor.Importer.Converter.Kxx;
 public class KxxConverter
 {
-    private readonly IKxxParserFactoryService _kxxConverterService;
-    private readonly KxxRecordBuilder _kxxRecordBuilder;
-
-    public KxxConverter(IKxxParserFactoryService kxxConverterService, KxxRecordBuilder kxxRecordBuilder)
+    public AccountingAndPayments ParseRecords(StreamReader inputStream, ILogger importScopedLogger)
     {
-        _kxxConverterService = kxxConverterService;
-        _kxxRecordBuilder = kxxRecordBuilder;
-    }
-
-    public AccountingAndPayments ParseRecords(StreamReader inputStream)
-    {
-        KxxParser kxxParser = _kxxConverterService.CreateParser(inputStream);
+        KxxParser kxxParser = new KxxParser(inputStream, importScopedLogger);
         KxxDocument[] documents = kxxParser.Parse();
-        AccountingAndPayments records = _kxxRecordBuilder.BuildRecordsFromDocuments(documents);
+        KxxRecordBuilder recordBuilder = new KxxRecordBuilder(importScopedLogger);
+        AccountingAndPayments records = recordBuilder.BuildRecordsFromDocuments(documents);
         return records;
     }
 }

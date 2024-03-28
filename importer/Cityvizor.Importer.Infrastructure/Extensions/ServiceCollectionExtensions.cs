@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Cityvizor.Importer.Infrastructure.Extensions;
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection RegisterRepositoriesScoped(this IServiceCollection services)
+    public static IServiceCollection RegisterRepositoriesTransient(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
+        services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
         return services;
     }
 }

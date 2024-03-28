@@ -1,22 +1,19 @@
-﻿using Cityvizor.Importer.Converter.Kxx.Abstractions;
-using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
+﻿using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
 using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Cityvizor.Importer.Converter.Kxx;
 using Cityvizor.Importer.Domain.Dtos;
-using Cityvizor.Importer.Domain;
+using Serilog.Core;
 
 namespace Cityvizor.Importer.UnitTests;
 public class KxxConverterTests : WebTestBase
 {
     public KxxConverterTests(WebApplicationFactory<Program> factory) : base(factory)
     {
-        _parserService = GetRequiredService<IKxxParserFactoryService>();
         _kxxRecordBuilder = GetRequiredService<KxxRecordBuilder>();
         _converter = GetRequiredService<KxxConverter>();
     }
 
-    private readonly IKxxParserFactoryService _parserService;
     private readonly KxxRecordBuilder _kxxRecordBuilder;
     private readonly KxxConverter _converter;
 
@@ -24,14 +21,14 @@ public class KxxConverterTests : WebTestBase
     public void TestParsingUcto()
     {
         StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("ucto_medl_hc.kxx");
-        AccountingAndPayments res = _converter.ParseRecords(reader);
+        AccountingAndPayments res = _converter.ParseRecords(reader, _logger) ;
     }
 
     [Fact]
     public void TestParsingRozp()
     {
         StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("rozp_medl_hc.kxx");
-        AccountingAndPayments res = _converter.ParseRecords(reader);
+        AccountingAndPayments res = _converter.ParseRecords(reader, _logger);
     }
 
     [Fact]

@@ -5,19 +5,19 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Cityvizor.Importer.Converter.Kxx.Enums;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
 namespace Cityvizor.Importer.Converter.Kxx;
-public class KxxParser
+internal class KxxParser
 {
     private const int _headerLineMinimalLength = 20;
     private const int _documentBlockHeaderMinimalLength = 22;
     private const int _documentNumberLen = 9;
 
     private readonly StreamReader _stream;
-    private readonly ILogger<KxxParser> _logger;
+    private readonly ILogger _logger;
 
     // parsing state
     private ulong _lineCounter = 1;
@@ -31,7 +31,7 @@ public class KxxParser
     
     private List<KxxDocument> _finishedDocuments = new List<KxxDocument>();
     
-    public KxxParser(StreamReader stream, ILogger<KxxParser> logger)
+    public KxxParser(StreamReader stream, ILogger logger)
     {
         this._stream = stream;
         this._logger = logger;
@@ -523,11 +523,11 @@ public class KxxParser
 
     private void LogError(string message)
     {
-        _logger.LogError($"Line: {_lineCounter}: {message}");
+        _logger.Error($"Line: {_lineCounter}: {message}");
     }
 
     private void LogWarning(string message)
     {
-        _logger.LogWarning($"Line: {_lineCounter}: {message}");
+        _logger.Warning($"Line: {_lineCounter}: {message}");
     }
 }
