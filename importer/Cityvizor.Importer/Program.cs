@@ -1,10 +1,12 @@
-using Cityvizor.Importer.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Cityvizor.Importer.Extensions;
 using System.Runtime.CompilerServices;
 using Serilog;
 using Serilog.Templates;
 using Cityvizor.Importer.Domain.Extensions;
+using Cityvizor.Importer.Infrastructure;
+using Cityvizor.Importer.Infrastructure.Extensions;
+using Cityvizor.Importer.Writer.Extensions;
 
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
@@ -29,8 +31,10 @@ public class Program
         builder.Services.AddDbContext<CityvizorDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("PosgreSql"))
             .UseSnakeCaseNamingConvention());
+        builder.Services.RegisterRepositoriesScoped();
 
         builder.Services.RegisterImporterBackgroundService(builder.Configuration);
+        builder.Services.RegisterImportServices();
         builder.Services.RegisterKxxConverter();
         builder.Services.AddLogging();
 

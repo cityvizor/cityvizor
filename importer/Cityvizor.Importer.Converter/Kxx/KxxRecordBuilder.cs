@@ -1,12 +1,12 @@
 ﻿using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
 using Cityvizor.Importer.Domain.Dtos;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace Cityvizor.Importer.Converter.Kxx;
-public class KxxRecordBuilder
+internal class KxxRecordBuilder
 {
     // some balances get filtered out based on Item number
     private const int _balanceItemFilterLowerBound = 1000; 
@@ -22,7 +22,7 @@ public class KxxRecordBuilder
     private const string _dict = "DICT";
     private const string _evkt = "EVKT";
 
-    private readonly ILogger<KxxRecordBuilder> _logger;
+    private readonly ILogger _logger;
     
     /// <summary>
     /// This set of fields of Balance determines the record to which the balance belongs
@@ -37,7 +37,7 @@ public class KxxRecordBuilder
         string Descriptions
     );
 
-    public KxxRecordBuilder(ILogger<KxxRecordBuilder> logger)
+    public KxxRecordBuilder(ILogger logger)
     {
         this._logger = logger;
     }
@@ -159,7 +159,8 @@ public class KxxRecordBuilder
 
     private void LogDocumentError(KxxDocument document, string message) 
     {
-        _logger.LogError($"Invalid kxx document: Kxx document with id {document.DocumentId}, ICO: {document.Ico}, for period: {document.AccountingMonth} {document.AccountingYear}: {message} Document will be ignored.");
+        _logger.Error("Invalid kxx document: Kxx document with id {DocumentId}, ICO: {Ico}, for period: {AccountingMonth} {AccountingYear}: {Message} Document will be ignored.", 
+            document.DocumentId, document.Ico, document.AccountingMonth, document.AccountingYear, message);
     }
 
     /// <summary>
@@ -226,7 +227,8 @@ public class KxxRecordBuilder
         {
             if (!IsRelevantBalance(balance))
             {
-                _logger.LogWarning($"Balance with documentId {balance.DocumentId} and accountedDate {balance.AccountedDate} will be ignored because it has unsupported item number {balance.Item}.");
+                _logger.Warning("Balance with documentId {DocumentId} and accountedDate {AccountedDate} will be ignored because it has unsupported item number {ItemNumber}.",
+                    balance.DocumentId, balance.AccountedDate, balance.Item);
             }
             else
             {

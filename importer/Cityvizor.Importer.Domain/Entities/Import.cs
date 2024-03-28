@@ -1,6 +1,6 @@
-﻿using Cityvizor.Importer.Infrastructure.Enums;
+﻿using Cityvizor.Importer.Domain.Enums;
 
-namespace Cityvizor.Importer.Infrastructure.Entities;
+namespace Cityvizor.Importer.Domain.Entities;
 public class Import
 {
     public int Id { get; set; }
@@ -15,4 +15,6 @@ public class Import
     public DateTime? Validity { get; set; }
     public bool Append {  get; set; }
     public string? Logs { get; set; }
+    public ImportFormat Format { get; set; }
+    public string? ImportDir { get; set; }
 }
