@@ -1,5 +1,5 @@
-﻿using Cityvizor.Importer.Infrastructure.Entities;
-using Cityvizor.Importer.Infrastructure.Enums;
+﻿using Cityvizor.Importer.Domain.Entities;
+using Cityvizor.Importer.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,5 +16,13 @@ internal class ImportEntityConfiguration : IEntityTypeConfiguration<Import>
             .HasConversion(
                 v => v.ToString(),
                 v =>Enum.Parse<ImportStatus>(v, true));
+
+        builder.Property(i => i.Format)
+            .HasConversion(
+                v => v.ToString(),
+                v => Enum.Parse<ImportFormat>(v, true));
+
+        builder.Property(i => i.ImportDir)
+            .HasMaxLength(255);
     }
 }

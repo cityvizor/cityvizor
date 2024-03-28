@@ -1,4 +1,4 @@
-﻿namespace Cityvizor.Importer.Infrastructure.Enums;
+﻿namespace Cityvizor.Importer.Domain.Enums;
 public enum ImportStatus
 {
     Pending,

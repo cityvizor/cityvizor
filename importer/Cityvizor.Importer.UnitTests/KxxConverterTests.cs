@@ -4,6 +4,7 @@ using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Cityvizor.Importer.Converter.Kxx;
 using Cityvizor.Importer.Domain.Dtos;
+using Cityvizor.Importer.Domain;
 
 namespace Cityvizor.Importer.UnitTests;
 public class KxxConverterTests : WebTestBase
