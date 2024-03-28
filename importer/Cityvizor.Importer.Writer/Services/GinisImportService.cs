@@ -1,5 +1,6 @@
 ﻿using Cityvizor.Importer.Converter.Kxx;
 using Cityvizor.Importer.Domain.Abstractions.Repositories;
+using Cityvizor.Importer.Domain.Dtos;
 using Cityvizor.Importer.Domain.Entities;
 using Cityvizor.Importer.Domain.Enums;
 using Cityvizor.Importer.Domain.Exceptions;
@@ -24,20 +25,42 @@ public class GinisConversionService
     {
         if(import.ImportDir is null) 
         {
-            throw new CityvizorImporterException($"Import with if id {import.Id} has null {nameof(import.ImportDir)} field.");
+            throw new CityvizorImporterException($"Ginis import has null {nameof(import.ImportDir)} field.");
+        }
+        if(Path.GetFileName(import.ImportDir) != Constants.ImportMetadataFileName)
+        {
+            throw new CityvizorImporterException($"Ginis import does have valid {Constants.ImportMetadataFileName} file.");
         }
 
         GinisImportMetadataDto importMetadata = _fileSystemService.ReadMetadateJsonFile<GinisImportMetadataDto>(import.ImportDir);
 
+        if(importMetadata.AccoutingFileName is null && importMetadata.BudgetFileName is null)
+        {
+            throw new CityvizorImporterException("Ginis import missing both accounting and budget files");
+        }
+
+        // parse .kxx
+        List<AccountingRecord> accountingRecords = new();
+        List<PaymentRecord> paymentRecords = new();
         if(importMetadata.AccoutingFileName is not null)
         {
-            Domain.Dtos.AccountingAndPayments accountingData = _kxxConverter.ParseRecords(new StreamReader(importMetadata.AccoutingFileName), importScopedLogger);
+            AccountingAndPayments accountingData = _kxxConverter.ParseRecords(new StreamReader(importMetadata.AccoutingFileName), importScopedLogger);
+            accountingRecords.AddRange(accountingData.AccountingRecords);
+            paymentRecords.AddRange(accountingData.PaymentRecords);
         }
         if (importMetadata.BudgetFileName is not null)
         {
-            Domain.Dtos.AccountingAndPayments budgetData = _kxxConverter.ParseRecords(new StreamReader(importMetadata.BudgetFileName), importScopedLogger);
+            AccountingAndPayments budgetData = _kxxConverter.ParseRecords(new StreamReader(importMetadata.BudgetFileName), importScopedLogger);
+            accountingRecords.AddRange(budgetData.AccountingRecords);
+            paymentRecords.AddRange(budgetData.PaymentRecords);
         }
 
+        // write data to .csv on server
+        string importDirectory = Path.GetDirectoryName(import.ImportDir) ?? throw new CityvizorImporterException($"Ginis import with invalid {nameof(import.ImportDir)} field: {import.ImportDir}");
+        await _fileSystemService.WriteToCsvAsync(accountingRecords, $"{importDirectory}{Constants.AccountingFileName}");
+        await _fileSystemService.WriteToCsvAsync(paymentRecords, $"{importDirectory}{Constants.PaymentsFileName}");
+
+        // update import record in db
         import.Format = ImportFormat.Cityvizor; // data was parsed to cityvizor format
         await _importRepository.SaveChangesAsync();
     }

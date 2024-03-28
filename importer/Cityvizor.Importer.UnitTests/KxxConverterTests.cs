@@ -10,7 +10,7 @@ public class KxxConverterTests : WebTestBase
 {
     public KxxConverterTests(WebApplicationFactory<Program> factory) : base(factory)
     {
-        _kxxRecordBuilder = GetRequiredService<KxxRecordBuilder>();
+        _kxxRecordBuilder = new(_logger);
         _converter = GetRequiredService<KxxConverter>();
     }
 
