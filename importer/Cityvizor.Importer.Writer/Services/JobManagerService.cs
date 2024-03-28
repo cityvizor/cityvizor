@@ -7,8 +7,6 @@ using Cityvizor.Importer.Domain.Queries;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-// TODO: replace Microsoft.Extension.Logging by Serilog
-
 namespace Cityvizor.Importer.Writer.Services;
 public class JobManagerService
 {

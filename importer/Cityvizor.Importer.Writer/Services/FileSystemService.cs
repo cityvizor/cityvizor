@@ -23,5 +23,4 @@ public class FileSystemService
             await csvWriter.WriteRecordsAsync(dtos);
         }
     }
-
 }

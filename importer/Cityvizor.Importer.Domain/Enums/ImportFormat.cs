@@ -3,5 +3,8 @@ public enum ImportFormat
 {
     Cityvizor,
     InternetStream,
-    Ginis
+    Ginis,
+    PboExpectedPlan,
+    PboRealPlan,
+    PboAaNames
 }
