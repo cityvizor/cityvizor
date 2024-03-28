@@ -1,7 +1,6 @@
 ﻿using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
-using Cityvizor.Importer.Core;
-using Cityvizor.Importer.Core.Dtos;
+using Cityvizor.Importer.Domain.Dtos;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;

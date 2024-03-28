@@ -1,4 +1,4 @@
-﻿namespace Cityvizor.Importer.Core;
+﻿namespace Cityvizor.Importer.Domain.Dtos;
 
 public record AccountingRecord(
     AccountingRecordType Type,

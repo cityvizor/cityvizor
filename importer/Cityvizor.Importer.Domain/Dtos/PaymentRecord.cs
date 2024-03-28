@@ -1,4 +1,4 @@
-﻿namespace Cityvizor.Importer.Core.Dtos;
+﻿namespace Cityvizor.Importer.Domain.Dtos;
 
 public record PaymentRecord(
     PaymentRecordType Type,

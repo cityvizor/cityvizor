@@ -4,8 +4,6 @@ using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Cityvizor.Importer.Converter.Kxx.Helpers;
 using Cityvizor.Importer.Converter.Kxx.Enums;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Cityvizor.Importer.Services;
-using System.IO;
 using Cityvizor.Importer.Converter.Kxx.Abstractions;
 
 namespace Cityvizor.Importer.UnitTests;

@@ -2,7 +2,6 @@
 using Cityvizor.Importer.Infrastructure.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace Cityvizor.Importer.Infrastructure.EntityConfigurations;
 internal class ImportEntityConfiguration : IEntityTypeConfiguration<Import>

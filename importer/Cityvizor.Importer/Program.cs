@@ -2,6 +2,9 @@ using Cityvizor.Importer.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Cityvizor.Importer.Extensions;
 using System.Runtime.CompilerServices;
+using Serilog;
+using Serilog.Templates;
+using Cityvizor.Importer.Domain.Extensions;
 
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
@@ -10,6 +13,12 @@ public class Program
     static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Host.UseSerilog((ctx, lc) => lc
+            .WriteTo.Console(new ExpressionTemplate(
+                $"[{{@t:HH:mm:ss}} {{@l:u3}}] {{#if {LoggingExtensions.ImportId} is not null}} (Import {{{LoggingExtensions.ImportId}}}){{#end}} {{@m}}\n"))
+            .WriteTo.Map(LoggingExtensions.ImportLogFile, (path, wt) => wt.File(path), sinkMapCountLimit: 20)
+        );
 
         // Add services to the container.
 
