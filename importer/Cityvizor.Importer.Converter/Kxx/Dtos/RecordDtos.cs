@@ -1,4 +1,4 @@
-﻿using Cityvizor.Importer.Core;
+﻿using Cityvizor.Importer.Domain.Dtos;
 
 namespace Cityvizor.Importer.Converter.Kxx.Dtos;
 

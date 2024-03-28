@@ -2,9 +2,8 @@
 using Cityvizor.Importer.Converter.Kxx.Dtos.Enums;
 using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Cityvizor.Importer.Core.Dtos;
 using Cityvizor.Importer.Converter.Kxx;
-using Cityvizor.Importer.Core;
+using Cityvizor.Importer.Domain.Dtos;
 
 namespace Cityvizor.Importer.UnitTests;
 public class KxxConverterTests : WebTestBase

@@ -11,7 +11,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Cityvizor.Importer/Cityvizor.Importer.csproj", "Cityvizor.Importer/"]
 COPY ["Cityvizor.Importer.Convertor/Cityvizor.Importer.Convertor.csproj", "Cityvizor.Importer.Convertor/"]
-COPY ["Cityvizor.Importer.Core/Cityvizor.Importer.Core.csproj", "Cityvizor.Importer.Core/"]
+COPY ["Cityvizor.Importer.Domain/Cityvizor.Importer.Domain.csproj", "Cityvizor.Importer.Domain/"]
 COPY ["Cityvizor.Importer.Writer/Cityvizor.Importer.Writer.csproj", "Cityvizor.Importer.Writer/"]
 COPY ["Cityvizor.Importer.Infrastructure/Cityvizor.Importer.Infrastructure.csproj", "Cityvizor.Importer.Infrastructure/"]
 RUN dotnet restore "./Cityvizor.Importer/./Cityvizor.Importer.csproj"

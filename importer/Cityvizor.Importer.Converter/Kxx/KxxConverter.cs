@@ -1,6 +1,6 @@
 ﻿using Cityvizor.Importer.Converter.Kxx.Abstractions;
 using Cityvizor.Importer.Converter.Kxx.Dtos;
-using Cityvizor.Importer.Core.Dtos;
+using Cityvizor.Importer.Domain.Dtos;
 
 namespace Cityvizor.Importer.Converter.Kxx;
 public class KxxConverter
