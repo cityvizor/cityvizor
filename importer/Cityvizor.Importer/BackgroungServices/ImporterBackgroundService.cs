@@ -11,7 +11,6 @@ public class ImporterBackgroundService : BackgroundService
     private readonly BackgroundServicesOptions _options;
     private readonly Serilog.ILogger _logger;
     private readonly IServiceScopeFactory _scopeFactory;
-    private int _executionCount = 0; // TODO: delete
 
     public ImporterBackgroundService(IOptions<BackgroundServicesOptions> options, Serilog.ILogger logger, IServiceScopeFactory scopeFactory)
     {
@@ -36,8 +35,6 @@ public class ImporterBackgroundService : BackgroundService
                 using (var scope = _scopeFactory.CreateScope())
                 {
                     JobManagerService jobManagerService = scope.ServiceProvider.GetRequiredService<JobManagerService>();
-                    _logger.Information($"Background service run number {_executionCount}");
-                    _executionCount++;
                     await jobManagerService.RunJobsIfAny();
                 }
             }

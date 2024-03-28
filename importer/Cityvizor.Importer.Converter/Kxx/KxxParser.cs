@@ -523,11 +523,11 @@ internal class KxxParser
 
     private void LogError(string message)
     {
-        _logger.Error($"Line: {_lineCounter}: {message}");
+        _logger.Error("Line: {LineCounter}: {Message}", _lineCounter, message);
     }
 
     private void LogWarning(string message)
     {
-        _logger.Warning($"Line: {_lineCounter}: {message}");
+        _logger.Warning("Line: {LineCounter}: {Message}", _lineCounter, message);
     }
 }

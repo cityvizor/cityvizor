@@ -21,7 +21,7 @@ public class GinisConversionService
         _importRepository = importRepository;
     }
 
-    public async Task ConverGinisDataToCitivizorFormat(Import import, ILogger importScopedLogger)
+    public async Task ConvertGinisDataToCitivizorFormat(Import import, ILogger importScopedLogger)
     {
         if(import.ImportDir is null) 
         {
@@ -29,7 +29,7 @@ public class GinisConversionService
         }
         if(Path.GetFileName(import.ImportDir) != Constants.ImportMetadataFileName)
         {
-            throw new CityvizorImporterException($"Ginis import does have valid {Constants.ImportMetadataFileName} file.");
+            throw new CityvizorImporterException($"Ginis import does not have valid {Constants.ImportMetadataFileName} file.");
         }
 
         GinisImportMetadataDto importMetadata = _fileSystemService.ReadMetadateJsonFile<GinisImportMetadataDto>(import.ImportDir);
@@ -38,6 +38,8 @@ public class GinisConversionService
         {
             throw new CityvizorImporterException("Ginis import missing both accounting and budget files");
         }
+
+        string importDirectory = Path.GetDirectoryName(import.ImportDir) ?? throw new CityvizorImporterException($"Ginis import with invalid {nameof(import.ImportDir)} field: {import.ImportDir}");
 
         // parse .kxx
         List<AccountingRecord> accountingRecords = new();
@@ -55,10 +57,9 @@ public class GinisConversionService
             paymentRecords.AddRange(budgetData.PaymentRecords);
         }
 
-        // write data to .csv on server
-        string importDirectory = Path.GetDirectoryName(import.ImportDir) ?? throw new CityvizorImporterException($"Ginis import with invalid {nameof(import.ImportDir)} field: {import.ImportDir}");
-        await _fileSystemService.WriteToCsvAsync(accountingRecords, $"{importDirectory}{Constants.AccountingFileName}");
-        await _fileSystemService.WriteToCsvAsync(paymentRecords, $"{importDirectory}{Constants.PaymentsFileName}");
+        // write data to .csv on server        
+        await _fileSystemService.WriteToCsvAsync(accountingRecords, Path.Combine(importDirectory, Constants.AccountingFileName));
+        await _fileSystemService.WriteToCsvAsync(paymentRecords, Path.Combine(importDirectory, Constants.PaymentsFileName));
 
         // update import record in db
         import.Format = ImportFormat.Cityvizor; // data was parsed to cityvizor format

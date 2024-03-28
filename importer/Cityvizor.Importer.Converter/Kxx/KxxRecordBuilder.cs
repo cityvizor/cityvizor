@@ -159,7 +159,8 @@ internal class KxxRecordBuilder
 
     private void LogDocumentError(KxxDocument document, string message) 
     {
-        _logger.Error($"Invalid kxx document: Kxx document with id {document.DocumentId}, ICO: {document.Ico}, for period: {document.AccountingMonth} {document.AccountingYear}: {message} Document will be ignored.");
+        _logger.Error("Invalid kxx document: Kxx document with id {DocumentId}, ICO: {Ico}, for period: {AccountingMonth} {AccountingYear}: {Message} Document will be ignored.", 
+            document.DocumentId, document.Ico, document.AccountingMonth, document.AccountingYear, message);
     }
 
     /// <summary>
@@ -226,7 +227,8 @@ internal class KxxRecordBuilder
         {
             if (!IsRelevantBalance(balance))
             {
-                _logger.Warning($"Balance with documentId {balance.DocumentId} and accountedDate {balance.AccountedDate} will be ignored because it has unsupported item number {balance.Item}.");
+                _logger.Warning("Balance with documentId {DocumentId} and accountedDate {AccountedDate} will be ignored because it has unsupported item number {ItemNumber}.",
+                    balance.DocumentId, balance.AccountedDate, balance.Item);
             }
             else
             {

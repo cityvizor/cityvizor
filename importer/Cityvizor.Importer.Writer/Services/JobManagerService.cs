@@ -24,7 +24,7 @@ public class JobManagerService
 
         _supportedFormats = new()
         {
-            {ImportFormat.Ginis, _ginisConversionService.ConverGinisDataToCitivizorFormat }
+            {ImportFormat.Ginis, _ginisConversionService.ConvertGinisDataToCitivizorFormat }
         };
     }
 
@@ -35,19 +35,18 @@ public class JobManagerService
             .ByFormats(_supportedFormats.Keys)
             .ToListAsync();
 
-        List<Task> importTasks = new();
         foreach (Import import in requestedImports) 
         {
             if (import.ImportDir is null)
             {
-                throw new CityvizorImporterException($"Import with if id {import.Id} has null {nameof(import.ImportDir)} field.");
+                throw new CityvizorImporterException($"Import with id {import.Id} has null {nameof(import.ImportDir)} field.");
             }
 
             ILogger importScopedLogger = _logger.CreateImportLogger(import.Id, $"{import.ImportDir}{Constants.LogFileName}");
             try
             {
-                var importHanlder = _supportedFormats[import.Format];
-                importTasks.Add(importHanlder(import, importScopedLogger));
+                var importHandler = _supportedFormats[import.Format];
+                await importHandler(import, importScopedLogger);
             }
             catch (Exception ex) 
             {
@@ -57,6 +56,5 @@ public class JobManagerService
             }
         }
 
-        await Task.WhenAll(importTasks);
     }
 }
