@@ -31,13 +31,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        var dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("PosgreSql"));
-        dataSourceBuilder.MapEnum<ImportStatus>();
-        var dataSource = dataSourceBuilder.Build();
-        builder.Services.AddDbContext<CityvizorDbContext>(options =>
-            options.UseNpgsql(dataSource)
-            .UseSnakeCaseNamingConvention());
-
+        builder.Services.AddCityvizorDbContext(builder.Configuration);
         builder.Services.RegisterRepositoriesScoped();
 
         builder.Services.RegisterImporterBackgroundService(builder.Configuration);

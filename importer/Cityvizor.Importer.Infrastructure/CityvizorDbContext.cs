@@ -16,13 +16,11 @@ public class CityvizorDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
         Assembly assemblyWithConfigurations = GetType().Assembly;
         modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
 
         modelBuilder.HasPostgresEnum<ImportStatus>();
 
-        // modelBuilder.NamesToSnakeCase();
         //Configure default schema
         //modelBuilder.HasDefaultSchema("app");
     }
