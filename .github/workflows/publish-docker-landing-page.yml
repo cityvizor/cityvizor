@@ -13,14 +13,14 @@ on:
   release:
     types: [published, edited]
 jobs:
-  build-landing-page:
+  publish-landing-page:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Publish landing-page to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: cityvizor/landing-page
+          name: cityvizor/clanding-page
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: landing-page
