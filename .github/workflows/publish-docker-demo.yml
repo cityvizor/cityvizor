@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Publish landing-page to Registry
+      - name: Publish demo to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: cityvizor/cityvizor-demo
