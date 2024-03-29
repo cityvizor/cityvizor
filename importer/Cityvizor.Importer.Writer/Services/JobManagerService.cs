@@ -6,6 +6,7 @@ using Cityvizor.Importer.Domain.Extensions;
 using Cityvizor.Importer.Domain.Queries;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Collections.Generic;
 
 namespace Cityvizor.Importer.Writer.Services;
 public class JobManagerService
@@ -30,6 +31,8 @@ public class JobManagerService
 
     public async Task RunJobsIfAny()
     {
+        List<Import> x = await _importRepository.Query.ByFormats(new[] { ImportFormat.Cityvizor }).ToListAsync();
+
         List<Import> requestedImports = await _importRepository.Query
             .ByStatus(ImportStatus.Pending)
             .ByFormats(_supportedFormats.Keys)

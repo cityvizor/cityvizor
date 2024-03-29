@@ -1,5 +1,7 @@
 ﻿using Cityvizor.Importer.Domain.Entities;
+using Cityvizor.Importer.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using System.Reflection;
 
 namespace Cityvizor.Importer.Infrastructure;
@@ -14,11 +16,11 @@ public class CityvizorDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
         Assembly assemblyWithConfigurations = GetType().Assembly;
         modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
 
-        // modelBuilder.NamesToSnakeCase();
+        modelBuilder.HasPostgresEnum<ImportStatus>();
+
         //Configure default schema
         //modelBuilder.HasDefaultSchema("app");
     }
