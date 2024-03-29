@@ -27,6 +27,9 @@ public class GinisConversionService
         {
             throw new CityvizorImporterException($"Ginis import has null {nameof(import.ImportDir)} field.");
         }
+        // TODO: once multiple phases of the import (ginis, cityvizor) are handled by .NET importer that expects metadata json file, filename should not be fixed
+        // each phase should have its own separate metadata file, phases pass the filename via importDir field in db,
+        // end of phase will create new meatadata file with filenames of files the phase produced, it will update importDir in import entity to point to this new metadata file
         if(Path.GetFileName(import.ImportDir) != Constants.ImportMetadataFileName)
         {
             throw new CityvizorImporterException($"Ginis import does not have valid {Constants.ImportMetadataFileName} file.");
@@ -63,6 +66,7 @@ public class GinisConversionService
 
         // update import record in db
         import.Format = ImportFormat.Cityvizor; // data was parsed to cityvizor format
+        import.ImportDir = importDirectory; // .js importer expects path to the directory
         await _importRepository.SaveChangesAsync();
     }
 }
