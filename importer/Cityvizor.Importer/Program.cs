@@ -7,6 +7,8 @@ using Cityvizor.Importer.Domain.Extensions;
 using Cityvizor.Importer.Infrastructure;
 using Cityvizor.Importer.Infrastructure.Extensions;
 using Cityvizor.Importer.Writer.Extensions;
+using Npgsql;
+using Cityvizor.Importer.Domain.Enums;
 
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
@@ -28,9 +30,14 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("PosgreSql"));
+        dataSourceBuilder.MapEnum<ImportStatus>();
+        var dataSource = dataSourceBuilder.Build();
         builder.Services.AddDbContext<CityvizorDbContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("PosgreSql"))
+            options.UseNpgsql(dataSource)
             .UseSnakeCaseNamingConvention());
+
         builder.Services.RegisterRepositoriesScoped();
 
         builder.Services.RegisterImporterBackgroundService(builder.Configuration);

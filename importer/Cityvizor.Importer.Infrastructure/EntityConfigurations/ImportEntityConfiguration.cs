@@ -12,10 +12,10 @@ internal class ImportEntityConfiguration : IEntityTypeConfiguration<Import>
 
         builder.HasKey(x => x.Id);
 
-        builder.Property(i => i.Status)
-            .HasConversion(
-                v => v.ToString(),
-                v =>Enum.Parse<ImportStatus>(v, true));
+        //builder.Property(i => i.Status)
+        //    .HasConversion(
+        //        v => v.ToString(),
+        //        v =>Enum.Parse<ImportStatus>(v, true));
 
         builder.Property(i => i.Format)
             .HasConversion(
