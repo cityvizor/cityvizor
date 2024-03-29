@@ -11,8 +11,6 @@ services:
     volumes:
       - ./client:/user/src/app
       - /user/src/app/node_modules
-    ports:
-      - 49153:49153
     environment:
       NODE_ENV: localnginx
 
