@@ -1,17 +1,16 @@
-import { Component, OnInit} from '@angular/core';
-import { AdminService } from 'app/services/admin.service';
-import { ProfileService } from 'app/services/profile.service';
-import { Profile } from 'app/schema';
-import { ToastService } from 'app/services/toast.service';
-import { environment } from 'environments/environment';
+import { Component } from "@angular/core";
+import { AdminService } from "app/services/admin.service";
+import { ProfileService } from "app/services/profile.service";
+import { Profile } from "app/schema";
+import { ToastService } from "app/services/toast.service";
+import { environment } from "environments/environment";
 
 @Component({
-  selector: 'admin-profile-api',
-  templateUrl: './admin-profile-api.component.html',
-  styleUrls: ['./admin-profile-api.component.scss']
+  selector: "admin-profile-api",
+  templateUrl: "./admin-profile-api.component.html",
+  styleUrls: ["./admin-profile-api.component.scss"],
 })
-export class AdminProfileApiComponent implements OnInit {
-
+export class AdminProfileApiComponent {
   profileId$ = this.profileService.profileId;
 
   token?: string;
@@ -22,11 +21,7 @@ export class AdminProfileApiComponent implements OnInit {
     private adminService: AdminService,
     private profileService: ProfileService,
     private toastService: ToastService
-  ) { }
-
-  ngOnInit() {
-
-  }
+  ) {}
 
   async generateToken(profileId: Profile["id"]) {
     this.token = await this.adminService.generateProfileImportToken(profileId);
@@ -37,5 +32,4 @@ export class AdminProfileApiComponent implements OnInit {
     delete this.token;
     this.toastService.toast("Tokeny byly zneplatněny.", "notice");
   }
-
 }

@@ -1,24 +1,24 @@
-import axios from 'axios';
+import axios from "axios";
 
-import cheerio from 'cheerio';
-import {db} from '../../db';
-import {ProfileRecord, ContractRecord} from '../../schema';
+import cheerio from "cheerio";
+import { db } from "../../db";
+import { ProfileRecord, ContractRecord } from "../../schema";
 
-import {DateTime} from 'luxon';
-import {CronTask} from '../../schema/cron';
+import { DateTime } from "luxon";
+import { CronTask } from "../../schema/cron";
 
 // how many contracts per profile should be downloaded
 const limit = 20;
 
 export const TaskDownloadContracts: CronTask = {
-  id: 'download-contracts',
-  name: 'Download contracts from https://smlouvy.gov.cz/',
+  id: "download-contracts",
+  name: "Download contracts from https://smlouvy.gov.cz/",
   exec: async () => {
     // get all the profiles
-    const profiles = await db<ProfileRecord>('profiles');
+    const profiles = await db<ProfileRecord>("profiles");
 
     console.log(
-      'Found ' + profiles.length + ' profiles to download contracts for.'
+      "Found " + profiles.length + " profiles to download contracts for."
     );
 
     for (const profile of profiles) {
@@ -36,11 +36,11 @@ export const TaskDownloadContracts: CronTask = {
 };
 
 async function downloadContracts(profile: ProfileRecord) {
-  console.log('---');
+  console.log("---");
   console.log(profile.name);
 
   if (!profile.ico && !profile.databox) {
-    console.log('ICO or databox not available, aborting.');
+    console.log("ICO or databox not available, aborting.");
     return;
   }
 
@@ -63,7 +63,7 @@ async function downloadContracts(profile: ProfileRecord) {
   const contracts: ContractRecord[] = [];
 
   // assign values, create contracts' data
-  $('tr', '#snippet-searchResultList-list').each((i, row) => {
+  $("tr", "#snippet-searchResultList-list").each((i, row) => {
     if (i === 0) return;
 
     const items = $(row).children();
@@ -77,25 +77,25 @@ async function downloadContracts(profile: ProfileRecord) {
       amount: amount[0],
       currency: amount[1],
       counterparty: items.eq(5).text().trim(),
-      url: 'https://smlouvy.gov.cz' + items.eq(6).find('a').attr('href'),
+      url: "https://smlouvy.gov.cz" + items.eq(6).find("a").attr("href"),
     } as ContractRecord;
 
     contracts.push(contract);
   });
 
-  await db('data.contracts').where({profileId: profile.id}).delete();
+  await db("data.contracts").where({ profileId: profile.id }).delete();
 
   // insert all the contracts to DB
-  await db('data.contracts').insert(contracts);
+  await db("data.contracts").insert(contracts);
 
-  console.log('Updated ' + contracts.length + ' contracts');
+  console.log("Updated " + contracts.length + " contracts");
 }
 
 function parseAmount(original: string): [number | null, string | null] {
-  if (original.trim() === 'Neuvedeno') return [null, null];
+  if (original.trim() === "Neuvedeno") return [null, null];
   const matches = original.match(/([\d ]+) ([A-Z]+)/);
   if (!matches || matches.length < 3) return [null, null];
-  return [Number(matches[1].replace(/[^\d]/g, '')), matches[2]];
+  return [Number(matches[1].replace(/[^\d]/g, "")), matches[2]];
 }
 
 function parseDate(dateString: string): string {

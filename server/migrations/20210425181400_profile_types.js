@@ -1,22 +1,22 @@
 exports.up = async function (knex) {
   return knex.schema
-    .createTable('app.profile_types', table => {
-      table.string('type', 20).notNullable().unique();
+    .createTable("app.profile_types", table => {
+      table.string("type", 20).notNullable().unique();
     })
     .then(() => {
-      return knex('app.profile_types').insert([
-        {type: 'municipality'},
-        {type: 'pbo'},
+      return knex("app.profile_types").insert([
+        { type: "municipality" },
+        { type: "pbo" },
       ]);
     })
     .then(() => {
-      return knex.schema.alterTable('app.profiles', table => {
+      return knex.schema.alterTable("app.profiles", table => {
         table
-          .string('type', 20)
+          .string("type", 20)
           .notNullable()
-          .default('municipality')
-          .references('type')
-          .inTable('app.profile_types');
+          .default("municipality")
+          .references("type")
+          .inTable("app.profile_types");
       });
     })
     .then(() => {
@@ -43,11 +43,11 @@ WHERE profiles.status::text <> 'hidden'::text`);
 
 exports.down = async function (knex) {
   return knex.schema
-    .alterTable('app.imports', table => {
-      table.dropColumn('type');
+    .alterTable("app.imports", table => {
+      table.dropColumn("type");
     })
     .then(() => {
-      knex.schema.dropTable('app.profile_types');
+      knex.schema.dropTable("app.profile_types");
     })
     .then(() => {
       return knex.raw(`

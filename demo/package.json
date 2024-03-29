@@ -44,7 +44,7 @@
     "intl": "^1.2.5",
     "jquery": "^3.6.0",
     "kxx-reader-browser": "^1.5.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-bootstrap": "^6.2.0",
     "ngx-papaparse": "^5.0.0",
     "ngx-web-worker": "^8.0.0",

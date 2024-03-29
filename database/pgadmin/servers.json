@@ -3,7 +3,7 @@
         "1": {
             "Name": "Cityvizor Docker Compose",
             "Group": "Servers",
-            "Host": "db.cityvizor.otevrenamesta",
+            "Host": "db.cityvizor",
             "Port": 5432,
             "MaintenanceDB": "postgres",
             "Username": "postgres",

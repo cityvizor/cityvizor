@@ -1,20 +1,21 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ProfileService } from 'app/services/profile.service';
-import { Observable } from 'rxjs';
-import { Profile, ProfileType } from 'app/schema';
-import { AdminService } from 'app/services/admin.service';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ConfigService } from 'config/config';
-import { ToastService } from 'app/services/toast.service';
-import { DataService } from 'app/services/data.service';
-import { PboCategory } from 'app/schema/pbo-category';
-import { Section } from 'app/schema/section';
+import { Component, OnInit, Inject } from "@angular/core";
+import { ProfileService } from "app/services/profile.service";
+import { Observable } from "rxjs";
+import { Profile, ProfileType } from "app/schema";
+import { AdminService } from "app/services/admin.service";
+import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
+import { ConfigService } from "config/config";
+import { ToastService } from "app/services/toast.service";
+import { DataService } from "app/services/data.service";
+import { PboCategory } from "app/schema/pbo-category";
+import { Section } from "app/schema/section";
+import { ProgressSpinnerModule } from "primeng/progressspinner";
 
 @Component({
-  selector: 'admin-profile-settings',
-  templateUrl: './admin-profile-settings.component.html',
-  styleUrls: ['./admin-profile-settings.component.scss']
+  selector: "admin-profile-settings",
+  templateUrl: "./admin-profile-settings.component.html",
+  styleUrls: ["./admin-profile-settings.component.scss"],
 })
 export class AdminProfileSettingsComponent implements OnInit {
   profileId: Observable<number | null>;
@@ -25,6 +26,7 @@ export class AdminProfileSettingsComponent implements OnInit {
   pboCategories: PboCategory[];
   profileIdParentIdMap: Map<number, number | null>;
   sections: Section[];
+  loading: Boolean = true;
 
   constructor(
     private profileService: ProfileService,
@@ -33,7 +35,7 @@ export class AdminProfileSettingsComponent implements OnInit {
     private router: Router,
     private toastService: ToastService,
     public configService: ConfigService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.profileId = this.profileService.profileId;
@@ -44,12 +46,15 @@ export class AdminProfileSettingsComponent implements OnInit {
     this.sections = await this.adminService.getSections();
 
     this.profileId.subscribe(profileId => {
-      if (profileId) this.loadProfile(profileId)
+      if (profileId) this.loadProfile(profileId);
+      this.loading = false;
     });
   }
 
   initializeProfileParentMap() {
-    const idParentPairs = this.profiles.map((profile) => [profile.id, profile.parent] as [number, number | null]);
+    const idParentPairs = this.profiles.map(
+      profile => [profile.id, profile.parent] as [number, number | null]
+    );
     this.profileIdParentIdMap = new Map(idParentPairs);
   }
 
@@ -75,13 +80,12 @@ export class AdminProfileSettingsComponent implements OnInit {
     if (data.parent == "null") data.parent = null;
     if (data.sectionId == "null") data.sectionId = null;
 
-    await this.adminService.saveProfile(this.profile.id, data)
+    await this.adminService.saveProfile(this.profile.id, data);
 
     this.reloadProfile();
 
-    this.toastService.toast("Uloženo.", "notice")
+    this.toastService.toast("Uloženo.", "notice");
   }
-
 
   /**
    * Filters array of all {@link profiles} and updates the {@link profilesValidAsParent} array
@@ -91,11 +95,15 @@ export class AdminProfileSettingsComponent implements OnInit {
   updateProfilesValidAsParent() {
     if (this.profile == null || this.profiles == null) {
       this.profilesValidAsParent = [];
-    }
-    else {
-      this.profilesValidAsParent = this.profiles.filter(p => p.type == "municipality"
-        && (p.parent == null || (this.profile.type == "pbo" && this.profileIdParentIdMap[p.parent] == null))
-        && (this.profile.id !== p.id));
+    } else {
+      this.profilesValidAsParent = this.profiles.filter(
+        p =>
+          p.type == "municipality" &&
+          (p.parent == null ||
+            (this.profile.type == "pbo" &&
+              this.profileIdParentIdMap[p.parent] == null)) &&
+          this.profile.id !== p.id
+      );
     }
   }
 
@@ -112,10 +120,13 @@ export class AdminProfileSettingsComponent implements OnInit {
       return;
     }
 
-    const allowedTypes = ['png', 'jpg', 'jpe', 'jpeg', 'gif', 'svg'];
-    const extension = file.name.split(".").pop() || ""
+    const allowedTypes = ["png", "jpg", "jpe", "jpeg", "gif", "svg"];
+    const extension = file.name.split(".").pop() || "";
     if (allowedTypes.indexOf(extension) == -1) {
-      this.toastService.toast(`Nepovolený formát souboru. Povolené formáty: ${allowedTypes.join(", ")}`, "notice");
+      this.toastService.toast(
+        `Nepovolený formát souboru. Povolené formáty: ${allowedTypes.join(", ")}`,
+        "notice"
+      );
       return;
     }
     await this.adminService.saveProfileAvatar(this.profile.id, formData);

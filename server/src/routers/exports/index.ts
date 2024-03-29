@@ -1,9 +1,9 @@
-import express from 'express';
+import express from "express";
 
-import {ExportProfilesRouter} from './profiles';
+import { ExportProfilesRouter } from "./profiles";
 
 const router = express.Router();
 
 export const ExportsRouter = router;
 
-router.use('/profiles', ExportProfilesRouter);
+router.use("/profiles", ExportProfilesRouter);

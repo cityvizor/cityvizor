@@ -1,7 +1,7 @@
 exports.up = async function (knex) {
   return knex.schema
-    .alterTable('app.profiles', table => {
-      table.string('popup_name');
+    .alterTable("app.profiles", table => {
+      table.string("popup_name");
     })
     .then(() => {
       return knex.raw(`
@@ -30,8 +30,8 @@ exports.up = async function (knex) {
 
 exports.down = async function (knex) {
   await knex.schema
-    .alterTable('app.profiles', table => {
-      table.dropColumn('popup_name');
+    .alterTable("app.profiles", table => {
+      table.dropColumn("popup_name");
     })
     .then(() => {
       return knex.raw(`

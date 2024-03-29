@@ -1,97 +1,144 @@
-import express from 'express';
+import express from "express";
 
-import config from '../../config';
+import config from "../../config";
 
-import path from 'path';
+import path from "path";
 
-import {db} from '../../db';
-import {ProfileRecord} from '../../schema';
-import * as fs from 'fs';
-import {getS3AvatarPublicObjectPath} from '../../s3storage';
-import {userManagesProfile} from '../../config/roles';
-import { SectionRecord } from '../../schema/database/section';
+import { db } from "../../db";
+import { ProfileRecord } from "../../schema";
+import * as fs from "fs";
+import { getS3AvatarPublicObjectPath } from "../../s3storage";
+import { userManagesProfile } from "../../config/roles";
+import { SectionRecord } from "../../schema/database/section";
 
 const router = express.Router();
 
 export const ProfilesRouter = router;
 
-function createQueryWithStatusFilter(statuses, tableName: string) {
-  const query = db<ProfileRecord>('profiles AS ' + tableName);
+function createProfileQueryWithStatusFilter(statuses, tableName: string) {
+  const query = db<ProfileRecord>("public.profiles AS " + tableName);
   if (statuses) {
-    const columnName = tableName + '.status';
-    const status = statuses.toString().split(',');
+    const columnName = tableName + ".status";
+    const status = statuses.toString().split(",");
     query.where(function () {
-      this.where(columnName, '=', status[0]);
-      status.splice(1).map(stat => this.orWhere(columnName, '=', stat));
+      this.where(columnName, "=", status[0]);
+      status.splice(1).map(stat => this.orWhere(columnName, "=", stat));
     });
   }
 
   query.leftJoin(
-    'app.pbo_categories AS category',
-    tableName + '.pbo_category_id',
-    'category.pbo_category_id'
+    "app.pbo_categories AS category",
+    tableName + ".pbo_category_id",
+    "category.pbo_category_id"
   );
+
   return query;
 }
 
-function addCountChildrenInnerQuery(query, statuses) {
-  const innerQuery = createQueryWithStatusFilter(
-    statuses,
-    'innerProfile'
-  )
-    .select('innerProfile.id', db.raw('COUNT(child.id) AS childrenCount'))
-    .leftJoin('profiles AS child', 'innerProfile.id', 'child.parent');
-  innerQuery.groupBy('innerProfile.id').as('counts');
+function createChildrenCountQuery(statuses) {
+  return createProfileQueryWithStatusFilter(statuses, "innerProfile")
+    .select("innerProfile.id", db.raw("COUNT(child.id) AS childrenCount"))
+    .leftJoin("public.profiles AS child", "innerProfile.id", "child.parent")
+    .groupBy("innerProfile.id");
+}
 
-  query.join(innerQuery, 'profile.id', 'counts.id');
-  return query;
+function addChildrenCountInnerQuery(query, statuses) {
+  const innerQuery = createChildrenCountQuery(statuses).as("counts");
+  return query.join(innerQuery, "profile.id", "counts.id");
+}
+
+function createProfileIdsWithoutPaymentsQuery() {
+  return db("public.profiles AS profiles")
+    .select("profiles.id")
+    .leftJoin(
+      "public.payments AS payments",
+      "profiles.id",
+      "payments.profile_id"
+    )
+    .whereNull("payments.profile_id");
+}
+
+/** Determines if the input profiles have any associated Payments data and sets the result in the profile model as the hasPayments flag.
+ *
+ * The query that determines if profiles have payments is executed separately in order to keep the base Profile query more efficient.
+ * 
+ * @param profiles Profiles to be checked. The hasPayments is updated in place in the models.
+ */
+async function computeHasPaymentsFlag(profiles: ProfileRecord | ProfileRecord[]) {
+  if (profiles instanceof Array) {
+    // Query for multiple profiles
+    const result = await createProfileIdsWithoutPaymentsQuery();
+
+    profiles.forEach(
+      profile =>
+        (profile.hasPayments = !result.some(row => row.id === profile.id))
+    );
+  } else {
+    // Query for single profile
+    const anyPayment = await db("payments")
+      .first("item")
+      .where("profileId", profiles.id);
+
+    profiles.hasPayments = anyPayment != null;
+  }
 }
 
 /*
 Query params: {
-  string[] status - filtes profiles by provided statuses
+  string[] status - filtres profiles by provided statuses
   bool countChildren - if true, for each returned profile counts its children profiles
 }
 */
-router.get('/', async (req, res) => {
-  let profileQuery = createQueryWithStatusFilter(req.query.status, 'profile');
+router.get("/", async (req, res) => {
+  let profileQuery = createProfileQueryWithStatusFilter(
+    req.query.status,
+    "profile"
+  );
 
   if (req.query.countChildren) {
-    profileQuery = addCountChildrenInnerQuery(profileQuery, req.query.status);
+    profileQuery = addChildrenCountInnerQuery(profileQuery, req.query.status);
   }
 
-  profileQuery.orderBy('profile.id');
+  profileQuery.orderBy("profile.id");
 
   const profiles = await profileQuery;
+  await computeHasPaymentsFlag(profiles);
 
   res.json(profiles);
 });
 
 /*
 Query params: {
-  string[] status - filtes profiles by provided statuses
+  string[] status - filtres profiles by provided statuses
   bool countChildren - if true, for each returned profile counts its children profiles
 }
 */
-router.get('/sections', async (req, res) => {
-  const sectionQuery = db<SectionRecord>('app.sections AS section');
+router.get("/sections", async (req, res) => {
+  const sectionQuery = db<SectionRecord>("app.sections AS section");
 
-  let profileQuery = createQueryWithStatusFilter(req.query.status, 'profile');
+  let profileQuery = createProfileQueryWithStatusFilter(
+    req.query.status,
+    "profile"
+  );
 
   if (req.query.countChildren) {
-    profileQuery = addCountChildrenInnerQuery(profileQuery, req.query.status);
+    profileQuery = addChildrenCountInnerQuery(profileQuery, req.query.status);
   }
 
-  profileQuery.orderBy('profile.id');
+  profileQuery.orderBy("profile.id");
 
   const profiles = await profileQuery;
+  await computeHasPaymentsFlag(profiles);
+
   const sections = await sectionQuery;
 
   const grouped = {};
-  sections.forEach((section) => {
-    const sectionProfiles = profiles.filter((profile) => profile.sectionId === section.sectionId);
+  sections.forEach(section => {
+    const sectionProfiles = profiles.filter(
+      profile => profile.sectionId === section.sectionId
+    );
 
-    if(sectionProfiles.length > 0) {
+    if (sectionProfiles.length > 0) {
       grouped[section.sectionId] = {
         section,
         profiles: sectionProfiles,
@@ -109,43 +156,45 @@ returns children profiles of profile with specified id and grandchildren of thes
 request: {
   string[] status - filtes profiles by provided statuses
 }*/
-router.get('/:id/children', async (req, res) => {
+router.get("/:id/children", async (req, res) => {
   if (!Number(req.params.id)) {
     res.sendStatus(400);
   }
-  const parentProfile = await createQueryWithStatusFilter(
+  const parentProfile = await createProfileQueryWithStatusFilter(
     req.query.status,
-    'profile'
+    "profile"
   )
-    .where('profile.id', Number(req.params.id))
+    .where("profile.id", Number(req.params.id))
     .first();
   if (!parentProfile) return res.sendStatus(404);
 
-  const query = createQueryWithStatusFilter(req.query.status, 'profile').where(
-    'profile.parent',
-    Number(req.params.id)
-  );
+  const query = createProfileQueryWithStatusFilter(
+    req.query.status,
+    "profile"
+  ).where("profile.parent", Number(req.params.id));
   let profiles = await query;
 
   const profileIds = profiles.map(p => Number(p.id));
 
-  const grandchildrenQuery = createQueryWithStatusFilter(
+  const grandchildrenQuery = createProfileQueryWithStatusFilter(
     req.query.status,
-    'profile'
-  ).whereIn('profile.parent', profileIds);
+    "profile"
+  ).whereIn("profile.parent", profileIds);
   const grandchildrenProfiles = await grandchildrenQuery;
 
   profiles = profiles.concat(grandchildrenProfiles).sort((a, b) => a.id - b.id);
 
-  return res.json({parent: parentProfile, children: profiles});
+  await computeHasPaymentsFlag(profiles);
+
+  return res.json({ parent: parentProfile, children: profiles });
 });
 
-router.get('/:profile', async (req, res) => {
-  const profile: ProfileRecord | null = await db<ProfileRecord>('profiles')
+router.get("/:profile", async (req, res) => {
+  const profile: ProfileRecord | null = await db<ProfileRecord>("profiles")
     .modify(function () {
-      this.where('url', String(req.params.profile));
+      this.where("url", String(req.params.profile));
       if (!isNaN(Number(req.params.profile))) {
-        this.orWhere({id: Number(req.params.profile)});
+        this.orWhere({ id: Number(req.params.profile) });
       }
     })
     .first();
@@ -154,12 +203,12 @@ router.get('/:profile', async (req, res) => {
     return res.sendStatus(404);
   }
 
-  if (profile.status === 'hidden') {
+  if (profile.status === "hidden") {
     const userRoles = req.user?.roles ?? [];
     const canAccess = userRoles.some(role => {
       return (
-        role === 'admin' ||
-        (role === 'profile-admin' && userManagesProfile(req.user, profile.id))
+        role === "admin" ||
+        (role === "profile-admin" && userManagesProfile(req.user, profile.id))
       );
     });
 
@@ -168,12 +217,14 @@ router.get('/:profile', async (req, res) => {
     }
   }
 
+  await computeHasPaymentsFlag(profile);
+
   return res.json(profile);
 });
 
-router.get('/:profile/avatar', async (req, res) => {
-  const profile = await db<ProfileRecord>('profiles')
-    .where('id', Number(req.params.profile))
+router.get("/:profile/avatar", async (req, res) => {
+  const profile = await db<ProfileRecord>("profiles")
+    .where("id", Number(req.params.profile))
     .first();
 
   if (!profile) {
@@ -188,7 +239,7 @@ router.get('/:profile/avatar', async (req, res) => {
 
   const avatarPath = path.join(
     config.storage.avatars,
-    'avatar_' + req.params.profile + profile.avatarType
+    "avatar_" + req.params.profile + profile.avatarType
   );
 
   if (!fs.existsSync(avatarPath)) {

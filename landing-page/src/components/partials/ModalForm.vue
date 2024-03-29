@@ -1,96 +1,95 @@
 <template>
-  <div class="modal-form" :id="formName">
+  <div :id="formName" class="modal-form">
     <slot />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
-  name: 'ModalForm',
+  name: "ModalForm",
   props: {
     formName: {
       type: String,
-      required: true
+      required: true,
     },
     endpoint: {
       type: String,
-      requried: true
-    }
+      requried: true,
+    },
   },
   data() {
     return {
       errors: [],
       formDict: {},
-    }
-  },
-  mounted() {
-    this.adjustStylingOfLabels();
+    };
   },
   computed: {
     hasErrors() {
       return this.errors.length > 0;
-    }
+    },
+  },
+  mounted() {
+    this.adjustStylingOfLabels();
   },
   methods: {
     findElements(selector) {
-      return document.getElementById(this.formName).querySelectorAll(selector)
+      return document.getElementById(this.formName).querySelectorAll(selector);
     },
     adjustStylingOfLabels() {
-      this.findElements('input').forEach(input => {
-        const labels = input.parentNode.getElementsByTagName('label')
-        if (labels.length > 0 && input.type === 'checkbox') {
-          labels[0].classList.add('checkbox-label');
+      this.findElements("input").forEach(input => {
+        const labels = input.parentNode.getElementsByTagName("label");
+        if (labels.length > 0 && input.type === "checkbox") {
+          labels[0].classList.add("checkbox-label");
         }
-      })
+      });
     },
     onSubmit() {
-      this.updateFormDict()
-      this.validateForm()
-      if (this.hasErrors) return
-      this.submit()
+      this.updateFormDict();
+      this.validateForm();
+      if (this.hasErrors) return;
+      this.submit();
     },
     updateFormDict() {
-      this.findElements('input').forEach(input => {
-        const value = input.type === 'checkbox' ? input.checked : input.value;
+      this.findElements("input").forEach(input => {
+        const value = input.type === "checkbox" ? input.checked : input.value;
         this.formDict[input.id] = value;
-      })
+      });
     },
     validateForm() {
-      this.errors = []
-      const inputs = Array.from(this.findElements('input[required]'))
+      this.errors = [];
+      const inputs = Array.from(this.findElements("input[required]"));
       inputs.forEach(input => {
-          // purge errors div
-          const errorsDivId = `${input.id}-field-errors`;
-          const errorsDivOld = document.getElementById(errorsDivId);
-          if (errorsDivOld)
-            errorsDivOld.remove();
+        // purge errors div
+        const errorsDivId = `${input.id}-field-errors`;
+        const errorsDivOld = document.getElementById(errorsDivId);
+        if (errorsDivOld) errorsDivOld.remove();
 
-          // create errors div
-          const errorsDiv = document.createElement('div');
-          errorsDiv.classList.add('.modal-form__field__errors');
-          errorsDiv.id = errorsDivId;
-          input.parentNode.appendChild(errorsDiv);
+        // create errors div
+        const errorsDiv = document.createElement("div");
+        errorsDiv.classList.add(".modal-form__field__errors");
+        errorsDiv.id = errorsDivId;
+        input.parentNode.appendChild(errorsDiv);
 
-          if (!input.checkValidity()){
-            // populate errors div
-            const fieldError = document.createElement('pre');
-            fieldError.innerText = input.title;
-            fieldError.style.color = 'red';
-            errorsDiv.append(fieldError);
+        if (!input.checkValidity()) {
+          // populate errors div
+          const fieldError = document.createElement("pre");
+          fieldError.innerText = input.title;
+          fieldError.style.color = "red";
+          errorsDiv.append(fieldError);
 
-            this.errors.push(input.title);
-            input.classList.add('error');
-          } else {
-            input.classList.remove('error');
-          }
+          this.errors.push(input.title);
+          input.classList.add("error");
+        } else {
+          input.classList.remove("error");
+        }
       });
     },
 
     async submit() {
       try {
-        const response = await axios.post(this.endpoint, { ...this.formDict });
+        await axios.post(this.endpoint, { ...this.formDict });
         this.clearForm();
         this.close();
       } catch (error) {
@@ -102,10 +101,10 @@ export default {
       this.formDict = {};
     },
     close() {
-      this.$emit('close');
+      this.$emit("close");
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -121,7 +120,7 @@ export default {
     height: 56px;
 
     &:focus {
-      border: 2px solid #248E56;
+      border: 2px solid #248e56;
     }
 
     &.error {
@@ -129,10 +128,10 @@ export default {
     }
 
     &:required ~ label:after {
-      content: ' *';
+      content: " *";
     }
 
-    &[type='checkbox'] {
+    &[type="checkbox"] {
       height: 20px;
       width: 20px;
       cursor: pointer;
@@ -180,7 +179,7 @@ label {
 // TODO: replace temp layout fix for mobile devices
 @media screen and (max-width: 480px) {
   .modal-form {
-    input[type='checkbox'] {
+    input[type="checkbox"] {
       height: 16px;
       width: 16px;
     }

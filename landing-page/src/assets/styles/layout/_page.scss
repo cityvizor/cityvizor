@@ -5,24 +5,24 @@
 */
 
 .l-page {
-    padding-top: 60px;
-    padding-bottom: 60px;
-    
-    &:not(.l-page--custom-page) {
-        @include media-breakpoint-down(md) {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-    }
+  padding-top: 60px;
+  padding-bottom: 60px;
 
-    img {
-        max-width: 100%;
-        height: auto;
+  &:not(.l-page--custom-page) {
+    @include media-breakpoint-down(md) {
+      padding-left: 20px;
+      padding-right: 20px;
     }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 .l-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

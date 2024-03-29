@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  nginx.cityvizor:
+    volumes:
+      - ./nginx/dev-with-nginx/:/etc/nginx:ro
+
+  client.cityvizor:
+    build:
+      target: dev
+    volumes:
+      - ./client:/user/src/app
+      - /user/src/app/node_modules
+    ports:
+      - 49153:49153
+    environment:
+      NODE_ENV: localnginx
+
+  server.cityvizor:
+    build:
+      target: dev
+    command: -w db.cityvizor:5432 -a -m server-dev -i
+    environment:
+      LOG_LEVEL: debug
+    volumes:
+      - ./server:/home/node/app/
+      - /home/node/app/node_modules
+
+  worker.cityvizor:
+    build:
+      target: dev
+    command: -w db.cityvizor:5432 -a -m worker-dev -i
+    environment:
+      LOG_LEVEL: debug
+    volumes:
+      - ./server:/home/node/app/
+      - /home/node/app/node_modules
+
+  landing.cityvizor:
+    build:
+      target: dev
+    volumes:
+      - ./landing-page/src:/user/src/app/src
+      - ./landing-page/cfg:/user/src/app/cfg
+
+  pgadmin.cityvizor:
+    container_name: pgadmin.cityvizor
+    image: dpage/pgadmin4:7.7
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: pass
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_CONFIG_WTF_CSRF_CHECK_DEFAULT: "False"
+      PGADMIN_CONFIG_WTF_CSRF_ENABLED: "False"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "False"
+    ports:
+      - "50050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./database/pgadmin/servers.json:/pgadmin4/servers.json
+      - ./database/pgadmin/pgpass:/pgadmin4/pgpass
+    entrypoint: >
+      /bin/sh -c "
+      cp -f /pgadmin4/pgpass /var/lib/pgadmin/;
+      chmod 600 /var/lib/pgadmin/pgpass;
+      chown pgadmin:pgadmin /var/lib/pgadmin/pgpass;
+      /entrypoint.sh
+      "
+
+volumes:
+  pgadmin-data:

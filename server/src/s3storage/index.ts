@@ -1,6 +1,6 @@
-import {Client, ClientOptions, UploadedObjectInfo} from 'minio';
-import config from '../config';
-import * as fs from 'fs';
+import { Client, ClientOptions, UploadedObjectInfo } from "minio";
+import config from "../config";
+import * as fs from "fs";
 
 export function getS3Client(): Client {
   return new Client({

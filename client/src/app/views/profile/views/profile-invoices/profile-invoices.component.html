@@ -1,44 +1,90 @@
 <div class="container">
-	<date-picker [showEntireYear]="false"></date-picker>
-	<br><br>
+  <date-picker [showEntireYear]="false"></date-picker>
+  <br /><br />
 
-	<div class="invoices" [class.loading]="loading">
-		<table class="table table-condensed table-responsive table-hover table-striped small">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Datum</th>					
-					<th colspan="2">{{'profile.budget' | translate}}</th>
-					<th>IČO</th>
-					<th>Protistrana</th>
-					<th>Popis</th>
-					<th class="text-right">Částka</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr *ngFor="let invoice of invoices">
-					<td>
-						<span *ngIf="invoice.expenditureAmount > invoice.incomeAmount" class="label label-red">
-              {{ 'profile.' + profileType + '.expenditure' | translate }}
+  <div class="invoices" [class.loading]="loading">
+    <table
+      class="table table-condensed table-responsive table-hover table-striped small"
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>Datum</th>
+          <th colspan="2">{{ "profile.budget" | translate }}</th>
+          <th>IČO</th>
+          <th>Protistrana</th>
+          <th>Popis</th>
+          <th class="text-right">Částka</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let invoice of invoices">
+          <td>
+            <span
+              *ngIf="invoice.expenditureAmount > invoice.incomeAmount"
+              class="label label-red"
+            >
+              {{ "profile." + profileType + ".expenditure" | translate }}
             </span>
-						<span *ngIf="invoice.expenditureAmount < invoice.incomeAmount" class="label label-success">
-              {{ 'profile.' + profileType + '.income' | translate }}
+            <span
+              *ngIf="invoice.expenditureAmount < invoice.incomeAmount"
+              class="label label-success"
+            >
+              {{ "profile." + profileType + ".income" | translate }}
             </span>
-					</td>
-					<td>{{invoice.date | date:"d. M. y"}}</td>
-					<td class="small text-muted"><ng-container *ngIf="invoice.paragraph">§{{invoice.paragraph}}</ng-container></td>
-					<td class="small text-muted"><ng-container *ngIf="invoice.item">#{{invoice.item}}</ng-container></td>
-					<td>
-						{{invoice.counterpartyId | ico}}
-						<a *ngIf="invoice.counterpartyId" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' + (invoice.counterpartyId | ico) + '&cestina=cestina&xml=1'" target="_blank">[Ares]</a>
-						<a *ngIf="invoice.counterpartyId" [href]="'https://www.hlidacstatu.cz/hledat?Q=ico%3A' + (invoice.counterpartyId | ico)" target="_blank">[Hlídač státu]</a>
-					</td>
-					<td><span class="counterparty" [title]="invoice.counterpartyName">{{invoice.counterpartyName}}</span></td>
-					<td><span class="description" [title]="invoice.description">{{invoice.description}}</span></td>
-					<td class="text-right font-number">{{(invoice.incomeAmount + invoice.expenditureAmount) | money:0:false}} Kč</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
+          </td>
+          <td>{{ invoice.date | date: "d. M. y" }}</td>
+          <td class="small text-muted">
+            <ng-container *ngIf="invoice.paragraph"
+              >§{{ invoice.paragraph }}</ng-container
+            >
+          </td>
+          <td class="small text-muted">
+            <ng-container *ngIf="invoice.item"
+              >#{{ invoice.item }}</ng-container
+            >
+          </td>
+          <td>
+            {{ invoice.counterpartyId | ico }}
+            <a
+              *ngIf="invoice.counterpartyId"
+              [href]="
+                'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
+                (invoice.counterpartyId | ico) +
+                '&cestina=cestina&xml=1'
+              "
+              target="_blank"
+              >[Ares]</a
+            >
+            <a
+              *ngIf="invoice.counterpartyId"
+              [href]="
+                'https://www.hlidacstatu.cz/hledat?Q=ico%3A' +
+                (invoice.counterpartyId | ico)
+              "
+              target="_blank"
+              >[Hlídač státu]</a
+            >
+          </td>
+          <td>
+            <span class="counterparty" [title]="invoice.counterpartyName">{{
+              invoice.counterpartyName
+            }}</span>
+          </td>
+          <td>
+            <span class="description" [title]="invoice.description">{{
+              invoice.description
+            }}</span>
+          </td>
+          <td class="text-right font-number">
+            {{
+              invoice.incomeAmount + invoice.expenditureAmount
+                | money: 0 : false
+            }}
+            Kč
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

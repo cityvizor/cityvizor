@@ -1,8 +1,8 @@
-import { Transform } from 'stream';
-import csvparse from 'csv-parse';
-import { PlanRecord } from '../../../schema/database/plan';
-import { Import } from '../import';
-import { AaNameRecord } from '../../../schema/database/aaName';
+import { Transform } from "stream";
+import csvparse from "csv-parse";
+import { PlanRecord } from "../../../schema/database/plan";
+import { Import } from "../import";
+import { AaNameRecord } from "../../../schema/database/aaName";
 
 type Row = {
   type: string;
@@ -16,21 +16,21 @@ type ColumnName = keyof Row;
 
 const columnAliases: Record<ColumnName, string[]> = {
   type: [],
-  sa: ['su'],
-  aa: ['au'],
+  sa: ["su"],
+  aa: ["au"],
   amount: [],
   name: [],
 };
 
 // Headers/columns that must be present in the csv
-const mandatoryPlanColumns: ColumnName[] = ['type', 'sa', 'aa', 'amount'];
-const mandatoryAaNamesColumns: ColumnName[] = ['aa', 'sa', 'name'];
+const mandatoryPlanColumns: ColumnName[] = ["type", "sa", "aa", "amount"];
+const mandatoryAaNamesColumns: ColumnName[] = ["aa", "sa", "name"];
 
 // Fields to be checked if they contain integers
-const checkedPlanFields: ColumnName[] = ['sa', 'aa', 'amount'];
-const checkedAaNamesFields: ColumnName[] = ['aa'];
+const checkedPlanFields: ColumnName[] = ["sa", "aa", "amount"];
+const checkedAaNamesFields: ColumnName[] = ["aa"];
 
-const isPlan = (format: Import.Format): boolean => format !== 'pbo_aa_names';
+const isPlan = (format: Import.Format): boolean => format !== "pbo_aa_names";
 
 const getMandatoryColumns = (options: Import.Options): ColumnName[] =>
   isPlan(options.format) ? mandatoryPlanColumns : mandatoryAaNamesColumns;
@@ -69,7 +69,7 @@ function mapHeaderColumns(
 
   if (missingColumns.length !== 0) {
     throw Error(
-      `Failed to find these mandatory columns: ${missingColumns.join(', ')}`
+      `Failed to find these mandatory columns: ${missingColumns.join(", ")}`
     );
   }
 
@@ -78,7 +78,7 @@ function mapHeaderColumns(
 
 export function createCsvParser(options: Import.Options): Transform {
   return csvparse({
-    delimiter: ';',
+    delimiter: ";",
     columns: header => mapHeaderColumns(header, options),
     relax_column_count: true,
   });
@@ -93,8 +93,9 @@ export function createPboParser(options: Import.Options): Transform {
       let err: Error | null = null;
       getCheckedColumns(options).forEach(field => {
         if (isNaN(Number(row[field]))) {
-          err = new Error(`Field ${field} of value "${row[field]
-            }" is not a number.
+          err = new Error(`Field ${field} of value "${
+            row[field]
+          }" is not a number.
                     Parsed line: ${JSON.stringify(row)}`);
         }
       });

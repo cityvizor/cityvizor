@@ -1,357 +1,590 @@
 <div *ngIf="event">
-	<h2>{{event.name}} ({{year}})</h2>
+  <h2>{{ event.name }} ({{ year }})</h2>
 
-	<tabset #detailTabs>
-		<tab heading="Přehled">
+  <tabset #detailTabs>
+    <tab heading="Přehled">
+      <ng-container *ngIf="event.description">
+        <h3>Popis</h3>
+        <p>{{ event.description }}</p>
+      </ng-container>
 
-			<ng-container *ngIf="event.description">
-				<h3>Popis</h3>
-				<p>{{event.description}}</p>
-			</ng-container>
+      <h3>{{ "profile." + profile.type + ".expenditures" | translate }}</h3>
 
-			<h3>{{'profile.municipality.expenditures' | translate}}</h3>
+      <div class="overview">
+        <ng-container
+          *ngIf="
+            event.expenditureAmount || event.budgetExpenditureAmount;
+            else noExpenditures
+          "
+        >
+          <table class="amounts">
+            <tr>
+              <th>{{ "profile." + profile.type + ".budget" | translate }}:</th>
+              <td>{{ event.budgetExpenditureAmount | money: 0 : false }} Kč</td>
+            </tr>
+            <tr>
+              <th>{{ "profile." + profile.type + ".utilization" | translate }}:</th>
+              <td>{{ event.expenditureAmount | money: 0 : false }} Kč</td>
+            </tr>
+          </table>
 
-			<div class="overview">
-				<ng-container *ngIf="event.expenditureAmount || event.budgetExpenditureAmount; else noExpenditures">
+          <chart-event-overview
+            *ngIf="
+              event.expenditureAmount > 0 || event.budgetExpenditureAmount > 0
+            "
+            type="expenditure"
+            [event]="event"
+            [isCurrentYear]="isCurrentYear"
+          ></chart-event-overview>
+        </ng-container>
 
-					<table class="amounts">
-						<tr>
-							<th>{{'profile.budget' | translate}}:</th>
-							<td>{{event.budgetExpenditureAmount | money:0:false}} Kč</td>
-						</tr>
-						<tr>
-							<th>{{'profile.utilization' | translate}}:</th>
-							<td>{{event.expenditureAmount | money:0:false}} Kč</td>
-						</tr>
-					</table>
+        <ng-template #noExpenditures>
+          <p>Tato akce nemá žádné uskutečněné ani rozpočtované výdaje.</p>
+        </ng-template>
+      </div>
 
-					<chart-event-overview *ngIf="event.expenditureAmount > 0 || event.budgetExpenditureAmount > 0" type="expenditure" [event]="event" [isCurrentYear]="isCurrentYear"></chart-event-overview>
+      <h3>{{ "profile." + profile.type + ".incomes" | translate }}</h3>
+      <div class="overview">
+        <ng-container
+          *ngIf="event.incomeAmount || event.budgetIncomeAmount; else noIncome"
+        >
+          <table class="amounts">
+            <tr>
+              <th>{{ "profile." + profile.type + ".budget" | translate }}:</th>
+              <td>{{ event.budgetIncomeAmount | money: 0 : false }} Kč</td>
+            </tr>
+            <tr>
+              <th>{{ "profile." + profile.type + ".utilization" | translate }}:</th>
+              <td>{{ event.incomeAmount | money: 0 : false }} Kč</td>
+            </tr>
+          </table>
 
-				</ng-container>
+          <chart-event-overview
+            *ngIf="event.incomeAmount > 0 || event.budgetIncomeAmount > 0"
+            type="income"
+            [event]="event"
+            [isCurrentYear]="isCurrentYear"
+          ></chart-event-overview>
+        </ng-container>
 
-				<ng-template #noExpenditures>
-					<p>Tato akce nemá žádné uskutečněné ani rozpočtované výdaje.</p>
-				</ng-template>
-			</div>
+        <ng-template #noIncome>
+          <p>Tato akce nemá žádné uskutečněné ani rozpočtované příjmy.</p>
+        </ng-template>
+      </div>
+    </tab>
 
-			<h3>{{'profile.municipality.incomes' | translate}}</h3>
-			<div class="overview">
+    <tab heading="Roční srovnání" *ngIf="isMunicipality">
+      <div class="container-fluid">
+        <div class="historychart row">
+          <div class="col-xs-2 header">
+            <table class="table">
+              <thead>
+                <tr style="height: 30px">
+                  <th>Rok</th>
+                </tr>
+                <tr style="height: 30px">
+                  <td>Název</td>
+                </tr>
+                <tr style="height: 123px">
+                  <td></td>
+                </tr>
+                <tr style="height: 60px">
+                  <td>{{ "profile.municipality.expenditures" | translate }}</td>
+                </tr>
+                <tr style="height: 60px">
+                  <td>{{ "profile.municipality.incomes" | translate }}</td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="col-xs-10 data">
+            <table class="table table-hover">
+              <thead>
+                <tr style="height: 30px">
+                  <th *ngFor="let historyEvent of history">
+                    {{ historyEvent.year }}
+                    <a class="open" (click)="openYear(historyEvent.year)"
+                      >otevřít</a
+                    >
+                  </th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="height: 30px">
+                  <td *ngFor="let historyEvent of history">
+                    <span class="crop" [title]="historyEvent.name">{{
+                      historyEvent.name
+                    }}</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr style="height: 123px">
+                  <td *ngFor="let historyEvent of history">
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <chart-budget
+                          [data]="historyEvent"
+                          [type]="'expenditure'"
+                          [max]="maxHistoryAmount"
+                        ></chart-budget>
+                      </div>
+                      <div class="col-xs-6">
+                        <chart-budget
+                          [data]="historyEvent"
+                          [type]="'income'"
+                          [max]="maxHistoryAmount"
+                        ></chart-budget>
+                      </div>
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr style="height: 60px">
+                  <td *ngFor="let historyEvent of history">
+                    <i class="fa fa-square" style="color: #ff9491"></i>
+                    {{ "profile.budget" | translate }}:
+                    <span class="amount"
+                      >{{
+                        historyEvent.budgetExpenditureAmount | money: 0 : false
+                      }}
+                      Kč</span
+                    ><br />
+                    <i class="fa fa-square" style="color: #e73431"></i>
+                    {{ "profile.actual" | translate }}:
+                    <span class="amount"
+                      >{{
+                        historyEvent.expenditureAmount | money: 0 : false
+                      }}
+                      Kč</span
+                    ><br />
+                  </td>
+                  <td></td>
+                </tr>
+                <tr style="height: 60px">
+                  <td *ngFor="let historyEvent of history">
+                    <i class="fa fa-square" style="color: #adf"></i>
+                    {{ "profile.budget" | translate }}:
+                    <span class="amount"
+                      >{{
+                        historyEvent.budgetIncomeAmount | money: 0 : false
+                      }}
+                      Kč</span
+                    ><br />
+                    <i class="fa fa-square" style="color: #2581c4"></i>
+                    {{ "profile.actual" | translate }}:
+                    <span class="amount"
+                      >{{
+                        historyEvent.incomeAmount | money: 0 : false
+                      }}
+                      Kč</span
+                    >
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </tab>
 
-				<ng-container *ngIf="event.incomeAmount || event.budgetIncomeAmount; else noIncome">
+    <tab
+      [heading]="
+        'Faktury (' +
+        (event && event.payments ? event.payments!.length : 0) +
+        ')'
+      "
+    >
+      <div
+        *ngIf="!counterparties || !counterparties.length"
+        class="text-muted text-center info-box"
+      >
+        <i class="fa fa-exclamation-circle fa-2x"></i>
+        <p>Žádné faktury či výdaje k zobrazení.</p>
+      </div>
 
-					<table class="amounts">
-						<tr>
-							<th>{{'profile.budget' | translate}}:</th>
-							<td>{{event.budgetIncomeAmount | money:0:false}} Kč</td>
-						</tr>
-						<tr>
-							<th>{{'profile.utilization' | translate}}:</th>
-							<td>{{event.incomeAmount | money:0:false}} Kč</td>
-						</tr>
-					</table>
+      <table
+        *ngIf="counterparties && counterparties.length"
+        class="table table-responsive table-hover payments"
+      >
+        <thead>
+          <tr>
+            <th>Dodavatel</th>
+            <th class="text-right">Částka</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let counterparty of counterparties">
+            <tr
+              (click)="openPayments(counterparty)"
+              [class.opened]="counterparty.open"
+              class="counterparty"
+            >
+              <td>
+                <i class="fa fa-chevron-circle-right"></i>
+                {{ counterparty.name }}
+                <a
+                  *ngIf="counterparty.id"
+                  [href]="
+                    'http://www.info.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
+                    counterparty.id! +
+                    '&cestina=cestina&xml=1'
+                  "
+                  target="_blank"
+                  title="Zápis subjektu v ARES"
+                  class="text-muted small"
+                  >IČO {{ counterparty.id }}</a
+                >
+              </td>
+              <td class="text-right">
+                <strong
+                  [class.text-success]="counterparty.amount > 0"
+                  [class.text-red]="counterparty.amount < 0"
+                  class="font-number"
+                >
+                  {{ counterparty.amount | abs | money: 0 : false }} Kč
+                </strong>
+              </td>
+            </tr>
+            <tr class="list">
+              <td colspan="3">
+                <div [@paymentsState]="counterparty.open ? 'open' : 'closed'">
+                  <table
+                    class="table table-responsive small table-label-date-title-number table-nobottommargin"
+                  >
+                    <tr *ngFor="let payment of counterparty.payments">
+                      <td>
+                        <span
+                          *ngIf="
+                            payment.incomeAmount - payment.expenditureAmount > 0
+                          "
+                          class="label label-success"
+                        >
+                          {{
+                            "profile." + profile.type + ".income" | translate
+                          }}
+                        </span>
+                        <span
+                          *ngIf="
+                            payment.incomeAmount - payment.expenditureAmount < 0
+                          "
+                          class="label label-red"
+                        >
+                          {{
+                            "profile." + profile.type + ".expenditure"
+                              | translate
+                          }}
+                        </span>
+                        &nbsp;
+                        <span
+                          class="small text-muted"
+                          [title]="paragraphNames[payment.paragraph] || ''"
+                          >§{{ payment.paragraph }}</span
+                        >
+                        &nbsp;
+                        <span
+                          class="small text-muted"
+                          [title]="itemNames[payment.item] || ''"
+                          >#{{ payment.item }}</span
+                        >
+                      </td>
+                      <td class="text-right">
+                        {{ payment.date | date: "d. M. y" }}
+                      </td>
+                      <td [title]="payment.description || 'Faktura bez popisu'">
+                        {{ payment.description }}
+                      </td>
+                      <td class="text-right font-number">
+                        {{
+                          payment.incomeAmount - payment.expenditureAmount
+                            | abs
+                            | money: 0 : false
+                        }}
+                        Kč
+                      </td>
+                    </tr>
+                    <tr *ngIf="(counterparty?.payments?.length ?? 0) === 0">
+                      <td colspan="4" class="text-muted text-center">
+                        <i class="fa fa-exclamation-circle fa-2x"></i>
+                        <p class="text-muted">
+                          Žádné faktury či výdaje k zobrazení.
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </tab>
 
-					<chart-event-overview *ngIf="event.incomeAmount > 0 || event.budgetIncomeAmount > 0" type="income" [event]="event" [isCurrentYear]="isCurrentYear"></chart-event-overview>
+    <tab heading="Rozpočtová skladba">
+      <br />
+      <form>
+        <div *ngIf="isMunicipality; else pbo" class="form-group">
+          <input
+            type="radio"
+            [(ngModel)]="budgetView"
+            value="expenditureParagraphs"
+            name="budgetView"
+            id="input_budgetView_expenditureParagraphs"
+          />&nbsp;<label for="input_budgetView_expenditureParagraphs"
+            >Výdaje dle odvětvového členení (dle paragrafů)</label
+          >
+          <br />
+          <input
+            type="radio"
+            [(ngModel)]="budgetView"
+            value="expenditureItems"
+            name="budgetView"
+            id="input_budgetView_expenditureItems"
+          />&nbsp;<label for="input_budgetView_expenditureItems"
+            >Výdaje dle druhového členení (dle položek)</label
+          >
+          <br />
+          <input
+            type="radio"
+            [(ngModel)]="budgetView"
+            value="incomeItems"
+            name="budgetView"
+            id="input_budgetView_incomeItems"
+          />&nbsp;<label for="input_budgetView_incomeItems"
+            >Příjmy dle druhového členení (dle položek)</label
+          >
+        </div>
+        <ng-template #pbo>
+          <div class="form-group">
+            <input
+              type="radio"
+              [(ngModel)]="budgetView"
+              value="expenditureParagraphs"
+              name="budgetView"
+              id="input_budgetView_expenditureParagraphs"
+            />&nbsp;<label for="input_budgetView_expenditureParagraphs"
+              >Výdaje dle syntetických účtů</label
+            >
+            <br />
+            <input
+              type="radio"
+              [(ngModel)]="budgetView"
+              value="incomeItems"
+              name="budgetView"
+              id="input_budgetView_incomeItems"
+            />&nbsp;<label for="input_budgetView_incomeItems"
+              >Příjmy dle syntetických účtů</label
+            >
+          </div>
+        </ng-template>
+      </form>
 
-				</ng-container>
+      <div [ngSwitch]="budgetView">
+        <div *ngSwitchCase="'expenditureParagraphs'">
+          <p *ngIf="!event.budgetExpenditureAmount && !event.expenditureAmount">
+            Tato akce nemá žádné rozpočtované ani uskutečněné výdaje.
+          </p>
 
-				<ng-template #noIncome>
-					<p>Tato akce nemá žádné uskutečněné ani rozpočtované příjmy.</p>
-				</ng-template>
-			</div>
-		</tab>
+          <table
+            *ngIf="event.budgetExpenditureAmount || event.expenditureAmount"
+            class="table table-responsive table-title-number-number"
+          >
+            <thead>
+              <tr>
+                <th colspan="2">
+                  {{
+                    isMunicipality ? "Rozpočtové paragrafy" : "Syntetické účty"
+                  }}
+                </th>
+                <th class="text-right">
+                  {{
+                    isMunicipality ? "Rozpočtovaná částka" : "Plánovaná částka"
+                  }}
+                </th>
+                <th class="text-right">Skutečné výdaje</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let paragraph of expenditureParagraphs" class="small">
+                <td class="text-nowrap">
+                  {{ isMunicipality ? "§" : "#" }} {{ paragraph.id }}
+                </td>
+                <td>{{ paragraphNames[paragraph.id] }}</td>
+                <td class="text-right font-number">
+                  {{ paragraph.budgetExpenditureAmount | money: 0 : false }} Kč
+                </td>
+                <td class="text-right font-number">
+                  <strong
+                    [class.text-success]="paragraph.expenditureAmount < 0"
+                    [class.text-red]="paragraph.expenditureAmount > 0"
+                    class="font-number"
+                  >
+                    {{ paragraph.expenditureAmount | money: 0 : false }} Kč
+                  </strong>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2"><strong>Součet</strong></td>
+                <td class="text-right font-number">
+                  <strong
+                    >{{
+                      event.budgetExpenditureAmount | money: 0 : false
+                    }}
+                    Kč</strong
+                  >
+                </td>
+                <td class="text-right font-number">
+                  <strong
+                    [class.text-success]="event.expenditureAmount < 0"
+                    [class.text-red]="event.expenditureAmount > 0"
+                    class="font-number"
+                  >
+                    {{ event.expenditureAmount | money: 0 : false }} Kč
+                  </strong>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
 
-		<tab heading="Roční srovnání">
-			<div class="container-fluid">
-				<div class="historychart row">
-					<div class="col-xs-2 header">
-						<table class="table">
-							<thead>
-								<tr style="height:30px;">
-									<th>Rok</th>
-								</tr>
-								<tr style="height:30px;">
-									<td>Název</td>
-								</tr>
-								<tr style="height:123px;">
-									<td></td>
-								</tr>
-								<tr style="height:60px;">
-									<td>{{'profile.municipality.expenditures' | translate}}</td>
-								</tr>
-								<tr style="height:60px;">
-									<td>{{'profile.municipality.incomes' | translate}}</td>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="col-xs-10 data">
-						<table class="table table-hover">
-							<thead>
-								<tr style="height:30px;">
-									<th *ngFor="let historyEvent of history">{{historyEvent.year}} <a class="open" (click)="openYear(historyEvent.year)">otevřít</a></th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr style="height:30px;">
-									<td *ngFor="let historyEvent of history"><span class="crop" [title]="historyEvent.name">{{historyEvent.name}}</span></td>
-									<td></td>
-								</tr>
-								<tr style="height:123px;">
-									<td *ngFor="let historyEvent of history">
-										<div class="row">
-											<div class="col-xs-6">
-												<chart-budget [data]="historyEvent" [type]="'expenditure'" [max]="maxHistoryAmount"></chart-budget>
-											</div>
-											<div class="col-xs-6">
-												<chart-budget [data]="historyEvent" [type]="'income'" [max]="maxHistoryAmount"></chart-budget>
-											</div>
-										</div>
-									</td>
-									<td></td>
-								</tr>
-								<tr style="height:60px;">
-									<td *ngFor="let historyEvent of history">
-										<i class="fa fa-square" style="color:#ff9491;"></i> {{'profile.budget' | translate}}: <span class="amount">{{historyEvent.budgetExpenditureAmount | money:0:false}} Kč</span><br>
-										<i class="fa fa-square" style="color:#e73431;"></i> {{'profile.actual' | translate}}: <span class="amount">{{historyEvent.expenditureAmount | money:0:false}} Kč</span><br>
-									</td>
-									<td></td>
-								</tr>
-								<tr style="height:60px;">
-									<td *ngFor="let historyEvent of history">
-										<i class="fa fa-square" style="color:#adf;"></i> {{'profile.budget' | translate}}: <span class="amount">{{historyEvent.budgetIncomeAmount | money:0:false}} Kč</span><br>
-										<i class="fa fa-square" style="color:#2581c4;"></i> {{'profile.actual' | translate}}: <span class="amount">{{historyEvent.incomeAmount | money:0:false}} Kč</span>
-									</td>
-									<td></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</tab>
+        <div *ngSwitchCase="'expenditureItems'">
+          <p *ngIf="!event.budgetExpenditureAmount && !event.expenditureAmount">
+            Tato akce nemá žádné rozpočtované ani uskutečněné výdaje.
+          </p>
 
-		<tab [heading]="'Faktury (' + ((event && event.payments) ? event.payments!.length : 0) + ')'">
+          <table
+            *ngIf="event.budgetExpenditureAmount || event.expenditureAmount"
+            class="table table-responsive table-title-number-number"
+          >
+            <thead>
+              <tr>
+                <th colspan="2">
+                  {{
+                    isMunicipality ? "Rozpočtové položky" : "Syntetické účty"
+                  }}
+                </th>
+                <th class="text-right">
+                  {{
+                    isMunicipality ? "Rozpočtovaná částka" : "Plánovaná částka"
+                  }}
+                </th>
+                <th class="text-right">Skutečné výdaje</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of expenditureItems" class="small">
+                <td class="text-nowrap"># {{ item.id }}</td>
+                <td>{{ itemNames[item.id] }}</td>
+                <td class="text-right font-number">
+                  {{ item.budgetExpenditureAmount | money: 0 : false }} Kč
+                </td>
+                <td class="text-right font-number">
+                  <strong
+                    [class.text-success]="item.expenditureAmount < 0"
+                    [class.text-red]="item.expenditureAmount > 0"
+                    class="font-number"
+                  >
+                    {{ item.expenditureAmount | money: 0 : false }} Kč
+                  </strong>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2"><strong>Součet</strong></td>
+                <td class="text-right font-number">
+                  <strong
+                    >{{
+                      event.budgetExpenditureAmount | money: 0 : false
+                    }}
+                    Kč</strong
+                  >
+                </td>
+                <td class="text-right font-number">
+                  <strong
+                    [class.text-success]="event.expenditureAmount < 0"
+                    [class.text-red]="event.expenditureAmount > 0"
+                    class="font-number"
+                  >
+                    {{ event.expenditureAmount | money: 0 : false }} Kč
+                  </strong>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
 
-			<div *ngIf="!counterparties || !counterparties.length" class="text-muted text-center info-box">
-				<i class="fa fa-exclamation-circle fa-2x"></i>
-				<p>Žádné faktury či výdaje k zobrazení.</p>
-			</div>
+        <div *ngSwitchCase="'incomeItems'">
+          <div
+            *ngIf="!event.budgetIncomeAmount && !event.incomeAmount"
+            class="text-muted text-center info-box"
+          >
+            <i class="fa fa-exclamation-circle fa-2x"></i>
+            <p>Tato akce nemá žádné rozpočtované ani uskutečněné příjmy.</p>
+          </div>
 
-			<table *ngIf="counterparties && counterparties.length" class="table table-responsive table-hover payments">
-				<thead>
-					<tr>
-						<th>Dodavatel</th>
-						<th class="text-right">Částka</th>
-					</tr>
-				</thead>
-				<tbody>
-					<ng-container *ngFor="let counterparty of counterparties">
-						<tr (click)="openPayments(counterparty)" [class.opened]="counterparty.open" class="counterparty">
-							<td>
-								<i class="fa fa-chevron-circle-right"></i> {{counterparty.name}}
-								<a *ngIf="counterparty.id" [href]="'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' + counterparty.id! + '&cestina=cestina&xml=1'" target="_blank" title="Zápis subjektu v ARES" class="text-muted small">IČO {{counterparty.id}}</a>
-							</td>
-							<td class="text-right">
-								<strong [class.text-success]="counterparty.amount > 0" [class.text-red]="counterparty.amount < 0" class="font-number">
-									{{counterparty.amount | abs | money:0:false}} Kč
-								</strong>
-							</td>
-						</tr>
-						<tr class="list">
-							<td colspan="3">
-								<div [@paymentsState]="counterparty.open ? 'open' : 'closed'">
-									<table class="table table-responsive small table-label-date-title-number table-nobottommargin">
-										<tr *ngFor="let payment of counterparty.payments">
-											<td>
-												<span *ngIf="payment.incomeAmount - payment.expenditureAmount > 0" class="label label-success">
-													{{ 'profile.' + profile.type + '.income' | translate }}
-												</span>
-												<span *ngIf="payment.incomeAmount - payment.expenditureAmount < 0" class="label label-red">
-													{{ 'profile.' + profile.type + '.expenditure' | translate }}
-												</span>
-												&nbsp;
-												<span class="small text-muted" [title]="paragraphNames[payment.paragraph] || ''">§{{payment.paragraph}}</span>
-												&nbsp;
-												<span class="small text-muted" [title]="itemNames[payment.item] || ''">#{{payment.item}}</span>
-											</td>
-											<td class="text-right">{{payment.date | date:"d. M. y"}}</td>
-											<td [title]="payment.description || 'Faktura bez popisu'">{{payment.description}}</td>
-											<td class="text-right font-number">{{(payment.incomeAmount - payment.expenditureAmount) | abs | money:0:false}} Kč</td>
-										</tr>
-										<tr *ngIf="counterparty.payments.length == 0">
-											<td colspan="4" class="text-muted text-center">
-												<i class="fa fa-exclamation-circle fa-2x"></i>
-												<p class="text-muted">Žádné faktury či výdaje k zobrazení.</p>
-											</td>
-										</tr>
-									</table>
-								</div>
-							</td>
-						</tr>
-					</ng-container>
-				</tbody>
-			</table>
-		</tab>
-
-		<tab heading="Rozpočtová skladba">
-
-			<br>
-			<form>
-				<div *ngIf="isMunicipality; else pbo" class="form-group">
-					<input type="radio" [(ngModel)]="budgetView" value="expenditureParagraphs" name="budgetView" id="input_budgetView_expenditureParagraphs">&nbsp;<label for="input_budgetView_expenditureParagraphs">Výdaje dle odvětvového členení (dle paragrafů)</label>
-					<br>
-					<input type="radio" [(ngModel)]="budgetView" value="expenditureItems" name="budgetView" id="input_budgetView_expenditureItems">&nbsp;<label for="input_budgetView_expenditureItems">Výdaje dle druhového členení (dle položek)</label>
-					<br>
-					<input type="radio" [(ngModel)]="budgetView" value="incomeItems" name="budgetView" id="input_budgetView_incomeItems">&nbsp;<label for="input_budgetView_incomeItems">Příjmy dle druhového členení (dle položek)</label>
-				</div>
-				<ng-template #pbo>
-					<div class="form-group">
-						<input type="radio" [(ngModel)]="budgetView" value="expenditureParagraphs" name="budgetView" id="input_budgetView_expenditureParagraphs">&nbsp;<label for="input_budgetView_expenditureParagraphs">Výdaje dle syntetických účtů</label>
-						<br>
-						<input type="radio" [(ngModel)]="budgetView" value="incomeItems" name="budgetView" id="input_budgetView_incomeItems">&nbsp;<label for="input_budgetView_incomeItems">Příjmy dle syntetických účtů</label>
-					</div>
-				</ng-template>
-			</form>
-
-			<div [ngSwitch]="budgetView">
-
-				<div *ngSwitchCase="'expenditureParagraphs'">
-
-					<p *ngIf="!event.budgetExpenditureAmount && !event.expenditureAmount">Tato akce nemá žádné rozpočtované ani uskutečněné výdaje.</p>
-
-					<table *ngIf="event.budgetExpenditureAmount || event.expenditureAmount" class="table table-responsive table-title-number-number">
-						<thead>
-							<tr>
-								<th colspan="2"> {{ isMunicipality ? 'Rozpočtové paragrafy' : 'Syntetické účty' }}</th>
-								<th class="text-right">
-									{{ isMunicipality ? 'Rozpočtovaná částka' : 'Plánovaná částka' }}
-								</th>
-								<th class="text-right">
-									Skutečné výdaje
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let paragraph of expenditureParagraphs" class="small">
-								<td class="text-nowrap"> {{ isMunicipality ? '§' : '#' }} {{paragraph.id}}</td>
-								<td>{{paragraphNames[paragraph.id]}}</td>
-								<td class="text-right font-number">{{paragraph.budgetExpenditureAmount | money:0:false}} Kč</td>
-								<td class="text-right font-number">
-									<strong [class.text-success]="paragraph.expenditureAmount < 0" [class.text-red]="paragraph.expenditureAmount > 0" class="font-number">
-										{{paragraph.expenditureAmount | money:0:false}} Kč
-									</strong>
-								</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="2"><strong>Součet</strong></td>
-								<td class="text-right font-number"><strong>{{event.budgetExpenditureAmount | money:0:false}} Kč</strong></td>
-								<td class="text-right font-number">
-									<strong [class.text-success]="event.expenditureAmount < 0" [class.text-red]="event.expenditureAmount > 0" class="font-number">
-										{{event.expenditureAmount | money:0:false}} Kč
-									</strong>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-
-				<div *ngSwitchCase="'expenditureItems'">
-
-					<p *ngIf="!event.budgetExpenditureAmount && !event.expenditureAmount">Tato akce nemá žádné rozpočtované ani uskutečněné výdaje.</p>
-
-					<table *ngIf="event.budgetExpenditureAmount || event.expenditureAmount" class="table table-responsive table-title-number-number">
-						<thead>
-							<tr>
-								<th colspan="2">
-									{{ isMunicipality ? 'Rozpočtové položky' : 'Syntetické účty' }}
-								</th>
-								<th class="text-right">
-									{{ isMunicipality ? 'Rozpočtovaná částka' : 'Plánovaná částka' }}									
-								</th>
-								<th class="text-right">
-									Skutečné výdaje
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let item of expenditureItems" class="small">
-								<td class="text-nowrap"># {{item.id}}</td>
-								<td>{{itemNames[item.id]}}</td>
-								<td class="text-right font-number">{{item.budgetExpenditureAmount | money:0:false}} Kč</td>
-								<td class="text-right font-number">
-									<strong [class.text-success]="item.expenditureAmount < 0" [class.text-red]="item.expenditureAmount > 0" class="font-number">
-										{{item.expenditureAmount | money:0:false}} Kč
-									</strong>
-								</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="2"><strong>Součet</strong></td>
-								<td class="text-right font-number"><strong>{{event.budgetExpenditureAmount | money:0:false}} Kč</strong></td>
-								<td class="text-right font-number">
-									<strong [class.text-success]="event.expenditureAmount < 0" [class.text-red]="event.expenditureAmount > 0" class="font-number">
-										{{event.expenditureAmount | money:0:false}} Kč
-									</strong>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-
-				<div *ngSwitchCase="'incomeItems'">
-
-					<div *ngIf="!event.budgetIncomeAmount && !event.incomeAmount" class="text-muted text-center info-box">
-						<i class="fa fa-exclamation-circle fa-2x"></i>
-						<p>Tato akce nemá žádné rozpočtované ani uskutečněné příjmy.</p>
-					</div>
-
-					<table *ngIf="event.budgetIncomeAmount || event.incomeAmount" class="table table-responsive table-title-number-number">
-						<thead>
-							<tr>
-								<th colspan="2">
-									{{ isMunicipality ? 'Rozpočtové položky' : 'Syntetické účty' }}
-								</th>
-								<th class="text-right">
-									{{ isMunicipality ? 'Rozpočtovaná částka' : 'Plánovaná částka' }}									
-								</th>
-								<th class="text-right">{{ 'profile.' + profile.type + '.realIncome' | translate }}</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let item of incomeItems" class="small">
-								<td class="text-nowrap"># {{item.id}}</td>
-								<td>{{itemNames[item.id]}}</td>
-								<td class="text-right font-number">
-									{{item.budgetIncomeAmount | money:0:false}} Kč
-								</td>
-								<td class="text-right font-number">
-									<strong [class.text-success]="item.incomeAmount > 0" [class.text-red]="item.incomeAmount < 0" class="font-number">
-										{{item.incomeAmount | money:0:false}} Kč
-									</strong>
-								</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="2"><strong>Součet</strong></td>
-								<td class="text-right font-number">{{event.budgetIncomeAmount | money:0:false}} Kč</td>
-								<td class="text-right font-number text-success">
-									<strong [class.text-success]="event.incomeAmount > 0" [class.text-red]="event.incomeAmount < 0" class="font-number">
-										{{event.incomeAmount | money:0:false}} Kč
-									</strong>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-
-			</div>
-		</tab>
-
-	</tabset>
-
+          <table
+            *ngIf="event.budgetIncomeAmount || event.incomeAmount"
+            class="table table-responsive table-title-number-number"
+          >
+            <thead>
+              <tr>
+                <th colspan="2">
+                  {{
+                    isMunicipality ? "Rozpočtové položky" : "Syntetické účty"
+                  }}
+                </th>
+                <th class="text-right">
+                  {{
+                    isMunicipality ? "Rozpočtovaná částka" : "Plánovaná částka"
+                  }}
+                </th>
+                <th class="text-right">
+                  {{ "profile." + profile.type + ".realIncome" | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of incomeItems" class="small">
+                <td class="text-nowrap"># {{ item.id }}</td>
+                <td>{{ itemNames[item.id] }}</td>
+                <td class="text-right font-number">
+                  {{ item.budgetIncomeAmount | money: 0 : false }} Kč
+                </td>
+                <td class="text-right font-number">
+                  <strong
+                    [class.text-success]="item.incomeAmount > 0"
+                    [class.text-red]="item.incomeAmount < 0"
+                    class="font-number"
+                  >
+                    {{ item.incomeAmount | money: 0 : false }} Kč
+                  </strong>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2"><strong>Součet</strong></td>
+                <td class="text-right font-number">
+                  {{ event.budgetIncomeAmount | money: 0 : false }} Kč
+                </td>
+                <td class="text-right font-number text-success">
+                  <strong
+                    [class.text-success]="event.incomeAmount > 0"
+                    [class.text-red]="event.incomeAmount < 0"
+                    class="font-number"
+                  >
+                    {{ event.incomeAmount | money: 0 : false }} Kč
+                  </strong>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </tab>
+  </tabset>
 </div>

@@ -1,49 +1,93 @@
 <div class="container">
-  <h2>{{user?.name || user?.login}}</h2>
-  <br>
+  <h2>{{ user?.name || user?.login }}</h2>
+  <br />
   <div class="row">
     <div class="col-md-6">
       <h3>Nastavení</h3>
       <form #userForm="ngForm" (ngSubmit)="saveUser(userForm)">
         <div class="form-group">
           <label>Role</label>
-          <br>
-          <input type="radio" name="role" value="admin" [ngModel]="user?.role" id="input_role_admin">&nbsp;<label for="input_role_admin">Administrátor CityVizoru</label>
-          <br>
-          <input type="radio" name="role" value="profile-admin" [ngModel]="user?.role" id="input_role_profile_admin" #radioProfileAdmin>&nbsp;<label for="input_role_profile_admin">Správce profilů <button (click)="openModal(addManagedProfileModal)" [disabled]="!radioProfileAdmin.checked" class="btn btn-primary btn-xs">Spravované profily ({{managedProfiles?.length || 0}})</button></label>
+          <br />
+          <input
+            type="radio"
+            name="role"
+            value="admin"
+            [ngModel]="user?.role"
+            id="input_role_admin"
+          />&nbsp;<label for="input_role_admin">Administrátor CityVizoru</label>
+          <br />
+          <input
+            type="radio"
+            name="role"
+            value="profile-admin"
+            [ngModel]="user?.role"
+            id="input_role_profile_admin"
+            #radioProfileAdmin
+          />&nbsp;<label for="input_role_profile_admin"
+            >Správce profilů
+            <button
+              (click)="openModal(addManagedProfileModal)"
+              [disabled]="!radioProfileAdmin.checked"
+              class="btn btn-primary btn-xs"
+            >
+              Spravované profily ({{ managedProfiles?.length || 0 }})
+            </button></label
+          >
         </div>
         <div class="form-group">
           <label>Login</label>
-          <input type="text" name="login" [ngModel]="user?.login" class="form-control">
+          <input
+            type="text"
+            name="login"
+            [ngModel]="user?.login"
+            class="form-control"
+          />
         </div>
         <div class="form-group">
           <label>Jméno</label>
-          <input type="text" name="name" [ngModel]="user?.name" class="form-control">
+          <input
+            type="text"
+            name="name"
+            [ngModel]="user?.name"
+            class="form-control"
+          />
         </div>
         <div class="form-group">
           <label>E-mail</label>
-          <input type="email" name="email" [ngModel]="user?.email" class="form-control">
+          <input
+            type="email"
+            name="email"
+            [ngModel]="user?.email"
+            class="form-control"
+          />
         </div>
-        <button type="submit" class="btn btn-primary">{{'common.save' | translate}}</button>
+        <button type="submit" class="btn btn-primary">
+          {{ "common.save" | translate }}
+        </button>
       </form>
-
     </div>
-    <div class="col-md-6">
-
-    </div>
-
+    <div class="col-md-6"></div>
   </div>
 </div>
 
 <ng-template #addManagedProfileModal>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Přidat spravované profily k účtu {{user?.name || user?.login}}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+    <h4 class="modal-title pull-left">
+      Přidat spravované profily k účtu {{ user?.name || user?.login }}
+    </h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <managed-profiles-selector [(ngModel)]="managedProfiles"></managed-profiles-selector>
+    <managed-profiles-selector
+      [(ngModel)]="managedProfiles"
+    ></managed-profiles-selector>
   </div>
   <div class="modal-footer">
     <button class="btn btn-default" (click)="closeModal()">Zavřít</button>

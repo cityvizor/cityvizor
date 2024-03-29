@@ -1,1 +1,1 @@
-export type ProfileType = 'municipality' | 'pbo' | 'external';
+export type ProfileType = "municipality" | "pbo" | "external";

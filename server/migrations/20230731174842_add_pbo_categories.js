@@ -1,26 +1,26 @@
 exports.up = function (knex) {
   return knex.schema
-    .createTable('app.pbo_categories', table => {
-      table.string('pbo_category_id', 16).notNullable().unique();
-      table.string('pbo_category_cs_name', 50).notNullable();
-      table.string('pbo_category_en_name', 50).notNullable();
+    .createTable("app.pbo_categories", table => {
+      table.string("pbo_category_id", 16).notNullable().unique();
+      table.string("pbo_category_cs_name", 50).notNullable();
+      table.string("pbo_category_en_name", 50).notNullable();
     })
     .then(() => {
-      return knex('app.pbo_categories').insert([
+      return knex("app.pbo_categories").insert([
         {
-          pbo_category_id: 'unclassified',
-          pbo_category_cs_name: 'Nezařazeno',
-          pbo_category_en_name: 'Unclassified',
+          pbo_category_id: "unclassified",
+          pbo_category_cs_name: "Nezařazeno",
+          pbo_category_en_name: "Unclassified",
         },
       ]);
     })
     .then(() => {
-      return knex.schema.alterTable('app.profiles', table => {
-        table.string('pbo_category_id').nullable();
+      return knex.schema.alterTable("app.profiles", table => {
+        table.string("pbo_category_id").nullable();
         table
-          .foreign('pbo_category_id')
-          .references('pbo_category_id')
-          .inTable('app.pbo_categories');
+          .foreign("pbo_category_id")
+          .references("pbo_category_id")
+          .inTable("app.pbo_categories");
       });
     })
     .then(() => {
@@ -73,12 +73,12 @@ exports.down = function (knex) {
   FROM app.profiles`
     )
     .then(() => {
-      return knex.schema.alterTable('app.profiles', table => {
-        table.dropForeign('pbo_category_id');
-        table.dropColumn('pbo_category_id');
+      return knex.schema.alterTable("app.profiles", table => {
+        table.dropForeign("pbo_category_id");
+        table.dropColumn("pbo_category_id");
       });
     })
     .then(() => {
-      return knex.schema.dropTable('app.pbo_categories');
+      return knex.schema.dropTable("app.pbo_categories");
     });
 };

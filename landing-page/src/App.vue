@@ -1,45 +1,42 @@
 <template>
-  <div id="app"
-    class="l-wrapper">
+  <div id="app" class="l-wrapper">
     <!-- Header -->
     <Header></Header>
 
     <!-- Main -->
     <router-view id="main"></router-view>
-    
+
     <!-- Footer -->
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Header from './components/partials/Header.vue'
-import Footer from './components/partials/Footer.vue'
+import Header from "./components/partials/Header.vue";
+import Footer from "./components/partials/Footer.vue";
 
 export default {
-  name: 'app',
+  name: "App",
   components: {
     Header,
-    Footer
+    Footer,
+  },
+  data() {
+    return {};
   },
   computed: {
     isHome() {
-      return this.$route.path === '/';
-    }
+      return this.$route.path === "/";
+    },
   },
-  data() {
-    return {}
-  },
-  created() {
-  },
-  methods: {
-  }
-}
+  created() {},
+  methods: {},
+};
 </script>
 
 <style lang="scss">
-  #main {
-    max-width: 70vw;
-    margin: 0 auto;
-  }
+#main {
+  max-width: 70vw;
+  margin: 0 auto;
+}
 </style>

@@ -1,174 +1,304 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 
 import { Counterparty } from "app/schema/counterparty";
 import { DashboardRow } from "app/schema/dashboard";
 
 import { environment } from "environments/environment";
-import { BudgetEvent, BudgetGroupEvent, BudgetTypedAmounts, Budget, Profile, Codelist, ProfileSumMode } from 'app/schema';
+import {
+  BudgetEvent,
+  BudgetGroupEvent,
+  BudgetTypedAmounts,
+  Budget,
+  Profile,
+  Codelist,
+  ProfileSumMode,
+} from "app/schema";
 
 function toParams(options) {
-	if (!options) return "";
+  if (!options) return "";
 
-	var params = Object.keys(options)
-		.map(key => {
-			if (typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
-			else return key + "=" + options[key];
-		})
-		.join("&");
+  var params = Object.keys(options)
+    .map(key => {
+      if (typeof options[key] === "object")
+        return Object.keys(options[key])
+          .map(key2 => key + "[" + key2 + "]=" + options[key][key2])
+          .join("&");
+      else return key + "=" + options[key];
+    })
+    .join("&");
 
-	return "?" + params;
+  return "?" + params;
 }
 
 /**
-	* Service to communicate with server database
-	* getEntities - returns Promise with the list of entities, possibly filtered by filter:object parameter
-	* getEntity - returns Promise with single entity
-	* saveEntity - updates entity and returns Promise with updated data on entity
-	* getDashboard - returns Promise with dashboard data
-	* getExpenditures - returns Promise with expenditures data for entity and year
-	**/
+ * Service to communicate with server database
+ * getEntities - returns Promise with the list of entities, possibly filtered by filter:object parameter
+ * getEntity - returns Promise with single entity
+ * saveEntity - updates entity and returns Promise with updated data on entity
+ * getDashboard - returns Promise with dashboard data
+ * getExpenditures - returns Promise with expenditures data for entity and year
+ **/
 @Injectable({
-	providedIn: 'root'
+  providedIn: "root",
 })
 export class DataService {
+  root = environment.api_root + "/public";
+  root_api2 = environment.api2_root;
 
-	root = environment.api_root + "/public";
-	root_api2 = environment.api2_root 
+  constructor(private http: HttpClient) {}
 
-	constructor(private http: HttpClient) { }
+  getCodelist(codelistName: string) {
+    return this.http
+      .get<Codelist>(this.root + "/codelists/" + codelistName)
+      .toPromise();
+  }
 
-	getCodelist(codelistName: string) {
-		return this.http.get<Codelist>(this.root + "/codelists/" + codelistName).toPromise();
-	}
+  /* PROFILES */
+  getProfiles(options?) {
+    return this.http
+      .get<Profile[]>(this.root + "/profiles" + toParams(options))
+      .toPromise();
+  }
 
-	/* PROFILES */
-	getProfiles(options?) {
-		return this.http.get<Profile[]>(this.root + "/profiles" + toParams(options)).toPromise();
-	}
+  getProfile(profileId: number | string) {
+    return this.http
+      .get<Profile>(this.root + "/profiles/" + profileId)
+      .toPromise();
+  }
 
-	getProfile(profileId: number | string) {
-		return this.http.get<Profile>(this.root + "/profiles/" + profileId).toPromise();
-	}
+  /* AVATARS */
+  getProfileAvatarUrl(profile: Profile): string | null {
+    if (profile.avatarType)
+      return this.root + "/profiles/" + profile.id + "/avatar";
+    else return null;
+  }
 
-	/* AVATARS */
-	getProfileAvatarUrl(profile: Profile): string | null {
-		if (profile.avatarType) return this.root + "/profiles/" + profile.id + "/avatar";
-		else return null;
-	}
+  getProfileAccounting(profileId: number, year: number) {
+    return this.http
+      .get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year)
+      .toPromise();
+  }
+  getProfileAccountingGroups(profileId: number, year: number, field: string) {
+    return this.http
+      .get<any>(
+        this.root +
+          "/profiles/" +
+          profileId +
+          "/accounting/" +
+          year +
+          "/groups/" +
+          field
+      )
+      .toPromise();
+  }
+  getProfileAccountingEvents(
+    profileId: number,
+    year: number,
+    field: string,
+    groupId: string
+  ) {
+    return this.http
+      .get<
+        Array<
+          Pick<BudgetGroupEvent, "id" | "name" | "items"> & BudgetTypedAmounts
+        >
+      >(this.root + "/profiles/" + profileId + "/accounting/" + year + "/groups/" + field + "/" + groupId + "/events")
+      .toPromise();
+  }
+  getProfileAccountingPayments(profileId, year, options?) {
+    return this.http
+      .get<any>(
+        this.root +
+          "/profiles/" +
+          profileId +
+          "/accounting/" +
+          year +
+          "/payments",
+        { params: options }
+      )
+      .toPromise();
+  }
 
-	getProfileAccounting(profileId: number, year: number) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year).toPromise();
-	}
-	getProfileAccountingGroups(profileId: number, year: number, field: string) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/groups/" + field).toPromise();
-	}
-	getProfileAccountingEvents(profileId: number, year: number, field: string, groupId: string) {
-		return this.http.get<Array<Pick<BudgetGroupEvent, "id" | "name" | "items"> & BudgetTypedAmounts>>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/groups/" + field + "/" + groupId + "/events").toPromise();
-	}
-	getProfileAccountingPayments(profileId, year, options?) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/accounting/" + year + "/payments", { params: options }).toPromise();
-	}
+  /* PLANS */
+  getProfilePlansGroups(profileId: number, year: number, group: string) {
+    return this.http
+      .get<any>(
+        `${this.root}/profiles/${profileId}/plans/${year}/groups/${group}`
+      )
+      .toPromise();
+  }
 
-	/* PLANS */
-	getProfilePlansGroups(profileId: number, year: number, group: string) {
-		return this.http.get<any>(`${this.root}/profiles/${profileId}/plans/${year}/groups/${group}`).toPromise()
-	}
+  getProfilePlansDetails(profileId: number, year: number, field: string) {
+    return this.http
+      .get<any>(
+        `${this.root}/profiles/${profileId}/plans/${year}/groups/${field}/details`
+      )
+      .toPromise();
+  }
 
-	getProfilePlansDetails(profileId: number, year: number, field: string) {
-		return this.http.get<any>(`${this.root}/profiles/${profileId}/plans/${year}/groups/${field}/details`).toPromise()
-	}
+  getProfilePlans(profileId: number) {
+    return this.http
+      .get<any>(`${this.root}/profiles/${profileId}/plans`)
+      .toPromise();
+  }
 
-	getProfilePlans(profileId: number) {
-		return this.http.get<any>(`${this.root}/profiles/${profileId}/plans`).toPromise()
-	}
+  /* AA */
+  getProfileAa(profileId: number, year: number, aa: number, sa: number) {
+    return this.http
+      .get<BudgetEvent>(
+        `${this.root}/profiles/${profileId}/aa/${aa}/sa/${sa}/year/${year}`
+      )
+      .toPromise();
+  }
 
-	/* AA */
-	getProfileAa(profileId: number, year: number, aa: number, sa: number) {
-		return this.http.get<BudgetEvent>(`${this.root}/profiles/${profileId}/aa/${aa}/sa/${sa}/year/${year}`).toPromise()
-	}
+  getProfileAaHistory(profileId: number, aa: number, sa: number) {
+    return this.http
+      .get<
+        BudgetEvent[]
+      >(`${this.root}/profiles/${profileId}/aa/${aa}/sa/${sa}/history`)
+      .toPromise();
+  }
 
-	getProfileAaHistory(profileId: number, aa: number, sa: number) {
-		return this.http.get<BudgetEvent[]>(`${this.root}/profiles/${profileId}/aa/${aa}/sa/${sa}/history`).toPromise()
-	}
+  /* YEARS */
+  getProfileBudget(profileId: number, year: number) {
+    return this.http
+      .get<Budget>(this.root + "/profiles/" + profileId + "/years/" + year)
+      .toPromise();
+  }
+  getProfileBudgets(
+    profileId: number,
+    options?: { limit?: number; sumMode?: ProfileSumMode }
+  ) {
+    return this.http
+      .get<
+        Budget[]
+      >(this.root + "/profiles/" + profileId + "/years" + toParams(options))
+      .toPromise();
+  }
 
-	/* YEARS */
-	getProfileBudget(profileId: number, year: number) {
-		return this.http.get<Budget>(this.root + "/profiles/" + profileId + "/years/" + year).toPromise();
-	}
-	getProfileBudgets(profileId: number, options?: { limit?: number; sumMode?: ProfileSumMode }) {
-		return this.http.get<Budget[]>(this.root + "/profiles/" + profileId + "/years" + toParams(options)).toPromise();
-	}
+  /* CONTRACTS */
+  getProfileContracts(profileId: number, options?) {
+    return this.http
+      .get<any>(
+        this.root + "/profiles/" + profileId + "/contracts" + toParams(options)
+      )
+      .toPromise();
+  }
 
-	/* CONTRACTS */
-	getProfileContracts(profileId: number, options?) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/contracts" + toParams(options)).toPromise();
-	}
+  /* DASHBOARD */
+  getProfileDashboard(profileId: number) {
+    return this.http
+      .get<DashboardRow[]>(this.root + "/profiles/" + profileId + "/dashboard")
+      .toPromise();
+  }
+  /* EVENTS */
+  getProfileEvents(profileId: number, year: number, options?) {
+    return this.http
+      .get<
+        BudgetEvent[]
+      >(this.root + "/profiles/" + profileId + "/events/" + year + toParams(options))
+      .toPromise();
+  }
+  getProfileEvent(profileId: number, eventId: number, year: number) {
+    return this.http
+      .get<BudgetEvent>(
+        this.root + "/profiles/" + profileId + "/events/" + year + "/" + eventId
+      )
+      .toPromise();
+  }
+  getProfileEventHistory(profileId: number, eventId: number) {
+    return this.http
+      .get<
+        BudgetEvent[]
+      >(this.root + "/profiles/" + profileId + "/events/history/" + eventId)
+      .toPromise();
+  }
 
-	/* DASHBOARD */
-	getProfileDashboard(profileId: number) {
-		return this.http.get<DashboardRow[]>(this.root + "/profiles/" + profileId + "/dashboard").toPromise();
-	}
-	/* EVENTS */
-	getProfileEvents(profileId: number, year: number, options?) {
-		return this.http.get<BudgetEvent[]>(this.root + "/profiles/" + profileId + "/events/" + year + toParams(options)).toPromise();
-	}
-	getProfileEvent(profileId: number, eventId: number, year: number) {
-		return this.http.get<BudgetEvent>(this.root + "/profiles/" + profileId + "/events/" + year + "/" + eventId).toPromise();
-	}
-	getProfileEventHistory(profileId: number, eventId: number) {
-		return this.http.get<BudgetEvent[]>(this.root + "/profiles/" + profileId + "/events/history/" + eventId).toPromise();
-	}
+  /* PAYMENTS */
+  getProfilePayments(profileId: number, options?) {
+    return this.http
+      .get<any>(
+        this.root + "/profiles/" + profileId + "/payments" + toParams(options)
+      )
+      .toPromise();
+  }
+  getProfilePaymentsMonths(profileId) {
+    return this.http
+      .get<
+        { month: number; year: number }[]
+      >(this.root + "/profiles/" + profileId + "/payments/months")
+      .toPromise();
+  }
 
-	/* PAYMENTS */
-	getProfilePayments(profileId: number, options?) {
-		return this.http.get<any>(this.root + "/profiles/" + profileId + "/payments" + toParams(options)).toPromise();
-	}
-	getProfilePaymentsMonths(profileId) {
-		return this.http.get<{ month: number, year: number }[]>(this.root + "/profiles/" + profileId + "/payments/months").toPromise();
-	}
+  /* MANAGERS */
+  getProfileManagers(profileId: number) {
+    return this.http
+      .get<any[]>(this.root + "/profiles/" + profileId + "/managers")
+      .toPromise();
+  }
 
-	/* MANAGERS */
-	getProfileManagers(profileId: number) {
-		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/managers").toPromise();
-	}
+  /* NOTICE BOARD */
+  getProfileNoticeBoard(profileId: number, options?) {
+    return this.http
+      .get<
+        any[]
+      >(this.root + "/profiles/" + profileId + "/noticeboard" + toParams(options))
+      .toPromise();
+  }
 
-	/* NOTICE BOARD */
-	getProfileNoticeBoard(profileId: number, options?) {
-		return this.http.get<any[]>(this.root + "/profiles/" + profileId + "/noticeboard" + toParams(options)).toPromise();
-	}
+  /* EVENTS */
+  getEvent(eventId: number) {
+    return this.http.get<any>(this.root + "/events/" + eventId).toPromise();
+  }
 
-	/* EVENTS */
-	getEvent(eventId: number) {
-		return this.http.get<any>(this.root + "/events/" + eventId).toPromise();
-	}
+  getCounterparty(conterpartyId: string) {
+    return this.http
+      .get<Counterparty>(this.root + "/counterparties/" + conterpartyId)
+      .toPromise();
+  }
 
-	getCounterparty(conterpartyId: string) {
-		return this.http.get<Counterparty>(this.root + "/counterparties/" + conterpartyId).toPromise();
-	}
+  getCounterparties(options?: any) {
+    return this.http
+      .get<any[]>(this.root + "/counterparties" + toParams(options))
+      .toPromise();
+  }
 
-	getCounterparties(options?: any) {
-		return this.http.get<any[]>(this.root + "/counterparties" + toParams(options)).toPromise();
-	}
+  getCounterpartiesTop(options?: any) {
+    return this.http
+      .get<
+        Counterparty[]
+      >(this.root + "/counterparties/top" + toParams(options))
+      .toPromise();
+  }
 
-	getCounterpartiesTop(options?: any) {
-		return this.http.get<Counterparty[]>(this.root + "/counterparties/top" + toParams(options)).toPromise();
-	}
+  searchCounterparties(query: string) {
+    return this.http
+      .get<
+        any[]
+      >(this.root + "/counterparties/search" + toParams({ query: query }))
+      .toPromise();
+  }
 
-	searchCounterparties(query: string) {
-		return this.http.get<any[]>(this.root + "/counterparties/search" + toParams({ query: query })).toPromise();
-	}
+  getCounterpartyBudgets(counterpartyId: string) {
+    return this.http
+      .get<any[]>(this.root + "/counterparties/" + counterpartyId + "/budgets")
+      .toPromise();
+  }
 
-	getCounterpartyBudgets(counterpartyId: string) {
-		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/budgets").toPromise();
-	}
+  getCounterpartyPayments(counterpartyId: string, options?: any) {
+    return this.http
+      .get<
+        any[]
+      >(this.root + "/counterparties/" + counterpartyId + "/payments" + toParams(options))
+      .toPromise();
+  }
 
-	getCounterpartyPayments(counterpartyId: string, options?: any) {
-		return this.http.get<any[]>(this.root + "/counterparties/" + counterpartyId + "/payments" + toParams(options)).toPromise();
-	}
-
-	searchForCities(ico: string) {
-		return this.http.get<any[]>(this.root_api2 + "/service/citysearch" + toParams( { query: ico })).toPromise();
-	}
-
+  searchForCities(ico: string) {
+    return this.http
+      .get<
+        any[]
+      >(this.root_api2 + "/service/citysearch" + toParams({ query: ico }))
+      .toPromise();
+  }
 }

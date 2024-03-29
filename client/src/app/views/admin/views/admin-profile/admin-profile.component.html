@@ -1,16 +1,19 @@
 <div class="container">
-  <h2>{{(profile | async)?.name}}</h2>
-  <br>
+  <h2>{{ (profile | async)?.name }}</h2>
+  <br />
   <div class="row">
-
     <div class="col-md-2">
       <ul class="nav nav-pills nav-stacked">
         <li routerLinkActive="active"><a routerLink="data">Data</a></li>
         <li routerLinkActive="active"><a routerLink="api">API</a></li>
         <li routerLinkActive="active"><a routerLink="logy">Logy importů</a></li>
-        <li routerLinkActive="active"><a routerLink="nastaveni">Nastavení</a></li>
+        <li routerLinkActive="active">
+          <a routerLink="nastaveni">Nastavení</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="podprofily">Podprofily</a>
+        </li>
       </ul>
-
     </div>
 
     <div class="col-md-9 col-md-offset-1">

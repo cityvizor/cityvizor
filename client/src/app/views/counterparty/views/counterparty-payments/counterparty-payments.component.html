@@ -1,9 +1,9 @@
 <div class="container">
   <table>
     <tr *ngFor="let payment of payments" class="budget">
-      <td class="date">{{payment.date | date:"d. M. y"}}</td>
-      <td>{{payment.amount | money:0:false}} Kč</td>
-      <td>{{payment.description}}</td>
+      <td class="date">{{ payment.date | date: "d. M. y" }}</td>
+      <td>{{ payment.amount | money: 0 : false }} Kč</td>
+      <td>{{ payment.description }}</td>
     </tr>
   </table>
 </div>

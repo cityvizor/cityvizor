@@ -1,8 +1,11 @@
 <div class="container">
-  <button (click)="openModal(createUserModal)" class="btn btn-primary" style="margin-bottom: 1.5em">
+  <button
+    (click)="openModal(createUserModal)"
+    class="btn btn-primary"
+    style="margin-bottom: 1.5em"
+  >
     Přidat správce
   </button>
-
 
   <p-table [value]="users" [rowHover]="true" sortField="name">
     <ng-template pTemplate="header">
@@ -32,22 +35,50 @@
       <tr>
         <th>
           <!-- Name -->
-          <p-columnFilter type="text" field="name" matchMode="contains"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="name"
+            matchMode="contains"
+          ></p-columnFilter>
         </th>
         <th>
           <!-- E-mail -->
-          <p-columnFilter type="text" field="email" matchMode="contains"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="email"
+            matchMode="contains"
+          ></p-columnFilter>
+        </th>
+
         <th>
           <!-- Login -->
-          <p-columnFilter type="text" field="login" matchMode="contains"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="login"
+            matchMode="contains"
+          ></p-columnFilter>
         </th>
         <th>
           <!-- Role -->
-          <p-columnFilter field="role" matchMode="equals" display="row" [showMenu]="false">
-            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-              <p-dropdown [ngModel]="value" [options]="roles" (onChange)="filter($event.value)" placeholder="Všechny">
+          <p-columnFilter
+            field="role"
+            matchMode="equals"
+            display="row"
+            [showMenu]="false"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-dropdown
+                [ngModel]="value"
+                [options]="roles"
+                (onChange)="filter($event.value)"
+                placeholder="Všechny"
+              >
                 <ng-template let-option pTemplate="item">
-                  <div>{{option.label}}</div>
+                  <div>{{ option.label }}</div>
                 </ng-template>
               </p-dropdown>
             </ng-template>
@@ -55,7 +86,11 @@
         </th>
         <th>
           <!-- Poslední přihlášení -->
-          <p-columnFilter type="text" field="lastLogin" matchMode="contains"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="lastLogin"
+            matchMode="contains"
+          ></p-columnFilter>
         </th>
         <th>
           <!-- Akce -->
@@ -66,27 +101,38 @@
     <!-- Data rows -->
     <ng-template pTemplate="body" let-user>
       <tr [routerLink]="'./' + user.id">
-        <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.login}}</td>
-        <td>{{user.role}}</td>
-        <td>{{user.lastLogin | date:"d. M. y H:mm"}}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.login }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.lastLogin | date: "d. M. y H:mm" }}</td>
         <td (click)="$event.stopImmediatePropagation()">
           <div class="btn-group pull-right" dropdown>
             <a dropdownToggle>Akce <span class="caret"></span></a>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
-              <li><a class="dropdown-item" (click)="currentUser = user; openModal(changePasswordModal)">Nastavit
-                  heslo</a></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  (click)="currentUser = user; openModal(changePasswordModal)"
+                  >Nastavit heslo</a
+                >
+              </li>
               <li class="divider dropdown-divider"></li>
-              <li><a class="dropdown-item" (click)="currentUser = user; openModal(deleteUserModal)"><span
-                    class="text-danger">{{'common.delete' | translate}}</span></a></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  (click)="currentUser = user; openModal(deleteUserModal)"
+                  ><span class="text-danger">{{
+                    "common.delete" | translate
+                  }}</span></a
+                >
+              </li>
             </ul>
           </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
-
 </div>
 
 <ng-template #createUserModal>
@@ -94,21 +140,37 @@
 </ng-template>
 
 <ng-template #changePasswordModal>
-  <user-set-password-modal [user]="currentUser" (close)="closeModal($event)"></user-set-password-modal>
+  <user-set-password-modal
+    [user]="currentUser"
+    (close)="closeModal($event)"
+  ></user-set-password-modal>
 </ng-template>
 
 <ng-template #deleteUserModal>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Smazat uživatele</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Opravdu chcete smazat uživatele {{currentUser.name || currentUser.login}}?</p>
+    <p>
+      Opravdu chcete smazat uživatele
+      {{ currentUser.name || currentUser.login }}?
+    </p>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-default" (click)="closeModal(false);">Zrušit</button>
-    <button class="btn btn-danger" (click)="deleteUser(currentUser.id);closeModal(false);">{{'common.delete' | translate}}</button>
+    <button class="btn btn-default" (click)="closeModal(false)">Zrušit</button>
+    <button
+      class="btn btn-danger"
+      (click)="deleteUser(currentUser.id); closeModal(false)"
+    >
+      {{ "common.delete" | translate }}
+    </button>
   </div>
 </ng-template>

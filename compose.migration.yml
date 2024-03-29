@@ -1,0 +1,5 @@
+version: "3.8"
+
+services:
+  server.cityvizor:
+    command: -w db.cityvizor:5432 -a -m test -i

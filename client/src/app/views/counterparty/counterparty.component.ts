@@ -8,27 +8,24 @@ import { Counterparty } from "app/schema/counterparty";
 
 @Component({
   moduleId: module.id,
-  selector: 'counterparty',
-  templateUrl: 'counterparty.component.html',
-  styleUrls: ['counterparty.component.scss'],
+  selector: "counterparty",
+  templateUrl: "counterparty.component.html",
+  styleUrls: ["counterparty.component.scss"],
 })
 export class CounterpartyComponent implements OnInit, OnDestroy {
-
   counterparty: Counterparty;
 
   paramsSubscription: Subscription;
 
-  constructor(private dataService: DataService, private route: ActivatedRoute) {
-
-  }
-
+  constructor(
+    private dataService: DataService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
       this.loadCounterparty(params.counterparty);
     });
-
   }
 
   ngOnDestroy() {
@@ -36,6 +33,6 @@ export class CounterpartyComponent implements OnInit, OnDestroy {
   }
 
   async loadCounterparty(counterpartyId: string) {
-    this.counterparty = await this.dataService.getCounterparty(counterpartyId)
+    this.counterparty = await this.dataService.getCounterparty(counterpartyId);
   }
 }

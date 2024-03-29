@@ -2,11 +2,11 @@
   <div>
     <div
       v-if="pendingPopupOpen"
-      v-on:click="pendingPopup()"
       class="whole-screen transparent-gray"
       style="z-index: 3"
+      @click="pendingPopup()"
     ></div>
-    <div v-if="pendingPopupOpen" v-on:click="pendingPopup()" class="popup">
+    <div v-if="pendingPopupOpen" class="popup" @click="pendingPopup()">
       <div class="popup-text">Data pro tento profil připravujeme</div>
     </div>
   </div>
@@ -21,16 +21,16 @@ export default {
       pendingPopupOpen: false,
     };
   },
+  mounted() {},
   methods: {
     pendingPopup() {
       this.pendingPopupOpen = !this.pendingPopupOpen;
     },
   },
-  mounted() {},
 };
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 @import "../../assets/styles/common/_variables.scss";
 
 .popup {

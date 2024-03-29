@@ -1,22 +1,20 @@
 export const aclConfig = {
-
   routes: [
     {
       route: "/admin/spravci",
-      allowRoles: ["admin"]
+      allowRoles: ["admin"],
     },
     {
       route: "/admin",
-      allowRoles: ["admin", "profile-admin"]
+      allowRoles: ["admin", "profile-admin"],
     },
     {
       route: "/ucet",
-      allowRoles: ["admin", "user"]
-    }
+      allowRoles: ["admin", "user"],
+    },
   ],
-  
-  default: {
-    allow: true
-  }
 
-}
+  default: {
+    allow: true,
+  },
+};

@@ -1,6 +1,6 @@
-import express from 'express';
+import express from "express";
 
-import {ImportAccountingRouter} from './accounting';
+import { ImportAccountingRouter } from "./accounting";
 
 const router = express.Router();
 
