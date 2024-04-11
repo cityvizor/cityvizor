@@ -38,7 +38,7 @@
     "intl": "^1.2.5",
     "luxon": "^1.28.1",
     "ngx-bootstrap": "^9.0.0",
-    "npm": "^8.19.2",
+    "npm": "^10.5.2",
     "primeicons": "^6.0.1",
     "primeng": "^14.2.0",
     "reflect-metadata": "^0.1.13",
