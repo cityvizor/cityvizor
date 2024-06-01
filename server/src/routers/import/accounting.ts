@@ -14,7 +14,6 @@ import { DateTime } from "luxon";
 import { Import } from "../../worker/import/import";
 import { isPositiveInteger } from "../../utils";
 import { logger } from "../../logger";
-import { readdirSync } from "fs";
 const router = express.Router();
 
 export const ImportAccountingRouter = router;
