@@ -209,7 +209,7 @@ router.delete("/:profile/avatar", acl("profiles:write"), async (req, res) => {
     getS3Client().removeObject(
       config.s3.public_bucket,
       getS3AvatarPublicObjectPath(profile.id, profile.avatarType),
-      (error: Error | null) => {
+      (error: unknown) => {
         if (error) {
           console.log("Delete from S3 error", error);
         }

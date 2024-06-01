@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { DateTime } from "luxon";
-import { remove } from "fs-extra";
 import { ImportRecord } from "../../schema/database/import";
 import { db } from "../../db";
 import { Import } from "./import";
@@ -35,9 +34,6 @@ export async function checkImportQueue() {
       await db<ImportRecord>("app.imports")
         .where({ id: runningJob.id })
         .update(updateDataStale);
-
-      // remove used import data
-      await remove(runningJob.importDir);
     }
   }
 
@@ -56,10 +52,8 @@ export async function checkImportQueue() {
   if (!profile) return;
 
   console.log(
-    `[WORKER] ${DateTime.local().toJSDate()} Found a new ${
-      currentJob.format
-    } job, starting import for profile "${profile.name}" with type "${
-      profile.type
+    `[WORKER] ${DateTime.local().toJSDate()} Found a new ${currentJob.format
+    } job, starting import for profile "${profile.name}" with type "${profile.type
     }"`
   );
 
@@ -109,15 +103,14 @@ export async function checkImportQueue() {
       importLogger.log(`Import failed: ${err}`);
     }
   } finally {
-    // remove used import data
     if (error) {
+      // Rollback failed import transaction
       importLogger.log("Aborting the DB transaction, no changes made to the DB.");
       await trx.rollback();
     } else {
       importLogger.log("Import successful, committing the DB transaction.");
       await trx.commit();
     }
-    await remove(currentJob.importDir);
   }
 
   console.log("___LOGS____");

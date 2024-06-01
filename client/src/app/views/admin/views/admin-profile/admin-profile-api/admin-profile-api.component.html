@@ -1,17 +1,18 @@
-<h4>Adresa API</h4>
+<h4>Import dat pro tento profil</h4>
 <div *ngIf="profileId$ | async as profileId" class="well">
   POST {{ apiRoot }}/import/profiles/{{ profileId$ | async }}/accounting
+</div>
+
+<h4>Import dat pro podprofily</h4>
+<div *ngIf="profileId$ | async as profileId" class="well">
+  POST {{ apiRoot }}/import/profiles/{{ profileId$ | async }}/subprofile-accounting
 </div>
 
 <h4>Token</h4>
 
 <ng-container *ngIf="!token">
-  <button
-    *ngIf="profileId$ | async as profileId"
-    type="button"
-    class="btn btn-primary"
-    (click)="generateToken(profileId)"
-  >
+  <button *ngIf="profileId$ | async as profileId" type="button" class="btn btn-primary"
+    (click)="generateToken(profileId)">
     Vygenerovat token
   </button>
 </ng-container>
@@ -25,11 +26,6 @@
   tokeny pro tento profil. Toto použijte v případě, že se domníváte, že se mohl
   být některý z platných tokenů dostat do nepovolaných rukou.
 </p>
-<button
-  *ngIf="profileId$ | async as profileId"
-  type="button"
-  class="btn btn-danger"
-  (click)="resetTokens(profileId)"
->
+<button *ngIf="profileId$ | async as profileId" type="button" class="btn btn-danger" (click)="resetTokens(profileId)">
   Zneplatnit vydané tokeny
 </button>

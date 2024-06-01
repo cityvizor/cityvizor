@@ -1,15 +1,11 @@
 import express from "express";
-
 import path from "path";
 import multer from "multer";
 import acl from "express-dynacl";
 import schema from "express-jsonschema";
-
 import extract from "extract-zip";
 import fs from "fs-extra";
-
 import config from "../../config";
-
 import { db } from "../../db";
 import { YearRecord, ProfileRecord } from "../../schema";
 import { ImportRecord } from "../../schema/database/import";
@@ -18,6 +14,7 @@ import { DateTime } from "luxon";
 import { Import } from "../../worker/import/import";
 import { isPositiveInteger } from "../../utils";
 import { logger } from "../../logger";
+import { readdirSync } from "fs";
 const router = express.Router();
 
 export const ImportAccountingRouter = router;
@@ -190,6 +187,8 @@ router.post(
   schema.validate(importAccountingSchema),
   acl("profile-accounting:write"),
   async (req, res) => {
+    logger.info(`Processing accounting import for profile '${req.params?.profile}' and year '${req.body?.year}'.`);
+
     const reqFiles = req.files as {
       [fieldname: string]: Express.Multer.File[];
     };
@@ -213,6 +212,8 @@ router.post(
     const yearRecord = await ensureYearExists(profileId, year);
     const importDir = await Import.createImportDir();
 
+    // If ZIP file has been upload it, extract it to the import directory
+    // Otherwise move the CSV file to the import directory
     if (reqFiles.zipFile && reqFiles.zipFile[0]) {
       await extractZip(reqFiles.zipFile[0].path, importDir);
     } else {
@@ -242,6 +243,8 @@ router.post(
   schema.validate(importAccountingSchema),
   acl("profile-accounting:write"),
   async (req, res) => {
+    logger.info(`Processing subprofile accounting import for profile '${req.params?.profile}' and year '${req.body?.year}'.`);
+
     const reqFiles = req.files as {
       [fieldname: string]: Express.Multer.File[];
     };
@@ -262,24 +265,26 @@ router.post(
       return res.status(403).send("Invalid token.");
     }
 
-    // Create shared directory and unzip main zip
+    // Create shared directory and unzip main ZIP file
     const sharedDir = await Import.createImportDir();
     await extractZip(reqFiles.zipFile[0].path, sharedDir);
+    const subprofileDir = path.join(sharedDir, fs.readdirSync(sharedDir)[0]);
 
-    // Get all subprofile zip file paths and associated ICO values
+    // Get all subprofile ZIP file paths and associated ICO values
     const subprofileImports: [path: string, ico: string][] = fs
-      .readdirSync(sharedDir)
-      .filter(filePath => path.extname(filePath) === ".zip")
-      .map(filePath => {
+      .readdirSync(subprofileDir)
+      .filter(fileName => path.extname(fileName) === ".zip")
+      .map(fileName => {
         // Identify profile from ICO
-        const fileName = path.basename(filePath);
         const ico = fileName.split("_")[1].slice(2);
-        if (ico.length !== 8 || !isPositiveInteger(ico)) {
-          throw new Error(`Invalid subprofile zip name '${fileName}'`);
+        if (!ico.match(/^\d{8}$/)) {
+          throw new Error(`Invalid subprofile ZIP file name '${fileName}'`);
         }
 
-        return [filePath, ico];
+        return [path.join(subprofileDir, fileName), ico];
       });
+
+    logger.info(`Created directory '${sharedDir}' for subprofile import. ZIP files to be imported found: ${subprofileImports.length}.`);
 
     for (const [filePath, ico] of subprofileImports) {
       // Find profile with the provided ICO
@@ -298,7 +303,7 @@ router.post(
       const yearRecord = await ensureYearExists(subprofileId, year);
       const importDir = await Import.createImportDir();
 
-      // Unzip subprofile zip to subprofile import directory
+      // Unzip subprofile ZIP file to subprofile import directory
       await extractZip(filePath, importDir);
 
       await createImportJob(
@@ -321,6 +326,8 @@ async function processCsvImport(
   fileType: FileType,
   isAppend: boolean
 ) {
+  logger.info(`Processing CSV import for profile '${req.params?.profile}' and year '${req.body?.year}'.`);
+
   // When file missing throw error immediately
   if (!req.files || !req.files[fileType.toString()]) {
     return res.status(400).send("Missing data file or zip file");
@@ -341,6 +348,7 @@ async function processCsvImport(
   const yearRecord = await ensureYearExists(profileId, year);
   const importDir = await Import.createImportDir();
 
+  // Move the CSV file to the import directory
   if (req.files[fileType.toString()] && req.files[fileType.toString()][0]) {
     await move(
       req.files[fileType.toString()][0].path,
@@ -409,7 +417,7 @@ async function createImportJob(
   validity?: string,
   userId?: number
 ): Promise<ImportRecord> {
-  // add import task to database queue (worker checks the table)
+  // Add import task to database queue (worker checks the table)
   const importData: Partial<ImportRecord> = {
     profileId: year.profileId,
     year: year.year,
