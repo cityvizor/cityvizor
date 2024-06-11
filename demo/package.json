@@ -17,7 +17,7 @@
     "faktury"
   ],
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.1102.19",
+    "@angular-devkit/build-angular": "^18.0.3",
     "@angular/animations": "^11.2.4",
     "@angular/common": "^11.2.4",
     "@angular/compiler": "^11.1.1",
