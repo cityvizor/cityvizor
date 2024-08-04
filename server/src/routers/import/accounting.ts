@@ -367,12 +367,30 @@ async function processCsvImport(
   res.json(importDataFull);
 }
 
+/*
+
+  // check if tokenCode in profile is same as in token. if not, the token has been revoked (revoke all current tokens by changing the code)
+  const profile = await db<ProfileRecord>("app.profiles")
+    .select("id", "tokenCode")
+    .where({ id: req.params.profile })
+    .first();
+  if (
+    !profile ||
+    (req.user.tokenCode && req.user.tokenCode !== profile.tokenCode)
+  )
+    return res.status(403).send("Token revoked.");
+
+*/
+
+
 async function checkToken(
   profileId: number,
   tokenCode?: number
 ): Promise<boolean> {
-  if (!tokenCode) {
-    return false;
+  if (tokenCode == undefined) {
+    // If the request got past the ACL without a token,
+    // then it is from an authorized use (admin or profile-admin).
+    return true;
   }
 
   const profile = await db<ProfileRecord>("app.profiles")
