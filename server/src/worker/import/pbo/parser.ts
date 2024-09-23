@@ -3,6 +3,7 @@ import csvparse from "csv-parse";
 import { PlanRecord } from "../../../schema/database/plan";
 import { Import } from "../import";
 import { AaNameRecord } from "../../../schema/database/aaName";
+import { stringsAreEqualCaseInsensitive } from "../../../utils";
 
 type Row = {
   type: string;
@@ -41,15 +42,16 @@ const getCheckedColumns = (options: Import.Options): ColumnName[] =>
 /** Resolves a column name found in the CSV file to its main name
  * (i.e. the alias used later by the row transformer).
  */
-function resolveColumnAlias(alias: string): ColumnName | null {
-  if (columnAliases[alias]) {
+function resolveColumnAlias(originalColumn: string): ColumnName | null {
+  const lowercaseColumn = originalColumn.toLowerCase();
+  if (columnAliases[lowercaseColumn]) {
     // This is already the main column name.
-    return alias as ColumnName;
+    return lowercaseColumn as ColumnName;
   } else {
     // Try to find the column name for which this is declared as alias.
     return (
       (Object.keys(columnAliases).find(mainName =>
-        columnAliases[mainName].includes(alias)
+        columnAliases[mainName].includes(lowercaseColumn)
       ) as ColumnName) ?? null // This is not a known column name.
     );
   }
@@ -62,8 +64,8 @@ function mapHeaderColumns(
   const missingColumns = getMandatoryColumns(options).filter(
     requiredColumn =>
       !(
-        header.includes(requiredColumn) ||
-        columnAliases[requiredColumn].some(alias => header.includes(alias))
+        header.some(column => stringsAreEqualCaseInsensitive(column, requiredColumn)) ||
+        columnAliases[requiredColumn].some(alias => header.some(column => stringsAreEqualCaseInsensitive(column, alias)))
       )
   );
 
@@ -93,9 +95,8 @@ export function createPboParser(options: Import.Options): Transform {
       let err: Error | null = null;
       getCheckedColumns(options).forEach(field => {
         if (isNaN(Number(row[field]))) {
-          err = new Error(`Field ${field} of value "${
-            row[field]
-          }" is not a number.
+          err = new Error(`Field ${field} of value "${row[field]
+            }" is not a number.
                     Parsed line: ${JSON.stringify(row)}`);
         }
       });
