@@ -188,9 +188,14 @@ router.post(
   async (req, res) => {
     logger.info(`Processing accounting import for profile '${req.params?.profile}' and year '${req.body?.year}'.`);
 
-    const reqFiles = req.files as {
-      [fieldname: string]: Express.Multer.File[];
-    };
+    const profileId = Number(req.params.profile);
+    const isAuthorized = await checkToken(profileId, req.user?.tokenCode);
+
+    if (!isAuthorized) {
+      return res.status(403).send("Invalid token.");
+    }
+
+    const reqFiles = req.files as Record<string, Express.Multer.File[]>;
 
     // When both files missing throw error immediately
     if (!reqFiles || (!reqFiles.accounting && !reqFiles.zipFile)) {
@@ -200,14 +205,7 @@ router.post(
       return res.status(400).send("Invalid year value.");
     }
 
-    const profileId = Number(req.params.profile);
     const year = Number(req.body.year);
-    const isAuthorized = await checkToken(profileId, req.user?.tokenCode);
-
-    if (!isAuthorized) {
-      return res.status(403).send("Invalid token.");
-    }
-
     const yearRecord = await ensureYearExists(profileId, year);
     const importDir = await Import.createImportDir();
 
@@ -237,16 +235,21 @@ router.post(
 );
 
 router.post(
-  "/profiles/:profile/subprofile-accounting",
+  "/profiles/:profile/subprofiles/plans/real",
   upload.fields([{ name: "zipFile", maxCount: 1 }]),
   schema.validate(importAccountingSchema),
   acl("profile-accounting:write"),
   async (req, res) => {
-    logger.info(`Processing subprofile accounting import for profile '${req.params?.profile}' and year '${req.body?.year}'.`);
+    logger.info(`Processing subprofile real plan import for profile '${req.params?.profile}' and year '${req.body?.year}'.`);
 
-    const reqFiles = req.files as {
-      [fieldname: string]: Express.Multer.File[];
-    };
+    const profileId = Number(req.params.profile);
+    const isAuthorized = await checkToken(profileId, req.user?.tokenCode);
+
+    if (!isAuthorized) {
+      return res.status(403).send("Invalid token.");
+    }
+
+    const reqFiles = req.files as Record<string, Express.Multer.File[]>;
 
     if (!reqFiles || !reqFiles.zipFile) {
       return res.status(400).send("Missing zip file.");
@@ -256,64 +259,43 @@ router.post(
       return res.status(400).send("Invalid year value.");
     }
 
-    const profileId = Number(req.params.profile);
     const year = Number(req.body.year);
-    const isAuthorized = await checkToken(profileId, req.user?.tokenCode);
+    const zipFileName = reqFiles.zipFile[0].filename;
 
-    if (!isAuthorized) {
-      return res.status(403).send("Invalid token.");
+    const ico = zipFileName.split("_")[1].slice(2);
+
+    if (!ico.match(/^\d{8}$/)) {
+      logger.error(`Invalid subprofile ZIP file name '${zipFileName}'`);
+      return res.status(400).send("Invalid subprofile ZIP file name.");
     }
 
-    // Create shared directory and unzip main ZIP file
-    const sharedDir = await Import.createImportDir();
-    await extractZip(reqFiles.zipFile[0].path, sharedDir);
-    const subprofileDir = path.join(sharedDir, fs.readdirSync(sharedDir)[0]);
+    // Find profile with the provided ICO
+    // Beware! If there are multiple profiles with the same ICO, the first is selected and the rest is ignored
+    const subprofileId = await db<ProfileRecord>("app.profiles")
+      .select("id")
+      .where({ ico: ico })
+      .first()
+      .then(result => result?.id);
 
-    // Get all subprofile ZIP file paths and associated ICO values
-    const subprofileImports: [path: string, ico: string][] = fs
-      .readdirSync(subprofileDir)
-      .filter(fileName => path.extname(fileName) === ".zip")
-      .map(fileName => {
-        // Identify profile from ICO
-        const ico = fileName.split("_")[1].slice(2);
-        if (!ico.match(/^\d{8}$/)) {
-          throw new Error(`Invalid subprofile ZIP file name '${fileName}'`);
-        }
-
-        return [path.join(subprofileDir, fileName), ico];
-      });
-
-    logger.info(`Created directory '${sharedDir}' for subprofile import. ZIP files to be imported found: ${subprofileImports.length}.`);
-
-    for (const [filePath, ico] of subprofileImports) {
-      // Find profile with the provided ICO
-      // Beware! If there are multiple profiles with the same ICO, the first is selected and the rest is ignored
-      const subprofileId = await db<ProfileRecord>("app.profiles")
-        .select("id")
-        .where({ ico: ico })
-        .first()
-        .then(result => result?.id);
-
-      if (!subprofileId) {
-        logger.warn(`No profile exists for subprofile import with ICO '${ico}'.`);
-        continue;
-      }
-
-      const yearRecord = await ensureYearExists(subprofileId, year);
-      const importDir = await Import.createImportDir();
-
-      // Unzip subprofile ZIP file to subprofile import directory
-      await extractZip(filePath, importDir);
-
-      await createImportJob(
-        "cityvizor",
-        importDir,
-        yearRecord,
-        false,
-        req.body.validity,
-        req.user?.id
-      );
+    if (!subprofileId) {
+      logger.warn(`No profile exists for subprofile import with ICO '${ico}'.`);
+      return res.status(404).send("No profile exists for the provided ICO.");
     }
+
+    const yearRecord = await ensureYearExists(subprofileId, year);
+    const importDir = await Import.createImportDir();
+
+    // Unzip subprofile ZIP file to subprofile import directory
+    await extractZip(reqFiles.zipFile[0].path, importDir);
+
+    await createImportJob(
+      "pbo_real_plan",
+      importDir,
+      yearRecord,
+      false,
+      req.body.validity,
+      req.user?.id
+    );
 
     return res.sendStatus(200);
   }
@@ -366,22 +348,6 @@ async function processCsvImport(
 
   res.json(importDataFull);
 }
-
-/*
-
-  // check if tokenCode in profile is same as in token. if not, the token has been revoked (revoke all current tokens by changing the code)
-  const profile = await db<ProfileRecord>("app.profiles")
-    .select("id", "tokenCode")
-    .where({ id: req.params.profile })
-    .first();
-  if (
-    !profile ||
-    (req.user.tokenCode && req.user.tokenCode !== profile.tokenCode)
-  )
-    return res.status(403).send("Token revoked.");
-
-*/
-
 
 async function checkToken(
   profileId: number,

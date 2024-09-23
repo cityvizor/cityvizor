@@ -11,7 +11,7 @@ export async function importPbo(options: Import.Options) {
   importLogger.log(`Starting import: ${JSON.stringify(options)}}`);
 
   const dirFiles = await fs.readdir(options.importDir);
-  const file = dirFiles.find(filename => filename.match(/.*.csv/));
+  const file = dirFiles.find(filename => filename.match(/.*\.csv/));
   if (!file) {
     throw Error("Csv file to import not found");
   }
