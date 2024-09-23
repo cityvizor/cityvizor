@@ -1,4 +1,4 @@
-FROM node:18 as install
+FROM node:18 AS install
 
 WORKDIR /user/src/app
 
@@ -6,13 +6,13 @@ COPY package.json .
 RUN yarn install --all
 COPY . .
 
-FROM install as dev
+FROM install AS dev
 CMD yarn serve
 
-FROM install as build
+FROM install AS build
 RUN yarn build
 
-FROM nginx:1.17.8-alpine as prod
+FROM nginx:1.17.8-alpine AS prod
 WORKDIR /usr/share/nginx/html
 
 RUN rm -f /etc/nginx/conf.d/*

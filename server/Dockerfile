@@ -1,4 +1,4 @@
-FROM node:18 as dev
+FROM node:18 AS dev
 USER root
 WORKDIR /home/node/app
 ENTRYPOINT [ "./entrypoint.sh" ]
@@ -15,7 +15,7 @@ RUN mkdir -p /home/node/data
 RUN chown -R node:node /home/node/
 # Rest of the application is set up under node user in /home/node
 
-FROM dev as prod
+FROM dev AS prod
 
 USER node
 # Copy server source code and build it
