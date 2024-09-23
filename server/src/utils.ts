@@ -8,3 +8,7 @@ export function parseAndLimitNumber(input: undefined | string | string[] | qs.Pa
         ? Math.min(Number(input), maxValue)
         : maxValue;
 }
+
+export function stringsAreEqualCaseInsensitive(a: string, b: string): boolean {
+    return a.toLowerCase() === b.toLowerCase();
+}
