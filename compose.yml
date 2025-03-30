@@ -65,7 +65,7 @@ services:
       - nginx.cityvizor
 
   db.cityvizor:
-    image: postgres:12.18-alpine3.19
+    image: postgres:17.4-alpine3.21
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -82,7 +82,7 @@ services:
       - 5432:5432
 
   redis.cityvizor:
-    image: redis:6
+    image: redis:7.4.2
     container_name: redis.cityvizor
 
   minio.cityvizor:
