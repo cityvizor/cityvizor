@@ -1,0 +1,39 @@
+name: Importer tests (dotnet)
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Run Importer unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run tests with results output
+        run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/test-results.trx
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        with:
+          name: .NET Test Results
+          path: TestResults/test-results.trx
+          reporter: dotnet-trx
