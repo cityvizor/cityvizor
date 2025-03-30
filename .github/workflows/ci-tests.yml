@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   test:
-    name: Run Importer Unit Tests
+    name: Run Importer Tests
     runs-on: ubuntu-latest
 
     env:
@@ -37,6 +37,6 @@ jobs:
       - name: Publish test results
         uses: dorny/test-reporter@v1
         with:
-          name: .NET Test Results
+          name: Importer Test Results
           path: TestResults/test-results.trx
           reporter: dotnet-trx

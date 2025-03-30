@@ -8,14 +8,18 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
 WORKDIR /src
 COPY ["Cityvizor.Importer/Cityvizor.Importer.csproj", "Cityvizor.Importer/"]
 COPY ["Cityvizor.Importer.Converter/Cityvizor.Importer.Converter.csproj", "Cityvizor.Importer.Converter/"]
 COPY ["Cityvizor.Importer.Domain/Cityvizor.Importer.Domain.csproj", "Cityvizor.Importer.Domain/"]
 COPY ["Cityvizor.Importer.Writer/Cityvizor.Importer.Writer.csproj", "Cityvizor.Importer.Writer/"]
 COPY ["Cityvizor.Importer.Infrastructure/Cityvizor.Importer.Infrastructure.csproj", "Cityvizor.Importer.Infrastructure/"]
+
 RUN dotnet restore "./Cityvizor.Importer/./Cityvizor.Importer.csproj"
+
 COPY . .
+
 WORKDIR "/src/Cityvizor.Importer"
 RUN dotnet build "./Cityvizor.Importer.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

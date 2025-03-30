@@ -6,8 +6,6 @@ using Cityvizor.Importer.Domain.Extensions;
 using Cityvizor.Importer.Infrastructure.Extensions;
 using Cityvizor.Importer.Writer.Extensions;
 
-[assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
-
 namespace Cityvizor.Importer;
 
 public class Program

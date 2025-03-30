@@ -7,8 +7,6 @@ using System.Text.RegularExpressions;
 using Cityvizor.Importer.Converter.Kxx.Enums;
 using Serilog;
 
-[assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
-
 namespace Cityvizor.Importer.Converter.Kxx;
 
 internal class KxxParser(StreamReader stream, ILogger logger)
