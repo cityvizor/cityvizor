@@ -4,15 +4,16 @@ using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Cityvizor.Importer.Converter.Kxx.Helpers;
 using Cityvizor.Importer.Converter.Kxx.Enums;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Cityvizor.Importer.Tests;
 
-namespace Cityvizor.Importer.UnitTests;
+namespace Cityvizor.Importer.Tests.Kxx;
 
 public class KxxParserTests(WebApplicationFactory<Program> factory) : WebTestBase(factory)
 {
     [Fact]
     public void TestParsingUcto()
     {
-        StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("ucto_medl_hc.kxx");
+        StreamReader reader = KxxTestData.CreateStreamReader("ucto_medl_hc.kxx");
         KxxParser parser = new(reader, _logger);
         _ = parser.Parse();
     }
@@ -20,7 +21,7 @@ public class KxxParserTests(WebApplicationFactory<Program> factory) : WebTestBas
     [Fact]
     public void TestParsingRozp()
     {
-        StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("rozp_medl_hc.kxx");
+        StreamReader reader = KxxTestData.CreateStreamReader("rozp_medl_hc.kxx");
         KxxParser parser = new(reader, _logger);
         _ = parser.Parse();
     }

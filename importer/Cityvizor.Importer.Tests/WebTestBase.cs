@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Cityvizor.Importer.UnitTests;
+namespace Cityvizor.Importer.Tests;
 
 public class WebTestBase : IClassFixture<WebApplicationFactory<Program>>
 {

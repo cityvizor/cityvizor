@@ -41,6 +41,7 @@ export async function checkImportQueue() {
     .where({status: 'pending'})
     .whereNot({format: 'ginis'}) // .js importer should ignore this format as it is handeled by new .NET importer
     .orderBy('created', 'asc')
+    .first();
 
   if (!currentJob) return;
 

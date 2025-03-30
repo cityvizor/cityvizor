@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Cityvizor.Importer.Converter.Kxx;
 using Cityvizor.Importer.Domain.Dtos;
 
-namespace Cityvizor.Importer.UnitTests;
+namespace Cityvizor.Importer.Tests.Kxx;
 
 public class KxxConverterTests : WebTestBase
 {
@@ -20,14 +20,14 @@ public class KxxConverterTests : WebTestBase
     [Fact]
     public void TestParsingUcto()
     {
-        StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("ucto_medl_hc.kxx");
+        using StreamReader reader = KxxTestData.CreateStreamReader("ucto_medl_hc.kxx");
         _ = KxxConverter.ParseRecords(reader, _logger);
     }
 
     [Fact]
     public void TestParsingRozp()
     {
-        StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("rozp_medl_hc.kxx");
+        using StreamReader reader = KxxTestData.CreateStreamReader("rozp_medl_hc.kxx");
         _ = KxxConverter.ParseRecords(reader, _logger);
     }
 
