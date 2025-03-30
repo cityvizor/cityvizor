@@ -11,7 +11,7 @@ internal class AccountingRecordBuilder
     public AccountingRecordType Type { get; set; }
     public uint Paragraph { get; set; }
     public uint Item { get; set; }
-    public  ulong Event { get; set; } // organization
+    public ulong Event { get; set; } // organization
     public ulong RecordUnit { get; set; } // organizationUnit
     public decimal Amount { get; set; }
 
@@ -26,4 +26,4 @@ internal class AccountingRecordBuilder
             Amount: this.Amount);
     }
 }
-    
+

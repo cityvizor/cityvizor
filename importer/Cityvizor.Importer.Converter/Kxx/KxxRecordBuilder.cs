@@ -6,10 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace Cityvizor.Importer.Converter.Kxx;
-internal class KxxRecordBuilder
+
+internal class KxxRecordBuilder(ILogger logger)
 {
     // some balances get filtered out based on Item number
-    private const int _balanceItemFilterLowerBound = 1000; 
+    private const int _balanceItemFilterLowerBound = 1000;
     private const int _balanceItemFilterUpperBound = 9000;
 
     // each kxx balance line contains both shouldGive and gave amounts, Item number decides how to compute overall amount for a kxx balance line
@@ -22,8 +23,8 @@ internal class KxxRecordBuilder
     private const string _dict = "DICT";
     private const string _evkt = "EVKT";
 
-    private readonly ILogger _logger;
-    
+    private readonly ILogger _logger = logger;
+
     /// <summary>
     /// This set of fields of Balance determines the record to which the balance belongs
     /// </summary>
@@ -37,17 +38,12 @@ internal class KxxRecordBuilder
         string Descriptions
     );
 
-    public KxxRecordBuilder(ILogger logger)
-    {
-        this._logger = logger;
-    }
-
     public AccountingAndPayments BuildRecordsFromDocuments(KxxDocument[] documents)
     {
-        List<PaymentRecord> paymentRecords = new();
-        Dictionary<AccountingRecordIdentifier, AccountingRecordBuilder> accountingRecords = new();
+        List<PaymentRecord> paymentRecords = [];
+        Dictionary<AccountingRecordIdentifier, AccountingRecordBuilder> accountingRecords = [];
 
-        foreach (KxxDocument document in documents) 
+        foreach (KxxDocument document in documents)
         {
             if (!ValidateDocumentType(document, out AccountingRecordType? accountingRecordType) || !ValidateEvkDescriptions(document))
             {
@@ -56,7 +52,7 @@ internal class KxxRecordBuilder
 
             if (IsPaymentDocument(document, out PaymentRecordType? paymentRecordType, out string? recordId)) // payment records
             {
-                if(!TryGetDocumentPaymentData(document, paymentRecordType.Value, recordId, out DocumentPaymentData? paymentData)) // parse common document data only once for all document balances
+                if (!TryGetDocumentPaymentData(document, paymentRecordType.Value, recordId, out DocumentPaymentData? paymentData)) // parse common document data only once for all document balances
                 {
                     continue;
                 }
@@ -67,7 +63,7 @@ internal class KxxRecordBuilder
             }
             else // accounting records
             {
-                foreach(DocumentBalance relevantBalance in FilterRelevantBalances(document.Balances)) 
+                foreach (DocumentBalance relevantBalance in FilterRelevantBalances(document.Balances))
                 {
                     ProcessAccountingBalance(relevantBalance, accountingRecordType.Value, accountingRecords);
                 }
@@ -75,17 +71,18 @@ internal class KxxRecordBuilder
         }
 
         return new AccountingAndPayments(
-            AccountingRecords: accountingRecords.Values.Select(recordBuilder => recordBuilder.ToAccountingRecord()).ToArray(),
-            PaymentRecords: paymentRecords.ToArray()
+            AccountingRecords: [.. accountingRecords.Values.Select(recordBuilder => recordBuilder.ToAccountingRecord())],
+            PaymentRecords: [.. paymentRecords]
         );
     }
 
-    private void ProcessAccountingBalance(DocumentBalance balance, AccountingRecordType accountingRecordType, Dictionary<AccountingRecordIdentifier, AccountingRecordBuilder> accountingRecords) 
+    private static void ProcessAccountingBalance(DocumentBalance balance, AccountingRecordType accountingRecordType, Dictionary<AccountingRecordIdentifier, AccountingRecordBuilder> accountingRecords)
     {
         AccountingRecordIdentifier recordIdentifier = GetAccountingBalanceIdentifier(balance, accountingRecordType);
-        if(!accountingRecords.TryGetValue(recordIdentifier, out AccountingRecordBuilder? accountingRecord))
+        if (!accountingRecords.TryGetValue(recordIdentifier, out AccountingRecordBuilder? accountingRecord))
         {
-            accountingRecord = new AccountingRecordBuilder {
+            accountingRecord = new AccountingRecordBuilder
+            {
                 Type = accountingRecordType,
                 Paragraph = balance.Paraghraph,
                 Item = balance.Item,
@@ -93,7 +90,7 @@ internal class KxxRecordBuilder
                 RecordUnit = balance.OrganizationUnit,
                 Amount = ComputeAmount(balance)
             };
-            accountingRecords.Add( recordIdentifier, accountingRecord );
+            accountingRecords.Add(recordIdentifier, accountingRecord);
         }
         else
         {
@@ -106,13 +103,13 @@ internal class KxxRecordBuilder
         return new AccountingRecordIdentifier(
             Paraghraph: balance.Paraghraph,
             Item: balance.Item,
-            Organization: balance.Organization, 
-            OrganizationUnit: balance.OrganizationUnit, 
+            Organization: balance.Organization,
+            OrganizationUnit: balance.OrganizationUnit,
             RecordType: accountingRecordType
         );
     }
 
-    private PaymentRecord BuildPaymentRecord(DocumentPaymentData document, DocumentBalance balance) 
+    private static PaymentRecord BuildPaymentRecord(DocumentPaymentData document, DocumentBalance balance)
     {
         return new PaymentRecord(
             Type: document.PaymentRecordType,
@@ -138,7 +135,7 @@ internal class KxxRecordBuilder
             success = false;
             LogDocumentError(document, $"is missing description with key {_ic}: counterpartyId");
         }
-        if(!document.Descriptions.TryGetValue(_dict, out string? counterpartyName))
+        if (!document.Descriptions.TryGetValue(_dict, out string? counterpartyName))
         {
             success = false;
             LogDocumentError(document, $"is missing description with key {_dict}: counterpartyName");
@@ -157,9 +154,9 @@ internal class KxxRecordBuilder
         return success;
     }
 
-    private void LogDocumentError(KxxDocument document, string message) 
+    private void LogDocumentError(KxxDocument document, string message)
     {
-        _logger.Error("Invalid kxx document: Kxx document with id {DocumentId}, ICO: {Ico}, for period: {AccountingMonth} {AccountingYear}: {Message} Document will be ignored.", 
+        _logger.Error("Invalid kxx document: Kxx document with id {DocumentId}, ICO: {Ico}, for period: {AccountingMonth} {AccountingYear}: {Message} Document will be ignored.",
             document.DocumentId, document.Ico, document.AccountingMonth, document.AccountingYear, message);
     }
 
@@ -170,7 +167,7 @@ internal class KxxRecordBuilder
     /// <returns></returns>
     private bool ValidateEvkDescriptions(KxxDocument document)
     {
-        if(document.EvkDescriptions.ContainsKey(_kof) && document.EvkDescriptions.ContainsKey(_kdf)) 
+        if (document.EvkDescriptions.ContainsKey(_kof) && document.EvkDescriptions.ContainsKey(_kdf))
         {
             LogDocumentError(document, $"contains both {_kdf} and {_kof} in its EVK descriptions. Document will be ignored.");
             return false;
@@ -180,7 +177,7 @@ internal class KxxRecordBuilder
 
     private bool ValidateDocumentType(KxxDocument document, [NotNullWhen(true)] out AccountingRecordType? accountingRecordType)
     {
-        switch (document.DocumentType) 
+        switch (document.DocumentType)
         {
             case DocumentType.OrdinaryMonth:
                 accountingRecordType = AccountingRecordType.Pok;
@@ -216,13 +213,13 @@ internal class KxxRecordBuilder
             type = PaymentRecordType.Kdf;
             return true;
         }
-        type = null; 
+        type = null;
         return false;
     }
 
-    private DocumentBalance[] FilterRelevantBalances(List<DocumentBalance> balances) 
+    private DocumentBalance[] FilterRelevantBalances(List<DocumentBalance> balances)
     {
-        List<DocumentBalance> filteredBalances = new();
+        List<DocumentBalance> filteredBalances = [];
         foreach (DocumentBalance balance in balances) // using linq would create capture containing _logger
         {
             if (!IsRelevantBalance(balance))
@@ -235,7 +232,7 @@ internal class KxxRecordBuilder
                 filteredBalances.Add(balance);
             }
         }
-        return filteredBalances.ToArray();
+        return [.. filteredBalances];
     }
 
     // TODO: move this to Importer layer so that this filter gets applied to all imports not just to .kxx 
@@ -246,7 +243,7 @@ internal class KxxRecordBuilder
         return kxxDocumentBalance.Item > _balanceItemFilterLowerBound && kxxDocumentBalance.Item < _balanceItemFilterUpperBound;
     }
 
-    private static decimal ComputeAmount(DocumentBalance kxxDocumentBalance) 
+    private static decimal ComputeAmount(DocumentBalance kxxDocumentBalance)
     {
         // original javascript implementation return (Number(balance.pol) >= 5000 && Number(balance.pol) < 8000) ? balance.d - balance.md : balance.md - balance.d;
         return (kxxDocumentBalance.Item >= _balanceItemExpenditureLowerBound && kxxDocumentBalance.Item < _balanceItemExpenditureUpperBound)

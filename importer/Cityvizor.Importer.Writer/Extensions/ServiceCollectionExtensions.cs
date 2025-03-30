@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cityvizor.Importer.Writer.Extensions;
+
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection RegisterImportServices(this IServiceCollection services)
