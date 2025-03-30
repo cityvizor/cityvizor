@@ -3,9 +3,9 @@ using Cityvizor.Importer.Converter.Kxx.Dtos;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Cityvizor.Importer.Converter.Kxx;
 using Cityvizor.Importer.Domain.Dtos;
-using Serilog.Core;
 
 namespace Cityvizor.Importer.UnitTests;
+
 public class KxxConverterTests : WebTestBase
 {
     public KxxConverterTests(WebApplicationFactory<Program> factory) : base(factory)
@@ -21,20 +21,20 @@ public class KxxConverterTests : WebTestBase
     public void TestParsingUcto()
     {
         StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("ucto_medl_hc.kxx");
-        AccountingAndPayments res = _converter.ParseRecords(reader, _logger) ;
+        _ = KxxConverter.ParseRecords(reader, _logger);
     }
 
     [Fact]
     public void TestParsingRozp()
     {
         StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("rozp_medl_hc.kxx");
-        AccountingAndPayments res = _converter.ParseRecords(reader, _logger);
+        _ = KxxConverter.ParseRecords(reader, _logger);
     }
 
     [Fact]
     public void TestBuildingAccountingRecords()
-    { 
-        KxxDocument document1 = new KxxDocument(
+    {
+        KxxDocument document1 = new(
            DocumentType: DocumentType.ApprovedBudget,
            InputIdentifier: InputIdentifier.RewriteWithSameLicence,
            Ico: "4499278516",
@@ -56,10 +56,10 @@ public class KxxConverterTests : WebTestBase
            {
                 { "DDP", "201316000448" }
            },
-           PlainTextDescriptions: new List<string> { "Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023" },
-           Balances: new List<DocumentBalance>
-           {
-                new DocumentBalance(
+           PlainTextDescriptions: ["Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023"],
+           Balances:
+           [
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -73,10 +73,8 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: 0.0m,
                     Gave: 20.60m,
-                    Descriptions: new List<string>
-                    {
-                    }),
-                new DocumentBalance(
+                    Descriptions: []),
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -90,12 +88,12 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: -42.0m,
                     Gave: 0,
-                    Descriptions: new List<string>
-                    {
+                    Descriptions:
+                    [
                          "Zapojení nedočerpaných finančních prostředků z roku 2021 do výdajů roku 2022 na akci \"Prvky pro psí výběh\"",
                          "Nebytové hospodářství - převod finančních prostředků na pokrytí nákladů na detašované pracoviště Jabloňova 28"
-                    })
-               }
+                    ])
+               ]
            );
 
         AccountingRecord expectedRecord1 = new(
@@ -114,7 +112,7 @@ public class KxxConverterTests : WebTestBase
             RecordUnit: 0,
             Amount: 62.73m);
 
-        KxxDocument document2 = new KxxDocument(
+        KxxDocument document2 = new(
            DocumentType: DocumentType.EditedBudget,
            InputIdentifier: InputIdentifier.RewriteWithSameLicence,
            Ico: "4499278516",
@@ -136,10 +134,10 @@ public class KxxConverterTests : WebTestBase
            {
                         { "DDP", "201316000448" }
            },
-           PlainTextDescriptions: new List<string> { "Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023" },
-           Balances: new List<DocumentBalance>
-           {
-                new DocumentBalance(
+           PlainTextDescriptions: ["Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023"],
+           Balances:
+           [
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -153,10 +151,8 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: 0.0m,
                     Gave: 20.0m,
-                    Descriptions: new List<string>
-                    {
-                    }),
-                new DocumentBalance(
+                    Descriptions: []),
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -170,23 +166,23 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: -42.73m,
                     Gave: 0,
-                    Descriptions: new List<string>
-                    {
+                    Descriptions:
+                    [
                          "Zapojení nedočerpaných finančních prostředků z roku 2021 do výdajů roku 2022 na akci \"Prvky pro psí výběh\"",
                          "Nebytové hospodářství - převod finančních prostředků na pokrytí nákladů na detašované pracoviště Jabloňova 28"
-                    })
-               }
+                    ])
+               ]
            );
 
-        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { document1, document2 });
+        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments([document1, document2]);
         result.PaymentRecords.Should().BeEmpty();
-        result.AccountingRecords.Should().BeEquivalentTo(new[] { expectedRecord1, expectedRecord2 });
+        result.AccountingRecords.Should().BeEquivalentTo([expectedRecord1, expectedRecord2]);
     }
 
     [Fact]
     public void TestBuildingPaymentRecords()
     {
-        KxxDocument paymentDocument = new KxxDocument(
+        KxxDocument paymentDocument = new(
           DocumentType: DocumentType.ApprovedBudget,
           InputIdentifier: InputIdentifier.RewriteWithSameLicence,
           Ico: "4499278516",
@@ -203,14 +199,14 @@ public class KxxConverterTests : WebTestBase
           {
                 { "KDF", "20231623100018" }
           },
-          PlainTextDescriptions: new List<string> 
-          { 
+          PlainTextDescriptions:
+          [
               "Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023",
               "Nebytové hospodářství - převod finančních prostředků na pokrytí nákladů na detašované pracoviště Jabloňova 28"
-          },
-          Balances: new List<DocumentBalance>
-          {
-                new DocumentBalance(
+          ],
+          Balances:
+          [
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -224,11 +220,11 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: 0.0m,
                     Gave: 27.60m,
-                    Descriptions: new List<string>
-                    {
-                        "Zapojení nedočerpaných finančních prostředků z roku 2021 do výdajů roku 2022 na akci \"Prvky pro psí výběh\"", 
-                    }),
-                new DocumentBalance(
+                    Descriptions:
+                    [
+                        "Zapojení nedočerpaných finančních prostředků z roku 2021 do výdajů roku 2022 na akci \"Prvky pro psí výběh\"",
+                    ]),
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -242,10 +238,8 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: -42.73m,
                     Gave: 20,
-                    Descriptions: new List<string>
-                    {
-                    })
-              }
+                    Descriptions: [])
+              ]
           );
 
         PaymentRecord expectedPayment1 = new(
@@ -274,15 +268,15 @@ public class KxxConverterTests : WebTestBase
             Event: 1610000000000u,
             RecordUnit: 0);
 
-        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { paymentDocument });
-        result.PaymentRecords.Should().BeEquivalentTo(new PaymentRecord[] { expectedPayment1, expectedPayment2 });
+        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments([paymentDocument]);
+        result.PaymentRecords.Should().BeEquivalentTo([expectedPayment1, expectedPayment2]);
         result.AccountingRecords.Should().BeEmpty();
     }
 
     [Fact]
     public void TestKxxRecordBuilder()
     {
-        KxxDocument document1 = new KxxDocument(
+        KxxDocument document1 = new(
           DocumentType: DocumentType.ApprovedBudget,
           InputIdentifier: InputIdentifier.RewriteWithSameLicence,
           Ico: "4499278516",
@@ -304,10 +298,10 @@ public class KxxConverterTests : WebTestBase
           {
                 { "DDP", "201316000448" }
           },
-          PlainTextDescriptions: new List<string> { "Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023" },
-          Balances: new List<DocumentBalance>
-          {
-                new DocumentBalance(
+          PlainTextDescriptions: ["Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023"],
+          Balances:
+          [
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -321,10 +315,8 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: 0.0m,
                     Gave: 20.60m,
-                    Descriptions: new List<string>
-                    {
-                    }),
-                new DocumentBalance(
+                    Descriptions: []),
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -338,15 +330,15 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: -42.0m,
                     Gave: 0,
-                    Descriptions: new List<string>
-                    {
+                    Descriptions:
+                    [
                          "Zapojení nedočerpaných finančních prostředků z roku 2021 do výdajů roku 2022 na akci \"Prvky pro psí výběh\"",
                          "Nebytové hospodářství - převod finančních prostředků na pokrytí nákladů na detašované pracoviště Jabloňova 28"
-                    })
-              }
+                    ])
+              ]
           );
 
-        KxxDocument document2 = new KxxDocument(
+        KxxDocument document2 = new(
            DocumentType: DocumentType.EditedBudget,
            InputIdentifier: InputIdentifier.RewriteWithSameLicence,
            Ico: "4499278516",
@@ -368,10 +360,10 @@ public class KxxConverterTests : WebTestBase
            {
                         { "DDP", "201316000448" }
            },
-           PlainTextDescriptions: new List<string> { "Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023" },
-           Balances: new List<DocumentBalance>
-           {
-                new DocumentBalance(
+           PlainTextDescriptions: ["Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023"],
+           Balances:
+           [
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -385,10 +377,8 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: 0.0m,
                     Gave: 20.0m,
-                    Descriptions: new List<string>
-                    {
-                    }),
-                new DocumentBalance(
+                    Descriptions: []),
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -402,15 +392,15 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: -42.73m,
                     Gave: 0,
-                    Descriptions: new List<string>
-                    {
+                    Descriptions:
+                    [
                          "Zapojení nedočerpaných finančních prostředků z roku 2021 do výdajů roku 2022 na akci \"Prvky pro psí výběh\"",
                          "Nebytové hospodářství - převod finančních prostředků na pokrytí nákladů na detašované pracoviště Jabloňova 28"
-                    })
-               }
+                    ])
+               ]
            );
 
-        KxxDocument paymentDocument = new KxxDocument(
+        KxxDocument paymentDocument = new(
           DocumentType: DocumentType.ApprovedBudget,
           InputIdentifier: InputIdentifier.RewriteWithSameLicence,
           Ico: "4499278516",
@@ -427,14 +417,14 @@ public class KxxConverterTests : WebTestBase
           {
                         { "KDF", "20231623100018" }
           },
-          PlainTextDescriptions: new List<string>
-          {
+          PlainTextDescriptions:
+          [
                       "Vodné a stočné Jabloňová 1a - období 28. 3. 2023 - 24. 4. 2023",
                       "Nebytové hospodářství - převod finančních prostředků na pokrytí nákladů na detašované pracoviště Jabloňova 28"
-          },
-          Balances: new List<DocumentBalance>
-          {
-                new DocumentBalance(
+          ],
+          Balances:
+          [
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -448,11 +438,11 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: 0.0m,
                     Gave: 27.60m,
-                    Descriptions: new List<string>
-                    {
+                    Descriptions:
+                    [
                         "Zapojení nedočerpaných finančních prostředků z roku 2021 do výdajů roku 2022 na akci \"Prvky pro psí výběh\"",
-                    }),
-                new DocumentBalance(
+                    ]),
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -466,10 +456,8 @@ public class KxxConverterTests : WebTestBase
                     Organization: 1610000000000u,
                     ShouldGive: -42.73m,
                     Gave: 20,
-                    Descriptions: new List<string>
-                    {
-                    })
-              }
+                    Descriptions: [])
+              ]
           );
 
 
@@ -515,8 +503,8 @@ public class KxxConverterTests : WebTestBase
             Event: 1610000000000u,
             RecordUnit: 0);
 
-        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments(new KxxDocument[] { document1, document2, paymentDocument });
-        result.PaymentRecords.Should().BeEquivalentTo(new PaymentRecord[] { expectedPayment1, expectedPayment2 });
-        result.AccountingRecords.Should().BeEquivalentTo(new[] { expectedRecord1, expectedRecord2 });
+        AccountingAndPayments result = _kxxRecordBuilder.BuildRecordsFromDocuments([document1, document2, paymentDocument]);
+        result.PaymentRecords.Should().BeEquivalentTo([expectedPayment1, expectedPayment2]);
+        result.AccountingRecords.Should().BeEquivalentTo([expectedRecord1, expectedRecord2]);
     }
 }

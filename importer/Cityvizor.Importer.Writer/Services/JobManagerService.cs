@@ -6,7 +6,6 @@ using Cityvizor.Importer.Domain.Extensions;
 using Cityvizor.Importer.Domain.Queries;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Collections.Generic;
 
 namespace Cityvizor.Importer.Writer.Services;
 public class JobManagerService
@@ -31,14 +30,14 @@ public class JobManagerService
 
     public async Task RunJobsIfAny()
     {
-        List<Import> x = await _importRepository.Query.ByFormats(new[] { ImportFormat.Cityvizor }).ToListAsync();
+        List<Import> x = await _importRepository.Query.ByFormats([ImportFormat.Cityvizor]).ToListAsync();
 
         List<Import> requestedImports = await _importRepository.Query
             .ByStatus(ImportStatus.Pending)
             .ByFormats(_supportedFormats.Keys)
             .ToListAsync();
 
-        foreach (Import import in requestedImports) 
+        foreach (Import import in requestedImports)
         {
             if (import.ImportDir is null)
             {
@@ -51,13 +50,12 @@ public class JobManagerService
                 var importHandler = _supportedFormats[import.Format];
                 await importHandler(import, importScopedLogger);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 importScopedLogger.Error(ex, $"Critical error. Import {import.Id} failed.");
                 import.Status = ImportStatus.Error;
                 await _importRepository.SaveChangesAsync();
             }
         }
-
     }
 }

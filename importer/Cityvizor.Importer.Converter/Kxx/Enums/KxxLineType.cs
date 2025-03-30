@@ -1,4 +1,5 @@
 ﻿namespace Cityvizor.Importer.Converter.Kxx.Enums;
+
 internal enum KxxLineType
 {
     // 5/@

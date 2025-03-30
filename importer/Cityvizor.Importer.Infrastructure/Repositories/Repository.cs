@@ -1,16 +1,11 @@
 ﻿using Cityvizor.Importer.Domain.Abstractions.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Cityvizor.Importer.Infrastructure.Repositories;
-internal class Repository<TEntity> : IRepository<TEntity>
+
+internal class Repository<TEntity>(CityvizorDbContext context) : IRepository<TEntity>
     where TEntity : class
 {
-    private readonly CityvizorDbContext _context;
-
-    public Repository(CityvizorDbContext context)
-    {
-        this._context = context;
-    }
+    private readonly CityvizorDbContext _context = context;
 
     public IQueryable<TEntity> Query => _context.Set<TEntity>().AsQueryable();
 

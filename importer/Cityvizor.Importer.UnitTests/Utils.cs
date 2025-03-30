@@ -1,6 +1,7 @@
 ﻿using System.Text;
 
 namespace Cityvizor.Importer.UnitTests;
+
 internal static class Utils
 {
     internal const string KxxTestingDataFolderName = "KxxTestingData";
@@ -8,8 +9,8 @@ internal static class Utils
     public static StreamReader StreamReaderFromString(string inputString)
     {
         byte[] byteArray = Encoding.UTF8.GetBytes(inputString);
-        MemoryStream memoryStream = new MemoryStream(byteArray);
-        StreamReader streamReader = new StreamReader(memoryStream, Encoding.UTF8);
+        MemoryStream memoryStream = new(byteArray);
+        StreamReader streamReader = new(memoryStream, Encoding.UTF8);
         return streamReader;
     }
 

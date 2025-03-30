@@ -3,6 +3,7 @@ using Cityvizor.Importer.Converter.Kxx.Enums;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Cityvizor.Importer.Converter.Kxx.Helpers;
+
 internal static class ParserHelpers
 {
     internal static bool TryParseInputIndetifier(string identifierString, [NotNullWhen(true)] out InputIdentifier? inputIndetifier)
@@ -54,9 +55,9 @@ internal static class ParserHelpers
 
     internal static bool TryDetermineLineType(string input, [NotNullWhen(true)] out KxxLineType? lineType)
     {
-        string lineIndetifier = input.Trim().Substring(0, 3);
+        string lineIdentifier = input.Trim()[..3];
 
-        (bool res, lineType) = lineIndetifier switch
+        (bool res, lineType) = lineIdentifier switch
         {
             "5/@" => (true, KxxLineType.FileHeader),
             "6/@" => (true, KxxLineType.SectionHeader),

@@ -39,8 +39,8 @@ public record KxxDocument(
         InputIdentifier: header.InputIndetifier,
         Descriptions: new(StringComparer.InvariantCultureIgnoreCase),
         EvkDescriptions: new(StringComparer.InvariantCultureIgnoreCase), // make comparison case insensitive to be on the safe side
-        PlainTextDescriptions: new(),
-        Balances: new())
+        PlainTextDescriptions: [],
+        Balances: [])
     { }
 }
 
@@ -92,7 +92,7 @@ public record DocumentBalance(
         Organization: balanceLine.Organization,
         ShouldGive: balanceLine.ShouldGive,
         Gave: balanceLine.Gave,
-        Descriptions: new()
+        Descriptions: []
         )
     { }
 }

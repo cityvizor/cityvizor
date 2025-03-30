@@ -1,4 +1,5 @@
 ﻿namespace Cityvizor.Importer.Domain.Exceptions;
+
 public class CityvizorImporterException : Exception
 {
     public CityvizorImporterException()

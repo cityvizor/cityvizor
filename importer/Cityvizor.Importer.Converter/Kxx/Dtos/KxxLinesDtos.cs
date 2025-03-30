@@ -28,7 +28,7 @@ internal record struct KxxSectionHeader(
     ushort AccountingMonth,
     DocumentType DocumentType,
     InputIdentifier InputIndetifier,
-    ushort AccountingYear 
+    ushort AccountingYear
 );
 
 /// <summary>
@@ -85,7 +85,7 @@ internal record struct KxxDocumentBalanceDescription(
 /// <param name="DocumentId">číslo dokladu</param>
 /// <param name="Descriptions"> text k řádku dokladu</param>
 /// <param name="EvkDescriptions"> text k řádku dokladu</param>
-internal record struct KxxDocumentDescription (
+internal record struct KxxDocumentDescription(
     uint DocumentLineNumber,
     uint DocumentId,
     Dictionary<string, string> Descriptions,
