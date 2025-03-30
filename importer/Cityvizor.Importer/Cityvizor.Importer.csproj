@@ -32,4 +32,8 @@
 		<ProjectReference Include="..\Cityvizor.Importer.Writer\Cityvizor.Importer.Writer.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Cityvizor.Importer.Tests" />
+	</ItemGroup>
+
 </Project>

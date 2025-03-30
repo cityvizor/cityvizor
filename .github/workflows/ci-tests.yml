@@ -1,0 +1,43 @@
+name: Importer Tests (.NET)
+
+on: pull_request
+
+jobs:
+  test:
+    name: Run Importer Tests
+    runs-on: ubuntu-latest
+
+    env:
+      SOLUTION_PATH: importer/Cityvizor.Importer.sln    
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore $SOLUTION_PATH
+
+      - name: Build the solution
+        run: dotnet build $SOLUTION_PATH --no-restore --configuration Release
+
+      - name: Run tests with results output
+        run: dotnet test $SOLUTION_PATH --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: test-results
+          path: TestResults/test-results.trx
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v2
+        with:
+          name: Importer Test Results
+          path: TestResults/test-results.trx
+          reporter: dotnet-trx
