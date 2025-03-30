@@ -41,7 +41,7 @@ services:
 
   pgadmin.cityvizor:
     container_name: pgadmin.cityvizor
-    image: dpage/pgadmin4:7.7
+    image: dpage/pgadmin4:9.1.0
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
