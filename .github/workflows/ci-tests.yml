@@ -1,11 +1,14 @@
-name: Importer tests (dotnet)
+name: Importer Tests (.NET)
 
 on: [push, pull_request]
 
 jobs:
   test:
-    name: Run Importer unit tests
+    name: Run Importer Unit Tests
     runs-on: ubuntu-latest
+
+    env:
+      SOLUTION_PATH: importer/Cityvizor.Importer.sln    
 
     steps:
       - name: Checkout repository
@@ -17,13 +20,13 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore $SOLUTION_PATH
 
       - name: Build the solution
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build $SOLUTION_PATH --no-restore --configuration Release
 
       - name: Run tests with results output
-        run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
+        run: dotnet test $SOLUTION_PATH --no-build --configuration Release --logger "trx;LogFileName=test-results.trx" --results-directory TestResults
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
