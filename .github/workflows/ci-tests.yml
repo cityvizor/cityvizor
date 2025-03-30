@@ -30,12 +30,13 @@ jobs:
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
+        if: success() || failure()
         with:
           name: test-results
           path: TestResults/test-results.trx
 
       - name: Publish test results
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           name: Importer Test Results
           path: TestResults/test-results.trx
