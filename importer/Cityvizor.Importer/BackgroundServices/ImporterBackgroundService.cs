@@ -1,10 +1,8 @@
 ﻿using Cityvizor.Importer.Options;
 using Cityvizor.Importer.Writer.Services;
 using Microsoft.Extensions.Options;
-using System.Diagnostics.CodeAnalysis;
-using Serilog;
 
-namespace Cityvizor.Importer.BackgroungServices;
+namespace Cityvizor.Importer.BackgroundServices;
 
 public class ImporterBackgroundService : BackgroundService
 {
@@ -17,10 +15,9 @@ public class ImporterBackgroundService : BackgroundService
         _options = options.Value;
         _logger = logger;
         _scopeFactory = scopeFactory;
-        _logger.Information($"Starting ImporterBagroundService. Runs every {_options.ImporterServiceFrequency} milliseconds");
+        _logger.Information("Starting ImporterBackgroundService. Runs every {ImporterServiceFrequency} milliseconds", _options.ImporterServiceFrequency);
     }
 
-    [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "We catch anything and alert instead of rethrowing")]
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         // Awaiting Task.Yield() transitions to asynchronous operation immediately.
@@ -32,17 +29,16 @@ public class ImporterBackgroundService : BackgroundService
         {
             try
             {
-                using (var scope = _scopeFactory.CreateScope())
-                {
-                    JobManagerService jobManagerService = scope.ServiceProvider.GetRequiredService<JobManagerService>();
-                    await jobManagerService.RunJobsIfAny();
-                }
+                using var scope = _scopeFactory.CreateScope();
+                JobManagerService jobManagerService = scope.ServiceProvider.GetRequiredService<JobManagerService>();
+                await jobManagerService.RunJobsIfAny();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.Error(
                        ex, "Unhandled exception occurred Importer background service worker. Worker will retry after the normal interval.");
             }
+
             await Task.Delay(_options.ImporterServiceFrequency, stoppingToken);
         }
     }

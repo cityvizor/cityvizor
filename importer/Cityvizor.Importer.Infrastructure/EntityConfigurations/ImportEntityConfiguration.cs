@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Cityvizor.Importer.Infrastructure.EntityConfigurations;
+
 internal class ImportEntityConfiguration : IEntityTypeConfiguration<Import>
 {
     public void Configure(EntityTypeBuilder<Import> builder)
@@ -35,11 +36,11 @@ internal class ImportEntityConfiguration : IEntityTypeConfiguration<Import>
             ImportFormat.PboExpectedPlan => "pbo_expected_plan",
             ImportFormat.PboRealPlan => "pbo_real_plan",
             ImportFormat.PboAaNames => "pbo_aa_names"
-        } ;
+        };
 #pragma warning restore CS8524 // The switch expression does not handle some values of its input type (it is not exhaustive) involving an unnamed enum value.
     }
 
-    private static ImportFormat StringToImportFormatConversion(string importFormatString) 
+    private static ImportFormat StringToImportFormatConversion(string importFormatString)
     {
         return importFormatString switch
         {

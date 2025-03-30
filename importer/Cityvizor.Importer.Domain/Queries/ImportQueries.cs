@@ -2,6 +2,7 @@
 using Cityvizor.Importer.Domain.Enums;
 
 namespace Cityvizor.Importer.Domain.Queries;
+
 public static class ImportQueries
 {
     public static IQueryable<Import> ByStatus(this IQueryable<Import> query, ImportStatus importStatus)

@@ -1,16 +1,14 @@
-using Microsoft.EntityFrameworkCore;
 using Cityvizor.Importer.Extensions;
 using System.Runtime.CompilerServices;
 using Serilog;
 using Serilog.Templates;
 using Cityvizor.Importer.Domain.Extensions;
-using Cityvizor.Importer.Infrastructure;
 using Cityvizor.Importer.Infrastructure.Extensions;
 using Cityvizor.Importer.Writer.Extensions;
-using Npgsql;
-using Cityvizor.Importer.Domain.Enums;
 
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
+
+namespace Cityvizor.Importer;
 
 public class Program
 {
@@ -18,10 +16,10 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Host.UseSerilog((ctx, lc) => lc
+        builder.Host.UseSerilog((hostContext, loggerConfiguration) => loggerConfiguration
             .WriteTo.Console(new ExpressionTemplate(
                 $"[{{@t:HH:mm:ss}} {{@l:u3}}] {{#if {LoggingExtensions.ImportId} is not null}} (Import {{{LoggingExtensions.ImportId}}}){{#end}} {{@m}}\n"))
-            .WriteTo.Map(LoggingExtensions.ImportLogFile, (path, wt) => wt.File(path), sinkMapCountLimit: 20)
+            .WriteTo.Map(LoggingExtensions.ImportLogFile, (path, sink) => sink.File(path ?? "Path missing"), sinkMapCountLimit: 20)
         );
 
         // Add services to the container.

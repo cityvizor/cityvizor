@@ -7,27 +7,22 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Cityvizor.Importer.UnitTests;
 
-public class KxxParserTests : WebTestBase
+public class KxxParserTests(WebApplicationFactory<Program> factory) : WebTestBase(factory)
 {
-    public KxxParserTests(WebApplicationFactory<Program> factory): base(factory)
-    {
-    }
-
-
     [Fact]
     public void TestParsingUcto()
     {
         StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("ucto_medl_hc.kxx");
-        KxxParser parser = new KxxParser(reader, _logger);
-        KxxDocument[] res = parser.Parse();
+        KxxParser parser = new(reader, _logger);
+        _ = parser.Parse();
     }
 
     [Fact]
     public void TestParsingRozp()
     {
         StreamReader reader = Utils.StreamReaderFromKxxTestingDataTestFile("rozp_medl_hc.kxx");
-        KxxParser parser = new KxxParser(reader, _logger);
-        KxxDocument[] res = parser.Parse();
+        KxxParser parser = new(reader, _logger);
+        _ = parser.Parse();
     }
 
     [Fact]
@@ -46,10 +41,8 @@ G/#0004   830041*DVD-20220301;*DEV-20220301;*OZP-A;*POP-N;*INR-N;*ECDDO-16000448
 ";
 
         StreamReader reader = Utils.StreamReaderFromString(input);
-
-        KxxParser parser = new KxxParser(reader, _logger);
-
-        KxxDocument[] res = parser.Parse();
+        KxxParser parser = new(reader, _logger);
+        _ = parser.Parse();
     }
 
 
@@ -74,10 +67,10 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
 ";
 
         StreamReader reader = Utils.StreamReaderFromString(input);
-        KxxParser parser = new KxxParser(reader, _logger);
+        KxxParser parser = new(reader, _logger);
         KxxDocument[] res = parser.Parse();
 
-        KxxDocument expected = new KxxDocument(
+        KxxDocument expected = new(
             DocumentType: DocumentType.ApprovedBudget,
             InputIdentifier: InputIdentifier.RewriteWithSameLicence,
             Ico: "4499278516",
@@ -99,10 +92,10 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
             {
                 { "DDP", "201316000448" }
             },
-            PlainTextDescriptions: new List<string> { "Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023" },
-            Balances: new List<DocumentBalance>
-            {
-                new DocumentBalance(
+            PlainTextDescriptions: ["Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023"],
+            Balances:
+            [
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -116,10 +109,8 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
                     Organization: 1610000000000u,
                     ShouldGive: 0.0m,
                     Gave: 27.60m,
-                    Descriptions: new List<string>
-                    {
-                    }),
-                new DocumentBalance(
+                    Descriptions: []),
+                new(
                     AccountedDate: new DateOnly(2023,1,1),
                     DocumentId: 100001,
                     SyntheticAccount: 231,
@@ -133,14 +124,14 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
                     Organization: 1610000000000u,
                     ShouldGive: -42.73m,
                     Gave: -27.60m,
-                    Descriptions: new List<string>
-                    {
+                    Descriptions:
+                    [
                          "Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\""
-                    })
-                }
+                    ])
+                ]
             );
 
-        res.Should().BeEquivalentTo(new KxxDocument[] { expected, expected });
+        res.Should().BeEquivalentTo([expected, expected]);
     }
 
     [Fact]
@@ -148,12 +139,12 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "5/@449927850009000MBMC";
 
-        KxxFileHeader expected = new KxxFileHeader(
+        KxxFileHeader expected = new(
             Ico: "44992785",
             AccountingMonth: 9,
             ProgramLicence: "MBMC");
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxFileHeader res = parser.ParseKxxFileHeader(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -164,23 +155,23 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "5/@44992785160009000MBMC";
 
-        KxxFileHeader expected = new KxxFileHeader(
+        KxxFileHeader expected = new(
             Ico: "4499278516",
             AccountingMonth: 9,
             ProgramLicence: "MBMC");
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxFileHeader res = parser.ParseKxxFileHeader(input);
 
         res.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
-    public void ParseHeaderFlawdIcoTest()
+    public void ParseHeaderInvalidIcoTest()
     {
         string input = "5/@1230009000MBMC";
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         var func = () => parser.ParseKxxFileHeader(input);
 
         func.Should().Throw<KxxParserException>();
@@ -198,14 +189,14 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "6/@449927850102 2 2023";
 
-        KxxSectionHeader expected = new KxxSectionHeader(
+        KxxSectionHeader expected = new(
             Ico: "44992785",
             AccountingMonth: 1,
             DocumentType: DocumentType.ApprovedBudget,
             InputIndetifier: InputIdentifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxSectionHeader res = parser.ParseKxxSectionHeader(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -216,7 +207,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "6/@449927850102   2023";
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         var func = () => parser.ParseKxxSectionHeader(input);
 
         func.Should().Throw<KxxParserException>();
@@ -227,14 +218,14 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "6/@44992785160102 2 2023";
 
-        KxxSectionHeader expected = new KxxSectionHeader(
+        KxxSectionHeader expected = new(
             Ico: "4499278516",
             AccountingMonth: 1,
             DocumentType: DocumentType.ApprovedBudget,
             InputIndetifier: InputIdentifier.RewriteWithSameLicence,
             AccountingYear: 2023);
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxSectionHeader res = parser.ParseKxxSectionHeader(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -245,7 +236,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000000000 000000000000002760 ";
 
-        KxxDocumentBalance expected = new KxxDocumentBalance(
+        KxxDocumentBalance expected = new(
             AccountedDay: 1,
             DocumentId: 100001,
             SyntheticAccount: 231,
@@ -260,7 +251,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
             ShouldGive: 0.0m,
             Gave: 27.60m);
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxDocumentBalance res = parser.ParseKxxDocumentBalance(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -271,7 +262,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/@01   100001000231001000006310516300000000000000000000001610000000000000000000000004273c000000000000002760-";
 
-        KxxDocumentBalance expected = new KxxDocumentBalance(
+        KxxDocumentBalance expected = new(
             AccountedDay: 1,
             DocumentId: 100001,
             SyntheticAccount: 231,
@@ -286,7 +277,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
             ShouldGive: -42.73m,
             Gave: -27.60m);
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxDocumentBalance res = parser.ParseKxxDocumentBalance(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -297,12 +288,12 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/$0001   100003Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\"";
 
-        KxxDocumentBalanceDescription expected = new KxxDocumentBalanceDescription(
+        KxxDocumentBalanceDescription expected = new(
             DocumentLineNumber: 1,
             DocumentId: 100003,
             BalanceDescription: "Zapojení nedoèerpaných finanèních prostøedkù z roku 2021 do výdajù roku 2022 na akci \"Prvky pro psí výbìh\"");
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxDocumentBalanceDescription res = parser.ParseKxxDocumentBalanceDescription(input);
 
         res.Should().BeEquivalentTo(expected);
@@ -313,7 +304,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/$0001   100003";
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         var func = () => parser.ParseKxxDocumentBalanceDescription(input);
 
         func.Should().Throw<KxxParserException>();
@@ -324,7 +315,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/#0003   830041*OFJP-Vlasák Petr;*OFMP-Žebìtínek 178/15, Brno, 62100, Èeská republika;*DZP-20220301;*DUD-20220301;";
 
-        KxxDocumentDescription expected = new KxxDocumentDescription(
+        KxxDocumentDescription expected = new(
             DocumentLineNumber: 3,
             DocumentId: 830041,
             Descriptions: new Dictionary<string, string>
@@ -334,11 +325,11 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
                 { "DZP", "20220301"},
                 { "DUD", "20220301" },
             },
-            EvkDescriptions: new Dictionary<string, string>(),
-            PlainTextDescription: Array.Empty<string>()
+            EvkDescriptions: [],
+            PlainTextDescription: []
         );
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
         res.Should().BeEquivalentTo(expected);
     }
@@ -348,7 +339,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/#0001   830041*PDD-A;*ODPH-2022;*ECDD-16000448/17;*DICT-Vlasák Petr;*EVK-DDP-201316000448;";
 
-        KxxDocumentDescription expected = new KxxDocumentDescription(
+        KxxDocumentDescription expected = new(
             DocumentLineNumber: 1,
             DocumentId: 830041,
             Descriptions: new Dictionary<string, string>
@@ -362,10 +353,10 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
             {
                 { "DDP", "201316000448" }
             },
-            PlainTextDescription: Array.Empty<string>()
+            PlainTextDescription: []
         );
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
         res.Should().BeEquivalentTo(expected);
     }
@@ -375,15 +366,15 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/#0001   350037Obcane pro Medlanky-Obcane pro Medlanky Najemne Pr";
 
-        KxxDocumentDescription expected = new KxxDocumentDescription(
+        KxxDocumentDescription expected = new(
             DocumentLineNumber: 1,
             DocumentId: 350037,
-            Descriptions: new Dictionary<string, string>(),
-            EvkDescriptions: new Dictionary<string, string>(),
-            PlainTextDescription: new string[] { "Obcane pro Medlanky-Obcane pro Medlanky Najemne Pr" }
+            Descriptions: [],
+            EvkDescriptions: [],
+            PlainTextDescription: ["Obcane pro Medlanky-Obcane pro Medlanky Najemne Pr"]
         );
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
         res.Should().BeEquivalentTo(expected);
     }
@@ -393,7 +384,7 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/#0002   700012*EVKT-16 - Hlavní:Drobný mateirál;  Vinaøské potøeby;*PID-MBMCX00QBH7H;";
 
-        KxxDocumentDescription expected = new KxxDocumentDescription(
+        KxxDocumentDescription expected = new(
             DocumentLineNumber: 2,
             DocumentId: 700012,
             Descriptions: new Dictionary<string, string>()
@@ -401,11 +392,11 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
                 { "EVKT", "16 - Hlavní:Drobný mateirál;  Vinaøské potøeby"},
                 { "PID", "MBMCX00QBH7H"}
             },
-            EvkDescriptions: new Dictionary<string, string>(),
-            PlainTextDescription: Array.Empty<string>()
+            EvkDescriptions: [],
+            PlainTextDescription: []
         );
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
         res.Should().BeEquivalentTo(expected);
     }
@@ -415,15 +406,15 @@ G/#0003   100001Vodné a stoèné Jabloòová 1a - období 28. 3. 2023 - 24. 4. 2023
     {
         string input = "G/#0001   320006VÚ - vedení platební karty\\nVýdej : 390,00 Kè\\nVýpis è. 59 z 09.05.2023 è.ú. 18628621/0100, VS = 10526245, SS = 202180001\\nLikvidace : Boøecká Jana Popis : PRIME VISA - PLATEBNI KARTY CZ-00105262 PLATEBNI KARTY Annual Fee 18 4125 01** **** 1128 VISA";
 
-        KxxDocumentDescription expected = new KxxDocumentDescription(
+        KxxDocumentDescription expected = new(
             DocumentLineNumber: 1,
             DocumentId: 320006,
-            Descriptions: new Dictionary<string, string>(),
-            EvkDescriptions: new Dictionary<string, string>(),
-            PlainTextDescription: new string[] { "VÚ - vedení platební karty\\nVýdej : 390,00 Kè\\nVýpis è. 59 z 09.05.2023 è.ú. 18628621/0100, VS = 10526245, SS = 202180001\\nLikvidace : Boøecká Jana Popis : PRIME VISA - PLATEBNI KARTY CZ-00105262 PLATEBNI KARTY Annual Fee 18 4125 01** **** 1128 VISA" }
+            Descriptions: [],
+            EvkDescriptions: [],
+            PlainTextDescription: ["VÚ - vedení platební karty\\nVýdej : 390,00 Kè\\nVýpis è. 59 z 09.05.2023 è.ú. 18628621/0100, VS = 10526245, SS = 202180001\\nLikvidace : Boøecká Jana Popis : PRIME VISA - PLATEBNI KARTY CZ-00105262 PLATEBNI KARTY Annual Fee 18 4125 01** **** 1128 VISA"]
         );
 
-        KxxParser parser = new KxxParser(StreamReader.Null, _logger);
+        KxxParser parser = new(StreamReader.Null, _logger);
         KxxDocumentDescription res = parser.ParseKxxDocumentDescription(input);
         res.Should().BeEquivalentTo(expected);
     }

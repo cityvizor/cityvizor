@@ -3,13 +3,14 @@ using Cityvizor.Importer.Domain.Dtos;
 using Serilog;
 
 namespace Cityvizor.Importer.Converter.Kxx;
+
 public class KxxConverter
 {
-    public AccountingAndPayments ParseRecords(StreamReader inputStream, ILogger importScopedLogger)
+    public static AccountingAndPayments ParseRecords(StreamReader inputStream, ILogger importScopedLogger)
     {
-        KxxParser kxxParser = new KxxParser(inputStream, importScopedLogger);
+        KxxParser kxxParser = new(inputStream, importScopedLogger);
         KxxDocument[] documents = kxxParser.Parse();
-        KxxRecordBuilder recordBuilder = new KxxRecordBuilder(importScopedLogger);
+        KxxRecordBuilder recordBuilder = new(importScopedLogger);
         AccountingAndPayments records = recordBuilder.BuildRecordsFromDocuments(documents);
         return records;
     }

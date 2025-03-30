@@ -10,14 +10,15 @@ using Serilog;
 [assembly: InternalsVisibleTo("Cityvizor.Importer.UnitTests")]
 
 namespace Cityvizor.Importer.Converter.Kxx;
-internal class KxxParser
+
+internal class KxxParser(StreamReader stream, ILogger logger)
 {
     private const int _headerLineMinimalLength = 20;
     private const int _documentBlockHeaderMinimalLength = 22;
     private const int _documentNumberLen = 9;
 
-    private readonly StreamReader _stream;
-    private readonly ILogger _logger;
+    private readonly StreamReader _stream = stream;
+    private readonly ILogger _logger = logger;
 
     // parsing state
     private ulong _lineCounter = 1;
@@ -27,15 +28,9 @@ internal class KxxParser
     private uint? _fileAccountingYear = null;
 
     private KxxSectionHeader? _currentSectionHeader = null;
-    private Dictionary<uint, KxxDocument> _currentSectionDocuments = new();
-    
-    private List<KxxDocument> _finishedDocuments = new List<KxxDocument>();
-    
-    public KxxParser(StreamReader stream, ILogger logger)
-    {
-        this._stream = stream;
-        this._logger = logger;
-    }
+    private readonly Dictionary<uint, KxxDocument> _currentSectionDocuments = [];
+
+    private readonly List<KxxDocument> _finishedDocuments = [];
 
     public KxxDocument[] Parse() // TODO: return stream
     {
@@ -83,7 +78,7 @@ internal class KxxParser
 
         FlushSectionDocuments();
         _parsingFinished = true;
-        return _finishedDocuments.ToArray();
+        return [.. _finishedDocuments];
     }
 
     internal void ProcessDocumentDescription(string line)
@@ -124,7 +119,7 @@ internal class KxxParser
         }
 
         KxxDocumentBalanceDescription balanceDescription = ParseKxxDocumentBalanceDescription(line);
-        if(!_currentSectionDocuments.TryGetValue(balanceDescription.DocumentId, out KxxDocument? document))
+        if (!_currentSectionDocuments.TryGetValue(balanceDescription.DocumentId, out KxxDocument? document))
         {
             ThrowParserException($"Found balance description with document id {balanceDescription.DocumentId} that does not correspond to any document in given section.");
         }
@@ -148,7 +143,7 @@ internal class KxxParser
 
     internal void ProcessDocumentBalance(string line)
     {
-        if(!_currentSectionHeader.HasValue)
+        if (!_currentSectionHeader.HasValue)
         {
             ThrowParserException($"Document balance line (G/@ line) found outside of document block (starting with 6/@ line): {line}");
         }
@@ -166,7 +161,7 @@ internal class KxxParser
     {
         if (kxxDocumentBalance.Gave != 0 && kxxDocumentBalance.ShouldGive != 0)
         {
-           LogError($"Found document balance with both ShouldGive and Gave non-zero. Line {line}");
+            LogError($"Found document balance with both ShouldGive and Gave non-zero. Line {line}");
         }
     }
 
@@ -203,7 +198,7 @@ internal class KxxParser
         {
             LogError($"Kxx section header contains Ico {sectionHeader.Ico} that does not match Ico {_fileHeader.Ico} in .kxx file header.");
         }
-        if(sectionHeader.AccountingYear != _fileAccountingYear)
+        if (sectionHeader.AccountingYear != _fileAccountingYear)
         {
             LogError($"Kxx section header contains year {sectionHeader.AccountingYear} that does not match previous year {_fileAccountingYear} in .kxx file.");
         }
@@ -230,7 +225,7 @@ internal class KxxParser
 
         string pattern = $@"^5/@([0-9]{{8,10}})(0{{{firstDelimiterLen}}})([0-9]{{{monthLen}}})(0{{{secondDelimiterLen}}})([A-Z]{{{licenceLen}}})$";
         Match match = Regex.Match(input, pattern);
-        if (!match.Success) 
+        if (!match.Success)
         {
             ThrowParserException($" invalid format of 5/@ line. Found: {input}. Expected format: 5/@xxxxxxxx00yy000cccc");
         }
@@ -268,7 +263,7 @@ internal class KxxParser
 
         string pattern = $@"^6/@([0-9]{{8,10}})([0-9]{{{monthLen}}})([0-9]{{{documentTypeLen}}}) ([0-9]{{{inputIndetifierLen}}}) ([0-9]{{{accountingYearLen}}})$";
         Match match = Regex.Match(input, pattern);
-        if(!match.Success) 
+        if (!match.Success)
         {
             ThrowParserException($"invalid format of 6/@ line. Found: {input}. Expected format: 6/@xxxxxxxxyyzz_t_rrrr ");
         }
@@ -463,19 +458,19 @@ internal class KxxParser
             return new KxxDocumentDescription(
                DocumentLineNumber: lineNum,
                DocumentId: documentNumber,
-               Descriptions: new(),
-               EvkDescriptions: new(),
-               PlainTextDescription: new[] { descriptionsString });
+               Descriptions: [],
+               EvkDescriptions: [],
+               PlainTextDescription: [descriptionsString]);
         }
 
         var descriptionParts = match.Groups[3].Value
             .Split(";*", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Select(s => s.Trim(new char[] { ';', '*' }));
+            .Select(s => s.Trim([';', '*']));
         string nonEvkPattern = $@"^([^-]+)-(.+)$"; // disallow - in the key, allow it in the value
         string evkPattern = $@"^EVK-([^-]+)-(.+)$";
 
-        Dictionary<string, string> descriptions = new();
-        Dictionary<string, string> evkDescriptions = new();
+        Dictionary<string, string> descriptions = [];
+        Dictionary<string, string> evkDescriptions = [];
 
         foreach (string descriptionItem in descriptionParts)
         {
@@ -486,7 +481,7 @@ internal class KxxParser
                 continue;
             }
             Match nonEvkMatch = Regex.Match(descriptionItem, nonEvkPattern);
-            if(nonEvkMatch.Success) 
+            if (nonEvkMatch.Success)
             {
                 descriptions.Add(nonEvkMatch.Groups[1].Value, nonEvkMatch.Groups[2].Value);
                 continue;
@@ -499,7 +494,7 @@ internal class KxxParser
             DocumentId: documentNumber,
             Descriptions: descriptions,
             EvkDescriptions: evkDescriptions,
-            PlainTextDescription: Array.Empty<string>());
+            PlainTextDescription: []);
     }
 
     private void FlushSectionDocuments()
