@@ -2,19 +2,25 @@
   <b-container>
     <b-row>
       <b-col sm="7">
-      <div v-if="this.alternativePageContent.homeHtml" v-html="this.alternativePageContent.homeHtml"></div>
-      <div v-else>
-        <h1>Transparentní hospodaření obcí do detailu každé faktury</h1>
-        <p>
-          Cityvizor je aplikace pro všechny, které zajímá hospodaření obcí v ČR – pro občany, zastupitele, pracovníky obce i novináře.
-          <br>
-          <br>
-        Přináší přehlednou vizualizaci rozpočtu obce s detailními daty, která jsou získávána přímo z jejích účetních systémů a následně zobrazována přehledně, srozumitelně a v souvislostech. 
-        </p>
+        <div
+          v-if="alternativePageContent.homeHtml"
+          v-html="alternativePageContent.homeHtml"
+        ></div>
+        <div v-else>
+          <h1>Transparentní hospodaření obcí do detailu každé faktury</h1>
+          <p>
+            Cityvizor je aplikace pro všechny, které zajímá hospodaření obcí v
+            ČR – pro občany, zastupitele, pracovníky obce i novináře.
+            <br />
+            <br />
+            Přináší přehlednou vizualizaci rozpočtu obce s detailními daty,
+            která jsou získávána přímo z jejích účetních systémů a následně
+            zobrazována přehledně, srozumitelně a v souvislostech.
+          </p>
         </div>
       </b-col>
-      <b-col sm="5" md="4" offset-sm="1" id="village-image">
-        <img src="@/assets/images/pages/home/vesnice.png"/>
+      <b-col id="village-image" sm="5" md="4" offset-sm="1">
+        <img src="@/assets/images/pages/home/vesnice.png" />
       </b-col>
     </b-row>
 
@@ -22,77 +28,86 @@
     <ParticipateBox></ParticipateBox>
 
     <b-row>
-    <h2 class="benefits-header-margins">
-      Díky Cityvizoru se snadno a rychle dozvíte
-    </h2>
+      <h2 class="benefits-header-margins">
+        Díky Cityvizoru se snadno a rychle dozvíte
+      </h2>
     </b-row>
 
     <b-row class="benefits-box">
-      <b-col class="benefits-column" v-for="benefit in benefits" :key="benefit.description">
+      <b-col
+        v-for="benefit in benefits"
+        :key="benefit.description"
+        class="benefits-column"
+      >
         <b-card class="description-image-margin text-center description-box">
           <b-card-body>
-          <img :src="benefit.image" width="150" height="150">
-            <b-card-text class="description-text">{{ benefit.description }}</b-card-text>
+            <img :src="benefit.image" width="150" height="150" />
+            <b-card-text class="description-text">{{
+              benefit.description
+            }}</b-card-text>
           </b-card-body>
         </b-card>
       </b-col>
     </b-row>
 
     <b-row>
-      <p><router-link to="/proc-cityvizor" class="why-link-margins">Proč Cityvizor? ›</router-link></p>
+      <p>
+        <router-link to="/proc-cityvizor" class="why-link-margins"
+          >Proč Cityvizor? ›</router-link
+        >
+      </p>
     </b-row>
-
   </b-container>
 </template>
 
 <script>
-import ParticipateBox from "../partials/ParticipateBox.vue"
-import ActiveCities from "../partials/ActiveCities.vue"
+import ParticipateBox from "../partials/ParticipateBox.vue";
+import ActiveCities from "../partials/ActiveCities.vue";
 
 export default {
-  name: 'ComponentsPagesHome',
+  name: "ComponentsPagesHome",
   components: {
     ParticipateBox,
-    ActiveCities
+    ActiveCities,
   },
   data() {
     return {
       benefits: [
         {
           description:
-              'Jak vypadá rozpočet a ' +
-              'jeho plnění, které faktury a investice ' +
-              'se k němu vážou a kdo jsou ' +
-              'dodavatelé.',
-          image: require('@/assets/images/pages/home/data_source.svg')
+            "Jak vypadá rozpočet a " +
+            "jeho plnění, které faktury a investice " +
+            "se k němu vážou a kdo jsou " +
+            "dodavatelé.",
+          image: require("@/assets/images/pages/home/data_source.svg"),
         },
         {
           description:
-              'Které projektové a investiční akce právě probíhají, ' +
-              'jaké prostředky jsou na ně vyhrazeny a kolik už bylo vyplaceno.',
-          image: require('@/assets/images/pages/home/visualization.svg')
+            "Které projektové a investiční akce právě probíhají, " +
+            "jaké prostředky jsou na ně vyhrazeny a kolik už bylo vyplaceno.",
+          image: require("@/assets/images/pages/home/visualization.svg"),
         },
         {
           description:
-              'Nejnovější informace z úředních desek a odkazy na konkrétní ' +
-              'dokumenty uveřejněné v Registru smluv.',
-          image: require('@/assets/images/pages/home/details.svg')
-        }
-      ]
-    }
+            "Nejnovější informace z úředních desek a odkazy na konkrétní " +
+            "dokumenty uveřejněné v Registru smluv.",
+          image: require("@/assets/images/pages/home/details.svg"),
+        },
+      ],
+    };
   },
-  methods: {}
-}
+  methods: {},
+};
 </script>
 
 <style lang="scss">
-@import '../../assets/styles/common/_variables.scss';
+@import "../../assets/styles/common/_variables.scss";
 
 $margin: 24px;
 $extra-large-margin: 64px;
 
 #village-image {
-  display: flex; 
+  display: flex;
   flex-direction: column-reverse;
   margin-bottom: 1em;
 }
@@ -120,7 +135,6 @@ $extra-large-margin: 64px;
     column-gap: 30px;
     flex-wrap: nowrap;
   }
-
 }
 
 .description-box {
@@ -141,7 +155,6 @@ $extra-large-margin: 64px;
   margin: $margin 0px;
 }
 
-
 .why-link-margins {
   margin-bottom: $extra-large-margin;
 }
@@ -150,5 +163,4 @@ $extra-large-margin: 64px;
   display: flex;
   flex-direction: column;
 }
-
 </style>

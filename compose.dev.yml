@@ -16,6 +16,8 @@ services:
     build:
       target: dev
     command: -w db.cityvizor:5432 -a -m server-dev -i
+    environment:
+      LOG_LEVEL: debug
     volumes:
       - ./server:/home/node/app/
       - /home/node/app/node_modules
@@ -31,6 +33,8 @@ services:
     build:
       target: dev
     command: -w db.cityvizor:5432 -a -m worker-dev -i
+    environment:
+      LOG_LEVEL: debug
     volumes:
       - ./server:/home/node/app/
       - /home/node/app/node_modules
@@ -44,7 +48,7 @@ services:
 
   pgadmin.cityvizor:
     container_name: pgadmin.cityvizor
-    image: dpage/pgadmin4:7.7
+    image: dpage/pgadmin4:9.1.0
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
@@ -61,7 +65,12 @@ services:
       - ./database/pgadmin/servers.json:/pgadmin4/servers.json
       - ./database/pgadmin/pgpass:/pgadmin4/pgpass
     entrypoint: >
-      /bin/sh -c " cp -f /pgadmin4/pgpass /var/lib/pgadmin/; chmod 600 /var/lib/pgadmin/pgpass; chown pgadmin:pgadmin /var/lib/pgadmin/pgpass; /entrypoint.sh "
+      /bin/sh -c "
+      cp -f /pgadmin4/pgpass /var/lib/pgadmin/;
+      chmod 600 /var/lib/pgadmin/pgpass;
+      chown pgadmin:pgadmin /var/lib/pgadmin/pgpass;
+      /entrypoint.sh
+      "
 
 volumes:
   pgadmin-data:

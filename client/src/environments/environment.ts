@@ -3,5 +3,5 @@ export const environment = {
   production: false,
   api_root: "/api",
   api2_root: "/api/v2",
-  jwtDomains: ['cityvizor.cz','dev.cityvizor.cz']
+  jwtDomains: ["cityvizor.cz", "dev.cityvizor.cz"],
 };

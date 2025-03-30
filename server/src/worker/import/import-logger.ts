@@ -1,5 +1,5 @@
 let logs: string[] = [];
-export default {
+export const importLogger = {
   log(s: string) {
     logs.push(s);
   },
@@ -9,6 +9,6 @@ export default {
   },
 
   getLogs(): string {
-    return logs.join('\n');
+    return logs.join("\n");
   },
 };

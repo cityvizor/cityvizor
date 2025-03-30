@@ -1,12 +1,12 @@
 {
-    "aboutAppHtml": "",
-    "whyHtml": "",
-    "contactHtml": "",
-    "aboutUsHtml": "",
-    "footerHtml": "",
-    "homeHtml": "",
-    "tracking": {
-        "html": [],
-        "scripts": []
-    }
+  "aboutAppHtml": "",
+  "whyHtml": "",
+  "contactHtml": "",
+  "aboutUsHtml": "",
+  "footerHtml": "",
+  "homeHtml": "",
+  "tracking": {
+    "html": [],
+    "scripts": []
+  }
 }

@@ -39,16 +39,22 @@
         :fields="fields"
         :filter-included-fields="filterOn"
         :filter="filter"
-        responsive="sm"
+        responsive="md"
       >
         <template #cell(name)="data">
           <a
-            class="fake-link pending"
             v-if="data.item.status == 'pending'"
-            v-on:click="pendingPopup()"
+            class="fake-link pending"
+            @click="pendingPopup()"
             >{{ data.value }}</a
           >
           <a v-else :href="`/${data.item.url}`">{{ data.value }}</a>
+          <span
+            v-if="data.item.hasPayments === true"
+            class="ml-2 badge badge-pill badge-success"
+          >
+            Zveřejňuje faktury
+          </span>
         </template>
       </b-table>
       <div></div>
@@ -63,8 +69,8 @@ const allCategoriesOption = { id: "", csName: null };
 const allParentsOption = { parentId: "", parentName: null };
 
 export default {
-  components: { PendingPopup },
   name: "ProfileSelectionPage",
+  components: { PendingPopup },
   props: {
     pbos: {
       type: Array,
@@ -84,16 +90,28 @@ export default {
       filterOn: ["name"],
       selectedCategory: allCategoriesOption,
       parents: [],
-      selectedParent: allParentsOption
+      selectedParent: allParentsOption,
     };
   },
-  methods: {
-    pendingPopup() {
-      this.$refs.pendingPopup.pendingPopup();
+  computed: {
+    itemsFilteredByCategoryAndParent: function () {
+      let filteredItems = this.items;
+      if ((this.selectedCategory?.id ?? "") !== "") {
+        filteredItems = filteredItems.filter(
+          item => item.categoryId === this.selectedCategory.id
+        );
+      }
+      if ((this.selectedParent?.parentId ?? "") !== "") {
+        filteredItems = filteredItems.filter(
+          item => item.parentId === this.selectedParent.parentId
+        );
+      }
+
+      return filteredItems;
     },
   },
   mounted() {
-    this.items = this.pbos.map((pbo) => {
+    this.items = this.pbos.map(pbo => {
       return {
         name: pbo.name,
         url: pbo.url,
@@ -101,13 +119,15 @@ export default {
         category: pbo.pboCategoryCsName ?? "Nezařazeno",
         categoryId: pbo.pboCategoryId ?? "unclassified",
         parentName: pbo.parentName,
-        parentId: pbo.parent
+        parentId: pbo.parent,
+        hasPayments: pbo.hasPayments,
       };
     });
+
     this.categories = [
       { text: "Všechny kategorie", value: allCategoriesOption }, // Add default option
       ...new Map( // Create set of categories
-        this.items.map((pbo) => [
+        this.items.map(pbo => [
           pbo.categoryId,
           {
             text: pbo.category,
@@ -119,37 +139,28 @@ export default {
     this.parents = [
       { text: "Všichni zřizovatelé", value: allParentsOption },
       ...new Map(
-        this.items.map((profile) => [
+        this.items.map(profile => [
           profile.parentId,
           {
             text: profile.parentName,
-            value: { parentId: profile.parentId, parentName: profile.parentName }
-          }
+            value: {
+              parentId: profile.parentId,
+              parentName: profile.parentName,
+            },
+          },
         ])
-      ).values()
-    ]
+      ).values(),
+    ];
   },
-  computed: {
-    itemsFilteredByCategoryAndParent: function () {
-      let filteredItems = this.items;
-      if (((this.selectedCategory?.id ?? "") !== "")){
-        filteredItems = filteredItems.filter(
-          (item) => item.categoryId === this.selectedCategory.id
-        );
-      }
-      if(((this.selectedParent?.parentId ?? "") !== "")){
-        filteredItems = filteredItems.filter(
-          (item) => item.parentId === this.selectedParent.parentId
-        );
-      }
-
-      return filteredItems
+  methods: {
+    pendingPopup() {
+      this.$refs.pendingPopup.pendingPopup();
     },
   },
 };
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .table-header-green {
   border-bottom: 2px solid rgb(112, 204, 148);
   font-weight: 700;

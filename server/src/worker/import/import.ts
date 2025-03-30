@@ -5,18 +5,18 @@ import {
   EventRecord,
   PaymentRecord,
   YearRecord,
-} from '../../schema';
-import crypto from 'crypto';
-import * as fs from 'fs-extra';
-import path from 'path';
-import config from '../../config';
-import {ProfileType} from '../../schema/profile-type';
-import {Knex} from 'knex';
+} from "../../schema";
+import crypto from "crypto";
+import * as fs from "fs-extra";
+import path from "path";
+import config from "../../config";
+import { ProfileType } from "../../schema/profile-type";
+import { Knex } from "knex";
 
 export namespace Import {
   export async function createImportDir(): Promise<string> {
     const randomName =
-      new Date().toISOString() + crypto.randomBytes(32).toString('hex');
+      new Date().toISOString() + crypto.randomBytes(32).toString("hex");
     const fullPath = path.join(config.storage.imports, randomName);
     await fs.ensureDir(fullPath);
     return fullPath;
@@ -28,9 +28,10 @@ export namespace Import {
     | 'pbo_real_plan'
     | 'pbo_aa_names'
     | 'ginis';
+
   export interface Options {
-    profileId: YearRecord['profileId'];
-    year: YearRecord['year'];
+    profileId: YearRecord["profileId"];
+    year: YearRecord["year"];
     transaction: Knex.Transaction;
     importDir: string;
     append: boolean;
@@ -42,17 +43,17 @@ export namespace Import {
   export type ImportChunk = PaymentChunk | EventChunk | AccountingChunk;
 
   export class PaymentChunk {
-    type!: 'payment';
+    type!: "payment";
     record!: PaymentRecord;
   }
 
   export class EventChunk {
-    type!: 'event';
+    type!: "event";
     record!: EventRecord;
   }
 
   export class AccountingChunk {
-    type!: 'accounting';
+    type!: "accounting";
     record!: AccountingRecord;
   }
 }

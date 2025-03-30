@@ -1,11 +1,11 @@
 exports.up = async function (knex) {
   return knex.schema
-    .alterTable('app.profiles', table => {
+    .alterTable("app.profiles", table => {
       table
-        .integer('parent')
-        .references('id')
-        .inTable('app.profiles')
-        .onDelete('SET NULL');
+        .integer("parent")
+        .references("id")
+        .inTable("app.profiles")
+        .onDelete("SET NULL");
     })
     .then(() => {
       return knex.raw(`
@@ -33,8 +33,8 @@ exports.up = async function (knex) {
 
 exports.down = async function (knex) {
   await knex.schema
-    .alterTable('app.profiles', table => {
-      table.dropColumn('parent');
+    .alterTable("app.profiles", table => {
+      table.dropColumn("parent");
     })
     .then(() => {
       return knex.raw(`

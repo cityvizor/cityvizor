@@ -1,11 +1,11 @@
-import {dbConnect, dbDestroy} from '../db';
-import {runTasks} from './run-tasks';
+import { dbConnect, dbDestroy } from "../db";
+import { runTasks } from "./run-tasks";
 
 await (async function () {
   const tasks = process.argv.slice(2);
 
   if (!tasks.length) {
-    console.log('Task name not specified');
+    console.log("Task name not specified");
     return;
   }
 
@@ -15,7 +15,7 @@ await (async function () {
 
   await runTasks(tasks);
 
-  console.log('All tasks finished.');
+  console.log("All tasks finished.");
 
   await dbDestroy();
 })();

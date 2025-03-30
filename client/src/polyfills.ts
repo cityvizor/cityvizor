@@ -1,7 +1,7 @@
 /***************************************************************************************************
  * Load `$localize` onto the global scope - used if i18n tags appear in Angular templates.
  */
-import '@angular/localize/init';
+import "@angular/localize/init";
 
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
@@ -24,11 +24,10 @@ import '@angular/localize/init';
  */
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import 'classlist.js';  // Run `npm install --save classlist.js`.
-
+import "classlist.js"; // Run `npm install --save classlist.js`.
 
 // Added for "Object doesn't support property or method 'entries'"
-import 'core-js/es/object';
+import "core-js/es/object";
 
 /**
  * Web Animations `@angular/platform-browser/animations`
@@ -64,9 +63,8 @@ import 'core-js/es/object';
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
-
+import "zone.js/dist/zone"; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
- */ 
+ */

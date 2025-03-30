@@ -1,4 +1,4 @@
-import {ProfileRecord} from './profile';
+import { ProfileRecord } from "./profile";
 
 export interface UserRecord {
   id: number;
@@ -14,6 +14,6 @@ export interface UserRecord {
 }
 
 export interface UserProfileRecord {
-  profileId: ProfileRecord['id'];
-  userId: UserRecord['id'];
+  profileId: ProfileRecord["id"];
+  userId: UserRecord["id"];
 }

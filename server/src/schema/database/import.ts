@@ -1,4 +1,4 @@
-import {Import} from '../../worker/import/import';
+import { Import } from "../../worker/import/import";
 
 export interface ImportRecord {
   id: number;
@@ -11,7 +11,7 @@ export interface ImportRecord {
   started?: Date;
   finished?: Date;
 
-  status: 'pending' | 'processing' | 'success' | 'error';
+  status: "pending" | "processing" | "success" | "error";
   error?: string;
 
   validity?: string;

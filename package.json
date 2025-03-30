@@ -1,6 +1,6 @@
 {
   "name": "cityvizor",
-  "version": "5.4.0",
+  "version": "5.6.0",
   "description": "Vizualization platform for municipalities",
   "homepage": "https://cityvizor.cz/",
   "repository": "cityvizor/cityvizor",
@@ -9,7 +9,8 @@
     "install": "cd server && npm install && cd ../client && npm install",
     "start": "cd server && npm start",
     "build": "cd server && npm run build && cd ../client && npm run build",
-    "create-admin": "cd server && npm run create-admin"
+    "create-admin": "cd server && npm run create-admin",
+    "lint": "cd server && npm run lint && cd ../client && npm run lint && cd ../landing-page && npm run lint"
   },
   "keywords": [
     "opendata",

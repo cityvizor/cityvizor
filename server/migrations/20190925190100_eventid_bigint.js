@@ -1,22 +1,22 @@
 exports.up = async function (knex) {
   // drop depending objects
   await dropViews(knex);
-  await knex.schema.raw('ALTER TABLE data.events DROP CONSTRAINT events_pkey;');
+  await knex.schema.raw("ALTER TABLE data.events DROP CONSTRAINT events_pkey;");
 
   // alter columns
-  await knex.schema.alterTable('data.accounting', table => {
-    table.bigInteger('event').alter();
+  await knex.schema.alterTable("data.accounting", table => {
+    table.bigInteger("event").alter();
   });
-  await knex.schema.alterTable('data.payments', table => {
-    table.bigInteger('event').alter();
+  await knex.schema.alterTable("data.payments", table => {
+    table.bigInteger("event").alter();
   });
-  await knex.schema.alterTable('data.events', table => {
-    table.bigInteger('id').alter();
+  await knex.schema.alterTable("data.events", table => {
+    table.bigInteger("id").alter();
   });
 
   // recreate depending objects
   await knex.schema.raw(
-    'ALTER TABLE data.events ADD CONSTRAINT events_pkey PRIMARY KEY (profile_id, year, id)'
+    "ALTER TABLE data.events ADD CONSTRAINT events_pkey PRIMARY KEY (profile_id, year, id)"
   );
   await buildViews(knex);
 };
@@ -24,30 +24,30 @@ exports.up = async function (knex) {
 exports.down = async function (knex) {
   // drop depending objects
   await dropViews(knex);
-  await knex.schema.raw('ALTER TABLE data.events DROP CONSTRAINT events_pkey;');
+  await knex.schema.raw("ALTER TABLE data.events DROP CONSTRAINT events_pkey;");
 
   // alter columns
-  await knex.schema.alterTable('data.accounting', table => {
-    table.integer('event').alter();
+  await knex.schema.alterTable("data.accounting", table => {
+    table.integer("event").alter();
   });
-  await knex.schema.alterTable('data.payments', table => {
-    table.integer('event').alter();
+  await knex.schema.alterTable("data.payments", table => {
+    table.integer("event").alter();
   });
-  await knex.schema.alterTable('data.events', table => {
-    table.integer('id').alter();
+  await knex.schema.alterTable("data.events", table => {
+    table.integer("id").alter();
   });
 
   // recreate depending objects
   await knex.schema.raw(
-    'ALTER TABLE data.events ADD CONSTRAINT events_pkey PRIMARY KEY (profile_id, year, id)'
+    "ALTER TABLE data.events ADD CONSTRAINT events_pkey PRIMARY KEY (profile_id, year, id)"
   );
   await buildViews(knex);
 };
 
 async function dropViews(db) {
-  await db.raw('DROP VIEW public.accounting;');
-  await db.raw('DROP VIEW public.events;');
-  await db.raw('DROP VIEW public.payments;');
+  await db.raw("DROP VIEW public.accounting;");
+  await db.raw("DROP VIEW public.events;");
+  await db.raw("DROP VIEW public.payments;");
 }
 
 async function buildViews(db) {

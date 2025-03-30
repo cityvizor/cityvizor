@@ -1,15 +1,14 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AdminService } from 'app/services/admin.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { User } from 'app/schema';
+import { Component, OnInit, TemplateRef } from "@angular/core";
+import { AdminService } from "app/services/admin.service";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { User } from "app/schema";
 
 @Component({
-  selector: 'admin-user-list',
-  templateUrl: './admin-user-list.component.html',
-  styleUrls: ['./admin-user-list.component.scss']
+  selector: "admin-user-list",
+  templateUrl: "./admin-user-list.component.html",
+  styleUrls: ["./admin-user-list.component.scss"],
 })
 export class AdminUserListComponent implements OnInit {
-
   users: User[];
 
   currentUser: User;
@@ -22,12 +21,12 @@ export class AdminUserListComponent implements OnInit {
     { value: "admin", label: "Admin" },
     { value: "profile-admin", label: "Profile admin" },
     { value: "-", label: "Žádná" },
-  ]
+  ];
 
   constructor(
     private adminService: AdminService,
     private modalService: BsModalService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loadUsers();
@@ -42,7 +41,7 @@ export class AdminUserListComponent implements OnInit {
         user.role = "-";
       }
       return user;
-    })
+    });
     this.loading = false;
   }
 
@@ -60,5 +59,4 @@ export class AdminUserListComponent implements OnInit {
     if (this.modalRef) this.modalRef.hide();
     if (changes) this.loadUsers();
   }
-
 }

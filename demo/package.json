@@ -17,7 +17,7 @@
     "faktury"
   ],
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.1102.3",
+    "@angular-devkit/build-angular": "^0.1102.19",
     "@angular/animations": "^11.2.4",
     "@angular/common": "^11.2.4",
     "@angular/compiler": "^11.1.1",
@@ -44,7 +44,7 @@
     "intl": "^1.2.5",
     "jquery": "^3.6.0",
     "kxx-reader-browser": "^1.5.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-bootstrap": "^6.2.0",
     "ngx-papaparse": "^5.0.0",
     "ngx-web-worker": "^8.0.0",

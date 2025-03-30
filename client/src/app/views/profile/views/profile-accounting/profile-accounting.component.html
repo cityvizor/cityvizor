@@ -1,148 +1,199 @@
 <!--<help-modal [topic]="'expenditures'"></help-modal>-->
 
 <div class="container">
+  <!-- VIZUALIZACE -->
+  <div id="bigbang" #drawing>
+    <div class="whiteTransitions">
+      <div class="topTransition"></div>
+      <div class="bottomTransition"></div>
+    </div>
 
+    <budget-select
+      [budgets]="(budgets | async) || []"
+      [type]="type | async"
+      [ngModel]="budget"
+      (ngModelChange)="selectBudget($event?.year)"
+    ></budget-select>
 
-	<!-- VIZUALIZACE -->
-	<div id="bigbang" #drawing>
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2">
+        <div class="box ratio2_1">
+          <div class="content">
+            <chart-bigbang
+              [data]="chartBigbangData"
+              [selected]="group?.id"
+              [hovered]="hoveredGroup"
+              (select)="selectGroup($event)"
+              (hover)="setHoveredGroup($event)"
+            ></chart-bigbang>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-		<div class="whiteTransitions">
-			<div class="topTransition"></div>
-			<div class="bottomTransition"></div>
-		</div>
+  <!-- VYBER SKUPINY -->
+  <group-select
+    [groups]="(groups | async) || []"
+    [ngModel]="group"
+    [hovered]="hoveredGroup"
+    (hover)="hoveredGroup = $event.id"
+    (ngModelChange)="selectGroup($event?.id)"
+  ></group-select>
 
-		<budget-select [budgets]="(budgets | async) || []" [type]="type | async" [ngModel]="budget"
-			(ngModelChange)="selectBudget($event?.year)"></budget-select>
+  <div *ngIf="groupEvents.length > 0" id="selectedGroup">
+    <form class="filter">
+      <div class="row">
+        <div class="col-xs-8"></div>
+        <div class="col-xs-4 text-right">
+          Řazení:&nbsp;
+          <div class="btn-group">
+            <button
+              type="button"
+              class="btn btn-sm btn-default"
+              [class.active]="(sort | async) === 'abecedne'"
+              [class.btn-primary]="(sort | async) === 'abecedne'"
+              (click)="selectSort('abecedne')"
+            >
+              Abecedně
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-default"
+              [class.active]="(sort | async) === 'nejvetsi'"
+              [class.btn-primary]="(sort | async) === 'nejvetsi'"
+              (click)="selectSort('nejvetsi')"
+            >
+              Největší
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
 
-		<div class="row">
+    <div *ngFor="let event of groupEvents | slice: 0 : eventsLimit">
+      <div class="row">
+        <div class="col-md-12">
+          <h4>
+            {{
+              event?.name ??
+                ("profile.municipality.unclassified." + (type | async)
+                  | translate)
+            }}
+          </h4>
+        </div>
+      </div>
 
-			<div class="col-lg-8 col-lg-offset-2">
-				<div class="box ratio2_1">
-					<div class="content">
-						<chart-bigbang [data]="chartBigbangData" [selected]="group?.id" [hovered]="hoveredGroup"
-							(select)="selectGroup($event)" (hover)="setHoveredGroup($event)"></chart-bigbang>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- VYBER SKUPINY -->
-	<group-select [groups]="(groups | async) || []" [ngModel]="group" [hovered]="hoveredGroup"
-		(hover)="hoveredGroup = $event.id" (ngModelChange)="selectGroup($event?.id)"></group-select>
-
-	<div *ngIf="groupEvents.length > 0" id="selectedGroup">
-		<form class="filter">
-			<div class="row">
-
-				<div class="col-xs-8">
-				</div>
-				<div class="col-xs-4 text-right">
-					Řazení:&nbsp;
-					<div class="btn-group">
-						<button type="button" class="btn btn-sm btn-default"
-							[class.active]="(sort | async) === 'abecedne'"
-							[class.btn-primary]="(sort | async) === 'abecedne'"
-							(click)="selectSort('abecedne')">Abecedně</button>
-						<button type="button" class="btn btn-sm btn-default"
-							[class.active]="(sort | async) === 'nejvetsi'"
-							[class.btn-primary]="(sort | async) === 'nejvetsi'"
-							(click)="selectSort('nejvetsi')">Největší</button>
-					</div>
-				</div>
-			</div>
-		</form>
-
-		<div *ngFor=" let event of (groupEvents | slice:0:eventsLimit)">
-
-			<div class="row">
-				<div class="col-md-12">
-					<h4>{{event?.name ?? ("profile.municipality.unclassified." + (type | async) | translate)}}</h4>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12 col-md-8">
-					<div class="content">
-
-						<table class="viztable table table-responsive small">
-							<thead>
-								<tr>
-									<th>Druh {{(type | async) === "exp" ? "výdajů" : "příjmů"}} v této skupině</th>
-									<th>Rozpočtová částka</th>
-									<th>Skutečná částka</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let item of event.items"
-									[title]="item.id ? 'Rozpočtová položka #' + item.id : ''">
-									<td>
-										<ng-container *ngIf="item.name">{{item.name}}</ng-container>
-										<ng-container *ngIf="!item.name && item.id">Rozpočtová položka
-											#{{item.id}}</ng-container>
-										<ng-container *ngIf="!item.name && !item.id && event.items.length > 1">Ostatní
-											výdaje</ng-container>
-										<ng-container *ngIf="!item.name && !item.id && event.items.length === 1">Celkové
-											výdaje</ng-container>
-									</td>
-									<td>{{item.budgetAmount | money:0:false}} Kč</td>
-									<td>{{item.amount | money:0:false}} Kč</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="col-xs-12 col-md-4">
-					<div class="row">
-						<div class="col-xs-12">
-							<table class="table graftable table-responsive small">
-								<thead>
-									<tr>
-										<th colspan=3>Stav čerpání rozpočtu</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td rowspan=3>
-											<chart-donut [data]="event"></chart-donut>
-										</td>
-										<td>{{'profile.budget' | translate}}</td>
-										<td class="text-right font-number">{{event.budgetAmount | money:0:false}} Kč
-										</td>
-									</tr>
-									<tr>
-										<td><span style="color:#E73431;">&#9632;</span> {{'profile.utilization' |
-											translate}}</td>
-										<td class="text-right font-number">{{event.amount | money:0:false}} Kč</td>
-									</tr>
-									<tr *ngIf="event.amount <= event.budgetAmount">
-										<td><span style="color:#ff9491;">&#9632;</span> Zbývá</td>
-										<td class="text-right font-number">{{event.budgetAmount - event.amount |
-											money:0:false}} Kč</td>
-									</tr>
-									<tr *ngIf="event.amount > event.budgetAmount">
-										<td colspan="3">
-											<span class="label label-warning font-number">Překročeno o {{event.amount -
-												event.budgetAmount | money:0:false}} Kč</span>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-
-						</div>
-					</div>
-					<div class="row">
-						<div class="showMore text-center" *ngIf="event?.id != null && (showDetail | async)">
-							<button class="btn btn-primary" (click)="selectEvent(event.id)">Otevřít detail akce</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="showMore text-center" *ngIf="isMoreEvents()">
-			<button class="btn btn-primary" (click)="showMoreEvents()">Zobrazit dalších 20 akcí</button>
-			<br><br>
-			<button class="btn btn-secondary btn-sm" (click)="showAllEvents()">Zobrazit všechny akce</button>
-		</div>
-	</div>
+      <div class="row">
+        <div class="col-xs-12 col-md-8">
+          <div class="content">
+            <table class="viztable table table-responsive small">
+              <thead>
+                <tr>
+                  <th>
+                    Druh {{ (type | async) === "exp" ? "výdajů" : "příjmů" }} v
+                    této skupině
+                  </th>
+                  <th>Rozpočtová částka</th>
+                  <th>Skutečná částka</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let item of event.items"
+                  [title]="item.id ? 'Rozpočtová položka #' + item.id : ''"
+                >
+                  <td>
+                    <ng-container *ngIf="item.name">{{
+                      item.name
+                    }}</ng-container>
+                    <ng-container *ngIf="!item.name && item.id"
+                      >Rozpočtová položka #{{ item.id }}</ng-container
+                    >
+                    <ng-container
+                      *ngIf="!item.name && !item.id && event.items.length > 1"
+                      >Ostatní výdaje</ng-container
+                    >
+                    <ng-container
+                      *ngIf="!item.name && !item.id && event.items.length === 1"
+                      >Celkové výdaje</ng-container
+                    >
+                  </td>
+                  <td>{{ item.budgetAmount | money: 0 : false }} Kč</td>
+                  <td>{{ item.amount | money: 0 : false }} Kč</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+          <div class="row">
+            <div class="col-xs-12">
+              <table class="table graftable table-responsive small">
+                <thead>
+                  <tr>
+                    <th colspan="3">Stav čerpání rozpočtu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td rowspan="3">
+                      <chart-donut [data]="event"></chart-donut>
+                    </td>
+                    <td>{{ "profile.budget" | translate }}</td>
+                    <td class="text-right font-number">
+                      {{ event.budgetAmount | money: 0 : false }} Kč
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span style="color: #e73431">&#9632;</span>
+                      {{ "profile.utilization" | translate }}
+                    </td>
+                    <td class="text-right font-number">
+                      {{ event.amount | money: 0 : false }} Kč
+                    </td>
+                  </tr>
+                  <tr *ngIf="event.amount <= event.budgetAmount">
+                    <td><span style="color: #ff9491">&#9632;</span> Zbývá</td>
+                    <td class="text-right font-number">
+                      {{ event.budgetAmount - event.amount | money: 0 : false }}
+                      Kč
+                    </td>
+                  </tr>
+                  <tr *ngIf="event.amount > event.budgetAmount">
+                    <td colspan="3">
+                      <span class="label label-warning font-number"
+                        >Překročeno o
+                        {{
+                          event.amount - event.budgetAmount | money: 0 : false
+                        }}
+                        Kč</span
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="showMore text-center" *ngIf="event?.id != null">
+              <button class="btn btn-primary" (click)="selectEvent(event.id)">
+                Otevřít detail akce
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="showMore text-center" *ngIf="isMoreEvents()">
+      <button class="btn btn-primary" (click)="showMoreEvents()">
+        Zobrazit dalších 20 akcí
+      </button>
+      <br /><br />
+      <button class="btn btn-secondary btn-sm" (click)="showAllEvents()">
+        Zobrazit všechny akce
+      </button>
+    </div>
+  </div>
 </div>

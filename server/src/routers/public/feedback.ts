@@ -1,68 +1,72 @@
-import express from 'express';
-import environment from '../../../environment';
-import schema from 'express-jsonschema';
-import nodemailer from 'nodemailer';
+import express from "express";
+import environment from "../../../environment";
+import schema from "express-jsonschema";
+import nodemailer from "nodemailer";
 
 const router = express.Router();
 
 export const FeedbackRouter = router;
 
 const feedbackSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     feedback: {
-      type: 'string',
+      type: "string",
       required: true,
     },
     email: {
-      type: 'string',
+      type: "string",
       required: true,
     },
   },
 };
 
 const requestCitySchema = {
-  type: 'object',
+  type: "object",
   properties: {
     city: {
-      type: 'string',
+      type: "string",
       required: true,
     },
     email: {
-      type: 'string',
+      type: "string",
       required: true,
     },
     gdpr: {
-      type: 'boolean',
+      type: "boolean",
       required: true,
     },
     name: {
-      type: 'string',
+      type: "string",
       required: true,
     },
     psc: {
-      type: 'string',
+      type: "string",
       required: true,
     },
     subscribe: {
-      type: 'boolean',
+      type: "boolean",
       required: true,
     },
   },
 };
 
-router.post('/', schema.validate({body: feedbackSchema}), async (req, res) => {
-  const content = `Zpětná vazba:
+router.post(
+  "/",
+  schema.validate({ body: feedbackSchema }),
+  async (req, res) => {
+    const content = `Zpětná vazba:
 Email: ${req.body.email}
 Zpráva: ${req.body.feedback}`;
 
-  await sendToEmail('feedback', content);
-  res.sendStatus(204);
-});
+    await sendToEmail("feedback", content);
+    res.sendStatus(204);
+  }
+);
 
 router.post(
-  '/requestcity',
-  schema.validate({body: requestCitySchema}),
+  "/requestcity",
+  schema.validate({ body: requestCitySchema }),
   async (req, res) => {
     const content = `Žádost o zapojení obce
 Obec: ${req.body.city}
@@ -72,7 +76,7 @@ Jméno: ${req.body.name}
 GDPR souhlas: ${req.body.gdpr}
 Informace o propojení: ${req.body.subscribe}
 `;
-    await sendToEmail('Zapojení obce', content);
+    await sendToEmail("Zapojení obce", content);
     res.sendStatus(204);
   }
 );

@@ -1,7 +1,7 @@
-import path from 'path';
-import environment from '../../environment';
-import {aclRoles} from './roles';
-import {serverConfig} from './server';
+import path from "path";
+import environment from "../../environment";
+import { aclRoles } from "./roles";
+import { serverConfig } from "./server";
 
 export default {
   apiRoot: environment.apiRoot,
@@ -13,10 +13,10 @@ export default {
   cors: {
     enabled: environment.cors,
     origin: environment.corsOrigin,
-    methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
-    exposedHeaders: ['Location'],
-    allowedHeaders: ['Authorization', 'Content-Type'],
+    exposedHeaders: ["Location"],
+    allowedHeaders: ["Authorization", "Content-Type"],
   },
 
   redis: {
@@ -41,7 +41,7 @@ export default {
   },
 
   cron: {
-    cronTime: '00 00 07 * * *',
+    cronTime: "00 00 07 * * *",
     runOnInit: false,
     jobDelay: 5,
   },
@@ -52,38 +52,38 @@ export default {
 
   static: {
     dir: environment.staticFiles,
-    index: path.join(environment.staticFiles, 'index.html'),
+    index: path.join(environment.staticFiles, "index.html"),
   },
 
   storage: {
     tmp: path.resolve(environment.tmpDir),
-    avatars: path.resolve(environment.storageDir, 'avatars'),
-    imports: path.resolve(environment.storageDir, 'imports'),
+    avatars: path.resolve(environment.storageDir, "avatars"),
+    imports: path.resolve(environment.storageDir, "imports"),
   },
 
   jwt: {
-    requestProperty: 'user',
-    algorithms: ['HS256'],
+    requestProperty: "user",
+    algorithms: ["HS256"],
     secret: environment.keys.jwt.secret,
-    expiration: '1d',
+    expiration: "1d",
     credentialsRequired: false,
     getToken: req => {
       if (
         req.headers.authorization &&
-        req.headers.authorization.split(' ')[0] === 'Bearer'
+        req.headers.authorization.split(" ")[0] === "Bearer"
       ) {
-        return req.headers.authorization.split(' ')[1];
+        return req.headers.authorization.split(" ")[1];
       } else if (req.cookies && req.cookies.access_token) {
         return req.cookies.access_token;
       }
       return null;
     },
-    cookieName: 'access_token',
+    cookieName: "access_token",
     cookieMaxAge: 1000 * 60 * 60 * 24,
   },
 
   eDesky: {
-    url: 'https://edesky.cz/api/v1/documents',
+    url: "https://edesky.cz/api/v1/documents",
     api_key: environment.keys.edesky.api_key,
   },
 

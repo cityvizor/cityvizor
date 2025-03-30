@@ -9,7 +9,13 @@ export class Dashboard {
 
 export interface DashboardRow {
   year: number;
-  category: "transportation" | "schools" | "sports" | "housing" | "culture" | "government";
+  category:
+    | "transportation"
+    | "schools"
+    | "sports"
+    | "housing"
+    | "culture"
+    | "government";
   amount: number;
   budgetAmount: number;
 }

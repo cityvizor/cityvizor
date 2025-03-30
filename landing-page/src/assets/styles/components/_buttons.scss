@@ -5,27 +5,27 @@
 */
 
 .btn {
-    @extend .type-lg;
-    display: inline-block;
-    appearance: none;
-    cursor: pointer;
-    height: $btn-height-base;
+  @extend .type-lg;
+  display: inline-block;
+  appearance: none;
+  cursor: pointer;
+  height: $btn-height-base;
 
-    padding-left: $font-size-md;
-    padding-right: $font-size-md;
+  padding-left: $font-size-md;
+  padding-right: $font-size-md;
 
-    border: 2px solid $primary;
-    border-radius: 4px;
-    
-    background-color: $primary;
-    color: $white;
+  border: 2px solid $primary;
+  border-radius: 4px;
+
+  background-color: $primary;
+  color: $white;
 }
 
 .btn-transparent {
-    background-color: transparent;
-    border-color: transparent;
+  background-color: transparent;
+  border-color: transparent;
 
-    &:focus {
-        outline: none;
-    }
+  &:focus {
+    outline: none;
+  }
 }
