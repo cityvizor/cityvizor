@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
     translateService: TranslateService
   ) {
     // Explicitly configure ngx-bootstrap to use Bootstrap 3, otherwise newer version is used
-    setTheme("bs3");
+    setTheme("bs5");
 
     this.toasts = this.toastService.toasts;
     this.alternativeFooterHtml =

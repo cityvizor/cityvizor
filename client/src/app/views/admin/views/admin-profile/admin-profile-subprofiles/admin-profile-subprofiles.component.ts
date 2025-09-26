@@ -4,10 +4,10 @@ import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { ConfigService } from "config/config";
 import { Observable } from "rxjs";
-import { map } from "rxjs/internal/operators/map";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { AdminService } from "app/services/admin.service";
 import { NgForm } from "@angular/forms";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "admin-profile-subprofiles",

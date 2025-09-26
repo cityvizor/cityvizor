@@ -25,5 +25,13 @@
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true
-  }
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/environments/environment.local.ts",
+    "src/environments/environment.localnginx.ts",
+    "src/environments/environment.prod.ts"
+  ]
 }

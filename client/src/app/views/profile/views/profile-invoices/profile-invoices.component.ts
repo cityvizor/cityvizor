@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
@@ -25,8 +25,7 @@ export class ProfileInvoicesComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private profileService: ProfileService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {

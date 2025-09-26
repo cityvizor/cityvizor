@@ -1,6 +1,6 @@
 services:
   nginx.cityvizor:
-    image: nginx:1.17.8-alpine
+    image: nginx:1.29.1-alpine
     container_name: nginx.cityvizor
     ports:
       - "4200:80"

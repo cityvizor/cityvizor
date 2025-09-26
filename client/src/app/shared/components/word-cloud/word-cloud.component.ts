@@ -57,7 +57,7 @@ export class WordCloudComponent implements AfterViewInit {
       color: (word, weight, fontSize, distance, theta) =>
         `rgba(37, 129, 196, ${(1 - (fontSize - this.minSize) / (this.maxSize - this.minSize)) * this.minOpacity + ((fontSize - this.minSize) / (this.maxSize - this.minSize)) * this.maxOpacity})`,
       classes: "word",
-      click: (item, dimension, event) => this.click.emit(item),
+      click: (item, dimension, event) => this.click.emit([item[0], item[1]]),
     };
 
     WordCloud(this.wordcloudEl.nativeElement, options);
