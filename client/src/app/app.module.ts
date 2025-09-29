@@ -22,8 +22,8 @@ import { ConfigService, configFactory } from "../config";
 /* Third Party */
 import { ModalModule } from "ngx-bootstrap/modal";
 import { JwtModule } from "@auth0/angular-jwt";
-import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { TranslateModule } from "@ngx-translate/core";
+import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 
 // settings for JWT
 export function tokenGetter(): string {
@@ -39,10 +39,6 @@ const jwtOptions = {
   },
 };
 
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/text/", ".json");
-}
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -56,11 +52,10 @@ export function createTranslateLoader(http: HttpClient) {
     JwtModule.forRoot(jwtOptions),
     TranslateModule.forRoot({
       defaultLanguage: "cs",
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
+      loader: provideTranslateHttpLoader({
+        prefix: "./assets/text/",
+        suffix: ".json",
+      }),
     }),
   ],
   declarations: [AppComponent],
@@ -75,4 +70,4 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

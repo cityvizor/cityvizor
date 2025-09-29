@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
       this.configService.config.alternativePageContent.footerHtml;
     this.tracking = this.configService.config.alternativePageContent.tracking;
 
-    translateService.setDefaultLang("cs");
+    translateService.setFallbackLang("cs");
     translateService.use("cs");
   }
 
