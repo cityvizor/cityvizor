@@ -1,14 +1,12 @@
 import { Routes } from "@angular/router";
 import { ACLService } from "./services/acl.service";
-import { LoginComponent } from "./views/login/login.component";
-import { NotFoundPageComponent } from "./views/not-found-page/not-found-page.component";
 
 export const AppRoutes: Routes = [
   /* FRONT PAGE */
-  { path: "login", component: LoginComponent },
+  { path: "login", loadComponent: () => import('./views/login/login.component').then(m => m.LoginComponent) },
 
   /* NOT FOUND */
-  { path: "not-found", component: NotFoundPageComponent },
+  { path: "not-found", loadComponent: () => import('./views/not-found-page/not-found-page.component').then(m => m.NotFoundPageComponent) },
 
   /* COUNTERPARTIES */
   {

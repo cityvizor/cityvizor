@@ -1,23 +1,16 @@
 import { Routes } from "@angular/router";
-import { ProfileComponent } from "./profile.component";
-import { ProfileDashboardComponent } from "./views/profile-dashboard/profile-dashboard.component";
-import { ProfileAccountingComponent } from "./views/profile-accounting/profile-accounting.component";
-import { ProfileInvoicesComponent } from "./views/profile-invoices/profile-invoices.component";
-import { ProfileNoticeboardComponent } from "./views/profile-noticeboard/profile-noticeboard.component";
-import { ProfileContractsComponent } from "./views/profile-contracts/profile-contracts.component";
-import { ProfileCounterpartiesComponent } from "./views/profile-counterparties/profile-counterparties.component";
 
 export const ProfileRoutes: Routes = [
   {
     path: "",
-    component: ProfileComponent,
+    loadComponent: () => import('./profile.component').then(m => m.ProfileComponent),
     children: [
-      { path: "prehled", component: ProfileDashboardComponent },
-      { path: "hospodareni/:type", component: ProfileAccountingComponent },
-      { path: "faktury", component: ProfileInvoicesComponent },
-      { path: "uredni-deska", component: ProfileNoticeboardComponent },
-      { path: "registr-smluv", component: ProfileContractsComponent },
-      { path: "dodavatele", component: ProfileCounterpartiesComponent },
+      { path: "prehled", loadComponent: () => import('./views/profile-dashboard/profile-dashboard.component').then(m => m.ProfileDashboardComponent) },
+      { path: "hospodareni/:type", loadComponent: () => import('./views/profile-accounting/profile-accounting.component').then(m => m.ProfileAccountingComponent) },
+      { path: "faktury", loadComponent: () => import('./views/profile-invoices/profile-invoices.component').then(m => m.ProfileInvoicesComponent) },
+      { path: "uredni-deska", loadComponent: () => import('./views/profile-noticeboard/profile-noticeboard.component').then(m => m.ProfileNoticeboardComponent) },
+      { path: "registr-smluv", loadComponent: () => import('./views/profile-contracts/profile-contracts.component').then(m => m.ProfileContractsComponent) },
+      { path: "dodavatele", loadComponent: () => import('./views/profile-counterparties/profile-counterparties.component').then(m => m.ProfileCounterpartiesComponent) },
       { path: "", redirectTo: "prehled", pathMatch: "full" },
       { path: "**", pathMatch: "full", redirectTo: "/not-found" },
     ],

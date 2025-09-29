@@ -1,17 +1,13 @@
 import { Routes } from "@angular/router";
-import { CounterpartyComponent } from "./counterparty.component";
-import { CounterpartyProfilesComponent } from "./views/counterparty-profiles/counterparty-profiles.component";
-import { CounterpartyPaymentsComponent } from "./views/counterparty-payments/counterparty-payments.component";
-import { CounterpartyDashboardComponent } from "./views/counterparty-dashboard/counterparty-dashboard.component";
 
 export const CounterPartyRoutes: Routes = [
   {
     path: "",
-    component: CounterpartyComponent,
+    loadComponent: () => import('./counterparty.component').then(m => m.CounterpartyComponent),
     children: [
-      { path: "obce", component: CounterpartyProfilesComponent },
-      { path: "faktury", component: CounterpartyPaymentsComponent },
-      { path: "prehled", component: CounterpartyDashboardComponent },
+      { path: "obce", loadComponent: () => import('./views/counterparty-profiles/counterparty-profiles.component').then(m => m.CounterpartyProfilesComponent) },
+      { path: "faktury", loadComponent: () => import('./views/counterparty-payments/counterparty-payments.component').then(m => m.CounterpartyPaymentsComponent) },
+      { path: "prehled", loadComponent: () => import('./views/counterparty-dashboard/counterparty-dashboard.component').then(m => m.CounterpartyDashboardComponent) },
       { path: "", redirectTo: "prehled", pathMatch: "full" },
       { path: "**", pathMatch: "full", redirectTo: "/not-found" },
     ],
