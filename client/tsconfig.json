@@ -5,13 +5,12 @@
     "outDir": "./dist",
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
     "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"

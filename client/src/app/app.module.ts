@@ -1,7 +1,7 @@
 import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 /* MAIN COMPONENT */
 import { AppComponent } from "./app.component";
@@ -24,6 +24,8 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { JwtModule } from "@auth0/angular-jwt";
 import { TranslateModule } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
+import { providePrimeNG } from "primeng/config";
+import Lara from "@primeng/themes/lara";
 
 // settings for JWT
 export function tokenGetter(): string {
@@ -40,10 +42,9 @@ const jwtOptions = {
 };
 
 @NgModule({
-  imports: [
-    BrowserModule,
+  declarations: [AppComponent],
+  bootstrap: [AppComponent], imports: [BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     AppRoutingModule,
     SharedModule,
     LoginModule,
@@ -51,23 +52,25 @@ const jwtOptions = {
     ModalModule.forRoot(),
     JwtModule.forRoot(jwtOptions),
     TranslateModule.forRoot({
-      defaultLanguage: "cs",
+      fallbackLang: "cs",
       loader: provideTranslateHttpLoader({
         prefix: "./assets/text/",
         suffix: ".json",
       }),
-    }),
-  ],
-  declarations: [AppComponent],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: configFactory,
-      deps: [ConfigService],
-      multi: true,
-    },
-    httpInterceptorProviders,
-  ],
-  bootstrap: [AppComponent],
+    })], providers: [
+      {
+        provide: APP_INITIALIZER,
+        useFactory: configFactory,
+        deps: [ConfigService],
+        multi: true,
+      },
+      httpInterceptorProviders,
+      provideHttpClient(withInterceptorsFromDi()),
+      providePrimeNG({
+        theme: {
+          preset: Lara
+        }
+      }),
+    ]
 })
 export class AppModule { }

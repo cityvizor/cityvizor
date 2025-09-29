@@ -25,7 +25,6 @@ import { EventDetailModalComponent } from "./components/event-detail-modal/event
 import { CounterpartyDetailComponent } from "./components/counterparty-detail/counterparty-detail.component";
 import { CounterpartyDetailModalComponent } from "./components/counterparty-detail-modal/counterparty-detail-modal.component";
 import { HelpModalComponent } from "./components/help-modal/help-modal.component";
-import { WordCloudComponent } from "./components/word-cloud/word-cloud.component";
 import { HeaderMenuComponent } from "app/shared/components/header-menu/header-menu.component";
 import { ProfileExpendituresWidgetComponent } from "./widgets/profile-expenditures-widget/profile-expenditures-widget.component";
 import { DatePickerComponent } from "./components/date-picker/date-picker.component";
@@ -67,7 +66,6 @@ import { TranslateModule } from "@ngx-translate/core";
     CounterpartyDetailModalComponent,
     HelpModalComponent,
     ChartHistoryComponent,
-    WordCloudComponent,
     HeaderMenuComponent,
     DatePickerComponent,
     /* Widgets */
@@ -105,7 +103,6 @@ import { TranslateModule } from "@ngx-translate/core";
     EventDetailModalComponent,
     HelpModalComponent,
     ChartHistoryComponent,
-    WordCloudComponent,
     HeaderMenuComponent,
     DatePickerComponent,
     /* Widgets */

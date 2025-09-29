@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewContainerRef } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { trigger, style, animate, transition } from "@angular/animations";
 import { setTheme } from "ngx-bootstrap/utils";
 
@@ -23,8 +23,6 @@ import { TranslateService } from "@ngx-translate/core";
   ],
 })
 export class AppComponent implements OnInit {
-  private viewContainerRef: ViewContainerRef; // ng2-bootstrap requirement
-
   // array to link toasts from toastService
   toasts: Array<any>;
 
@@ -62,7 +60,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.tracking.scripts.forEach(script => {
       script = script.replace(/^<script>/, "").replace(/<\/script>$/, "");
-      eval(script);
+      window.eval(script);
     });
   }
 
