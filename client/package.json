@@ -40,7 +40,6 @@
     "ngx-bootstrap": "11.0.2",
     "npm": "^10.8.2",
     "primeicons": "^6.0.1",
-    "primeng": "16.9.17-lts",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.3",
     "tslib": "^2.8.1",
