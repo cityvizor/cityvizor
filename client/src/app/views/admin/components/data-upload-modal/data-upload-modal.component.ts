@@ -10,11 +10,10 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "data-upload-modal",
     templateUrl: "./data-upload-modal.component.html",
     styleUrls: ["./data-upload-modal.component.scss"],
-    standalone: true,
     imports: [
-    FormsModule,
-    TranslatePipe
-],
+        FormsModule,
+        TranslatePipe
+    ]
 })
 export class DataUploadModalComponent {
   @Input() year: number;

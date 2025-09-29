@@ -34,11 +34,10 @@ import { MoneyPipe } from "../../pipes/money.pipe";
             transition("open => closed", animate("250ms ease-out", style({ opacity: 0, height: 0 }))),
         ]),
     ],
-    standalone: true,
     imports: [
-    DatePipe,
-    MoneyPipe
-],
+        DatePipe,
+        MoneyPipe
+    ]
 })
 export class CounterpartyDetailComponent implements OnInit {
   /* DATA */

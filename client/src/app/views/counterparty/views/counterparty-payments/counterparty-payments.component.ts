@@ -10,11 +10,10 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
     selector: "app-counterparty-payments",
     templateUrl: "./counterparty-payments.component.html",
     styleUrls: ["./counterparty-payments.component.scss"],
-    standalone: true,
     imports: [
-    DatePipe,
-    MoneyPipe
-],
+        DatePipe,
+        MoneyPipe
+    ]
 })
 export class CounterpartyPaymentsComponent implements OnInit, OnDestroy {
   payments: any[] = [];

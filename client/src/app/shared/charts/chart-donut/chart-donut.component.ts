@@ -19,8 +19,7 @@ import {
             ]),
         ]),
     ],
-    standalone: true,
-    imports: [],
+    imports: []
 })
 export class ChartDonutComponent {
   @Input() data: any;

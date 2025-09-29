@@ -16,7 +16,6 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "admin-profile-data",
     templateUrl: "./admin-profile-data.component.html",
     styleUrls: ["./admin-profile-data.component.scss"],
-    standalone: true,
     imports: [
         NgFor,
         NgIf,
@@ -32,7 +31,7 @@ import { TranslatePipe } from "@ngx-translate/core";
         AsyncPipe,
         DatePipe,
         TranslatePipe,
-    ],
+    ]
 })
 export class AdminProfileDataComponent implements OnInit {
   profile$: Observable<Profile>;

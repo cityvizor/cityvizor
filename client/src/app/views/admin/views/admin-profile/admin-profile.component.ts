@@ -14,13 +14,12 @@ import { AsyncPipe } from "@angular/common";
     selector: "admin-profile",
     templateUrl: "./admin-profile.component.html",
     styleUrls: ["./admin-profile.component.scss"],
-    standalone: true,
     imports: [
         RouterLinkActive,
         RouterLink,
         RouterOutlet,
         AsyncPipe,
-    ],
+    ]
 })
 export class AdminProfileComponent implements OnInit {
   profile: Observable<Profile>;

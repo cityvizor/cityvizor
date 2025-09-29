@@ -25,14 +25,13 @@ import { TranslatePipe } from "@ngx-translate/core";
             multi: true,
         },
     ],
-    standalone: true,
     imports: [
-    BsDropdownDirective,
-    BsDropdownToggleDirective,
-    BsDropdownMenuDirective,
-    MoneyPipe,
-    TranslatePipe
-],
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        MoneyPipe,
+        TranslatePipe
+    ]
 })
 export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() groups: BudgetGroup[];

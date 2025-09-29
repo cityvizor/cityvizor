@@ -22,11 +22,10 @@ import { TranslateService } from "@ngx-translate/core";
             transition(":leave", animate(250, style({ opacity: 0 }))), // * => void
         ]),
     ],
-    standalone: true,
     imports: [
-    RouterOutlet,
-    RouterLink
-],
+        RouterOutlet,
+        RouterLink
+    ]
 })
 export class AppComponent implements OnInit {
   // array to link toasts from toastService

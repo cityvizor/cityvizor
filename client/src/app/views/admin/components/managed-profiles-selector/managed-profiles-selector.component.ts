@@ -27,8 +27,7 @@ interface ProfileSelectionModel {
             multi: true,
         },
     ],
-    standalone: true,
-    imports: [],
+    imports: []
 })
 export class ManagedProfilesSelectorComponent
   implements OnInit, ControlValueAccessor

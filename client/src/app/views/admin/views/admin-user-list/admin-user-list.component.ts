@@ -17,7 +17,6 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "admin-user-list",
     templateUrl: "./admin-user-list.component.html",
     styleUrls: ["./admin-user-list.component.scss"],
-    standalone: true,
     imports: [
         TableModule,
         PrimeTemplate,
@@ -31,7 +30,7 @@ import { TranslatePipe } from "@ngx-translate/core";
         UserSetPasswordModalComponent,
         DatePipe,
         TranslatePipe,
-    ],
+    ]
 })
 export class AdminUserListComponent implements OnInit {
   users: User[];

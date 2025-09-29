@@ -24,18 +24,17 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "profile-dashboard",
     templateUrl: "profile-dashboard.component.html",
     styleUrls: ["profile-dashboard.component.scss"],
-    standalone: true,
     imports: [
-    ChartHistoryComponent,
-    NgClass,
-    RouterLink,
-    RouterLinkActive,
-    ChartBudgetComponent,
-    DatePipe,
-    MoneyPipe,
-    IcoPipe,
-    TranslatePipe
-],
+        ChartHistoryComponent,
+        NgClass,
+        RouterLink,
+        RouterLinkActive,
+        ChartBudgetComponent,
+        DatePipe,
+        MoneyPipe,
+        IcoPipe,
+        TranslatePipe
+    ]
 })
 export class ProfileDashboardComponent implements OnInit {
   profile: Profile;

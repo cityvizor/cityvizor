@@ -21,8 +21,7 @@ import { ChartBigbangComponent } from "../../charts/chart-bigbang/chart-bigbang.
     selector: "profile-expenditures-widget",
     templateUrl: "./profile-expenditures-widget.component.html",
     styleUrls: ["./profile-expenditures-widget.component.scss"],
-    standalone: true,
-    imports: [ChartBigbangComponent],
+    imports: [ChartBigbangComponent]
 })
 export class ProfileExpendituresWidgetComponent implements OnChanges {
   @Input() profile: Profile;

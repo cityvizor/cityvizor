@@ -8,8 +8,7 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "delete-year-modal",
     templateUrl: "./delete-year-modal.component.html",
     styleUrls: ["./delete-year-modal.component.scss"],
-    standalone: true,
-    imports: [FormsModule, TranslatePipe],
+    imports: [FormsModule, TranslatePipe]
 })
 export class DeleteYearModalComponent {
   @Input() profileId: number;

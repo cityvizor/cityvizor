@@ -21,12 +21,11 @@ class ChartHistoryBar {
     selector: "chart-history",
     templateUrl: "chart-history.component.html",
     styleUrls: ["chart-history.component.scss"],
-    standalone: true,
     imports: [
-    NgClass,
-    TranslatePipe,
-    MoneyPipe
-],
+        NgClass,
+        TranslatePipe,
+        MoneyPipe
+    ]
 })
 export class ChartHistoryComponent implements OnChanges {
   @Input()

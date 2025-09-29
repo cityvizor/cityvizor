@@ -6,8 +6,7 @@ import { EventDetailComponent } from "../event-detail/event-detail.component";
     selector: "event-detail-modal",
     templateUrl: "./event-detail-modal.component.html",
     styleUrls: ["./event-detail-modal.component.scss"],
-    standalone: true,
-    imports: [EventDetailComponent],
+    imports: [EventDetailComponent]
 })
 export class EventDetailModalComponent {
   openTab: string;

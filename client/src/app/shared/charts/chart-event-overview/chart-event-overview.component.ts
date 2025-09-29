@@ -6,8 +6,7 @@ import { BudgetEvent } from "app/schema";
     selector: "chart-event-overview",
     templateUrl: "chart-event-overview.component.html",
     styleUrls: ["chart-event-overview.component.scss"],
-    standalone: true,
-    imports: [],
+    imports: []
 })
 export class ChartEventOverviewComponent {
   amount: number;

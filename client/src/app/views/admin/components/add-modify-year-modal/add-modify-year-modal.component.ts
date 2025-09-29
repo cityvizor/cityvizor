@@ -8,8 +8,7 @@ import { BudgetYear } from "../../../../schema";
     selector: "add-modify-year-modal",
     templateUrl: "./add-modify-year-modal.component.html",
     styleUrls: ["./add-modify-year-modal.component.scss"],
-    standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule]
 })
 export class AddModifyYearModalComponent implements OnInit {
   @Input() profileId: number;

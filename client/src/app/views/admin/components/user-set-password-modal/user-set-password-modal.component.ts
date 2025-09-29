@@ -9,8 +9,7 @@ import { AdminService } from "app/services/admin.service";
     selector: "user-set-password-modal",
     templateUrl: "./user-set-password-modal.component.html",
     styleUrls: ["./user-set-password-modal.component.scss"],
-    standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule]
 })
 export class UserSetPasswordModalComponent {
   @Input() user: User;

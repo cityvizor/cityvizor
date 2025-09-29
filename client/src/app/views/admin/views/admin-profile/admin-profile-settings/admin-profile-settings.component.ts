@@ -18,13 +18,12 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "admin-profile-settings",
     templateUrl: "./admin-profile-settings.component.html",
     styleUrls: ["./admin-profile-settings.component.scss"],
-    standalone: true,
     imports: [
-    FormsModule,
-    RouterLink,
-    ProgressSpinner,
-    TranslatePipe
-],
+        FormsModule,
+        RouterLink,
+        ProgressSpinner,
+        TranslatePipe
+    ]
 })
 export class AdminProfileSettingsComponent implements OnInit {
   profileId: Observable<number | null>;

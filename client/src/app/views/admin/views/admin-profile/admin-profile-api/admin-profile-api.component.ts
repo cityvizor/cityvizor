@@ -10,8 +10,7 @@ import { AsyncPipe } from "@angular/common";
     selector: "admin-profile-api",
     templateUrl: "./admin-profile-api.component.html",
     styleUrls: ["./admin-profile-api.component.scss"],
-    standalone: true,
-    imports: [AsyncPipe],
+    imports: [AsyncPipe]
 })
 export class AdminProfileApiComponent {
   profileId$ = this.profileService.profileId;

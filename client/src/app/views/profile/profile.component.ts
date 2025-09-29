@@ -15,15 +15,14 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "profile",
     templateUrl: "profile.component.html",
     styleUrls: ["profile.component.scss"],
-    standalone: true,
     imports: [
-    HeaderMenuComponent,
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet,
-    AsyncPipe,
-    TranslatePipe
-],
+        HeaderMenuComponent,
+        RouterLink,
+        RouterLinkActive,
+        RouterOutlet,
+        AsyncPipe,
+        TranslatePipe
+    ]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   profile: Observable<Profile>;

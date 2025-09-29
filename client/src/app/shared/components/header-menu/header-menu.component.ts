@@ -6,8 +6,7 @@ import { CollapseDirective } from "ngx-bootstrap/collapse";
     selector: "header-menu",
     templateUrl: "header-menu.component.html",
     styleUrls: ["header-menu.component.scss"],
-    standalone: true,
-    imports: [CollapseDirective],
+    imports: [CollapseDirective]
 })
 export class HeaderMenuComponent {
   @Input() title: string;

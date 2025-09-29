@@ -10,11 +10,10 @@ import { HeaderMenuComponent } from "../../shared/components/header-menu/header-
     selector: "login",
     templateUrl: "login.component.html",
     styleUrls: ["login.component.scss"],
-    standalone: true,
     imports: [
-    HeaderMenuComponent,
-    FormsModule
-],
+        HeaderMenuComponent,
+        FormsModule
+    ]
 })
 export class LoginComponent {
   @Output()

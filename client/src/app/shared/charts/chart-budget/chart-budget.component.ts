@@ -4,8 +4,7 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
 @Component({
     selector: "chart-budget",
     templateUrl: "chart-budget.component.html",
-    standalone: true,
-    imports: [],
+    imports: []
 })
 export class ChartBudgetComponent {
   @Input() data: {

@@ -20,18 +20,17 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "admin-profile-subprofiles",
     templateUrl: "./admin-profile-subprofiles.component.html",
     styleUrls: ["./admin-profile-subprofiles.component.scss"],
-    standalone: true,
     imports: [
-    TableModule,
-    PrimeTemplate,
-    DropdownModule,
-    FormsModule,
-    RouterLink,
-    BsDropdownDirective,
-    BsDropdownToggleDirective,
-    BsDropdownMenuDirective,
-    TranslatePipe
-],
+        TableModule,
+        PrimeTemplate,
+        DropdownModule,
+        FormsModule,
+        RouterLink,
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        TranslatePipe
+    ]
 })
 export class AdminProfileSubprofilesComponent implements OnInit {
   subprofiles: Profile[] = [];

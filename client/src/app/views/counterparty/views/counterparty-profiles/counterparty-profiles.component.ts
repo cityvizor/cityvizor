@@ -9,8 +9,7 @@ import { DataService } from "app/services/data.service";
     selector: "counterparty-profiles",
     templateUrl: "counterparty-profiles.component.html",
     styleUrls: ["counterparty-profiles.component.scss"],
-    standalone: true,
-    imports: [],
+    imports: []
 })
 export class CounterpartyProfilesComponent implements OnInit, OnDestroy {
   budgets: any[];

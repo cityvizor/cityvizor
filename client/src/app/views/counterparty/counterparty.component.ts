@@ -11,12 +11,11 @@ import { HeaderMenuComponent } from "../../shared/components/header-menu/header-
     selector: "counterparty",
     templateUrl: "counterparty.component.html",
     styleUrls: ["counterparty.component.scss"],
-    standalone: true,
     imports: [
         HeaderMenuComponent,
         RouterLink,
         RouterOutlet,
-    ],
+    ]
 })
 export class CounterpartyComponent implements OnInit, OnDestroy {
   counterparty: Counterparty;

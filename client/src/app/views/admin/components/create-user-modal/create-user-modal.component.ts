@@ -10,11 +10,10 @@ import { AsyncPipe } from "@angular/common";
     selector: "create-user-modal",
     templateUrl: "./create-user-modal.component.html",
     styleUrls: ["./create-user-modal.component.scss"],
-    standalone: true,
     imports: [
-    FormsModule,
-    AsyncPipe
-],
+        FormsModule,
+        AsyncPipe
+    ]
 })
 export class CreateUserModalComponent implements OnInit {
   @Output() close = new EventEmitter<boolean>();

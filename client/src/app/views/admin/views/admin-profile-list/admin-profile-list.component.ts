@@ -21,18 +21,17 @@ interface ProfileWithParentName extends Profile {
     selector: "admin-profile-list",
     templateUrl: "./admin-profile-list.component.html",
     styleUrls: ["./admin-profile-list.component.scss"],
-    standalone: true,
     imports: [
-    TableModule,
-    PrimeTemplate,
-    SelectModule,
-    FormsModule,
-    RouterLink,
-    BsDropdownDirective,
-    BsDropdownToggleDirective,
-    BsDropdownMenuDirective,
-    TranslatePipe
-],
+        TableModule,
+        PrimeTemplate,
+        SelectModule,
+        FormsModule,
+        RouterLink,
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        TranslatePipe
+    ]
 })
 export class AdminProfileListComponent implements OnInit {
   profilesWithParentName: ProfileWithParentName[] = [];

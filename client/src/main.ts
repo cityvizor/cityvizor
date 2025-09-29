@@ -2,7 +2,7 @@
 import { AppComponent } from "./app/app.component";
 
 /* Initialization */
-import { enableProdMode, APP_INITIALIZER, importProvidersFrom } from "@angular/core";
+import { enableProdMode, importProvidersFrom, inject, provideAppInitializer } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
 
@@ -54,12 +54,10 @@ bootstrapApplication(AppComponent, {
                 suffix: ".json",
             }),
         })),
-        {
-            provide: APP_INITIALIZER,
-            useFactory: configFactory,
-            deps: [ConfigService],
-            multi: true,
-        },
+        provideAppInitializer(() => {
+        const initializerFn = (configFactory)(inject(ConfigService));
+        return initializerFn();
+      }),
         httpInterceptorProviders,
         provideHttpClient(withInterceptorsFromDi()),
         providePrimeNG({

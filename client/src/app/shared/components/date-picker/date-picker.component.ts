@@ -12,14 +12,13 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "date-picker",
     templateUrl: "date-picker.component.html",
     styleUrls: ["date-picker.component.scss"],
-    standalone: true,
     imports: [
-    BsDropdownDirective,
-    BsDropdownToggleDirective,
-    BsDropdownMenuDirective,
-    RouterLink,
-    TranslatePipe
-],
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        RouterLink,
+        TranslatePipe
+    ]
 })
 export class DatePickerComponent implements OnInit {
   @Input()

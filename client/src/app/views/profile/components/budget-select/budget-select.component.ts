@@ -25,15 +25,14 @@ import { TranslatePipe } from "@ngx-translate/core";
             multi: true,
         },
     ],
-    standalone: true,
     imports: [
-    BsDropdownDirective,
-    BsDropdownToggleDirective,
-    BsDropdownMenuDirective,
-    DatePipe,
-    MoneyPipe,
-    TranslatePipe
-],
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        DatePipe,
+        MoneyPipe,
+        TranslatePipe
+    ]
 })
 export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() budgets: Budget[] = [];

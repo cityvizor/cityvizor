@@ -52,18 +52,17 @@ type CounterpartyOpenable = Counterparty & { open: boolean };
             transition("open => closed", animate("250ms ease-out", style({ opacity: 0, height: 0 }))),
         ]),
     ],
-    standalone: true,
     imports: [
-    TabsetComponent,
-    TabDirective,
-    ChartEventOverviewComponent,
-    ChartBudgetComponent,
-    FormsModule,
-    DatePipe,
-    TranslatePipe,
-    MoneyPipe,
-    AbsPipe
-],
+        TabsetComponent,
+        TabDirective,
+        ChartEventOverviewComponent,
+        ChartBudgetComponent,
+        FormsModule,
+        DatePipe,
+        TranslatePipe,
+        MoneyPipe,
+        AbsPipe
+    ]
 })
 export class EventDetailComponent implements OnChanges {
   /* DATA */

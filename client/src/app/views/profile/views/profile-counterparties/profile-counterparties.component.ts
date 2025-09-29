@@ -15,11 +15,10 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
     selector: "profile-counterparties",
     templateUrl: "profile-counterparties.component.html",
     styleUrls: ["profile-counterparties.component.scss"],
-    standalone: true,
     imports: [
-    DatePickerComponent,
-    MoneyPipe
-],
+        DatePickerComponent,
+        MoneyPipe
+    ]
 })
 export class ProfileCounterpartiesComponent implements OnInit {
   profile: Observable<Profile>;

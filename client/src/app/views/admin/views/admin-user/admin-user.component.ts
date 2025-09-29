@@ -13,12 +13,11 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "admin-user",
     templateUrl: "./admin-user.component.html",
     styleUrls: ["./admin-user.component.scss"],
-    standalone: true,
     imports: [
         FormsModule,
         ManagedProfilesSelectorComponent,
         TranslatePipe,
-    ],
+    ]
 })
 export class AdminUserComponent implements OnInit, OnDestroy {
   user: User;

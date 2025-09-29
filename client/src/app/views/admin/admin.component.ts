@@ -9,13 +9,12 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
     selector: "admin",
     templateUrl: "./admin.component.html",
     styleUrls: ["./admin.component.scss"],
-    standalone: true,
     imports: [
-    HeaderMenuComponent,
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet
-],
+        HeaderMenuComponent,
+        RouterLink,
+        RouterLinkActive,
+        RouterOutlet
+    ]
 })
 export class AdminComponent implements OnInit, OnDestroy {
   constructor(

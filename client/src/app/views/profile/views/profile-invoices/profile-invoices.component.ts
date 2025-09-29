@@ -15,14 +15,13 @@ import { TranslatePipe } from "@ngx-translate/core";
     selector: "profile-invoices",
     templateUrl: "profile-invoices.component.html",
     styleUrls: ["profile-invoices.component.scss"],
-    standalone: true,
     imports: [
-    DatePickerComponent,
-    DatePipe,
-    MoneyPipe,
-    IcoPipe,
-    TranslatePipe
-],
+        DatePickerComponent,
+        DatePipe,
+        MoneyPipe,
+        IcoPipe,
+        TranslatePipe
+    ]
 })
 export class ProfileInvoicesComponent implements OnInit {
   // params

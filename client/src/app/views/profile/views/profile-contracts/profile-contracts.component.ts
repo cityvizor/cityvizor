@@ -14,11 +14,10 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
     selector: "profile-contracts",
     templateUrl: "profile-contracts.component.html",
     styleUrls: ["profile-contracts.component.scss"],
-    standalone: true,
     imports: [
-    DatePipe,
-    MoneyPipe
-],
+        DatePipe,
+        MoneyPipe
+    ]
 })
 export class ProfileContractsComponent implements OnInit {
   profile: Profile;

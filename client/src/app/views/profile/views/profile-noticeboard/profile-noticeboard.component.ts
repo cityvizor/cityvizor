@@ -10,10 +10,9 @@ import { DatePipe } from "@angular/common";
     selector: "profile-noticeboard",
     templateUrl: "profile-noticeboard.component.html",
     styleUrls: ["profile-noticeboard.component.scss"],
-    standalone: true,
     imports: [
-    DatePipe
-],
+        DatePipe
+    ]
 })
 export class ProfileNoticeboardComponent implements OnInit {
   noticeBoard: Noticeboard;

@@ -54,18 +54,17 @@ import { TranslatePipe } from "@ngx-translate/core";
     host: {
         "(window:keydown)": "hotkeys($event)",
     },
-    standalone: true,
     imports: [
-    BudgetSelectComponent,
-    FormsModule,
-    ChartBigbangComponent,
-    GroupSelectComponent,
-    ChartDonutComponent,
-    AsyncPipe,
-    SlicePipe,
-    MoneyPipe,
-    TranslatePipe
-],
+        BudgetSelectComponent,
+        FormsModule,
+        ChartBigbangComponent,
+        GroupSelectComponent,
+        ChartDonutComponent,
+        AsyncPipe,
+        SlicePipe,
+        MoneyPipe,
+        TranslatePipe
+    ]
 })
 export class ProfileAccountingComponent implements OnInit {
   // type of view (expenditures/income)

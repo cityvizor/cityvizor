@@ -24,8 +24,7 @@ export interface ChartBigbangOptions {
     selector: "chart-bigbang",
     templateUrl: "chart-bigbang.component.html",
     styleUrls: ["chart-bigbang.component.scss"],
-    standalone: true,
-    imports: [],
+    imports: []
 })
 export class ChartBigbangComponent implements OnChanges {
   @Input() data: ChartBigbangData;

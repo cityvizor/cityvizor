@@ -11,10 +11,9 @@ import { DatePipe } from "@angular/common";
     selector: "admin-profile-logs",
     templateUrl: "./admin-profile-logs.component.html",
     styleUrls: ["./admin-profile-logs.component.scss"],
-    standalone: true,
     imports: [
-    DatePipe
-],
+        DatePipe
+    ]
 })
 export class AdminProfileLogsComponent implements OnInit {
   profileId$: Observable<Profile["id"]>;

@@ -6,8 +6,7 @@ import { CounterpartyDetailComponent } from "../counterparty-detail/counterparty
     selector: "counterparty-detail-modal",
     templateUrl: "./counterparty-detail-modal.component.html",
     styleUrls: ["./counterparty-detail-modal.component.scss"],
-    standalone: true,
-    imports: [CounterpartyDetailComponent],
+    imports: [CounterpartyDetailComponent]
 })
 export class CounterpartyDetailModalComponent {
   profileId: string;
