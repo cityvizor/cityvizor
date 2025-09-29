@@ -9,11 +9,12 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular/build:application",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "aot": true,
             "outputPath": {
-              "base": "dist"
+              "base": "dist",
+              "browser": ""
             },
             "index": "src/index.html",
             "tsConfig": "tsconfig.json",
@@ -75,9 +76,10 @@
           }
         },
         "serve": {
-          "builder": "@angular/build:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "cityvizor-app:build"
+            "buildTarget": "cityvizor-app:build",
+            "prebundle": false
           },
           "configurations": {
             "production": {
