@@ -30,7 +30,6 @@ import {
 type CounterpartyOpenable = Counterparty & { open: boolean };
 
 @Component({
-  moduleId: module.id,
   selector: "event-detail",
   templateUrl: "event-detail.component.html",
   styleUrls: ["event-detail.component.scss"],

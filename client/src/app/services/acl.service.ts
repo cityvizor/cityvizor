@@ -1,10 +1,5 @@
 import { Injectable } from "@angular/core";
-import {
-  CanActivate,
-  Router,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-} from "@angular/router";
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
 import { AuthService } from "app/services/auth.service";
 import { ToastService } from "app/services/toast.service";
@@ -17,7 +12,7 @@ import { ConfigService } from "config/config";
 @Injectable({
   providedIn: "root",
 })
-export class ACLService implements CanActivate {
+export class ACLService  {
   routes: any = [];
 
   constructor(

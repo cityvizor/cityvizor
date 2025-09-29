@@ -7,7 +7,6 @@ import { DataService } from "app/services/data.service";
 import { Counterparty } from "app/schema/counterparty";
 
 @Component({
-  moduleId: module.id,
   selector: "counterparty",
   templateUrl: "counterparty.component.html",
   styleUrls: ["counterparty.component.scss"],

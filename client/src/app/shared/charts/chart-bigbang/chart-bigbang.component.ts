@@ -20,7 +20,6 @@ export interface ChartBigbangOptions {
 }
 
 @Component({
-  moduleId: module.id,
   selector: "chart-bigbang",
   templateUrl: "chart-bigbang.component.html",
   styleUrls: ["chart-bigbang.component.scss"],

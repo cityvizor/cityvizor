@@ -2,7 +2,6 @@ import { Component, Input /*Output, EventEmitter*/ } from "@angular/core";
 import { BudgetEvent } from "app/schema";
 
 @Component({
-  moduleId: module.id,
   selector: "chart-event-overview",
   templateUrl: "chart-event-overview.component.html",
   styleUrls: ["chart-event-overview.component.scss"],

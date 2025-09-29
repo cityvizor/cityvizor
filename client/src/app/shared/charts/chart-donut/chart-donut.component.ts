@@ -8,7 +8,6 @@ import {
 } from "@angular/animations";
 
 @Component({
-  moduleId: module.id,
   selector: "chart-donut",
   templateUrl: "chart-donut.component.html",
   animations: [

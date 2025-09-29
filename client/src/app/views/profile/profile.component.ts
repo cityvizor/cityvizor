@@ -9,7 +9,6 @@ import { Profile } from "app/schema/profile";
 import { TitleService } from "app/services/title.service";
 
 @Component({
-  moduleId: module.id,
   selector: "profile",
   templateUrl: "profile.component.html",
   styleUrls: ["profile.component.scss"],

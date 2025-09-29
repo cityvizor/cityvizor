@@ -5,7 +5,6 @@ import { Subscription } from "rxjs";
 import { DataService } from "app/services/data.service";
 
 @Component({
-  moduleId: module.id,
   selector: "counterparty-profiles",
   templateUrl: "counterparty-profiles.component.html",
   styleUrls: ["counterparty-profiles.component.scss"],

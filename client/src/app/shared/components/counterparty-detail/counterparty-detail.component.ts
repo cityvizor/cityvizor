@@ -18,7 +18,6 @@ import { ActivatedRoute } from "@angular/router";
 import { DateTime } from "luxon";
 
 @Component({
-  moduleId: module.id,
   selector: "counterparty-detail",
   templateUrl: "counterparty-detail.component.html",
   styleUrls: ["counterparty-detail.component.scss"],
