@@ -10,7 +10,7 @@ import { NgForm, FormsModule } from "@angular/forms";
 import { map } from "rxjs/operators";
 import { TableModule } from "primeng/table";
 import { PrimeTemplate } from "primeng/api";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { RouterLink } from "@angular/router";
 
 import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
@@ -23,7 +23,7 @@ import { TranslatePipe } from "@ngx-translate/core";
     imports: [
         TableModule,
         PrimeTemplate,
-        DropdownModule,
+        SelectModule,
         FormsModule,
         RouterLink,
         BsDropdownDirective,

@@ -6,7 +6,7 @@ COPY . .
 RUN npm run build
 
 FROM build AS dev
-RUN npm install -g @angular/cli@18.2.21
+RUN npm install -g @angular/cli@20.3.3
 
 EXPOSE 4200
 CMD ./entrypoint.sh
