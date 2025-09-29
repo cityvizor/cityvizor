@@ -1,13 +1,10 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-
+import { Routes } from "@angular/router";
 import { CounterpartyComponent } from "./counterparty.component";
-
 import { CounterpartyProfilesComponent } from "./views/counterparty-profiles/counterparty-profiles.component";
 import { CounterpartyPaymentsComponent } from "./views/counterparty-payments/counterparty-payments.component";
 import { CounterpartyDashboardComponent } from "./views/counterparty-dashboard/counterparty-dashboard.component";
 
-const routes: Routes = [
+export const CounterPartyRoutes: Routes = [
   {
     path: "",
     component: CounterpartyComponent,
@@ -20,9 +17,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class CounterpartyRoutingModule {}

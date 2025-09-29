@@ -1,5 +1,4 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { Routes } from "@angular/router";
 import { AdminComponent } from "./admin.component";
 import { AdminProfileListComponent } from "./views/admin-profile-list/admin-profile-list.component";
 import { AdminUserListComponent } from "./views/admin-user-list/admin-user-list.component";
@@ -11,7 +10,7 @@ import { AdminUserComponent } from "./views/admin-user/admin-user.component";
 import { AdminProfileApiComponent } from "./views/admin-profile/admin-profile-api/admin-profile-api.component";
 import { AdminProfileSubprofilesComponent } from "./views/admin-profile/admin-profile-subprofiles/admin-profile-subprofiles.component";
 
-const routes: Routes = [
+export const AdminRoutes: Routes = [
   {
     path: "",
     component: AdminComponent,
@@ -39,9 +38,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class AdminRoutingModule {}

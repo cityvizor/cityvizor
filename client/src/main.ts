@@ -4,11 +4,6 @@ import { AppComponent } from "./app/app.component";
 /* Initialization */
 import { enableProdMode, APP_INITIALIZER, importProvidersFrom } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
-
-/* Modules */
-import { AppRoutingModule } from "./app/app-routing.module";
-import { SharedModule } from "./app/shared/shared.module";
-import { LoginModule } from "./app/views/login/login.module";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
 
 /* HTTP Interceptors */
@@ -26,6 +21,8 @@ import { TranslateModule } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
 import { providePrimeNG } from "primeng/config";
 import Lara from "@primeng/themes/lara";
+import { provideRouter, withInMemoryScrolling } from "@angular/router";
+import { AppRoutes } from "app/app.routes";
 
 
 // Settings for JWT
@@ -50,7 +47,7 @@ console.log(`Running CityVizor built for ${environment.name} environment.`);
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, SharedModule, LoginModule, ModalModule.forRoot(), JwtModule.forRoot(jwtOptions), TranslateModule.forRoot({
+        importProvidersFrom(BrowserModule, ModalModule.forRoot(), JwtModule.forRoot(jwtOptions), TranslateModule.forRoot({
             fallbackLang: "cs",
             loader: provideTranslateHttpLoader({
                 prefix: "./assets/text/",
@@ -70,6 +67,7 @@ bootstrapApplication(AppComponent, {
                 preset: Lara
             }
         }),
-        provideAnimations()
+        provideAnimations(),
+        provideRouter(AppRoutes, withInMemoryScrolling({ scrollPositionRestoration: "enabled" }) ),
     ]
 });
