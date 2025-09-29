@@ -1,8 +1,46 @@
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-import { enableProdMode } from "@angular/core";
+/* Main component */
+import { AppComponent } from "./app/app.component";
 
-import { AppModule } from "app/app.module";
+/* Initialization */
+import { enableProdMode, APP_INITIALIZER, importProvidersFrom } from "@angular/core";
+import { provideAnimations } from "@angular/platform-browser/animations";
+
+/* Modules */
+import { AppRoutingModule } from "./app/app-routing.module";
+import { SharedModule } from "./app/shared/shared.module";
+import { LoginModule } from "./app/views/login/login.module";
+import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
+
+/* HTTP Interceptors */
+import { httpInterceptorProviders } from "./app/http-interceptors";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+
+/* App Config */
 import { environment } from "environments/environment";
+import { ConfigService, configFactory } from "./config";
+
+/* Third Party */
+import { ModalModule } from "ngx-bootstrap/modal";
+import { JwtModule } from "@auth0/angular-jwt";
+import { TranslateModule } from "@ngx-translate/core";
+import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
+import { providePrimeNG } from "primeng/config";
+import Lara from "@primeng/themes/lara";
+
+
+// Settings for JWT
+export function tokenGetter(): string {
+  return localStorage.getItem("id_token") || "";
+}
+
+const jwtOptions = {
+  config: {
+    tokenGetter: tokenGetter,
+    whitelistedDomains: environment.jwtDomains,
+    throwNoTokenError: false,
+    skipWhenExpired: true,
+  },
+};
 
 if (environment.production) {
   enableProdMode();
@@ -10,4 +48,28 @@ if (environment.production) {
 
 console.log(`Running CityVizor built for ${environment.name} environment.`);
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+bootstrapApplication(AppComponent, {
+    providers: [
+        importProvidersFrom(BrowserModule, AppRoutingModule, SharedModule, LoginModule, ModalModule.forRoot(), JwtModule.forRoot(jwtOptions), TranslateModule.forRoot({
+            fallbackLang: "cs",
+            loader: provideTranslateHttpLoader({
+                prefix: "./assets/text/",
+                suffix: ".json",
+            }),
+        })),
+        {
+            provide: APP_INITIALIZER,
+            useFactory: configFactory,
+            deps: [ConfigService],
+            multi: true,
+        },
+        httpInterceptorProviders,
+        provideHttpClient(withInterceptorsFromDi()),
+        providePrimeNG({
+            theme: {
+                preset: Lara
+            }
+        }),
+        provideAnimations()
+    ]
+});

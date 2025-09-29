@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterOutlet, RouterLink } from "@angular/router";
 import { trigger, style, animate, transition } from "@angular/animations";
 import { setTheme } from "ngx-bootstrap/utils";
 
@@ -11,16 +11,24 @@ import { ConfigService } from "config/config";
 
 import { default as packageConfig } from "../../package.json";
 import { TranslateService } from "@ngx-translate/core";
+import { NgFor, NgIf } from "@angular/common";
 
 @Component({
-  selector: "cityvizor-app",
-  templateUrl: "app.component.html",
-  styleUrls: ["app.component.scss"],
-  animations: [
-    trigger("toastsFadeOut", [
-      transition(":leave", animate(250, style({ opacity: 0 }))), // * => void
-    ]),
-  ],
+    selector: "cityvizor-app",
+    templateUrl: "app.component.html",
+    styleUrls: ["app.component.scss"],
+    animations: [
+        trigger("toastsFadeOut", [
+            transition(":leave", animate(250, style({ opacity: 0 }))), // * => void
+        ]),
+    ],
+    standalone: true,
+    imports: [
+        NgFor,
+        NgIf,
+        RouterOutlet,
+        RouterLink,
+    ],
 })
 export class AppComponent implements OnInit {
   // array to link toasts from toastService
