@@ -47,7 +47,7 @@
               let-value
               let-filter="filterCallback"
             >
-              <p-dropdown
+              <p-select
                 [ngModel]="value"
                 [options]="profileTypes"
                 (onChange)="filter($event.value)"
@@ -56,7 +56,7 @@
                 <ng-template let-option pTemplate="item">
                   <div>{{ option.label }}</div>
                 </ng-template>
-              </p-dropdown>
+              </p-select>
             </ng-template>
           </p-columnFilter>
         </th>

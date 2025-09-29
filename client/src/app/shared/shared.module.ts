@@ -9,7 +9,7 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ModalModule } from "ngx-bootstrap/modal";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { TableModule } from "primeng/table";
 
 // Charts
@@ -81,7 +81,6 @@ import { TranslateModule } from "@ngx-translate/core";
     ],
     exports: [
         /* Angular */
-        DropdownModule,
         FormsModule,
         /* Bootstrap */
         ButtonsModule,
@@ -95,6 +94,7 @@ import { TranslateModule } from "@ngx-translate/core";
         ChartBudgetComponent,
         ChartEventOverviewComponent,
         /* PrimeNG */
+        SelectModule,
         TableModule,
         /* Components */
         EventDetailComponent,

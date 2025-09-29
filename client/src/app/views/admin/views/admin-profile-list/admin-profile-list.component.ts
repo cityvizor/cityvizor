@@ -7,7 +7,7 @@ import { AdminService } from "app/services/admin.service";
 import { AuthService } from "../../../../services/auth.service";
 import { TableModule } from "primeng/table";
 import { PrimeTemplate } from "primeng/api";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { RouterLink } from "@angular/router";
 import { NgIf, NgSwitch, NgSwitchCase } from "@angular/common";
 import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
@@ -25,7 +25,7 @@ interface ProfileWithParentName extends Profile {
     imports: [
         TableModule,
         PrimeTemplate,
-        DropdownModule,
+        SelectModule,
         FormsModule,
         RouterLink,
         NgIf,
