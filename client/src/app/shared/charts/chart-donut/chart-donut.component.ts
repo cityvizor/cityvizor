@@ -6,7 +6,7 @@ import {
   animate,
   transition,
 } from "@angular/animations";
-import { NgIf } from "@angular/common";
+
 
 @Component({
     selector: "chart-donut",
@@ -20,7 +20,7 @@ import { NgIf } from "@angular/common";
         ]),
     ],
     standalone: true,
-    imports: [NgIf],
+    imports: [],
 })
 export class ChartDonutComponent {
   @Input() data: any;

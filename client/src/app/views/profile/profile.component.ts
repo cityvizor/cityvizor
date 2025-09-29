@@ -7,7 +7,7 @@ import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema/profile";
 import { TitleService } from "app/services/title.service";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -17,14 +17,13 @@ import { TranslatePipe } from "@ngx-translate/core";
     styleUrls: ["profile.component.scss"],
     standalone: true,
     imports: [
-        NgIf,
-        HeaderMenuComponent,
-        RouterLink,
-        RouterLinkActive,
-        RouterOutlet,
-        AsyncPipe,
-        TranslatePipe,
-    ],
+    HeaderMenuComponent,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    AsyncPipe,
+    TranslatePipe
+],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   profile: Observable<Profile>;

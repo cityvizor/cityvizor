@@ -13,7 +13,7 @@ import {
   Profile,
   ProfileSumMode,
 } from "app/schema";
-import { NgIf, NgClass, NgFor, DatePipe } from "@angular/common";
+import { NgClass, DatePipe } from "@angular/common";
 import { ChartHistoryComponent } from "../../../../shared/charts/chart-history/chart-history.component";
 import { ChartBudgetComponent } from "../../../../shared/charts/chart-budget/chart-budget.component";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
@@ -26,18 +26,16 @@ import { TranslatePipe } from "@ngx-translate/core";
     styleUrls: ["profile-dashboard.component.scss"],
     standalone: true,
     imports: [
-        NgIf,
-        ChartHistoryComponent,
-        NgClass,
-        NgFor,
-        RouterLink,
-        RouterLinkActive,
-        ChartBudgetComponent,
-        DatePipe,
-        MoneyPipe,
-        IcoPipe,
-        TranslatePipe,
-    ],
+    ChartHistoryComponent,
+    NgClass,
+    RouterLink,
+    RouterLinkActive,
+    ChartBudgetComponent,
+    DatePipe,
+    MoneyPipe,
+    IcoPipe,
+    TranslatePipe
+],
 })
 export class ProfileDashboardComponent implements OnInit {
   profile: Profile;

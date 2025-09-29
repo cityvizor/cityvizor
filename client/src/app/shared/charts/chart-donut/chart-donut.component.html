@@ -3,16 +3,16 @@
   viewBox="0 0 1000 1000"
   #donutchart
   @showAnimation
->
+  >
   <!-- BG -->
   <path
     [attr.d]="generateStripePath(500, 500, 265, 400, 0, 1)"
     fill="#ff9491"
-  />
+    />
 
   <!-- Expenditures -->
-  <path
-    *ngIf="data.amount"
+  @if (data.amount) {
+    <path
     [attr.d]="
       generateStripePath(
         500,
@@ -23,8 +23,9 @@
         data.budgetAmount ? data.amount / data.budgetAmount : 0
       )
     "
-    stroke-width="30"
-    stroke="#fff"
-    fill="#E73431"
-  />
+      stroke-width="30"
+      stroke="#fff"
+      fill="#E73431"
+      />
+  }
 </svg>

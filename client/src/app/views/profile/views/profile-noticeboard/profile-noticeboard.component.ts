@@ -4,7 +4,7 @@ import { DataService } from "app/services/data.service";
 
 import { ProfileService } from "app/services/profile.service";
 import { Noticeboard } from "app/schema/noticeboard";
-import { NgIf, NgFor, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 
 @Component({
     selector: "profile-noticeboard",
@@ -12,10 +12,8 @@ import { NgIf, NgFor, DatePipe } from "@angular/common";
     styleUrls: ["profile-noticeboard.component.scss"],
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        DatePipe,
-    ],
+    DatePipe
+],
 })
 export class ProfileNoticeboardComponent implements OnInit {
   noticeBoard: Noticeboard;

@@ -10,7 +10,7 @@ import {
 import { BudgetGroup, Budget } from "app/schema";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
-import { NgIf, NgFor } from "@angular/common";
+
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -27,14 +27,12 @@ import { TranslatePipe } from "@ngx-translate/core";
     ],
     standalone: true,
     imports: [
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        NgIf,
-        BsDropdownMenuDirective,
-        NgFor,
-        MoneyPipe,
-        TranslatePipe,
-    ],
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    MoneyPipe,
+    TranslatePipe
+],
 })
 export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() groups: BudgetGroup[];

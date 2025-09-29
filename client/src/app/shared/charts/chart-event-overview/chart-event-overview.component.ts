@@ -1,13 +1,13 @@
 import { Component, Input /*Output, EventEmitter*/ } from "@angular/core";
 import { BudgetEvent } from "app/schema";
-import { NgIf } from "@angular/common";
+
 
 @Component({
     selector: "chart-event-overview",
     templateUrl: "chart-event-overview.component.html",
     styleUrls: ["chart-event-overview.component.scss"],
     standalone: true,
-    imports: [NgIf],
+    imports: [],
 })
 export class ChartEventOverviewComponent {
   amount: number;

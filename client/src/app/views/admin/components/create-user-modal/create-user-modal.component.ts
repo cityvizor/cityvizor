@@ -4,7 +4,7 @@ import { AdminService } from "app/services/admin.service";
 import { ToastService } from "app/services/toast.service";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
-import { NgIf, AsyncPipe } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
     selector: "create-user-modal",
@@ -12,10 +12,9 @@ import { NgIf, AsyncPipe } from "@angular/common";
     styleUrls: ["./create-user-modal.component.scss"],
     standalone: true,
     imports: [
-        FormsModule,
-        NgIf,
-        AsyncPipe,
-    ],
+    FormsModule,
+    AsyncPipe
+],
 })
 export class CreateUserModalComponent implements OnInit {
   @Output() close = new EventEmitter<boolean>();

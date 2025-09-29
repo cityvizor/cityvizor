@@ -4,7 +4,7 @@ import { Observable, combineLatest } from "rxjs";
 import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema";
-import { NgIf, NgFor } from "@angular/common";
+
 import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -14,14 +14,12 @@ import { TranslatePipe } from "@ngx-translate/core";
     styleUrls: ["date-picker.component.scss"],
     standalone: true,
     imports: [
-        NgIf,
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        NgFor,
-        RouterLink,
-        TranslatePipe,
-    ],
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    RouterLink,
+    TranslatePipe
+],
 })
 export class DatePickerComponent implements OnInit {
   @Input()

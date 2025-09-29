@@ -6,7 +6,7 @@ import {
   Output,
   EventEmitter,
 } from "@angular/core";
-import { NgIf, NgClass, NgFor } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MoneyPipe } from "../../pipes/money.pipe";
 
@@ -23,12 +23,10 @@ class ChartHistoryBar {
     styleUrls: ["chart-history.component.scss"],
     standalone: true,
     imports: [
-        NgIf,
-        NgClass,
-        NgFor,
-        TranslatePipe,
-        MoneyPipe,
-    ],
+    NgClass,
+    TranslatePipe,
+    MoneyPipe
+],
 })
 export class ChartHistoryComponent implements OnChanges {
   @Input()

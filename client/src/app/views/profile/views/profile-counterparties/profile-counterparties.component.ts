@@ -8,7 +8,7 @@ import { CounterpartyDetailModalComponent } from "app/shared/components/counterp
 import { BsModalService } from "ngx-bootstrap/modal";
 import { DateTime } from "luxon";
 import { DatePickerComponent } from "../../../../shared/components/date-picker/date-picker.component";
-import { NgIf, NgFor } from "@angular/common";
+
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
@@ -17,11 +17,9 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
     styleUrls: ["profile-counterparties.component.scss"],
     standalone: true,
     imports: [
-        DatePickerComponent,
-        NgIf,
-        NgFor,
-        MoneyPipe,
-    ],
+    DatePickerComponent,
+    MoneyPipe
+],
 })
 export class ProfileCounterpartiesComponent implements OnInit {
   profile: Observable<Profile>;

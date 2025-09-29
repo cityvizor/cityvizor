@@ -11,7 +11,7 @@ import { ConfigService } from "config/config";
 
 import { default as packageConfig } from "../../package.json";
 import { TranslateService } from "@ngx-translate/core";
-import { NgFor, NgIf } from "@angular/common";
+
 
 @Component({
     selector: "cityvizor-app",
@@ -24,11 +24,9 @@ import { NgFor, NgIf } from "@angular/common";
     ],
     standalone: true,
     imports: [
-        NgFor,
-        NgIf,
-        RouterOutlet,
-        RouterLink,
-    ],
+    RouterOutlet,
+    RouterLink
+],
 })
 export class AppComponent implements OnInit {
   // array to link toasts from toastService

@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { ProfileService } from "app/services/profile.service";
 import { profile } from "console";
-import { NgIf, NgFor, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
@@ -16,11 +16,9 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
     styleUrls: ["profile-contracts.component.scss"],
     standalone: true,
     imports: [
-        NgIf,
-        NgFor,
-        DatePipe,
-        MoneyPipe,
-    ],
+    DatePipe,
+    MoneyPipe
+],
 })
 export class ProfileContractsComponent implements OnInit {
   profile: Profile;

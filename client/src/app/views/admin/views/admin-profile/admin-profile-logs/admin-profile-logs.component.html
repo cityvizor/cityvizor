@@ -10,15 +10,27 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let log of logs">
+    @for (log of logs; track log) {
       <tr>
         <td>{{ log.year }}</td>
-        <td [ngSwitch]="log.status">
-          <ng-container *ngSwitchCase="'pending'">čeká ve frontě</ng-container>
-          <ng-container *ngSwitchCase="'processing'">probíhá</ng-container>
-          <ng-container *ngSwitchCase="'success'">dokončen</ng-container>
-          <ng-container *ngSwitchCase="'error'">chyba</ng-container>
-          <ng-container *ngSwitchDefault>{{ log.status }}</ng-container>
+        <td>
+          @switch (log.status) {
+            @case ('pending') {
+              čeká ve frontě
+            }
+            @case ('processing') {
+              probíhá
+            }
+            @case ('success') {
+              dokončen
+            }
+            @case ('error') {
+              chyba
+            }
+            @default {
+              {{ log.status }}
+            }
+          }
         </td>
         <td>{{ log.created | date: "d. M. y H:mm:ss" }}</td>
         <td>{{ log.started | date: "d. M. y H:mm:ss" }}</td>
@@ -28,18 +40,19 @@
             type="button"
             class="btn"
             (click)="hidden[log.id] = !hidden[log.id]"
-          >
+            >
             {{ !hidden[log.id] ? "Zobrazit logy" : "Schovat logy" }}
           </button>
         </td>
       </tr>
-      <tr
-        *ngIf="hidden[log.id]"
-        bgColor="#eeeeee"
-        style="white-space: pre-wrap"
-      >
-        <td colspan="6">{{ log.logs }}</td>
-      </tr>
-    </ng-container>
+      @if (hidden[log.id]) {
+        <tr
+          bgColor="#eeeeee"
+          style="white-space: pre-wrap"
+          >
+          <td colspan="6">{{ log.logs }}</td>
+        </tr>
+      }
+    }
   </tbody>
 </table>

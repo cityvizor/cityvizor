@@ -9,11 +9,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let payment of payments">
-        <td>{{ payment.date | date: "d. M. y" }}</td>
-        <td>{{ payment.description }}</td>
-        <td>{{ payment.amount | money: 0 : false }} Kč</td>
-      </tr>
+      @for (payment of payments; track payment) {
+        <tr>
+          <td>{{ payment.date | date: "d. M. y" }}</td>
+          <td>{{ payment.description }}</td>
+          <td>{{ payment.amount | money: 0 : false }} Kč</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>

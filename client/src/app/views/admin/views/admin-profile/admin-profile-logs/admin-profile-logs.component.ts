@@ -5,7 +5,7 @@ import { map } from "rxjs/operators";
 import { Profile } from "app/schema";
 import { Observable } from "rxjs";
 import { Import } from "app/schema/import";
-import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgIf, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 
 @Component({
     selector: "admin-profile-logs",
@@ -13,13 +13,8 @@ import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, NgIf, DatePipe } from "
     styleUrls: ["./admin-profile-logs.component.scss"],
     standalone: true,
     imports: [
-        NgFor,
-        NgSwitch,
-        NgSwitchCase,
-        NgSwitchDefault,
-        NgIf,
-        DatePipe,
-    ],
+    DatePipe
+],
 })
 export class AdminProfileLogsComponent implements OnInit {
   profileId$: Observable<Profile["id"]>;

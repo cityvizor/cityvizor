@@ -3,7 +3,7 @@ import { TitleService } from "app/services/title.service";
 import { AuthService } from "../../services/auth.service";
 import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
 import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
-import { NgIf } from "@angular/common";
+
 
 @Component({
     selector: "admin",
@@ -11,12 +11,11 @@ import { NgIf } from "@angular/common";
     styleUrls: ["./admin.component.scss"],
     standalone: true,
     imports: [
-        HeaderMenuComponent,
-        RouterLink,
-        RouterLinkActive,
-        NgIf,
-        RouterOutlet,
-    ],
+    HeaderMenuComponent,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet
+],
 })
 export class AdminComponent implements OnInit, OnDestroy {
   constructor(

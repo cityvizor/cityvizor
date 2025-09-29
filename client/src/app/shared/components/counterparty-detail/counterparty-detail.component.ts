@@ -16,7 +16,7 @@ import {
 import { DataService } from "app/services/data.service";
 import { ActivatedRoute } from "@angular/router";
 import { DateTime } from "luxon";
-import { NgFor, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { MoneyPipe } from "../../pipes/money.pipe";
 
 @Component({
@@ -36,10 +36,9 @@ import { MoneyPipe } from "../../pipes/money.pipe";
     ],
     standalone: true,
     imports: [
-        NgFor,
-        DatePipe,
-        MoneyPipe,
-    ],
+    DatePipe,
+    MoneyPipe
+],
 })
 export class CounterpartyDetailComponent implements OnInit {
   /* DATA */

@@ -7,7 +7,7 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { Profile } from "app/schema";
-import { NgFor, NgIf } from "@angular/common";
+
 
 interface ProfileSelectionModel {
   profile: Profile;
@@ -28,7 +28,7 @@ interface ProfileSelectionModel {
         },
     ],
     standalone: true,
-    imports: [NgFor, NgIf],
+    imports: [],
 })
 export class ManagedProfilesSelectorComponent
   implements OnInit, ControlValueAccessor

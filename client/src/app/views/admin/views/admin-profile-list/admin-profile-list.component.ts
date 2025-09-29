@@ -9,7 +9,7 @@ import { TableModule } from "primeng/table";
 import { PrimeTemplate } from "primeng/api";
 import { SelectModule } from "primeng/select";
 import { RouterLink } from "@angular/router";
-import { NgIf, NgSwitch, NgSwitchCase } from "@angular/common";
+
 import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -23,19 +23,16 @@ interface ProfileWithParentName extends Profile {
     styleUrls: ["./admin-profile-list.component.scss"],
     standalone: true,
     imports: [
-        TableModule,
-        PrimeTemplate,
-        SelectModule,
-        FormsModule,
-        RouterLink,
-        NgIf,
-        NgSwitch,
-        NgSwitchCase,
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        TranslatePipe,
-    ],
+    TableModule,
+    PrimeTemplate,
+    SelectModule,
+    FormsModule,
+    RouterLink,
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    TranslatePipe
+],
 })
 export class AdminProfileListComponent implements OnInit {
   profilesWithParentName: ProfileWithParentName[] = [];

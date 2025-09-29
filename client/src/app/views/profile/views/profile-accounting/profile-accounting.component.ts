@@ -42,7 +42,7 @@ import { BudgetSelectComponent } from "../../components/budget-select/budget-sel
 import { FormsModule } from "@angular/forms";
 import { ChartBigbangComponent } from "../../../../shared/charts/chart-bigbang/chart-bigbang.component";
 import { GroupSelectComponent } from "../../components/group-select/group-select.component";
-import { NgIf, NgFor, AsyncPipe, SlicePipe } from "@angular/common";
+import { AsyncPipe, SlicePipe } from "@angular/common";
 import { ChartDonutComponent } from "../../../../shared/charts/chart-donut/chart-donut.component";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -56,18 +56,16 @@ import { TranslatePipe } from "@ngx-translate/core";
     },
     standalone: true,
     imports: [
-        BudgetSelectComponent,
-        FormsModule,
-        ChartBigbangComponent,
-        GroupSelectComponent,
-        NgIf,
-        NgFor,
-        ChartDonutComponent,
-        AsyncPipe,
-        SlicePipe,
-        MoneyPipe,
-        TranslatePipe,
-    ],
+    BudgetSelectComponent,
+    FormsModule,
+    ChartBigbangComponent,
+    GroupSelectComponent,
+    ChartDonutComponent,
+    AsyncPipe,
+    SlicePipe,
+    MoneyPipe,
+    TranslatePipe
+],
 })
 export class ProfileAccountingComponent implements OnInit {
   // type of view (expenditures/income)

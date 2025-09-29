@@ -1,50 +1,59 @@
 <div class="row selector">
-  <div
-    *ngIf="currentYear != null; else noData"
-    class="col-12"
-    style="margin-bottom: 10px"
-  >
-    <div class="btn-group" dropdown>
-      <button type="button" class="btn btn-sm btn-primary">
-        {{ currentYear }}
-      </button>
-      <button
-        type="button"
-        dropdownToggle
-        class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split"
+  @if (currentYear != null) {
+    <div
+      class="col-12"
+      style="margin-bottom: 10px"
       >
-        <span class="caret"></span>
-      </button>
-      <ul *dropdownMenu class="dropdown-menu" role="menu">
-        <li *ngFor="let year of years" role="menuitem">
-          <a class="dropdown-item" [routerLink]="getMonthLink(year, 1)">{{
-            year
-          }}</a>
-        </li>
-      </ul>
+      <div class="btn-group" dropdown>
+        <button type="button" class="btn btn-sm btn-primary">
+          {{ currentYear }}
+        </button>
+        <button
+          type="button"
+          dropdownToggle
+          class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split"
+          >
+          <span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          @for (year of years; track year) {
+            <li role="menuitem">
+              <a class="dropdown-item" [routerLink]="getMonthLink(year, 1)">{{
+                year
+              }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+      &nbsp;
+      <div class="btn-group">
+        @for (name of monthNames; track name; let i = $index) {
+          <a
+            [routerLink]="getMonthLink(currentYear, i + 1)"
+            class="btn btn-sm btn-default"
+            [class.btn-primary]="i + 1 == currentMonth"
+            [class.disabled]="isMonthDisabled(currentYear, i + 1)"
+            >{{ name }}</a
+            >
+          }
+          @if (showEntireYear) {
+            <a
+              [routerLink]="getYearLink(currentYear)"
+              class="btn btn-sm btn-default"
+              [class.btn-primary]="currentMonth == undefined"
+              >Celý rok</a
+              >
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="col-12 text-center" style="margin-bottom: 10px">
+          <span>{{ "common.noData" | translate }}</span>
+        </div>
+      }
+      <ng-template #noData>
+        <div class="col-12 text-center" style="margin-bottom: 10px">
+          <span>{{ "common.noData" | translate }}</span>
+        </div>
+      </ng-template>
     </div>
-    &nbsp;
-    <div class="btn-group">
-      <a
-        *ngFor="let name of monthNames; let i = index"
-        [routerLink]="getMonthLink(currentYear, i + 1)"
-        class="btn btn-sm btn-default"
-        [class.btn-primary]="i + 1 == currentMonth"
-        [class.disabled]="isMonthDisabled(currentYear, i + 1)"
-        >{{ name }}</a
-      >
-      <a
-        *ngIf="showEntireYear"
-        [routerLink]="getYearLink(currentYear)"
-        class="btn btn-sm btn-default"
-        [class.btn-primary]="currentMonth == undefined"
-        >Celý rok</a
-      >
-    </div>
-  </div>
-  <ng-template #noData>
-    <div class="col-12 text-center" style="margin-bottom: 10px">
-      <span>{{ "common.noData" | translate }}</span>
-    </div>
-  </ng-template>
-</div>

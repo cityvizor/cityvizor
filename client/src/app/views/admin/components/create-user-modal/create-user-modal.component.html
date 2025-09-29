@@ -5,7 +5,7 @@
     class="close pull-right"
     aria-label="Close"
     (click)="close.emit(false)"
-  >
+    >
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -20,30 +20,32 @@
         (ngModelChange)="login.next($event)"
         class="form-control"
         required
-      />
-      <span
-        *ngIf="(login | async) && loginExists === false"
-        class="help-block text-success"
-        >Login {{ login | async }} je volný</span
-      >
-      <span
-        *ngIf="(login | async) && loginExists === true"
-        class="help-block text-danger"
-        >Tento login je již zabraný!</span
-      >
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="text" name="email" class="form-control" ngModel />
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="submit"
-      class="btn btn-primary"
-      [disabled]="!createUserForm.valid || loginExists"
-    >
-      Vytvořit
-    </button>
-  </div>
-</form>
+        />
+      @if ((login | async) && loginExists === false) {
+        <span
+          class="help-block text-success"
+          >Login {{ login | async }} je volný</span
+          >
+        }
+        @if ((login | async) && loginExists === true) {
+          <span
+            class="help-block text-danger"
+            >Tento login je již zabraný!</span
+            >
+          }
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text" name="email" class="form-control" ngModel />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!createUserForm.valid || loginExists"
+          >
+          Vytvořit
+        </button>
+      </div>
+    </form>

@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { NgIf } from "@angular/common";
+
 
 @Component({
     selector: "chart-budget",
     templateUrl: "chart-budget.component.html",
     standalone: true,
-    imports: [NgIf],
+    imports: [],
 })
 export class ChartBudgetComponent {
   @Input() data: {

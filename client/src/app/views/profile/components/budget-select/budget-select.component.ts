@@ -10,7 +10,7 @@ import {
 import { Budget } from "app/schema";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
-import { NgFor, NgIf, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -27,15 +27,13 @@ import { TranslatePipe } from "@ngx-translate/core";
     ],
     standalone: true,
     imports: [
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        NgFor,
-        NgIf,
-        DatePipe,
-        MoneyPipe,
-        TranslatePipe,
-    ],
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    DatePipe,
+    MoneyPipe,
+    TranslatePipe
+],
 })
 export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() budgets: Budget[] = [];

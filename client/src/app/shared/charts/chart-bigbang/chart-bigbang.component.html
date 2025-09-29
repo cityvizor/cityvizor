@@ -3,31 +3,33 @@
     <g
       [style.transform]="'rotate(' + 360 * this.alpha + 'deg)'"
       class="stripes"
-    >
-      <g *ngFor="let item of data; let i = index">
-        <path
-          [attr.d]="getStripePath(i, innerR, getStripeSize(item.outerAmount))"
-          class="stripe outerStripe"
-          [class.selected]="item.id === selected"
-          [class.zeroStripe]="item.innerAmount + item.outerAmount === 0"
-        />
-        <path
-          *ngIf="item.innerAmount > 0"
-          [attr.d]="getStripePath(i, innerR, getStripeSize(item.innerAmount))"
-          class="stripe innerStripe"
-          [class.selected]="item.id === selected"
-        />
-
-        <path
-          [attr.d]="getStripePath(i, 0, 1)"
-          class="stripe bgstripe"
-          [class.selected]="item.id === selected"
-          [class.hovered]="item.id === hovered"
-          (click)="selectGroup(item.id)"
-          (mouseover)="setHoveredGroup(item.id)"
-          (mouseout)="setHoveredGroup(null)"
-        />
-      </g>
+      >
+      @for (item of data; track item; let i = $index) {
+        <g>
+          <path
+            [attr.d]="getStripePath(i, innerR, getStripeSize(item.outerAmount))"
+            class="stripe outerStripe"
+            [class.selected]="item.id === selected"
+            [class.zeroStripe]="item.innerAmount + item.outerAmount === 0"
+            />
+          @if (item.innerAmount > 0) {
+            <path
+              [attr.d]="getStripePath(i, innerR, getStripeSize(item.innerAmount))"
+              class="stripe innerStripe"
+              [class.selected]="item.id === selected"
+              />
+          }
+          <path
+            [attr.d]="getStripePath(i, 0, 1)"
+            class="stripe bgstripe"
+            [class.selected]="item.id === selected"
+            [class.hovered]="item.id === hovered"
+            (click)="selectGroup(item.id)"
+            (mouseover)="setHoveredGroup(item.id)"
+            (mouseout)="setHoveredGroup(null)"
+            />
+        </g>
+      }
     </g>
     <circle
       [attr.r]="getCircleR()"
@@ -38,6 +40,6 @@
       stroke="#fff"
       (click)="selectGroup(null)"
       class="circle"
-    />
+      />
   </svg>
 </div>

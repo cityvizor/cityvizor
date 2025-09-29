@@ -26,7 +26,7 @@ import {
   Profile,
   Budget,
 } from "app/schema";
-import { NgIf, NgFor, NgSwitch, NgSwitchCase, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
 import { ChartEventOverviewComponent } from "../../charts/chart-event-overview/chart-event-overview.component";
 import { ChartBudgetComponent } from "../../charts/chart-budget/chart-budget.component";
@@ -54,20 +54,16 @@ type CounterpartyOpenable = Counterparty & { open: boolean };
     ],
     standalone: true,
     imports: [
-        NgIf,
-        TabsetComponent,
-        TabDirective,
-        ChartEventOverviewComponent,
-        NgFor,
-        ChartBudgetComponent,
-        FormsModule,
-        NgSwitch,
-        NgSwitchCase,
-        DatePipe,
-        TranslatePipe,
-        MoneyPipe,
-        AbsPipe,
-    ],
+    TabsetComponent,
+    TabDirective,
+    ChartEventOverviewComponent,
+    ChartBudgetComponent,
+    FormsModule,
+    DatePipe,
+    TranslatePipe,
+    MoneyPipe,
+    AbsPipe
+],
 })
 export class EventDetailComponent implements OnChanges {
   /* DATA */

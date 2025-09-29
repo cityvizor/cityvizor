@@ -5,7 +5,7 @@
     class="close pull-right"
     aria-label="Close"
     (click)="close.emit(false)"
-  >
+    >
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -23,7 +23,7 @@
       aaNamesFileInput
     )
   "
->
+  >
   <div class="modal-body">
     <div [hidden]="isPbo" class="form-group">
       <label>Datový soubor (rozpočet a faktury v jednom souboru)</label>
@@ -34,15 +34,17 @@
         class="form-control"
         ngModel
         #dataFileInput
-      />
+        />
       <select class="form-group" name="dataFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
         sh
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
@@ -55,14 +57,16 @@
         class="form-control"
         ngModel
         #accountingFileInput
-      />
+        />
       <select class="form-group" name="accountingFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
@@ -75,14 +79,16 @@
         class="form-control"
         ngModel
         #paymentsFileInput
-      />
+        />
       <select class="form-group" name="paymentsFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
@@ -95,14 +101,16 @@
         class="form-control"
         ngModel
         #eventsFileInput
-      />
+        />
       <select class="form-group" name="eventsFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
@@ -115,14 +123,16 @@
         class="form-control"
         ngModel
         #expectedPlanFileInput
-      />
+        />
       <select class="form-group" name="expectedPlanFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
@@ -135,14 +145,16 @@
         class="form-control"
         ngModel
         #realPlanFileInput
-      />
+        />
       <select class="form-group" name="realPlanFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
@@ -155,14 +167,16 @@
         class="form-control"
         ngModel
         #aaNamesFileInput
-      />
+        />
       <select class="form-group" name="aaNamesFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
@@ -174,7 +188,7 @@
         class="form-control"
         ngModel
         required
-      />
+        />
     </div>
 
     <div class="modal-footer">
@@ -182,7 +196,7 @@
         type="submit"
         class="btn btn-primary"
         [disabled]="!uploadForm.valid"
-      >
+        >
         {{ "common.upload" | translate }}
       </button>
     </div>

@@ -1,36 +1,45 @@
 <div id="entity">
-  <div *ngIf="(profile | async)?.type === 'municipality'; else pboHeader">
-    <header-menu [title]="(profile | async)?.name" backLink="/">
-      <li><a routerLink="prehled" routerLinkActive="active">Přehled</a></li>
-      <li>
-        <a routerLink="hospodareni/vydaje" routerLinkActive="active">
-          {{ "profile.municipality.expenditures" | translate }}
-        </a>
-      </li>
-      <li>
-        <a routerLink="hospodareni/prijmy" routerLinkActive="active">
-          {{ "profile.municipality.incomes" | translate }}
-        </a>
-      </li>
-      <li *ngIf="(profile | async)?.hasPayments">
-        <a routerLink="faktury" routerLinkActive="active">Faktury</a>
-      </li>
-      <li *ngIf="(profile | async)?.hasPayments">
-        <a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
-      </li>
-      <li *ngIf="(profile | async)?.edesky">
-        <a routerLink="uredni-deska" routerLinkActive="active">
-          Úřední deska
-        </a>
-      </li>
-      <li *ngIf="(profile | async)?.ico || (profile | async)?.databox">
-        <a routerLink="registr-smluv" routerLinkActive="active">
-          Registr smluv
-        </a>
-      </li>
-    </header-menu>
-  </div>
-  <ng-template #pboHeader>
+  @if ((profile | async)?.type === 'municipality') {
+    <div>
+      <header-menu [title]="(profile | async)?.name" backLink="/">
+        <li><a routerLink="prehled" routerLinkActive="active">Přehled</a></li>
+        <li>
+          <a routerLink="hospodareni/vydaje" routerLinkActive="active">
+            {{ "profile.municipality.expenditures" | translate }}
+          </a>
+        </li>
+        <li>
+          <a routerLink="hospodareni/prijmy" routerLinkActive="active">
+            {{ "profile.municipality.incomes" | translate }}
+          </a>
+        </li>
+        @if ((profile | async)?.hasPayments) {
+          <li>
+            <a routerLink="faktury" routerLinkActive="active">Faktury</a>
+          </li>
+        }
+        @if ((profile | async)?.hasPayments) {
+          <li>
+            <a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
+          </li>
+        }
+        @if ((profile | async)?.edesky) {
+          <li>
+            <a routerLink="uredni-deska" routerLinkActive="active">
+              Úřední deska
+            </a>
+          </li>
+        }
+        @if ((profile | async)?.ico || (profile | async)?.databox) {
+          <li>
+            <a routerLink="registr-smluv" routerLinkActive="active">
+              Registr smluv
+            </a>
+          </li>
+        }
+      </header-menu>
+    </div>
+  } @else {
     <header-menu [title]="(profile | async)?.name" backLink="/">
       <li><a routerLink="prehled" routerLinkActive="active">Přehled</a></li>
       <li>
@@ -43,19 +52,25 @@
           {{ "profile.pbo.incomes" | translate }}
         </a>
       </li>
-      <li *ngIf="(profile | async)?.hasPayments">
-        <a routerLink="faktury" routerLinkActive="active"> Faktury </a>
-      </li>
-      <li *ngIf="(profile | async)?.hasPayments">
-        <a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
-      </li>
-      <li *ngIf="(profile | async)?.ico || (profile | async)?.databox">
-        <a routerLink="registr-smluv" routerLinkActive="active">
-          Registr smluv
-        </a>
-      </li>
+      @if ((profile | async)?.hasPayments) {
+        <li>
+          <a routerLink="faktury" routerLinkActive="active"> Faktury </a>
+        </li>
+      }
+      @if ((profile | async)?.hasPayments) {
+        <li>
+          <a routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
+        </li>
+      }
+      @if ((profile | async)?.ico || (profile | async)?.databox) {
+        <li>
+          <a routerLink="registr-smluv" routerLinkActive="active">
+            Registr smluv
+          </a>
+        </li>
+      }
     </header-menu>
-  </ng-template>
+  }
 
   <div id="content">
     <router-outlet></router-outlet>

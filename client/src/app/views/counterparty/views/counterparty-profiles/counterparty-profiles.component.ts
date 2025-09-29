@@ -3,14 +3,14 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { DataService } from "app/services/data.service";
-import { NgFor } from "@angular/common";
+
 
 @Component({
     selector: "counterparty-profiles",
     templateUrl: "counterparty-profiles.component.html",
     styleUrls: ["counterparty-profiles.component.scss"],
     standalone: true,
-    imports: [NgFor],
+    imports: [],
 })
 export class CounterpartyProfilesComponent implements OnInit, OnDestroy {
   budgets: any[];

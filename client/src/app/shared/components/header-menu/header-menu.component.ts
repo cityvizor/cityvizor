@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { NgIf } from "@angular/common";
+
 import { CollapseDirective } from "ngx-bootstrap/collapse";
 
 @Component({
@@ -7,7 +7,7 @@ import { CollapseDirective } from "ngx-bootstrap/collapse";
     templateUrl: "header-menu.component.html",
     styleUrls: ["header-menu.component.scss"],
     standalone: true,
-    imports: [NgIf, CollapseDirective],
+    imports: [CollapseDirective],
 })
 export class HeaderMenuComponent {
   @Input() title: string;

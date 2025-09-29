@@ -11,7 +11,7 @@ import { DataService } from "app/services/data.service";
 import { PboCategory } from "app/schema/pbo-category";
 import { Section } from "app/schema/section";
 import { ProgressSpinnerModule, ProgressSpinner } from "primeng/progressspinner";
-import { NgIf, NgFor } from "@angular/common";
+
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
@@ -20,13 +20,11 @@ import { TranslatePipe } from "@ngx-translate/core";
     styleUrls: ["./admin-profile-settings.component.scss"],
     standalone: true,
     imports: [
-        NgIf,
-        FormsModule,
-        NgFor,
-        RouterLink,
-        ProgressSpinner,
-        TranslatePipe,
-    ],
+    FormsModule,
+    RouterLink,
+    ProgressSpinner,
+    TranslatePipe
+],
 })
 export class AdminProfileSettingsComponent implements OnInit {
   profileId: Observable<number | null>;

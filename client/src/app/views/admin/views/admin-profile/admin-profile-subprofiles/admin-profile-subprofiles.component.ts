@@ -12,7 +12,7 @@ import { TableModule } from "primeng/table";
 import { PrimeTemplate } from "primeng/api";
 import { DropdownModule } from "primeng/dropdown";
 import { RouterLink } from "@angular/router";
-import { NgIf, NgSwitch, NgSwitchCase } from "@angular/common";
+
 import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -22,19 +22,16 @@ import { TranslatePipe } from "@ngx-translate/core";
     styleUrls: ["./admin-profile-subprofiles.component.scss"],
     standalone: true,
     imports: [
-        TableModule,
-        PrimeTemplate,
-        DropdownModule,
-        FormsModule,
-        RouterLink,
-        NgIf,
-        NgSwitch,
-        NgSwitchCase,
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        TranslatePipe,
-    ],
+    TableModule,
+    PrimeTemplate,
+    DropdownModule,
+    FormsModule,
+    RouterLink,
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    TranslatePipe
+],
 })
 export class AdminProfileSubprofilesComponent implements OnInit {
   subprofiles: Profile[] = [];

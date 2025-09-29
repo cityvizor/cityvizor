@@ -1,18 +1,24 @@
 <div id="wrap">
   <div id="toasts">
     <ul class="text-center">
-      <li *ngFor="let toast of toasts" [class]="toast.status" @toastsFadeOut>
-        <i *ngIf="toast.status === 'check'" class="fa fa-2x fa-check"></i>
-        <i
-          *ngIf="toast.status === 'error'"
-          class="fa fa-2x fa-exclamation-triangle"
-        ></i>
-        <i
-          *ngIf="toast.status === 'notice'"
-          class="fa fa-2x fa-info-circle"
-        ></i>
-        <p>{{ toast.text }}</p>
-      </li>
+      @for (toast of toasts; track toast) {
+        <li [class]="toast.status" @toastsFadeOut>
+          @if (toast.status === 'check') {
+            <i class="fa fa-2x fa-check"></i>
+          }
+          @if (toast.status === 'error') {
+            <i
+              class="fa fa-2x fa-exclamation-triangle"
+            ></i>
+          }
+          @if (toast.status === 'notice') {
+            <i
+              class="fa fa-2x fa-info-circle"
+            ></i>
+          }
+          <p>{{ toast.text }}</p>
+        </li>
+      }
     </ul>
   </div>
 
@@ -20,31 +26,36 @@
 
   <div id="push"></div>
 </div>
-<div *ngFor="let html of tracking.html" [innerHTML]="html" class="hidden"></div>
+@for (html of tracking.html; track html) {
+  <div [innerHTML]="html" class="hidden"></div>
+}
 <footer class="bs-docs-footer">
   <div class="container text-muted small">
     <div class="row">
       <div class="col-sm-6 col-xs-12">
         <a href="/landing/dokumentace">Technická dokumentace</a><br />
-        <ng-container *ngIf="!authService.logged">
+        @if (!authService.logged) {
           <a routerLink="/login">Přihlásit se</a>
-        </ng-container>
-        <ng-container *ngIf="authService.logged">
+        }
+        @if (authService.logged) {
           {{ authService.user.login }}
-          <ng-container *ngIf="aclService.checkRoute('/admin')"
-            >&nbsp;|&nbsp;<a routerLink="/admin">Administrace</a></ng-container
-          >
+          @if (aclService.checkRoute('/admin')) {
+            &nbsp;|&nbsp;<a routerLink="/admin">Administrace</a>
+          }
           | <a (click)="logout()">Odhlásit</a>
-        </ng-container>
+        }
       </div>
-      <div
-        *ngIf="alternativeFooterHtml"
-        [innerHtml]="alternativeFooterHtml"
-      ></div>
-      <div *ngIf="!alternativeFooterHtml" class="col-sm-6 col-xs-12 text-right">
-        © <a href="https://www.mfcr.cz/">Ministerstvo financí</a> &
-        <a href="https://www.otevrenamesta.cz/">Otevřená města</a><br />
-      </div>
+      @if (alternativeFooterHtml) {
+        <div
+          [innerHtml]="alternativeFooterHtml"
+        ></div>
+      }
+      @if (!alternativeFooterHtml) {
+        <div class="col-sm-6 col-xs-12 text-right">
+          © <a href="https://www.mfcr.cz/">Ministerstvo financí</a> &
+          <a href="https://www.otevrenamesta.cz/">Otevřená města</a><br />
+        </div>
+      }
     </div>
   </div>
 </footer>
