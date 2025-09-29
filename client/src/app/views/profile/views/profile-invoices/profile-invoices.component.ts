@@ -5,11 +5,26 @@ import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile, ProfileType } from "app/schema";
 import { DateTime } from "luxon";
+import { DatePickerComponent } from "../../../../shared/components/date-picker/date-picker.component";
+import { NgFor, NgIf, DatePipe } from "@angular/common";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { IcoPipe } from "../../../../shared/pipes/utils.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "profile-invoices",
-  templateUrl: "profile-invoices.component.html",
-  styleUrls: ["profile-invoices.component.scss"],
+    selector: "profile-invoices",
+    templateUrl: "profile-invoices.component.html",
+    styleUrls: ["profile-invoices.component.scss"],
+    standalone: true,
+    imports: [
+        DatePickerComponent,
+        NgFor,
+        NgIf,
+        DatePipe,
+        MoneyPipe,
+        IcoPipe,
+        TranslatePipe,
+    ],
 })
 export class ProfileInvoicesComponent implements OnInit {
   // params

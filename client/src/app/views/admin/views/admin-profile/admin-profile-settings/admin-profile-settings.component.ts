@@ -3,19 +3,30 @@ import { ProfileService } from "app/services/profile.service";
 import { Observable } from "rxjs";
 import { Profile, ProfileType } from "app/schema";
 import { AdminService } from "app/services/admin.service";
-import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
+import { NgForm, FormsModule } from "@angular/forms";
+import { Router, RouterLink } from "@angular/router";
 import { ConfigService } from "config/config";
 import { ToastService } from "app/services/toast.service";
 import { DataService } from "app/services/data.service";
 import { PboCategory } from "app/schema/pbo-category";
 import { Section } from "app/schema/section";
-import { ProgressSpinnerModule } from "primeng/progressspinner";
+import { ProgressSpinnerModule, ProgressSpinner } from "primeng/progressspinner";
+import { NgIf, NgFor } from "@angular/common";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "admin-profile-settings",
-  templateUrl: "./admin-profile-settings.component.html",
-  styleUrls: ["./admin-profile-settings.component.scss"],
+    selector: "admin-profile-settings",
+    templateUrl: "./admin-profile-settings.component.html",
+    styleUrls: ["./admin-profile-settings.component.scss"],
+    standalone: true,
+    imports: [
+        NgIf,
+        FormsModule,
+        NgFor,
+        RouterLink,
+        ProgressSpinner,
+        TranslatePipe,
+    ],
 })
 export class AdminProfileSettingsComponent implements OnInit {
   profileId: Observable<number | null>;

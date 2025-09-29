@@ -1,12 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { BudgetYear } from "../../../../schema";
+import { NgFor } from "@angular/common";
 
 @Component({
-  selector: "add-modify-year-modal",
-  templateUrl: "./add-modify-year-modal.component.html",
-  styleUrls: ["./add-modify-year-modal.component.scss"],
+    selector: "add-modify-year-modal",
+    templateUrl: "./add-modify-year-modal.component.html",
+    styleUrls: ["./add-modify-year-modal.component.scss"],
+    standalone: true,
+    imports: [FormsModule, NgFor],
 })
 export class AddModifyYearModalComponent implements OnInit {
   @Input() profileId: number;

@@ -14,11 +14,15 @@ import {
   ChartBigbangData,
   ChartBigbangDataRow,
 } from "app/shared/charts/chart-bigbang/chart-bigbang.component";
+import { NgIf } from "@angular/common";
+import { ChartBigbangComponent } from "../../charts/chart-bigbang/chart-bigbang.component";
 
 @Component({
-  selector: "profile-expenditures-widget",
-  templateUrl: "./profile-expenditures-widget.component.html",
-  styleUrls: ["./profile-expenditures-widget.component.scss"],
+    selector: "profile-expenditures-widget",
+    templateUrl: "./profile-expenditures-widget.component.html",
+    styleUrls: ["./profile-expenditures-widget.component.scss"],
+    standalone: true,
+    imports: [NgIf, ChartBigbangComponent],
 })
 export class ProfileExpendituresWidgetComponent implements OnChanges {
   @Input() profile: Profile;

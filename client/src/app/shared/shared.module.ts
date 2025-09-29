@@ -43,82 +43,80 @@ import { Gps2stringPipe } from "./pipes/gps2string.pipe";
 import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    ButtonsModule.forRoot(),
-    CollapseModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
-    TranslateModule,
-  ],
-  declarations: [
-    /* Charts */
-    ChartBigbangComponent,
-    ChartDonutComponent,
-    ChartBudgetComponent,
-    ChartEventOverviewComponent,
-    /* Components */
-    EventDetailComponent,
-    EventDetailModalComponent,
-    CounterpartyDetailComponent,
-    CounterpartyDetailModalComponent,
-    HelpModalComponent,
-    ChartHistoryComponent,
-    HeaderMenuComponent,
-    DatePickerComponent,
-    /* Widgets */
-    ProfileExpendituresWidgetComponent,
-    /* Pipes */
-    MoneyPipe,
-    IcoPipe,
-    AbsPipe,
-    ConcatPipe,
-    ArrayChildrenPipe,
-    AddressPipe,
-    PostalCodePipe,
-    ArrayPipe,
-    Gps2stringPipe,
-  ],
-  exports: [
-    /* Angular */
-    DropdownModule,
-    FormsModule,
-    /* Bootstrap */
-    ButtonsModule,
-    CollapseModule,
-    BsDropdownModule,
-    TabsModule,
-    ModalModule,
-    /* Charts */
-    ChartBigbangComponent,
-    ChartDonutComponent,
-    ChartBudgetComponent,
-    ChartEventOverviewComponent,
-    /* PrimeNG */
-    TableModule,
-    /* Components */
-    EventDetailComponent,
-    EventDetailModalComponent,
-    HelpModalComponent,
-    ChartHistoryComponent,
-    HeaderMenuComponent,
-    DatePickerComponent,
-    /* Widgets */
-    ProfileExpendituresWidgetComponent,
-    /* Pipes */
-    MoneyPipe,
-    IcoPipe,
-    AbsPipe,
-    ConcatPipe,
-    ArrayChildrenPipe,
-    AddressPipe,
-    PostalCodePipe,
-    ArrayPipe,
-    Gps2stringPipe,
-    /* ngx-translate */
-    TranslateModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        ButtonsModule.forRoot(),
+        CollapseModule.forRoot(),
+        BsDropdownModule.forRoot(),
+        TabsModule.forRoot(),
+        TranslateModule,
+        /* Charts */
+        ChartBigbangComponent,
+        ChartDonutComponent,
+        ChartBudgetComponent,
+        ChartEventOverviewComponent,
+        /* Components */
+        EventDetailComponent,
+        EventDetailModalComponent,
+        CounterpartyDetailComponent,
+        CounterpartyDetailModalComponent,
+        HelpModalComponent,
+        ChartHistoryComponent,
+        HeaderMenuComponent,
+        DatePickerComponent,
+        /* Widgets */
+        ProfileExpendituresWidgetComponent,
+        /* Pipes */
+        MoneyPipe,
+        IcoPipe,
+        AbsPipe,
+        ConcatPipe,
+        ArrayChildrenPipe,
+        AddressPipe,
+        PostalCodePipe,
+        ArrayPipe,
+        Gps2stringPipe,
+    ],
+    exports: [
+        /* Angular */
+        DropdownModule,
+        FormsModule,
+        /* Bootstrap */
+        ButtonsModule,
+        CollapseModule,
+        BsDropdownModule,
+        TabsModule,
+        ModalModule,
+        /* Charts */
+        ChartBigbangComponent,
+        ChartDonutComponent,
+        ChartBudgetComponent,
+        ChartEventOverviewComponent,
+        /* PrimeNG */
+        TableModule,
+        /* Components */
+        EventDetailComponent,
+        EventDetailModalComponent,
+        HelpModalComponent,
+        ChartHistoryComponent,
+        HeaderMenuComponent,
+        DatePickerComponent,
+        /* Widgets */
+        ProfileExpendituresWidgetComponent,
+        /* Pipes */
+        MoneyPipe,
+        IcoPipe,
+        AbsPipe,
+        ConcatPipe,
+        ArrayChildrenPipe,
+        AddressPipe,
+        PostalCodePipe,
+        ArrayPipe,
+        Gps2stringPipe,
+        /* ngx-translate */
+        TranslateModule,
+    ],
 })
 export class SharedModule {}

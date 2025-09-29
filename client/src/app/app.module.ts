@@ -9,7 +9,7 @@ import { AppComponent } from "./app.component";
 /* MODULES */
 import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "app/shared/shared.module";
-import { NotFoundPageModule } from "./views/not-found-page/not-found-page.module";
+
 import { LoginModule } from "./views/login/login.module";
 
 /* HTTP Interceptors */
@@ -48,15 +48,14 @@ const jwtOptions = {
     AppRoutingModule,
     SharedModule,
     LoginModule,
-    NotFoundPageModule,
     ModalModule.forRoot(),
     JwtModule.forRoot(jwtOptions),
     TranslateModule.forRoot({
-      fallbackLang: "cs",
-      loader: provideTranslateHttpLoader({
-        prefix: "./assets/text/",
-        suffix: ".json",
-      }),
+        fallbackLang: "cs",
+        loader: provideTranslateHttpLoader({
+            prefix: "./assets/text/",
+            suffix: ".json",
+        }),
     })], providers: [
       {
         provide: APP_INITIALIZER,

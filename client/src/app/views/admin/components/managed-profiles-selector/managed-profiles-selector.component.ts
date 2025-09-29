@@ -7,6 +7,7 @@ import {
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { Profile } from "app/schema";
+import { NgFor, NgIf } from "@angular/common";
 
 interface ProfileSelectionModel {
   profile: Profile;
@@ -16,16 +17,18 @@ interface ProfileSelectionModel {
 }
 
 @Component({
-  selector: "managed-profiles-selector",
-  templateUrl: "./managed-profiles-selector.component.html",
-  styleUrls: ["./managed-profiles-selector.component.scss"],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ManagedProfilesSelectorComponent),
-      multi: true,
-    },
-  ],
+    selector: "managed-profiles-selector",
+    templateUrl: "./managed-profiles-selector.component.html",
+    styleUrls: ["./managed-profiles-selector.component.scss"],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ManagedProfilesSelectorComponent),
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [NgFor, NgIf],
 })
 export class ManagedProfilesSelectorComponent
   implements OnInit, ControlValueAccessor

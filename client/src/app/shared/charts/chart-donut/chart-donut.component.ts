@@ -6,18 +6,21 @@ import {
   animate,
   transition,
 } from "@angular/animations";
+import { NgIf } from "@angular/common";
 
 @Component({
-  selector: "chart-donut",
-  templateUrl: "chart-donut.component.html",
-  animations: [
-    trigger("showAnimation", [
-      transition(":enter", [
-        style({ opacity: 0 }),
-        animate("500ms", style({ opacity: 1 })),
-      ]),
-    ]),
-  ],
+    selector: "chart-donut",
+    templateUrl: "chart-donut.component.html",
+    animations: [
+        trigger("showAnimation", [
+            transition(":enter", [
+                style({ opacity: 0 }),
+                animate("500ms", style({ opacity: 1 })),
+            ]),
+        ]),
+    ],
+    standalone: true,
+    imports: [NgIf],
 })
 export class ChartDonutComponent {
   @Input() data: any;

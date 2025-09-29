@@ -21,19 +21,14 @@ import { GroupSelectComponent } from "./components/group-select/group-select.com
 // Components
 
 @NgModule({
-  imports: [CommonModule, SharedModule, ProfileRoutingModule],
-  declarations: [
-    ProfileComponent,
-
-    ProfileDashboardComponent,
-    ProfileAccountingComponent,
-    ProfileInvoicesComponent,
-    ProfileNoticeboardComponent,
-    ProfileContractsComponent,
-    ProfileCounterpartiesComponent,
-
-    BudgetSelectComponent,
-    GroupSelectComponent,
-  ],
+    imports: [CommonModule, SharedModule, ProfileRoutingModule, ProfileComponent,
+        ProfileDashboardComponent,
+        ProfileAccountingComponent,
+        ProfileInvoicesComponent,
+        ProfileNoticeboardComponent,
+        ProfileContractsComponent,
+        ProfileCounterpartiesComponent,
+        BudgetSelectComponent,
+        GroupSelectComponent],
 })
 export class ProfileModule {}

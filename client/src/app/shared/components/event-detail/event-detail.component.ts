@@ -26,27 +26,48 @@ import {
   Profile,
   Budget,
 } from "app/schema";
+import { NgIf, NgFor, NgSwitch, NgSwitchCase, DatePipe } from "@angular/common";
+import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
+import { ChartEventOverviewComponent } from "../../charts/chart-event-overview/chart-event-overview.component";
+import { ChartBudgetComponent } from "../../charts/chart-budget/chart-budget.component";
+import { FormsModule } from "@angular/forms";
+import { TranslatePipe } from "@ngx-translate/core";
+import { MoneyPipe } from "../../pipes/money.pipe";
+import { AbsPipe } from "../../pipes/utils.pipe";
 
 type CounterpartyOpenable = Counterparty & { open: boolean };
 
 @Component({
-  selector: "event-detail",
-  templateUrl: "event-detail.component.html",
-  styleUrls: ["event-detail.component.scss"],
-  animations: [
-    trigger("paymentsState", [
-      state("closed", style({ display: "none", opacity: 0 })),
-      state("open", style({ display: "block", opacity: 1 })),
-      transition("closed => open", [
-        style({ height: 0 }),
-        animate("250ms ease-in", style({ opacity: 1, height: "*" })),
-      ]),
-      transition(
-        "open => closed",
-        animate("250ms ease-out", style({ opacity: 0, height: 0 }))
-      ),
-    ]),
-  ],
+    selector: "event-detail",
+    templateUrl: "event-detail.component.html",
+    styleUrls: ["event-detail.component.scss"],
+    animations: [
+        trigger("paymentsState", [
+            state("closed", style({ display: "none", opacity: 0 })),
+            state("open", style({ display: "block", opacity: 1 })),
+            transition("closed => open", [
+                style({ height: 0 }),
+                animate("250ms ease-in", style({ opacity: 1, height: "*" })),
+            ]),
+            transition("open => closed", animate("250ms ease-out", style({ opacity: 0, height: 0 }))),
+        ]),
+    ],
+    standalone: true,
+    imports: [
+        NgIf,
+        TabsetComponent,
+        TabDirective,
+        ChartEventOverviewComponent,
+        NgFor,
+        ChartBudgetComponent,
+        FormsModule,
+        NgSwitch,
+        NgSwitchCase,
+        DatePipe,
+        TranslatePipe,
+        MoneyPipe,
+        AbsPipe,
+    ],
 })
 export class EventDetailComponent implements OnChanges {
   /* DATA */

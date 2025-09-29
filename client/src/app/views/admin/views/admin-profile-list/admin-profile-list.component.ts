@@ -2,18 +2,40 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { Profile, ProfileType } from "app/schema";
 import { ConfigService } from "config/config";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { AuthService } from "../../../../services/auth.service";
+import { TableModule } from "primeng/table";
+import { PrimeTemplate } from "primeng/api";
+import { DropdownModule } from "primeng/dropdown";
+import { RouterLink } from "@angular/router";
+import { NgIf, NgSwitch, NgSwitchCase } from "@angular/common";
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import { TranslatePipe } from "@ngx-translate/core";
 
 interface ProfileWithParentName extends Profile {
   parentName: String;
 }
 
 @Component({
-  selector: "admin-profile-list",
-  templateUrl: "./admin-profile-list.component.html",
-  styleUrls: ["./admin-profile-list.component.scss"],
+    selector: "admin-profile-list",
+    templateUrl: "./admin-profile-list.component.html",
+    styleUrls: ["./admin-profile-list.component.scss"],
+    standalone: true,
+    imports: [
+        TableModule,
+        PrimeTemplate,
+        DropdownModule,
+        FormsModule,
+        RouterLink,
+        NgIf,
+        NgSwitch,
+        NgSwitchCase,
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        TranslatePipe,
+    ],
 })
 export class AdminProfileListComponent implements OnInit {
   profilesWithParentName: ProfileWithParentName[] = [];

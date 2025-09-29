@@ -11,12 +11,9 @@ import { CounterpartyProfilesComponent } from "./views/counterparty-profiles/cou
 import { SharedModule } from "app/shared/shared.module";
 
 @NgModule({
-  declarations: [
-    CounterpartyComponent,
-    CounterpartyDashboardComponent,
-    CounterpartyPaymentsComponent,
-    CounterpartyProfilesComponent,
-  ],
-  imports: [CommonModule, CounterpartyRoutingModule, SharedModule],
+    imports: [CommonModule, CounterpartyRoutingModule, SharedModule, CounterpartyComponent,
+        CounterpartyDashboardComponent,
+        CounterpartyPaymentsComponent,
+        CounterpartyProfilesComponent],
 })
 export class CounterpartyModule {}

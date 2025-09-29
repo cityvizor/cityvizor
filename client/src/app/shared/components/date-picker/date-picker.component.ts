@@ -1,14 +1,27 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Router, ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema";
+import { NgIf, NgFor } from "@angular/common";
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "date-picker",
-  templateUrl: "date-picker.component.html",
-  styleUrls: ["date-picker.component.scss"],
+    selector: "date-picker",
+    templateUrl: "date-picker.component.html",
+    styleUrls: ["date-picker.component.scss"],
+    standalone: true,
+    imports: [
+        NgIf,
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        NgFor,
+        RouterLink,
+        TranslatePipe,
+    ],
 })
 export class DatePickerComponent implements OnInit {
   @Input()

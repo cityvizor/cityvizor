@@ -16,25 +16,30 @@ import {
 import { DataService } from "app/services/data.service";
 import { ActivatedRoute } from "@angular/router";
 import { DateTime } from "luxon";
+import { NgFor, DatePipe } from "@angular/common";
+import { MoneyPipe } from "../../pipes/money.pipe";
 
 @Component({
-  selector: "counterparty-detail",
-  templateUrl: "counterparty-detail.component.html",
-  styleUrls: ["counterparty-detail.component.scss"],
-  animations: [
-    trigger("paymentsState", [
-      state("closed", style({ display: "none", opacity: 0 })),
-      state("open", style({ display: "block", opacity: 1 })),
-      transition("closed => open", [
-        style({ height: 0 }),
-        animate("250ms ease-in", style({ opacity: 1, height: "*" })),
-      ]),
-      transition(
-        "open => closed",
-        animate("250ms ease-out", style({ opacity: 0, height: 0 }))
-      ),
-    ]),
-  ],
+    selector: "counterparty-detail",
+    templateUrl: "counterparty-detail.component.html",
+    styleUrls: ["counterparty-detail.component.scss"],
+    animations: [
+        trigger("paymentsState", [
+            state("closed", style({ display: "none", opacity: 0 })),
+            state("open", style({ display: "block", opacity: 1 })),
+            transition("closed => open", [
+                style({ height: 0 }),
+                animate("250ms ease-in", style({ opacity: 1, height: "*" })),
+            ]),
+            transition("open => closed", animate("250ms ease-out", style({ opacity: 0, height: 0 }))),
+        ]),
+    ],
+    standalone: true,
+    imports: [
+        NgFor,
+        DatePipe,
+        MoneyPipe,
+    ],
 })
 export class CounterpartyDetailComponent implements OnInit {
   /* DATA */

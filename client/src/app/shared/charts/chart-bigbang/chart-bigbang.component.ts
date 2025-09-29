@@ -6,6 +6,7 @@ import {
   SimpleChanges,
   OnChanges,
 } from "@angular/core";
+import { NgFor, NgIf } from "@angular/common";
 
 export type ChartBigbangData = ChartBigbangDataRow[];
 
@@ -20,9 +21,11 @@ export interface ChartBigbangOptions {
 }
 
 @Component({
-  selector: "chart-bigbang",
-  templateUrl: "chart-bigbang.component.html",
-  styleUrls: ["chart-bigbang.component.scss"],
+    selector: "chart-bigbang",
+    templateUrl: "chart-bigbang.component.html",
+    styleUrls: ["chart-bigbang.component.scss"],
+    standalone: true,
+    imports: [NgFor, NgIf],
 })
 export class ChartBigbangComponent implements OnChanges {
   @Input() data: ChartBigbangData;

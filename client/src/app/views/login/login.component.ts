@@ -2,12 +2,20 @@ import { Router } from "@angular/router";
 import { ToastService } from "app/services/toast.service";
 import { AuthService } from "app/services/auth.service";
 import { Component, Output, EventEmitter } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
+import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
+import { NgIf } from "@angular/common";
 
 @Component({
-  selector: "login",
-  templateUrl: "login.component.html",
-  styleUrls: ["login.component.scss"],
+    selector: "login",
+    templateUrl: "login.component.html",
+    styleUrls: ["login.component.scss"],
+    standalone: true,
+    imports: [
+        HeaderMenuComponent,
+        NgIf,
+        FormsModule,
+    ],
 })
 export class LoginComponent {
   @Output()

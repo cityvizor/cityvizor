@@ -7,11 +7,21 @@ import { combineLatest, Observable } from "rxjs";
 import { CounterpartyDetailModalComponent } from "app/shared/components/counterparty-detail-modal/counterparty-detail-modal.component";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { DateTime } from "luxon";
+import { DatePickerComponent } from "../../../../shared/components/date-picker/date-picker.component";
+import { NgIf, NgFor } from "@angular/common";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
-  selector: "profile-counterparties",
-  templateUrl: "profile-counterparties.component.html",
-  styleUrls: ["profile-counterparties.component.scss"],
+    selector: "profile-counterparties",
+    templateUrl: "profile-counterparties.component.html",
+    styleUrls: ["profile-counterparties.component.scss"],
+    standalone: true,
+    imports: [
+        DatePickerComponent,
+        NgIf,
+        NgFor,
+        MoneyPipe,
+    ],
 })
 export class ProfileCounterpartiesComponent implements OnInit {
   profile: Observable<Profile>;

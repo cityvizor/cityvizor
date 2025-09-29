@@ -9,18 +9,33 @@ import {
 
 import { Budget } from "app/schema";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import { NgFor, NgIf, DatePipe } from "@angular/common";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "budget-select",
-  templateUrl: "budget-select.component.html",
-  styleUrls: ["budget-select.component.scss"],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => BudgetSelectComponent),
-      multi: true,
-    },
-  ],
+    selector: "budget-select",
+    templateUrl: "budget-select.component.html",
+    styleUrls: ["budget-select.component.scss"],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => BudgetSelectComponent),
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        NgFor,
+        NgIf,
+        DatePipe,
+        MoneyPipe,
+        TranslatePipe,
+    ],
 })
 export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() budgets: Budget[] = [];

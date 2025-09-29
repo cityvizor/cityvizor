@@ -1,13 +1,21 @@
 import { Component, Input, EventEmitter, Output } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
 import { ProfileType } from "app/schema";
 import { ImportService } from "app/services/import.service";
 import { ToastService } from "app/services/toast.service";
+import { NgFor } from "@angular/common";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "data-upload-modal",
-  templateUrl: "./data-upload-modal.component.html",
-  styleUrls: ["./data-upload-modal.component.scss"],
+    selector: "data-upload-modal",
+    templateUrl: "./data-upload-modal.component.html",
+    styleUrls: ["./data-upload-modal.component.scss"],
+    standalone: true,
+    imports: [
+        FormsModule,
+        NgFor,
+        TranslatePipe,
+    ],
 })
 export class DataUploadModalComponent {
   @Input() year: number;

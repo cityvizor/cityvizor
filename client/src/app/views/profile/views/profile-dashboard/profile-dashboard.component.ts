@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, RouterLink, RouterLinkActive } from "@angular/router";
 
 import { DataService } from "app/services/data.service";
 
@@ -13,11 +13,31 @@ import {
   Profile,
   ProfileSumMode,
 } from "app/schema";
+import { NgIf, NgClass, NgFor, DatePipe } from "@angular/common";
+import { ChartHistoryComponent } from "../../../../shared/charts/chart-history/chart-history.component";
+import { ChartBudgetComponent } from "../../../../shared/charts/chart-budget/chart-budget.component";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { IcoPipe } from "../../../../shared/pipes/utils.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "profile-dashboard",
-  templateUrl: "profile-dashboard.component.html",
-  styleUrls: ["profile-dashboard.component.scss"],
+    selector: "profile-dashboard",
+    templateUrl: "profile-dashboard.component.html",
+    styleUrls: ["profile-dashboard.component.scss"],
+    standalone: true,
+    imports: [
+        NgIf,
+        ChartHistoryComponent,
+        NgClass,
+        NgFor,
+        RouterLink,
+        RouterLinkActive,
+        ChartBudgetComponent,
+        DatePipe,
+        MoneyPipe,
+        IcoPipe,
+        TranslatePipe,
+    ],
 })
 export class ProfileDashboardComponent implements OnInit {
   profile: Profile;

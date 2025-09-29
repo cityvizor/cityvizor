@@ -7,7 +7,10 @@ import { Pipe, PipeTransform } from "@angular/core";
  * autoDivide:boolean - if number should be autmatically divided by thousands (tis.), millions (mil.) and billions (mld.) and appropriate czech abbrevation added (in parenthesis)
  **/
 
-@Pipe({ name: "money" })
+@Pipe({
+    name: "money",
+    standalone: true
+})
 export class MoneyPipe implements PipeTransform {
   transform(value: number, decimal: number, autoDivide: boolean): string {
     var add = "";

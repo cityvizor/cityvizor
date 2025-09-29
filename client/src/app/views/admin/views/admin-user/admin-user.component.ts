@@ -4,13 +4,21 @@ import { ActivatedRoute } from "@angular/router";
 import { AdminService } from "app/services/admin.service";
 import { User, Profile } from "app/schema";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
 import { ToastService } from "app/services/toast.service";
+import { ManagedProfilesSelectorComponent } from "../../components/managed-profiles-selector/managed-profiles-selector.component";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "admin-user",
-  templateUrl: "./admin-user.component.html",
-  styleUrls: ["./admin-user.component.scss"],
+    selector: "admin-user",
+    templateUrl: "./admin-user.component.html",
+    styleUrls: ["./admin-user.component.scss"],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ManagedProfilesSelectorComponent,
+        TranslatePipe,
+    ],
 })
 export class AdminUserComponent implements OnInit, OnDestroy {
   user: User;

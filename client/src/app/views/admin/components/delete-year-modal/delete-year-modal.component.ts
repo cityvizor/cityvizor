@@ -1,11 +1,15 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { AdminService } from "app/services/admin.service";
 import { ToastService } from "app/services/toast.service";
+import { FormsModule } from "@angular/forms";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "delete-year-modal",
-  templateUrl: "./delete-year-modal.component.html",
-  styleUrls: ["./delete-year-modal.component.scss"],
+    selector: "delete-year-modal",
+    templateUrl: "./delete-year-modal.component.html",
+    styleUrls: ["./delete-year-modal.component.scss"],
+    standalone: true,
+    imports: [FormsModule, TranslatePipe],
 })
 export class DeleteYearModalComponent {
   @Input() profileId: number;

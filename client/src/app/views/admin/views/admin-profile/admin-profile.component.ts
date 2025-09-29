@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
 
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
@@ -8,11 +8,19 @@ import { Profile } from "app/schema";
 
 import { ProfileService } from "app/services/profile.service";
 import { AdminService } from "app/services/admin.service";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
-  selector: "admin-profile",
-  templateUrl: "./admin-profile.component.html",
-  styleUrls: ["./admin-profile.component.scss"],
+    selector: "admin-profile",
+    templateUrl: "./admin-profile.component.html",
+    styleUrls: ["./admin-profile.component.scss"],
+    standalone: true,
+    imports: [
+        RouterLinkActive,
+        RouterLink,
+        RouterOutlet,
+        AsyncPipe,
+    ],
 })
 export class AdminProfileComponent implements OnInit {
   profile: Observable<Profile>;

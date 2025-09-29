@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { Subscription, Observable } from "rxjs";
 
 import { DataService } from "app/services/data.service";
@@ -7,11 +7,24 @@ import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema/profile";
 import { TitleService } from "app/services/title.service";
+import { NgIf, AsyncPipe } from "@angular/common";
+import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "profile",
-  templateUrl: "profile.component.html",
-  styleUrls: ["profile.component.scss"],
+    selector: "profile",
+    templateUrl: "profile.component.html",
+    styleUrls: ["profile.component.scss"],
+    standalone: true,
+    imports: [
+        NgIf,
+        HeaderMenuComponent,
+        RouterLink,
+        RouterLinkActive,
+        RouterOutlet,
+        AsyncPipe,
+        TranslatePipe,
+    ],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   profile: Observable<Profile>;

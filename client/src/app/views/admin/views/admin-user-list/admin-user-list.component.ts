@@ -2,11 +2,36 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { AdminService } from "app/services/admin.service";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { User } from "app/schema";
+import { TableModule } from "primeng/table";
+import { PrimeTemplate } from "primeng/api";
+import { DropdownModule } from "primeng/dropdown";
+import { FormsModule } from "@angular/forms";
+import { RouterLink } from "@angular/router";
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import { CreateUserModalComponent } from "../../components/create-user-modal/create-user-modal.component";
+import { UserSetPasswordModalComponent } from "../../components/user-set-password-modal/user-set-password-modal.component";
+import { DatePipe } from "@angular/common";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "admin-user-list",
-  templateUrl: "./admin-user-list.component.html",
-  styleUrls: ["./admin-user-list.component.scss"],
+    selector: "admin-user-list",
+    templateUrl: "./admin-user-list.component.html",
+    styleUrls: ["./admin-user-list.component.scss"],
+    standalone: true,
+    imports: [
+        TableModule,
+        PrimeTemplate,
+        DropdownModule,
+        FormsModule,
+        RouterLink,
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        CreateUserModalComponent,
+        UserSetPasswordModalComponent,
+        DatePipe,
+        TranslatePipe,
+    ],
 })
 export class AdminUserListComponent implements OnInit {
   users: User[];

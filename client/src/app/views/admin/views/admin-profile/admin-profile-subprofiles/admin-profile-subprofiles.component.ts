@@ -6,13 +6,35 @@ import { ConfigService } from "config/config";
 import { Observable } from "rxjs";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { AdminService } from "app/services/admin.service";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
 import { map } from "rxjs/operators";
+import { TableModule } from "primeng/table";
+import { PrimeTemplate } from "primeng/api";
+import { DropdownModule } from "primeng/dropdown";
+import { RouterLink } from "@angular/router";
+import { NgIf, NgSwitch, NgSwitchCase } from "@angular/common";
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "admin-profile-subprofiles",
-  templateUrl: "./admin-profile-subprofiles.component.html",
-  styleUrls: ["./admin-profile-subprofiles.component.scss"],
+    selector: "admin-profile-subprofiles",
+    templateUrl: "./admin-profile-subprofiles.component.html",
+    styleUrls: ["./admin-profile-subprofiles.component.scss"],
+    standalone: true,
+    imports: [
+        TableModule,
+        PrimeTemplate,
+        DropdownModule,
+        FormsModule,
+        RouterLink,
+        NgIf,
+        NgSwitch,
+        NgSwitchCase,
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        BsDropdownMenuDirective,
+        TranslatePipe,
+    ],
 })
 export class AdminProfileSubprofilesComponent implements OnInit {
   subprofiles: Profile[] = [];

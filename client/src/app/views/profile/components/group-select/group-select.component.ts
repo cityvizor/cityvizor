@@ -9,18 +9,32 @@ import {
 } from "@angular/core";
 import { BudgetGroup, Budget } from "app/schema";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import { NgIf, NgFor } from "@angular/common";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  selector: "group-select",
-  templateUrl: "./group-select.component.html",
-  styleUrls: ["./group-select.component.scss"],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => GroupSelectComponent),
-      multi: true,
-    },
-  ],
+    selector: "group-select",
+    templateUrl: "./group-select.component.html",
+    styleUrls: ["./group-select.component.scss"],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => GroupSelectComponent),
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [
+        BsDropdownDirective,
+        BsDropdownToggleDirective,
+        NgIf,
+        BsDropdownMenuDirective,
+        NgFor,
+        MoneyPipe,
+        TranslatePipe,
+    ],
 })
 export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() groups: BudgetGroup[];

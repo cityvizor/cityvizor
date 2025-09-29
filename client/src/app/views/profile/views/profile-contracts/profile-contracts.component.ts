@@ -7,11 +7,20 @@ import { ActivatedRoute } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { ProfileService } from "app/services/profile.service";
 import { profile } from "console";
+import { NgIf, NgFor, DatePipe } from "@angular/common";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
-  selector: "profile-contracts",
-  templateUrl: "profile-contracts.component.html",
-  styleUrls: ["profile-contracts.component.scss"],
+    selector: "profile-contracts",
+    templateUrl: "profile-contracts.component.html",
+    styleUrls: ["profile-contracts.component.scss"],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        DatePipe,
+        MoneyPipe,
+    ],
 })
 export class ProfileContractsComponent implements OnInit {
   profile: Profile;

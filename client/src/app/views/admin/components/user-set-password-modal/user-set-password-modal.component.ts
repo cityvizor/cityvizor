@@ -1,13 +1,16 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { User } from "app/schema";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
 import { ToastService } from "app/services/toast.service";
 import { AdminService } from "app/services/admin.service";
+import { NgIf } from "@angular/common";
 
 @Component({
-  selector: "user-set-password-modal",
-  templateUrl: "./user-set-password-modal.component.html",
-  styleUrls: ["./user-set-password-modal.component.scss"],
+    selector: "user-set-password-modal",
+    templateUrl: "./user-set-password-modal.component.html",
+    styleUrls: ["./user-set-password-modal.component.scss"],
+    standalone: true,
+    imports: [FormsModule, NgIf],
 })
 export class UserSetPasswordModalComponent {
   @Input() user: User;

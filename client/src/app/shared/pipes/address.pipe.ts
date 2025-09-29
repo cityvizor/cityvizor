@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-@Pipe({ name: "address" })
+@Pipe({
+    name: "address",
+    standalone: true
+})
 export class AddressPipe implements PipeTransform {
   transform(value: any, locale?: string): string {
     if (!value) return "";
@@ -25,7 +28,10 @@ export class AddressPipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: "postalCode" })
+@Pipe({
+    name: "postalCode",
+    standalone: true
+})
 export class PostalCodePipe implements PipeTransform {
   transform(value: string | number, locale?: string): string {
     if (!value) return "";

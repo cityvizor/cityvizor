@@ -4,11 +4,14 @@ import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema";
 import { ToastService } from "app/services/toast.service";
 import { environment } from "environments/environment";
+import { NgIf, AsyncPipe } from "@angular/common";
 
 @Component({
-  selector: "admin-profile-api",
-  templateUrl: "./admin-profile-api.component.html",
-  styleUrls: ["./admin-profile-api.component.scss"],
+    selector: "admin-profile-api",
+    templateUrl: "./admin-profile-api.component.html",
+    styleUrls: ["./admin-profile-api.component.scss"],
+    standalone: true,
+    imports: [NgIf, AsyncPipe],
 })
 export class AdminProfileApiComponent {
   profileId$ = this.profileService.profileId;

@@ -1,14 +1,21 @@
 import { Component, Output, EventEmitter, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { ToastService } from "app/services/toast.service";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
+import { NgIf, AsyncPipe } from "@angular/common";
 
 @Component({
-  selector: "create-user-modal",
-  templateUrl: "./create-user-modal.component.html",
-  styleUrls: ["./create-user-modal.component.scss"],
+    selector: "create-user-modal",
+    templateUrl: "./create-user-modal.component.html",
+    styleUrls: ["./create-user-modal.component.scss"],
+    standalone: true,
+    imports: [
+        FormsModule,
+        NgIf,
+        AsyncPipe,
+    ],
 })
 export class CreateUserModalComponent implements OnInit {
   @Output() close = new EventEmitter<boolean>();

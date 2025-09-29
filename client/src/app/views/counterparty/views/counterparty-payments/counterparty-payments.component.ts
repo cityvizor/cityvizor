@@ -3,11 +3,19 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { DataService } from "app/services/data.service";
+import { NgFor, DatePipe } from "@angular/common";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
-  selector: "app-counterparty-payments",
-  templateUrl: "./counterparty-payments.component.html",
-  styleUrls: ["./counterparty-payments.component.scss"],
+    selector: "app-counterparty-payments",
+    templateUrl: "./counterparty-payments.component.html",
+    styleUrls: ["./counterparty-payments.component.scss"],
+    standalone: true,
+    imports: [
+        NgFor,
+        DatePipe,
+        MoneyPipe,
+    ],
 })
 export class CounterpartyPaymentsComponent implements OnInit, OnDestroy {
   payments: any[] = [];
