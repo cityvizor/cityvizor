@@ -45,8 +45,8 @@
     <div id="selectedGroup">
       <form class="filter">
         <div class="row">
-          <div class="col-xs-8"></div>
-          <div class="col-xs-4 text-right">
+          <div class="col-8"></div>
+          <div class="col-4 text-end">
             Řazení:&nbsp;
             <div class="btn-group">
               <button
@@ -85,7 +85,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-12 col-md-8">
+            <div class="col-12 col-md-8">
               <div class="content">
                 <table class="viztable table table-responsive small">
                   <thead>
@@ -127,9 +127,9 @@
                 </table>
               </div>
             </div>
-            <div class="col-xs-12 col-md-4">
+            <div class="col-12 col-md-4">
               <div class="row">
-                <div class="col-xs-12">
+                <div class="col-12">
                   <table class="table graftable table-responsive small">
                     <thead>
                       <tr>
@@ -142,7 +142,7 @@
                           <chart-donut [data]="event"></chart-donut>
                         </td>
                         <td>{{ "profile.budget" | translate }}</td>
-                        <td class="text-right font-number">
+                        <td class="text-end font-number">
                           {{ event.budgetAmount | money: 0 : false }} Kč
                         </td>
                       </tr>
@@ -151,14 +151,14 @@
                           <span style="color: #e73431">&#9632;</span>
                           {{ "profile.utilization" | translate }}
                         </td>
-                        <td class="text-right font-number">
+                        <td class="text-end font-number">
                           {{ event.amount | money: 0 : false }} Kč
                         </td>
                       </tr>
                       @if (event.amount <= event.budgetAmount) {
                         <tr>
                           <td><span style="color: #ff9491">&#9632;</span> Zbývá</td>
-                          <td class="text-right font-number">
+                          <td class="text-end font-number">
                             {{ event.budgetAmount - event.amount | money: 0 : false }}
                             Kč
                           </td>

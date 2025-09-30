@@ -1,12 +1,12 @@
 <header>
   <div class="container">
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-6">
         <h1>
-          <a href="/" class="hidden-print"> CITYVIZOR </a>
+          <a href="/" class="d-print-none"> CITYVIZOR </a>
         </h1>
       </div>
-      <div class="col-xs-6">
+      <div class="col-6">
         @if (title) {
           <h1>
             {{ title }}
@@ -17,7 +17,21 @@
   </div>
 </header>
 
-<nav class="navbar">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      <span>MENU</span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ng-content></ng-content>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- <nav class="navbar">
   <div class="container">
     <div class="navbar-header">
       <button
@@ -27,9 +41,7 @@
         aria-controls="navbar"
         (click)="isMenuCollapsed = !isMenuCollapsed"
         >
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <i class="fa-solid fa-bars fs-2 toggle-icon"></i>
         <span class="toggle-title">MENU</span>
       </button>
     </div>
@@ -44,4 +56,4 @@
       </ul>
     </div>
   </div>
-</nav>
+</nav> -->

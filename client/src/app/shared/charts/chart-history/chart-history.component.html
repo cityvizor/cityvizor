@@ -1,12 +1,12 @@
 <div class="widget">
   <div class="row">
-    <div class="col-xs-5 left-side">
+    <div class="col-5 left-side">
       <div>
         <i [attr.class]="'fa fa-4x ' + icon" style="color: #2581c4"></i>
         <h4 style="color: #2581c4">{{ name }}</h4>
       </div>
     </div>
-    <div class="col-xs-7 right-side">
+    <div class="col-7 right-side">
       <table style="width: 100%">
         <tr>
           <td style="width: 50%">
@@ -16,8 +16,8 @@
                 <span style="white-space: nowrap">{{
                   barsIndex[hoverYear]?.budgetAmount | money: 0 : true
                 }}</span>
-                <span class="hidden-md"> Kč</span>
-                <span class="visible-md">Kč</span>
+                <span class="d-none d-md-inline"> Kč</span>
+                <span class="d-md-none">Kč</span>
               </span>
             </h4>
           </td>
@@ -28,8 +28,8 @@
                 <span style="white-space: nowrap">{{
                   barsIndex[hoverYear]?.amount | money: 0 : true
                 }}</span>
-                <span class="hidden-md"> Kč</span>
-                <span class="visible-md">Kč</span>
+                <span class="d-none d-md-inline"> Kč</span>
+                <span class="d-md-none">Kč</span>
               </span>
             </h4>
           </td>

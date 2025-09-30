@@ -63,7 +63,7 @@
         <tab heading="Roční srovnání">
           <div class="container-fluid">
             <div class="historychart row">
-              <div class="col-xs-2 header">
+              <div class="col-2 header">
                 <table class="table">
                   <thead>
                     <tr style="height: 30px">
@@ -84,7 +84,7 @@
                   </thead>
                 </table>
               </div>
-              <div class="col-xs-10 data">
+              <div class="col-10 data">
                 <table class="table table-hover">
                   <thead>
                     <tr style="height: 30px">
@@ -114,14 +114,14 @@
                         @for (historyEvent of history; track historyEvent) {
                           <td>
                             <div class="row">
-                              <div class="col-xs-6">
+                              <div class="col-6">
                                 <chart-budget
                                   [data]="historyEvent"
                                   [type]="'expenditure'"
                                   [max]="maxHistoryAmount"
                                 ></chart-budget>
                               </div>
-                              <div class="col-xs-6">
+                              <div class="col-6">
                                 <chart-budget
                                   [data]="historyEvent"
                                   [type]="'income'"
@@ -208,7 +208,7 @@
                       <thead>
                         <tr>
                           <th>Dodavatel</th>
-                          <th class="text-right">Částka</th>
+                          <th class="text-end">Částka</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -235,7 +235,7 @@
                                   >
                                 }
                               </td>
-                              <td class="text-right">
+                              <td class="text-end">
                                 <strong
                                   [class.text-success]="counterparty.amount > 0"
                                   [class.text-red]="counterparty.amount < 0"
@@ -290,13 +290,13 @@
                                               >#{{ payment.item }}</span
                                               >
                                             </td>
-                                            <td class="text-right">
+                                            <td class="text-end">
                                               {{ payment.date | date: "d. M. y" }}
                                             </td>
                                             <td [title]="payment.description || 'Faktura bez popisu'">
                                               {{ payment.description }}
                                             </td>
-                                            <td class="text-right font-number">
+                                            <td class="text-end font-number">
                                               {{
                                               payment.incomeAmount - payment.expenditureAmount
                                               | abs
@@ -404,12 +404,12 @@
                                           isMunicipality ? "Rozpočtové paragrafy" : "Syntetické účty"
                                           }}
                                         </th>
-                                        <th class="text-right">
+                                        <th class="text-end">
                                           {{
                                           isMunicipality ? "Rozpočtovaná částka" : "Plánovaná částka"
                                           }}
                                         </th>
-                                        <th class="text-right">Skutečné výdaje</th>
+                                        <th class="text-end">Skutečné výdaje</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -419,10 +419,10 @@
                                             {{ isMunicipality ? "§" : "#" }} {{ paragraph.id }}
                                           </td>
                                           <td>{{ paragraphNames[paragraph.id] }}</td>
-                                          <td class="text-right font-number">
+                                          <td class="text-end font-number">
                                             {{ paragraph.budgetExpenditureAmount | money: 0 : false }} Kč
                                           </td>
-                                          <td class="text-right font-number">
+                                          <td class="text-end font-number">
                                             <strong
                                               [class.text-success]="paragraph.expenditureAmount < 0"
                                               [class.text-red]="paragraph.expenditureAmount > 0"
@@ -437,7 +437,7 @@
                                     <tfoot>
                                       <tr>
                                         <td colspan="2"><strong>Součet</strong></td>
-                                        <td class="text-right font-number">
+                                        <td class="text-end font-number">
                                           <strong
                                             >{{
                                             event.budgetExpenditureAmount | money: 0 : false
@@ -445,7 +445,7 @@
                                             Kč</strong
                                             >
                                           </td>
-                                          <td class="text-right font-number">
+                                          <td class="text-end font-number">
                                             <strong
                                               [class.text-success]="event.expenditureAmount < 0"
                                               [class.text-red]="event.expenditureAmount > 0"
@@ -478,12 +478,12 @@
                                             isMunicipality ? "Rozpočtové položky" : "Syntetické účty"
                                             }}
                                           </th>
-                                          <th class="text-right">
+                                          <th class="text-end">
                                             {{
                                             isMunicipality ? "Rozpočtovaná částka" : "Plánovaná částka"
                                             }}
                                           </th>
-                                          <th class="text-right">Skutečné výdaje</th>
+                                          <th class="text-end">Skutečné výdaje</th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -491,10 +491,10 @@
                                           <tr class="small">
                                             <td class="text-nowrap"># {{ item.id }}</td>
                                             <td>{{ itemNames[item.id] }}</td>
-                                            <td class="text-right font-number">
+                                            <td class="text-end font-number">
                                               {{ item.budgetExpenditureAmount | money: 0 : false }} Kč
                                             </td>
-                                            <td class="text-right font-number">
+                                            <td class="text-end font-number">
                                               <strong
                                                 [class.text-success]="item.expenditureAmount < 0"
                                                 [class.text-red]="item.expenditureAmount > 0"
@@ -509,7 +509,7 @@
                                       <tfoot>
                                         <tr>
                                           <td colspan="2"><strong>Součet</strong></td>
-                                          <td class="text-right font-number">
+                                          <td class="text-end font-number">
                                             <strong
                                               >{{
                                               event.budgetExpenditureAmount | money: 0 : false
@@ -517,7 +517,7 @@
                                               Kč</strong
                                               >
                                             </td>
-                                            <td class="text-right font-number">
+                                            <td class="text-end font-number">
                                               <strong
                                                 [class.text-success]="event.expenditureAmount < 0"
                                                 [class.text-red]="event.expenditureAmount > 0"
@@ -553,12 +553,12 @@
                                               isMunicipality ? "Rozpočtové položky" : "Syntetické účty"
                                               }}
                                             </th>
-                                            <th class="text-right">
+                                            <th class="text-end">
                                               {{
                                               isMunicipality ? "Rozpočtovaná částka" : "Plánovaná částka"
                                               }}
                                             </th>
-                                            <th class="text-right">
+                                            <th class="text-end">
                                               {{ "profile." + profile.type + ".realIncome" | translate }}
                                             </th>
                                           </tr>
@@ -568,10 +568,10 @@
                                             <tr class="small">
                                               <td class="text-nowrap"># {{ item.id }}</td>
                                               <td>{{ itemNames[item.id] }}</td>
-                                              <td class="text-right font-number">
+                                              <td class="text-end font-number">
                                                 {{ item.budgetIncomeAmount | money: 0 : false }} Kč
                                               </td>
-                                              <td class="text-right font-number">
+                                              <td class="text-end font-number">
                                                 <strong
                                                   [class.text-success]="item.incomeAmount > 0"
                                                   [class.text-red]="item.incomeAmount < 0"
@@ -586,10 +586,10 @@
                                         <tfoot>
                                           <tr>
                                             <td colspan="2"><strong>Součet</strong></td>
-                                            <td class="text-right font-number">
+                                            <td class="text-end font-number">
                                               {{ event.budgetIncomeAmount | money: 0 : false }} Kč
                                             </td>
-                                            <td class="text-right font-number text-success">
+                                            <td class="text-end font-number text-success">
                                               <strong
                                                 [class.text-success]="event.incomeAmount > 0"
                                                 [class.text-red]="event.incomeAmount < 0"

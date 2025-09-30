@@ -97,7 +97,7 @@
           >
           <a>
             <div class="row">
-              <div class="col-xs-2">
+              <div class="col-2">
                 <div class="bar">
                   <div
                     class="bar-budget"
@@ -113,7 +113,7 @@
                 </div>
               </div>
               <div
-                class="col-xs-10 small analytics"
+                class="col-10 small analytics"
                 [attr.data-analytics]="group.id"
                 >
                 {{ group.name }}
@@ -127,31 +127,31 @@
   </div>
   <button type="button" class="btn btn-lg btn-label">
     <div class="row">
-      <div class="col-xs-3 text-right">
+      <div class="col-3 text-end">
         <strong>{{ "profile.budget" | translate }}</strong>
       </div>
       @if (selectedGroup) {
-        <div class="col-xs-9 text-right font-number">
+        <div class="col-9 text-end font-number">
           {{ selectedGroup!.budgetAmount | money: 0 : false }} Kč
         </div>
       }
       @if (!selectedGroup) {
-        <div class="col-xs-9 text-right font-number">
+        <div class="col-9 text-end font-number">
           ... Kč
         </div>
       }
     </div>
     <div class="row">
-      <div class="col-xs-3 text-right">
+      <div class="col-3 text-end">
         <strong>{{ "profile.utilization" | translate }}</strong>
       </div>
       @if (selectedGroup) {
-        <div class="col-xs-9 text-right font-number">
+        <div class="col-9 text-end font-number">
           {{ selectedGroup!.amount | money: 0 : false }} Kč
         </div>
       }
       @if (!selectedGroup) {
-        <div class="col-xs-9 text-right font-number">
+        <div class="col-9 text-end font-number">
           ... Kč
         </div>
       }

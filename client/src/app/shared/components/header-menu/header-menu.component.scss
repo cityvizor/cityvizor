@@ -81,16 +81,14 @@ nav {
 .navbar-toggle {
   float: none;
 }
-.icon-bar {
-  margin-top: 5px;
-  height: 3px;
-  background: #2581c4;
-  float: left;
-  clear: left;
-}
+
 .toggle-title {
   font-size: 1.2em;
   font-weight: bold;
   color: #2581c4;
   margin-left: 12px;
+}
+.toggle-icon {
+  font-weight: bold;
+  color: #2581c4;
 }

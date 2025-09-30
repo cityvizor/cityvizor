@@ -29,10 +29,10 @@
 @for (html of tracking.html; track html) {
   <div [innerHTML]="html" class="hidden"></div>
 }
-<footer class="bs-docs-footer">
+<footer>
   <div class="container text-muted small">
     <div class="row">
-      <div class="col-sm-6 col-xs-12">
+      <div class="col-sm-6 col-12">
         <a href="/landing/dokumentace">Technická dokumentace</a><br />
         @if (!authService.logged) {
           <a routerLink="/login">Přihlásit se</a>
@@ -51,7 +51,7 @@
         ></div>
       }
       @if (!alternativeFooterHtml) {
-        <div class="col-sm-6 col-xs-12 text-right">
+        <div class="col-sm-6 col-12 text-end-weak">
           © <a href="https://www.mfcr.cz/">Ministerstvo financí</a> &
           <a href="https://www.otevrenamesta.cz/">Otevřená města</a><br />
         </div>

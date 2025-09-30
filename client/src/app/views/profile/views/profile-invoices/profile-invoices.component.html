@@ -14,7 +14,7 @@
           <th>IČO</th>
           <th>Protistrana</th>
           <th>Popis</th>
-          <th class="text-right">Částka</th>
+          <th class="text-end">Částka</th>
         </tr>
       </thead>
       <tbody>
@@ -81,7 +81,7 @@
                     invoice.description
                   }}</span>
                 </td>
-                <td class="text-right font-number">
+                <td class="text-end font-number">
                   {{
                   invoice.incomeAmount + invoice.expenditureAmount
                   | money: 0 : false

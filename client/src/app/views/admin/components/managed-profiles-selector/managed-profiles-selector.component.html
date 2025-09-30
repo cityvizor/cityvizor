@@ -3,7 +3,7 @@
     @for (model of selectionModels; track model) {
       <tr>
         <th>{{ model.profile.name }}</th>
-        <td class="text-right" style="width: 50%">
+        <td class="text-end" style="width: 50%">
           @if (model.children.length > 0 && !model.isAnyChildrenManaged) {
             <button
               class="btn btn-success btn-sm mr-3"
