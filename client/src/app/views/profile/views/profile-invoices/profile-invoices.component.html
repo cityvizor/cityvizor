@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container-xxl">
   <date-picker [showEntireYear]="false"></date-picker>
   <br /><br />
 
   <div class="invoices" [class.loading]="loading">
     <table
-      class="table table-condensed table-responsive table-hover table-striped small"
+      class="table table-sm table-responsive table-hover table-striped small"
       >
       <thead>
         <tr>
@@ -23,14 +23,14 @@
             <td>
               @if (invoice.expenditureAmount > invoice.incomeAmount) {
                 <span
-                  class="label label-red"
+                  class="badge bg-danger"
                   >
                   {{ "profile." + profileType + ".expenditure" | translate }}
                 </span>
               }
               @if (invoice.expenditureAmount < invoice.incomeAmount) {
                 <span
-                  class="label label-success"
+                  class="badge bg-success"
                   >
                   {{ "profile." + profileType + ".income" | translate }}
                 </span>
