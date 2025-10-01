@@ -12,7 +12,9 @@ export class HeaderMenuComponent {
   @Input() title: string;
   @Input() backLink: string;
 
-  public isMenuCollapsed: boolean = true;
+  isCollapsed = true;
 
-  constructor() {}
+  toggleCollapse(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
 }

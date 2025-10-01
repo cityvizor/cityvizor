@@ -102,7 +102,7 @@
                   }
                 }
               </td>
-              <td [routerLink]="'/' + profile.url" class="btn btn-default">
+              <td [routerLink]="'/' + profile.url" class="btn btn-secondary">
                 <a>Navštívit profil</a>
               </td>
               <td (click)="$event.stopImmediatePropagation()">
@@ -182,7 +182,7 @@
           <p>Opravdu chcete smazat profil {{ currentProfile.name }}?</p>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-default" (click)="closeModal()">Zrušit</button>
+          <button class="btn btn-secondary" (click)="closeModal()">Zrušit</button>
           <button
             class="btn btn-danger"
             (click)="deleteProfile(currentProfile.id); closeModal()"

@@ -3,7 +3,7 @@ import { ProfileService } from "app/services/profile.service";
 import { map, distinctUntilChanged } from "rxjs/operators";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { Profile, BudgetYear, ProfileType } from "app/schema";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable } from "rxjs";
 import { AdminService } from "app/services/admin.service";
 import { AsyncPipe, DatePipe } from "@angular/common";
 import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";

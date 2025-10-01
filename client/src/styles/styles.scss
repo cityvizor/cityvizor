@@ -85,22 +85,6 @@ body.modal-open {
   }
 }
 
-/* NAVBAR */
-.container-fluid>.navbar-collapse,
-.container-fluid>.navbar-header,
-.container>.navbar-collapse,
-.container>.navbar-header {
-  margin-right: -15px !important;
-  margin-left: -15px !important;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  nav li a {
-    line-height: 30px !important;
-    padding: 10px !important;
-  }
-}
-
 /* Generic tag styles */
 a {
   outline: 0;
@@ -361,22 +345,27 @@ h1,
 .h1 {
   font-size: 36px;
 }
+
 h2,
 .h2 {
   font-size: 30px;
 }
+
 h3,
 .h3 {
   font-size: 24px;
 }
+
 h4,
 .h4 {
   font-size: 18px;
 }
+
 h5,
 .h5 {
   font-size: 14px;
 }
+
 h6,
 .h6 {
   font-size: 12px;
@@ -449,31 +438,35 @@ h6,
   max-width: 100%;
   margin-bottom: 20px;
 }
-.table > thead > tr > th,
-.table > tbody > tr > th,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
+
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
   padding: 8px;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #ddd;
   border-bottom: 0;
 }
-.table > thead > tr > th {
+
+.table>thead>tr>th {
   vertical-align: bottom;
   border-bottom: 2px solid #ddd;
 }
-.table > caption + thead > tr:first-child > th,
-.table > colgroup + thead > tr:first-child > th,
-.table > thead:first-child > tr:first-child > th,
-.table > caption + thead > tr:first-child > td,
-.table > colgroup + thead > tr:first-child > td,
-.table > thead:first-child > tr:first-child > td {
+
+.table>caption+thead>tr:first-child>th,
+.table>colgroup+thead>tr:first-child>th,
+.table>thead:first-child>tr:first-child>th,
+.table>caption+thead>tr:first-child>td,
+.table>colgroup+thead>tr:first-child>td,
+.table>thead:first-child>tr:first-child>td {
   border-top: 0;
 }
-.table > tbody + tbody {
+
+.table>tbody+tbody {
   border-top: 2px solid #ddd;
 }
 
@@ -481,27 +474,98 @@ h6,
   text-align: right;
 }
 
-.navbar-toggle {
-  padding: 9px 10px;
-  margin-right: 15px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  background-color: transparent;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-top: 4px solid \9;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
 }
-.navbar-toggle:focus {
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.dropdown-menu.pull-right {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu .divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+.dropdown-menu > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333333;
+  white-space: nowrap;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #262626;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #337ab7;
   outline: 0;
 }
-.navbar-toggle .icon-bar {
-  display: block;
-  width: 22px;
-  height: 2px;
-  border-radius: 1px;
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  color: #777777;
 }
-.navbar-toggle .icon-bar + .icon-bar {
-  margin-top: 4px;
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+/* NAVBAR */
+.navbar-nav .nav-link.active {
+  background-color: #2581c4 !important;
+  color: white;
+}
+
+.nav-link {
+  line-height: 24px;
+  font-size: 1.2em;
+  color: rgb(51, 51, 51);
+  padding: 10px 15px !important;
+}
+
+.nav-link:hover {
+  text-decoration: none !important;
 }

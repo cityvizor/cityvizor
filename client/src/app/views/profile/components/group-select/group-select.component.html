@@ -9,7 +9,6 @@
         <strong class="dropdown-toggle__text">{{
           selectedGroup ? selectedGroup?.name : "Vybrat skupinu"
         }}</strong>
-        <span class="caret"></span>
 
         @if (!selectedGroup) {
           <div class="arrow_groupselecthint">
@@ -117,7 +116,7 @@
                 [attr.data-analytics]="group.id"
                 >
                 {{ group.name }}
-                <sub class="text-muted hidden">{{ group.id }}</sub>
+                <sub class="text-muted d-none">{{ group.id }}</sub>
               </div>
             </div>
           </a>

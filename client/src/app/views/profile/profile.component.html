@@ -1,75 +1,75 @@
 <div id="entity">
   @if ((profile | async)?.type === 'municipality') {
-    <div>
-      <header-menu [title]="(profile | async)?.name" backLink="/">
-        <li class="nav-item"><a class="nav-link" routerLink="prehled" routerLinkActive="active">Přehled</a></li>
-        <li>
-          <a class="nav-link" routerLink="hospodareni/vydaje" routerLinkActive="active">
-            {{ "profile.municipality.expenditures" | translate }}
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="hospodareni/prijmy" routerLinkActive="active">
-            {{ "profile.municipality.incomes" | translate }}
-          </a>
-        </li>
-        @if ((profile | async)?.hasPayments) {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="faktury" routerLinkActive="active">Faktury</a>
-          </li>
-        }
-        @if ((profile | async)?.hasPayments) {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
-          </li>
-        }
-        @if ((profile | async)?.edesky) {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="uredni-deska" routerLinkActive="active">
-              Úřední deska
-            </a>
-          </li>
-        }
-        @if ((profile | async)?.ico || (profile | async)?.databox) {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="registr-smluv" routerLinkActive="active">
-              Registr smluv
-            </a>
-          </li>
-        }
-      </header-menu>
-    </div>
-  } @else {
+  <div>
     <header-menu [title]="(profile | async)?.name" backLink="/">
       <li class="nav-item"><a class="nav-link" routerLink="prehled" routerLinkActive="active">Přehled</a></li>
       <li class="nav-item">
         <a class="nav-link" routerLink="hospodareni/vydaje" routerLinkActive="active">
-          {{ "profile.pbo.expenditures" | translate }}
+          {{ "profile.municipality.expenditures" | translate }}
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="hospodareni/prijmy" routerLinkActive="active">
-          {{ "profile.pbo.incomes" | translate }}
+          {{ "profile.municipality.incomes" | translate }}
         </a>
       </li>
       @if ((profile | async)?.hasPayments) {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="faktury" routerLinkActive="active"> Faktury </a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="faktury" routerLinkActive="active">Faktury</a>
+      </li>
       }
       @if ((profile | async)?.hasPayments) {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
+      </li>
+      }
+      @if ((profile | async)?.edesky) {
+      <li class="nav-item">
+        <a class="nav-link" routerLink="uredni-deska" routerLinkActive="active">
+          Úřední deska
+        </a>
+      </li>
       }
       @if ((profile | async)?.ico || (profile | async)?.databox) {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="registr-smluv" routerLinkActive="active">
-            Registr smluv
-          </a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="registr-smluv" routerLinkActive="active">
+          Registr smluv
+        </a>
+      </li>
       }
     </header-menu>
+  </div>
+  } @else {
+  <header-menu [title]="(profile | async)?.name" backLink="/">
+    <li class="nav-item"><a class="nav-link" routerLink="prehled" routerLinkActive="active">Přehled</a></li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="hospodareni/vydaje" routerLinkActive="active">
+        {{ "profile.pbo.expenditures" | translate }}
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="hospodareni/prijmy" routerLinkActive="active">
+        {{ "profile.pbo.incomes" | translate }}
+      </a>
+    </li>
+    @if ((profile | async)?.hasPayments) {
+    <li class="nav-item">
+      <a class="nav-link" routerLink="faktury" routerLinkActive="active"> Faktury </a>
+    </li>
+    }
+    @if ((profile | async)?.hasPayments) {
+    <li class="nav-item">
+      <a class="nav-link" routerLink="dodavatele" routerLinkActive="active">Dodavatelé</a>
+    </li>
+    }
+    @if ((profile | async)?.ico || (profile | async)?.databox) {
+    <li class="nav-item">
+      <a class="nav-link" routerLink="registr-smluv" routerLinkActive="active">
+        Registr smluv
+      </a>
+    </li>
+    }
+  </header-menu>
   }
 
   <div id="content">

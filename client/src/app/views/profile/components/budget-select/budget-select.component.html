@@ -6,7 +6,6 @@
       class="btn btn-lg btn-red dropdown-toggle"
       >
       <strong class="dropdown-toggle__text">{{ selectedBudget?.year }}</strong>
-      <span class="caret"></span>
     </button>
 
     <ul *dropdownMenu class="dropdown-menu" role="menu">
@@ -19,15 +18,15 @@
             <div class="bl-budget bl-budget-spacing">
               <div class="row bl-labels">
                 <div class="col-6 text-start">
-                  <div class="label label-danger">
+                  <span class="badge bg-danger">
                     {{ budget.year }}
-                  </div>
+                  </span>
                 </div>
                 @if (budget.validity) {
                   <div class="col-6 text-end">
-                    <div class="label label-default">
+                    <span class="badge bg-secondary">
                       Platné k {{ budget.validity | date: "d. M. y" }}
-                    </div>
+                    </span>
                   </div>
                 }
               </div>
@@ -35,7 +34,7 @@
                 <div class="col-4 col-sm-3">
                   <strong>{{ "profile.budget" | translate }}</strong>
                 </div>
-                <div class="hidden-xs col-sm-4">
+                <div class="d-none d-sm-block col-sm-4">
                   <span
                     class="bl-bar bl-bar-budget"
                   [style.width]="
@@ -51,7 +50,7 @@
                 <div class="col-4 col-sm-3">
                   <strong>{{ "profile.utilization" | translate }}</strong>
                 </div>
-                <div class="hidden-xs col-sm-4">
+                <div class="d-none d-sm-block col-sm-4">
                   <span
                     class="bl-bar bl-bar-expenditure"
                     [style.width]="(getAmount(budget) / maxAmount) * 100 + '%'"
@@ -69,13 +68,13 @@
   </div>
   <button
     type="button"
-    class="btn btn-lg btn-default btn-label bl-btn-selected bl-budget"
+    class="btn btn-lg btn-secondary btn-label bl-btn-selected bl-budget"
     >
     <div class="row">
       <div class="col-4 col-sm-3 text-start">
         <strong>{{ "profile.budget" | translate }}</strong>
       </div>
-      <div class="hidden-xs col-sm-4 text-start">
+      <div class="d-none d-sm-block col-sm-4 text-start">
         <span
           class="bl-bar bl-bar-budget"
           [style.width]="
@@ -91,7 +90,7 @@
       <div class="col-4 col-sm-3 text-start">
         <strong>{{ "profile.utilization" | translate }}</strong>
       </div>
-      <div class="hidden-xs col-sm-4 text-start">
+      <div class="d-none d-sm-block col-sm-4 text-start">
         <span
           class="bl-bar bl-bar-expenditure"
           [style.width]="(getAmount(selectedBudget) / maxAmount) * 100 + '%'"

@@ -16,7 +16,7 @@
     ></budget-select>
 
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
+      <div class="col-lg-8 offset-lg-2">
         <div class="box ratio2_1">
           <div class="content">
             <chart-bigbang
@@ -51,7 +51,7 @@
             <div class="btn-group">
               <button
                 type="button"
-                class="btn btn-sm btn-default"
+                class="btn btn-sm btn-secondary"
                 [class.active]="(sort | async) === 'abecedne'"
                 [class.btn-primary]="(sort | async) === 'abecedne'"
                 (click)="selectSort('abecedne')"
@@ -60,7 +60,7 @@
               </button>
               <button
                 type="button"
-                class="btn btn-sm btn-default"
+                class="btn btn-sm btn-secondary"
                 [class.active]="(sort | async) === 'nejvetsi'"
                 [class.btn-primary]="(sort | async) === 'nejvetsi'"
                 (click)="selectSort('nejvetsi')"

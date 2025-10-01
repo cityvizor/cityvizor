@@ -13,7 +13,6 @@
           dropdownToggle
           class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split"
           >
-          <span class="caret"></span>
         </button>
         <ul *dropdownMenu class="dropdown-menu" role="menu">
           @for (year of years; track year) {
@@ -30,7 +29,7 @@
         @for (name of monthNames; track name; let i = $index) {
           <a
             [routerLink]="getMonthLink(currentYear, i + 1)"
-            class="btn btn-sm btn-default"
+            class="btn btn-sm btn-secondary"
             [class.btn-primary]="i + 1 == currentMonth"
             [class.disabled]="isMonthDisabled(currentYear, i + 1)"
             >{{ name }}</a
@@ -39,7 +38,7 @@
           @if (showEntireYear) {
             <a
               [routerLink]="getYearLink(currentYear)"
-              class="btn btn-sm btn-default"
+              class="btn btn-sm btn-secondary"
               [class.btn-primary]="currentMonth == undefined"
               >Celý rok</a
               >
