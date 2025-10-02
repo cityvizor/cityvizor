@@ -2,39 +2,35 @@
   <div class="row">
     <div class="col-md-10 offset-md-1">
       @if (!infoWindowClosed) {
-        <div
-          class="alert alert-info alert-dismissable fade in"
-          >
-          <span
-            class="close"
-            data-dismiss="alert"
-            aria-label="close"
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             (click)="infoWindowClosed = true"
-            >&times;</span
-            >
-            <strong>Informace:</strong> Na úřední desce jsou veřejně přístupné
-            právní předpisy, rozhodnutí a jiné dokumenty správních orgánů a soudů. S
-            pomocí přední desky se můžete například dozvědět, že se plánuje uzavírka
-            důležité komunikace, obec zrovna výhodně prodává pozemky nebo probíhá
-            stavební řízení na nový supermarket. Cityvizor využívá data z aplikace
-            edesky.cz, která harvestuje data z jednotlivých úředních desek.
-          </div>
-        }
-      </div>
+          ></button>
+          <strong>Informace:</strong> Na úřední desce jsou veřejně přístupné
+          právní předpisy, rozhodnutí a jiné dokumenty správních orgánů a soudů. S
+          pomocí přední desky se můžete například dozvědět, že se plánuje uzavírka
+          důležité komunikace, obec zrovna výhodně prodává pozemky nebo probíhá
+          stavební řízení na nový supermarket. Cityvizor využívá data z aplikace
+          edesky.cz, která sbírá data z jednotlivých úředních desek.
+        </div>
+      }
     </div>
+  </div>
 
-    @if (noticeBoard) {
-      <div class="notice-board-list">
-        @for (document of noticeBoard; track document) {
-          <div
-            class="notice-board-item well margin-bottom-xs"
-            >
+  @if (noticeBoard) {
+    <div class="notice-board-list">
+      @for (document of noticeBoard; track document) {
+        <div class="notice-board-item card mb-2">
+          <div class="card-body">
             <div class="row">
               <div class="col-sm-10">
                 <strong>{{ document.title }}</strong>
                 <br />
-                <div class="small text-muted margin-top-md">
-                  <i class="fa fa-clock-o"></i> Datum zveřejnění:
+                <div class="small text-muted mt-2">
+                  <i class="fa-regular fa-clock"></i> Datum zveřejnění:
                   {{ document.date | date: "d. M. y" }}
                 </div>
               </div>
@@ -45,25 +41,26 @@
                     [href]="document.edeskyUrl"
                     target="_blank"
                     >eDesky</a
-                    >
-                  }
-                  @if (document.documentUrl) {
-                    <a
-                      class="btn btn-sm btn-primary"
-                      [href]="document.documentUrl"
-                      target="_blank"
-                      >Dokument</a
-                      >
-                    }
-                  </div>
-                </div>
+                  >
+                }
+                @if (document.documentUrl) {
+                  <a
+                    class="btn btn-sm btn-primary"
+                    [href]="document.documentUrl"
+                    target="_blank"
+                    >Dokument</a
+                  >
+                }
               </div>
-            }
-          </div>
-          <div class="text-center more">
-            <a [href]="'https://edesky.cz/desky/' + edeskyId" target="_blank"
-              >Zobrazit všechny dokumenty</a
-              >
             </div>
-          }
+          </div>
         </div>
+      }
+    </div>
+    <div class="text-center more">
+      <a [href]="'https://edesky.cz/desky/' + edeskyId" target="_blank"
+        >Zobrazit všechny dokumenty</a
+      >
+    </div>
+  }
+</div>

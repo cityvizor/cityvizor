@@ -223,7 +223,7 @@ input:invalid:not(.novalidate) {
   height: 5px;
 }
 
-.well {
+.card {
   border: none;
   border-left: 3px solid rgb(37, 129, 196);
   margin-left: 1em;
@@ -560,6 +560,12 @@ h6,
   background-color: transparent;
   background-image: none;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.alert-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
 }
 
 /* NAVBAR */
