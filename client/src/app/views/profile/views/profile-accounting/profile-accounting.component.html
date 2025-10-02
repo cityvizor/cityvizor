@@ -8,24 +8,22 @@
       <div class="bottomTransition"></div>
     </div>
 
-    <budget-select
-      [budgets]="(budgets | async) || []"
+    <budget-select [budgets]="(budgets | async) || []"
       [type]="type | async"
       [ngModel]="budget"
       (ngModelChange)="selectBudget($event?.year)"
-    ></budget-select>
+     />
 
     <div class="row">
       <div class="col-lg-8 offset-lg-2">
         <div class="box ratio2_1">
           <div class="content">
-            <chart-bigbang
-              [data]="chartBigbangData"
+            <chart-bigbang [data]="chartBigbangData"
               [selected]="group?.id"
               [hovered]="hoveredGroup"
               (select)="selectGroup($event)"
               (hover)="setHoveredGroup($event)"
-            ></chart-bigbang>
+             />
           </div>
         </div>
       </div>
@@ -33,13 +31,12 @@
   </div>
 
   <!-- VYBER SKUPINY -->
-  <group-select
-    [groups]="(groups | async) || []"
+  <group-select [groups]="(groups | async) || []"
     [ngModel]="group"
     [hovered]="hoveredGroup"
     (hover)="hoveredGroup = $event.id"
     (ngModelChange)="selectGroup($event?.id)"
-  ></group-select>
+   />
 
   @if (groupEvents.length > 0) {
     <div id="selectedGroup">
@@ -139,7 +136,7 @@
                     <tbody>
                       <tr>
                         <td rowspan="3">
-                          <chart-donut [data]="event"></chart-donut>
+                          <chart-donut [data]="event" />
                         </td>
                         <td>{{ "profile.budget" | translate }}</td>
                         <td class="text-end font-number">

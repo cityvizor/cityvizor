@@ -144,26 +144,23 @@
     </div>
 
     <ng-template #uploadModal>
-      <data-upload-modal
-        [profileId]="profileId"
+      <data-upload-modal [profileId]="profileId"
         [profileType]="profileType"
         [year]="currentYear"
         (close)="closeModal($event)"
-      ></data-upload-modal>
+       />
     </ng-template>
 
     <ng-template #addModifyYearModal>
-      <add-modify-year-modal
-        [profileId]="profileId"
+      <add-modify-year-modal [profileId]="profileId"
         [year]="currentYearBudget"
         (close)="closeModal($event)"
-      ></add-modify-year-modal>
+       />
     </ng-template>
 
     <ng-template #deleteYearModal>
-      <delete-year-modal
-        [profileId]="profileId"
+      <delete-year-modal [profileId]="profileId"
         [currentYear]="currentYear"
         (close)="closeModal($event)"
-      ></delete-year-modal>
+       />
     </ng-template>

@@ -7,27 +7,27 @@
       <div class="row">
         <div class="col-md-6 col-lg-4 text-center">
           <chart-history name="Doprava" icon="fa-automobile" [data]="dashboard.transportation"
-            (click)="openExpenditures(22, $event)"></chart-history>
+            (click)="openExpenditures(22, $event)" />
         </div>
         <div class="col-md-6 col-lg-4 text-center">
           <chart-history name="Školy" icon="fa-book" [data]="dashboard.schools"
-            (click)="openExpenditures(31, $event)"></chart-history>
+            (click)="openExpenditures(31, $event)" />
         </div>
         <div class="col-md-6 col-lg-4 text-center">
           <chart-history name="Sport" icon="fa-bicycle" [data]="dashboard.sports"
-            (click)="openExpenditures(34, $event)"></chart-history>
+            (click)="openExpenditures(34, $event)" />
         </div>
         <div class="col-md-6 col-lg-4 text-center">
           <chart-history name="Územní rozvoj" icon="fa-home" [data]="dashboard.housing"
-            (click)="openExpenditures(36, $event)"></chart-history>
+            (click)="openExpenditures(36, $event)" />
         </div>
         <div class="col-md-6 col-lg-4 text-center">
           <chart-history name="Kultura" icon="fa-images" [data]="dashboard.culture"
-            (click)="openExpenditures(33, $event)"></chart-history>
+            (click)="openExpenditures(33, $event)" />
         </div>
         <div class="col-md-6 col-lg-4 text-center">
           <chart-history name="Samospráva" icon="fa-institution" [data]="dashboard.government"
-            (click)="openExpenditures(61, $event)"></chart-history>
+            (click)="openExpenditures(61, $event)" />
         </div>
       </div>
     </div>
@@ -201,14 +201,14 @@
               <th></th>
               <th class="text-center">
                 <chart-budget [data]="budget" [type]="'expenditure'" [max]="maxBudgetAmount"
-                  (click)="openBudget($event, budget.year)"></chart-budget>
+                  (click)="openBudget($event, budget.year)" />
                 <span class="label label-red" (click)="openBudget($event, budget.year)">
                   {{ "profile." + profile.type + ".expenditures" | translate }}
                 </span>
               </th>
               <th class="text-center" (click)="openBudget($event, budget.year)">
                 <chart-budget [data]="budget" [type]="'income'" [max]="maxBudgetAmount"
-                  (click)="openBudget($event, budget.year)"></chart-budget>
+                  (click)="openBudget($event, budget.year)" />
                 <span class="label label-blue" (click)="openBudget($event, budget.year)">
                   {{ "profile." + profile.type + ".incomes" | translate }}
                 </span>

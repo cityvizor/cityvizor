@@ -4,10 +4,10 @@
       <!-- Column labels + sorting -->
       <tr>
         <th pSortableColumn="name" style="min-width: 30em">
-          Název <p-sortIcon field="name"></p-sortIcon>
+          Název <p-sortIcon field="name" />
         </th>
         <th pSortableColumn="type" style="width: 16em">
-          Typ <p-sortIcon field="type"></p-sortIcon>
+          Typ <p-sortIcon field="type" />
         </th>
         <th style="width: 10em"></th>
         <th style="width: 10em"></th>
@@ -17,11 +17,10 @@
       <tr>
         <th>
           <!-- Name -->
-          <p-columnFilter
-            type="text"
+          <p-columnFilter type="text"
             field="name"
             matchMode="contains"
-          ></p-columnFilter>
+           />
         </th>
         <th>
           <!-- Type -->

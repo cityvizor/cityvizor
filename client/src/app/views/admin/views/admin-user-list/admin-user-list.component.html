@@ -12,19 +12,19 @@
       <!-- Column labels + sorting -->
       <tr>
         <th pSortableColumn="name">
-          Jméno <p-sortIcon field="name"></p-sortIcon>
+          Jméno <p-sortIcon field="name" />
         </th>
         <th pSortableColumn="email">
-          E-mail <p-sortIcon field="email"></p-sortIcon>
+          E-mail <p-sortIcon field="email" />
         </th>
         <th pSortableColumn="login">
-          Login <p-sortIcon field="login"></p-sortIcon>
+          Login <p-sortIcon field="login" />
         </th>
         <th pSortableColumn="role">
-          Role <p-sortIcon field="role"></p-sortIcon>
+          Role <p-sortIcon field="role" />
         </th>
         <th pSortableColumn="lastLogin">
-          Poslední přihlášení <p-sortIcon field="lastLogin"></p-sortIcon>
+          Poslední přihlášení <p-sortIcon field="lastLogin" />
         </th>
         <th>
           <!-- Akce -->
@@ -35,28 +35,25 @@
       <tr>
         <th>
           <!-- Name -->
-          <p-columnFilter
-            type="text"
+          <p-columnFilter type="text"
             field="name"
             matchMode="contains"
-          ></p-columnFilter>
+           />
         </th>
         <th>
           <!-- E-mail -->
-          <p-columnFilter
-            type="text"
+          <p-columnFilter type="text"
             field="email"
             matchMode="contains"
-          ></p-columnFilter>
+           />
         </th>
 
         <th>
           <!-- Login -->
-          <p-columnFilter
-            type="text"
+          <p-columnFilter type="text"
             field="login"
             matchMode="contains"
-          ></p-columnFilter>
+           />
         </th>
         <th>
           <!-- Role -->
@@ -86,11 +83,10 @@
         </th>
         <th>
           <!-- Poslední přihlášení -->
-          <p-columnFilter
-            type="text"
+          <p-columnFilter type="text"
             field="lastLogin"
             matchMode="contains"
-          ></p-columnFilter>
+           />
         </th>
         <th>
           <!-- Akce -->
@@ -136,14 +132,13 @@
 </div>
 
 <ng-template #createUserModal>
-  <create-user-modal (close)="closeModal($event)"></create-user-modal>
+  <create-user-modal (close)="closeModal($event)" />
 </ng-template>
 
 <ng-template #changePasswordModal>
-  <user-set-password-modal
-    [user]="currentUser"
+  <user-set-password-modal [user]="currentUser"
     (close)="closeModal($event)"
-  ></user-set-password-modal>
+   />
 </ng-template>
 
 <ng-template #deleteUserModal>

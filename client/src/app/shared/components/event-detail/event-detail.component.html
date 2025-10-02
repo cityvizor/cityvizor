@@ -24,11 +24,10 @@
             @if (
               event.expenditureAmount > 0 || event.budgetExpenditureAmount > 0
               ) {
-              <chart-event-overview
-                type="expenditure"
+              <chart-event-overview type="expenditure"
                 [event]="event"
                 [isCurrentYear]="isCurrentYear"
-              ></chart-event-overview>
+               />
             }
           } @else {
             <p>Tato akce nemá žádné uskutečněné ani rozpočtované výdaje.</p>
@@ -48,11 +47,10 @@
               </tr>
             </table>
             @if (event.incomeAmount > 0 || event.budgetIncomeAmount > 0) {
-              <chart-event-overview
-                type="income"
+              <chart-event-overview type="income"
                 [event]="event"
                 [isCurrentYear]="isCurrentYear"
-              ></chart-event-overview>
+               />
             }
           } @else {
             <p>Tato akce nemá žádné uskutečněné ani rozpočtované příjmy.</p>
@@ -115,18 +113,16 @@
                           <td>
                             <div class="row">
                               <div class="col-6">
-                                <chart-budget
-                                  [data]="historyEvent"
+                                <chart-budget [data]="historyEvent"
                                   [type]="'expenditure'"
                                   [max]="maxHistoryAmount"
-                                ></chart-budget>
+                                 />
                               </div>
                               <div class="col-6">
-                                <chart-budget
-                                  [data]="historyEvent"
+                                <chart-budget [data]="historyEvent"
                                   [type]="'income'"
                                   [max]="maxHistoryAmount"
-                                ></chart-budget>
+                                 />
                               </div>
                             </div>
                           </td>

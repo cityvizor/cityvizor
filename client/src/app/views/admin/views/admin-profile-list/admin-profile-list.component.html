@@ -12,13 +12,13 @@
       <!-- Column labels + sorting -->
       <tr>
         <th pSortableColumn="name" style="width: 40%">
-          Název <p-sortIcon field="name"></p-sortIcon>
+          Název <p-sortIcon field="name" />
         </th>
         <th pSortableColumn="type" style="width: 16em">
-          Typ <p-sortIcon field="type"></p-sortIcon>
+          Typ <p-sortIcon field="type" />
         </th>
         <th pSortableColumn="parentName" style="width: 30%">
-          Rodičovský profil <p-sortIcon field="parent"></p-sortIcon>
+          Rodičovský profil <p-sortIcon field="parent" />
         </th>
         <th style="width: 10em"></th>
         <th></th>
@@ -28,11 +28,10 @@
       <tr>
         <th>
           <!-- Name -->
-          <p-columnFilter
-            type="text"
+          <p-columnFilter type="text"
             field="name"
             matchMode="contains"
-          ></p-columnFilter>
+           />
         </th>
         <th>
           <!-- Type -->
@@ -62,11 +61,10 @@
         </th>
         <th>
           <!-- Parent -->
-          <p-columnFilter
-            type="text"
+          <p-columnFilter type="text"
             field="parentName"
             matchMode="contains"
-          ></p-columnFilter>
+           />
         </th>
         <th>
           <!-- URL -->
