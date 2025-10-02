@@ -1,13 +1,11 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Nahrát data z CSV do roku {{ year }}</h4>
+  <h4 class="modal-title">Nahrát data z CSV do roku {{ year }}</h4>
   <button
     type="button"
-    class="close pull-right"
+    class="btn-close"
     aria-label="Close"
     (click)="close.emit(false)"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
+  ></button>
 </div>
 <form
   #uploadForm="ngForm"

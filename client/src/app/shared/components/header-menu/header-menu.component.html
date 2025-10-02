@@ -8,9 +8,9 @@
       </div>
       <div class="col-6">
         @if (title) {
-          <h1>
-            {{ title }}
-          </h1>
+        <h1>
+          {{ title }}
+        </h1>
         }
       </div>
     </div>
@@ -19,85 +19,16 @@
 
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-lg">
-    <button
-      class="navbar-toggler d-lg-none"
-      type="button"
-      (click)="toggleCollapse()"
-      [attr.aria-expanded]="!isCollapsed"
-      aria-controls="navbarContent"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="navbarContent" aria-label="Toggle navigation">
       <i class="fa-solid fa-bars fs-2 navbar-toggle-icon"></i>
       <span class="navbar-toggle-title">MENU</span>
     </button>
 
-    <div
-      class="collapse navbar-collapse"
-      id="navbarContent"
-      [collapse]="isCollapsed"
-      [isAnimated]="true"
-    >
-      <ul class="navbar-nav mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse" id="navbarContent" [collapse]="isCollapsed" [isAnimated]="true">
+      <ul class="navbar-nav mb-2 mb-lg-0" (click)="collapse()">
         <ng-content />
       </ul>
     </div>
   </div>
 </nav>
-
-<!-- <nav class="navbar navbar-expand-lg">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar"
-        aria-label="Toggle menu" [attr.aria-expanded]="!isMenuCollapsed" (click)="isMenuCollapsed = !isMenuCollapsed">
-        <i class="fa-solid fa-bars fs-2 navbar-toggle-icon"></i>
-        <span class="navbar-toggle-title">MENU</span>
-      </button>
-    </div>
-    <div id="navbar" class="collapse navbar-collapse" [ngClass]="{'show': !isMenuCollapsed}">
-      <ul class="navbar-nav">
-        <ng-content />
-      </ul>
-    </div>
-  </div>
-</nav> -->
-
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-      <span>MENU</span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <ng-content></ng-content>
-      </ul>
-    </div>
-  </div>
-</nav> -->
-
-<!-- <nav class="navbar">
-  <div class="container">
-    <div class="navbar-header">
-      <button
-        type="button"
-        class="navbar-toggle collapsed"
-        aria-expanded="false"
-        aria-controls="navbar"
-        (click)="isMenuCollapsed = !isMenuCollapsed"
-        >
-        <i class="fa-solid fa-bars fs-2 toggle-icon"></i>
-        <span class="toggle-title">MENU</span>
-      </button>
-    </div>
-
-    <div
-      id="navbar"
-      class="navbar-collapse collapse"
-      [collapse]="isMenuCollapsed"
-      >
-      <ul class="nav navbar-nav" (click)="isMenuCollapsed = true">
-        <ng-content></ng-content>
-      </ul>
-    </div>
-  </div>
-</nav> -->

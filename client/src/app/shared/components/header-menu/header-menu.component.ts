@@ -17,4 +17,8 @@ export class HeaderMenuComponent {
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
   }
+
+  collapse(): void {
+    this.isCollapsed = true;
+  }
 }

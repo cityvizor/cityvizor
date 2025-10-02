@@ -2,14 +2,13 @@
   <div class="row">
     <div class="col-md-10 offset-md-1">
       @if (!infoWindowClosed) {
-        <div class="alert alert-info alert-dismissable fade in">
-          <span
-            class="close"
-            data-dismiss="alert"
-            aria-label="close"
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
             (click)="infoWindowClosed = true"
-            >&times;</span
-          >
+          ></button>
           <strong>Informace:</strong> Cityvizor kopíruje data z registru smluv,
           který je zřízen dle Zákona o registru smluv (předpis č. 340/2015 Sb.).
           Konkrétní znění smluv naleznete v samotném registru.
