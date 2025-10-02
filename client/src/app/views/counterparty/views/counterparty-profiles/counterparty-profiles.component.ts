@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, inject } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -12,14 +12,12 @@ import { DataService } from "app/services/data.service";
     imports: []
 })
 export class CounterpartyProfilesComponent implements OnInit, OnDestroy {
+  private dataService = inject(DataService);
+  private route = inject(ActivatedRoute);
+
   budgets: any[];
 
   paramsSubscription: Subscription;
-
-  constructor(
-    private dataService: DataService,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.paramsSubscription = this.route.parent!.params.subscribe(

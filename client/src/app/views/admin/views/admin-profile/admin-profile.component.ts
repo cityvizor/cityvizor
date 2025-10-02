@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { ActivatedRoute, RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
 
 import { Observable } from "rxjs";
@@ -22,13 +22,11 @@ import { AsyncPipe } from "@angular/common";
     ]
 })
 export class AdminProfileComponent implements OnInit {
-  profile: Observable<Profile>;
+  private route = inject(ActivatedRoute);
+  private adminService = inject(AdminService);
+  private profileService = inject(ProfileService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private adminService: AdminService,
-    private profileService: ProfileService
-  ) {}
+  profile: Observable<Profile>;
 
   ngOnInit() {
     this.route.params

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 
 import { ToastService } from "app/services/toast.service";
 import { DataService } from "app/services/data.service";
@@ -20,17 +20,15 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
     ]
 })
 export class ProfileContractsComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private dataService = inject(DataService);
+
   profile: Profile;
 
   loading: boolean = false;
   infoWindowClosed: boolean = false;
 
   contracts: any[] = [];
-
-  constructor(
-    private profileService: ProfileService,
-    private dataService: DataService
-  ) {}
 
   ngOnInit() {
     this.profileService.profile.subscribe(profile => {

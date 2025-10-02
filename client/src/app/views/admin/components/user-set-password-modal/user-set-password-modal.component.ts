@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, inject } from "@angular/core";
 import { User } from "app/schema";
 import { NgForm, FormsModule } from "@angular/forms";
 import { ToastService } from "app/services/toast.service";
@@ -12,16 +12,14 @@ import { AdminService } from "app/services/admin.service";
     imports: [FormsModule]
 })
 export class UserSetPasswordModalComponent {
+  private adminService = inject(AdminService);
+  private toastService = inject(ToastService);
+
   @Input() user: User;
 
   passwordMatch: boolean | null = null;
 
   @Output() close = new EventEmitter<boolean>();
-
-  constructor(
-    private adminService: AdminService,
-    private toastService: ToastService
-  ) {}
 
   async saveUser(form: NgForm) {
     await this.adminService.saveUser(this.user.id, form.value);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { Router, ActivatedRoute, RouterLink, RouterLinkActive } from "@angular/router";
 
 import { DataService } from "app/services/data.service";
@@ -37,6 +37,11 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class ProfileDashboardComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private dataService = inject(DataService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   profile: Profile;
 
   payments: BudgetPayment[] = [];
@@ -49,13 +54,6 @@ export class ProfileDashboardComponent implements OnInit {
   maxIncomeAmount: number = 0;
 
   dashboard: Dashboard;
-
-  constructor(
-    private profileService: ProfileService,
-    private dataService: DataService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.profileService.profile.subscribe(profile => {

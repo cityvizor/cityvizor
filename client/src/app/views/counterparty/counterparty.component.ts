@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, inject } from "@angular/core";
 import { ActivatedRoute, Params, RouterLink, RouterOutlet } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -18,14 +18,12 @@ import { HeaderMenuComponent } from "../../shared/components/header-menu/header-
     ]
 })
 export class CounterpartyComponent implements OnInit, OnDestroy {
+  private dataService = inject(DataService);
+  private route = inject(ActivatedRoute);
+
   counterparty: Counterparty;
 
   paramsSubscription: Subscription;
-
-  constructor(
-    private dataService: DataService,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { ProfileService } from "app/services/profile.service";
 import { AdminService } from "app/services/admin.service";
 import { map } from "rxjs/operators";
@@ -16,15 +16,13 @@ import { DatePipe } from "@angular/common";
     ]
 })
 export class AdminProfileLogsComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private adminService = inject(AdminService);
+
   profileId$: Observable<Profile["id"]>;
 
   logs: Import[] = [];
   hidden: Object = {};
-
-  constructor(
-    private profileService: ProfileService,
-    private adminService: AdminService
-  ) {}
 
   ngOnInit() {
     this.profileId$ = this.profileService.profile.pipe(

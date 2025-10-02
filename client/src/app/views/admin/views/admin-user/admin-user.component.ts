@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, OnDestroy } from "@angular/core";
+import { Component, OnInit, TemplateRef, OnDestroy, inject } from "@angular/core";
 import { map, distinctUntilChanged } from "rxjs/operators";
 import { ActivatedRoute } from "@angular/router";
 import { AdminService } from "app/services/admin.service";
@@ -20,18 +20,16 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class AdminUserComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private adminService = inject(AdminService);
+  private modalService = inject(BsModalService);
+  private toastService = inject(ToastService);
+
   user: User;
 
   managedProfiles: Profile["id"][];
 
   modalRef: BsModalRef;
-
-  constructor(
-    private route: ActivatedRoute,
-    private adminService: AdminService,
-    private modalService: BsModalService,
-    private toastService: ToastService
-  ) {}
 
   ngOnInit() {
     this.route.params

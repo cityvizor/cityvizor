@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, inject } from "@angular/core";
 import { Router, ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { DataService } from "app/services/data.service";
@@ -21,6 +21,11 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class DatePickerComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private dataService = inject(DataService);
+  private profileService = inject(ProfileService);
+
   @Input()
   showEntireYear: boolean = true;
 
@@ -47,13 +52,6 @@ export class DatePickerComponent implements OnInit {
 
   currentYear?: number;
   currentMonth?: number;
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private dataService: DataService,
-    private profileService: ProfileService
-  ) {}
 
   async ngOnInit() {
     this.profile = this.profileService.profile;

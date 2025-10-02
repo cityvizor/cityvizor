@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
 import { AuthService } from "app/services/auth.service";
@@ -13,14 +13,14 @@ import { ConfigService } from "config/config";
   providedIn: "root",
 })
 export class ACLService  {
+  private authService = inject(AuthService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
+  private configService = inject(ConfigService);
+
   routes: any = [];
 
-  constructor(
-    private authService: AuthService,
-    private toastService: ToastService,
-    private router: Router,
-    private configService: ConfigService
-  ) {
+  constructor() {
     this.routes = this.configService.config.acl.routes || [];
   }
 

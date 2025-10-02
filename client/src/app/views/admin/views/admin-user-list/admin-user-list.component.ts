@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, inject } from "@angular/core";
 import { AdminService } from "app/services/admin.service";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { User } from "app/schema";
@@ -33,6 +33,9 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class AdminUserListComponent implements OnInit {
+  private adminService = inject(AdminService);
+  private modalService = inject(BsModalService);
+
   users: User[];
 
   currentUser: User;
@@ -46,11 +49,6 @@ export class AdminUserListComponent implements OnInit {
     { value: "profile-admin", label: "Profile admin" },
     { value: "-", label: "Žádná" },
   ];
-
-  constructor(
-    private adminService: AdminService,
-    private modalService: BsModalService
-  ) {}
 
   ngOnInit() {
     this.loadUsers();

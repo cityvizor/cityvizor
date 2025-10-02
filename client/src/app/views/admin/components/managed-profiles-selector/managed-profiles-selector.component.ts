@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  forwardRef,
-  ChangeDetectorRef,
-} from "@angular/core";
+import { Component, OnInit, forwardRef, ChangeDetectorRef, inject } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { Profile } from "app/schema";
@@ -32,15 +27,13 @@ interface ProfileSelectionModel {
 export class ManagedProfilesSelectorComponent
   implements OnInit, ControlValueAccessor
 {
+  private adminService = inject(AdminService);
+  private cdRef = inject(ChangeDetectorRef);
+
   managedProfiles: number[];
 
   profiles: Profile[];
   selectionModels: ProfileSelectionModel[];
-
-  constructor(
-    private adminService: AdminService,
-    private cdRef: ChangeDetectorRef
-  ) {}
 
   ngOnInit() {
     this.loadProfiles();

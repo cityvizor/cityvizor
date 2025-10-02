@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { DataService } from "app/services/data.service";
@@ -24,6 +24,10 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class ProfileInvoicesComponent implements OnInit {
+  private dataService = inject(DataService);
+  private profileService = inject(ProfileService);
+  private route = inject(ActivatedRoute);
+
   // params
   profile: Observable<Profile>;
   params: Observable<Params>;
@@ -33,12 +37,6 @@ export class ProfileInvoicesComponent implements OnInit {
   loading: boolean = false;
 
   profileType: ProfileType = "municipality";
-
-  constructor(
-    private dataService: DataService,
-    private profileService: ProfileService,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.profile = this.profileService.profile;

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from "@angular/core";
+import { Component, Output, EventEmitter, OnInit, inject } from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { ToastService } from "app/services/toast.service";
@@ -16,15 +16,13 @@ import { AsyncPipe } from "@angular/common";
     ]
 })
 export class CreateUserModalComponent implements OnInit {
+  private adminService = inject(AdminService);
+  private toastService = inject(ToastService);
+
   @Output() close = new EventEmitter<boolean>();
 
   login = new Subject<string>();
   loginExists: boolean | null = null;
-
-  constructor(
-    private adminService: AdminService,
-    private toastService: ToastService
-  ) {}
 
   ngOnInit() {
     this.login.subscribe(() => (this.loginExists = null));

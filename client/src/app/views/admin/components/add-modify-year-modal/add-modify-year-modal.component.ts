@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, inject } from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { BudgetYear } from "../../../../schema";
@@ -11,6 +11,8 @@ import { BudgetYear } from "../../../../schema";
     imports: [FormsModule]
 })
 export class AddModifyYearModalComponent implements OnInit {
+  private adminService = inject(AdminService);
+
   @Input() profileId: number;
   @Input() year: BudgetYear = {} as BudgetYear;
 
@@ -26,8 +28,6 @@ export class AddModifyYearModalComponent implements OnInit {
   buttonText: string = "Vytvořit";
 
   titleText: string = "Vytvořit nový rozpočtový rok";
-
-  constructor(private adminService: AdminService) {}
 
   ngOnInit() {
     if (this.year && this.year.year > 1900) {

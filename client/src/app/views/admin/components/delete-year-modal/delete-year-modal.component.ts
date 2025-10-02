@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, inject } from "@angular/core";
 import { AdminService } from "app/services/admin.service";
 import { ToastService } from "app/services/toast.service";
 import { FormsModule } from "@angular/forms";
@@ -11,16 +11,14 @@ import { TranslatePipe } from "@ngx-translate/core";
     imports: [FormsModule, TranslatePipe]
 })
 export class DeleteYearModalComponent {
+  private adminService = inject(AdminService);
+  private toastService = inject(ToastService);
+
   @Input() profileId: number;
 
   @Input() currentYear: number;
 
   @Output() close = new EventEmitter<boolean>();
-
-  constructor(
-    private adminService: AdminService,
-    private toastService: ToastService
-  ) {}
 
   async deleteYear() {
     await this.adminService.deleteProfileYear(this.profileId, this.currentYear);

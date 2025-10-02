@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 
 import { environment } from "environments/environment";
@@ -11,9 +11,9 @@ import { Section } from "app/schema/section";
   providedIn: "root",
 })
 export class AdminService {
-  root = environment.api_root + "/admin";
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  root = environment.api_root + "/admin";
 
   /* PROFILES */
   getProfiles() {

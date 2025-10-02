@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, inject } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -16,14 +16,12 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
     ]
 })
 export class CounterpartyPaymentsComponent implements OnInit, OnDestroy {
+  private dataService = inject(DataService);
+  private route = inject(ActivatedRoute);
+
   payments: any[] = [];
 
   paramsSubscription: Subscription;
-
-  constructor(
-    private dataService: DataService,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.paramsSubscription = this.route.parent!.params.subscribe(

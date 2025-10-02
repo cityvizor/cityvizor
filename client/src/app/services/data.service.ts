@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 
 import { Counterparty } from "app/schema/counterparty";
@@ -43,10 +43,10 @@ function toParams(options) {
   providedIn: "root",
 })
 export class DataService {
+  private http = inject(HttpClient);
+
   root = environment.api_root + "/public";
   root_api2 = environment.api2_root;
-
-  constructor(private http: HttpClient) {}
 
   getCodelist(codelistName: string) {
     return this.http

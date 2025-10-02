@@ -1,12 +1,13 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse, HttpHeaderResponse, HttpProgressEvent, HttpSentEvent, HttpUserEvent } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { EMPTY, Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 @Injectable()
 export class NotFoundInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  private router = inject(Router);
+
 
   intercept(
     req: HttpRequest<any>,

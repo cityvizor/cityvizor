@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges, inject } from "@angular/core";
 import {
   trigger,
   state,
@@ -40,6 +33,9 @@ import { MoneyPipe } from "../../pipes/money.pipe";
     ]
 })
 export class CounterpartyDetailComponent implements OnInit {
+  private dataService = inject(DataService);
+  private route = inject(ActivatedRoute);
+
   /* DATA */
   @Input() profileId: string;
   @Input() counterpartyId: string;
@@ -48,11 +44,6 @@ export class CounterpartyDetailComponent implements OnInit {
 
   counterpartyName: string;
   payments: any[];
-
-  constructor(
-    private dataService: DataService,
-    private route: ActivatedRoute
-  ) {}
 
   async ngOnInit() {
     if (!this.year) return;

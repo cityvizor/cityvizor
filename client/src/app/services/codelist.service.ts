@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { DateTime } from "luxon";
 
 import { DataService } from "./data.service";
@@ -9,9 +9,9 @@ import { Codelist, CodelistRow } from "app/schema/codelist";
   providedIn: "root",
 })
 export class CodelistService {
-  codelists: { [key: string]: Promise<Codelist> } = {};
+  private dataService = inject(DataService);
 
-  constructor(private dataService: DataService) {}
+  codelists: { [key: string]: Promise<Codelist> } = {};
 
   getCodelist(id: string): Promise<Codelist> {
     if (!this.codelists[id]) this.codelists[id] = this.loadCodelist(id);

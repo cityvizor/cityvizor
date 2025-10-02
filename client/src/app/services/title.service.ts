@@ -1,4 +1,4 @@
-import { Injectable, Inject } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { ConfigService } from "config/config";
 
@@ -6,10 +6,9 @@ import { ConfigService } from "config/config";
   providedIn: "root",
 })
 export class TitleService {
-  constructor(
-    private title: Title,
-    private configService: ConfigService
-  ) {}
+  private title = inject(Title);
+  private configService = inject(ConfigService);
+
 
   setTitle(title: string | null) {
     if (title)

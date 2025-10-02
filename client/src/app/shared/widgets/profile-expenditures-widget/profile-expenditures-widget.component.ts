@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  EventEmitter,
-  Output,
-} from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, EventEmitter, Output, inject } from "@angular/core";
 import { DataService } from "app/services/data.service";
 import { AccountingService } from "app/services/accounting.service";
 import { BudgetGroup, Profile } from "app/schema";
@@ -24,17 +17,15 @@ import { ChartBigbangComponent } from "../../charts/chart-bigbang/chart-bigbang.
     imports: [ChartBigbangComponent]
 })
 export class ProfileExpendituresWidgetComponent implements OnChanges {
+  private dataService = inject(DataService);
+  private accountingService = inject(AccountingService);
+
   @Input() profile: Profile;
   @Input() year: number;
 
   @Output() openGroup = new EventEmitter<string>();
 
   chartData: ChartBigbangData | null;
-
-  constructor(
-    private dataService: DataService,
-    private accountingService: AccountingService
-  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.profile && this.year) this.loadData(this.profile, this.year);

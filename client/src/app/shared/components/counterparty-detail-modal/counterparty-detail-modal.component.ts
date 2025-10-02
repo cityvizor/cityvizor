@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { CounterpartyDetailComponent } from "../counterparty-detail/counterparty-detail.component";
 
@@ -9,10 +9,10 @@ import { CounterpartyDetailComponent } from "../counterparty-detail/counterparty
     imports: [CounterpartyDetailComponent]
 })
 export class CounterpartyDetailModalComponent {
+  modalRef = inject(BsModalRef);
+
   profileId: string;
   counterpartyId: number;
   year: number;
   month: number;
-
-  constructor(public modalRef: BsModalRef) {}
 }

@@ -1,7 +1,7 @@
 import { Router } from "@angular/router";
 import { ToastService } from "app/services/toast.service";
 import { AuthService } from "app/services/auth.service";
-import { Component, Output, EventEmitter } from "@angular/core";
+import { Component, Output, EventEmitter, inject } from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
 
@@ -16,6 +16,10 @@ import { HeaderMenuComponent } from "../../shared/components/header-menu/header-
     ]
 })
 export class LoginComponent {
+  authService = inject(AuthService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
+
   @Output()
   login: EventEmitter<any> = new EventEmitter();
 
@@ -24,11 +28,10 @@ export class LoginComponent {
 
   wrongPassword: boolean = false;
 
-  constructor(
-    public authService: AuthService,
-    private toastService: ToastService,
-    private router: Router
-  ) {
+  constructor() {
+    const authService = this.authService;
+    const router = this.router;
+
     if (authService.logged) {
       router.navigate(["/admin/profily"]);
     }

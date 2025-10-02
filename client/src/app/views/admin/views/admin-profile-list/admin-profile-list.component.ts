@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, inject } from "@angular/core";
 import { Profile, ProfileType } from "app/schema";
 import { ConfigService } from "config/config";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
@@ -34,6 +34,11 @@ interface ProfileWithParentName extends Profile {
     ]
 })
 export class AdminProfileListComponent implements OnInit {
+  private adminService = inject(AdminService);
+  private modalService = inject(BsModalService);
+  configService = inject(ConfigService);
+  authService = inject(AuthService);
+
   profilesWithParentName: ProfileWithParentName[] = [];
 
   profileTypes = [
@@ -47,13 +52,6 @@ export class AdminProfileListComponent implements OnInit {
   currentProfile: Profile;
 
   modalRef: BsModalRef;
-
-  constructor(
-    private adminService: AdminService,
-    private modalService: BsModalService,
-    public configService: ConfigService,
-    public authService: AuthService
-  ) {}
 
   ngOnInit() {
     this.loadProfiles();

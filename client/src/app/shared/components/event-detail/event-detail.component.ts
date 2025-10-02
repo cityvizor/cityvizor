@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, inject } from "@angular/core";
 import {
   trigger,
   state,
@@ -65,6 +58,10 @@ type CounterpartyOpenable = Counterparty & { open: boolean };
     ]
 })
 export class EventDetailComponent implements OnChanges {
+  private dataService = inject(DataService);
+  private codelistService = inject(CodelistService);
+  private toastService = inject(ToastService);
+
   /* DATA */
   @Input() profile: Profile;
   @Input() eventId: number;
@@ -96,12 +93,6 @@ export class EventDetailComponent implements OnChanges {
 
   itemNames: { [id: string]: string } = {};
   paragraphNames: { [id: string]: string } = {};
-
-  constructor(
-    private dataService: DataService,
-    private codelistService: CodelistService,
-    private toastService: ToastService
-  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.year) {

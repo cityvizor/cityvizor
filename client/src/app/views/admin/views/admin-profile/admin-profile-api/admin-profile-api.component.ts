@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { AdminService } from "app/services/admin.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema";
@@ -13,17 +13,15 @@ import { AsyncPipe } from "@angular/common";
     imports: [AsyncPipe]
 })
 export class AdminProfileApiComponent {
+  private adminService = inject(AdminService);
+  private profileService = inject(ProfileService);
+  private toastService = inject(ToastService);
+
   profileId$ = this.profileService.profileId;
 
   token?: string;
 
   apiRoot = environment.api_root;
-
-  constructor(
-    private adminService: AdminService,
-    private profileService: ProfileService,
-    private toastService: ToastService
-  ) {}
 
   async generateToken(profileId: Profile["id"]) {
     this.token = await this.adminService.generateProfileImportToken(profileId);

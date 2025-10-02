@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from "@angular/core";
+import { Component, Input, EventEmitter, Output, inject } from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { ProfileType } from "app/schema";
 import { ImportService } from "app/services/import.service";
@@ -16,6 +16,9 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class DataUploadModalComponent {
+  private importService = inject(ImportService);
+  private toastService = inject(ToastService);
+
   @Input() year: number;
   @Input() profileId: number;
   @Input() profileType: ProfileType;
@@ -26,11 +29,6 @@ export class DataUploadModalComponent {
     { display: "Nahradit stávající data", value: "overwrite" },
     { display: "Přidat k stávajícím datům", value: "append" },
   ];
-
-  constructor(
-    private importService: ImportService,
-    private toastService: ToastService
-  ) {}
 
   get isPbo() {
     return this.profileType == "pbo";

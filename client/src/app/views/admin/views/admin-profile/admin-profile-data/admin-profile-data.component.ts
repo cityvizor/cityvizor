@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, inject } from "@angular/core";
 import { ProfileService } from "app/services/profile.service";
 import { map, distinctUntilChanged } from "rxjs/operators";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
@@ -29,6 +29,10 @@ import { TranslatePipe } from "@ngx-translate/core";
 ]
 })
 export class AdminProfileDataComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private adminService = inject(AdminService);
+  private modalService = inject(BsModalService);
+
   profile$: Observable<Profile>;
 
   profileId: number;
@@ -42,12 +46,6 @@ export class AdminProfileDataComponent implements OnInit {
   loading: boolean = false;
 
   modalRef?: BsModalRef;
-
-  constructor(
-    private profileService: ProfileService,
-    private adminService: AdminService,
-    private modalService: BsModalService
-  ) {}
 
   ngOnInit() {
     this.profile$ = this.profileService.profile;

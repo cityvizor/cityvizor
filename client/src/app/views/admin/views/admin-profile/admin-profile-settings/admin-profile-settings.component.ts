@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { ProfileService } from "app/services/profile.service";
 import { Observable } from "rxjs";
 import { Profile, ProfileType } from "app/schema";
@@ -26,6 +26,13 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class AdminProfileSettingsComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private adminService = inject(AdminService);
+  private dataService = inject(DataService);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
+  configService = inject(ConfigService);
+
   profileId: Observable<number | null>;
   profile: Profile;
   profiles: Profile[];
@@ -35,15 +42,6 @@ export class AdminProfileSettingsComponent implements OnInit {
   profileIdParentIdMap: Map<number, number | null>;
   sections: Section[];
   loading: Boolean = true;
-
-  constructor(
-    private profileService: ProfileService,
-    private adminService: AdminService,
-    private dataService: DataService,
-    private router: Router,
-    private toastService: ToastService,
-    public configService: ConfigService
-  ) {}
 
   async ngOnInit() {
     this.profileId = this.profileService.profileId;

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, inject } from "@angular/core";
 import { Profile } from "app/schema/profile";
 import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
@@ -33,6 +33,12 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class AdminProfileSubprofilesComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private dataService = inject(DataService);
+  private adminService = inject(AdminService);
+  configService = inject(ConfigService);
+  private modalService = inject(BsModalService);
+
   subprofiles: Profile[] = [];
   profileId: Number;
   profileId$: Observable<Number>;
@@ -44,14 +50,6 @@ export class AdminProfileSubprofilesComponent implements OnInit {
     { value: "pbo", label: "Příspěvkovka" },
     { value: "external", label: "Externí" },
   ];
-
-  constructor(
-    private profileService: ProfileService,
-    private dataService: DataService,
-    private adminService: AdminService,
-    public configService: ConfigService,
-    private modalService: BsModalService
-  ) {}
 
   async ngOnInit() {
     this.profileId$ = this.profileService.profile.pipe(

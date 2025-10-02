@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 
 import { DataService } from "app/services/data.service";
 
@@ -15,16 +15,14 @@ import { DatePipe } from "@angular/common";
     ]
 })
 export class ProfileNoticeboardComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private dataService = inject(DataService);
+
   noticeBoard: Noticeboard;
 
   infoWindowClosed: boolean;
 
   edeskyId?: number;
-
-  constructor(
-    private profileService: ProfileService,
-    private dataService: DataService
-  ) {}
 
   ngOnInit() {
     this.profileService.profile.subscribe(profile => {

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   Accounting,
   BudgetGroup,
@@ -33,6 +33,9 @@ interface TypeConfig {
   providedIn: "root",
 })
 export class AccountingService {
+  private codelistService = inject(CodelistService);
+  private dataService = inject(DataService);
+
   config: {
     [type in Exclude<ProfileType, "external">]: {
       [type in AccountingGroupType]: TypeConfig;
@@ -71,11 +74,6 @@ export class AccountingService {
       },
     },
   };
-
-  constructor(
-    private codelistService: CodelistService,
-    private dataService: DataService
-  ) {}
 
   async getGroups(
     profile: Profile,

@@ -1,4 +1,4 @@
-import { Injectable, Inject } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Profile } from "app/schema";
 
 import { environment } from "environments/environment";
@@ -8,6 +8,8 @@ import { HttpClient } from "@angular/common/http";
   providedIn: "root",
 })
 export class ImportService {
+  private http = inject(HttpClient);
+
   root = environment.api_root + "/import";
 
   private generateRequest(
@@ -30,7 +32,6 @@ export class ImportService {
         .toPromise();
     }
   }
-  constructor(private http: HttpClient) {}
 
   async importAccounting(
     profileId: Profile["id"],

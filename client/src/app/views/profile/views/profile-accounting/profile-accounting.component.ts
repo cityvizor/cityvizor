@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, inject } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { BsModalService } from "ngx-bootstrap/modal";
@@ -67,6 +67,15 @@ import { TranslatePipe } from "@ngx-translate/core";
     ]
 })
 export class ProfileAccountingComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private profileService = inject(ProfileService);
+  private accountingService = inject(AccountingService);
+  private codelistService = inject(CodelistService);
+  private dataService = inject(DataService);
+  private modalService = inject(BsModalService);
+  private cdRef = inject(ChangeDetectorRef);
+
   // type of view (expenditures/income)
   type = new BehaviorSubject<AccountingGroupType | null>(null);
 
@@ -99,17 +108,6 @@ export class ProfileAccountingComponent implements OnInit {
 
   // store subscriptions to unsubscribe on destroy
   subscriptions: Subscription[] = [];
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private profileService: ProfileService,
-    private accountingService: AccountingService,
-    private codelistService: CodelistService,
-    private dataService: DataService,
-    private modalService: BsModalService,
-    private cdRef: ChangeDetectorRef
-  ) {}
 
   async ngOnInit() {
     // route params
