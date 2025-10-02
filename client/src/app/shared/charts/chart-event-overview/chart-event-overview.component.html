@@ -12,7 +12,7 @@
     class="col-md-2 text-center"
     [class.over-expenditure]="type == 'expenditure'"
     [class.over-income]="type == 'income'"
-    >
+  >
     <i class="fa fa-square" aria-hidden="true"></i> Překročeno
   </div>
 </div>
@@ -42,84 +42,68 @@
       }
 
       <p [class.small-left]="amount < 0.17">
-        @if (isCurrentYear && type == 'expenditure') {
-          <span
-            >Již utraceno z rozpočtu</span
-            >
-          }
-          @if (isCurrentYear && type == 'income') {
-            <span
-              >Již přijato do rozpočtu</span
-              >
-            }
-            @if (!isCurrentYear && type == 'expenditure') {
-              <span
-                >Utraceno z rozpočtu</span
-                >
-              }
-              @if (!isCurrentYear && type == 'income') {
-                <span
-                  >Přijato do rozpočtu</span
-                  >
-                }
-              </p>
-            </div>
+        @if (isCurrentYear && type == "expenditure") {
+          <span>Již utraceno z rozpočtu</span>
+        }
+        @if (isCurrentYear && type == "income") {
+          <span>Již přijato do rozpočtu</span>
+        }
+        @if (!isCurrentYear && type == "expenditure") {
+          <span>Utraceno z rozpočtu</span>
+        }
+        @if (!isCurrentYear && type == "income") {
+          <span>Přijato do rozpočtu</span>
+        }
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="bar budget"
+    [class.over-expenditure]="over && type == 'expenditure'"
+    [class.over-income]="over && type == 'income'"
+    [style.width]="1 - amount ? (1 - amount) * 100 + '%' : '1px'"
+  >
+    <div class="desc">
+      @if (1 - amount >= 0.05) {
+        <div class="big">
+          <div class="lines1">
+            <div class="line"></div>
           </div>
+          <div class="lines2">
+            <div class="line left"></div>
+            <div class="line right"></div>
+          </div>
+        </div>
+      }
 
-          <div
-            class="bar budget"
-            [class.over-expenditure]="over && type == 'expenditure'"
-            [class.over-income]="over && type == 'income'"
-            [style.width]="1 - amount ? (1 - amount) * 100 + '%' : '1px'"
-            >
-            <div class="desc">
-              @if (1 - amount >= 0.05) {
-                <div class="big">
-                  <div class="lines1">
-                    <div class="line"></div>
-                  </div>
-                  <div class="lines2">
-                    <div class="line left"></div>
-                    <div class="line right"></div>
-                  </div>
-                </div>
-              }
+      @if (1 - amount < 0.05) {
+        <div class="small">
+          <div class="line"></div>
+        </div>
+      }
 
-              @if (1 - amount < 0.05) {
-                <div class="small">
-                  <div class="line"></div>
-                </div>
-              }
+      <p [class.small-right]="1 - amount < 0.17">
+        @if (!over) {
+          @if (isCurrentYear && type == "expenditure") {
+            <span>Ještě zbývá v rozpočtu</span>
+          }
+          @if (isCurrentYear && type == "income") {
+            <span>Ještě očekáváme do rozpočtu</span>
+          }
+          @if (!isCurrentYear && type == "expenditure") {
+            <span>Ještě zbývalo v rozpočtu</span>
+          }
+          @if (!isCurrentYear && type == "income") {
+            <span>Ještě jsme očekávali do rozpočtu</span>
+          }
+        }
+        @if (over) {
+          <span>Překročený rozpočet</span>
+        }
+      </p>
+    </div>
+  </div>
+</div>
 
-              <p [class.small-right]="1 - amount < 0.17">
-                @if (!over) {
-                  @if (isCurrentYear && type == 'expenditure') {
-                    <span
-                      >Ještě zbývá v rozpočtu</span
-                      >
-                    }
-                    @if (isCurrentYear && type == 'income') {
-                      <span
-                        >Ještě očekáváme do rozpočtu</span
-                        >
-                      }
-                      @if (!isCurrentYear && type == 'expenditure') {
-                        <span
-                          >Ještě zbývalo v rozpočtu</span
-                          >
-                        }
-                        @if (!isCurrentYear && type == 'income') {
-                          <span
-                            >Ještě jsme očekávali do rozpočtu</span
-                            >
-                          }
-                        }
-                        @if (over) {
-                          <span>Překročený rozpočet</span>
-                        }
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="clear"></div>
+<div class="clear"></div>

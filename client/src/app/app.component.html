@@ -3,18 +3,14 @@
     <ul class="text-center">
       @for (toast of toasts; track toast) {
         <li [class]="toast.status" @toastsFadeOut>
-          @if (toast.status === 'check') {
+          @if (toast.status === "check") {
             <i class="fa fa-2x fa-check"></i>
           }
-          @if (toast.status === 'error') {
-            <i
-              class="fa fa-2x fa-exclamation-triangle"
-            ></i>
+          @if (toast.status === "error") {
+            <i class="fa fa-2x fa-exclamation-triangle"></i>
           }
-          @if (toast.status === 'notice') {
-            <i
-              class="fa fa-2x fa-info-circle"
-            ></i>
+          @if (toast.status === "notice") {
+            <i class="fa fa-2x fa-info-circle"></i>
           }
           <p>{{ toast.text }}</p>
         </li>
@@ -39,16 +35,14 @@
         }
         @if (authService.logged) {
           {{ authService.user.login }}
-          @if (aclService.checkRoute('/admin')) {
+          @if (aclService.checkRoute("/admin")) {
             &nbsp;|&nbsp;<a routerLink="/admin">Administrace</a>
           }
           | <a (click)="logout()">Odhlásit</a>
         }
       </div>
       @if (alternativeFooterHtml) {
-        <div
-          [innerHtml]="alternativeFooterHtml"
-        ></div>
+        <div [innerHtml]="alternativeFooterHtml"></div>
       }
       @if (!alternativeFooterHtml) {
         <div class="col-sm-6 col-12 text-end-weak">

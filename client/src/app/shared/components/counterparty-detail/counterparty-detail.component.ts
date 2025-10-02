@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges, inject } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  SimpleChanges,
+  inject,
+} from "@angular/core";
 import {
   trigger,
   state,
@@ -13,24 +21,24 @@ import { DatePipe } from "@angular/common";
 import { MoneyPipe } from "../../pipes/money.pipe";
 
 @Component({
-    selector: "counterparty-detail",
-    templateUrl: "counterparty-detail.component.html",
-    styleUrls: ["counterparty-detail.component.scss"],
-    animations: [
-        trigger("paymentsState", [
-            state("closed", style({ display: "none", opacity: 0 })),
-            state("open", style({ display: "block", opacity: 1 })),
-            transition("closed => open", [
-                style({ height: 0 }),
-                animate("250ms ease-in", style({ opacity: 1, height: "*" })),
-            ]),
-            transition("open => closed", animate("250ms ease-out", style({ opacity: 0, height: 0 }))),
-        ]),
-    ],
-    imports: [
-        DatePipe,
-        MoneyPipe
-    ]
+  selector: "counterparty-detail",
+  templateUrl: "counterparty-detail.component.html",
+  styleUrls: ["counterparty-detail.component.scss"],
+  animations: [
+    trigger("paymentsState", [
+      state("closed", style({ display: "none", opacity: 0 })),
+      state("open", style({ display: "block", opacity: 1 })),
+      transition("closed => open", [
+        style({ height: 0 }),
+        animate("250ms ease-in", style({ opacity: 1, height: "*" })),
+      ]),
+      transition(
+        "open => closed",
+        animate("250ms ease-out", style({ opacity: 0, height: 0 })),
+      ),
+    ]),
+  ],
+  imports: [DatePipe, MoneyPipe],
 })
 export class CounterpartyDetailComponent implements OnInit {
   private dataService = inject(DataService);
@@ -64,10 +72,10 @@ export class CounterpartyDetailComponent implements OnInit {
     )[0].name;
     this.payments = await this.dataService.getCounterpartyPayments(
       this.counterpartyId,
-      params
+      params,
     );
     this.payments.sort((first, second) =>
-      Date.parse(first.date) < Date.parse(second.date) ? -1 : 1
+      Date.parse(first.date) < Date.parse(second.date) ? -1 : 1,
     );
   }
 }

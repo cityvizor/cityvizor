@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-    name: "address",
-    standalone: true
+  name: "address",
+  standalone: true,
 })
 export class AddressPipe implements PipeTransform {
   transform(value: any, locale?: string): string {
@@ -29,8 +29,8 @@ export class AddressPipe implements PipeTransform {
 }
 
 @Pipe({
-    name: "postalCode",
-    standalone: true
+  name: "postalCode",
+  standalone: true,
 })
 export class PostalCodePipe implements PipeTransform {
   transform(value: string | number, locale?: string): string {

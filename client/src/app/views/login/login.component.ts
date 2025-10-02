@@ -5,15 +5,11 @@ import { Component, Output, EventEmitter, inject } from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
 
-
 @Component({
-    selector: "login",
-    templateUrl: "login.component.html",
-    styleUrls: ["login.component.scss"],
-    imports: [
-        HeaderMenuComponent,
-        FormsModule
-    ]
+  selector: "login",
+  templateUrl: "login.component.html",
+  styleUrls: ["login.component.scss"],
+  imports: [HeaderMenuComponent, FormsModule],
 })
 export class LoginComponent {
   authService = inject(AuthService);
@@ -69,7 +65,7 @@ export class LoginComponent {
         } else {
           this.toastService.toast(
             "Neznámá chyba při přihlášení, prosím kontaktujte správce.",
-            "error"
+            "error",
           );
         }
       });

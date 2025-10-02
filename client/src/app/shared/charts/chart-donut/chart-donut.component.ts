@@ -7,19 +7,18 @@ import {
   transition,
 } from "@angular/animations";
 
-
 @Component({
-    selector: "chart-donut",
-    templateUrl: "chart-donut.component.html",
-    animations: [
-        trigger("showAnimation", [
-            transition(":enter", [
-                style({ opacity: 0 }),
-                animate("500ms", style({ opacity: 1 })),
-            ]),
-        ]),
-    ],
-    imports: []
+  selector: "chart-donut",
+  templateUrl: "chart-donut.component.html",
+  animations: [
+    trigger("showAnimation", [
+      transition(":enter", [
+        style({ opacity: 0 }),
+        animate("500ms", style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
+  imports: [],
 })
 export class ChartDonutComponent {
   @Input() data: any;
@@ -62,7 +61,7 @@ export class ChartDonutComponent {
         ",1 " +
         endX1 +
         "," +
-        endY1
+        endY1,
     );
     properties.push("L" + startX2 + "," + startY2);
     properties.push(
@@ -75,7 +74,7 @@ export class ChartDonutComponent {
         ",0 " +
         endX2 +
         "," +
-        endY2
+        endY2,
     );
     properties.push("Z");
 

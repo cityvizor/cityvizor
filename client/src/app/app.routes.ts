@@ -3,15 +3,26 @@ import { ACLService } from "./services/acl.service";
 
 export const AppRoutes: Routes = [
   /* FRONT PAGE */
-  { path: "login", loadComponent: () => import('./views/login/login.component').then(m => m.LoginComponent) },
+  {
+    path: "login",
+    loadComponent: () =>
+      import("./views/login/login.component").then(m => m.LoginComponent),
+  },
 
   /* NOT FOUND */
-  { path: "not-found", loadComponent: () => import('./views/not-found-page/not-found-page.component').then(m => m.NotFoundPageComponent) },
+  {
+    path: "not-found",
+    loadComponent: () =>
+      import("./views/not-found-page/not-found-page.component").then(
+        m => m.NotFoundPageComponent,
+      ),
+  },
 
   /* COUNTERPARTIES */
   {
     path: "dodavatele",
-    loadChildren: () => import("./views/counterparty").then(mod => mod.CounterPartyRoutes),
+    loadChildren: () =>
+      import("./views/counterparty").then(mod => mod.CounterPartyRoutes),
   },
 
   /* ADMIN */
@@ -24,7 +35,8 @@ export const AppRoutes: Routes = [
   /* PROFILE */
   {
     path: ":profile",
-    loadChildren: () => import("./views/profile").then(mod => mod.ProfileRoutes),
+    loadChildren: () =>
+      import("./views/profile").then(mod => mod.ProfileRoutes),
   },
 
   /* CATCH ALL */

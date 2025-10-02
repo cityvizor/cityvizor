@@ -9,30 +9,34 @@ import {
 
 import { Budget } from "app/schema";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
 import { DatePipe } from "@angular/common";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "budget-select",
-    templateUrl: "budget-select.component.html",
-    styleUrls: ["budget-select.component.scss"],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => BudgetSelectComponent),
-            multi: true,
-        },
-    ],
-    imports: [
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        DatePipe,
-        MoneyPipe,
-        TranslatePipe
-    ]
+  selector: "budget-select",
+  templateUrl: "budget-select.component.html",
+  styleUrls: ["budget-select.component.scss"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => BudgetSelectComponent),
+      multi: true,
+    },
+  ],
+  imports: [
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    DatePipe,
+    MoneyPipe,
+    TranslatePipe,
+  ],
 })
 export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() budgets: Budget[] = [];
@@ -80,7 +84,7 @@ export class BudgetSelectComponent implements OnChanges, ControlValueAccessor {
     this.maxAmount = this.budgets.reduce(
       (acc, cur) =>
         Math.max(acc, this.getAmount(cur), this.getBudgetAmount(cur)),
-      0
+      0,
     );
   }
 

@@ -11,18 +11,10 @@
     <ng-template pTemplate="header">
       <!-- Column labels + sorting -->
       <tr>
-        <th pSortableColumn="name">
-          Jméno <p-sortIcon field="name" />
-        </th>
-        <th pSortableColumn="email">
-          E-mail <p-sortIcon field="email" />
-        </th>
-        <th pSortableColumn="login">
-          Login <p-sortIcon field="login" />
-        </th>
-        <th pSortableColumn="role">
-          Role <p-sortIcon field="role" />
-        </th>
+        <th pSortableColumn="name">Jméno <p-sortIcon field="name" /></th>
+        <th pSortableColumn="email">E-mail <p-sortIcon field="email" /></th>
+        <th pSortableColumn="login">Login <p-sortIcon field="login" /></th>
+        <th pSortableColumn="role">Role <p-sortIcon field="role" /></th>
         <th pSortableColumn="lastLogin">
           Poslední přihlášení <p-sortIcon field="lastLogin" />
         </th>
@@ -35,25 +27,16 @@
       <tr>
         <th>
           <!-- Name -->
-          <p-columnFilter type="text"
-            field="name"
-            matchMode="contains"
-           />
+          <p-columnFilter type="text" field="name" matchMode="contains" />
         </th>
         <th>
           <!-- E-mail -->
-          <p-columnFilter type="text"
-            field="email"
-            matchMode="contains"
-           />
+          <p-columnFilter type="text" field="email" matchMode="contains" />
         </th>
 
         <th>
           <!-- Login -->
-          <p-columnFilter type="text"
-            field="login"
-            matchMode="contains"
-           />
+          <p-columnFilter type="text" field="login" matchMode="contains" />
         </th>
         <th>
           <!-- Role -->
@@ -83,10 +66,7 @@
         </th>
         <th>
           <!-- Poslední přihlášení -->
-          <p-columnFilter type="text"
-            field="lastLogin"
-            matchMode="contains"
-           />
+          <p-columnFilter type="text" field="lastLogin" matchMode="contains" />
         </th>
         <th>
           <!-- Akce -->
@@ -136,9 +116,7 @@
 </ng-template>
 
 <ng-template #changePasswordModal>
-  <user-set-password-modal [user]="currentUser"
-    (close)="closeModal($event)"
-   />
+  <user-set-password-modal [user]="currentUser" (close)="closeModal($event)" />
 </ng-template>
 
 <ng-template #deleteUserModal>
@@ -160,7 +138,9 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="closeModal(false)">Zrušit</button>
+    <button class="btn btn-secondary" (click)="closeModal(false)">
+      Zrušit
+    </button>
     <button
       class="btn btn-danger"
       (click)="deleteUser(currentUser.id); closeModal(false)"

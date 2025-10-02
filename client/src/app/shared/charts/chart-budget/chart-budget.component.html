@@ -2,13 +2,13 @@
   style="width: 100%; max-height: 100px"
   viewBox="0 0 100 150"
   (click)="$event.stopPropagation()"
-  >
+>
   <!-- Expenditures -->
-  @if (type == 'expenditure') {
+  @if (type == "expenditure") {
     <g
       (click)="click.emit('exp'); $event.stopPropagation()"
       style="cursor: pointer"
-      >
+    >
       <rect
         x="25"
         [attr.y]="getYOffset(data.budgetExpenditureAmount)"
@@ -17,7 +17,7 @@
         width="50"
         [attr.height]="getHeight(data.budgetExpenditureAmount)"
         style="fill: #ff9491"
-        />
+      />
       <rect
         x="25"
         [attr.y]="getYOffset(data.expenditureAmount)"
@@ -26,16 +26,16 @@
         width="50"
         [attr.height]="getHeight(data.expenditureAmount)"
         style="fill: #e73431"
-        />
+      />
     </g>
   }
 
   <!-- Income -->
-  @if (type == 'income') {
+  @if (type == "income") {
     <g
       (click)="click.emit('inc'); $event.stopPropagation()"
       style="cursor: pointer"
-      >
+    >
       <rect
         x="25"
         [attr.y]="getYOffset(data.budgetIncomeAmount)"
@@ -44,7 +44,7 @@
         width="50"
         [attr.height]="getHeight(data.budgetIncomeAmount)"
         style="fill: #adf"
-        />
+      />
       <rect
         x="25"
         [attr.y]="getYOffset(data.incomeAmount)"
@@ -53,7 +53,7 @@
         width="50"
         [attr.height]="getHeight(data.incomeAmount)"
         style="fill: #2581c4"
-        />
+      />
     </g>
   }
 </svg>

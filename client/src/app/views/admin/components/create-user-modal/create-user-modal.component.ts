@@ -7,13 +7,10 @@ import { debounceTime } from "rxjs/operators";
 import { AsyncPipe } from "@angular/common";
 
 @Component({
-    selector: "create-user-modal",
-    templateUrl: "./create-user-modal.component.html",
-    styleUrls: ["./create-user-modal.component.scss"],
-    imports: [
-        FormsModule,
-        AsyncPipe
-    ]
+  selector: "create-user-modal",
+  templateUrl: "./create-user-modal.component.html",
+  styleUrls: ["./create-user-modal.component.scss"],
+  imports: [FormsModule, AsyncPipe],
 })
 export class CreateUserModalComponent implements OnInit {
   private adminService = inject(AdminService);

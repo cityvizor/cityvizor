@@ -21,7 +21,7 @@ export class CodelistService {
 
   async getCurrentCodelist(
     codelistName: string,
-    date: Date | DateTime
+    date: Date | DateTime,
   ): Promise<Codelist> {
     const codelist = await this.getCodelist(codelistName);
     if (!codelist) return [];
@@ -32,26 +32,26 @@ export class CodelistService {
     return codelist.filter(
       row =>
         (!row.validFromDate || row.validFromDate <= date) &&
-        (!row.validTillDate || row.validTillDate >= date)
+        (!row.validTillDate || row.validTillDate >= date),
     );
   }
 
   async getCurrentIndex(
     codelistName: string,
-    date: Date | DateTime
+    date: Date | DateTime,
   ): Promise<{ [id: string]: string }> {
     return this.getCurrentCodelist(codelistName, date).then(codelist =>
       codelist.reduce(
         (acc, cur) => ((acc[cur.id] = cur.name), acc),
-        {} as { [id: string]: string }
-      )
+        {} as { [id: string]: string },
+      ),
     );
   }
 
   async getCurrentItem(
     codelistName: string,
     id: string,
-    date: Date | DateTime
+    date: Date | DateTime,
   ): Promise<CodelistRow | null | undefined> {
     const codelist = await this.getCodelist(codelistName);
 
@@ -64,7 +64,7 @@ export class CodelistService {
       row =>
         row.id === id &&
         (!row.validFromDate || row.validFromDate <= date) &&
-        (!row.validTillDate || row.validTillDate >= date)
+        (!row.validTillDate || row.validTillDate >= date),
     );
 
     return item || null;
@@ -73,7 +73,7 @@ export class CodelistService {
   async getCurrentName(
     codelistName: string,
     id: string,
-    date: Date | DateTime
+    date: Date | DateTime,
   ): Promise<string> {
     const row = await this.getCurrentItem(codelistName, id, date);
     return row ? row.name : "???";

@@ -5,10 +5,10 @@ import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "delete-year-modal",
-    templateUrl: "./delete-year-modal.component.html",
-    styleUrls: ["./delete-year-modal.component.scss"],
-    imports: [FormsModule, TranslatePipe]
+  selector: "delete-year-modal",
+  templateUrl: "./delete-year-modal.component.html",
+  styleUrls: ["./delete-year-modal.component.scss"],
+  imports: [FormsModule, TranslatePipe],
 })
 export class DeleteYearModalComponent {
   private adminService = inject(AdminService);

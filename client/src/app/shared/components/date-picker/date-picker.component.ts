@@ -5,20 +5,24 @@ import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema";
 
-import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "date-picker",
-    templateUrl: "date-picker.component.html",
-    styleUrls: ["date-picker.component.scss"],
-    imports: [
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        RouterLink,
-        TranslatePipe
-    ]
+  selector: "date-picker",
+  templateUrl: "date-picker.component.html",
+  styleUrls: ["date-picker.component.scss"],
+  imports: [
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    RouterLink,
+    TranslatePipe,
+  ],
 })
 export class DatePickerComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -64,7 +68,7 @@ export class DatePickerComponent implements OnInit {
           ? Number(params["mesic"])
           : undefined;
         await this.updateDates(profile.id);
-      }
+      },
     );
   }
 

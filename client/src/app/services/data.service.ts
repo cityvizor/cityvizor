@@ -88,7 +88,7 @@ export class DataService {
           "/accounting/" +
           year +
           "/groups/" +
-          field
+          field,
       )
       .toPromise();
   }
@@ -96,7 +96,7 @@ export class DataService {
     profileId: number,
     year: number,
     field: string,
-    groupId: string
+    groupId: string,
   ) {
     return this.http
       .get<
@@ -115,7 +115,7 @@ export class DataService {
           "/accounting/" +
           year +
           "/payments",
-        { params: options }
+        { params: options },
       )
       .toPromise();
   }
@@ -124,7 +124,7 @@ export class DataService {
   getProfilePlansGroups(profileId: number, year: number, group: string) {
     return this.http
       .get<any>(
-        `${this.root}/profiles/${profileId}/plans/${year}/groups/${group}`
+        `${this.root}/profiles/${profileId}/plans/${year}/groups/${group}`,
       )
       .toPromise();
   }
@@ -132,7 +132,7 @@ export class DataService {
   getProfilePlansDetails(profileId: number, year: number, field: string) {
     return this.http
       .get<any>(
-        `${this.root}/profiles/${profileId}/plans/${year}/groups/${field}/details`
+        `${this.root}/profiles/${profileId}/plans/${year}/groups/${field}/details`,
       )
       .toPromise();
   }
@@ -147,7 +147,7 @@ export class DataService {
   getProfileAa(profileId: number, year: number, aa: number, sa: number) {
     return this.http
       .get<BudgetEvent>(
-        `${this.root}/profiles/${profileId}/aa/${aa}/sa/${sa}/year/${year}`
+        `${this.root}/profiles/${profileId}/aa/${aa}/sa/${sa}/year/${year}`,
       )
       .toPromise();
   }
@@ -168,7 +168,7 @@ export class DataService {
   }
   getProfileBudgets(
     profileId: number,
-    options?: { limit?: number; sumMode?: ProfileSumMode }
+    options?: { limit?: number; sumMode?: ProfileSumMode },
   ) {
     return this.http
       .get<
@@ -181,7 +181,7 @@ export class DataService {
   getProfileContracts(profileId: number, options?) {
     return this.http
       .get<any>(
-        this.root + "/profiles/" + profileId + "/contracts" + toParams(options)
+        this.root + "/profiles/" + profileId + "/contracts" + toParams(options),
       )
       .toPromise();
   }
@@ -203,7 +203,13 @@ export class DataService {
   getProfileEvent(profileId: number, eventId: number, year: number) {
     return this.http
       .get<BudgetEvent>(
-        this.root + "/profiles/" + profileId + "/events/" + year + "/" + eventId
+        this.root +
+          "/profiles/" +
+          profileId +
+          "/events/" +
+          year +
+          "/" +
+          eventId,
       )
       .toPromise();
   }
@@ -219,7 +225,7 @@ export class DataService {
   getProfilePayments(profileId: number, options?) {
     return this.http
       .get<any>(
-        this.root + "/profiles/" + profileId + "/payments" + toParams(options)
+        this.root + "/profiles/" + profileId + "/payments" + toParams(options),
       )
       .toPromise();
   }

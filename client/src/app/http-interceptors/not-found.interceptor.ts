@@ -1,4 +1,15 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse, HttpHeaderResponse, HttpProgressEvent, HttpSentEvent, HttpUserEvent } from "@angular/common/http";
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpResponse,
+  HttpErrorResponse,
+  HttpHeaderResponse,
+  HttpProgressEvent,
+  HttpSentEvent,
+  HttpUserEvent,
+} from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { EMPTY, Observable, throwError } from "rxjs";
@@ -8,10 +19,9 @@ import { catchError } from "rxjs/operators";
 export class NotFoundInterceptor implements HttpInterceptor {
   private router = inject(Router);
 
-
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<
     | HttpSentEvent
     | HttpHeaderResponse
@@ -27,7 +37,7 @@ export class NotFoundInterceptor implements HttpInterceptor {
         } else {
           return throwError(error);
         }
-      })
+      }),
     );
   }
 }

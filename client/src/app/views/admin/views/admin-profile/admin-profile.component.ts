@@ -1,5 +1,10 @@
 import { Component, OnInit, inject } from "@angular/core";
-import { ActivatedRoute, RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
+import {
+  ActivatedRoute,
+  RouterLinkActive,
+  RouterLink,
+  RouterOutlet,
+} from "@angular/router";
 
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
@@ -11,15 +16,10 @@ import { AdminService } from "app/services/admin.service";
 import { AsyncPipe } from "@angular/common";
 
 @Component({
-    selector: "admin-profile",
-    templateUrl: "./admin-profile.component.html",
-    styleUrls: ["./admin-profile.component.scss"],
-    imports: [
-        RouterLinkActive,
-        RouterLink,
-        RouterOutlet,
-        AsyncPipe,
-    ]
+  selector: "admin-profile",
+  templateUrl: "./admin-profile.component.html",
+  styleUrls: ["./admin-profile.component.scss"],
+  imports: [RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe],
 })
 export class AdminProfileComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -32,7 +32,7 @@ export class AdminProfileComponent implements OnInit {
     this.route.params
       .pipe(
         map(params => Number(params["profile"])),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(profileId => {
         this.adminService.getProfile(profileId).then(profile => {

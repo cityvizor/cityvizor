@@ -8,7 +8,9 @@
 <h4>Import dat pro podprofily</h4>
 @if (profileId$ | async; as profileId) {
   <div class="well">
-    POST {{ apiRoot }}/import/profiles/{{ profileId$ | async }}/subprofile-accounting
+    POST {{ apiRoot }}/import/profiles/{{
+      profileId$ | async
+    }}/subprofile-accounting
   </div>
 }
 
@@ -16,8 +18,11 @@
 
 @if (!token) {
   @if (profileId$ | async; as profileId) {
-    <button type="button" class="btn btn-primary"
-      (click)="generateToken(profileId)">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="generateToken(profileId)"
+    >
       Vygenerovat token
     </button>
   }

@@ -9,29 +9,33 @@ import {
 } from "@angular/core";
 import { BudgetGroup, Budget } from "app/schema";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
-import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
 
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "group-select",
-    templateUrl: "./group-select.component.html",
-    styleUrls: ["./group-select.component.scss"],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => GroupSelectComponent),
-            multi: true,
-        },
-    ],
-    imports: [
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        MoneyPipe,
-        TranslatePipe
-    ]
+  selector: "group-select",
+  templateUrl: "./group-select.component.html",
+  styleUrls: ["./group-select.component.scss"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => GroupSelectComponent),
+      multi: true,
+    },
+  ],
+  imports: [
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    MoneyPipe,
+    TranslatePipe,
+  ],
 })
 export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() groups: BudgetGroup[];
@@ -72,7 +76,7 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
     if (!this.groups) return;
     this.maxAmount = this.groups.reduce(
       (acc, cur) => Math.max(acc, cur.amount, cur.budgetAmount),
-      0
+      0,
     );
   }
 }

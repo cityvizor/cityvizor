@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-    name: "abs",
-    standalone: true
+  name: "abs",
+  standalone: true,
 })
 export class AbsPipe implements PipeTransform {
   transform(value: number): number {
@@ -11,8 +11,8 @@ export class AbsPipe implements PipeTransform {
 }
 
 @Pipe({
-    name: "ico",
-    standalone: true
+  name: "ico",
+  standalone: true,
 })
 export class IcoPipe implements PipeTransform {
   transform(value: string): string {
@@ -23,8 +23,8 @@ export class IcoPipe implements PipeTransform {
  * Join array of strings by separator
  */
 @Pipe({
-    name: "concat",
-    standalone: true
+  name: "concat",
+  standalone: true,
 })
 export class ConcatPipe implements PipeTransform {
   transform(value: string[], separator: string): string {
@@ -33,8 +33,8 @@ export class ConcatPipe implements PipeTransform {
 }
 
 @Pipe({
-    name: "arraychildren",
-    standalone: true
+  name: "arraychildren",
+  standalone: true,
 })
 export class ArrayChildrenPipe implements PipeTransform {
   transform(value: Object[], propName: string): string[] {
@@ -43,8 +43,8 @@ export class ArrayChildrenPipe implements PipeTransform {
 }
 
 @Pipe({
-    name: "array",
-    standalone: true
+  name: "array",
+  standalone: true,
 })
 export class ArrayPipe implements PipeTransform {
   transform(value: any, objKeyName?: string): any[] {

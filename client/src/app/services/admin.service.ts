@@ -63,7 +63,7 @@ export class AdminService {
       .put(
         this.root + "/profiles/" + profileId + "/avatar",
         { url: avatarUrl },
-        { responseType: "text" }
+        { responseType: "text" },
       )
       .toPromise();
   }
@@ -90,7 +90,7 @@ export class AdminService {
   createProfileYear(
     profileId: Profile["id"],
     year: number,
-    data: Partial<BudgetYear>
+    data: Partial<BudgetYear>,
   ): Promise<HttpResponse<string>> {
     return this.http
       .put(this.root + "/profiles/" + profileId + "/years/" + year, data, {
@@ -102,7 +102,7 @@ export class AdminService {
   updateProfileYear(
     profileId: Profile["id"],
     year: number,
-    data: Partial<BudgetYear>
+    data: Partial<BudgetYear>,
   ): Promise<HttpResponse<string>> {
     return this.http
       .patch(this.root + "/profiles/" + profileId + "/years/" + year, data, {

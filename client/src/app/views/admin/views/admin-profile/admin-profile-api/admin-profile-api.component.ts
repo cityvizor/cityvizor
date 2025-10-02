@@ -7,10 +7,10 @@ import { environment } from "environments/environment";
 import { AsyncPipe } from "@angular/common";
 
 @Component({
-    selector: "admin-profile-api",
-    templateUrl: "./admin-profile-api.component.html",
-    styleUrls: ["./admin-profile-api.component.scss"],
-    imports: [AsyncPipe]
+  selector: "admin-profile-api",
+  templateUrl: "./admin-profile-api.component.html",
+  styleUrls: ["./admin-profile-api.component.scss"],
+  imports: [AsyncPipe],
 })
 export class AdminProfileApiComponent {
   private adminService = inject(AdminService);

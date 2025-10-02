@@ -15,16 +15,16 @@
         <td>{{ log.year }}</td>
         <td>
           @switch (log.status) {
-            @case ('pending') {
+            @case ("pending") {
               čeká ve frontě
             }
-            @case ('processing') {
+            @case ("processing") {
               probíhá
             }
-            @case ('success') {
+            @case ("success") {
               dokončen
             }
-            @case ('error') {
+            @case ("error") {
               chyba
             }
             @default {
@@ -40,16 +40,13 @@
             type="button"
             class="btn"
             (click)="hidden[log.id] = !hidden[log.id]"
-            >
+          >
             {{ !hidden[log.id] ? "Zobrazit logy" : "Schovat logy" }}
           </button>
         </td>
       </tr>
       @if (hidden[log.id]) {
-        <tr
-          bgColor="#eeeeee"
-          style="white-space: pre-wrap"
-          >
+        <tr bgColor="#eeeeee" style="white-space: pre-wrap">
           <td colspan="6">{{ log.logs }}</td>
         </tr>
       }

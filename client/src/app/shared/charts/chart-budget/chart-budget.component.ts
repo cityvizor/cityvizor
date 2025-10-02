@@ -1,10 +1,9 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
-
 @Component({
-    selector: "chart-budget",
-    templateUrl: "chart-budget.component.html",
-    imports: []
+  selector: "chart-budget",
+  templateUrl: "chart-budget.component.html",
+  imports: [],
 })
 export class ChartBudgetComponent {
   @Input() data: {
@@ -32,7 +31,7 @@ export class ChartBudgetComponent {
         this.data.expenditureAmount,
         this.data.budgetExpenditureAmount,
         this.data.incomeAmount,
-        this.data.budgetIncomeAmount
+        this.data.budgetIncomeAmount,
       );
 
     return 1000;

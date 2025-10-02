@@ -10,7 +10,11 @@ import { PrimeTemplate } from "primeng/api";
 import { SelectModule } from "primeng/select";
 import { RouterLink } from "@angular/router";
 
-import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
 import { TranslatePipe } from "@ngx-translate/core";
 
 interface ProfileWithParentName extends Profile {
@@ -18,20 +22,20 @@ interface ProfileWithParentName extends Profile {
 }
 
 @Component({
-    selector: "admin-profile-list",
-    templateUrl: "./admin-profile-list.component.html",
-    styleUrls: ["./admin-profile-list.component.scss"],
-    imports: [
-        TableModule,
-        PrimeTemplate,
-        SelectModule,
-        FormsModule,
-        RouterLink,
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        TranslatePipe
-    ]
+  selector: "admin-profile-list",
+  templateUrl: "./admin-profile-list.component.html",
+  styleUrls: ["./admin-profile-list.component.scss"],
+  imports: [
+    TableModule,
+    PrimeTemplate,
+    SelectModule,
+    FormsModule,
+    RouterLink,
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    TranslatePipe,
+  ],
 })
 export class AdminProfileListComponent implements OnInit {
   private adminService = inject(AdminService);
@@ -64,7 +68,7 @@ export class AdminProfileListComponent implements OnInit {
         acc[profile.id] = profile;
         return acc;
       },
-      {}
+      {},
     );
     this.profilesWithParentName =
       this.getProfilesWithParentNames(profilesByIds);
@@ -85,7 +89,7 @@ export class AdminProfileListComponent implements OnInit {
   }
 
   getProfilesWithParentNames(
-    profilesByIds: Record<number, Profile>
+    profilesByIds: Record<number, Profile>,
   ): ProfileWithParentName[] {
     const result: ProfileWithParentName[] = [];
 
@@ -103,7 +107,7 @@ export class AdminProfileListComponent implements OnInit {
       a.name.localeCompare(b.name, undefined, {
         numeric: true,
         sensitivity: "base",
-      })
+      }),
     );
     return result;
   }

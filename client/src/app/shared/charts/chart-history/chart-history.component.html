@@ -39,7 +39,7 @@
         <svg
           [attr.viewBox]="'0 0 ' + config.width + ' ' + config.height"
           style="width: 100%; height: auto"
-          >
+        >
           <path
             [attr.d]="chartBudgetPathString"
             stroke="#2581C4"
@@ -51,13 +51,13 @@
             class="point"
             cx="0"
             cy="0"
-          [style.transform]="
-            'translate(' +
-            chartPoints.budgetAmount[hoverYear][0] +
-            'px, ' +
-            chartPoints.budgetAmount[hoverYear][1] +
-            'px)'
-          "
+            [style.transform]="
+              'translate(' +
+              chartPoints.budgetAmount[hoverYear][0] +
+              'px, ' +
+              chartPoints.budgetAmount[hoverYear][1] +
+              'px)'
+            "
             r="4"
             fill="#2581C4"
           ></circle>
@@ -72,13 +72,13 @@
             class="point"
             cx="0"
             cy="0"
-          [style.transform]="
-            'translate(' +
-            chartPoints.amount[hoverYear][0] +
-            'px, ' +
-            chartPoints.amount[hoverYear][1] +
-            'px)'
-          "
+            [style.transform]="
+              'translate(' +
+              chartPoints.amount[hoverYear][0] +
+              'px, ' +
+              chartPoints.amount[hoverYear][1] +
+              'px)'
+            "
             r="4"
             fill="#E73431"
           ></circle>
@@ -90,7 +90,7 @@
                 text-anchor="middle"
                 fill="#777"
                 style="font-size: 75%"
-                >
+              >
                 {{ bar.year }}
               </text>
               @if (bar.amount > 0 && bar.budgetAmount > 0) {

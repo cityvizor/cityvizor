@@ -2,17 +2,13 @@
   <li><a routerLink="profily" routerLinkActive="active">Profily</a></li>
   <li>
     @if (this.authService.userHasRole(this.authService.ROLE_FULL_ADMIN)) {
-      <a
-        routerLink="spravci"
-        routerLinkActive="active"
-        >Správci</a
-        >
-      }
-    </li>
-  </header-menu>
+      <a routerLink="spravci" routerLinkActive="active">Správci</a>
+    }
+  </li>
+</header-menu>
 
-  <div id="entity">
-    <div id="content">
-      <router-outlet />
-    </div>
+<div id="entity">
+  <div id="content">
+    <router-outlet />
   </div>
+</div>

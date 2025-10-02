@@ -7,13 +7,10 @@ import { DatePipe } from "@angular/common";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
-    selector: "app-counterparty-payments",
-    templateUrl: "./counterparty-payments.component.html",
-    styleUrls: ["./counterparty-payments.component.scss"],
-    imports: [
-        DatePipe,
-        MoneyPipe
-    ]
+  selector: "app-counterparty-payments",
+  templateUrl: "./counterparty-payments.component.html",
+  styleUrls: ["./counterparty-payments.component.scss"],
+  imports: [DatePipe, MoneyPipe],
 })
 export class CounterpartyPaymentsComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
@@ -28,7 +25,7 @@ export class CounterpartyPaymentsComponent implements OnInit, OnDestroy {
       (params: Params) => {
         // we dont use component somewhere else
         this.loadPayments(params.counterparty);
-      }
+      },
     );
   }
 

@@ -12,20 +12,16 @@ import { ConfigService } from "config/config";
 import { default as packageConfig } from "../../package.json";
 import { TranslateService } from "@ngx-translate/core";
 
-
 @Component({
-    selector: "cityvizor-app",
-    templateUrl: "app.component.html",
-    styleUrls: ["app.component.scss"],
-    animations: [
-        trigger("toastsFadeOut", [
-            transition(":leave", animate(250, style({ opacity: 0 }))), // * => void
-        ]),
-    ],
-    imports: [
-        RouterOutlet,
-        RouterLink
-    ]
+  selector: "cityvizor-app",
+  templateUrl: "app.component.html",
+  styleUrls: ["app.component.scss"],
+  animations: [
+    trigger("toastsFadeOut", [
+      transition(":leave", animate(250, style({ opacity: 0 }))), // * => void
+    ]),
+  ],
+  imports: [RouterOutlet, RouterLink],
 })
 export class AppComponent implements OnInit {
   private toastService = inject(ToastService);

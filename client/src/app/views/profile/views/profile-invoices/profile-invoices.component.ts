@@ -12,16 +12,10 @@ import { IcoPipe } from "../../../../shared/pipes/utils.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "profile-invoices",
-    templateUrl: "profile-invoices.component.html",
-    styleUrls: ["profile-invoices.component.scss"],
-    imports: [
-        DatePickerComponent,
-        DatePipe,
-        MoneyPipe,
-        IcoPipe,
-        TranslatePipe
-    ]
+  selector: "profile-invoices",
+  templateUrl: "profile-invoices.component.html",
+  styleUrls: ["profile-invoices.component.scss"],
+  imports: [DatePickerComponent, DatePipe, MoneyPipe, IcoPipe, TranslatePipe],
 })
 export class ProfileInvoicesComponent implements OnInit {
   private dataService = inject(DataService);
@@ -69,7 +63,7 @@ export class ProfileInvoicesComponent implements OnInit {
     this.loading = true;
     this.invoices = await this.dataService.getProfilePayments(
       profileId,
-      params
+      params,
     );
     this.loading = false;
   }

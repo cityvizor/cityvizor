@@ -6,17 +6,21 @@ import { Profile, BudgetYear, ProfileType } from "app/schema";
 import { Observable } from "rxjs";
 import { AdminService } from "app/services/admin.service";
 import { AsyncPipe, DatePipe } from "@angular/common";
-import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
 import { DataUploadModalComponent } from "../../../components/data-upload-modal/data-upload-modal.component";
 import { AddModifyYearModalComponent } from "../../../components/add-modify-year-modal/add-modify-year-modal.component";
 import { DeleteYearModalComponent } from "../../../components/delete-year-modal/delete-year-modal.component";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "admin-profile-data",
-    templateUrl: "./admin-profile-data.component.html",
-    styleUrls: ["./admin-profile-data.component.scss"],
-    imports: [
+  selector: "admin-profile-data",
+  templateUrl: "./admin-profile-data.component.html",
+  styleUrls: ["./admin-profile-data.component.scss"],
+  imports: [
     BsDropdownDirective,
     BsDropdownToggleDirective,
     BsDropdownMenuDirective,
@@ -25,8 +29,8 @@ import { TranslatePipe } from "@ngx-translate/core";
     DeleteYearModalComponent,
     AsyncPipe,
     DatePipe,
-    TranslatePipe
-]
+    TranslatePipe,
+  ],
 })
 export class AdminProfileDataComponent implements OnInit {
   private profileService = inject(ProfileService);
@@ -53,7 +57,7 @@ export class AdminProfileDataComponent implements OnInit {
     this.profile$
       .pipe(
         map(profile => profile),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(profile => {
         this.profileId = profile.id;

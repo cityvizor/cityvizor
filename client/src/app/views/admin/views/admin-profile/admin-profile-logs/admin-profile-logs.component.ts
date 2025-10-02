@@ -8,12 +8,10 @@ import { Import } from "app/schema/import";
 import { DatePipe } from "@angular/common";
 
 @Component({
-    selector: "admin-profile-logs",
-    templateUrl: "./admin-profile-logs.component.html",
-    styleUrls: ["./admin-profile-logs.component.scss"],
-    imports: [
-        DatePipe
-    ]
+  selector: "admin-profile-logs",
+  templateUrl: "./admin-profile-logs.component.html",
+  styleUrls: ["./admin-profile-logs.component.scss"],
+  imports: [DatePipe],
 })
 export class AdminProfileLogsComponent implements OnInit {
   private profileService = inject(ProfileService);
@@ -26,7 +24,7 @@ export class AdminProfileLogsComponent implements OnInit {
 
   ngOnInit() {
     this.profileId$ = this.profileService.profile.pipe(
-      map(profile => profile.id)
+      map(profile => profile.id),
     );
 
     this.profileId$.subscribe(profileId => {

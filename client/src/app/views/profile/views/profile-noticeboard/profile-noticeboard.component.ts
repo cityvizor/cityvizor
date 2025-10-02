@@ -7,12 +7,10 @@ import { Noticeboard } from "app/schema/noticeboard";
 import { DatePipe } from "@angular/common";
 
 @Component({
-    selector: "profile-noticeboard",
-    templateUrl: "profile-noticeboard.component.html",
-    styleUrls: ["profile-noticeboard.component.scss"],
-    imports: [
-        DatePipe
-    ]
+  selector: "profile-noticeboard",
+  templateUrl: "profile-noticeboard.component.html",
+  styleUrls: ["profile-noticeboard.component.scss"],
+  imports: [DatePipe],
 })
 export class ProfileNoticeboardComponent implements OnInit {
   private profileService = inject(ProfileService);

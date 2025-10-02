@@ -9,7 +9,6 @@ export class TitleService {
   private title = inject(Title);
   private configService = inject(ConfigService);
 
-
   setTitle(title: string | null) {
     if (title)
       this.title.setTitle(title + " :: " + this.configService.config.title);

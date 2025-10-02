@@ -1,5 +1,11 @@
 import { Component, OnInit, OnDestroy, inject } from "@angular/core";
-import { ActivatedRoute, Params, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
+import {
+  ActivatedRoute,
+  Params,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from "@angular/router";
 import { Subscription, Observable } from "rxjs";
 
 import { DataService } from "app/services/data.service";
@@ -12,17 +18,17 @@ import { HeaderMenuComponent } from "../../shared/components/header-menu/header-
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "profile",
-    templateUrl: "profile.component.html",
-    styleUrls: ["profile.component.scss"],
-    imports: [
-        HeaderMenuComponent,
-        RouterLink,
-        RouterLinkActive,
-        RouterOutlet,
-        AsyncPipe,
-        TranslatePipe
-    ]
+  selector: "profile",
+  templateUrl: "profile.component.html",
+  styleUrls: ["profile.component.scss"],
+  imports: [
+    HeaderMenuComponent,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);

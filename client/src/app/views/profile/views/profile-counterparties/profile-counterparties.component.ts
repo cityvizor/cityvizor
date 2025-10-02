@@ -12,13 +12,10 @@ import { DatePickerComponent } from "../../../../shared/components/date-picker/d
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
-    selector: "profile-counterparties",
-    templateUrl: "profile-counterparties.component.html",
-    styleUrls: ["profile-counterparties.component.scss"],
-    imports: [
-        DatePickerComponent,
-        MoneyPipe
-    ]
+  selector: "profile-counterparties",
+  templateUrl: "profile-counterparties.component.html",
+  styleUrls: ["profile-counterparties.component.scss"],
+  imports: [DatePickerComponent, MoneyPipe],
 })
 export class ProfileCounterpartiesComponent implements OnInit {
   private profileService = inject(ProfileService);

@@ -17,10 +17,7 @@
       <tr>
         <th>
           <!-- Name -->
-          <p-columnFilter type="text"
-            field="name"
-            matchMode="contains"
-           />
+          <p-columnFilter type="text" field="name" matchMode="contains" />
         </th>
         <th>
           <!-- Type -->
@@ -29,18 +26,18 @@
             matchMode="equals"
             display="row"
             [showMenu]="false"
-            >
+          >
             <ng-template
               pTemplate="filter"
               let-value
               let-filter="filterCallback"
-              >
+            >
               <p-select
                 [ngModel]="value"
                 [options]="profileTypes"
                 (onChange)="filter($event.value)"
                 placeholder="Všechny"
-                >
+              >
                 <ng-template let-option pTemplate="item">
                   <div>{{ option.label }}</div>
                 </ng-template>
@@ -64,129 +61,122 @@
           <a class="mr-1" style="font-weight: 500">
             {{ profile.name }}
           </a>
-          @if (profile.status === 'hidden') {
-            <span class="label label-warning"
-              >skrytý</span
-              >
+          @if (profile.status === "hidden") {
+            <span class="label label-warning">skrytý</span>
+          }
+          @if (profile.status === "pending") {
+            <span class="label label-default">připravovaný</span>
+          }
+          @if (
+            (profile.status === "visible" || profile.status === "pending") &&
+            profile.parent == null &&
+            profile.sectionId == null
+          ) {
+            <span class="label label-danger">nezobrazený</span>
+          }
+        </td>
+        <td [routerLink]="'../../' + profile.id">
+          @switch (profile.type) {
+            @case ("municipality") {
+              <span>Municipalita</span>
             }
-            @if (profile.status === 'pending') {
-              <span class="label label-default"
-                >připravovaný</span
-                >
-              }
-              @if (
-                (profile.status === 'visible' || profile.status === 'pending') &&
-                profile.parent == null &&
-                profile.sectionId == null
-                ) {
-                <span
-                  class="label label-danger"
-                  >nezobrazený</span
-                  >
-                }
-              </td>
-              <td [routerLink]="'../../' + profile.id">
-                @switch (profile.type) {
-                  @case ('municipality') {
-                    <span>Municipalita</span>
-                  }
-                  @case ('pbo') {
-                    <span>Příspěvkovka</span>
-                  }
-                  @case ('external') {
-                    <span>Externí profil</span>
-                  }
-                  @case ('empty') {
-                    <span>Bez rozpočtu</span>
-                  }
-                }
-              </td>
-              <td [routerLink]="'/' + profile.url" class="btn btn-secondary">
-                <a>Navštívit profil</a>
-              </td>
-              <td (click)="$event.stopImmediatePropagation()">
-                <div class="btn-group pull-right text-nowrap" dropdown>
-                  <a dropdownToggle>Akce <span class="caret"></span></a>
-                  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
-                    <li>
-                      <a
-                        class="dropdown-item"
+            @case ("pbo") {
+              <span>Příspěvkovka</span>
+            }
+            @case ("external") {
+              <span>Externí profil</span>
+            }
+            @case ("empty") {
+              <span>Bez rozpočtu</span>
+            }
+          }
+        </td>
+        <td [routerLink]="'/' + profile.url" class="btn btn-secondary">
+          <a>Navštívit profil</a>
+        </td>
+        <td (click)="$event.stopImmediatePropagation()">
+          <div class="btn-group pull-right text-nowrap" dropdown>
+            <a dropdownToggle>Akce <span class="caret"></span></a>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
+              <li>
+                <a
+                  class="dropdown-item"
                   (click)="
                     currentProfile = profile; openModal(deleteProfileModal)
                   "
-                        ><span class="text-danger">{{
-                        "common.delete" | translate
-                      }}</span></a
-                      >
-                    </li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+                  ><span class="text-danger">{{
+                    "common.delete" | translate
+                  }}</span></a
+                >
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<ng-template #createProfileModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Vytvořit nový profil</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form
+    #createProfileForm="ngForm"
+    (ngSubmit)="createProfile(createProfileForm); closeModal()"
+  >
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Název</label>
+        <input type="text" name="name" class="form-control" ngModel required />
       </div>
+      <div class="form-group">
+        <label>Adresa</label>
+        <input type="text" name="url" class="form-control" ngModel required />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!createProfileForm.valid"
+      >
+        Vytvořit
+      </button>
+    </div>
+  </form>
+</ng-template>
 
-      <ng-template #createProfileModal>
-        <div class="modal-header">
-          <h4 class="modal-title pull-left">Vytvořit nový profil</h4>
-          <button
-            type="button"
-            class="close pull-right"
-            aria-label="Close"
-            (click)="modalRef.hide()"
-            >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form
-          #createProfileForm="ngForm"
-          (ngSubmit)="createProfile(createProfileForm); closeModal()"
-          >
-          <div class="modal-body">
-            <div class="form-group">
-              <label>Název</label>
-              <input type="text" name="name" class="form-control" ngModel required />
-            </div>
-            <div class="form-group">
-              <label>Adresa</label>
-              <input type="text" name="url" class="form-control" ngModel required />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              [disabled]="!createProfileForm.valid"
-              >
-              Vytvořit
-            </button>
-          </div>
-        </form>
-      </ng-template>
-
-      <ng-template #deleteProfileModal>
-        <div class="modal-header">
-          <h4 class="modal-title pull-left">Smazat profil</h4>
-          <button
-            type="button"
-            class="close pull-right"
-            aria-label="Close"
-            (click)="modalRef.hide()"
-            >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Opravdu chcete smazat profil {{ currentProfile.name }}?</p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" (click)="closeModal()">Zrušit</button>
-          <button
-            class="btn btn-danger"
-            (click)="deleteProfile(currentProfile.id); closeModal()"
-            >
-            {{ "common.delete" | translate }}
-          </button>
-        </div>
-      </ng-template>
+<ng-template #deleteProfileModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Smazat profil</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Opravdu chcete smazat profil {{ currentProfile.name }}?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="closeModal()">Zrušit</button>
+    <button
+      class="btn btn-danger"
+      (click)="deleteProfile(currentProfile.id); closeModal()"
+    >
+      {{ "common.delete" | translate }}
+    </button>
+  </div>
+</ng-template>

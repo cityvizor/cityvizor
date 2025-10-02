@@ -11,13 +11,10 @@ import { DatePipe } from "@angular/common";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
-    selector: "profile-contracts",
-    templateUrl: "profile-contracts.component.html",
-    styleUrls: ["profile-contracts.component.scss"],
-    imports: [
-        DatePipe,
-        MoneyPipe
-    ]
+  selector: "profile-contracts",
+  templateUrl: "profile-contracts.component.html",
+  styleUrls: ["profile-contracts.component.scss"],
+  imports: [DatePipe, MoneyPipe],
 })
 export class ProfileContractsComponent implements OnInit {
   private profileService = inject(ProfileService);
@@ -60,7 +57,7 @@ export class ProfileContractsComponent implements OnInit {
       return new Date(
         Number(matches[3]),
         Number(matches[2]) - 1,
-        Number(matches[1])
+        Number(matches[1]),
       );
     else return undefined;
   }

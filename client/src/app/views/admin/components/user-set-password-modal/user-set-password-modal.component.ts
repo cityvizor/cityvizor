@@ -4,12 +4,11 @@ import { NgForm, FormsModule } from "@angular/forms";
 import { ToastService } from "app/services/toast.service";
 import { AdminService } from "app/services/admin.service";
 
-
 @Component({
-    selector: "user-set-password-modal",
-    templateUrl: "./user-set-password-modal.component.html",
-    styleUrls: ["./user-set-password-modal.component.scss"],
-    imports: [FormsModule]
+  selector: "user-set-password-modal",
+  templateUrl: "./user-set-password-modal.component.html",
+  styleUrls: ["./user-set-password-modal.component.scss"],
+  imports: [FormsModule],
 })
 export class UserSetPasswordModalComponent {
   private adminService = inject(AdminService);

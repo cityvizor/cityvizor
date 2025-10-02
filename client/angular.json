@@ -18,13 +18,8 @@
             },
             "index": "src/index.html",
             "tsConfig": "tsconfig.json",
-            "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
-            ],
-            "assets": [
-              "src/assets"
-            ],
+            "polyfills": ["zone.js", "@angular/localize/init"],
+            "assets": ["src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeicons/primeicons.css",
@@ -32,9 +27,7 @@
               "src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/styles"
-              ]
+              "includePaths": ["src/styles"]
             },
             "scripts": [],
             "browser": "src/main.ts"
@@ -94,10 +87,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -135,9 +125,7 @@
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ],
+    "schematicCollections": ["@angular-eslint/schematics"],
     "analytics": false
   }
 }

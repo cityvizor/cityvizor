@@ -10,20 +10,18 @@ import { ToastService } from "app/services/toast.service";
 import { DataService } from "app/services/data.service";
 import { PboCategory } from "app/schema/pbo-category";
 import { Section } from "app/schema/section";
-import { ProgressSpinnerModule, ProgressSpinner } from "primeng/progressspinner";
+import {
+  ProgressSpinnerModule,
+  ProgressSpinner,
+} from "primeng/progressspinner";
 
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "admin-profile-settings",
-    templateUrl: "./admin-profile-settings.component.html",
-    styleUrls: ["./admin-profile-settings.component.scss"],
-    imports: [
-        FormsModule,
-        RouterLink,
-        ProgressSpinner,
-        TranslatePipe
-    ]
+  selector: "admin-profile-settings",
+  templateUrl: "./admin-profile-settings.component.html",
+  styleUrls: ["./admin-profile-settings.component.scss"],
+  imports: [FormsModule, RouterLink, ProgressSpinner, TranslatePipe],
 })
 export class AdminProfileSettingsComponent implements OnInit {
   private profileService = inject(ProfileService);
@@ -59,7 +57,7 @@ export class AdminProfileSettingsComponent implements OnInit {
 
   initializeProfileParentMap() {
     const idParentPairs = this.profiles.map(
-      profile => [profile.id, profile.parent] as [number, number | null]
+      profile => [profile.id, profile.parent] as [number, number | null],
     );
     this.profileIdParentIdMap = new Map(idParentPairs);
   }
@@ -108,7 +106,7 @@ export class AdminProfileSettingsComponent implements OnInit {
           (p.parent == null ||
             (this.profile.type == "pbo" &&
               this.profileIdParentIdMap[p.parent] == null)) &&
-          this.profile.id !== p.id
+          this.profile.id !== p.id,
       );
     }
   }
@@ -131,7 +129,7 @@ export class AdminProfileSettingsComponent implements OnInit {
     if (allowedTypes.indexOf(extension) == -1) {
       this.toastService.toast(
         `Nepovolený formát souboru. Povolené formáty: ${allowedTypes.join(", ")}`,
-        "notice"
+        "notice",
       );
       return;
     }

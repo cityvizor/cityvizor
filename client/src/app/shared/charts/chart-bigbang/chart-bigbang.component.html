@@ -3,7 +3,7 @@
     <g
       [style.transform]="'rotate(' + 360 * this.alpha + 'deg)'"
       class="stripes"
-      >
+    >
       @for (item of data; track item; let i = $index) {
         <g>
           <path
@@ -11,13 +11,15 @@
             class="stripe outerStripe"
             [class.selected]="item.id === selected"
             [class.zeroStripe]="item.innerAmount + item.outerAmount === 0"
-            />
+          />
           @if (item.innerAmount > 0) {
             <path
-              [attr.d]="getStripePath(i, innerR, getStripeSize(item.innerAmount))"
+              [attr.d]="
+                getStripePath(i, innerR, getStripeSize(item.innerAmount))
+              "
               class="stripe innerStripe"
               [class.selected]="item.id === selected"
-              />
+            />
           }
           <path
             [attr.d]="getStripePath(i, 0, 1)"
@@ -27,7 +29,7 @@
             (click)="selectGroup(item.id)"
             (mouseover)="setHoveredGroup(item.id)"
             (mouseout)="setHoveredGroup(null)"
-            />
+          />
         </g>
       }
     </g>
@@ -40,6 +42,6 @@
       stroke="#fff"
       (click)="selectGroup(null)"
       class="circle"
-      />
+    />
   </svg>
 </div>

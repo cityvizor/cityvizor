@@ -8,22 +8,24 @@
       <div class="bottomTransition"></div>
     </div>
 
-    <budget-select [budgets]="(budgets | async) || []"
+    <budget-select
+      [budgets]="(budgets | async) || []"
       [type]="type | async"
       [ngModel]="budget"
       (ngModelChange)="selectBudget($event?.year)"
-     />
+    />
 
     <div class="row">
       <div class="col-lg-8 offset-lg-2">
         <div class="box ratio2_1">
           <div class="content">
-            <chart-bigbang [data]="chartBigbangData"
+            <chart-bigbang
+              [data]="chartBigbangData"
               [selected]="group?.id"
               [hovered]="hoveredGroup"
               (select)="selectGroup($event)"
               (hover)="setHoveredGroup($event)"
-             />
+            />
           </div>
         </div>
       </div>
@@ -31,12 +33,13 @@
   </div>
 
   <!-- VYBER SKUPINY -->
-  <group-select [groups]="(groups | async) || []"
+  <group-select
+    [groups]="(groups | async) || []"
     [ngModel]="group"
     [hovered]="hoveredGroup"
     (hover)="hoveredGroup = $event.id"
     (ngModelChange)="selectGroup($event?.id)"
-   />
+  />
 
   @if (groupEvents.length > 0) {
     <div id="selectedGroup">
@@ -52,7 +55,7 @@
                 [class.active]="(sort | async) === 'abecedne'"
                 [class.btn-primary]="(sort | async) === 'abecedne'"
                 (click)="selectSort('abecedne')"
-                >
+              >
                 Abecedně
               </button>
               <button
@@ -61,7 +64,7 @@
                 [class.active]="(sort | async) === 'nejvetsi'"
                 [class.btn-primary]="(sort | async) === 'nejvetsi'"
                 (click)="selectSort('nejvetsi')"
-                >
+              >
                 Největší
               </button>
             </div>
@@ -74,9 +77,9 @@
             <div class="col-md-12">
               <h4>
                 {{
-                event?.name ??
-                ("profile.municipality.unclassified." + (type | async)
-                | translate)
+                  event?.name ??
+                    ("profile.municipality.unclassified." + (type | async)
+                      | translate)
                 }}
               </h4>
             </div>
@@ -88,7 +91,8 @@
                   <thead>
                     <tr>
                       <th>
-                        Druh {{ (type | async) === "exp" ? "výdajů" : "příjmů" }} v
+                        Druh
+                        {{ (type | async) === "exp" ? "výdajů" : "příjmů" }} v
                         této skupině
                       </th>
                       <th>Rozpočtová částka</th>
@@ -98,21 +102,31 @@
                   <tbody>
                     @for (item of event.items; track item) {
                       <tr
-                        [title]="item.id ? 'Rozpočtová položka #' + item.id : ''"
-                        >
+                        [title]="
+                          item.id ? 'Rozpočtová položka #' + item.id : ''
+                        "
+                      >
                         <td>
                           @if (item.name) {
-                            {{
-                            item.name
-                            }}
+                            {{ item.name }}
                           }
                           @if (!item.name && item.id) {
                             Rozpočtová položka #{{ item.id }}
                           }
-                          @if (!item.name && !item.id && event.items && event.items.length > 1) {
+                          @if (
+                            !item.name &&
+                            !item.id &&
+                            event.items &&
+                            event.items.length > 1
+                          ) {
                             Ostatní výdaje
                           }
-                          @if (!item.name && !item.id && event.items && event.items.length === 1) {
+                          @if (
+                            !item.name &&
+                            !item.id &&
+                            event.items &&
+                            event.items.length === 1
+                          ) {
                             Celkové výdaje
                           }
                         </td>
@@ -154,9 +168,14 @@
                       </tr>
                       @if (event.amount <= event.budgetAmount) {
                         <tr>
-                          <td><span style="color: #ff9491">&#9632;</span> Zbývá</td>
+                          <td>
+                            <span style="color: #ff9491">&#9632;</span> Zbývá
+                          </td>
                           <td class="text-end font-number">
-                            {{ event.budgetAmount - event.amount | money: 0 : false }}
+                            {{
+                              event.budgetAmount - event.amount
+                                | money: 0 : false
+                            }}
                             Kč
                           </td>
                         </tr>
@@ -167,41 +186,45 @@
                             <span class="label label-warning font-number"
                               >Překročeno o
                               {{
-                              event.amount - event.budgetAmount | money: 0 : false
+                                event.amount - event.budgetAmount
+                                  | money: 0 : false
                               }}
                               Kč</span
-                              >
-                            </td>
-                          </tr>
-                        }
-                      </tbody>
-                    </table>
+                            >
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row">
+                @if (event?.id != null) {
+                  <div class="showMore text-center">
+                    <button
+                      class="btn btn-primary"
+                      (click)="selectEvent(event.id)"
+                    >
+                      Otevřít detail akce
+                    </button>
                   </div>
-                </div>
-                <div class="row">
-                  @if (event?.id != null) {
-                    <div class="showMore text-center">
-                      <button class="btn btn-primary" (click)="selectEvent(event.id)">
-                        Otevřít detail akce
-                      </button>
-                    </div>
-                  }
-                </div>
+                }
               </div>
             </div>
           </div>
-        }
-        @if (isMoreEvents()) {
-          <div class="showMore text-center">
-            <button class="btn btn-primary" (click)="showMoreEvents()">
-              Zobrazit dalších 20 akcí
-            </button>
-            <br /><br />
-            <button class="btn btn-secondary btn-sm" (click)="showAllEvents()">
-              Zobrazit všechny akce
-            </button>
-          </div>
-        }
-      </div>
-    }
-  </div>
+        </div>
+      }
+      @if (isMoreEvents()) {
+        <div class="showMore text-center">
+          <button class="btn btn-primary" (click)="showMoreEvents()">
+            Zobrazit dalších 20 akcí
+          </button>
+          <br /><br />
+          <button class="btn btn-secondary btn-sm" (click)="showAllEvents()">
+            Zobrazit všechny akce
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

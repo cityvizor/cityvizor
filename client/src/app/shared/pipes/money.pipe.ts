@@ -8,8 +8,8 @@ import { Pipe, PipeTransform } from "@angular/core";
  **/
 
 @Pipe({
-    name: "money",
-    standalone: true
+  name: "money",
+  standalone: true,
 })
 export class MoneyPipe implements PipeTransform {
   transform(value: number, decimal: number, autoDivide: boolean): string {

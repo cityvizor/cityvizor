@@ -16,7 +16,7 @@ export class ImportService {
     profileId: Profile["id"],
     formData: FormData,
     endpoint: string,
-    isAppend?: boolean
+    isAppend?: boolean,
   ) {
     if (isAppend) {
       return this.http
@@ -36,7 +36,7 @@ export class ImportService {
   async importAccounting(
     profileId: Profile["id"],
     formData: FormData,
-    isAppend?: boolean
+    isAppend?: boolean,
   ) {
     return this.generateRequest(profileId, formData, "accounting", isAppend);
   }
@@ -44,7 +44,7 @@ export class ImportService {
   async importPayments(
     profileId: Profile["id"],
     formData: FormData,
-    isAppend: boolean
+    isAppend: boolean,
   ) {
     return this.generateRequest(profileId, formData, "payments", isAppend);
   }
@@ -52,14 +52,14 @@ export class ImportService {
   async importEvents(
     profileId: Profile["id"],
     formData: FormData,
-    isAppend: boolean
+    isAppend: boolean,
   ) {
     return this.generateRequest(profileId, formData, "events", isAppend);
   }
   async importData(
     profileId: Profile["id"],
     formData: FormData,
-    isAppend: boolean
+    isAppend: boolean,
   ) {
     return this.generateRequest(profileId, formData, "data", isAppend);
   }
@@ -67,26 +67,26 @@ export class ImportService {
   async importExpectedPlan(
     profileId: Profile["id"],
     formData: FormData,
-    isAppend: boolean
+    isAppend: boolean,
   ) {
     return this.generateRequest(
       profileId,
       formData,
       "plans/expected",
-      isAppend
+      isAppend,
     );
   }
   async importRealPlan(
     profileId: Profile["id"],
     formData: FormData,
-    isAppend: boolean
+    isAppend: boolean,
   ) {
     return this.generateRequest(profileId, formData, "plans/real", isAppend);
   }
   async importAaNames(
     profileId: Profile["id"],
     formData: FormData,
-    isAppend: boolean
+    isAppend: boolean,
   ) {
     return this.generateRequest(profileId, formData, "aa/names", isAppend);
   }

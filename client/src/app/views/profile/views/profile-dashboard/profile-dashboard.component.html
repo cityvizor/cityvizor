@@ -1,189 +1,240 @@
 <div class="container">
   @if (isMunicipality) {
-  <div>
-    @if (!!dashboard) {
     <div>
-      <h3 class="mt-4">Přehled výdajů</h3>
-      <div class="row">
-        <div class="col-md-6 col-lg-4 text-center">
-          <chart-history name="Doprava" icon="fa-automobile" [data]="dashboard.transportation"
-            (click)="openExpenditures(22, $event)" />
-        </div>
-        <div class="col-md-6 col-lg-4 text-center">
-          <chart-history name="Školy" icon="fa-book" [data]="dashboard.schools"
-            (click)="openExpenditures(31, $event)" />
-        </div>
-        <div class="col-md-6 col-lg-4 text-center">
-          <chart-history name="Sport" icon="fa-bicycle" [data]="dashboard.sports"
-            (click)="openExpenditures(34, $event)" />
-        </div>
-        <div class="col-md-6 col-lg-4 text-center">
-          <chart-history name="Územní rozvoj" icon="fa-home" [data]="dashboard.housing"
-            (click)="openExpenditures(36, $event)" />
-        </div>
-        <div class="col-md-6 col-lg-4 text-center">
-          <chart-history name="Kultura" icon="fa-images" [data]="dashboard.culture"
-            (click)="openExpenditures(33, $event)" />
-        </div>
-        <div class="col-md-6 col-lg-4 text-center">
-          <chart-history name="Samospráva" icon="fa-institution" [data]="dashboard.government"
-            (click)="openExpenditures(61, $event)" />
-        </div>
-      </div>
-    </div>
-    }
-    <div class="row">
-      <div [ngClass]="{
-          'col-md-6': !this.onlyPayments,
-          'col-md-12': this.onlyPayments
-        }">
-        <div class="row">
-          <div class="col-12">
-            <h3 class="mt-5">Poslední faktury {{ this.onlyPayments ? "T" : "F" }}</h3>
-          </div>
-        </div>
-        <div class="bg-timeline">
-          @for (
-          payment of this.payments.slice(0, this.onlyPayments ? 10 : 5)
-          ; track
-          payment) {
-          <div [ngClass]="{ 'col-md-6': this.onlyPayments }" class="row news">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-9">
-                  <h5>
-                    {{ payment.counterpartyName || "Protistrana neuvedena" }}
-                    @if (payment.counterpartyId) {
-                    <small>
-                      <a [href]="
-                          'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
-                          (payment.counterpartyId | ico) +
-                          '&cestina=cestina&xml=1'
-                        " target="_blank" title="Zápis subjektu v ARES">[ARES]
-                      </a>
-                      @if (payment.counterpartyId) {
-                      <a [href]="
-                          'https://www.hlidacstatu.cz/hledat?Q=ico%3A' +
-                          (payment.counterpartyId | ico)
-                        " target="_blank">
-                        [Hlídač státu]</a>
-                      }
-                    </small>
-                    }
-                  </h5>
-                </div>
-                <div class="col-3 small text-end">
-                  <h5>
-                    @if (payment.date) {
-                    <small>{{
-                      payment.date | date: "d. M. y"
-                      }}</small>
-                    }
-                  </h5>
-                </div>
-              </div>
-              <div class="row vertical-align">
-                <div class="col-9">
-                  @if (payment.description) {
-                  <p class="text-muted">
-                    {{ payment.description }}
-                  </p>
-                  }
-                  @if (!payment.description) {
-                  <p class="text-muted small">
-                    (bez popisu)
-                  </p>
-                  }
-                </div>
-                <div class="col-3 text-end vertical-align-end">
-                  <p>
-                    <strong>
-                      {{
-                      payment.incomeAmount + payment.expenditureAmount
-                      | money: 0 : false
-                      }}
-                      Kč
-                      <!-- one of amounts is always zero -->
-                    </strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          }
+      @if (!!dashboard) {
+        <div>
+          <h3 class="mt-4">Přehled výdajů</h3>
           <div class="row">
-            <div class="text-center more">
-              <a routerLink="../faktury" routerLinkActive="active" class="btn btn-sm btn-red">Zobrazit další</a>
+            <div class="col-md-6 col-lg-4 text-center">
+              <chart-history
+                name="Doprava"
+                icon="fa-automobile"
+                [data]="dashboard.transportation"
+                (click)="openExpenditures(22, $event)"
+              />
+            </div>
+            <div class="col-md-6 col-lg-4 text-center">
+              <chart-history
+                name="Školy"
+                icon="fa-book"
+                [data]="dashboard.schools"
+                (click)="openExpenditures(31, $event)"
+              />
+            </div>
+            <div class="col-md-6 col-lg-4 text-center">
+              <chart-history
+                name="Sport"
+                icon="fa-bicycle"
+                [data]="dashboard.sports"
+                (click)="openExpenditures(34, $event)"
+              />
+            </div>
+            <div class="col-md-6 col-lg-4 text-center">
+              <chart-history
+                name="Územní rozvoj"
+                icon="fa-home"
+                [data]="dashboard.housing"
+                (click)="openExpenditures(36, $event)"
+              />
+            </div>
+            <div class="col-md-6 col-lg-4 text-center">
+              <chart-history
+                name="Kultura"
+                icon="fa-images"
+                [data]="dashboard.culture"
+                (click)="openExpenditures(33, $event)"
+              />
+            </div>
+            <div class="col-md-6 col-lg-4 text-center">
+              <chart-history
+                name="Samospráva"
+                icon="fa-institution"
+                [data]="dashboard.government"
+                (click)="openExpenditures(61, $event)"
+              />
             </div>
           </div>
         </div>
-      </div>
-      @if ((this.contracts?.length ?? 0) !== 0) {
-      <div class="col-md-6">
-        <div class="row">
-          <div class="col-12">
-            <h3 class="mt-5">Poslední smlouvy</h3>
-          </div>
-        </div>
-        <div class="bg-timeline">
-          @for (contract of contracts; track contract) {
-          <div class="row news">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-9">
-                  <h5>
-                    {{ contract.counterparty }}
-                    <small>
-                      <a [href]="contract.url" target="_blank" title="Výpis smlouvy v Registru smluv">
-                        [Rejstřík smluv]
-                      </a>
-                    </small>
-                  </h5>
-                </div>
-                <div class="col-3 text-end">
-                  <h5>
-                    <small>{{ contract.date | date: "d. M. y" }}</small>
-                  </h5>
-                </div>
-              </div>
-              <div class="row vertical-align">
-                <div class="col-9">
-                  @if (contract.title) {
-                  <p class="text-muted">
-                    {{ contract.title }}
-                  </p>
-                  }
-                  @if (!contract.title) {
-                  <p class="text-muted small">
-                    (bez popisu)
-                  </p>
-                  }
-                </div>
-                <div class="col-3 text-end vertical-align-end">
-                  <p>
-                    @if (contract.amount) {
-                    <strong>{{ contract.amount | money: 0 : false }}
-                      {{ contract.currency }}</strong>
-                    }
-                    @if (!contract.amount) {
-                    <strong>Neuvedeno</strong>
-                    }
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          }
-          <div clas="row">
-            <div class="text-center more">
-              <a routerLink="../registr-smluv" routerLinkActive="active" class="btn btn-sm btn-red">Zobrazit další</a>
-            </div>
-          </div>
-        </div>
-      </div>
       }
+      <div class="row">
+        <div
+          [ngClass]="{
+            'col-md-6': !this.onlyPayments,
+            'col-md-12': this.onlyPayments,
+          }"
+        >
+          <div class="row">
+            <div class="col-12">
+              <h3 class="mt-5">
+                Poslední faktury {{ this.onlyPayments ? "T" : "F" }}
+              </h3>
+            </div>
+          </div>
+          <div class="bg-timeline">
+            @for (
+              payment of this.payments.slice(0, this.onlyPayments ? 10 : 5);
+              track payment
+            ) {
+              <div
+                [ngClass]="{ 'col-md-6': this.onlyPayments }"
+                class="row news"
+              >
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-9">
+                      <h5>
+                        {{
+                          payment.counterpartyName || "Protistrana neuvedena"
+                        }}
+                        @if (payment.counterpartyId) {
+                          <small>
+                            <a
+                              [href]="
+                                'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
+                                (payment.counterpartyId | ico) +
+                                '&cestina=cestina&xml=1'
+                              "
+                              target="_blank"
+                              title="Zápis subjektu v ARES"
+                              >[ARES]
+                            </a>
+                            @if (payment.counterpartyId) {
+                              <a
+                                [href]="
+                                  'https://www.hlidacstatu.cz/hledat?Q=ico%3A' +
+                                  (payment.counterpartyId | ico)
+                                "
+                                target="_blank"
+                              >
+                                [Hlídač státu]</a
+                              >
+                            }
+                          </small>
+                        }
+                      </h5>
+                    </div>
+                    <div class="col-3 small text-end">
+                      <h5>
+                        @if (payment.date) {
+                          <small>{{ payment.date | date: "d. M. y" }}</small>
+                        }
+                      </h5>
+                    </div>
+                  </div>
+                  <div class="row vertical-align">
+                    <div class="col-9">
+                      @if (payment.description) {
+                        <p class="text-muted">
+                          {{ payment.description }}
+                        </p>
+                      }
+                      @if (!payment.description) {
+                        <p class="text-muted small">(bez popisu)</p>
+                      }
+                    </div>
+                    <div class="col-3 text-end vertical-align-end">
+                      <p>
+                        <strong>
+                          {{
+                            payment.incomeAmount + payment.expenditureAmount
+                              | money: 0 : false
+                          }}
+                          Kč
+                          <!-- one of amounts is always zero -->
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+            <div class="row">
+              <div class="text-center more">
+                <a
+                  routerLink="../faktury"
+                  routerLinkActive="active"
+                  class="btn btn-sm btn-red"
+                  >Zobrazit další</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        @if ((this.contracts?.length ?? 0) !== 0) {
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-12">
+                <h3 class="mt-5">Poslední smlouvy</h3>
+              </div>
+            </div>
+            <div class="bg-timeline">
+              @for (contract of contracts; track contract) {
+                <div class="row news">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="col-9">
+                        <h5>
+                          {{ contract.counterparty }}
+                          <small>
+                            <a
+                              [href]="contract.url"
+                              target="_blank"
+                              title="Výpis smlouvy v Registru smluv"
+                            >
+                              [Rejstřík smluv]
+                            </a>
+                          </small>
+                        </h5>
+                      </div>
+                      <div class="col-3 text-end">
+                        <h5>
+                          <small>{{ contract.date | date: "d. M. y" }}</small>
+                        </h5>
+                      </div>
+                    </div>
+                    <div class="row vertical-align">
+                      <div class="col-9">
+                        @if (contract.title) {
+                          <p class="text-muted">
+                            {{ contract.title }}
+                          </p>
+                        }
+                        @if (!contract.title) {
+                          <p class="text-muted small">(bez popisu)</p>
+                        }
+                      </div>
+                      <div class="col-3 text-end vertical-align-end">
+                        <p>
+                          @if (contract.amount) {
+                            <strong
+                              >{{ contract.amount | money: 0 : false }}
+                              {{ contract.currency }}</strong
+                            >
+                          }
+                          @if (!contract.amount) {
+                            <strong>Neuvedeno</strong>
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+              <div clas="row">
+                <div class="text-center more">
+                  <a
+                    routerLink="../registr-smluv"
+                    routerLinkActive="active"
+                    class="btn btn-sm btn-red"
+                    >Zobrazit další</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
     </div>
-  </div>
   }
   <div class="row">
     <div class="col-12">
@@ -192,56 +243,75 @@
   </div>
   <div class="row budgets">
     @for (budget of budgets; track budget) {
-    <div class="col-12 col-sm-6 col-lg-4">
-      <div class="budget">
-        <h4>Rok {{ budget.year }}</h4>
-        <table class="table table-responsive">
-          <thead>
-            <tr>
-              <th></th>
-              <th class="text-center">
-                <chart-budget [data]="budget" [type]="'expenditure'" [max]="maxBudgetAmount"
-                  (click)="openBudget($event, budget.year)" />
-                <span class="label label-red" (click)="openBudget($event, budget.year)">
-                  {{ "profile." + profile.type + ".expenditures" | translate }}
-                </span>
-              </th>
-              <th class="text-center" (click)="openBudget($event, budget.year)">
-                <chart-budget [data]="budget" [type]="'income'" [max]="maxBudgetAmount"
-                  (click)="openBudget($event, budget.year)" />
-                <span class="label label-blue" (click)="openBudget($event, budget.year)">
-                  {{ "profile." + profile.type + ".incomes" | translate }}
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="small">
-            <tr>
-              <td class="text-strong">
-                {{ "profile." + profile.type + ".budget" | translate }}
-              </td>
-              <td class="font-number">
-                {{ budget.budgetExpenditureAmount | money: 0 : false }} Kč
-              </td>
-              <td class="font-number">
-                {{ budget.budgetIncomeAmount | money: 0 : false }} Kč
-              </td>
-            </tr>
-            <tr>
-              <td class="text-strong">
-                {{ "profile." + profile.type + ".actual" | translate }}
-              </td>
-              <td class="font-number">
-                {{ budget.expenditureAmount | money: 0 : false }} Kč
-              </td>
-              <td class="font-number">
-                {{ budget.incomeAmount | money: 0 : false }} Kč
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="budget">
+          <h4>Rok {{ budget.year }}</h4>
+          <table class="table table-responsive">
+            <thead>
+              <tr>
+                <th></th>
+                <th class="text-center">
+                  <chart-budget
+                    [data]="budget"
+                    [type]="'expenditure'"
+                    [max]="maxBudgetAmount"
+                    (click)="openBudget($event, budget.year)"
+                  />
+                  <span
+                    class="label label-red"
+                    (click)="openBudget($event, budget.year)"
+                  >
+                    {{
+                      "profile." + profile.type + ".expenditures" | translate
+                    }}
+                  </span>
+                </th>
+                <th
+                  class="text-center"
+                  (click)="openBudget($event, budget.year)"
+                >
+                  <chart-budget
+                    [data]="budget"
+                    [type]="'income'"
+                    [max]="maxBudgetAmount"
+                    (click)="openBudget($event, budget.year)"
+                  />
+                  <span
+                    class="label label-blue"
+                    (click)="openBudget($event, budget.year)"
+                  >
+                    {{ "profile." + profile.type + ".incomes" | translate }}
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="small">
+              <tr>
+                <td class="text-strong">
+                  {{ "profile." + profile.type + ".budget" | translate }}
+                </td>
+                <td class="font-number">
+                  {{ budget.budgetExpenditureAmount | money: 0 : false }} Kč
+                </td>
+                <td class="font-number">
+                  {{ budget.budgetIncomeAmount | money: 0 : false }} Kč
+                </td>
+              </tr>
+              <tr>
+                <td class="text-strong">
+                  {{ "profile." + profile.type + ".actual" | translate }}
+                </td>
+                <td class="font-number">
+                  {{ budget.expenditureAmount | money: 0 : false }} Kč
+                </td>
+                <td class="font-number">
+                  {{ budget.incomeAmount | money: 0 : false }} Kč
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     }
   </div>
 </div>

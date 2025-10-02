@@ -13,24 +13,28 @@ import { PrimeTemplate } from "primeng/api";
 import { SelectModule } from "primeng/select";
 import { RouterLink } from "@angular/router";
 
-import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "admin-profile-subprofiles",
-    templateUrl: "./admin-profile-subprofiles.component.html",
-    styleUrls: ["./admin-profile-subprofiles.component.scss"],
-    imports: [
-        TableModule,
-        PrimeTemplate,
-        SelectModule,
-        FormsModule,
-        RouterLink,
-        BsDropdownDirective,
-        BsDropdownToggleDirective,
-        BsDropdownMenuDirective,
-        TranslatePipe
-    ]
+  selector: "admin-profile-subprofiles",
+  templateUrl: "./admin-profile-subprofiles.component.html",
+  styleUrls: ["./admin-profile-subprofiles.component.scss"],
+  imports: [
+    TableModule,
+    PrimeTemplate,
+    SelectModule,
+    FormsModule,
+    RouterLink,
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    TranslatePipe,
+  ],
 })
 export class AdminProfileSubprofilesComponent implements OnInit {
   private profileService = inject(ProfileService);
@@ -53,7 +57,7 @@ export class AdminProfileSubprofilesComponent implements OnInit {
 
   async ngOnInit() {
     this.profileId$ = this.profileService.profile.pipe(
-      map(profile => profile.id)
+      map(profile => profile.id),
     );
 
     this.profileId$.subscribe(profileId => {
@@ -64,7 +68,7 @@ export class AdminProfileSubprofilesComponent implements OnInit {
   async loadSubprofiles(profileId: Number) {
     this.profileId = profileId;
     this.subprofiles = (await this.dataService.getProfiles()).filter(
-      profile => profile.parent == profileId
+      profile => profile.parent == profileId,
     );
   }
 

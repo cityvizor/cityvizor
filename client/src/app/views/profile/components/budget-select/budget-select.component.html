@@ -4,16 +4,13 @@
       dropdownToggle
       type="button"
       class="btn btn-lg btn-red dropdown-toggle"
-      >
+    >
       <strong class="dropdown-toggle__text">{{ selectedBudget?.year }}</strong>
     </button>
 
     <ul *dropdownMenu class="dropdown-menu" role="menu">
       @for (budget of budgets; track budget) {
-        <li
-          role="menuitem"
-          (click)="selectBudget(budget)"
-          >
+        <li role="menuitem" (click)="selectBudget(budget)">
           <a>
             <div class="bl-budget bl-budget-spacing">
               <div class="row bl-labels">
@@ -37,9 +34,9 @@
                 <div class="d-none d-sm-block col-sm-4">
                   <span
                     class="bl-bar bl-bar-budget"
-                  [style.width]="
-                    (getBudgetAmount(budget) / maxAmount) * 100 + '%'
-                  "
+                    [style.width]="
+                      (getBudgetAmount(budget) / maxAmount) * 100 + '%'
+                    "
                   ></span>
                 </div>
                 <div class="col-8 col-sm-5 text-end">
@@ -69,7 +66,7 @@
   <button
     type="button"
     class="btn btn-lg btn-secondary btn-label bl-btn-selected bl-budget"
-    >
+  >
     <div class="row">
       <div class="col-4 col-sm-3 text-start">
         <strong>{{ "profile.budget" | translate }}</strong>

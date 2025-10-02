@@ -2,13 +2,21 @@
 import { AppComponent } from "./app/app.component";
 
 /* Initialization */
-import { enableProdMode, importProvidersFrom, inject, provideAppInitializer } from "@angular/core";
+import {
+  enableProdMode,
+  importProvidersFrom,
+  inject,
+  provideAppInitializer,
+} from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
 
 /* HTTP Interceptors */
 import { httpInterceptorProviders } from "./app/http-interceptors";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 
 /* App Config */
 import { environment } from "environments/environment";
@@ -25,7 +33,7 @@ import { provideRouter, withInMemoryScrolling } from "@angular/router";
 import { AppRoutes } from "app/app.routes";
 
 /* TEMP */
-import { CheckCSS } from 'checkcss';
+import { CheckCSS } from "checkcss";
 
 // Settings for JWT
 export function tokenGetter(): string {
@@ -48,28 +56,36 @@ if (environment.production) {
 console.log(`Running CityVizor built for ${environment.name} environment.`);
 
 bootstrapApplication(AppComponent, {
-    providers: [
-        importProvidersFrom(BrowserModule, ModalModule.forRoot(), JwtModule.forRoot(jwtOptions), TranslateModule.forRoot({
-            fallbackLang: "cs",
-            loader: provideTranslateHttpLoader({
-                prefix: "./assets/text/",
-                suffix: ".json",
-            }),
-        })),
-        provideAppInitializer(() => {
-        const initializerFn = (configFactory)(inject(ConfigService));
-        return initializerFn();
-      }),
-        httpInterceptorProviders,
-        provideHttpClient(withInterceptorsFromDi()),
-        providePrimeNG({
-            theme: {
-                preset: Lara
-            }
+  providers: [
+    importProvidersFrom(
+      BrowserModule,
+      ModalModule.forRoot(),
+      JwtModule.forRoot(jwtOptions),
+      TranslateModule.forRoot({
+        fallbackLang: "cs",
+        loader: provideTranslateHttpLoader({
+          prefix: "./assets/text/",
+          suffix: ".json",
         }),
-        provideAnimations(),
-        provideRouter(AppRoutes, withInMemoryScrolling({ scrollPositionRestoration: "enabled" }) ),
-    ]
+      }),
+    ),
+    provideAppInitializer(() => {
+      const initializerFn = configFactory(inject(ConfigService));
+      return initializerFn();
+    }),
+    httpInterceptorProviders,
+    provideHttpClient(withInterceptorsFromDi()),
+    providePrimeNG({
+      theme: {
+        preset: Lara,
+      },
+    }),
+    provideAnimations(),
+    provideRouter(
+      AppRoutes,
+      withInMemoryScrolling({ scrollPositionRestoration: "enabled" }),
+    ),
+  ],
 });
 
 const checkcss = new CheckCSS();

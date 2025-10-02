@@ -4,12 +4,11 @@ import { Subscription } from "rxjs";
 
 import { DataService } from "app/services/data.service";
 
-
 @Component({
-    selector: "counterparty-profiles",
-    templateUrl: "counterparty-profiles.component.html",
-    styleUrls: ["counterparty-profiles.component.scss"],
-    imports: []
+  selector: "counterparty-profiles",
+  templateUrl: "counterparty-profiles.component.html",
+  styleUrls: ["counterparty-profiles.component.scss"],
+  imports: [],
 })
 export class CounterpartyProfilesComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
@@ -24,7 +23,7 @@ export class CounterpartyProfilesComponent implements OnInit, OnDestroy {
       (params: Params) => {
         // we dont use component somewhere else
         this.loadCounterpartyProfiles(params.counterparty);
-      }
+      },
     );
   }
 

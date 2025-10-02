@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef, OnDestroy, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  OnDestroy,
+  inject,
+} from "@angular/core";
 import { map, distinctUntilChanged } from "rxjs/operators";
 import { ActivatedRoute } from "@angular/router";
 import { AdminService } from "app/services/admin.service";
@@ -10,14 +16,10 @@ import { ManagedProfilesSelectorComponent } from "../../components/managed-profi
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-    selector: "admin-user",
-    templateUrl: "./admin-user.component.html",
-    styleUrls: ["./admin-user.component.scss"],
-    imports: [
-        FormsModule,
-        ManagedProfilesSelectorComponent,
-        TranslatePipe,
-    ]
+  selector: "admin-user",
+  templateUrl: "./admin-user.component.html",
+  styleUrls: ["./admin-user.component.scss"],
+  imports: [FormsModule, ManagedProfilesSelectorComponent, TranslatePipe],
 })
 export class AdminUserComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
@@ -35,7 +37,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(
         map(params => Number(params["user"])),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(userId => this.loadUser(userId));
   }
@@ -53,7 +55,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
     await this.adminService.saveUser(this.user.id, form.value);
     await this.adminService.saveUserProfiles(
       this.user.id,
-      this.managedProfiles
+      this.managedProfiles,
     );
     await this.loadUser(this.user.id);
     this.toastService.toast("Uloženo.", "notice");

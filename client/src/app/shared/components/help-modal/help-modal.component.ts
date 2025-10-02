@@ -1,10 +1,10 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-    selector: "help-modal",
-    templateUrl: "help-modal.component.html",
-    styleUrls: ["help-modal.component.scss"],
-    standalone: true,
+  selector: "help-modal",
+  templateUrl: "help-modal.component.html",
+  styleUrls: ["help-modal.component.scss"],
+  standalone: true,
 })
 export class HelpModalComponent {
   @Input() topic: String;
