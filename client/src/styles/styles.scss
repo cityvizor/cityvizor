@@ -78,7 +78,7 @@ body.modal-open {
   overflow-y: scroll;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 576px) {
   .modal-xl {
     max-width: 1250px;
     width: 80%;
@@ -295,17 +295,22 @@ input:invalid:not(.novalidate) {
 }
 
 .label-red,
-.btn-red {
+.btn-red,
+.bg-danger {
   background-color: #e73431;
 }
 
+.bg-red a,
+.badge a,
 .label-red a,
-.label-blue a {
+.label-blue a,
+.badge span {
   color: white;
 }
 
 .label-blue,
-.btn-blue {
+.btn-blue,
+.bg-primary {
   background-color: #2581c4;
 }
 

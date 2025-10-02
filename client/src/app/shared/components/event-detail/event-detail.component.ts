@@ -25,7 +25,6 @@ import {
   Counterparty,
   BudgetItem,
   Profile,
-  Budget,
 } from "app/schema";
 import { DatePipe } from "@angular/common";
 import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
@@ -71,7 +70,6 @@ type CounterpartyOpenable = Counterparty & { open: boolean };
 export class EventDetailComponent implements OnChanges {
   private dataService = inject(DataService);
   private codelistService = inject(CodelistService);
-  private toastService = inject(ToastService);
 
   /* DATA */
   @Input() profile: Profile;
