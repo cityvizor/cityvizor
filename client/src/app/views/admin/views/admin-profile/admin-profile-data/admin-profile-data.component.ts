@@ -79,12 +79,12 @@ export class AdminProfileDataComponent implements OnInit {
   }
 
   openModal(modal: TemplateRef<any>) {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
     this.modalRef = this.modalService.show(modal);
   }
 
   closeModal(changed: boolean) {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
     delete this.modalRef;
 
     if (changed) this.loadYears(this.profileId);

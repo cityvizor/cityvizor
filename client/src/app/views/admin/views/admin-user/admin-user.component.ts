@@ -43,7 +43,7 @@ export class AdminUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
   }
 
   async loadUser(userId: number) {
@@ -62,11 +62,11 @@ export class AdminUserComponent implements OnInit, OnDestroy {
   }
 
   openModal(template: TemplateRef<any>) {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
     this.modalRef = this.modalService.show(template, { class: "modal-lg" });
   }
 
   closeModal() {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
   }
 }

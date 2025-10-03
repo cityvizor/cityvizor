@@ -73,12 +73,12 @@ export class AdminProfileSubprofilesComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
     this.modalRef = this.modalService.show(template);
   }
 
   closeModal() {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
   }
 
   async createProfile(form: NgForm) {

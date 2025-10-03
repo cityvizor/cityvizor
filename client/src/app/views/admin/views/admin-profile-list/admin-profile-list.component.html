@@ -73,21 +73,21 @@
     <ng-template pTemplate="body" let-profile>
       <tr>
         <td [routerLink]="'./' + profile.id">
-          <a class="mr-1" style="font-weight: 500">
+          <a class="me-1" style="font-weight: 500">
             {{ profile.name }}
           </a>
           @if (profile.status === "hidden") {
-            <span class="label label-warning">skrytý</span>
+            <span class="badge bg-warning">skrytý</span>
           }
           @if (profile.status === "pending") {
-            <span class="label label-default">připravovaný</span>
+            <span class="badge bg-secondary">připravovaný</span>
           }
           @if (
             (profile.status === "visible" || profile.status === "pending") &&
             profile.parent == null &&
             profile.sectionId == null
           ) {
-            <span class="label label-danger">nezobrazený</span>
+            <span class="badge bg-danger">nezobrazený</span>
           }
         </td>
         <td [routerLink]="'./' + profile.id">
@@ -107,14 +107,16 @@
           }
         </td>
         <td>{{ profile?.parentName ?? "žádný" }}</td>
-        <td [routerLink]="'/' + profile.url" class="btn btn-secondary">
-          <a>Navštívit profil</a>
+        <td [routerLink]="'/' + profile.url">
+          <a class="btn btn-sm btn-primary">Zobrazit</a>
         </td>
         <td (click)="$event.stopImmediatePropagation()">
-          <div class="btn-group pull-right text-nowrap" dropdown>
-            <a dropdownToggle>Akce <span class="caret"></span></a>
-            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
-              <li>
+          <div class="btn-group text-nowrap" dropdown>
+            <button id="action-button" dropdownToggle type="button" class="btn btn-sm btn-secondary dropdown-toggle" aria-controls="action-dropdown">
+              Akce
+            </button>
+            <ul id="action-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+              <li role="menuitem">
                 <a
                   class="dropdown-item"
                   (click)="
@@ -138,12 +140,10 @@
     <h4 class="modal-title pull-left">Vytvořit nový profil</h4>
     <button
       type="button"
-      class="close pull-right"
+      class="btn-close"
+      (click)="modalRef?.hide()"
       aria-label="Close"
-      (click)="modalRef.hide()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
+    ></button>
   </div>
   <form
     #createProfileForm="ngForm"
@@ -176,12 +176,10 @@
     <h4 class="modal-title pull-left">Smazat profil</h4>
     <button
       type="button"
-      class="close pull-right"
+      class="btn-close"
+      (click)="modalRef?.hide()"
       aria-label="Close"
-      (click)="modalRef.hide()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
+    ></button>
   </div>
   <div class="modal-body">
     <p>Opravdu chcete smazat profil {{ currentProfile.name }}?</p>
