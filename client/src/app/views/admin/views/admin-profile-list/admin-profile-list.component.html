@@ -1,8 +1,5 @@
 <div class="container">
-  <button
-    (click)="openModal(createProfileModal)"
-    class="btn btn-primary mb-4"
-  >
+  <button (click)="openModal(createProfileModal)" class="btn btn-primary mb-4">
     Vytvořit profil
   </button>
 
@@ -111,10 +108,22 @@
         </td>
         <td (click)="$event.stopImmediatePropagation()">
           <div class="btn-group text-nowrap" dropdown>
-            <button id="action-button" dropdownToggle type="button" class="btn btn-sm btn-secondary dropdown-toggle" aria-controls="action-dropdown">
+            <button
+              id="action-button"
+              dropdownToggle
+              type="button"
+              class="btn btn-sm btn-secondary dropdown-toggle"
+              aria-controls="action-dropdown"
+            >
               Akce
             </button>
-            <ul id="action-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="action-button">
+            <ul
+              id="action-dropdown"
+              *dropdownMenu
+              class="dropdown-menu"
+              role="menu"
+              aria-labelledby="action-button"
+            >
               <li role="menuitem">
                 <a
                   class="dropdown-item"

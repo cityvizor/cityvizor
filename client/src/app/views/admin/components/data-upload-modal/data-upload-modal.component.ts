@@ -23,7 +23,11 @@ export class DataUploadModalComponent {
   @Output() close = new EventEmitter<boolean>();
 
   modes = [
-    { display: "Nahradit stávající data", value: "overwrite", color: "bg-warning" },
+    {
+      display: "Nahradit stávající data",
+      value: "overwrite",
+      color: "bg-warning",
+    },
     { display: "Přidat k stávajícím datům", value: "append", color: "bg-info" },
   ];
 

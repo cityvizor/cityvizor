@@ -8,9 +8,9 @@
       </div>
       <div class="col-6">
         @if (title) {
-        <h1>
-          {{ title }}
-        </h1>
+          <h1>
+            {{ title }}
+          </h1>
         }
       </div>
     </div>
@@ -19,13 +19,24 @@
 
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-lg">
-    <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()"
-      [attr.aria-expanded]="!isCollapsed" aria-controls="navbarContent" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler d-lg-none"
+      type="button"
+      (click)="toggleCollapse()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="navbarContent"
+      aria-label="Toggle navigation"
+    >
       <i class="fa-solid fa-bars fs-2 navbar-toggle-icon"></i>
       <span class="navbar-toggle-title">MENU</span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarContent" [collapse]="isCollapsed" [isAnimated]="true">
+    <div
+      class="collapse navbar-collapse"
+      id="navbarContent"
+      [collapse]="isCollapsed"
+      [isAnimated]="true"
+    >
       <ul class="navbar-nav mb-2 mb-lg-0" (click)="collapse()">
         <ng-content />
       </ul>

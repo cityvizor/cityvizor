@@ -183,11 +183,7 @@
         </div>
         <div class="mb-2">
           <label>Viditelnost</label>
-          <select
-            name="status"
-            [ngModel]="profile?.status"
-            class="form-select"
-          >
+          <select name="status" [ngModel]="profile?.status" class="form-select">
             <option value="visible">veřejný</option>
             <option value="hidden">skrytý</option>
             <option value="preview">skrytý pouze na úvodní straně</option>
