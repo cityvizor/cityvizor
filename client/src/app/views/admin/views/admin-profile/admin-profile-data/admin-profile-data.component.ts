@@ -90,6 +90,12 @@ export class AdminProfileDataComponent implements OnInit {
     if (changed) this.loadYears(this.profileId);
   }
 
+  openYearModal(year: BudgetYear, modal: TemplateRef<any>) {
+    this.currentYearBudget = year;
+    this.currentYear = year.year;
+    this.openModal(modal);
+  }
+
   async hideYear(year: BudgetYear) {
     await this.adminService.updateProfileYear(this.profileId, year.year, {
       hidden: true,

@@ -23,13 +23,13 @@
         #settingsForm="ngForm"
         (ngSubmit)="saveProfile(settingsForm)"
       >
-        <div class="form-group">
+        <div class="mb-2">
           <label>Typ profilu</label>
           <select
             name="type"
             [ngModel]="profile?.type"
             (ngModelChange)="onProfileTypeChange($event)"
-            class="form-control"
+            class="form-select"
           >
             <option value="municipality">Municipalita (město / kraj)</option>
             <option value="pbo">Příspěvková organizace</option>
@@ -38,12 +38,12 @@
           </select>
         </div>
         @if (profile?.type === "pbo") {
-          <div class="form-group">
+          <div class="mb-2">
             <label>Kategorie příspěvkové organizace</label>
             <select
               name="pboCategoryId"
               [ngModel]="profile?.pboCategoryId"
-              class="form-control"
+              class="form-select"
             >
               @for (c of pboCategories; track c) {
                 <option
@@ -56,7 +56,7 @@
             </select>
           </div>
         }
-        <div class="form-group">
+        <div class="mb-2">
           <label>Název</label>
           <input
             type="text"
@@ -66,7 +66,7 @@
             required
           />
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Název při rozkliknutí</label>
           <input
             type="text"
@@ -75,7 +75,7 @@
             class="form-control"
           />
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Url</label>
           <div class="input-group">
             <span class="input-group-text"
@@ -90,7 +90,7 @@
             />
           </div>
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>IČO</label>
           <input
             type="text"
@@ -100,7 +100,7 @@
             #icoInput
           />
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Datová schránka</label>
           <input
             type="text"
@@ -110,7 +110,7 @@
             #databoxInput
           />
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Souřadnice</label>
           <div class="input-group">
             <span class="input-group-text">N </span>
@@ -131,7 +131,7 @@
             />
           </div>
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>ID eDesky</label>
           <input
             type="number"
@@ -140,14 +140,14 @@
             class="form-control"
           />
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Rodičovský profil</label>
           @if (profile?.parent !== null) {
             <div class="input-group">
               <select
                 name="parent"
                 [ngModel]="profile?.parent"
-                class="form-control"
+                class="form-select"
               >
                 <option value="null" [selected]="profile?.parent == null">
                   žádný
@@ -168,7 +168,7 @@
             <select
               name="parent"
               [ngModel]="profile?.parent"
-              class="form-control"
+              class="form-select"
             >
               <option value="null" [selected]="profile?.parent == null">
                 žádný
@@ -181,12 +181,12 @@
             </select>
           }
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Viditelnost</label>
           <select
             name="status"
             [ngModel]="profile?.status"
-            class="form-control"
+            class="form-select"
           >
             <option value="visible">veřejný</option>
             <option value="hidden">skrytý</option>
@@ -194,12 +194,12 @@
             <option value="pending">připravujeme</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Sekce na hlavní stránce</label>
           <select
             name="sectionId"
             [ngModel]="profile?.sectionId"
-            class="form-control"
+            class="form-select"
           >
             <option value="null" [selected]="profile?.sectionId == null">
               Nezobrazovat na hlavní stránce
@@ -214,12 +214,12 @@
             }
           </select>
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Položky zahrnuté do součtů</label>
           <select
             name="sum_mode"
             [ngModel]="profile?.sumMode"
-            class="form-control"
+            class="form-select"
           >
             <option value="complete">Všechny</option>
             <option value="visible">Viditelné kategorie</option>
@@ -239,7 +239,7 @@
       <h3>Znak</h3>
       <form>
         @if (profile?.avatarType) {
-          <div class="form-group">
+          <div class="mb-2">
             <label>Současný znak</label>
             <br />
             <img
@@ -249,13 +249,13 @@
             />
           </div>
         }
-        <div class="form-group">
+        <div class="mb-2">
           <label>Nahrát nový znak</label>
           <div class="input-group">
             <input
               type="file"
               name="avatar"
-              class="form-control"
+              class="form-control novalidate"
               #avatarFileInput
             />
             <div class="input-group-btn">
@@ -269,7 +269,7 @@
             </div>
           </div>
         </div>
-        <div class="form-group">
+        <div class="mb-2">
           <label>Smazat znak</label>
           <br />
           <button type="button" (click)="deleteAvatar()" class="btn btn-danger">

@@ -57,17 +57,32 @@
           }
         </td>
         <td>
-          <a
-            (click)="
-              currentYearBudget = year;
-              currentYear = year.year;
-              openModal(addModifyYearModal)
-            "
-            >Upravit</a
+          <button
+            id="edit-button"
+            type="button"
+            class="btn btn-sm btn-secondary"
+            (click)="openYearModal(year, addModifyYearModal)"
           >
-          <div class="btn-group pull-right" dropdown>
-            <a dropdownToggle>Další <span class="caret"></span></a>
-            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
+            Upravit
+          </button>
+
+          <div class="btn-group text-nowrap ms-2" dropdown>
+            <button
+              id="action-button"
+              dropdownToggle
+              type="button"
+              class="btn btn-sm btn-secondary dropdown-toggle"
+              aria-controls="action-dropdown"
+            >
+              Další
+            </button>
+            <ul
+              id="action-dropdown"
+              *dropdownMenu
+              class="dropdown-menu"
+              role="menu"
+              aria-labelledby="action-button"
+            >
               <li>
                 <a
                   class="dropdown-item"
@@ -96,11 +111,7 @@
               <li>
                 <a
                   class="dropdown-item"
-                  (click)="
-                    currentYear = year.year;
-                    currentYearBudget = year;
-                    openModal(deleteYearModal)
-                  "
+                  (click)="openYearModal(year, deleteYearModal)"
                   ><span class="text-danger">{{
                     "common.delete" | translate
                   }}</span></a

@@ -1,16 +1,20 @@
 <h4>Import dat pro tento profil</h4>
 @if (profileId$ | async; as profileId) {
-  <div class="well">
-    POST {{ apiRoot }}/import/profiles/{{ profileId$ | async }}/accounting
+  <div class="card">
+    <div class="card-body">
+      POST {{ apiRoot }}/import/profiles/{{ profileId$ | async }}/accounting
+    </div>
   </div>
 }
 
 <h4>Import dat pro podprofily</h4>
 @if (profileId$ | async; as profileId) {
-  <div class="well">
-    POST {{ apiRoot }}/import/profiles/{{
-      profileId$ | async
-    }}/subprofile-accounting
+  <div class="card">
+    <div class="card-body">
+      POST {{ apiRoot }}/import/profiles/{{
+        profileId$ | async
+      }}/subprofile-accounting
+    </div>
   </div>
 }
 
@@ -28,7 +32,9 @@
   }
 }
 @if (token) {
-  <div class="token well">{{ token }}</div>
+  <div class="token card">
+    <div class="card-body">{{ token }}</div>
+  </div>
 }
 
 <h4>Zneplatnit vydané tokeny</h4>

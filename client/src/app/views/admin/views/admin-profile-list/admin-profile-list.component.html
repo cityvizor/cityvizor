@@ -1,8 +1,7 @@
 <div class="container">
   <button
     (click)="openModal(createProfileModal)"
-    class="btn btn-primary"
-    style="margin-bottom: 1.5em"
+    class="btn btn-primary mb-4"
   >
     Vytvořit profil
   </button>
@@ -115,7 +114,7 @@
             <button id="action-button" dropdownToggle type="button" class="btn btn-sm btn-secondary dropdown-toggle" aria-controls="action-dropdown">
               Akce
             </button>
-            <ul id="action-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+            <ul id="action-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="action-button">
               <li role="menuitem">
                 <a
                   class="dropdown-item"
@@ -150,11 +149,11 @@
     (ngSubmit)="createProfile(createProfileForm); closeModal()"
   >
     <div class="modal-body">
-      <div class="form-group">
+      <div class="mb-2">
         <label>Název</label>
         <input type="text" name="name" class="form-control" ngModel required />
       </div>
-      <div class="form-group">
+      <div class="mb-2">
         <label>Adresa</label>
         <input type="text" name="url" class="form-control" ngModel required />
       </div>

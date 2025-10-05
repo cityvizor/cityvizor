@@ -9,7 +9,7 @@
 </div>
 <form #uploadForm="ngForm" (ngSubmit)="addModifyYear(uploadForm)">
   <div class="modal-body">
-    <div class="form-group">
+    <div class="mb-2">
       <label>Rok</label>
       <input
         type="number"
@@ -18,21 +18,23 @@
         class="form-control"
       />
     </div>
-    <div class="form-group">
-      <label>Skrytý?</label>
+    <div class="mb-2 form-check form-switch">
       <input
+        class="form-check-input novalidate"
         type="checkbox"
         name="hidden"
         [ngModel]="year.hidden"
-        class="checkbox"
+        role="switch"
+        id="hiddenSwitch"
       />
+      <label class="form-check-label" for="hiddenSwitch">Skrytý</label>
     </div>
     <hr />
     <div class="alert alert-info">
       Následující je volitelné, můžete vyplnit, pokud chcete data pro tento rok,
       načítat automaticky.
     </div>
-    <div class="form-group">
+    <div class="mb-2">
       <label>URL adresa ze které proběhne načtení dat</label>
       <input
         type="text"
@@ -41,11 +43,11 @@
         class="form-control"
       />
     </div>
-    <div class="form-group">
+    <div class="mb-2">
       <label for="import_format">Formát dat k načtení</label>
       <select
         id="import_format"
-        class="form-control"
+        class="form-select"
         name="import_format"
         [ngModel]="year.importFormat"
       >
@@ -56,7 +58,7 @@
         }
       </select>
     </div>
-    <div class="form-group">
+    <div class="mb-2">
       <label
         >Jak často mají být data z URL aktualizována (počet minut mezi
         aktualizacemi)</label

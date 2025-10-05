@@ -9,7 +9,7 @@
 </div>
 <form #createUserForm="ngForm" (ngSubmit)="createUser(createUserForm)">
   <div class="modal-body">
-    <div class="form-group">
+    <div class="mb-2">
       <label>Login</label>
       <input
         type="text"
@@ -28,7 +28,7 @@
         <span class="help-block text-danger">Tento login je již zabraný!</span>
       }
     </div>
-    <div class="form-group">
+    <div class="mb-2">
       <label>Email</label>
       <input type="text" name="email" class="form-control" ngModel />
     </div>

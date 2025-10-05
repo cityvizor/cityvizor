@@ -599,3 +599,8 @@ h6,
 .p-datatable-table-container {
     overflow: visible !important;
 }
+
+.nav-pills .nav-link.active {
+  background-color: #2581c4 !important;
+  color: white;
+}
