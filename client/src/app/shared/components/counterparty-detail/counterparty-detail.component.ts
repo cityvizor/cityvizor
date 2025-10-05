@@ -5,6 +5,7 @@ import {
   EventEmitter,
   OnInit,
   SimpleChanges,
+  inject,
 } from "@angular/core";
 import {
   trigger,
@@ -16,9 +17,10 @@ import {
 import { DataService } from "app/services/data.service";
 import { ActivatedRoute } from "@angular/router";
 import { DateTime } from "luxon";
+import { DatePipe } from "@angular/common";
+import { MoneyPipe } from "../../pipes/money.pipe";
 
 @Component({
-  moduleId: module.id,
   selector: "counterparty-detail",
   templateUrl: "counterparty-detail.component.html",
   styleUrls: ["counterparty-detail.component.scss"],
@@ -32,12 +34,16 @@ import { DateTime } from "luxon";
       ]),
       transition(
         "open => closed",
-        animate("250ms ease-out", style({ opacity: 0, height: 0 }))
+        animate("250ms ease-out", style({ opacity: 0, height: 0 })),
       ),
     ]),
   ],
+  imports: [DatePipe, MoneyPipe],
 })
 export class CounterpartyDetailComponent implements OnInit {
+  private dataService = inject(DataService);
+  private route = inject(ActivatedRoute);
+
   /* DATA */
   @Input() profileId: string;
   @Input() counterpartyId: string;
@@ -46,11 +52,6 @@ export class CounterpartyDetailComponent implements OnInit {
 
   counterpartyName: string;
   payments: any[];
-
-  constructor(
-    private dataService: DataService,
-    private route: ActivatedRoute
-  ) {}
 
   async ngOnInit() {
     if (!this.year) return;
@@ -71,10 +72,10 @@ export class CounterpartyDetailComponent implements OnInit {
     )[0].name;
     this.payments = await this.dataService.getCounterpartyPayments(
       this.counterpartyId,
-      params
+      params,
     );
     this.payments.sort((first, second) =>
-      Date.parse(first.date) < Date.parse(second.date) ? -1 : 1
+      Date.parse(first.date) < Date.parse(second.date) ? -1 : 1,
     );
   }
 }

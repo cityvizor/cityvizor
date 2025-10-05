@@ -1,11 +1,11 @@
-@import "variables";
+@use "variables";
 
 :host {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - #{$footer-height-desktop});
-  font-family: "IBM Plex Sans", sans-serif;
+  height: calc(100vh - #{variables.$footer-height-desktop});
+  font-family: "Roboto Mono", sans-serif;
 }
 
 h2 {
@@ -14,6 +14,6 @@ h2 {
 
 @media (max-width: 767px) {
   :host {
-    height: calc(100vh - #{$footer-height-mobile});
+    height: calc(100vh - #{variables.$footer-height-mobile});
   }
 }

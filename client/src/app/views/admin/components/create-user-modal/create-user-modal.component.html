@@ -1,17 +1,15 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Vytvořit nového správce</h4>
+  <h4 class="modal-title">Vytvořit nového správce</h4>
   <button
     type="button"
-    class="close pull-right"
+    class="btn-close"
     aria-label="Close"
     (click)="close.emit(false)"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
+  ></button>
 </div>
 <form #createUserForm="ngForm" (ngSubmit)="createUser(createUserForm)">
   <div class="modal-body">
-    <div class="form-group">
+    <div class="mb-2">
       <label>Login</label>
       <input
         type="text"
@@ -21,18 +19,16 @@
         class="form-control"
         required
       />
-      <span
-        *ngIf="(login | async) && loginExists === false"
-        class="help-block text-success"
-        >Login {{ login | async }} je volný</span
-      >
-      <span
-        *ngIf="(login | async) && loginExists === true"
-        class="help-block text-danger"
-        >Tento login je již zabraný!</span
-      >
+      @if ((login | async) && loginExists === false) {
+        <span class="help-block text-success"
+          >Login {{ login | async }} je volný</span
+        >
+      }
+      @if ((login | async) && loginExists === true) {
+        <span class="help-block text-danger">Tento login je již zabraný!</span>
+      }
     </div>
-    <div class="form-group">
+    <div class="mb-2">
       <label>Email</label>
       <input type="text" name="email" class="form-control" ngModel />
     </div>

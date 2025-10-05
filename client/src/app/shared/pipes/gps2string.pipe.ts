@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
   name: "gps2string",
+  standalone: true,
 })
 export class Gps2stringPipe implements PipeTransform {
   transform(value: [number, number]): string {

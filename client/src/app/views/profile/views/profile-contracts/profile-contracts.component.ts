@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 
 import { ToastService } from "app/services/toast.service";
 import { DataService } from "app/services/data.service";
@@ -7,24 +7,25 @@ import { ActivatedRoute } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { ProfileService } from "app/services/profile.service";
 import { profile } from "console";
+import { DatePipe } from "@angular/common";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
 @Component({
   selector: "profile-contracts",
   templateUrl: "profile-contracts.component.html",
   styleUrls: ["profile-contracts.component.scss"],
+  imports: [DatePipe, MoneyPipe],
 })
 export class ProfileContractsComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private dataService = inject(DataService);
+
   profile: Profile;
 
   loading: boolean = false;
   infoWindowClosed: boolean = false;
 
   contracts: any[] = [];
-
-  constructor(
-    private profileService: ProfileService,
-    private dataService: DataService
-  ) {}
 
   ngOnInit() {
     this.profileService.profile.subscribe(profile => {
@@ -56,7 +57,7 @@ export class ProfileContractsComponent implements OnInit {
       return new Date(
         Number(matches[3]),
         Number(matches[2]) - 1,
-        Number(matches[1])
+        Number(matches[1]),
       );
     else return undefined;
   }

@@ -1,17 +1,42 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, inject } from "@angular/core";
 import { ProfileService } from "app/services/profile.service";
 import { map, distinctUntilChanged } from "rxjs/operators";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { Profile, BudgetYear, ProfileType } from "app/schema";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable } from "rxjs";
 import { AdminService } from "app/services/admin.service";
+import { AsyncPipe, DatePipe } from "@angular/common";
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
+import { DataUploadModalComponent } from "../../../components/data-upload-modal/data-upload-modal.component";
+import { AddModifyYearModalComponent } from "../../../components/add-modify-year-modal/add-modify-year-modal.component";
+import { DeleteYearModalComponent } from "../../../components/delete-year-modal/delete-year-modal.component";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "admin-profile-data",
   templateUrl: "./admin-profile-data.component.html",
   styleUrls: ["./admin-profile-data.component.scss"],
+  imports: [
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    DataUploadModalComponent,
+    AddModifyYearModalComponent,
+    DeleteYearModalComponent,
+    AsyncPipe,
+    DatePipe,
+    TranslatePipe,
+  ],
 })
 export class AdminProfileDataComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private adminService = inject(AdminService);
+  private modalService = inject(BsModalService);
+
   profile$: Observable<Profile>;
 
   profileId: number;
@@ -26,19 +51,13 @@ export class AdminProfileDataComponent implements OnInit {
 
   modalRef?: BsModalRef;
 
-  constructor(
-    private profileService: ProfileService,
-    private adminService: AdminService,
-    private modalService: BsModalService
-  ) {}
-
   ngOnInit() {
     this.profile$ = this.profileService.profile;
 
     this.profile$
       .pipe(
         map(profile => profile),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(profile => {
         this.profileId = profile.id;
@@ -60,15 +79,21 @@ export class AdminProfileDataComponent implements OnInit {
   }
 
   openModal(modal: TemplateRef<any>) {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
     this.modalRef = this.modalService.show(modal);
   }
 
   closeModal(changed: boolean) {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
     delete this.modalRef;
 
     if (changed) this.loadYears(this.profileId);
+  }
+
+  openYearModal(year: BudgetYear, modal: TemplateRef<any>) {
+    this.currentYearBudget = year;
+    this.currentYear = year.year;
+    this.openModal(modal);
   }
 
   async hideYear(year: BudgetYear) {

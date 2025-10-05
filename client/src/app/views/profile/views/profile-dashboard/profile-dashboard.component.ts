@@ -1,5 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit, inject } from "@angular/core";
+import {
+  Router,
+  ActivatedRoute,
+  RouterLink,
+  RouterLinkActive,
+} from "@angular/router";
 
 import { DataService } from "app/services/data.service";
 
@@ -13,13 +18,35 @@ import {
   Profile,
   ProfileSumMode,
 } from "app/schema";
+import { NgClass, DatePipe } from "@angular/common";
+import { ChartHistoryComponent } from "../../../../shared/charts/chart-history/chart-history.component";
+import { ChartBudgetComponent } from "../../../../shared/charts/chart-budget/chart-budget.component";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { IcoPipe } from "../../../../shared/pipes/utils.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "profile-dashboard",
   templateUrl: "profile-dashboard.component.html",
   styleUrls: ["profile-dashboard.component.scss"],
+  imports: [
+    ChartHistoryComponent,
+    NgClass,
+    RouterLink,
+    RouterLinkActive,
+    ChartBudgetComponent,
+    DatePipe,
+    MoneyPipe,
+    IcoPipe,
+    TranslatePipe,
+  ],
 })
 export class ProfileDashboardComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private dataService = inject(DataService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   profile: Profile;
 
   payments: BudgetPayment[] = [];
@@ -32,13 +59,6 @@ export class ProfileDashboardComponent implements OnInit {
   maxIncomeAmount: number = 0;
 
   dashboard: Dashboard;
-
-  constructor(
-    private profileService: ProfileService,
-    private dataService: DataService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.profileService.profile.subscribe(profile => {
@@ -91,7 +111,7 @@ export class ProfileDashboardComponent implements OnInit {
         budget.budgetIncomeAmount,
         budget.incomeAmount,
         budget.budgetExpenditureAmount,
-        budget.expenditureAmount
+        budget.expenditureAmount,
       );
     }, 0);
   }
@@ -109,10 +129,10 @@ export class ProfileDashboardComponent implements OnInit {
 
   openExpenditures(group: number, year?: number) {
     const yearToOpen =
-      typeof year === "number" ? year : this.budgets[0]?.year ?? 0;
+      typeof year === "number" ? year : (this.budgets[0]?.year ?? 0);
     this.router.navigate(
       ["./hospodareni/vydaje", { rok: yearToOpen, skupina: group }],
-      { relativeTo: this.route.parent }
+      { relativeTo: this.route.parent },
     );
   }
 

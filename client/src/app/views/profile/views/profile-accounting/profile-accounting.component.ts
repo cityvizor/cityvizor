@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, inject } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { BsModalService } from "ngx-bootstrap/modal";
@@ -38,6 +38,14 @@ import {
   ChartBigbangDataRow,
 } from "app/shared/charts/chart-bigbang/chart-bigbang.component";
 import { EventDetailModalComponent } from "app/shared/components/event-detail-modal/event-detail-modal.component";
+import { BudgetSelectComponent } from "../../components/budget-select/budget-select.component";
+import { FormsModule } from "@angular/forms";
+import { ChartBigbangComponent } from "../../../../shared/charts/chart-bigbang/chart-bigbang.component";
+import { GroupSelectComponent } from "../../components/group-select/group-select.component";
+import { AsyncPipe, SlicePipe } from "@angular/common";
+import { ChartDonutComponent } from "../../../../shared/charts/chart-donut/chart-donut.component";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "profile-accounting",
@@ -46,8 +54,28 @@ import { EventDetailModalComponent } from "app/shared/components/event-detail-mo
   host: {
     "(window:keydown)": "hotkeys($event)",
   },
+  imports: [
+    BudgetSelectComponent,
+    FormsModule,
+    ChartBigbangComponent,
+    GroupSelectComponent,
+    ChartDonutComponent,
+    AsyncPipe,
+    SlicePipe,
+    MoneyPipe,
+    TranslatePipe,
+  ],
 })
 export class ProfileAccountingComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private profileService = inject(ProfileService);
+  private accountingService = inject(AccountingService);
+  private codelistService = inject(CodelistService);
+  private dataService = inject(DataService);
+  private modalService = inject(BsModalService);
+  private cdRef = inject(ChangeDetectorRef);
+
   // type of view (expenditures/income)
   type = new BehaviorSubject<AccountingGroupType | null>(null);
 
@@ -81,47 +109,36 @@ export class ProfileAccountingComponent implements OnInit {
   // store subscriptions to unsubscribe on destroy
   subscriptions: Subscription[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private profileService: ProfileService,
-    private accountingService: AccountingService,
-    private codelistService: CodelistService,
-    private dataService: DataService,
-    private modalService: BsModalService,
-    private cdRef: ChangeDetectorRef
-  ) {}
-
   async ngOnInit() {
     // route params
     this.route.params
       .pipe(
         map(params => this.typeLocalParams[params.type] || null),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(this.type);
     this.route.params
       .pipe(
         map(params => Number(params.rok) || null),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(this.year);
     this.route.params
       .pipe(
         map(params => params.skupina || null),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(this.groupId);
     this.route.params
       .pipe(
         map(params => this.parseEventId(params.akce)),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(this.eventId);
     this.route.params
       .pipe(
         map(params => params.razeni || "nejvetsi"),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe(this.sort);
 
@@ -145,7 +162,7 @@ export class ProfileAccountingComponent implements OnInit {
           profile,
           params.rok,
           this.typeLocalParams[params.type],
-          params.skupina
+          params.skupina,
         );
       }
     });
@@ -164,7 +181,7 @@ export class ProfileAccountingComponent implements OnInit {
       async ([profile, type, year]) => {
         if (!profile || !type || !year) return;
         await this.getGroups(profile, type, year);
-      }
+      },
     );
 
     // download events
@@ -183,7 +200,7 @@ export class ProfileAccountingComponent implements OnInit {
           profile,
           year,
           type,
-          groupId
+          groupId,
         );
         this.sortEvents(sort);
       });
@@ -204,7 +221,7 @@ export class ProfileAccountingComponent implements OnInit {
             id: group.id,
             innerAmount: group.amount,
             outerAmount: group.budgetAmount,
-          }) as ChartBigbangDataRow
+          }) as ChartBigbangDataRow,
       );
     });
 
@@ -239,7 +256,7 @@ export class ProfileAccountingComponent implements OnInit {
   async getGroups(profile: Profile, type: AccountingGroupType, year: number) {
     const groups = await this.accountingService.getGroups(profile, type, year);
     groups.sort((a, b) =>
-      a.name && b.name ? a.name.localeCompare(b.name) : 0
+      a.name && b.name ? a.name.localeCompare(b.name) : 0,
     );
     this.groups.next(groups);
     return groups;
@@ -299,7 +316,7 @@ export class ProfileAccountingComponent implements OnInit {
     return this.codelistService.getCurrentName(
       "items",
       String(item),
-      new Date(year, 0, 1)
+      new Date(year, 0, 1),
     );
   }
 
@@ -307,7 +324,7 @@ export class ProfileAccountingComponent implements OnInit {
     switch (sort) {
       case "abecedne":
         this.groupEvents.sort((a, b) =>
-          a.name && b.name ? a.name.localeCompare(b.name) : 0
+          a.name && b.name ? a.name.localeCompare(b.name) : 0,
         );
         break;
 

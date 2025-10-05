@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   Accounting,
   BudgetGroup,
@@ -33,6 +33,9 @@ interface TypeConfig {
   providedIn: "root",
 })
 export class AccountingService {
+  private codelistService = inject(CodelistService);
+  private dataService = inject(DataService);
+
   config: {
     [type in Exclude<ProfileType, "external">]: {
       [type in AccountingGroupType]: TypeConfig;
@@ -72,28 +75,23 @@ export class AccountingService {
     },
   };
 
-  constructor(
-    private codelistService: CodelistService,
-    private dataService: DataService
-  ) {}
-
   async getGroups(
     profile: Profile,
     type: AccountingGroupType,
-    year: number
+    year: number,
   ): Promise<BudgetGroup[]> {
     const typeConfig = this.config[profile.type][type];
 
     const groups: BudgetGroup[] = (
       await this.codelistService.getCurrentCodelist(
         typeConfig.codelistGroup,
-        new Date(year, 0, 1)
+        new Date(year, 0, 1),
       )
     ).map(group => new BudgetGroup(group.id, group.name));
 
     const groupIndex = groups.reduce(
       (acc, cur) => ((acc[cur.id!] = cur), acc),
-      {} as { [id: string]: BudgetGroup }
+      {} as { [id: string]: BudgetGroup },
     ); // not null bcs "other" group is not present yet
 
     const other = new BudgetGroup(null, "Ostatní");
@@ -104,13 +102,13 @@ export class AccountingService {
       accounting = await this.dataService.getProfileAccountingGroups(
         profile.id,
         year,
-        typeConfig.field
+        typeConfig.field,
       );
     } else {
       accounting = await this.dataService.getProfilePlansGroups(
         profile.id,
         year,
-        typeConfig.field
+        typeConfig.field,
       );
     }
 
@@ -127,18 +125,18 @@ export class AccountingService {
     profile: Profile,
     year: number,
     type: AccountingGroupType,
-    groupId: string
+    groupId: string,
   ): Promise<BudgetGroupEvent[]> {
     const typeConfig = this.config[profile.type][type];
 
     const itemCodelist = (
       await this.codelistService.getCurrentCodelist(
         typeConfig.codelist,
-        new Date(year, 0, 1)
+        new Date(year, 0, 1),
       )
     ).reduce(
       (acc, cur) => ((acc[cur.id] = cur.name), acc),
-      {} as { [id: string]: string }
+      {} as { [id: string]: string },
     );
 
     // HACK
@@ -148,13 +146,13 @@ export class AccountingService {
         profile.id,
         year,
         typeConfig.field,
-        groupId
+        groupId,
       );
     } else {
       events = await this.dataService.getProfilePlansDetails(
         profile.id,
         year,
-        groupId
+        groupId,
       );
     }
     return events
@@ -171,7 +169,7 @@ export class AccountingService {
         if (row.items)
           event.items = row.items
             .filter(
-              row => row[typeConfig.amount] || row[typeConfig.budgetAmount]
+              row => row[typeConfig.amount] || row[typeConfig.budgetAmount],
             )
             .map(item => ({
               id: item.id,

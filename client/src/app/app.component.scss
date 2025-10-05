@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables";
 
 #toasts {
   position: fixed;
@@ -39,7 +39,7 @@
   height: auto !important;
   height: 100%;
   /* Negative indent footer by it's height */
-  margin-bottom: -$footer-height-desktop;
+  margin-bottom: -(variables.$footer-height-desktop);
   margin-top: 0;
   margin-left: auto;
   margin-right: auto;
@@ -48,7 +48,7 @@
 /* Set the fixed height of the footer here */
 #push,
 footer {
-  min-height: $footer-height-desktop;
+  min-height: variables.$footer-height-desktop;
 }
 footer {
   background-color: #f5f5f5;
@@ -65,11 +65,11 @@ footer .container {
 }
 
 @media (max-width: 767px) {
-  .col-xs-12 {
+  .col-12 {
     text-align: center;
   }
 }
 
-.input-group-addon {
+.input-group-text {
   min-width: 3em;
 }

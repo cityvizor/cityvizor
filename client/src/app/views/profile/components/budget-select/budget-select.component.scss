@@ -1,4 +1,8 @@
-@import "dropdowns";
+@use "dropdowns";
+
+button {
+  color: black;
+}
 
 th {
   text-align: right;

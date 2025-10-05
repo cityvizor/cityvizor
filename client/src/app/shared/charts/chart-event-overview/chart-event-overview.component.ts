@@ -2,10 +2,10 @@ import { Component, Input /*Output, EventEmitter*/ } from "@angular/core";
 import { BudgetEvent } from "app/schema";
 
 @Component({
-  moduleId: module.id,
   selector: "chart-event-overview",
   templateUrl: "chart-event-overview.component.html",
   styleUrls: ["chart-event-overview.component.scss"],
+  imports: [],
 })
 export class ChartEventOverviewComponent {
   amount: number;
@@ -48,7 +48,7 @@ export class ChartEventOverviewComponent {
     // part of amount that is covered by invoices
     this.invoices = Math.min(
       1,
-      paymentsAmount / (event[keys.amount] - overdraft)
+      paymentsAmount / (event[keys.amount] - overdraft),
     );
     this.other = 1 - this.invoices;
 

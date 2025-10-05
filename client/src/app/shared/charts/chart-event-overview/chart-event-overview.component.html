@@ -1,5 +1,5 @@
 <div class="row legend">
-  <div class="col-md-offset-2 col-md-2 text-center invoices">
+  <div class="offset-md-2 col-md-2 text-center invoices">
     <i class="fa fa-square" aria-hidden="true"></i> Faktury
   </div>
   <div class="col-md-2 text-center other">
@@ -23,33 +23,37 @@
     <div class="bar other" [style.width]="other * 100 + '%'"></div>
 
     <div class="desc">
-      <div class="lines" *ngIf="amount >= 0.05">
-        <div class="lines1">
+      @if (amount >= 0.05) {
+        <div class="lines">
+          <div class="lines1">
+            <div class="line"></div>
+          </div>
+          <div class="lines2">
+            <div class="line left"></div>
+            <div class="line right"></div>
+          </div>
+        </div>
+      }
+
+      @if (amount < 0.05) {
+        <div class="small">
           <div class="line"></div>
         </div>
-        <div class="lines2">
-          <div class="line left"></div>
-          <div class="line right"></div>
-        </div>
-      </div>
-
-      <div class="small" *ngIf="amount < 0.05">
-        <div class="line"></div>
-      </div>
+      }
 
       <p [class.small-left]="amount < 0.17">
-        <span *ngIf="isCurrentYear && type == 'expenditure'"
-          >Již utraceno z rozpočtu</span
-        >
-        <span *ngIf="isCurrentYear && type == 'income'"
-          >Již přijato do rozpočtu</span
-        >
-        <span *ngIf="!isCurrentYear && type == 'expenditure'"
-          >Utraceno z rozpočtu</span
-        >
-        <span *ngIf="!isCurrentYear && type == 'income'"
-          >Přijato do rozpočtu</span
-        >
+        @if (isCurrentYear && type == "expenditure") {
+          <span>Již utraceno z rozpočtu</span>
+        }
+        @if (isCurrentYear && type == "income") {
+          <span>Již přijato do rozpočtu</span>
+        }
+        @if (!isCurrentYear && type == "expenditure") {
+          <span>Utraceno z rozpočtu</span>
+        }
+        @if (!isCurrentYear && type == "income") {
+          <span>Přijato do rozpočtu</span>
+        }
       </p>
     </div>
   </div>
@@ -61,36 +65,42 @@
     [style.width]="1 - amount ? (1 - amount) * 100 + '%' : '1px'"
   >
     <div class="desc">
-      <div class="big" *ngIf="1 - amount >= 0.05">
-        <div class="lines1">
+      @if (1 - amount >= 0.05) {
+        <div class="big">
+          <div class="lines1">
+            <div class="line"></div>
+          </div>
+          <div class="lines2">
+            <div class="line left"></div>
+            <div class="line right"></div>
+          </div>
+        </div>
+      }
+
+      @if (1 - amount < 0.05) {
+        <div class="small">
           <div class="line"></div>
         </div>
-        <div class="lines2">
-          <div class="line left"></div>
-          <div class="line right"></div>
-        </div>
-      </div>
-
-      <div class="small" *ngIf="1 - amount < 0.05">
-        <div class="line"></div>
-      </div>
+      }
 
       <p [class.small-right]="1 - amount < 0.17">
-        <ng-container *ngIf="!over">
-          <span *ngIf="isCurrentYear && type == 'expenditure'"
-            >Ještě zbývá v rozpočtu</span
-          >
-          <span *ngIf="isCurrentYear && type == 'income'"
-            >Ještě očekáváme do rozpočtu</span
-          >
-          <span *ngIf="!isCurrentYear && type == 'expenditure'"
-            >Ještě zbývalo v rozpočtu</span
-          >
-          <span *ngIf="!isCurrentYear && type == 'income'"
-            >Ještě jsme očekávali do rozpočtu</span
-          >
-        </ng-container>
-        <span *ngIf="over">Překročený rozpočet</span>
+        @if (!over) {
+          @if (isCurrentYear && type == "expenditure") {
+            <span>Ještě zbývá v rozpočtu</span>
+          }
+          @if (isCurrentYear && type == "income") {
+            <span>Ještě očekáváme do rozpočtu</span>
+          }
+          @if (!isCurrentYear && type == "expenditure") {
+            <span>Ještě zbývalo v rozpočtu</span>
+          }
+          @if (!isCurrentYear && type == "income") {
+            <span>Ještě jsme očekávali do rozpočtu</span>
+          }
+        }
+        @if (over) {
+          <span>Překročený rozpočet</span>
+        }
       </p>
     </div>
   </div>

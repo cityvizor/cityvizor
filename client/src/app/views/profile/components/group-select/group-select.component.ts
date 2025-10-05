@@ -9,6 +9,14 @@ import {
 } from "@angular/core";
 import { BudgetGroup, Budget } from "app/schema";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
+
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "group-select",
@@ -20,6 +28,13 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
       useExisting: forwardRef(() => GroupSelectComponent),
       multi: true,
     },
+  ],
+  imports: [
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    MoneyPipe,
+    TranslatePipe,
   ],
 })
 export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
@@ -61,7 +76,7 @@ export class GroupSelectComponent implements OnChanges, ControlValueAccessor {
     if (!this.groups) return;
     this.maxAmount = this.groups.reduce(
       (acc, cur) => Math.max(acc, cur.amount, cur.budgetAmount),
-      0
+      0,
     );
   }
 }

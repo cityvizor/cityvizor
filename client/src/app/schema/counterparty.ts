@@ -7,7 +7,7 @@ export class Counterparty {
 
   constructor(
     public id: string | null,
-    public name: string
+    public name: string,
   ) {}
 }
 

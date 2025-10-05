@@ -5,19 +5,25 @@
     "outDir": "./dist",
     "sourceMap": true,
     "declaration": false,
-    "downlevelIteration": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true
-  }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "src/environments/environment.local.ts",
+    "src/environments/environment.localnginx.ts",
+    "src/environments/environment.prod.ts"
+  ]
 }

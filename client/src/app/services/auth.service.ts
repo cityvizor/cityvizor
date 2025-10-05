@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
@@ -16,6 +16,9 @@ import { environment } from "environments/environment";
   providedIn: "root",
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private jwtHelper = inject(JwtHelperService);
+
   public readonly ROLE_FULL_ADMIN: string = "admin";
   public readonly ROLE_PROFILE_ADMIN: string = "profile-admin";
 
@@ -33,10 +36,7 @@ export class AuthService {
 
   root = environment.api_root + "/account";
 
-  constructor(
-    private http: HttpClient,
-    private jwtHelper: JwtHelperService
-  ) {
+  constructor() {
     // refresh user data to match token
     this.refreshState();
 

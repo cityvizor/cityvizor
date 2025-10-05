@@ -5,6 +5,7 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
+  inject,
 } from "@angular/core";
 import {
   trigger,
@@ -24,13 +25,19 @@ import {
   Counterparty,
   BudgetItem,
   Profile,
-  Budget,
 } from "app/schema";
+import { DatePipe } from "@angular/common";
+import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
+import { ChartEventOverviewComponent } from "../../charts/chart-event-overview/chart-event-overview.component";
+import { ChartBudgetComponent } from "../../charts/chart-budget/chart-budget.component";
+import { FormsModule } from "@angular/forms";
+import { TranslatePipe } from "@ngx-translate/core";
+import { MoneyPipe } from "../../pipes/money.pipe";
+import { AbsPipe } from "../../pipes/utils.pipe";
 
 type CounterpartyOpenable = Counterparty & { open: boolean };
 
 @Component({
-  moduleId: module.id,
   selector: "event-detail",
   templateUrl: "event-detail.component.html",
   styleUrls: ["event-detail.component.scss"],
@@ -44,12 +51,26 @@ type CounterpartyOpenable = Counterparty & { open: boolean };
       ]),
       transition(
         "open => closed",
-        animate("250ms ease-out", style({ opacity: 0, height: 0 }))
+        animate("250ms ease-out", style({ opacity: 0, height: 0 })),
       ),
     ]),
   ],
+  imports: [
+    TabsetComponent,
+    TabDirective,
+    ChartEventOverviewComponent,
+    ChartBudgetComponent,
+    FormsModule,
+    DatePipe,
+    TranslatePipe,
+    MoneyPipe,
+    AbsPipe,
+  ],
 })
 export class EventDetailComponent implements OnChanges {
+  private dataService = inject(DataService);
+  private codelistService = inject(CodelistService);
+
   /* DATA */
   @Input() profile: Profile;
   @Input() eventId: number;
@@ -82,12 +103,6 @@ export class EventDetailComponent implements OnChanges {
   itemNames: { [id: string]: string } = {};
   paragraphNames: { [id: string]: string } = {};
 
-  constructor(
-    private dataService: DataService,
-    private codelistService: CodelistService,
-    private toastService: ToastService
-  ) {}
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.year) {
       this.loadCodelists(this.year);
@@ -109,11 +124,11 @@ export class EventDetailComponent implements OnChanges {
       const date = new Date(year, 0, 1);
       this.itemNames = await this.codelistService.getCurrentIndex(
         "items",
-        date
+        date,
       );
       this.paragraphNames = await this.codelistService.getCurrentIndex(
         "paragraphs",
-        date
+        date,
       );
     } else {
       const suNames = await this.dataService.getCodelist("pbo-su");
@@ -138,11 +153,11 @@ export class EventDetailComponent implements OnChanges {
 
     this.maxExpenditureAmount = Math.max(
       event.expenditureAmount,
-      event.budgetExpenditureAmount
+      event.budgetExpenditureAmount,
     );
     this.maxIncomeAmount = Math.max(
       event.incomeAmount,
-      event.budgetIncomeAmount
+      event.budgetIncomeAmount,
     );
 
     this.event = event;
@@ -150,7 +165,7 @@ export class EventDetailComponent implements OnChanges {
     if (this.isMunicipality) {
       this.history = await this.dataService.getProfileEventHistory(
         this.profile.id,
-        this.eventId
+        this.eventId,
       );
     } else {
       const aa = Number(this.eventId.toString().substring(0, 3));
@@ -158,7 +173,7 @@ export class EventDetailComponent implements OnChanges {
       this.history = await this.dataService.getProfileAaHistory(
         this.profile.id,
         aa,
-        sa
+        sa,
       );
     }
 
@@ -169,24 +184,24 @@ export class EventDetailComponent implements OnChanges {
           cur.expenditureAmount,
           cur.incomeAmount,
           cur.budgetExpenditureAmount,
-          cur.budgetIncomeAmount
+          cur.budgetIncomeAmount,
         ),
-      -Infinity
+      -Infinity,
     );
 
     if (this.event.items) {
       this.expenditureItems = this.event.items.filter(
-        item => item.expenditureAmount > 0 || item.budgetExpenditureAmount > 0
+        item => item.expenditureAmount > 0 || item.budgetExpenditureAmount > 0,
       );
       this.incomeItems = this.event.items.filter(
-        item => item.incomeAmount > 0 || item.budgetIncomeAmount > 0
+        item => item.incomeAmount > 0 || item.budgetIncomeAmount > 0,
       );
 
       this.expenditureItems.sort(
-        (a, b) => b.budgetExpenditureAmount - a.budgetExpenditureAmount
+        (a, b) => b.budgetExpenditureAmount - a.budgetExpenditureAmount,
       );
       this.incomeItems.sort(
-        (a, b) => b.budgetIncomeAmount - a.budgetIncomeAmount
+        (a, b) => b.budgetIncomeAmount - a.budgetIncomeAmount,
       );
     }
 
@@ -194,16 +209,16 @@ export class EventDetailComponent implements OnChanges {
       this.expenditureParagraphs = this.event.paragraphs.filter(
         paragraph =>
           paragraph.expenditureAmount > 0 ||
-          paragraph.budgetExpenditureAmount > 0
+          paragraph.budgetExpenditureAmount > 0,
       );
       this.expenditureParagraphs.sort(
-        (a, b) => b.budgetExpenditureAmount - a.budgetExpenditureAmount
+        (a, b) => b.budgetExpenditureAmount - a.budgetExpenditureAmount,
       );
     }
 
     if (this.event.payments) {
       this.event.payments.sort((a, b) =>
-        a.date && b.date ? a.date.localeCompare(b.date) : 0
+        a.date && b.date ? a.date.localeCompare(b.date) : 0,
       );
 
       const counterparties: Counterparty[] = [];
@@ -217,7 +232,7 @@ export class EventDetailComponent implements OnChanges {
         if (!counterparty) {
           counterparty = new Counterparty(
             payment.counterpartyId,
-            payment.counterpartyName
+            payment.counterpartyName,
           );
           counterpartyIndex[payment.counterpartyId] = counterparty;
           counterparties.push(counterparty);
@@ -231,7 +246,7 @@ export class EventDetailComponent implements OnChanges {
       if (noCounterparty.payments.length) counterparties.push(noCounterparty);
 
       this.counterparties = counterparties.map(counterparty =>
-        Object.assign(counterparty, { open: false })
+        Object.assign(counterparty, { open: false }),
       );
     }
   }

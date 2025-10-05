@@ -3,6 +3,7 @@ import {
   OnInit,
   forwardRef,
   ChangeDetectorRef,
+  inject,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
@@ -26,19 +27,18 @@ interface ProfileSelectionModel {
       multi: true,
     },
   ],
+  imports: [],
 })
 export class ManagedProfilesSelectorComponent
   implements OnInit, ControlValueAccessor
 {
+  private adminService = inject(AdminService);
+  private cdRef = inject(ChangeDetectorRef);
+
   managedProfiles: number[];
 
   profiles: Profile[];
   selectionModels: ProfileSelectionModel[];
-
-  constructor(
-    private adminService: AdminService,
-    private cdRef: ChangeDetectorRef
-  ) {}
 
   ngOnInit() {
     this.loadProfiles();
@@ -113,10 +113,10 @@ export class ManagedProfilesSelectorComponent
     this.selectionModels = this.profiles.map(profile => {
       const isManaged = this.userManagesProfile(profile.id);
       const children = this.profiles.filter(
-        otherProfile => otherProfile.parent === profile.id
+        otherProfile => otherProfile.parent === profile.id,
       );
       const isAnyChildrenManaged = children.some(child =>
-        this.userManagesProfile(child.id)
+        this.userManagesProfile(child.id),
       );
 
       return { profile, children, isManaged, isAnyChildrenManaged };
@@ -126,7 +126,7 @@ export class ManagedProfilesSelectorComponent
       (a, b) =>
         Number(b.isManaged) - Number(a.isManaged) ||
         Number(b.children.length > 0) - Number(a.children.length > 0) ||
-        a.profile.name.localeCompare(b.profile.name)
+        a.profile.name.localeCompare(b.profile.name),
     );
 
     console.log(this.selectionModels);
