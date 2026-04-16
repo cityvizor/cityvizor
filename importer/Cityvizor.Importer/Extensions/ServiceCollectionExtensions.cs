@@ -10,10 +10,10 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection RegisterImporterBackgroundService(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<IValidateOptions<BackgroundServicesOptions>, BackgroundServicesOptionsValidator>();
+        services.AddSingleton<IValidateOptions<ImporterServiceOptions>, ImporterServiceOptionsValidator>();
         services
-            .AddOptions<BackgroundServicesOptions>()
-            .Bind(configuration.GetSection("BackgroundServices"))
+            .AddOptions<ImporterServiceOptions>()
+            .Bind(configuration.GetSection("ImporterService"))
             .ValidateOnStart();
         return services.AddHostedService<ImporterBackgroundService>();
     }

@@ -2,7 +2,7 @@
   "name": "cityvizor-client-redesign",
   "homepage": "https://cityvizor.cz/",
   "repository": "otevrena-data-mfcr/CityVizor",
-  "version": "5.7.0",
+  "version": "6.0.0",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

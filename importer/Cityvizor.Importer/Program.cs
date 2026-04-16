@@ -20,10 +20,7 @@ public class Program
             .WriteTo.Map(LoggingExtensions.ImportLogFile, (path, sink) => sink.File(path ?? "Path missing"), sinkMapCountLimit: 20)
         );
 
-        // Add services to the container.
-
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -44,6 +41,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        // TODO: Enable HTTPS redirection
         //app.UseHttpsRedirection();
 
         app.UseAuthorization();

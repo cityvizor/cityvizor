@@ -224,7 +224,7 @@ internal class KxxRecordBuilder(ILogger logger)
         {
             if (!IsRelevantBalance(balance))
             {
-                _logger.Warning("Balance with documentId {DocumentId} and accountedDate {AccountedDate} will be ignored because it has unsupported item number {ItemNumber}.",
+                _logger.Debug("Balance with documentId {DocumentId} and accountedDate {AccountedDate} will be ignored because it has unsupported item number {ItemNumber}.",
                     balance.DocumentId, balance.AccountedDate, balance.Item);
             }
             else

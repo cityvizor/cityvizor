@@ -6,20 +6,26 @@ namespace Cityvizor.Importer.BackgroundServices;
 
 public class ImporterBackgroundService : BackgroundService
 {
-    private readonly BackgroundServicesOptions _options;
+    private readonly ImporterServiceOptions _options;
     private readonly Serilog.ILogger _logger;
     private readonly IServiceScopeFactory _scopeFactory;
 
-    public ImporterBackgroundService(IOptions<BackgroundServicesOptions> options, Serilog.ILogger logger, IServiceScopeFactory scopeFactory)
+    public ImporterBackgroundService(IOptions<ImporterServiceOptions> options, Serilog.ILogger logger, IServiceScopeFactory scopeFactory)
     {
         _options = options.Value;
         _logger = logger;
         _scopeFactory = scopeFactory;
-        _logger.Information("Starting ImporterBackgroundService. Runs every {ImporterServiceFrequency} milliseconds", _options.ImporterServiceFrequency);
+        _logger.Information("Starting ImporterBackgroundService. Runs every {ServiceFrequency} milliseconds", _options.ServiceFrequency);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (!_options.Enabled)
+        {
+            _logger.Information("ImporterBackgroundService is disabled. Exiting.");
+            return;
+        }
+
         // Awaiting Task.Yield() transitions to asynchronous operation immediately.
         // This allows startup to continue without waiting.
         // https://mjconrad.com/blog/dotnet6-managing-exceptions-in-backgroundservice-or-ihostedservice-workers
@@ -39,7 +45,7 @@ public class ImporterBackgroundService : BackgroundService
                        ex, "Unhandled exception occurred Importer background service worker. Worker will retry after the normal interval.");
             }
 
-            await Task.Delay(_options.ImporterServiceFrequency, stoppingToken);
+            await Task.Delay(_options.ServiceFrequency, stoppingToken);
         }
     }
 }
