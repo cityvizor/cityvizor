@@ -93,7 +93,7 @@ async function sendToEmail(type: string, content: string) {
   });
 
   const info = await transporter.sendMail({
-    from: '"Cityvizor feedback"', // sender address
+    from: `"Cityvizor feedback" <${environment.email.user}>`,
     to: environment.email.address,
     subject: type,
     text: content,
