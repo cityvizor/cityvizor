@@ -10,7 +10,9 @@
     "start": "cd server && npm start",
     "build": "cd server && npm run build && cd ../client && npm run build",
     "create-admin": "cd server && npm run create-admin",
-    "lint": "cd server && npm run lint && cd ../client && npm run lint && cd ../landing-page && npm run lint"
+    "lint": "cd server && npm run lint && cd ../client && npm run lint && cd ../landing-page && npm run lint",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed"
   },
   "keywords": [
     "opendata",
@@ -22,5 +24,8 @@
     "Jan Vlasaty <jan.vlasaty@hotmail.com>",
     "Ondřej Roztočil <roztocil@outlook.com>"
   ],
-  "license": "AGPL-3.0-or-later"
+  "license": "AGPL-3.0-or-later",
+  "devDependencies": {
+    "@playwright/test": "^1.56.0"
+  }
 }

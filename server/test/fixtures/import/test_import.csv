@@ -1,0 +1,15 @@
+type;paragraph;item;event;unit;amount;date;counterpartyId;counterpartyName;description
+ROZ;0;1111;;;120000;;;;
+ROZ;5512;5169;1;;66000;;;;
+ROZ;2212;5139;2;1;85000;;;;
+KDF;2212;5139;2;;20000;2017-01-05;12345678;"Jiří Novák";"Uhrada za smluvené služby"
+KDF;2212;5139;2;;40000;2017-02-01;22345678;"Doprava a.s.";"Uhrada za leden"
+KDF;2212;5139;2;;20000;2017-03-01;22345678;"Doprava a.s.";"Uhrada za unor"
+;5512;5169;1;;50000;;;;
+;0;1111;;;95000;;;;
+POK;0;1340;3;;520;2017-01-08;;;
+;3612;2132;126;;25000;;;;
+KOF;3612;2132;126;;30000;2017-09-29;32345678;"ABC Group, a.s.";"Pronájem prostor právnické osobě – září"
+KDF;3612;5152;126;;11000;2017-01-11;42345678;"RWE";"Byty - dodávka tep. energie"
+ROZ;3612;5152;126;;60000;;;;
+ROZ;3612;2132;126;;70000;;;;
