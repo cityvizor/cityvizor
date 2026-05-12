@@ -56,6 +56,7 @@ module.exports = {
   },
 
   feedback_form: {
+    // full From header value ('"Cityvizor feedback" <feedback@cityvizor.cz>')
     email_sender: process.env.FEEDBACK_SENDER,
     email_recipient: process.env.FEEDBACK_RECIPIENT,
   },

@@ -83,8 +83,7 @@ Informace o propojení: ${req.body.subscribe}
 
 async function sendToEmail(type: string, content: string) {
   const feedbackSender = environment.feedback_form?.email_sender;
-  const feedbackRecipient =
-    environment.feedback_form?.email_recipient ?? environment.email.address;
+  const feedbackRecipient = environment.feedback_form?.email_recipient ?? environment.email.address;
 
   const transporter = nodemailer.createTransport({
     host: environment.email.smtp,
@@ -97,9 +96,7 @@ async function sendToEmail(type: string, content: string) {
   });
 
   const info = await transporter.sendMail({
-    from: feedbackSender
-      ? `"Cityvizor feedback" <${feedbackSender}>`
-      : '"Cityvizor feedback"',
+    from: feedbackSender || '"Cityvizor feedback"',
     to: feedbackRecipient,
     subject: type,
     text: content,
