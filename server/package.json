@@ -25,7 +25,7 @@
     "posttest": "npm run lint",
     "lint": "eslint -c .eslintrc.json --ext .ts src",
     "fix": "eslint --fix -c .eslintrc.json --ext .ts src",
-    "test": ""
+    "test": "jest"
   },
   "keywords": [
     "opendata",
@@ -83,6 +83,7 @@
     "@types/express": "^4.17.11",
     "@types/extract-zip": "^1.6.2",
     "@types/fs-extra": "^9.0.6",
+    "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/luxon": "^1.27.1",
     "@types/merge-stream": "^1.1.2",
@@ -95,8 +96,11 @@
     "eslint-plugin-jsdoc": "^48.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "husky": "^4.3.8",
+    "jest": "^29.7.0",
+    "jest-util": "^29.7.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.2.5",
+    "ts-jest": "^29.4.5",
     "typescript": "^5.1.6"
   },
   "resolutions": {
