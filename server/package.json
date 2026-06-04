@@ -64,7 +64,7 @@
     "luxon": "^1.28.1",
     "merge-stream": "^2.0.0",
     "minimist": "^1.2.6",
-    "minio": "^7.0.18",
+    "minio": "^8.0.7",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.9",
     "path": "^0.12.7",
