@@ -1,0 +1,12 @@
+meta {
+  name: get by slug
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseApiUrl}}/public/profiles/{{profileSlug}}
+  body: none
+  auth: none
+}
+
