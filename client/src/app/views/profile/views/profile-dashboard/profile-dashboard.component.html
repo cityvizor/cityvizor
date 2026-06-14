@@ -1,7 +1,30 @@
 <div class="container">
   @if (isMunicipality) {
     <div>
-      @if (!!dashboard) {
+      @if (dashboardLoading) {
+        <div class="expenditures-placeholder" aria-hidden="true">
+          <h3 class="mt-4">Přehled výdajů</h3>
+          <div class="row">
+            @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+              <div class="col-md-6 col-lg-4 text-center">
+                <div class="history-skeleton">
+                  <div class="history-skeleton__left">
+                    <div class="history-skeleton__icon"></div>
+                    <div class="history-skeleton__title"></div>
+                  </div>
+                  <div class="history-skeleton__right">
+                    <div class="history-skeleton__stats">
+                      <div class="history-skeleton__stat"></div>
+                      <div class="history-skeleton__stat"></div>
+                    </div>
+                    <div class="history-skeleton__chart"></div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      } @else if (!!dashboard) {
         <div>
           <h3 class="mt-4">Přehled výdajů</h3>
           <div class="row">
@@ -71,89 +94,115 @@
             </div>
           </div>
           <div class="bg-timeline">
-            @for (
-              payment of this.payments.slice(0, this.onlyPayments ? 10 : 5);
-              track payment
-            ) {
-              <div
-                [ngClass]="{ 'col-md-6': this.onlyPayments }"
-                class="row news"
-              >
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-9">
-                      <h5>
-                        {{
-                          payment.counterpartyName || "Protistrana neuvedena"
-                        }}
-                        @if (payment.counterpartyId) {
-                          <small>
+            @if (paymentsLoading) {
+              @for (item of [1, 2, 3, 4, 5]; track item) {
+                <div class="row news news-skeleton" aria-hidden="true">
+                  <div class="col-12">
+                    <div class="news-skeleton__header">
+                      <div class="news-skeleton__title"></div>
+                      <div class="news-skeleton__date"></div>
+                    </div>
+                    <div class="news-skeleton__body">
+                      <div class="news-skeleton__description"></div>
+                      <div class="news-skeleton__amount"></div>
+                    </div>
+                  </div>
+                </div>
+              }
+            } @else {
+              @for (
+                payment of this.payments.slice(0, this.onlyPayments ? 10 : 5);
+                track payment
+              ) {
+                <div
+                  [ngClass]="{ 'col-md-6': this.onlyPayments }"
+                  class="row news"
+                >
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="col-9">
+                        <h5>
+                          {{
+                            payment.counterpartyName || "Protistrana neuvedena"
+                          }}
+                          @if (payment.counterpartyId) {
+                            <small>
                               <a
                                 [href]="payment.counterpartyId | aresUrl"
                                 target="_blank"
                                 title="Zápis subjektu v ARES"
                                 >[ARES]
-                            </a>
-                            @if (payment.counterpartyId) {
-                              <a
-                                [href]="
-                                  'https://www.hlidacstatu.cz/hledat?Q=ico%3A' +
-                                  (payment.counterpartyId | ico)
-                                "
-                                target="_blank"
-                              >
-                                [Hlídač státu]</a
-                              >
-                            }
-                          </small>
-                        }
-                      </h5>
+                              </a>
+                              @if (payment.counterpartyId) {
+                                <a
+                                  [href]="
+                                    'https://www.hlidacstatu.cz/hledat?Q=ico%3A' +
+                                    (payment.counterpartyId | ico)
+                                  "
+                                  target="_blank"
+                                >
+                                  [Hlídač státu]</a
+                                >
+                              }
+                            </small>
+                          }
+                        </h5>
+                      </div>
+                      <div class="col-3 small text-end">
+                        <h5>
+                          @if (payment.date) {
+                            <small>{{ payment.date | date: "d. M. y" }}</small>
+                          }
+                        </h5>
+                      </div>
                     </div>
-                    <div class="col-3 small text-end">
-                      <h5>
-                        @if (payment.date) {
-                          <small>{{ payment.date | date: "d. M. y" }}</small>
+                    <div class="row vertical-align">
+                      <div class="col-9">
+                        @if (payment.description) {
+                          <p class="text-muted">
+                            {{ payment.description }}
+                          </p>
                         }
-                      </h5>
-                    </div>
-                  </div>
-                  <div class="row vertical-align">
-                    <div class="col-9">
-                      @if (payment.description) {
-                        <p class="text-muted">
-                          {{ payment.description }}
+                        @if (!payment.description) {
+                          <p class="text-muted small">(bez popisu)</p>
+                        }
+                      </div>
+                      <div class="col-3 text-end vertical-align-end">
+                        <p>
+                          <strong>
+                            {{
+                              payment.incomeAmount + payment.expenditureAmount
+                                | money: 0 : false
+                            }}
+                            Kč
+                            <!-- one of amounts is always zero -->
+                          </strong>
                         </p>
-                      }
-                      @if (!payment.description) {
-                        <p class="text-muted small">(bez popisu)</p>
-                      }
-                    </div>
-                    <div class="col-3 text-end vertical-align-end">
-                      <p>
-                        <strong>
-                          {{
-                            payment.incomeAmount + payment.expenditureAmount
-                              | money: 0 : false
-                          }}
-                          Kč
-                          <!-- one of amounts is always zero -->
-                        </strong>
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+              }
+              @if (!payments.length) {
+                <div class="row news news-empty">
+                  <div class="col-12">
+                    <p class="text-muted small mb-0">
+                      Žádné faktury k zobrazení.
+                    </p>
+                  </div>
+                </div>
+              }
+              <div class="row">
+                <div class="text-center more">
+                  <a
+                    routerLink="../faktury"
+                    routerLinkActive="active"
+                    class="btn btn-sm btn-red"
+                    >Zobrazit další</a
+                  >
+                </div>
               </div>
             }
-            <div class="row">
-              <div class="text-center more">
-                <a
-                  routerLink="../faktury"
-                  routerLinkActive="active"
-                  class="btn btn-sm btn-red"
-                  >Zobrazit další</a
-                >
-              </div>
-            </div>
           </div>
         </div>
         @if ((this.contracts?.length ?? 0) !== 0) {

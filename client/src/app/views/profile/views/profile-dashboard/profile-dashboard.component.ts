@@ -59,7 +59,9 @@ export class ProfileDashboardComponent implements OnInit {
   maxExpenditureAmount: number = 0;
   maxIncomeAmount: number = 0;
 
-  dashboard: Dashboard;
+  dashboard: Dashboard | null = null;
+  dashboardLoading: boolean = true;
+  paymentsLoading: boolean = true;
 
   ngOnInit() {
     this.profileService.profile.subscribe(profile => {
@@ -72,10 +74,17 @@ export class ProfileDashboardComponent implements OnInit {
   }
 
   async loadPayments(profileId: number) {
-    this.payments = await this.dataService.getProfilePayments(profileId, {
-      limit: 10,
-      sort: "-date",
-    });
+    this.paymentsLoading = true;
+    this.payments = [];
+
+    try {
+      this.payments = await this.dataService.getProfilePayments(profileId, {
+        limit: 10,
+        sort: "-date",
+      });
+    } finally {
+      this.paymentsLoading = false;
+    }
   }
 
   async loadContracts(profileId: number) {
@@ -86,12 +95,19 @@ export class ProfileDashboardComponent implements OnInit {
   }
 
   async loadDashboard(profileId: number) {
-    const dashboard = await this.dataService.getProfileDashboard(profileId);
+    this.dashboardLoading = true;
+    this.dashboard = null;
 
-    this.dashboard = dashboard.reduce((acc, cur) => {
-      acc[cur.category].push(cur);
-      return acc;
-    }, new Dashboard());
+    try {
+      const dashboard = await this.dataService.getProfileDashboard(profileId);
+
+      this.dashboard = dashboard.reduce((acc, cur) => {
+        acc[cur.category].push(cur);
+        return acc;
+      }, new Dashboard());
+    } finally {
+      this.dashboardLoading = false;
+    }
   }
 
   async loadBudgets(profileId: number, sumMode: ProfileSumMode) {
