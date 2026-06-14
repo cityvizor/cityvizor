@@ -67,7 +67,7 @@ router.put(
     };
     try {
       await db("app.years").insert(data);
-    } catch (err) {
+    } catch {
       const existingYear = await db("app.years").where(data).first();
       if (existingYear) return res.status(200).send("Year already exists.");
     }

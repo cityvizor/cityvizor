@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const packageConfig = require(".package.json");
+import packageConfig from "../package.json";
 
 void (async () => {
   console.log("Starting CityVizor");
