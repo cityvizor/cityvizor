@@ -1,0 +1,17 @@
+meta {
+  name: sections
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseApiUrl}}/public/profiles/sections?status=visible&countChildren=true
+  body: none
+  auth: none
+}
+
+query {
+  status: visible
+  countChildren: true
+}
+

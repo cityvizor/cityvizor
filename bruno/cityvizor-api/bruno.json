@@ -1,0 +1,10 @@
+{
+  "version": "1",
+  "name": "Cityvizor API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
+

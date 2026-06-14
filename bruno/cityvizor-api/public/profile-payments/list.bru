@@ -1,0 +1,18 @@
+meta {
+  name: list
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseApiUrl}}/public/profiles/{{profileId}}/payments?limit={{pageLimit}}&offset={{pageOffset}}&sort=-date
+  body: none
+  auth: none
+}
+
+query {
+  limit: {{pageLimit}}
+  offset: {{pageOffset}}
+  sort: -date
+}
+
