@@ -44,8 +44,9 @@ export class AdminProfileDataComponent implements OnInit {
 
   years: BudgetYear[] = [];
 
-  currentYear: number;
+  currentYear?: number;
   currentYearBudget?: BudgetYear;
+  yearModalMode: "create" | "update" = "create";
 
   loading: boolean = false;
 
@@ -91,8 +92,16 @@ export class AdminProfileDataComponent implements OnInit {
   }
 
   openYearModal(year: BudgetYear, modal: TemplateRef<any>) {
+    this.yearModalMode = "update";
     this.currentYearBudget = year;
     this.currentYear = year.year;
+    this.openModal(modal);
+  }
+
+  openAddYearModal(modal: TemplateRef<any>) {
+    this.yearModalMode = "create";
+    this.currentYearBudget = undefined;
+    this.currentYear = undefined;
     this.openModal(modal);
   }
 

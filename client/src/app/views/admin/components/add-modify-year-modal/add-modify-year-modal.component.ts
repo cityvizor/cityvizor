@@ -21,6 +21,7 @@ export class AddModifyYearModalComponent implements OnInit {
 
   @Input() profileId: number;
   @Input() year: BudgetYear = {} as BudgetYear;
+  @Input() mode: "create" | "update" = "create";
 
   @Output() close = new EventEmitter<boolean>();
 
@@ -36,7 +37,7 @@ export class AddModifyYearModalComponent implements OnInit {
   titleText: string = "Vytvořit nový rozpočtový rok";
 
   ngOnInit() {
-    if (this.year && this.year.year > 1900) {
+    if (this.mode === "update" && this.year && this.year.year > 1900) {
       this.isUpdate = true;
       this.buttonText = "Uložit";
       this.titleText = "Upravit rozpočtový rok";
