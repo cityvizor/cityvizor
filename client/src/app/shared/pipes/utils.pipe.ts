@@ -19,6 +19,18 @@ export class IcoPipe implements PipeTransform {
     return ("00000000" + value).slice(-8);
   }
 }
+
+@Pipe({
+  name: "aresUrl",
+  standalone: true,
+})
+export class AresUrlPipe implements PipeTransform {
+  transform(value: string | number): string {
+    const ico = ("00000000" + value).slice(-8);
+    return `https://ares.gov.cz/ekonomicke-subjekty?ico=${ico}`;
+  }
+}
+
 /*
  * Join array of strings by separator
  */

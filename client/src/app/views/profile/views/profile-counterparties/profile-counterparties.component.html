@@ -34,11 +34,7 @@
           <td>
             @if (counterparty.counterpartyId) {
               <a
-                [href]="
-                  'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
-                  counterparty.counterpartyId +
-                  '&cestina=cestina&xml=1'
-                "
+                [href]="counterparty.counterpartyId | aresUrl"
                 target="_blank"
                 >{{ counterparty.counterpartyId }}</a
               >

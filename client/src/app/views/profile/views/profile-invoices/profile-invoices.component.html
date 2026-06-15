@@ -47,11 +47,7 @@
               {{ invoice.counterpartyId | ico }}
               @if (invoice.counterpartyId) {
                 <a
-                  [href]="
-                    'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
-                    (invoice.counterpartyId | ico) +
-                    '&cestina=cestina&xml=1'
-                  "
+                  [href]="invoice.counterpartyId | aresUrl"
                   target="_blank"
                   >[Ares]</a
                 >

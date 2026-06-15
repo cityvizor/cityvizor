@@ -231,11 +231,7 @@
                     {{ counterparty.name }}
                     @if (counterparty.id) {
                       <a
-                        [href]="
-                          'http://www.info.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
-                          counterparty.id! +
-                          '&cestina=cestina&xml=1'
-                        "
+                        [href]="counterparty.id! | aresUrl"
                         target="_blank"
                         title="Zápis subjektu v ARES"
                         class="text-muted small"

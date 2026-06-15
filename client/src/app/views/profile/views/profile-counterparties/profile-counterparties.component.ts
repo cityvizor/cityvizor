@@ -10,12 +10,13 @@ import { DateTime } from "luxon";
 import { DatePickerComponent } from "../../../../shared/components/date-picker/date-picker.component";
 
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { AresUrlPipe } from "../../../../shared/pipes/utils.pipe";
 
 @Component({
   selector: "profile-counterparties",
   templateUrl: "profile-counterparties.component.html",
   styleUrls: ["profile-counterparties.component.scss"],
-  imports: [DatePickerComponent, MoneyPipe],
+  imports: [DatePickerComponent, MoneyPipe, AresUrlPipe],
 })
 export class ProfileCounterpartiesComponent implements OnInit {
   private profileService = inject(ProfileService);
