@@ -49,6 +49,7 @@ export class AddModifyYearModalComponent implements OnInit {
   }
 
   async addModifyYear(form: NgForm): Promise<void> {
+    this.year.hidden = form.value.hidden;
     this.year.importFormat = form.value.import_format;
     this.year.importPeriodMinutes = Math.floor(
       Number(form.value.import_period_minutes),
