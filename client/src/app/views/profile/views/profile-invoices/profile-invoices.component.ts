@@ -8,14 +8,21 @@ import { DateTime } from "luxon";
 import { DatePickerComponent } from "../../../../shared/components/date-picker/date-picker.component";
 import { DatePipe } from "@angular/common";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
-import { IcoPipe } from "../../../../shared/pipes/utils.pipe";
+import { AresUrlPipe, IcoPipe } from "../../../../shared/pipes/utils.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "profile-invoices",
   templateUrl: "profile-invoices.component.html",
   styleUrls: ["profile-invoices.component.scss"],
-  imports: [DatePickerComponent, DatePipe, MoneyPipe, IcoPipe, TranslatePipe],
+  imports: [
+    DatePickerComponent,
+    DatePipe,
+    MoneyPipe,
+    IcoPipe,
+    AresUrlPipe,
+    TranslatePipe,
+  ],
 })
 export class ProfileInvoicesComponent implements OnInit {
   private dataService = inject(DataService);

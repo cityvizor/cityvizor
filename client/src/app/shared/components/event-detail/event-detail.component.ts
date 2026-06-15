@@ -33,7 +33,7 @@ import { ChartBudgetComponent } from "../../charts/chart-budget/chart-budget.com
 import { FormsModule } from "@angular/forms";
 import { TranslatePipe } from "@ngx-translate/core";
 import { MoneyPipe } from "../../pipes/money.pipe";
-import { AbsPipe } from "../../pipes/utils.pipe";
+import { AbsPipe, AresUrlPipe } from "../../pipes/utils.pipe";
 
 type CounterpartyOpenable = Counterparty & { open: boolean };
 
@@ -65,6 +65,7 @@ type CounterpartyOpenable = Counterparty & { open: boolean };
     TranslatePipe,
     MoneyPipe,
     AbsPipe,
+    AresUrlPipe,
   ],
 })
 export class EventDetailComponent implements OnChanges {

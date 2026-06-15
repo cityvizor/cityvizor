@@ -22,7 +22,7 @@ import { NgClass, DatePipe } from "@angular/common";
 import { ChartHistoryComponent } from "../../../../shared/charts/chart-history/chart-history.component";
 import { ChartBudgetComponent } from "../../../../shared/charts/chart-budget/chart-budget.component";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
-import { IcoPipe } from "../../../../shared/pipes/utils.pipe";
+import { AresUrlPipe, IcoPipe } from "../../../../shared/pipes/utils.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
@@ -38,6 +38,7 @@ import { TranslatePipe } from "@ngx-translate/core";
     DatePipe,
     MoneyPipe,
     IcoPipe,
+    AresUrlPipe,
     TranslatePipe,
   ],
 })

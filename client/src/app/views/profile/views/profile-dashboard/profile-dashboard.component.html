@@ -88,15 +88,11 @@
                         }}
                         @if (payment.counterpartyId) {
                           <small>
-                            <a
-                              [href]="
-                                'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
-                                (payment.counterpartyId | ico) +
-                                '&cestina=cestina&xml=1'
-                              "
-                              target="_blank"
-                              title="Zápis subjektu v ARES"
-                              >[ARES]
+                              <a
+                                [href]="payment.counterpartyId | aresUrl"
+                                target="_blank"
+                                title="Zápis subjektu v ARES"
+                                >[ARES]
                             </a>
                             @if (payment.counterpartyId) {
                               <a
