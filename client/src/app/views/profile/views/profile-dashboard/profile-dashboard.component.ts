@@ -62,6 +62,7 @@ export class ProfileDashboardComponent implements OnInit {
   dashboard: Dashboard | null = null;
   dashboardLoading: boolean = true;
   paymentsLoading: boolean = true;
+  budgetsLoading: boolean = true;
 
   ngOnInit() {
     this.profileService.profile.subscribe(profile => {
@@ -111,26 +112,34 @@ export class ProfileDashboardComponent implements OnInit {
   }
 
   async loadBudgets(profileId: number, sumMode: ProfileSumMode) {
-    if (this.isMunicipality) {
-      this.budgets = await this.dataService.getProfileBudgets(profileId, {
-        limit: 100,
-        sumMode,
-      });
-    } else {
-      this.budgets = await this.dataService.getProfilePlans(profileId);
+    this.budgetsLoading = true;
+    this.budgets = [];
+    this.maxBudgetAmount = 0;
+
+    try {
+      if (this.isMunicipality) {
+        this.budgets = await this.dataService.getProfileBudgets(profileId, {
+          limit: 100,
+          sumMode,
+        });
+      } else {
+        this.budgets = await this.dataService.getProfilePlans(profileId);
+      }
+
+      this.budgets.sort((a, b) => b.year - a.year);
+
+      this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
+        return Math.max(
+          acc,
+          budget.budgetIncomeAmount,
+          budget.incomeAmount,
+          budget.budgetExpenditureAmount,
+          budget.expenditureAmount,
+        );
+      }, 0);
+    } finally {
+      this.budgetsLoading = false;
     }
-
-    this.budgets.sort((a, b) => b.year - a.year);
-
-    this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
-      return Math.max(
-        acc,
-        budget.budgetIncomeAmount,
-        budget.incomeAmount,
-        budget.budgetExpenditureAmount,
-        budget.expenditureAmount,
-      );
-    }, 0);
   }
 
   openBudget(type: string, year: number): void {

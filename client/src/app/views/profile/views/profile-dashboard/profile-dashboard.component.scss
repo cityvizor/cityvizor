@@ -191,7 +191,12 @@
   .news-skeleton__title::after,
   .news-skeleton__date::after,
   .news-skeleton__description::after,
-  .news-skeleton__amount::after {
+  .news-skeleton__amount::after,
+  .budget-skeleton__title::after,
+  .budget-skeleton__chart::after,
+  .budget-skeleton__label::after,
+  .budget-skeleton__row-label::after,
+  .budget-skeleton__amount::after {
     animation: none;
   }
 }
@@ -204,6 +209,90 @@
 }
 .budgets .label {
   margin: 0px auto;
+}
+
+.budget-skeleton {
+  padding-top: 10px;
+}
+
+.budget-skeleton__title,
+.budget-skeleton__chart,
+.budget-skeleton__label,
+.budget-skeleton__row-label,
+.budget-skeleton__amount {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #e9eef2;
+  filter: blur(0.2px);
+}
+
+.budget-skeleton__title::after,
+.budget-skeleton__chart::after,
+.budget-skeleton__label::after,
+.budget-skeleton__row-label::after,
+.budget-skeleton__amount::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  animation: dashboard-skeleton-shimmer 1.4s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%);
+}
+
+.budget-skeleton__title {
+  width: 88px;
+  height: 24px;
+  margin-bottom: 8px;
+}
+
+.budget-skeleton__charts,
+.budget-skeleton__rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.budget-skeleton__charts {
+  align-items: end;
+  margin-bottom: 10px;
+}
+
+.budget-skeleton__chart {
+  aspect-ratio: 1 / 1;
+  width: 42px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+}
+
+.budget-skeleton__label {
+  width: 70px;
+  height: 20px;
+  margin: 0 auto;
+}
+
+.budget-skeleton__rows {
+  padding-top: 8px;
+  border-top: 1px solid #dee2e6;
+}
+
+.budget-skeleton__row-label,
+.budget-skeleton__amount {
+  height: 17px;
+}
+
+.budget-skeleton__row-label {
+  width: 78%;
+}
+
+.budget-skeleton__amount {
+  width: 90%;
+  justify-self: end;
 }
 
 .generalinfo {
