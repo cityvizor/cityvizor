@@ -1,4 +1,4 @@
-FROM node:18 AS install
+FROM node:20 AS install
 
 WORKDIR /user/src/app
 
