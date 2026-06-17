@@ -1,4 +1,4 @@
-<header-menu title="Přihlášení" backlink></header-menu>
+<header-menu title="Přihlášení" backlink />
 <div id="loginContainer">
   <h1>Přihlášení do administrace profilu obce</h1>
   <p>
@@ -7,68 +7,71 @@
       >cityvizor&#64;otevrenamesta.cz</a
     >.
   </p>
-  <form
-    *ngIf="!authService.logged"
-    class="form-signin"
-    #f="ngForm"
-    (ngSubmit)="submit(loginForm)"
-    autocomplete="on"
-    #loginForm="ngForm"
-  >
-    <div class="form-group">
-      <label for="email" class="cols-sm-2 control-label">Login</label>
-      <div class="cols-sm-10">
-        <div class="input-group">
-          <span class="input-group-addon"
-            ><i class="fa fa-envelope fa" aria-hidden="true"></i
-          ></span>
-          <input
-            ngModel
-            type="text"
-            name="username"
-            id="inputEmail"
-            class="form-control"
-            placeholder="Login"
-            ng-required="true"
-            autocomplete="on"
-            autofocus=""
-          />
+  @if (!authService.logged) {
+    <form
+      class="form-signin"
+      #f="ngForm"
+      (ngSubmit)="submit(loginForm)"
+      autocomplete="on"
+      #loginForm="ngForm"
+    >
+      <div class="mb-3">
+        <label for="email" class="cols-sm-2 control-label">Login</label>
+        <div class="cols-sm-10">
+          <div class="input-group">
+            <span class="input-group-text"
+              ><i class="fa fa-envelope fa" aria-hidden="true"></i
+            ></span>
+            <input
+              ngModel
+              type="text"
+              name="username"
+              id="inputEmail"
+              class="form-control"
+              placeholder="Login"
+              ng-required="true"
+              autocomplete="on"
+              autofocus=""
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="inputPassword" class="cols-sm-2 control-label">Heslo</label>
-      <div class="cols-sm-10">
-        <div class="input-group">
-          <span class="input-group-addon"
-            ><i class="fa fa-lock fa" aria-hidden="true"></i
-          ></span>
-          <input
-            ngModel
-            type="password"
-            name="password"
-            id="inputPassword"
-            class="form-control"
-            placeholder="Heslo"
-            ng-required="true"
-            autocomplete="on"
-          />
+      <div class="mb-3">
+        <label for="inputPassword" class="cols-sm-2 control-label">Heslo</label>
+        <div class="cols-sm-10">
+          <div class="input-group">
+            <span class="input-group-text"
+              ><i class="fa fa-lock fa" aria-hidden="true"></i
+            ></span>
+            <input
+              ngModel
+              type="password"
+              name="password"
+              id="inputPassword"
+              class="form-control"
+              placeholder="Heslo"
+              ng-required="true"
+              autocomplete="on"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="form-group">
-      <input
-        type="submit"
-        class="btn btn-primary btn-lg btn-block login-button"
-        value="Přihlásit se"
-      />
-    </div>
-  </form>
+      <div class="mb-3">
+        <input
+          type="submit"
+          class="btn btn-primary btn-lg btn-block login-button"
+          value="Přihlásit se"
+        />
+      </div>
+    </form>
+  }
 
-  <div *ngIf="wrongPassword" class="alert alert-danger">
-    Chybná emailová adresa nebo heslo.
-  </div>
-  <div *ngIf="authService.logged">
-    <p>Již jste přihlášen jako {{ authService.user.id }}.</p>
-  </div>
+  @if (wrongPassword) {
+    <div class="alert alert-danger">Chybná emailová adresa nebo heslo.</div>
+  }
+  @if (authService.logged) {
+    <div>
+      <p>Již jste přihlášen jako {{ authService.user.id }}.</p>
+    </div>
+  }
 </div>

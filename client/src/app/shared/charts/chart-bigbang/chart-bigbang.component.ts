@@ -20,10 +20,10 @@ export interface ChartBigbangOptions {
 }
 
 @Component({
-  moduleId: module.id,
   selector: "chart-bigbang",
   templateUrl: "chart-bigbang.component.html",
   styleUrls: ["chart-bigbang.component.scss"],
+  imports: [],
 })
 export class ChartBigbangComponent implements OnChanges {
   @Input() data: ChartBigbangData;
@@ -65,7 +65,7 @@ export class ChartBigbangComponent implements OnChanges {
       else
         this.maxAmount = this.data.reduce(
           (acc, cur) => Math.max(acc, cur.innerAmount, cur.outerAmount),
-          0
+          0,
         );
     }
   }
@@ -76,8 +76,8 @@ export class ChartBigbangComponent implements OnChanges {
       this.minR,
       Math.sqrt(
         (amount / this.maxAmount) * (1 - Math.pow(this.innerR, 2)) +
-          Math.pow(this.innerR, 2)
-      )
+          Math.pow(this.innerR, 2),
+      ),
     );
   }
 
@@ -97,7 +97,7 @@ export class ChartBigbangComponent implements OnChanges {
       innerRadius,
       outerRadius,
       start,
-      size
+      size,
     );
   }
 
@@ -138,7 +138,7 @@ export class ChartBigbangComponent implements OnChanges {
         ",1 " +
         endX1 +
         "," +
-        endY1
+        endY1,
     );
     properties.push("L" + startX2 + "," + startY2);
     properties.push(
@@ -151,7 +151,7 @@ export class ChartBigbangComponent implements OnChanges {
         ",0 " +
         endX2 +
         "," +
-        endY2
+        endY2,
     );
     properties.push("Z");
 

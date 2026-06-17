@@ -1,5 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+} from "@angular/core";
+import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { BudgetYear } from "../../../../schema";
 
@@ -7,8 +14,11 @@ import { BudgetYear } from "../../../../schema";
   selector: "add-modify-year-modal",
   templateUrl: "./add-modify-year-modal.component.html",
   styleUrls: ["./add-modify-year-modal.component.scss"],
+  imports: [FormsModule],
 })
 export class AddModifyYearModalComponent implements OnInit {
+  private adminService = inject(AdminService);
+
   @Input() profileId: number;
   @Input() year: BudgetYear = {} as BudgetYear;
 
@@ -25,8 +35,6 @@ export class AddModifyYearModalComponent implements OnInit {
 
   titleText: string = "Vytvořit nový rozpočtový rok";
 
-  constructor(private adminService: AdminService) {}
-
   ngOnInit() {
     if (this.year && this.year.year > 1900) {
       this.isUpdate = true;
@@ -41,9 +49,10 @@ export class AddModifyYearModalComponent implements OnInit {
   }
 
   async addModifyYear(form: NgForm): Promise<void> {
+    this.year.hidden = form.value.hidden;
     this.year.importFormat = form.value.import_format;
     this.year.importPeriodMinutes = Math.floor(
-      Number(form.value.import_period_minutes)
+      Number(form.value.import_period_minutes),
     );
     this.year.importUrl = form.value.import_url;
 
@@ -51,13 +60,13 @@ export class AddModifyYearModalComponent implements OnInit {
       await this.adminService.createProfileYear(
         this.profileId,
         form.value.year,
-        this.year
+        this.year,
       );
     } else {
       await this.adminService.updateProfileYear(
         this.profileId,
         this.year.year,
-        this.year
+        this.year,
       );
     }
     form.reset();

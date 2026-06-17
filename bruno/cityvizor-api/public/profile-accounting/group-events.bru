@@ -1,0 +1,12 @@
+meta {
+  name: group events
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseApiUrl}}/public/profiles/{{profileId}}/accounting/{{year}}/groups/{{accountingField}}/{{accountingGroup}}/events
+  body: none
+  auth: none
+}
+

@@ -1,0 +1,12 @@
+meta {
+  name: groups
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseApiUrl}}/public/profiles/{{profileId}}/accounting/{{year}}/groups/{{accountingField}}
+  body: none
+  auth: none
+}
+

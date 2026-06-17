@@ -5,6 +5,7 @@ import { AccountingRecord, PaymentRecord, EventRecord } from "../../../schema";
 import { ProfileType } from "../../../schema/profile-type";
 import { CityvizorFileType } from "./cityvizor-file-type";
 import { importLogger } from "../import-logger";
+import { stringsAreEqualCaseInsensitive } from "../../../utils";
 
 type Row = Record<string, string | number>;
 
@@ -98,7 +99,7 @@ export function createCityvizorParser(
     const foundColumns: string[] = header.map(originalField => {
       // browse through all the target fields if originalField is someones alias
       return Object.keys(columnAliases).find(
-        key => columnAliases[key].indexOf(originalField) !== -1
+        key => columnAliases[key].some(alias => stringsAreEqualCaseInsensitive(alias, originalField))
       );
     }) as string[];
     importLogger.log(`Found columns: [${foundColumns}]`);

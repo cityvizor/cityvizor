@@ -6,6 +6,9 @@ import {
   Output,
   EventEmitter,
 } from "@angular/core";
+import { NgClass } from "@angular/common";
+import { TranslatePipe } from "@ngx-translate/core";
+import { MoneyPipe } from "../../pipes/money.pipe";
 
 class ChartHistoryBar {
   amount: number = 0;
@@ -18,6 +21,7 @@ class ChartHistoryBar {
   selector: "chart-history",
   templateUrl: "chart-history.component.html",
   styleUrls: ["chart-history.component.scss"],
+  imports: [NgClass, TranslatePipe, MoneyPipe],
 })
 export class ChartHistoryComponent implements OnChanges {
   @Input()
@@ -78,7 +82,7 @@ export class ChartHistoryComponent implements OnChanges {
 
       this.config.visibleYears = Math.min(
         this.config.maxVisibleYears,
-        changes.data.currentValue.length
+        changes.data.currentValue.length,
       );
 
       this.config.spacing = this.config.width / this.config.visibleYears;
@@ -86,7 +90,7 @@ export class ChartHistoryComponent implements OnChanges {
       this.currentYear = changes.data.currentValue
         ? changes.data.currentValue.reduce(
             (max, data) => (max = Math.max(max, data.year)),
-            0
+            0,
           )
         : null;
       this.hoverYear = this.currentYear;
@@ -112,11 +116,11 @@ export class ChartHistoryComponent implements OnChanges {
 
       this.stats.max = this.bars.reduce(
         (max, bar) => (max = Math.max(max, bar.amount, bar.budgetAmount)),
-        0
+        0,
       );
       this.stats.min = this.bars.reduce(
         (min, bar) => (min = Math.min(min, bar.amount, bar.budgetAmount)),
-        0
+        0,
       );
 
       //create path for svg chart
@@ -140,7 +144,7 @@ export class ChartHistoryComponent implements OnChanges {
         height -
         Math.round(
           ((data[type] - this.stats.min) / (this.stats.max - this.stats.min)) *
-            (height - 10)
+            (height - 10),
         );
 
       if (data[type] > 0) {

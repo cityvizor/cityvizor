@@ -1,17 +1,34 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Component, OnInit, inject } from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile, ProfileType } from "app/schema";
 import { DateTime } from "luxon";
+import { DatePickerComponent } from "../../../../shared/components/date-picker/date-picker.component";
+import { DatePipe } from "@angular/common";
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { AresUrlPipe, IcoPipe } from "../../../../shared/pipes/utils.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "profile-invoices",
   templateUrl: "profile-invoices.component.html",
   styleUrls: ["profile-invoices.component.scss"],
+  imports: [
+    DatePickerComponent,
+    DatePipe,
+    MoneyPipe,
+    IcoPipe,
+    AresUrlPipe,
+    TranslatePipe,
+  ],
 })
 export class ProfileInvoicesComponent implements OnInit {
+  private dataService = inject(DataService);
+  private profileService = inject(ProfileService);
+  private route = inject(ActivatedRoute);
+
   // params
   profile: Observable<Profile>;
   params: Observable<Params>;
@@ -21,13 +38,6 @@ export class ProfileInvoicesComponent implements OnInit {
   loading: boolean = false;
 
   profileType: ProfileType = "municipality";
-
-  constructor(
-    private dataService: DataService,
-    private profileService: ProfileService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
 
   ngOnInit() {
     this.profile = this.profileService.profile;
@@ -60,7 +70,7 @@ export class ProfileInvoicesComponent implements OnInit {
     this.loading = true;
     this.invoices = await this.dataService.getProfilePayments(
       profileId,
-      params
+      params,
     );
     this.loading = false;
   }

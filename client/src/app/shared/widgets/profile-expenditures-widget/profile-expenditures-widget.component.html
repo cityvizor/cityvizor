@@ -1,5 +1,3 @@
-<chart-bigbang
-  *ngIf="chartData"
-  [data]="chartData"
-  (select)="openGroup.emit($event)"
-></chart-bigbang>
+@if (chartData) {
+  <chart-bigbang [data]="chartData" (select)="openGroup.emit($event)" />
+}

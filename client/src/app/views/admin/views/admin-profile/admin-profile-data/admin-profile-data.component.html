@@ -9,97 +9,128 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let year of years">
-      <td>
-        <i
-          *ngIf="!year.hidden"
-          class="fa fa-eye text-success"
-          aria-hidden="true"
-        ></i>
-        <i
-          *ngIf="year.hidden"
-          class="fa fa-eye-slash text-danger"
-          aria-hidden="true"
-        ></i>
-        &nbsp;
-        {{ year.year }}&nbsp;<ng-container *ngIf="year.hidden"
-          >(skrytý)</ng-container
-        >
-      </td>
-      <td>
-        <ng-container *ngIf="year.status" [ngSwitch]="year.status">
-          <ng-container *ngSwitchCase="'pending'">čeká ve frontě</ng-container>
-          <ng-container *ngSwitchCase="'processing'"
-            >probíhá import</ng-container
+    @for (year of years; track year) {
+      <tr>
+        <td>
+          @if (!year.hidden) {
+            <i class="fa fa-eye text-success" aria-hidden="true"></i>
+          }
+          @if (year.hidden) {
+            <i class="fa fa-eye-slash text-danger" aria-hidden="true"></i>
+          }
+          &nbsp;
+          {{ year.year }}&nbsp;
+          @if (year.hidden) {
+            (skrytý)
+          }
+        </td>
+        <td>
+          @if (year.status) {
+            @switch (year.status) {
+              @case ("pending") {
+                čeká ve frontě
+              }
+              @case ("processing") {
+                probíhá import
+              }
+              @case ("success") {
+                úspěšný import
+              }
+              @case ("error") {
+                chyba
+              }
+              @default {
+                {{ year.status }}
+              }
+            }
+            ({{ year.statusTime | date: "d. M. y H:mm:ss" }})
+          }
+        </td>
+        <td>{{ year.validity | date: "d. M. y" }}</td>
+        <td>
+          @if (year.importUrl) {
+            <div>
+              Automatické načítání z {{ year.importUrl }} ve formátu
+              {{ year.importFormat }} každých
+              {{ year.importPeriodMinutes }} minut
+            </div>
+          }
+        </td>
+        <td>
+          <button
+            id="edit-button"
+            type="button"
+            class="btn btn-sm btn-secondary"
+            (click)="openYearModal(year, addModifyYearModal)"
           >
-          <ng-container *ngSwitchCase="'success'">úspěšný import</ng-container>
-          <ng-container *ngSwitchCase="'error'">chyba</ng-container>
-          <ng-container *ngSwitchDefault>{{ year.status }}</ng-container>
-          ({{ year.statusTime | date: "d. M. y H:mm:ss" }})
-        </ng-container>
-      </td>
-      <td>{{ year.validity | date: "d. M. y" }}</td>
-      <td>
-        <div *ngIf="year.importUrl">
-          Automatické načítání z {{ year.importUrl }} ve formátu
-          {{ year.importFormat }} každých {{ year.importPeriodMinutes }} minut
-        </div>
-      </td>
-      <td>
-        <a
-          (click)="
-            currentYearBudget = year;
-            currentYear = year.year;
-            openModal(addModifyYearModal)
-          "
-          >Upravit</a
-        >
-        <div class="btn-group pull-right" dropdown>
-          <a dropdownToggle>Další <span class="caret"></span></a>
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
-            <li>
-              <a
-                class="dropdown-item"
-                (click)="currentYear = year.year; openModal(uploadModal)"
-                >Nahrát data z CSV</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" (click)="downloadYear(year)"
-                >Stáhnout data</a
-              >
-            </li>
-            <li *ngIf="!year.hidden">
-              <a class="dropdown-item" (click)="hideYear(year)">Skrýt</a>
-            </li>
-            <li *ngIf="year.hidden">
-              <a class="dropdown-item" (click)="publishYear(year)">Zveřejnit</a>
-            </li>
-            <li class="divider dropdown-divider"></li>
-            <li>
-              <a
-                class="dropdown-item"
-                (click)="
-                  currentYear = year.year;
-                  currentYearBudget = year;
-                  openModal(deleteYearModal)
-                "
-                ><span class="text-danger">{{
-                  "common.delete" | translate
-                }}</span></a
-              >
-            </li>
-          </ul>
-        </div>
-      </td>
-    </tr>
+            Upravit
+          </button>
+
+          <div class="btn-group text-nowrap ms-2" dropdown>
+            <button
+              id="action-button"
+              dropdownToggle
+              type="button"
+              class="btn btn-sm btn-secondary dropdown-toggle"
+              aria-controls="action-dropdown"
+            >
+              Další
+            </button>
+            <ul
+              id="action-dropdown"
+              *dropdownMenu
+              class="dropdown-menu"
+              role="menu"
+              aria-labelledby="action-button"
+            >
+              <li>
+                <a
+                  class="dropdown-item"
+                  (click)="currentYear = year.year; openModal(uploadModal)"
+                  >Nahrát data z CSV</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="downloadYear(year)"
+                  >Stáhnout data</a
+                >
+              </li>
+              @if (!year.hidden) {
+                <li>
+                  <a class="dropdown-item" (click)="hideYear(year)">Skrýt</a>
+                </li>
+              }
+              @if (year.hidden) {
+                <li>
+                  <a class="dropdown-item" (click)="publishYear(year)"
+                    >Zveřejnit</a
+                  >
+                </li>
+              }
+              <li class="divider dropdown-divider"></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  (click)="openYearModal(year, deleteYearModal)"
+                  ><span class="text-danger">{{
+                    "common.delete" | translate
+                  }}</span></a
+                >
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    }
   </tbody>
 </table>
 
-<p *ngIf="loading">Načítání&hellip;</p>
-<p *ngIf="(profile$ | async) && !years.length && !loading">
-  Nejsou vytvořeny žádné rozpočtové roky.
-</p>
+@if (loading) {
+  <p>Načítání&hellip;</p>
+}
+@if ((profile$ | async) && !years.length && !loading) {
+  <p>Nejsou vytvořeny žádné rozpočtové roky.</p>
+}
 
 <div>
   <button
@@ -125,7 +156,7 @@
     [profileType]="profileType"
     [year]="currentYear"
     (close)="closeModal($event)"
-  ></data-upload-modal>
+  />
 </ng-template>
 
 <ng-template #addModifyYearModal>
@@ -133,7 +164,7 @@
     [profileId]="profileId"
     [year]="currentYearBudget"
     (close)="closeModal($event)"
-  ></add-modify-year-modal>
+  />
 </ng-template>
 
 <ng-template #deleteYearModal>
@@ -141,5 +172,5 @@
     [profileId]="profileId"
     [currentYear]="currentYear"
     (close)="closeModal($event)"
-  ></delete-year-modal>
+  />
 </ng-template>

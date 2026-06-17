@@ -31,7 +31,7 @@ spustí celou aplikaci s hot reloadem klienta, landing page a JS serveru pro ryc
 ### Testovací data
 Data do lokální databáze jsou nahrávána ze souboru `database/development_db_data.sql`, který lze vygenerovat z aktuálního stavu databáze příkazem `pg_dump -E UTF8  -U postgres  -f  database/development_db_data.sql  -h localhost cityvizor`. 
 
-Pokud je to možné, je lepší se vzhnout editaci už aplikované migrace (i pokud byla aplikovanná pouze na lokální vývojovou databázi). Jakmile byl ze stavu databáze po aplikování první verze migrace vygenerován `database/development_db_data.sql` soubor, bude tento soubor po editaci migrace s migrací v konfliktu. V souboru zaprvé bude informace o tom, že daná migrace již byla aplikována a migrace tedz nebude aplikována znovu a změny v migraci se neprojeví (je třeba ze souboru smazat řádek o aplikaci příslušné migrace). Další problém je, že situace po aplikaci první verze migrace je zachycena v datech v `database/development_db_data.sql` souboru. 
+Pokud je to možné, je lepší se vyhnout editaci už aplikované migrace (i pokud byla aplikovanná pouze na lokální vývojovou databázi). Jakmile byl ze stavu databáze po aplikování první verze migrace vygenerován `database/development_db_data.sql` soubor, bude tento soubor po editaci migrace s migrací v konfliktu. V souboru zaprvé bude informace o tom, že daná migrace již byla aplikována a migrace tedz nebude aplikována znovu a změny v migraci se neprojeví (je třeba ze souboru smazat řádek o aplikaci příslušné migrace). Další problém je, že situace po aplikaci první verze migrace je zachycena v datech v `database/development_db_data.sql` souboru. 
 
 
 ## Testy

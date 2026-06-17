@@ -8,7 +8,6 @@ import {
 } from "@angular/animations";
 
 @Component({
-  moduleId: module.id,
   selector: "chart-donut",
   templateUrl: "chart-donut.component.html",
   animations: [
@@ -19,6 +18,7 @@ import {
       ]),
     ]),
   ],
+  imports: [],
 })
 export class ChartDonutComponent {
   @Input() data: any;
@@ -61,7 +61,7 @@ export class ChartDonutComponent {
         ",1 " +
         endX1 +
         "," +
-        endY1
+        endY1,
     );
     properties.push("L" + startX2 + "," + startY2);
     properties.push(
@@ -74,7 +74,7 @@ export class ChartDonutComponent {
         ",0 " +
         endX2 +
         "," +
-        endY2
+        endY2,
     );
     properties.push("Z");
 

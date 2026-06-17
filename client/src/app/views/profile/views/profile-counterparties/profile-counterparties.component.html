@@ -1,26 +1,24 @@
 <div class="container">
-  <date-picker></date-picker>
+  <date-picker />
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      <div
-        *ngIf="!infoWindowClosed"
-        class="alert alert-info alert-dismissable fade in"
-      >
-        <span
-          class="close"
-          data-dismiss="alert"
-          aria-label="close"
-          (click)="infoWindowClosed = true"
-          >&times;</span
-        >
-        <strong>Informace:</strong> Cityvizor kopíruje data z registru smluv,
-        který je zřízen dle Zákona o registru smluv (předpis č. 340/2015 Sb.).
-        Konkrétní znění smluv naleznete v samotném registru.
-      </div>
+    <div class="col-md-10 offset-md-1">
+      @if (!infoWindowClosed) {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="infoWindowClosed = true"
+          ></button>
+          <strong>Informace:</strong> Cityvizor kopíruje data z registru smluv,
+          který je zřízen dle Zákona o registru smluv (předpis č. 340/2015 Sb.).
+          Konkrétní znění smluv naleznete v samotném registru.
+        </div>
+      }
     </div>
   </div>
 
-  <table class="table table-condensed table-hover table-striped">
+  <table class="table table-sm table-hover table-striped">
     <thead>
       <tr>
         <th>Dodavatel</th>
@@ -30,38 +28,37 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let counterparty of counterparties">
-        <td>{{ counterparty.counterpartyName }}</td>
-        <td>
-          <a
-            *ngIf="counterparty.counterpartyId"
-            [href]="
-              'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&ico=' +
-              counterparty.counterpartyId +
-              '&cestina=cestina&xml=1'
-            "
-            target="_blank"
-            >{{ counterparty.counterpartyId }}</a
-          >
-        </td>
-        <td>
-          {{
-            counterparty.amount === null
-              ? "-"
-              : (counterparty.amount | money: 0 : false)
-          }}
-          Kč
-        </td>
-        <td>
-          <button
-            [disabled]="!counterparty.counterpartyId"
-            class="btn btn-primary"
-            (click)="selectCounterparty(counterparty.counterpartyId)"
-          >
-            Detail
-          </button>
-        </td>
-      </tr>
+      @for (counterparty of counterparties; track counterparty) {
+        <tr>
+          <td>{{ counterparty.counterpartyName }}</td>
+          <td>
+            @if (counterparty.counterpartyId) {
+              <a
+                [href]="counterparty.counterpartyId | aresUrl"
+                target="_blank"
+                >{{ counterparty.counterpartyId }}</a
+              >
+            }
+          </td>
+          <td>
+            {{
+              counterparty.amount === null
+                ? "-"
+                : (counterparty.amount | money: 0 : false)
+            }}
+            Kč
+          </td>
+          <td>
+            <button
+              [disabled]="!counterparty.counterpartyId"
+              class="btn btn-primary"
+              (click)="selectCounterparty(counterparty.counterpartyId)"
+            >
+              Detail
+            </button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>

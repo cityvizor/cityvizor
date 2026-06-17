@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 
 import { environment } from "environments/environment";
@@ -11,9 +11,9 @@ import { Section } from "app/schema/section";
   providedIn: "root",
 })
 export class AdminService {
-  root = environment.api_root + "/admin";
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  root = environment.api_root + "/admin";
 
   /* PROFILES */
   getProfiles() {
@@ -63,7 +63,7 @@ export class AdminService {
       .put(
         this.root + "/profiles/" + profileId + "/avatar",
         { url: avatarUrl },
-        { responseType: "text" }
+        { responseType: "text" },
       )
       .toPromise();
   }
@@ -90,7 +90,7 @@ export class AdminService {
   createProfileYear(
     profileId: Profile["id"],
     year: number,
-    data: Partial<BudgetYear>
+    data: Partial<BudgetYear>,
   ): Promise<HttpResponse<string>> {
     return this.http
       .put(this.root + "/profiles/" + profileId + "/years/" + year, data, {
@@ -102,7 +102,7 @@ export class AdminService {
   updateProfileYear(
     profileId: Profile["id"],
     year: number,
-    data: Partial<BudgetYear>
+    data: Partial<BudgetYear>,
   ): Promise<HttpResponse<string>> {
     return this.http
       .patch(this.root + "/profiles/" + profileId + "/years/" + year, data, {

@@ -1,5 +1,5 @@
 // config injection token, i. e. the key in the injection storage map
-import { InjectionToken, Injectable } from "@angular/core";
+import { InjectionToken, Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import { aclConfig } from "./acl";
@@ -18,6 +18,8 @@ export interface Module {
   providedIn: "root",
 })
 export class ConfigService {
+  private http = inject(HttpClient);
+
   config = {
     avatarsUrl: "/data/uploads/avatars",
     siteUrl: "https://cityvizor.cz",
@@ -26,8 +28,6 @@ export class ConfigService {
     acl: aclConfig,
     alternativePageContent: {} as any,
   };
-
-  constructor(private http: HttpClient) {}
 
   async loadConfig() {
     await this.http
