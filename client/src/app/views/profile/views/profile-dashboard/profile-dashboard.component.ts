@@ -59,7 +59,10 @@ export class ProfileDashboardComponent implements OnInit {
   maxExpenditureAmount: number = 0;
   maxIncomeAmount: number = 0;
 
-  dashboard: Dashboard;
+  dashboard: Dashboard | null = null;
+  dashboardLoading: boolean = true;
+  paymentsLoading: boolean = true;
+  budgetsLoading: boolean = true;
 
   ngOnInit() {
     this.profileService.profile.subscribe(profile => {
@@ -72,10 +75,17 @@ export class ProfileDashboardComponent implements OnInit {
   }
 
   async loadPayments(profileId: number) {
-    this.payments = await this.dataService.getProfilePayments(profileId, {
-      limit: 10,
-      sort: "-date",
-    });
+    this.paymentsLoading = true;
+    this.payments = [];
+
+    try {
+      this.payments = await this.dataService.getProfilePayments(profileId, {
+        limit: 10,
+        sort: "-date",
+      });
+    } finally {
+      this.paymentsLoading = false;
+    }
   }
 
   async loadContracts(profileId: number) {
@@ -86,35 +96,50 @@ export class ProfileDashboardComponent implements OnInit {
   }
 
   async loadDashboard(profileId: number) {
-    const dashboard = await this.dataService.getProfileDashboard(profileId);
+    this.dashboardLoading = true;
+    this.dashboard = null;
 
-    this.dashboard = dashboard.reduce((acc, cur) => {
-      acc[cur.category].push(cur);
-      return acc;
-    }, new Dashboard());
+    try {
+      const dashboard = await this.dataService.getProfileDashboard(profileId);
+
+      this.dashboard = dashboard.reduce((acc, cur) => {
+        acc[cur.category].push(cur);
+        return acc;
+      }, new Dashboard());
+    } finally {
+      this.dashboardLoading = false;
+    }
   }
 
   async loadBudgets(profileId: number, sumMode: ProfileSumMode) {
-    if (this.isMunicipality) {
-      this.budgets = await this.dataService.getProfileBudgets(profileId, {
-        limit: 100,
-        sumMode,
-      });
-    } else {
-      this.budgets = await this.dataService.getProfilePlans(profileId);
+    this.budgetsLoading = true;
+    this.budgets = [];
+    this.maxBudgetAmount = 0;
+
+    try {
+      if (this.isMunicipality) {
+        this.budgets = await this.dataService.getProfileBudgets(profileId, {
+          limit: 100,
+          sumMode,
+        });
+      } else {
+        this.budgets = await this.dataService.getProfilePlans(profileId);
+      }
+
+      this.budgets.sort((a, b) => b.year - a.year);
+
+      this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
+        return Math.max(
+          acc,
+          budget.budgetIncomeAmount,
+          budget.incomeAmount,
+          budget.budgetExpenditureAmount,
+          budget.expenditureAmount,
+        );
+      }, 0);
+    } finally {
+      this.budgetsLoading = false;
     }
-
-    this.budgets.sort((a, b) => b.year - a.year);
-
-    this.maxBudgetAmount = this.budgets.reduce((acc, budget) => {
-      return Math.max(
-        acc,
-        budget.budgetIncomeAmount,
-        budget.incomeAmount,
-        budget.budgetExpenditureAmount,
-        budget.expenditureAmount,
-      );
-    }, 0);
   }
 
   openBudget(type: string, year: number): void {
