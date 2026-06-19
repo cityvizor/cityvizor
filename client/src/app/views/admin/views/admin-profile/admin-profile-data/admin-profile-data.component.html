@@ -136,7 +136,7 @@
   <button
     type="button"
     class="btn btn-primary"
-    (click)="openModal(addModifyYearModal)"
+    (click)="openAddYearModal(addModifyYearModal)"
   >
     + Přidat rozpočtový rok
   </button>
@@ -163,6 +163,7 @@
   <add-modify-year-modal
     [profileId]="profileId"
     [year]="currentYearBudget"
+    [mode]="yearModalMode"
     (close)="closeModal($event)"
   />
 </ng-template>
