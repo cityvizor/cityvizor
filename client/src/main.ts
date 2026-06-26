@@ -32,9 +32,6 @@ import Lara from "@primeng/themes/lara";
 import { provideRouter, withInMemoryScrolling } from "@angular/router";
 import { AppRoutes } from "app/app.routes";
 
-/* TEMP */
-import { CheckCSS } from "checkcss";
-
 // Settings for JWT
 export function tokenGetter(): string {
   return localStorage.getItem("id_token") || "";
@@ -87,6 +84,3 @@ bootstrapApplication(AppComponent, {
     ),
   ],
 });
-
-const checkcss = new CheckCSS();
-checkcss.scan().watch();
