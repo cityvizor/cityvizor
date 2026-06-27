@@ -206,15 +206,16 @@ router.delete("/:profile/avatar", acl("profiles:write"), async (req, res) => {
   }
 
   if (config.s3.enabled) {
-    getS3Client().removeObject(
-      config.s3.public_bucket,
-      getS3AvatarPublicObjectPath(profile.id, profile.avatarType),
-      (error: Error | null) => {
+    await getS3Client()
+      .removeObject(
+        config.s3.public_bucket,
+        getS3AvatarPublicObjectPath(profile.id, profile.avatarType)
+      )
+      .catch((error: unknown) => {
         if (error) {
           console.log("Delete from S3 error", error);
         }
-      }
-    );
+      });
   }
 
   await db<ProfileRecord>("app.profiles")

@@ -1,44 +1,44 @@
 <header>
   <div class="container">
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-6">
         <h1>
-          <a href="/" class="hidden-print"> CITYVIZOR </a>
+          <a href="{{ backLink }}" class="d-print-none"> CITYVIZOR </a>
         </h1>
       </div>
-      <div class="col-xs-6">
-        <h1 *ngIf="title">
-          {{ title }}
-        </h1>
+      <div class="col-6">
+        @if (title) {
+          <h1>
+            {{ title }}
+          </h1>
+        }
       </div>
     </div>
   </div>
 </header>
 
-<nav class="navbar">
-  <div class="container">
-    <div class="navbar-header">
-      <button
-        type="button"
-        class="navbar-toggle collapsed"
-        aria-expanded="false"
-        aria-controls="navbar"
-        (click)="isMenuCollapsed = !isMenuCollapsed"
-      >
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="toggle-title">MENU</span>
-      </button>
-    </div>
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-lg">
+    <button
+      class="navbar-toggler d-lg-none"
+      type="button"
+      (click)="toggleCollapse()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="navbarContent"
+      aria-label="Toggle navigation"
+    >
+      <i class="fa-solid fa-bars fs-2 navbar-toggle-icon"></i>
+      <span class="navbar-toggle-title">MENU</span>
+    </button>
 
     <div
-      id="navbar"
-      class="navbar-collapse collapse"
-      [collapse]="isMenuCollapsed"
+      class="collapse navbar-collapse"
+      id="navbarContent"
+      [collapse]="isCollapsed"
+      [isAnimated]="true"
     >
-      <ul class="nav navbar-nav" (click)="isMenuCollapsed = true">
-        <ng-content></ng-content>
+      <ul class="navbar-nav mb-2 mb-lg-0" (click)="collapse()">
+        <ng-content />
       </ul>
     </div>
   </div>

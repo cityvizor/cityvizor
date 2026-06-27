@@ -1,5 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { Component, OnInit, OnDestroy, inject } from "@angular/core";
+import {
+  ActivatedRoute,
+  Params,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from "@angular/router";
 import { Subscription, Observable } from "rxjs";
 
 import { DataService } from "app/services/data.service";
@@ -7,24 +13,32 @@ import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema/profile";
 import { TitleService } from "app/services/title.service";
+import { AsyncPipe } from "@angular/common";
+import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
-  moduleId: module.id,
   selector: "profile",
   templateUrl: "profile.component.html",
   styleUrls: ["profile.component.scss"],
+  imports: [
+    HeaderMenuComponent,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  private dataService = inject(DataService);
+  private profileService = inject(ProfileService);
+  private titleService = inject(TitleService);
+  private route = inject(ActivatedRoute);
+
   profile: Observable<Profile>;
 
   paramsSubscription: Subscription;
-
-  constructor(
-    private dataService: DataService,
-    private profileService: ProfileService,
-    private titleService: TitleService,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {

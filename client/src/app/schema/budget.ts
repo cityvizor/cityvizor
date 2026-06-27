@@ -34,7 +34,7 @@ export class BudgetEvent implements BudgetAmounts {
 
   constructor(
     public id: number,
-    public name?: string
+    public name?: string,
   ) {}
 }
 
@@ -46,7 +46,7 @@ export class BudgetGroupEvent implements BudgetTypedAmounts {
 
   constructor(
     public id: number,
-    public name?: string
+    public name?: string,
   ) {}
 }
 
@@ -69,7 +69,7 @@ export class BudgetGroup implements BudgetTypedAmounts {
 
   constructor(
     public id: string | null,
-    public name?: string
+    public name?: string,
   ) {}
 }
 
@@ -81,7 +81,7 @@ export class BudgetItem implements BudgetAmounts {
 
   constructor(
     public id: number,
-    public name?: string
+    public name?: string,
   ) {}
 }
 
@@ -93,7 +93,7 @@ export class BudgetParagraph implements BudgetAmounts {
 
   constructor(
     public id: number,
-    public name?: string
+    public name?: string,
   ) {}
 }
 
@@ -103,6 +103,6 @@ export class BudgetGroupItem implements BudgetTypedAmounts {
 
   constructor(
     public id: number,
-    public name?: string
+    public name?: string,
   ) {}
 }

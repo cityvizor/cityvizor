@@ -1,0 +1,15 @@
+type;paragraph;item;event;unit;amount;date;counterpartyId;counterpartyName;description
+ROZ;0;1111;;;120000;;;;
+ROZ;5512;5169;1;;66000;;;;
+ROZ;2212;5139;2;1;85000;;;;
+KDF;2212;5139;2;;20000;2017-01-05;11111111;"Dodavatel 1 s.r.o.";"Sluzba 1"
+KDF;2212;5139;2;;40000;2017-02-01;22222222;"Dodavatel 2 a.s.";"Sluzba 2"
+KDF;2212;5139;2;;20000;2017-03-01;22222222;"Dodavatel 2 a.s.";"Sluzba 3"
+;5512;5169;1;;50000;;;;
+;0;1111;;;95000;;;;
+POK;0;1340;3;;520;2017-01-08;;;
+;3612;2132;126;;25000;;;;
+KOF;3612;2132;126;;30000;2017-09-29;33333333;"Partner 3 a.s.";"Pronajem prostor za zari"
+KDF;3612;5152;126;;11000;2017-01-11;44444444;"Dodavatel 4 s.r.o.";"Dodavka energie"
+ROZ;3612;5152;126;;60000;;;;
+ROZ;3612;2132;126;;70000;;;;

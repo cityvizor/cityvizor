@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, inject } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Profile } from "app/schema";
 import { DataService } from "app/services/data.service";
@@ -7,13 +7,23 @@ import { combineLatest, Observable } from "rxjs";
 import { CounterpartyDetailModalComponent } from "app/shared/components/counterparty-detail-modal/counterparty-detail-modal.component";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { DateTime } from "luxon";
+import { DatePickerComponent } from "../../../../shared/components/date-picker/date-picker.component";
+
+import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
+import { AresUrlPipe } from "../../../../shared/pipes/utils.pipe";
 
 @Component({
   selector: "profile-counterparties",
   templateUrl: "profile-counterparties.component.html",
   styleUrls: ["profile-counterparties.component.scss"],
+  imports: [DatePickerComponent, MoneyPipe, AresUrlPipe],
 })
 export class ProfileCounterpartiesComponent implements OnInit {
+  private profileService = inject(ProfileService);
+  private dataService = inject(DataService);
+  private modalService = inject(BsModalService);
+  private route = inject(ActivatedRoute);
+
   profile: Observable<Profile>;
   params: Observable<Params>;
 
@@ -24,13 +34,6 @@ export class ProfileCounterpartiesComponent implements OnInit {
   // Save the params to pass them to the Counterparty modal later on
   year: number;
   month?: number;
-
-  constructor(
-    private profileService: ProfileService,
-    private dataService: DataService,
-    private modalService: BsModalService,
-    private route: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.params = this.route.params;

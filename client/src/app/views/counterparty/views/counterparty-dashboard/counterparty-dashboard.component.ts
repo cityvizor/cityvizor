@@ -4,6 +4,7 @@ import { Component } from "@angular/core";
   selector: "counterparty-dashboard",
   templateUrl: "./counterparty-dashboard.component.html",
   styleUrls: ["./counterparty-dashboard.component.scss"],
+  standalone: true,
 })
 export class CounterpartyDashboardComponent {
   constructor() {}

@@ -1,15 +1,21 @@
-import { Component, Input, EventEmitter, Output } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { Component, Input, EventEmitter, Output, inject } from "@angular/core";
+import { NgForm, FormsModule } from "@angular/forms";
 import { ProfileType } from "app/schema";
 import { ImportService } from "app/services/import.service";
 import { ToastService } from "app/services/toast.service";
+
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: "data-upload-modal",
   templateUrl: "./data-upload-modal.component.html",
   styleUrls: ["./data-upload-modal.component.scss"],
+  imports: [FormsModule, TranslatePipe],
 })
 export class DataUploadModalComponent {
+  private importService = inject(ImportService);
+  private toastService = inject(ToastService);
+
   @Input() year: number;
   @Input() profileId: number;
   @Input() profileType: ProfileType;
@@ -17,14 +23,13 @@ export class DataUploadModalComponent {
   @Output() close = new EventEmitter<boolean>();
 
   modes = [
-    { display: "Nahradit stávající data", value: "overwrite" },
-    { display: "Přidat k stávajícím datům", value: "append" },
+    {
+      display: "Nahradit stávající data",
+      value: "overwrite",
+      color: "bg-warning",
+    },
+    { display: "Přidat k stávajícím datům", value: "append", color: "bg-info" },
   ];
-
-  constructor(
-    private importService: ImportService,
-    private toastService: ToastService
-  ) {}
 
   get isPbo() {
     return this.profileType == "pbo";
@@ -38,7 +43,7 @@ export class DataUploadModalComponent {
     paymentsFileInput: HTMLInputElement,
     expectedPlanFileInput: HTMLInputElement,
     realPlanFileInput: HTMLInputElement,
-    aaNamesFileInput: HTMLInputElement
+    aaNamesFileInput: HTMLInputElement,
   ) {
     const fields: [HTMLInputElement, string, string, string][] = [
       [dataFileInput, "data", "dataFileMode", "Datový soubor nemá"],
@@ -99,8 +104,8 @@ export class DataUploadModalComponent {
               this.importService.importPayments(
                 this.profileId,
                 data,
-                v[mode] == "append"
-              )
+                v[mode] == "append",
+              ),
             );
             break;
           case "accounting":
@@ -108,8 +113,8 @@ export class DataUploadModalComponent {
               this.importService.importAccounting(
                 this.profileId,
                 data,
-                v[mode] == "append"
-              )
+                v[mode] == "append",
+              ),
             );
             break;
           case "events":
@@ -117,8 +122,8 @@ export class DataUploadModalComponent {
               this.importService.importEvents(
                 this.profileId,
                 data,
-                v[mode] == "append"
-              )
+                v[mode] == "append",
+              ),
             );
             break;
           case "data":
@@ -126,8 +131,8 @@ export class DataUploadModalComponent {
               this.importService.importData(
                 this.profileId,
                 data,
-                v[mode] == "append"
-              )
+                v[mode] == "append",
+              ),
             );
             break;
           case "expectedPlan":
@@ -135,8 +140,8 @@ export class DataUploadModalComponent {
               this.importService.importExpectedPlan(
                 this.profileId,
                 data,
-                v[mode] == "append"
-              )
+                v[mode] == "append",
+              ),
             );
             break;
           case "realPlan":
@@ -144,8 +149,8 @@ export class DataUploadModalComponent {
               this.importService.importRealPlan(
                 this.profileId,
                 data,
-                v[mode] == "append"
-              )
+                v[mode] == "append",
+              ),
             );
             break;
           case "aaNames":
@@ -153,8 +158,8 @@ export class DataUploadModalComponent {
               this.importService.importAaNames(
                 this.profileId,
                 data,
-                v[mode] == "append"
-              )
+                v[mode] == "append",
+              ),
             );
         }
       }
@@ -167,7 +172,7 @@ export class DataUploadModalComponent {
       .catch(e => {
         this.toastService.toast(
           "Neočekáváná chyba při odesílání dat. Prosím, kontaktujte administrátora.",
-          "error"
+          "error",
         );
       });
 

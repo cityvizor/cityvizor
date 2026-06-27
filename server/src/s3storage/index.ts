@@ -1,6 +1,9 @@
-import { Client, ClientOptions, UploadedObjectInfo } from "minio";
+import { Client, ClientOptions } from "minio";
 import config from "../config";
 import * as fs from "fs";
+
+type S3UploadMetadata = NonNullable<Parameters<Client["fPutObject"]>[3]>;
+type S3UploadedObjectInfo = Awaited<ReturnType<Client["fPutObject"]>>;
 
 export function getS3Client(): Client {
   return new Client({
@@ -29,8 +32,8 @@ export async function S3uploadFile(
   bucket: string,
   objectPath: string,
   localPath: string,
-  metadata: object = {}
-): Promise<UploadedObjectInfo> {
+  metadata: S3UploadMetadata = {}
+): Promise<S3UploadedObjectInfo> {
   if (!fs.existsSync(localPath)) {
     throw new Error(`local path does not exist: ${localPath}`);
   }
@@ -41,16 +44,16 @@ export async function S3uploadFile(
 export async function S3uploadPublicFile(
   objectPath: string,
   localPath: string,
-  metadata: object = {}
-): Promise<UploadedObjectInfo> {
+  metadata: S3UploadMetadata = {}
+): Promise<S3UploadedObjectInfo> {
   return S3uploadFile(config.s3.public_bucket, objectPath, localPath, metadata);
 }
 
 export async function S3uploadPrivateFile(
   objectPath: string,
   localPath: string,
-  metadata: object = {}
-): Promise<UploadedObjectInfo> {
+  metadata: S3UploadMetadata = {}
+): Promise<S3UploadedObjectInfo> {
   return S3uploadFile(
     config.s3.private_bucket,
     objectPath,

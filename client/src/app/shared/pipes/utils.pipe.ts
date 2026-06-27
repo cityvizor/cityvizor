@@ -1,36 +1,63 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
-@Pipe({ name: "abs" })
+@Pipe({
+  name: "abs",
+  standalone: true,
+})
 export class AbsPipe implements PipeTransform {
   transform(value: number): number {
     return Math.abs(value);
   }
 }
 
-@Pipe({ name: "ico" })
+@Pipe({
+  name: "ico",
+  standalone: true,
+})
 export class IcoPipe implements PipeTransform {
   transform(value: string): string {
     return ("00000000" + value).slice(-8);
   }
 }
+
+@Pipe({
+  name: "aresUrl",
+  standalone: true,
+})
+export class AresUrlPipe implements PipeTransform {
+  transform(value: string | number): string {
+    const ico = ("00000000" + value).slice(-8);
+    return `https://ares.gov.cz/ekonomicke-subjekty?ico=${ico}`;
+  }
+}
+
 /*
  * Join array of strings by separator
  */
-@Pipe({ name: "concat" })
+@Pipe({
+  name: "concat",
+  standalone: true,
+})
 export class ConcatPipe implements PipeTransform {
   transform(value: string[], separator: string): string {
     return value.join(separator);
   }
 }
 
-@Pipe({ name: "arraychildren" })
+@Pipe({
+  name: "arraychildren",
+  standalone: true,
+})
 export class ArrayChildrenPipe implements PipeTransform {
   transform(value: Object[], propName: string): string[] {
     return value.map(item => item[propName]);
   }
 }
 
-@Pipe({ name: "array" })
+@Pipe({
+  name: "array",
+  standalone: true,
+})
 export class ArrayPipe implements PipeTransform {
   transform(value: any, objKeyName?: string): any[] {
     // leave array as array

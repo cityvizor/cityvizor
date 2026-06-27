@@ -1,18 +1,13 @@
 <div class="modal-content">
-  <div class="modal-body">
+  <div class="modal-header">
     <button
       type="button"
-      class="close"
-      (click)="modalRef.hide()"
+      class="btn-close"
+      (click)="modalRef?.hide()"
       aria-label="Close"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-
-    <event-detail
-      [profile]="profile"
-      [eventId]="eventId"
-      [year]="year"
-    ></event-detail>
+    ></button>
+  </div>
+  <div class="modal-body">
+    <event-detail [profile]="profile" [eventId]="eventId" [year]="year" />
   </div>
 </div>

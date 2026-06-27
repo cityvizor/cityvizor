@@ -1,13 +1,11 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Smazat rozpočtový rok {{ currentYear }}</h4>
+  <h4 class="modal-title">Smazat rozpočtový rok {{ currentYear }}</h4>
   <button
     type="button"
-    class="close pull-right"
+    class="btn-close"
     aria-label="Close"
     (click)="close.emit(false)"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
+  ></button>
 </div>
 <form #uploadForm="ngForm" (ngSubmit)="deleteYear()">
   <div class="modal-body">

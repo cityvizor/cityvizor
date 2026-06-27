@@ -4,54 +4,56 @@
   (click)="$event.stopPropagation()"
 >
   <!-- Expenditures -->
-  <g
-    *ngIf="type == 'expenditure'"
-    (click)="click.emit('exp'); $event.stopPropagation()"
-    style="cursor: pointer"
-  >
-    <rect
-      x="25"
-      [attr.y]="getYOffset(data.budgetExpenditureAmount)"
-      rx="10"
-      ry="10"
-      width="50"
-      [attr.height]="getHeight(data.budgetExpenditureAmount)"
-      style="fill: #ff9491"
-    />
-    <rect
-      x="25"
-      [attr.y]="getYOffset(data.expenditureAmount)"
-      rx="10"
-      ry="10"
-      width="50"
-      [attr.height]="getHeight(data.expenditureAmount)"
-      style="fill: #e73431"
-    />
-  </g>
+  @if (type == "expenditure") {
+    <g
+      (click)="click.emit('exp'); $event.stopPropagation()"
+      style="cursor: pointer"
+    >
+      <rect
+        x="25"
+        [attr.y]="getYOffset(data.budgetExpenditureAmount)"
+        rx="10"
+        ry="10"
+        width="50"
+        [attr.height]="getHeight(data.budgetExpenditureAmount)"
+        style="fill: #ff9491"
+      />
+      <rect
+        x="25"
+        [attr.y]="getYOffset(data.expenditureAmount)"
+        rx="10"
+        ry="10"
+        width="50"
+        [attr.height]="getHeight(data.expenditureAmount)"
+        style="fill: #e73431"
+      />
+    </g>
+  }
 
   <!-- Income -->
-  <g
-    *ngIf="type == 'income'"
-    (click)="click.emit('inc'); $event.stopPropagation()"
-    style="cursor: pointer"
-  >
-    <rect
-      x="25"
-      [attr.y]="getYOffset(data.budgetIncomeAmount)"
-      rx="10"
-      ry="10"
-      width="50"
-      [attr.height]="getHeight(data.budgetIncomeAmount)"
-      style="fill: #adf"
-    />
-    <rect
-      x="25"
-      [attr.y]="getYOffset(data.incomeAmount)"
-      rx="10"
-      ry="10"
-      width="50"
-      [attr.height]="getHeight(data.incomeAmount)"
-      style="fill: #2581c4"
-    />
-  </g>
+  @if (type == "income") {
+    <g
+      (click)="click.emit('inc'); $event.stopPropagation()"
+      style="cursor: pointer"
+    >
+      <rect
+        x="25"
+        [attr.y]="getYOffset(data.budgetIncomeAmount)"
+        rx="10"
+        ry="10"
+        width="50"
+        [attr.height]="getHeight(data.budgetIncomeAmount)"
+        style="fill: #adf"
+      />
+      <rect
+        x="25"
+        [attr.y]="getYOffset(data.incomeAmount)"
+        rx="10"
+        ry="10"
+        width="50"
+        [attr.height]="getHeight(data.incomeAmount)"
+        style="fill: #2581c4"
+      />
+    </g>
+  }
 </svg>

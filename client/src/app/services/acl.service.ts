@@ -1,6 +1,5 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
-  CanActivate,
   Router,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
@@ -17,33 +16,33 @@ import { ConfigService } from "config/config";
 @Injectable({
   providedIn: "root",
 })
-export class ACLService implements CanActivate {
+export class ACLService {
+  private authService = inject(AuthService);
+  private toastService = inject(ToastService);
+  private router = inject(Router);
+  private configService = inject(ConfigService);
+
   routes: any = [];
 
-  constructor(
-    private authService: AuthService,
-    private toastService: ToastService,
-    private router: Router,
-    private configService: ConfigService
-  ) {
+  constructor() {
     this.routes = this.configService.config.acl.routes || [];
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): boolean {
     let result = this.checkRoute(state.url);
 
     if (!result && this.authService.logged)
       this.toastService.toast(
         "K této stránce nemáte právo přistupovat. Požádejte administrátora o udělení práv.",
-        "error"
+        "error",
       );
     if (!result && !this.authService.logged) {
       this.toastService.toast(
         "Pro přístup k této stránce musíte být přilášeni. Přihlaste se, prosím.",
-        "error"
+        "error",
       );
       this.router.navigate(["/login"]);
     }
@@ -92,10 +91,10 @@ export class ACLService implements CanActivate {
           : routeDef.route;
       const routeWithoutParams = routeWithoutSlash.replace(
         /:[^\/]+/g,
-        "([^/]+)"
+        "([^/]+)",
       );
       let search = new RegExp(
-        `^${routeWithoutParams}|${routeWithoutParams}/\.*$`
+        `^${routeWithoutParams}|${routeWithoutParams}/\.*$`,
       );
 
       let matches = searchRoute.match(search);

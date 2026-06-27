@@ -1,10 +1,21 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, OnInit, TemplateRef, inject } from "@angular/core";
 import { Profile, ProfileType } from "app/schema";
 import { ConfigService } from "config/config";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { NgForm } from "@angular/forms";
+import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { AuthService } from "../../../../services/auth.service";
+import { TableModule } from "primeng/table";
+import { PrimeTemplate } from "primeng/api";
+import { SelectModule } from "primeng/select";
+import { RouterLink } from "@angular/router";
+
+import {
+  BsDropdownDirective,
+  BsDropdownToggleDirective,
+  BsDropdownMenuDirective,
+} from "ngx-bootstrap/dropdown";
+import { TranslatePipe } from "@ngx-translate/core";
 
 interface ProfileWithParentName extends Profile {
   parentName: String;
@@ -14,8 +25,24 @@ interface ProfileWithParentName extends Profile {
   selector: "admin-profile-list",
   templateUrl: "./admin-profile-list.component.html",
   styleUrls: ["./admin-profile-list.component.scss"],
+  imports: [
+    TableModule,
+    PrimeTemplate,
+    SelectModule,
+    FormsModule,
+    RouterLink,
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    TranslatePipe,
+  ],
 })
 export class AdminProfileListComponent implements OnInit {
+  private adminService = inject(AdminService);
+  private modalService = inject(BsModalService);
+  configService = inject(ConfigService);
+  authService = inject(AuthService);
+
   profilesWithParentName: ProfileWithParentName[] = [];
 
   profileTypes = [
@@ -30,13 +57,6 @@ export class AdminProfileListComponent implements OnInit {
 
   modalRef: BsModalRef;
 
-  constructor(
-    private adminService: AdminService,
-    private modalService: BsModalService,
-    public configService: ConfigService,
-    public authService: AuthService
-  ) {}
-
   ngOnInit() {
     this.loadProfiles();
   }
@@ -48,7 +68,7 @@ export class AdminProfileListComponent implements OnInit {
         acc[profile.id] = profile;
         return acc;
       },
-      {}
+      {},
     );
     this.profilesWithParentName =
       this.getProfilesWithParentNames(profilesByIds);
@@ -69,7 +89,7 @@ export class AdminProfileListComponent implements OnInit {
   }
 
   getProfilesWithParentNames(
-    profilesByIds: Record<number, Profile>
+    profilesByIds: Record<number, Profile>,
   ): ProfileWithParentName[] {
     const result: ProfileWithParentName[] = [];
 
@@ -87,17 +107,17 @@ export class AdminProfileListComponent implements OnInit {
       a.name.localeCompare(b.name, undefined, {
         numeric: true,
         sensitivity: "base",
-      })
+      }),
     );
     return result;
   }
 
   openModal(template: TemplateRef<any>) {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
     this.modalRef = this.modalService.show(template);
   }
 
   closeModal() {
-    if (this.modalRef) this.modalRef.hide();
+    if (this.modalRef) this.modalRef?.hide();
   }
 }

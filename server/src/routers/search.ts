@@ -1,5 +1,5 @@
 import express from "express";
-import acl = require("express-dynacl");
+import acl from "express-dynacl";
 
 export const SearchRouter = express.Router({ mergeParams: true });
 

@@ -1,13 +1,11 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Nahrát data z CSV do roku {{ year }}</h4>
+  <h4 class="modal-title">Nahrát data z CSV do roku {{ year }}</h4>
   <button
     type="button"
-    class="close pull-right"
+    class="btn-close"
     aria-label="Close"
     (click)="close.emit(false)"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
+  ></button>
 </div>
 <form
   #uploadForm="ngForm"
@@ -25,153 +23,166 @@
   "
 >
   <div class="modal-body">
-    <div [hidden]="isPbo" class="form-group">
+    <div [hidden]="isPbo" class="mb-4">
       <label>Datový soubor (rozpočet a faktury v jednom souboru)</label>
       <input
         type="file"
         name="dataFile"
         accept=".csv"
-        class="form-control"
+        class="form-control novalidate mb-2"
         ngModel
         #dataFileInput
       />
-      <select class="form-group" name="dataFileMode" ngModel>
+      <select class="form-select mb-2" name="dataFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        sh
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
-    <div [hidden]="isPbo" class="form-group">
+    <div [hidden]="isPbo" class="mb-4">
       <label>{{ "profile.budget" | translate }}</label>
       <input
         type="file"
         name="accountingFile"
         accept=".csv"
-        class="form-control"
+        class="form-control novalidate mb-2"
         ngModel
         #accountingFileInput
       />
-      <select class="form-group" name="accountingFileMode" ngModel>
+      <select class="form-select mb-2" name="accountingFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="mb-4">
       <label>{{ "profile.payments" | translate }}</label>
       <input
         type="file"
         name="paymentsFile"
         accept=".csv"
-        class="form-control"
+        class="form-control novalidate mb-2"
         ngModel
         #paymentsFileInput
       />
-      <select class="form-group" name="paymentsFileMode" ngModel>
+      <select class="form-select mb-2" name="paymentsFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
-    <div [hidden]="isPbo" class="form-group">
+    <div [hidden]="isPbo" class="mb-4">
       <label>Číselník</label>
       <input
         type="file"
         name="eventsFile"
         accept=".csv"
-        class="form-control"
+        class="form-control novalidate mb-2"
         ngModel
         #eventsFileInput
       />
-      <select class="form-group" name="eventsFileMode" ngModel>
+      <select class="form-select mb-2" name="eventsFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
-    <div [hidden]="!isPbo" class="form-group">
+    <div [hidden]="!isPbo" class="mb-4">
       <label>Očekávaný plán</label>
       <input
         type="file"
         name="expectedPlanFile"
         accept=".csv"
-        class="form-control"
+        class="form-control novalidate mb-2"
         ngModel
         #expectedPlanFileInput
       />
-      <select class="form-group" name="expectedPlanFileMode" ngModel>
+      <select class="form-select mb-2" name="expectedPlanFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
-    <div [hidden]="!isPbo" class="form-group">
+    <div [hidden]="!isPbo" class="mb-4">
       <label>Reálný plán</label>
       <input
         type="file"
         name="realPlanFile"
         accept=".csv"
-        class="form-control"
+        class="form-control novalidate mb-2"
         ngModel
         #realPlanFileInput
       />
-      <select class="form-group" name="realPlanFileMode" ngModel>
+      <select class="form-select mb-2" name="realPlanFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
-    <div [hidden]="!isPbo" class="form-group">
+    <div [hidden]="!isPbo" class="mb-4">
       <label>Číselník analytických účtů</label>
       <input
         type="file"
         name="aaNamesFile"
         accept=".csv"
-        class="form-control"
+        class="form-control novalidate"
         ngModel
         #aaNamesFileInput
       />
-      <select class="form-group" name="aaNamesFileMode" ngModel>
+      <select class="form-select mb-2" name="aaNamesFileMode" ngModel>
         <option value="" selected disabled hidden>
           {{ "profile.import.replaceOrAdd" | translate }}
         </option>
-        <option *ngFor="let mode of modes" [value]="mode.value">
-          {{ mode.display }}
-        </option>
+        @for (mode of modes; track mode) {
+          <option [value]="mode.value">
+            {{ mode.display }}
+          </option>
+        }
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="mb-4">
       <label>Validita dat</label>
       <input
         type="date"
         name="validity"
-        class="form-control"
+        class="form-control novalidate"
         ngModel
         required
       />
