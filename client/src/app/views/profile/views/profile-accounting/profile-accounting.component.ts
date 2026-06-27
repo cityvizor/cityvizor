@@ -1,14 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  DestroyRef,
+  inject,
+} from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { BsModalService } from "ngx-bootstrap/modal";
-import {
-  Subscription,
-  combineLatest,
-  Subject,
-  BehaviorSubject,
-  ReplaySubject,
-} from "rxjs";
+import { combineLatest, Subject, BehaviorSubject, ReplaySubject } from "rxjs";
 import {
   map,
   filter,
@@ -75,6 +76,7 @@ export class ProfileAccountingComponent implements OnInit {
   private dataService = inject(DataService);
   private modalService = inject(BsModalService);
   private cdRef = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
 
   // type of view (expenditures/income)
   type = new BehaviorSubject<AccountingGroupType | null>(null);
@@ -106,87 +108,98 @@ export class ProfileAccountingComponent implements OnInit {
 
   typeLocalParams = { vydaje: "exp", prijmy: "inc" };
 
-  // store subscriptions to unsubscribe on destroy
-  subscriptions: Subscription[] = [];
-
   async ngOnInit() {
     // route params
     this.route.params
       .pipe(
         map(params => this.typeLocalParams[params.type] || null),
         distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(this.type);
     this.route.params
       .pipe(
         map(params => Number(params.rok) || null),
         distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(this.year);
     this.route.params
       .pipe(
         map(params => params.skupina || null),
         distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(this.groupId);
     this.route.params
       .pipe(
         map(params => this.parseEventId(params.akce)),
         distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(this.eventId);
     this.route.params
       .pipe(
         map(params => params.razeni || "nejvetsi"),
         distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(this.sort);
 
     // load budgets based on profile
-    this.profile.subscribe(profile => {
-      (profile.type == "municipality"
-        ? this.dataService.getProfileBudgets(profile.id, {
-            sumMode: profile.sumMode,
-          })
-        : this.dataService.getProfilePlans(profile.id)
-      )
-        .then(budgets => budgets.sort((a, b) => b.year - a.year))
-        .then(budgets => this.budgets.next(budgets));
-    });
+    this.profile
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(profile => {
+        (profile.type == "municipality"
+          ? this.dataService.getProfileBudgets(profile.id, {
+              sumMode: profile.sumMode,
+            })
+          : this.dataService.getProfilePlans(profile.id)
+        )
+          .then(budgets => budgets.sort((a, b) => b.year - a.year))
+          .then(budgets => this.budgets.next(budgets));
+      });
 
     // load group events if passed via url (refreshed page or clicked on a link)
-    this.profile.subscribe(async profile => {
-      const params = this.route.snapshot.params;
-      if (params.rok && params.type && params.skupina) {
-        this.groupEvents = await this.accountingService.getGroupEvents(
-          profile,
-          params.rok,
-          this.typeLocalParams[params.type],
-          params.skupina,
-        );
-      }
-    });
+    this.profile
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(async profile => {
+        const params = this.route.snapshot.params;
+        if (params.rok && params.type && params.skupina) {
+          this.groupEvents = await this.accountingService.getGroupEvents(
+            profile,
+            params.rok,
+            this.typeLocalParams[params.type],
+            params.skupina,
+          );
+        }
+      });
 
     // set selected budget on year change
-    combineLatest(this.year, this.budgets).subscribe(([year, budgets]) => {
-      if (year) {
-        this.budget = budgets.find(budget => budget.year === year) || null;
-        if (!this.budget)
-          this.selectBudget(budgets[0] ? budgets[0].year : null, true);
-      } else this.selectBudget(budgets[0] ? budgets[0].year : null, true);
-    });
+    combineLatest(this.year, this.budgets)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([year, budgets]) => {
+        if (year) {
+          this.budget = budgets.find(budget => budget.year === year) || null;
+          if (!this.budget)
+            this.selectBudget(budgets[0] ? budgets[0].year : null, true);
+        } else this.selectBudget(budgets[0] ? budgets[0].year : null, true);
+      });
 
     // download groups
-    combineLatest(this.profile, this.type, this.year).subscribe(
-      async ([profile, type, year]) => {
+    combineLatest(this.profile, this.type, this.year)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(async ([profile, type, year]) => {
         if (!profile || !type || !year) return;
         await this.getGroups(profile, type, year);
-      },
-    );
+      });
 
     // download events
     combineLatest(this.groupId, this.year)
-      .pipe(withLatestFrom(this.sort, this.type, this.profile))
+      .pipe(
+        withLatestFrom(this.sort, this.type, this.profile),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe(async ([[groupId, year], sort, type, profile]) => {
         if (!profile || !year || !type) return;
 
@@ -205,16 +218,20 @@ export class ProfileAccountingComponent implements OnInit {
         this.sortEvents(sort);
       });
 
-    this.sort.subscribe(sort => this.sortEvents(sort));
+    this.sort
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(sort => this.sortEvents(sort));
 
-    combineLatest(this.groups, this.groupId).subscribe(([groups, groupId]) => {
-      if (groups.length > 0 && groupId) {
-        this.group =
-          groups.find(group => "id" in group && group.id === groupId) || null;
-      }
-    });
+    combineLatest(this.groups, this.groupId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(([groups, groupId]) => {
+        if (groups.length > 0 && groupId) {
+          this.group =
+            groups.find(group => "id" in group && group.id === groupId) || null;
+        }
+      });
 
-    this.groups.subscribe(groups => {
+    this.groups.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(groups => {
       this.chartBigbangData = groups.map(
         group =>
           ({
@@ -226,7 +243,10 @@ export class ProfileAccountingComponent implements OnInit {
     });
 
     combineLatest(this.eventId, this.profile, this.year)
-      .pipe(filter(values => values.every(value => value != null))) // only if all not null
+      .pipe(
+        filter(values => values.every(value => value != null)),
+        takeUntilDestroyed(this.destroyRef),
+      ) // only if all not null
       .subscribe(([eventId, profile, year]) => {
         if (eventId != null && year != null && profile?.id != null) {
           this.modalService.show(EventDetailModalComponent, {
@@ -236,7 +256,9 @@ export class ProfileAccountingComponent implements OnInit {
         }
       });
 
-    this.modalService.onHide.subscribe(() => this.selectEvent(null));
+    this.modalService.onHide
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.selectEvent(null));
   }
 
   selectBudget(year: string | number | null, replace: boolean = false): void {
