@@ -89,6 +89,36 @@ Query params: {
   bool countChildren - if true, for each returned profile counts its children profiles
 }
 */
+/**
+ * @swagger
+ * /api/public/profiles:
+ *   get:
+ *     summary: List profiles
+ *     tags:
+ *       - Public profiles
+ *     parameters:
+ *       - in: query
+ *         name: status
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Comma-separated list of profile statuses.
+ *       - in: query
+ *         name: countChildren
+ *         required: false
+ *         schema:
+ *           type: boolean
+ *         description: Include child profile counts when true.
+ *     responses:
+ *       200:
+ *         description: Profiles matching the query.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
 router.get("/", async (req, res) => {
   let profileQuery = createProfileQueryWithStatusFilter(
     req.query.status,
@@ -113,6 +143,43 @@ Query params: {
   bool countChildren - if true, for each returned profile counts its children profiles
 }
 */
+/**
+ * @swagger
+ * /api/public/profiles/sections:
+ *   get:
+ *     summary: List profile sections
+ *     tags:
+ *       - Public profiles
+ *     parameters:
+ *       - in: query
+ *         name: status
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Comma-separated list of profile statuses.
+ *       - in: query
+ *         name: countChildren
+ *         required: false
+ *         schema:
+ *           type: boolean
+ *         description: Include child profile counts when true.
+ *     responses:
+ *       200:
+ *         description: Profile sections with matching profiles.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   section:
+ *                     type: object
+ *                   profiles:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ */
 router.get("/sections", async (req, res) => {
   const sectionQuery = db<SectionRecord>("app.sections AS section");
 
@@ -156,6 +223,45 @@ returns children profiles of profile with specified id and grandchildren of thes
 request: {
   string[] status - filtes profiles by provided statuses
 }*/
+/**
+ * @swagger
+ * /api/public/profiles/{id}/children:
+ *   get:
+ *     summary: List profile children
+ *     tags:
+ *       - Public profiles
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Profile ID.
+ *       - in: query
+ *         name: status
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Comma-separated list of profile statuses.
+ *     responses:
+ *       200:
+ *         description: Parent profile and its children and grandchildren.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 parent:
+ *                   type: object
+ *                 children:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       400:
+ *         description: Invalid profile ID.
+ *       404:
+ *         description: Parent profile not found.
+ */
 router.get("/:id/children", async (req, res) => {
   if (!Number(req.params.id)) {
     res.sendStatus(400);
@@ -189,6 +295,32 @@ router.get("/:id/children", async (req, res) => {
   return res.json({ parent: parentProfile, children: profiles });
 });
 
+/**
+ * @swagger
+ * /api/public/profiles/{profile}:
+ *   get:
+ *     summary: Get profile detail
+ *     tags:
+ *       - Public profiles
+ *     parameters:
+ *       - in: path
+ *         name: profile
+ *         required: true
+ *         schema:
+ *           oneOf:
+ *             - type: integer
+ *             - type: string
+ *         description: Profile ID or URL slug.
+ *     responses:
+ *       200:
+ *         description: Profile detail.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       404:
+ *         description: Profile not found.
+ */
 router.get("/:profile", async (req, res) => {
   const profile: ProfileRecord | null = await db<ProfileRecord>("profiles")
     .modify(function () {
@@ -222,6 +354,33 @@ router.get("/:profile", async (req, res) => {
   return res.json(profile);
 });
 
+/**
+ * @swagger
+ * /api/public/profiles/{profile}/avatar:
+ *   get:
+ *     summary: Get profile avatar
+ *     tags:
+ *       - Public profiles
+ *     parameters:
+ *       - in: path
+ *         name: profile
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Profile ID.
+ *     responses:
+ *       200:
+ *         description: Profile avatar file.
+ *         content:
+ *           image/*:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       302:
+ *         description: Redirect to avatar file in public storage.
+ *       404:
+ *         description: Profile or avatar not found.
+ */
 router.get("/:profile/avatar", async (req, res) => {
   const profile = await db<ProfileRecord>("profiles")
     .where("id", Number(req.params.profile))

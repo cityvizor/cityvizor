@@ -2,6 +2,7 @@ import express from "express";
 import getExpeditiousCache from "express-expeditious";
 import redisEngine from "expeditious-engine-redis";
 import config from "../config";
+import { getOpenApiSpec } from "../openapi";
 
 const router = express.Router();
 
@@ -20,6 +21,12 @@ const cache = getExpeditiousCache({
 });
 
 export const Routers = router;
+
+if (process.env.NODE_ENV === "local") {
+  router.get("/api/openapi.json", (req, res) => {
+    res.json(getOpenApiSpec());
+  });
+}
 
 import { PublicRouter } from "./public";
 import { SearchRouter } from "./search";

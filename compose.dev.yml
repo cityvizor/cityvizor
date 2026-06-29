@@ -65,5 +65,14 @@ services:
       /entrypoint.sh
       "
 
+  swagger-ui.cityvizor:
+    container_name: swagger-ui.cityvizor
+    image: swaggerapi/swagger-ui:v5.30.2
+    restart: always
+    environment:
+      SWAGGER_JSON_URL: http://localhost:4200/api/openapi.json
+    ports:
+      - "50060:8080"
+
 volumes:
   pgadmin-data:
