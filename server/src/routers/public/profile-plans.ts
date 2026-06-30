@@ -6,6 +6,30 @@ import { PlanRecord } from "../../schema";
 const router = express.Router({ mergeParams: true });
 
 export const ProfilePlansRouter = router;
+
+/**
+ * @swagger
+ * /api/public/profiles/{profile}/plans:
+ *   get:
+ *     summary: List profile plans
+ *     tags:
+ *       - Public profile plans
+ *     parameters:
+ *       - in: path
+ *         name: profile
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Profile plans.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
 router.get("/", async (req: Request<{ profile: string }>, res) => {
   const years = await db<PlanRecord>("pbo_plans")
     .select("year", "profileId")
@@ -19,6 +43,34 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
   res.json(years);
 });
 
+/**
+ * @swagger
+ * /api/public/profiles/{profile}/plans/{year}:
+ *   get:
+ *     summary: Get profile plan
+ *     tags:
+ *       - Public profile plans
+ *     parameters:
+ *       - in: path
+ *         name: profile
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: year
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Profile plan records.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
 router.get(
   "/:year",
   async (req: Request<{ profile: string; year: string }>, res) => {
@@ -30,6 +82,44 @@ router.get(
   }
 );
 
+/**
+ * @swagger
+ * /api/public/profiles/{profile}/plans/{year}/groups/{field}:
+ *   get:
+ *     summary: List profile plan groups
+ *     tags:
+ *       - Public profile plans
+ *     parameters:
+ *       - in: path
+ *         name: profile
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: year
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: field
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - incomes
+ *             - expenditures
+ *     responses:
+ *       200:
+ *         description: Plan groups.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       400:
+ *         description: Invalid field.
+ */
 router.get(
   "/:year/groups/:field",
   async (
@@ -58,6 +148,41 @@ router.get(
   }
 );
 
+/**
+ * @swagger
+ * /api/public/profiles/{profile}/plans/{year}/groups/{group}/details:
+ *   get:
+ *     summary: List profile plan group details
+ *     tags:
+ *       - Public profile plans
+ *     parameters:
+ *       - in: path
+ *         name: profile
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: year
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: group
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Plan group details.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       400:
+ *         description: Invalid group.
+ */
 router.get(
   "/:year/groups/:group/details",
   async (

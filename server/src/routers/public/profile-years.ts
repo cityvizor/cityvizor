@@ -18,6 +18,56 @@ const getBaseQuery = (profileId: string) =>
     .groupBy("y.profileId", "y.year", "y.validity")
     .orderBy("y.year");
 
+/**
+ * @swagger
+ * /api/public/profiles/{profile}/years:
+ *   get:
+ *     summary: List profile years
+ *     tags:
+ *       - Public profile years
+ *     parameters:
+ *       - in: path
+ *         name: profile
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: sumMode
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - complete
+ *             - visible
+ *           default: complete
+ *     responses:
+ *       200:
+ *         description: Profile years.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   profileId:
+ *                     type: integer
+ *                   year:
+ *                     type: integer
+ *                   validity:
+ *                     type: string
+ *                     format: date
+ *                   expenditureAmount:
+ *                     type: number
+ *                   budgetExpenditureAmount:
+ *                     type: number
+ *                   incomeAmount:
+ *                     type: number
+ *                   budgetIncomeAmount:
+ *                     type: number
+ *       400:
+ *         description: Invalid sum mode.
+ */
 router.get(
   "/",
   async (req: Request<{ profile: string; year: string }>, res) => {
@@ -64,6 +114,42 @@ router.get(
   }
 );
 
+/**
+ * @swagger
+ * /api/public/profiles/{profile}/years/{year}:
+ *   get:
+ *     summary: Get profile year
+ *     tags:
+ *       - Public profile years
+ *     parameters:
+ *       - in: path
+ *         name: profile
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: year
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Profile year records.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   profileId:
+ *                     type: integer
+ *                   year:
+ *                     type: integer
+ *                   validity:
+ *                     type: string
+ *                     format: date
+ */
 router.get(
   "/:year",
   async (req: Request<{ profile: string; year: string }>, res) => {
