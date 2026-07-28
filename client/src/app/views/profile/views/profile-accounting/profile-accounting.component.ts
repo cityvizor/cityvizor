@@ -43,6 +43,7 @@ import { BudgetSelectComponent } from "../../components/budget-select/budget-sel
 import { FormsModule } from "@angular/forms";
 import { ChartBigbangComponent } from "../../../../shared/charts/chart-bigbang/chart-bigbang.component";
 import { GroupSelectComponent } from "../../components/group-select/group-select.component";
+import { AccountingGroupCardsComponent } from "../../components/accounting-group-cards/accounting-group-cards.component";
 import { AsyncPipe, SlicePipe } from "@angular/common";
 import { ChartDonutComponent } from "../../../../shared/charts/chart-donut/chart-donut.component";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
@@ -60,6 +61,7 @@ import { TranslatePipe } from "@ngx-translate/core";
     FormsModule,
     ChartBigbangComponent,
     GroupSelectComponent,
+    AccountingGroupCardsComponent,
     ChartDonutComponent,
     AsyncPipe,
     SlicePipe,

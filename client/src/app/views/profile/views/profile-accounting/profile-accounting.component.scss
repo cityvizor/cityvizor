@@ -2,6 +2,28 @@
   margin-top: -20px;
 }
 
+.accounting-cards-view {
+  padding-top: 36px;
+}
+
+.accounting-cards-view__budget {
+  margin-bottom: 34px;
+}
+
+.accounting-cards-view__heading {
+  margin-bottom: 22px;
+}
+
+.accounting-cards-view__heading h2 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.accounting-cards-view__heading p {
+  margin: 6px 0 0;
+  color: #666;
+}
+
 h4 {
   font-weight: normal !important;
 }
@@ -39,7 +61,7 @@ h4 {
   padding-top: 56.25%;
 }
 
-budget-select {
+#bigbang > budget-select {
   position: absolute;
   top: 3vh;
   left: 0;
@@ -73,6 +95,10 @@ budget-select {
 #selectedGroup {
   margin-top: 70px;
   min-height: 330px;
+}
+
+.accounting-cards-view + #selectedGroup {
+  margin-top: 48px;
 }
 
 .skupina-label .label {
