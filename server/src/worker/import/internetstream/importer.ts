@@ -132,7 +132,7 @@ function parseHeader(
   );
 }
 
-function createParser(fileName: string) {
+function createParser(fileName: string): csvparse.Parser {
   return csvparse({
     bom: true,
     delimiter: ";",
