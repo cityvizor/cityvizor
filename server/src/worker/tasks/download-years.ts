@@ -10,6 +10,7 @@ import { DateTime } from "luxon";
 import { Import } from "../import/import";
 import { pipeline } from "stream";
 import { promisify } from "util";
+import { validateInternetStreamInputFiles } from "../import/internetstream/input-files";
 
 export const TaskDownloadYears: CronTask = {
   id: "download-years",
@@ -32,6 +33,9 @@ export const TaskDownloadYears: CronTask = {
         ) {
           importDir = await Import.createImportDir();
           await downloadAndExtractYear(year.importUrl, importDir);
+          if (year.importFormat === "internetstream") {
+            await validateInternetStreamInputFiles(importDir);
+          }
           const importData: Partial<ImportRecord> = {
             profileId: year.profileId,
             year: year.year,
@@ -66,18 +70,4 @@ async function downloadAndExtractYear(
   const response = await axios.get(importUrl, { responseType: "stream" });
   await promisify(pipeline)(response.data, fs.createWriteStream(dataPath));
   await extract(dataPath, { dir: importDir });
-  await validateExtractedCsv(path.join(importDir, "RU.csv"));
-  await validateExtractedCsv(path.join(importDir, "SK.csv"));
-}
-
-async function validateExtractedCsv(filePath: string) {
-  let stat;
-  try {
-    stat = await fs.stat(filePath);
-  } catch {
-    throw new Error(`${path.basename(filePath)} is missing in the archive.`);
-  }
-  if (!stat.isFile() || stat.size === 0) {
-    throw new Error(`${path.basename(filePath)} is empty or is not a file.`);
-  }
 }

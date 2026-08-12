@@ -12,6 +12,7 @@ import {
 import { DatabaseWriter } from "../db-writer";
 import { PaymentRecord, AccountingRecord } from "../../../schema";
 import { importLogger } from "../import-logger";
+import { validateInternetStreamInputFiles } from "./input-files";
 
 const maxAccountingAmount = 1_000_000_000_000;
 
@@ -46,7 +47,7 @@ export async function importInternetStream(
     path.join(options.importDir, "RU.csv"),
     path.join(options.importDir, "SK.csv"),
   ];
-  await validateInputFiles(csvPaths);
+  await validateInternetStreamInputFiles(options.importDir);
 
   await options
     .transaction("data.payments")
@@ -295,18 +296,4 @@ function logSkippedRow(
   importLogger.log(
     `WARNING ${code}: ${fileName}, row ${sourceRow}${document}: ${reason}; row skipped.`
   );
-}
-
-async function validateInputFiles(csvPaths: string[]) {
-  for (const filePath of csvPaths) {
-    let stat;
-    try {
-      stat = await fs.stat(filePath);
-    } catch {
-      throw new Error(`${path.basename(filePath)} is missing.`);
-    }
-    if (!stat.isFile() || stat.size === 0) {
-      throw new Error(`${path.basename(filePath)} is empty or is not a file.`);
-    }
-  }
 }
