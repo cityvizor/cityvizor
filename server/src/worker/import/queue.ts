@@ -76,11 +76,13 @@ export async function checkImportQueue() {
 
   // Any exception catched in this try block will rollback the import transaction
   let error: Error | null = null;
+  let warningCount = 0;
   try {
     if (currentJob.format === "cityvizor") {
       await importCityvizor(options);
     } else if (currentJob.format === "internetstream") {
-      await importInternetStream(options);
+      const result = await importInternetStream(options);
+      warningCount = result.warningCount;
     } else if (
       currentJob.format === "pbo_expected_plan" ||
       currentJob.format === "pbo_real_plan" ||
@@ -122,6 +124,7 @@ export async function checkImportQueue() {
     error: error ? error.message : null,
     finished: DateTime.local().toJSDate(),
     logs: importLogger.getLogs(),
+    warningCount,
   } as Partial<ImportRecord>;
 
   importLogger.clear();

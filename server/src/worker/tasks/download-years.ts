@@ -8,6 +8,9 @@ import path from "path";
 import extract from "extract-zip";
 import { DateTime } from "luxon";
 import { Import } from "../import/import";
+import { pipeline } from "stream";
+import { promisify } from "util";
+import { validateInternetStreamInputFiles } from "../import/internetstream/input-files";
 
 export const TaskDownloadYears: CronTask = {
   id: "download-years",
@@ -15,6 +18,7 @@ export const TaskDownloadYears: CronTask = {
   exec: async () => {
     const years = await db<YearRecord>("app.years").whereNotNull("importUrl");
     for (const year of years) {
+      let importDir: string | undefined;
       try {
         if (!year.importPeriodMinutes || !year.importUrl) continue;
         const lastImport = await db<ImportRecord>("app.imports")
@@ -27,19 +31,11 @@ export const TaskDownloadYears: CronTask = {
           lastImport.created <
             new Date(Date.now() - 1000 * 60 * year.importPeriodMinutes)
         ) {
-          const importDir = await Import.createImportDir();
-          await axios
-            .get(year.importUrl, { responseType: "stream" })
-            .then(r => {
-              const dataPath = path.join(importDir, "data.zip");
-              const dataFileStream = fs.createWriteStream(dataPath);
-              r.data.pipe(dataFileStream);
-              dataFileStream.on("finish", async () => {
-                // TODO: Assuming each imported year has to be unzipped for now
-                await extract(dataPath, { dir: importDir });
-                dataFileStream.close();
-              });
-            });
+          importDir = await Import.createImportDir();
+          await downloadAndExtractYear(year.importUrl, importDir);
+          if (year.importFormat === "internetstream") {
+            await validateInternetStreamInputFiles(importDir);
+          }
           const importData: Partial<ImportRecord> = {
             profileId: year.profileId,
             year: year.year,
@@ -55,6 +51,7 @@ export const TaskDownloadYears: CronTask = {
           console.log(`Downloaded ${year.importUrl}`);
         }
       } catch (err: unknown) {
+        if (importDir) await fs.remove(importDir);
         console.error(
           `Downloading ${year.importUrl} failed: ${
             err instanceof Error ? err.message : err
@@ -64,3 +61,13 @@ export const TaskDownloadYears: CronTask = {
     }
   },
 };
+
+async function downloadAndExtractYear(
+  importUrl: string,
+  importDir: string
+) {
+  const dataPath = path.join(importDir, "data.zip");
+  const response = await axios.get(importUrl, { responseType: "stream" });
+  await promisify(pipeline)(response.data, fs.createWriteStream(dataPath));
+  await extract(dataPath, { dir: importDir });
+}
