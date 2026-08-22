@@ -3,9 +3,6 @@ USER root
 WORKDIR /home/node/app
 ENTRYPOINT [ "./entrypoint.sh" ]
 
-# Install latest npm as root globally
-RUN npm install -g npm@latest
-# unset npm env variables that got set under root
 ENV npm_config_userconfig=
 ENV npm_config_cache=
 ENV npm_config_init_module=
