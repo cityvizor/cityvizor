@@ -95,6 +95,33 @@
   font-size: 13px;
 }
 
+.accounting-cards-view__bar-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 14px;
+  color: #5b6770;
+  font-size: 13px;
+}
+
+.accounting-cards-view__bar-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accounting-cards-view__bar-swatch {
+  width: 30px;
+  height: 12px;
+  border-radius: 3px;
+  background: #0877bd;
+}
+
+.accounting-cards-view__bar-swatch--remaining {
+  background: #dcedf9;
+}
+
 @media (max-width: 767px) {
   .accounting-cards-view__toolbar {
     align-items: stretch;
@@ -111,6 +138,12 @@
     flex-direction: column;
     gap: 5px;
     margin-top: -6px;
+  }
+
+  .accounting-cards-view__bar-legend {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
   }
 }
 
@@ -189,6 +222,16 @@ h4 {
 
 .accounting-cards-view + #selectedGroup {
   margin-top: 48px;
+}
+
+.selected-group-heading {
+  margin-bottom: 12px;
+}
+
+.selected-group-heading h3 {
+  margin: 0;
+  color: #222;
+  font-size: 24px;
 }
 
 .skupina-label .label {

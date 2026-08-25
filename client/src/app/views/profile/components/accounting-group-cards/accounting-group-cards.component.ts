@@ -9,7 +9,7 @@ import {
 import { BudgetGroup } from "app/schema";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 
-export type AccountingGroupCardsLayout = "grid" | "map";
+export type AccountingGroupCardsLayout = "grid" | "map" | "bars";
 type AccountingGroupMapSize = "small" | "medium" | "large";
 
 @Component({
@@ -99,6 +99,35 @@ export class AccountingGroupCardsComponent implements OnChanges {
 
   getMapFlex(group: BudgetGroup): number {
     return this.mapFlexValues.get(group) || 1;
+  }
+
+  getGroupIcon(group: BudgetGroup): string {
+    const name = (group.name || "").toLocaleLowerCase("cs");
+    const iconMappings: [string, string][] = [
+      ["samospráv", "fa-landmark"],
+      ["státní", "fa-landmark"],
+      ["bydlení", "fa-house"],
+      ["komunální", "fa-house"],
+      ["škol", "fa-graduation-cap"],
+      ["vzděláv", "fa-graduation-cap"],
+      ["doprav", "fa-bus"],
+      ["životní", "fa-leaf"],
+      ["zdravot", "fa-heart-pulse"],
+      ["kultur", "fa-masks-theater"],
+      ["sport", "fa-futbol"],
+      ["tělových", "fa-futbol"],
+      ["bezpečnost", "fa-shield-halved"],
+      ["požární", "fa-fire-extinguisher"],
+      ["sociální", "fa-people-roof"],
+      ["finanční", "fa-chart-line"],
+      ["průmysl", "fa-industry"],
+      ["ostatní", "fa-ellipsis"],
+    ];
+
+    return (
+      iconMappings.find(([part]) => name.includes(part))?.[1] ||
+      "fa-chart-pie"
+    );
   }
 
   private getMapSizes(

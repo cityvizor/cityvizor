@@ -50,7 +50,7 @@ import { ChartDonutComponent } from "../../../../shared/charts/chart-donut/chart
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
-type AccountingOverview = "cards" | "map";
+type AccountingOverview = "cards" | "map" | "bars";
 
 @Component({
   selector: "profile-accounting",

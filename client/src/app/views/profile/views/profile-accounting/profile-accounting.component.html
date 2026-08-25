@@ -18,7 +18,9 @@
             {{
               accountingOverview === "map"
                 ? "Mapa výdajů"
-                : "Výdaje podle skupin"
+                : accountingOverview === "bars"
+                  ? "Čerpání rozpočtu podle skupin"
+                  : "Výdaje podle skupin"
             }}
           </h2>
           <p>Vyberte skupinu pro zobrazení podrobností.</p>
@@ -45,6 +47,14 @@
           >
             Mapa výdajů
           </button>
+          <button
+            type="button"
+            [class.active]="accountingOverview === 'bars'"
+            [attr.aria-pressed]="accountingOverview === 'bars'"
+            (click)="selectAccountingOverview('bars')"
+          >
+            Čerpání rozpočtu
+          </button>
         </div>
       </div>
 
@@ -61,15 +71,42 @@
       <accounting-group-cards
         [groups]="(groups | async) || []"
         [selected]="group?.id || null"
-        [layout]="accountingOverview === 'map' ? 'map' : 'grid'"
+        [layout]="
+          accountingOverview === 'map'
+            ? 'map'
+            : accountingOverview === 'bars'
+              ? 'bars'
+              : 'grid'
+        "
         (select)="selectGroup($event, true)"
       />
 
       @if (accountingOverview === "map") {
         <p class="accounting-cards-view__map-note">
-          Velikost plochy odpovídá rozpočtu skupiny. Hodnoty jsou omezené,
-          aby zůstaly čitelné i skupiny s výrazně menším rozpočtem.
+          Velikost plochy odpovídá rozpočtu skupiny. Hodnoty jsou omezené, aby
+          zůstaly čitelné i skupiny s výrazně menším rozpočtem.
         </p>
+      }
+
+      @if (accountingOverview === "bars") {
+        <div
+          class="accounting-cards-view__bar-legend"
+          aria-label="Legenda čerpání rozpočtu"
+        >
+          <span>
+            <span class="accounting-cards-view__bar-swatch" aria-hidden="true">
+            </span>
+            Čerpáno
+          </span>
+          <span>
+            <span
+              class="accounting-cards-view__bar-swatch accounting-cards-view__bar-swatch--remaining"
+              aria-hidden="true"
+            >
+            </span>
+            Zbývá do rozpočtu
+          </span>
+        </div>
       }
     </section>
   } @else {
@@ -116,6 +153,10 @@
 
   @if (groupEvents.length > 0) {
     <div id="selectedGroup">
+      <header class="selected-group-heading">
+        <h3>{{ group?.name || "Nezařazená skupina" }}</h3>
+      </header>
+
       <form class="filter">
         <div class="row">
           <div class="col-8"></div>

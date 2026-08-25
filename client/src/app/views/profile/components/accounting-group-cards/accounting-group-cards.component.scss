@@ -182,6 +182,232 @@
   }
 }
 
+.group-cards--bars {
+  --bar-percentage-width: 72px;
+  --bar-progress-gap: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.group-cards__axis {
+  display: grid;
+  min-height: 32px;
+  grid-template-columns:
+    minmax(240px, 1.25fr) minmax(360px, 4fr)
+    minmax(190px, 1.25fr);
+  gap: 16px;
+  padding: 0 17px;
+}
+
+.group-cards__axis-scale {
+  position: relative;
+  grid-column: 2;
+  margin-right: calc(var(--bar-percentage-width) + var(--bar-progress-gap));
+}
+
+.group-cards__axis-label {
+  position: absolute;
+  bottom: 7px;
+  color: #333;
+  font-size: 13px;
+  font-weight: 700;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.group-cards__axis-label--75 {
+  left: 75%;
+}
+
+.group-cards__axis-label--100 {
+  left: 100%;
+}
+
+.group-cards--bars .group-card {
+  display: grid;
+  min-height: 64px;
+  align-items: center;
+  grid-template-areas: "name progress amounts";
+  grid-template-columns:
+    minmax(240px, 1.25fr) minmax(360px, 4fr)
+    minmax(190px, 1.25fr);
+  gap: 16px;
+  padding: 9px 16px;
+  border-color: transparent;
+  border-radius: 7px;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.group-cards--bars .group-card:nth-child(even) {
+  background: #f7fbfe;
+}
+
+.group-cards--bars .group-card:hover,
+.group-cards--bars .group-card:focus-visible {
+  border-color: transparent;
+  background: #edf7fd;
+  box-shadow: none;
+  transform: none;
+}
+
+.group-cards--bars .group-card--selected,
+.group-cards--bars .group-card--selected:hover,
+.group-cards--bars .group-card--selected:focus-visible {
+  border-color: transparent;
+  background: #dff1fb;
+  box-shadow: inset 3px 0 0 #2581c4;
+}
+
+.group-cards--bars .group-card--over-budget,
+.group-cards--bars .group-card--over-budget:hover,
+.group-cards--bars .group-card--over-budget:focus-visible {
+  background: #fff4f4;
+}
+
+.group-cards--bars .group-card--selected.group-card--over-budget {
+  background: #ffeaea;
+}
+
+.group-cards--bars .group-card__header {
+  min-height: 0;
+  align-items: center;
+  justify-content: flex-start;
+  grid-area: name;
+  gap: 12px;
+}
+
+.group-card__bar-icon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #2581c4;
+  color: #fff;
+  font-size: 16px;
+}
+
+.group-cards--bars .group-card__name {
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+}
+
+.group-cards--bars .group-card__chevron {
+  display: none;
+}
+
+.group-card__bar-amounts {
+  display: block;
+  color: #666;
+  font-size: 13px;
+  grid-area: amounts;
+  white-space: nowrap;
+}
+
+.group-card__bar-amounts strong {
+  color: #176ba7;
+  font-size: 14px;
+}
+
+.group-cards--bars .group-card--over-budget .group-card__bar-amounts strong {
+  color: #e73431;
+}
+
+.group-cards--bars .group-card__progress-row {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  grid-area: progress;
+  gap: var(--bar-progress-gap);
+}
+
+.group-cards--bars .group-card__percentage {
+  width: var(--bar-percentage-width);
+  min-width: var(--bar-percentage-width);
+}
+
+.group-cards--bars .group-card__progress {
+  position: relative;
+  height: 14px;
+  overflow: visible;
+  border-radius: 7px;
+  background: #dcedf9;
+}
+
+.group-cards--bars .group-card__progress::before,
+.group-cards--bars .group-card__progress::after {
+  position: absolute;
+  z-index: 2;
+  top: -8px;
+  height: 30px;
+  border-left: 1px dashed rgba(74, 95, 112, 0.3);
+  content: "";
+}
+
+.group-cards--bars .group-card__progress::before {
+  left: 75%;
+}
+
+.group-cards--bars .group-card__progress::after {
+  right: 0;
+}
+
+.group-cards--bars .group-card__progress-value {
+  position: relative;
+  z-index: 3;
+  background: #0877bd;
+}
+
+.group-cards--bars .group-card__status {
+  margin: 0;
+  padding: 0;
+  grid-area: progress;
+}
+
+@media (max-width: 991px) {
+  .group-cards__axis {
+    display: none;
+  }
+
+  .group-cards--bars .group-card {
+    grid-template-areas:
+      "name amounts"
+      "progress progress";
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px 16px;
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 575px) {
+  .group-cards--bars .group-card {
+    grid-template-areas:
+      "name name"
+      "amounts amounts"
+      "progress progress";
+    gap: 7px;
+  }
+
+  .group-card__bar-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .group-card__bar-amounts {
+    padding-left: 44px;
+    text-align: left;
+  }
+}
+
 .group-cards--map {
   display: flex;
   flex-direction: column;

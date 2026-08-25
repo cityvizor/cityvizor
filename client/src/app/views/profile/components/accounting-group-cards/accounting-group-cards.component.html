@@ -1,8 +1,22 @@
 <div
   class="group-cards"
   [class.group-cards--map]="layout === 'map'"
+  [class.group-cards--bars]="layout === 'bars'"
   [attr.data-layout]="layout"
 >
+  @if (layout === "bars") {
+    <div class="group-cards__axis" aria-hidden="true">
+      <span class="group-cards__axis-scale">
+        <span class="group-cards__axis-label group-cards__axis-label--75"
+          >75 %</span
+        >
+        <span class="group-cards__axis-label group-cards__axis-label--100"
+          >100 %</span
+        >
+      </span>
+    </div>
+  }
+
   @for (row of cardRows; track row) {
     <div class="group-cards__row">
       @for (group of row; track group) {
@@ -28,9 +42,14 @@
           (click)="selectGroup(group)"
         >
           <span class="group-card__header">
+            @if (layout === "bars") {
+              <span class="group-card__bar-icon" aria-hidden="true">
+                <i [class]="'fa-solid ' + getGroupIcon(group)"></i>
+              </span>
+            }
             <strong
               class="group-card__name"
-              [attr.title]="layout === 'map' ? group.name : null"
+              [attr.title]="layout !== 'grid' ? group.name : null"
               >{{ group.name }}</strong
             >
             @if (group.id !== null) {
@@ -38,23 +57,34 @@
             }
           </span>
 
-          <span class="group-card__amount font-number">
-            @if (layout === "map") {
-              {{ group.amount | money: 1 : true }} Kč
-            } @else {
-              {{ group.amount | money: 0 : false }} Kč
-            }
-          </span>
+          @if (layout === "bars") {
+            <span class="group-card__bar-amounts font-number">
+              <strong>{{ group.amount | money: 1 : true }} Kč</strong>
+              @if (group.budgetAmount === 0) {
+                <span> / bez rozpočtu</span>
+              } @else {
+                <span> / {{ group.budgetAmount | money: 1 : true }} Kč</span>
+              }
+            </span>
+          } @else {
+            <span class="group-card__amount font-number">
+              @if (layout === "map") {
+                {{ group.amount | money: 1 : true }} Kč
+              } @else {
+                {{ group.amount | money: 0 : false }} Kč
+              }
+            </span>
 
-          <span class="group-card__budget font-number">
-            @if (group.budgetAmount === 0) {
-              Bez rozpočtu
-            } @else if (layout === "map") {
-              z rozpočtu {{ group.budgetAmount | money: 1 : true }} Kč
-            } @else {
-              z rozpočtu {{ group.budgetAmount | money: 0 : false }} Kč
-            }
-          </span>
+            <span class="group-card__budget font-number">
+              @if (group.budgetAmount === 0) {
+                Bez rozpočtu
+              } @else if (layout === "map") {
+                z rozpočtu {{ group.budgetAmount | money: 1 : true }} Kč
+              } @else {
+                z rozpočtu {{ group.budgetAmount | money: 0 : false }} Kč
+              }
+            </span>
+          }
 
           @if (hasProgress(group)) {
             <span class="group-card__progress-row">
