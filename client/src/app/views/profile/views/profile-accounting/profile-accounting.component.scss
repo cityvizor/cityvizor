@@ -10,7 +10,11 @@
   margin-bottom: 34px;
 }
 
-.accounting-cards-view__heading {
+.accounting-cards-view__toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
   margin-bottom: 22px;
 }
 
@@ -22,6 +26,92 @@
 .accounting-cards-view__heading p {
   margin: 6px 0 0;
   color: #666;
+}
+
+.accounting-cards-view__switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  padding: 3px;
+  border: 1px solid #cbd5df;
+  border-radius: 7px;
+  background: #f3f5f7;
+}
+
+.accounting-cards-view__switch button {
+  appearance: none;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #4d5965;
+  font-weight: 600;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease;
+}
+
+.accounting-cards-view__switch button:hover,
+.accounting-cards-view__switch button:focus-visible {
+  color: #176ba7;
+  outline: none;
+}
+
+.accounting-cards-view__switch button:focus-visible {
+  box-shadow: 0 0 0 2px rgba(37, 129, 196, 0.28);
+}
+
+.accounting-cards-view__switch button.active {
+  background: #fff;
+  color: #176ba7;
+  box-shadow: 0 1px 4px rgba(29, 55, 75, 0.18);
+}
+
+.accounting-cards-view__legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 28px;
+  margin: -8px 0 12px;
+  color: #4d5965;
+  font-size: 13px;
+}
+
+.accounting-cards-view__progress-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accounting-cards-view__progress-legend > span {
+  width: 30px;
+  height: 8px;
+  background: #2581c4;
+}
+
+.accounting-cards-view__map-note {
+  margin: 14px 0 0;
+  color: #666;
+  font-size: 13px;
+}
+
+@media (max-width: 767px) {
+  .accounting-cards-view__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .accounting-cards-view__switch {
+    align-self: flex-start;
+  }
+
+  .accounting-cards-view__legend {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: -6px;
+  }
 }
 
 h4 {

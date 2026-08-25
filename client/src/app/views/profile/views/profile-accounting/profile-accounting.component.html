@@ -12,16 +12,65 @@
         />
       </div>
 
-      <div class="accounting-cards-view__heading">
-        <h2>Výdaje podle skupin</h2>
-        <p>Vyberte skupinu pro zobrazení podrobností.</p>
+      <div class="accounting-cards-view__toolbar">
+        <div class="accounting-cards-view__heading">
+          <h2>
+            {{
+              accountingOverview === "map"
+                ? "Mapa výdajů"
+                : "Výdaje podle skupin"
+            }}
+          </h2>
+          <p>Vyberte skupinu pro zobrazení podrobností.</p>
+        </div>
+
+        <div
+          class="accounting-cards-view__switch"
+          role="group"
+          aria-label="Zobrazení výdajů"
+        >
+          <button
+            type="button"
+            [class.active]="accountingOverview === 'cards'"
+            [attr.aria-pressed]="accountingOverview === 'cards'"
+            (click)="selectAccountingOverview('cards')"
+          >
+            Karty
+          </button>
+          <button
+            type="button"
+            [class.active]="accountingOverview === 'map'"
+            [attr.aria-pressed]="accountingOverview === 'map'"
+            (click)="selectAccountingOverview('map')"
+          >
+            Mapa výdajů
+          </button>
+        </div>
       </div>
+
+      @if (accountingOverview === "map") {
+        <div class="accounting-cards-view__legend" aria-label="Legenda mapy">
+          <span>Velikost = rozpočet</span>
+          <span class="accounting-cards-view__progress-legend">
+            <span aria-hidden="true"></span>
+            Plnění rozpočtu
+          </span>
+        </div>
+      }
 
       <accounting-group-cards
         [groups]="(groups | async) || []"
         [selected]="group?.id || null"
-        (select)="selectGroup($event)"
+        [layout]="accountingOverview === 'map' ? 'map' : 'grid'"
+        (select)="selectGroup($event, true)"
       />
+
+      @if (accountingOverview === "map") {
+        <p class="accounting-cards-view__map-note">
+          Velikost plochy odpovídá rozpočtu skupiny. Hodnoty jsou omezené,
+          aby zůstaly čitelné i skupiny s výrazně menším rozpočtem.
+        </p>
+      }
     </section>
   } @else {
     <!-- VIZUALIZACE -->

@@ -6,7 +6,7 @@ import {
   inject,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 
 import { BsModalService } from "ngx-bootstrap/modal";
 import { combineLatest, Subject, BehaviorSubject, ReplaySubject } from "rxjs";
@@ -14,6 +14,7 @@ import {
   map,
   filter,
   distinctUntilChanged,
+  take,
   withLatestFrom,
 } from "rxjs/operators";
 
@@ -44,10 +45,12 @@ import { FormsModule } from "@angular/forms";
 import { ChartBigbangComponent } from "../../../../shared/charts/chart-bigbang/chart-bigbang.component";
 import { GroupSelectComponent } from "../../components/group-select/group-select.component";
 import { AccountingGroupCardsComponent } from "../../components/accounting-group-cards/accounting-group-cards.component";
-import { AsyncPipe, SlicePipe } from "@angular/common";
+import { AsyncPipe, SlicePipe, ViewportScroller } from "@angular/common";
 import { ChartDonutComponent } from "../../../../shared/charts/chart-donut/chart-donut.component";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
+
+type AccountingOverview = "cards" | "map";
 
 @Component({
   selector: "profile-accounting",
@@ -79,6 +82,7 @@ export class ProfileAccountingComponent implements OnInit {
   private modalService = inject(BsModalService);
   private cdRef = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
+  private viewportScroller = inject(ViewportScroller);
 
   // type of view (expenditures/income)
   type = new BehaviorSubject<AccountingGroupType | null>(null);
@@ -103,6 +107,7 @@ export class ProfileAccountingComponent implements OnInit {
 
   hoveredGroup: string | null;
   selectedEvent: number | null;
+  accountingOverview: AccountingOverview = "cards";
 
   eventsLimit: number = 20;
 
@@ -227,10 +232,9 @@ export class ProfileAccountingComponent implements OnInit {
     combineLatest(this.groups, this.groupId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(([groups, groupId]) => {
-        if (groups.length > 0 && groupId) {
-          this.group =
-            groups.find(group => "id" in group && group.id === groupId) || null;
-        }
+        this.group = groupId
+          ? groups.find(group => group.id === groupId) || null
+          : null;
       });
 
     this.groups.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(groups => {
@@ -268,9 +272,16 @@ export class ProfileAccountingComponent implements OnInit {
     this.modifyParams({ rok: year, akce: null }, true);
   }
 
-  selectGroup(groupId: string | null): void {
+  selectGroup(groupId: string | null, preserveScroll: boolean = false): void {
     if (groupId === undefined) return;
+
+    if (preserveScroll) this.preserveScrollAfterNextNavigation();
+
     this.modifyParams({ skupina: groupId, akce: null }, true);
+  }
+
+  selectAccountingOverview(overview: AccountingOverview): void {
+    this.accountingOverview = overview;
   }
 
   selectEvent(eventId: number | null): void {
@@ -378,5 +389,19 @@ export class ProfileAccountingComponent implements OnInit {
 
   private parseEventId(value: number | null | undefined): number | null {
     return value != null && !isNaN(value) ? Number(value) : null;
+  }
+
+  private preserveScrollAfterNextNavigation(): void {
+    const position = this.viewportScroller.getScrollPosition();
+
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        take(1),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        setTimeout(() => this.viewportScroller.scrollToPosition(position));
+      });
   }
 }

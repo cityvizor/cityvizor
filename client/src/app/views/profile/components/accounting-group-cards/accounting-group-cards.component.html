@@ -1,57 +1,87 @@
-<div class="group-cards">
-  @for (group of visibleGroups; track group) {
-    <button
-      type="button"
-      class="group-card"
-      [class.group-card--selected]="group.id === selected"
-      [class.group-card--over-budget]="isOverBudget(group)"
-      [class.group-card--without-detail]="group.id === null"
-      [attr.aria-pressed]="group.id === selected"
-      [attr.aria-label]="getAriaLabel(group)"
-      [disabled]="group.id === null"
-      (click)="selectGroup(group)"
-    >
-      <span class="group-card__header">
-        <strong class="group-card__name">{{ group.name }}</strong>
-        @if (group.id !== null) {
-          <span class="group-card__chevron" aria-hidden="true">›</span>
-        }
-      </span>
-
-      <span class="group-card__amount font-number">
-        {{ group.amount | money: 0 : false }} Kč
-      </span>
-
-      <span class="group-card__budget font-number">
-        @if (group.budgetAmount === 0) {
-          Bez rozpočtu
-        } @else {
-          z rozpočtu {{ group.budgetAmount | money: 0 : false }} Kč
-        }
-      </span>
-
-      @if (hasProgress(group)) {
-        <span class="group-card__progress-row">
-          <span
-            class="group-card__progress"
-            role="progressbar"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            [attr.aria-valuenow]="getProgress(group)"
-            [attr.aria-valuetext]="getPercentage(group)"
-          >
-            <span
-              class="group-card__progress-value"
-              [style.width.%]="getProgress(group)"
-            ></span>
+<div
+  class="group-cards"
+  [class.group-cards--map]="layout === 'map'"
+  [attr.data-layout]="layout"
+>
+  @for (row of cardRows; track row) {
+    <div class="group-cards__row">
+      @for (group of row; track group) {
+        <button
+          type="button"
+          class="group-card"
+          [class.group-card--map-small]="
+            layout === 'map' && getMapSize(group) === 'small'
+          "
+          [class.group-card--map-medium]="
+            layout === 'map' && getMapSize(group) === 'medium'
+          "
+          [class.group-card--map-large]="
+            layout === 'map' && getMapSize(group) === 'large'
+          "
+          [class.group-card--selected]="group.id === selected"
+          [class.group-card--over-budget]="isOverBudget(group)"
+          [class.group-card--without-detail]="group.id === null"
+          [style.flex-grow]="layout === 'map' ? getMapFlex(group) : null"
+          [attr.aria-pressed]="group.id === selected"
+          [attr.aria-label]="getAriaLabel(group)"
+          [disabled]="group.id === null"
+          (click)="selectGroup(group)"
+        >
+          <span class="group-card__header">
+            <strong
+              class="group-card__name"
+              [attr.title]="layout === 'map' ? group.name : null"
+              >{{ group.name }}</strong
+            >
+            @if (group.id !== null) {
+              <span class="group-card__chevron" aria-hidden="true">›</span>
+            }
           </span>
-          <strong class="group-card__percentage font-number">
-            {{ getPercentage(group) }}
-          </strong>
-        </span>
-      } @else {
-        <span class="group-card__status">{{ getProgressStatus(group) }}</span>
+
+          <span class="group-card__amount font-number">
+            @if (layout === "map") {
+              {{ group.amount | money: 1 : true }} Kč
+            } @else {
+              {{ group.amount | money: 0 : false }} Kč
+            }
+          </span>
+
+          <span class="group-card__budget font-number">
+            @if (group.budgetAmount === 0) {
+              Bez rozpočtu
+            } @else if (layout === "map") {
+              z rozpočtu {{ group.budgetAmount | money: 1 : true }} Kč
+            } @else {
+              z rozpočtu {{ group.budgetAmount | money: 0 : false }} Kč
+            }
+          </span>
+
+          @if (hasProgress(group)) {
+            <span class="group-card__progress-row">
+              <span
+                class="group-card__progress"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="getProgress(group)"
+                [attr.aria-valuetext]="getPercentage(group)"
+              >
+                <span
+                  class="group-card__progress-value"
+                  [style.width.%]="getProgress(group)"
+                ></span>
+              </span>
+              <strong class="group-card__percentage font-number">
+                {{ getPercentage(group) }}
+              </strong>
+            </span>
+          } @else {
+            <span class="group-card__status">{{
+              getProgressStatus(group)
+            }}</span>
+          }
+        </button>
       }
-    </button>
+    </div>
   }
 </div>
