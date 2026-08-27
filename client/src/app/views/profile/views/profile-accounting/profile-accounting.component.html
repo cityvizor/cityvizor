@@ -45,9 +45,27 @@
     <div id="selectedGroup">
       <form class="filter">
         <div class="row">
-          <div class="col-8"></div>
-          <div class="col-4 text-end">
-            Řazení:&nbsp;
+          <div class="col-md-6">
+            <label for="item-sort">Řazení položek:&nbsp;</label>
+            <select
+              id="item-sort"
+              name="itemSort"
+              class="form-select form-select-sm d-inline-block w-auto"
+              [ngModel]="itemSort | async"
+              (ngModelChange)="selectItemSort($event)"
+            >
+              <option value="number-ascending">Číslo – vzestupně</option>
+              <option value="number-descending">Číslo – sestupně</option>
+              <option value="budget-ascending">Rozpočet – vzestupně</option>
+              <option value="budget-descending">Rozpočet – sestupně</option>
+              <option value="actual-ascending">
+                Skutečnost – vzestupně
+              </option>
+              <option value="actual-descending">Skutečnost – sestupně</option>
+            </select>
+          </div>
+          <div class="col-md-6 text-end">
+            Řazení akcí:&nbsp;
             <div class="btn-group">
               <button
                 type="button"
@@ -90,6 +108,7 @@
                 <table class="viztable table table-responsive small">
                   <thead>
                     <tr>
+                      <th>Číslo položky</th>
                       <th>
                         Druh
                         {{ (type | async) === "exp" ? "výdajů" : "příjmů" }} v
@@ -106,6 +125,7 @@
                           item.id ? 'Rozpočtová položka #' + item.id : ''
                         "
                       >
+                        <td>{{ item.id ?? "—" }}</td>
                         <td>
                           @if (item.name) {
                             {{ item.name }}

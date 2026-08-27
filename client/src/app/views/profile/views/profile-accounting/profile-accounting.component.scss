@@ -144,16 +144,21 @@ budget-select {
 }
 .viztable th:nth-child(1),
 .viztable td:nth-child(1) {
-  width: 50%;
+  width: 15%;
   text-align: left;
 }
 .viztable th:nth-child(2),
 .viztable td:nth-child(2) {
-  width: 25%;
-  text-align: right;
+  width: 35%;
+  text-align: left;
 }
 .viztable th:nth-child(3),
 .viztable td:nth-child(3) {
+  width: 25%;
+  text-align: right;
+}
+.viztable th:nth-child(4),
+.viztable td:nth-child(4) {
   width: 25%;
   text-align: right;
 }
