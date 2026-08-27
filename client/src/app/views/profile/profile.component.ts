@@ -37,13 +37,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
 
   profile: Observable<Profile>;
+  returnLink: string | null = null;
 
   paramsSubscription: Subscription;
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
+      this.returnLink = null;
       this.dataService.getProfile(params["profile"]).then(profile => {
         if (profile) {
+          const requestedSelectionProfile = Number(params["selectionProfile"]);
+          const selectionProfile =
+            Number.isInteger(requestedSelectionProfile) &&
+            requestedSelectionProfile > 0
+              ? requestedSelectionProfile
+              : profile.parent;
+          this.returnLink = selectionProfile
+            ? `/landing/?selectionProfile=${selectionProfile}`
+            : null;
           this.profileService.setProfile(profile);
         }
       });
