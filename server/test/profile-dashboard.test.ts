@@ -17,5 +17,9 @@ describe("profile dashboard query", () => {
     const { sql } = createProfileDashboardQuery("42").toSQL();
 
     expect(sql.match(/from "data"\."accounting"/g)).toHaveLength(1);
+    expect(sql).not.toMatch(
+      /from "data"\."accounting" as "a" inner join/
+    );
+    expect(sql.match(/CASE WHEN a\.paragraph/g)).toHaveLength(1);
   });
 });

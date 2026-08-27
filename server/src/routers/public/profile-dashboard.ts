@@ -7,12 +7,12 @@ const router = express.Router({ mergeParams: true });
 export const ProfileDashboardRouter = router;
 
 const categoriesDef = [
-  { name: "transportation", minParagraph: 2200, maxParagraph: 2299 },
-  { name: "schools", minParagraph: 3100, maxParagraph: 3299 },
-  { name: "housing", minParagraph: 3600, maxParagraph: 3699 },
-  { name: "culture", minParagraph: 3300, maxParagraph: 3399 },
-  { name: "sports", minParagraph: 3400, maxParagraph: 3499 },
-  { name: "government", minParagraph: 6100, maxParagraph: 6199 },
+  { code: 22, name: "transportation", minParagraph: 2200, maxParagraph: 2299 },
+  { code: 31, name: "schools", minParagraph: 3100, maxParagraph: 3299 },
+  { code: 36, name: "housing", minParagraph: 3600, maxParagraph: 3699 },
+  { code: 33, name: "culture", minParagraph: 3300, maxParagraph: 3399 },
+  { code: 34, name: "sports", minParagraph: 3400, maxParagraph: 3499 },
+  { code: 61, name: "government", minParagraph: 6100, maxParagraph: 6199 },
 ];
 
 const categoriesQuery = () =>
@@ -20,22 +20,28 @@ const categoriesQuery = () =>
     categoriesDef.map(category =>
       db.select(
         db.raw("? AS category", [category.name]),
-        db.raw("?::integer AS min_paragraph", [category.minParagraph]),
-        db.raw("?::integer AS max_paragraph", [category.maxParagraph])
+        db.raw("?::integer AS category_code", [category.code])
       )
     )
   );
 
+const categoryCodeExpression = () =>
+  db.raw(
+    `CASE ${categoriesDef
+      .map(() => "WHEN a.paragraph BETWEEN ? AND ? THEN ?::integer")
+      .join(" ")} END`,
+    categoriesDef.flatMap(category => [
+      category.minParagraph,
+      category.maxParagraph,
+      category.code,
+    ])
+  );
+
 export const createProfileDashboardQuery = (profileId: string) => {
   const categoryAmounts = db("data.accounting AS a")
-    .join(categoriesQuery().as("c"), function () {
-      this.on("a.paragraph", ">=", "c.minParagraph").andOn(
-        "a.paragraph",
-        "<=",
-        "c.maxParagraph"
-      );
+    .select("a.profileId", "a.year", {
+      categoryCode: categoryCodeExpression(),
     })
-    .select("a.profileId", "a.year", "c.category")
     .sum({
       amount: db.raw(`
         CASE
@@ -55,13 +61,13 @@ export const createProfileDashboardQuery = (profileId: string) => {
       `),
     })
     .where("a.profileId", profileId)
-    .groupBy("a.profileId", "a.year", "c.category");
+    .groupBy("a.profileId", "a.year", "categoryCode");
 
   return db("years AS y")
     .crossJoin(categoriesQuery().as("n"), {})
     .leftJoin(categoryAmounts.as("a"), {
       "a.year": "y.year",
-      "a.category": "n.category",
+      "a.categoryCode": "n.categoryCode",
       "a.profileId": "y.profileId",
     })
     .select("y.year", "n.category", "a.amount", "a.budgetAmount")
