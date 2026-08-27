@@ -6,51 +6,68 @@ const router = express.Router({ mergeParams: true });
 
 export const ProfileDashboardRouter = router;
 
-router.get("/", async (req: Request<{ profile: string }>, res) => {
-  const categoriesDef = [
-    {
-      name: "transportation",
-      where: "paragraph >= 2200 AND paragraph <= 2299",
-    },
-    { name: "schools", where: "paragraph >= 3100 AND paragraph <= 3299" },
-    { name: "housing", where: "paragraph >= 3600 AND paragraph <= 3699" },
-    { name: "culture", where: "paragraph >= 3300 AND paragraph <= 3399" },
-    { name: "sports", where: "paragraph >= 3400 AND paragraph <= 3499" },
-    { name: "government", where: "paragraph >= 6100 AND paragraph <= 6199" },
-  ];
+const categoriesDef = [
+  { name: "transportation", minParagraph: 2200, maxParagraph: 2299 },
+  { name: "schools", minParagraph: 3100, maxParagraph: 3299 },
+  { name: "housing", minParagraph: 3600, maxParagraph: 3699 },
+  { name: "culture", minParagraph: 3300, maxParagraph: 3399 },
+  { name: "sports", minParagraph: 3400, maxParagraph: 3499 },
+  { name: "government", minParagraph: 6100, maxParagraph: 6199 },
+];
 
-  const categoriesNames = db.unionAll(
-    categoriesDef.map(category => {
-      return db.raw(`SELECT '${category.name}' AS category`);
-    })
+const categoriesQuery = () =>
+  db.unionAll(
+    categoriesDef.map(category =>
+      db.select(
+        db.raw("? AS category", [category.name]),
+        db.raw("?::integer AS min_paragraph", [category.minParagraph]),
+        db.raw("?::integer AS max_paragraph", [category.maxParagraph])
+      )
+    )
   );
 
-  const categoriesAccounting = db.unionAll(
-    categoriesDef.map(category => {
-      return db("accounting")
-        .select(
-          "profile_id",
-          "year",
-          db.raw(`'${category.name}' AS category`),
-          "expenditureAmount",
-          "budgetExpenditureAmount"
-        )
-        .whereRaw(category.where);
+export const createProfileDashboardQuery = (profileId: string) => {
+  const categoryAmounts = db("data.accounting AS a")
+    .join(categoriesQuery().as("c"), function () {
+      this.on("a.paragraph", ">=", "c.minParagraph").andOn(
+        "a.paragraph",
+        "<=",
+        "c.maxParagraph"
+      );
     })
-  );
+    .select("a.profileId", "a.year", "c.category")
+    .sum({
+      amount: db.raw(`
+        CASE
+          WHEN (a.item >= 5000 AND a.item < 8000 OR a.item IS NULL)
+            AND a.type <> 'ROZ'
+          THEN a.amount
+          ELSE 0
+        END
+      `),
+      budgetAmount: db.raw(`
+        CASE
+          WHEN (a.item >= 5000 AND a.item < 8000 OR a.item IS NULL)
+            AND a.type = 'ROZ'
+          THEN a.amount
+          ELSE 0
+        END
+      `),
+    })
+    .where("a.profileId", profileId)
+    .groupBy("a.profileId", "a.year", "c.category");
 
-  const amounts = db("years AS y")
-    .crossJoin(categoriesNames.as("n"), {})
-    .leftJoin(categoriesAccounting.as("a"), {
+  return db("years AS y")
+    .crossJoin(categoriesQuery().as("n"), {})
+    .leftJoin(categoryAmounts.as("a"), {
       "a.year": "y.year",
       "a.category": "n.category",
       "a.profileId": "y.profileId",
     })
-    .select("y.year", "n.category")
-    .sum("a.expenditureAmount AS amount")
-    .sum("a.budgetExpenditureAmount AS budgetAmount")
-    .where({ "y.profileId": req.params.profile })
-    .groupBy("y.year", "n.category");
+    .select("y.year", "n.category", "a.amount", "a.budgetAmount")
+    .where({ "y.profileId": profileId });
+};
 
-  res.send(await amounts);
+router.get("/", async (req: Request<{ profile: string }>, res) => {
+  res.send(await createProfileDashboardQuery(req.params.profile));
 });
