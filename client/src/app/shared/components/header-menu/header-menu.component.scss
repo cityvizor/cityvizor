@@ -50,6 +50,21 @@ nav {
   margin-bottom: 20px;
 }
 
+.profile-selection-return {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  color: #2581c4;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.profile-selection-return:hover,
+.profile-selection-return:focus-visible {
+  color: #175a89;
+}
+
 .navbar-toggle-title {
   font-weight: bold;
   color: #2581c4;

@@ -96,6 +96,12 @@ export default {
       ],
     };
   },
+  created() {
+    const selectionProfile = Number(this.$route.query.selectionProfile);
+    if (Number.isInteger(selectionProfile) && selectionProfile > 0) {
+      this.$router.replace(`/profil-rozcestnik/${selectionProfile}`);
+    }
+  },
   methods: {},
 };
 </script>
