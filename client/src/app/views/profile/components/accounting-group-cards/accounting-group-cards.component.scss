@@ -1,0 +1,545 @@
+:host {
+  display: block;
+}
+
+.group-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 16px;
+}
+
+.group-cards__row {
+  display: contents;
+}
+
+.group-card {
+  appearance: none;
+  display: flex;
+  min-width: 0;
+  min-height: 180px;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #d7d7d7;
+  border-radius: 6px;
+  background: #fff;
+  color: #222;
+  text-align: left;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.group-card:hover,
+.group-card:focus-visible {
+  border-color: #2581c4;
+  background: #f2f8fc;
+  box-shadow: 0 4px 14px rgba(37, 129, 196, 0.12);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.group-card--selected,
+.group-card--selected:hover,
+.group-card--selected:focus-visible {
+  border-color: #2581c4;
+  background: #eaf4fa;
+  box-shadow:
+    inset 0 0 0 1px rgba(37, 129, 196, 0.35),
+    0 6px 18px rgba(37, 129, 196, 0.2);
+}
+
+.group-card--over-budget,
+.group-card--over-budget:hover,
+.group-card--over-budget:focus-visible {
+  border-color: #e73431;
+  background: #fff7f7;
+  box-shadow: 0 4px 14px rgba(231, 52, 49, 0.14);
+}
+
+.group-card--without-detail {
+  cursor: default;
+}
+
+.group-card--without-detail:hover {
+  border-color: #d7d7d7;
+  background: #fff;
+  box-shadow: none;
+  transform: none;
+}
+
+.group-card__header {
+  display: flex;
+  min-height: 48px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.group-card__name {
+  line-height: 1.35;
+}
+
+.group-card__chevron {
+  flex: 0 0 auto;
+  color: #2581c4;
+  font-size: 30px;
+  line-height: 20px;
+}
+
+.group-card--selected .group-card__chevron {
+  color: #2581c4;
+  transform: rotate(90deg);
+}
+
+.group-card__amount {
+  display: block;
+  margin-top: 10px;
+  color: #2581c4;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.group-card--over-budget .group-card__amount {
+  color: #e73431;
+}
+
+.group-card__budget {
+  display: block;
+  margin-top: 8px;
+  color: #666;
+  font-size: 13px;
+}
+
+.group-card__progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.group-card__progress {
+  display: block;
+  height: 8px;
+  flex: 1 1 auto;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #adf;
+}
+
+.group-card__progress-value {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #2581c4;
+}
+
+.group-card--over-budget .group-card__progress {
+  background: #ffcfce;
+}
+
+.group-card--over-budget .group-card__progress-value {
+  background: #e73431;
+}
+
+.group-card__percentage {
+  min-width: 52px;
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.group-card__status {
+  margin-top: auto;
+  padding-top: 18px;
+  color: #666;
+  font-size: 13px;
+}
+
+.group-card--over-budget .group-card__percentage,
+.group-card--over-budget .group-card__status {
+  color: #e73431;
+}
+
+@media (max-width: 1199px) {
+  .group-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991px) {
+  .group-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 575px) {
+  .group-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.group-cards--bars {
+  --bar-percentage-width: 72px;
+  --bar-progress-gap: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.group-cards__axis {
+  display: grid;
+  min-height: 32px;
+  grid-template-columns:
+    minmax(240px, 1.25fr) minmax(360px, 4fr)
+    minmax(190px, 1.25fr);
+  gap: 16px;
+  padding: 0 17px;
+}
+
+.group-cards__axis-scale {
+  position: relative;
+  grid-column: 2;
+  margin-right: calc(var(--bar-percentage-width) + var(--bar-progress-gap));
+}
+
+.group-cards__axis-label {
+  position: absolute;
+  bottom: 7px;
+  color: #333;
+  font-size: 13px;
+  font-weight: 700;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.group-cards__axis-label--75 {
+  left: 75%;
+}
+
+.group-cards__axis-label--100 {
+  left: 100%;
+}
+
+.group-cards--bars .group-card {
+  display: grid;
+  min-height: 64px;
+  align-items: center;
+  grid-template-areas: "name progress amounts";
+  grid-template-columns:
+    minmax(240px, 1.25fr) minmax(360px, 4fr)
+    minmax(190px, 1.25fr);
+  gap: 16px;
+  padding: 9px 16px;
+  border-color: transparent;
+  border-radius: 7px;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.group-cards--bars .group-card:nth-child(even) {
+  background: #f7fbfe;
+}
+
+.group-cards--bars .group-card:hover,
+.group-cards--bars .group-card:focus-visible {
+  border-color: transparent;
+  background: #edf7fd;
+  box-shadow: none;
+  transform: none;
+}
+
+.group-cards--bars .group-card--selected,
+.group-cards--bars .group-card--selected:hover,
+.group-cards--bars .group-card--selected:focus-visible {
+  border-color: transparent;
+  background: #dff1fb;
+  box-shadow: inset 3px 0 0 #2581c4;
+}
+
+.group-cards--bars .group-card--over-budget,
+.group-cards--bars .group-card--over-budget:hover,
+.group-cards--bars .group-card--over-budget:focus-visible {
+  background: #fff4f4;
+}
+
+.group-cards--bars .group-card--selected.group-card--over-budget {
+  background: #ffeaea;
+}
+
+.group-cards--bars .group-card__header {
+  min-height: 0;
+  align-items: center;
+  justify-content: flex-start;
+  grid-area: name;
+  gap: 12px;
+}
+
+.group-card__bar-icon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #2581c4;
+  color: #fff;
+  font-size: 16px;
+}
+
+.group-cards--bars .group-card__name {
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+}
+
+.group-cards--bars .group-card__chevron {
+  display: none;
+}
+
+.group-card__bar-amounts {
+  display: block;
+  color: #666;
+  font-size: 13px;
+  grid-area: amounts;
+  white-space: nowrap;
+}
+
+.group-card__bar-amounts strong {
+  color: #176ba7;
+  font-size: 14px;
+}
+
+.group-cards--bars .group-card--over-budget .group-card__bar-amounts strong {
+  color: #e73431;
+}
+
+.group-cards--bars .group-card__progress-row {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  grid-area: progress;
+  gap: var(--bar-progress-gap);
+}
+
+.group-cards--bars .group-card__percentage {
+  width: var(--bar-percentage-width);
+  min-width: var(--bar-percentage-width);
+}
+
+.group-cards--bars .group-card__progress {
+  position: relative;
+  height: 14px;
+  overflow: visible;
+  border-radius: 7px;
+  background: #dcedf9;
+}
+
+.group-cards--bars .group-card__progress::before,
+.group-cards--bars .group-card__progress::after {
+  position: absolute;
+  z-index: 2;
+  top: -8px;
+  height: 30px;
+  border-left: 1px dashed rgba(74, 95, 112, 0.3);
+  content: "";
+}
+
+.group-cards--bars .group-card__progress::before {
+  left: 75%;
+}
+
+.group-cards--bars .group-card__progress::after {
+  right: 0;
+}
+
+.group-cards--bars .group-card__progress-value {
+  position: relative;
+  z-index: 3;
+  background: #0877bd;
+}
+
+.group-cards--bars .group-card__status {
+  margin: 0;
+  padding: 0;
+  grid-area: progress;
+}
+
+@media (max-width: 991px) {
+  .group-cards__axis {
+    display: none;
+  }
+
+  .group-cards--bars .group-card {
+    grid-template-areas:
+      "name amounts"
+      "progress progress";
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px 16px;
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 575px) {
+  .group-cards--bars .group-card {
+    grid-template-areas:
+      "name name"
+      "amounts amounts"
+      "progress progress";
+    gap: 7px;
+  }
+
+  .group-card__bar-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .group-card__bar-amounts {
+    padding-left: 44px;
+    text-align: left;
+  }
+}
+
+.group-cards--map {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group-cards--map .group-cards__row {
+  display: flex;
+  min-width: 0;
+  min-height: 176px;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.group-cards--map .group-cards__row:first-child {
+  min-height: 232px;
+}
+
+.group-cards--map .group-card {
+  min-width: 0;
+  min-height: 0;
+  flex-basis: 0;
+  padding: 16px 18px;
+  border-color: #2581c4;
+  background: linear-gradient(135deg, #fff 0%, #eef8fe 100%);
+}
+
+.group-cards--map .group-card--map-large {
+  padding: 22px 24px;
+}
+
+.group-cards--map .group-card__header {
+  min-height: 0;
+}
+
+.group-cards--map .group-card__name {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #064ba4;
+  font-size: 16px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.group-cards--map .group-card--map-large .group-card__name {
+  font-size: 19px;
+}
+
+.group-cards--map .group-card--map-small {
+  padding: 14px 16px;
+}
+
+.group-cards--map .group-card--map-small .group-card__name {
+  font-size: 14px;
+  -webkit-line-clamp: 3;
+}
+
+.group-cards--map .group-card__amount {
+  margin-top: 8px;
+  color: #064ba4;
+  font-size: 18px;
+}
+
+.group-cards--map .group-card--map-large .group-card__amount {
+  margin-top: 14px;
+  font-size: 22px;
+}
+
+.group-cards--map .group-card--map-small .group-card__amount {
+  font-size: 16px;
+}
+
+.group-cards--map .group-card__budget {
+  margin-top: 5px;
+}
+
+.group-cards--map .group-card__progress-row,
+.group-cards--map .group-card__status {
+  padding-top: 12px;
+}
+
+.group-cards--map .group-card__progress {
+  height: 10px;
+  border-radius: 2px;
+}
+
+.group-cards--map .group-card--over-budget {
+  border-color: #e73431;
+  background: linear-gradient(135deg, #fff 0%, #fff1f1 100%);
+}
+
+.group-cards--map .group-card--selected,
+.group-cards--map .group-card--selected:hover,
+.group-cards--map .group-card--selected:focus-visible {
+  border-color: #176ba7;
+  background: linear-gradient(135deg, #eef9ff 0%, #d9f0fc 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(37, 129, 196, 0.45),
+    0 7px 20px rgba(37, 129, 196, 0.22);
+}
+
+.group-cards--map .group-card--selected.group-card--over-budget {
+  border-color: #e73431;
+  background: linear-gradient(135deg, #fff7f7 0%, #ffe9e9 100%);
+}
+
+@media (max-width: 1199px) {
+  .group-cards--map .group-cards__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: 0;
+  }
+
+  .group-cards--map .group-card,
+  .group-cards--map .group-card--map-small,
+  .group-cards--map .group-card--map-medium,
+  .group-cards--map .group-card--map-large {
+    min-height: 190px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .group-cards--map .group-cards__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .group-cards--map .group-card,
+  .group-cards--map .group-card--map-small,
+  .group-cards--map .group-card--map-medium,
+  .group-cards--map .group-card--map-large {
+    min-height: 180px;
+    padding: 20px;
+  }
+}
