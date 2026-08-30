@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - "bugfix/**"
+      - "chore/**"
       - "feature/**"
       - "dependabot/**"
     paths:
