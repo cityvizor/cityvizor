@@ -1,5 +1,6 @@
 name: Publish Docker Landing Page
 on:
+  workflow_dispatch:
   push:
     branches-ignore:
       - 'bugfix/**'

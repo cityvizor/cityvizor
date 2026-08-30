@@ -1,5 +1,6 @@
 name: Publish Docker Client
 on:
+  workflow_dispatch:
   push:
     branches-ignore:
       - 'bugfix/**'
