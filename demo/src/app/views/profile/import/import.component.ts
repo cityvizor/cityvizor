@@ -8,8 +8,8 @@ import { ImportedData, ImportedPayment } from 'app/shared/schema';
 import { Router } from '@angular/router';
 import { ExportService } from 'app/services/export.service';
 
-import { PersonalDataCheck, PersonalDataCheckWarning } from "@smallhillcz/personal-data-check";
-import { cs } from "@smallhillcz/personal-data-check/lib/regional/cs";
+import { PersonalDataCheck, PersonalDataCheckWarning } from 'app/shared/personal-data-check';
+import { cs } from 'app/shared/personal-data-check/regional/cs';
 
 // As ugly as this import may be, it also enables hot-reloading when the referenced file changes.
 import { ImporterGinis } from '../../../../../import/importers/importer-ginis'

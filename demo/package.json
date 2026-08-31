@@ -29,7 +29,6 @@
     "@angular/platform-server": "^11.2.4",
     "@angular/router": "^11.2.4",
     "@fortawesome/fontawesome-free": "^5.8.1",
-    "@smallhillcz/personal-data-check": "^1.1.1",
     "@types/file-saver": "^2.0.0",
     "@types/iconv-lite": "0.0.1",
     "@types/node": "^14.14.31",
