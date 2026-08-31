@@ -82,18 +82,23 @@ Informace o propojení: ${req.body.subscribe}
 );
 
 async function sendToEmail(type: string, content: string) {
+  const senderAddress = environment.email.user?.trim();
+  if (!senderAddress) {
+    throw new Error("Cannot send feedback: EMAIL_USER is not configured");
+  }
+
   const transporter = nodemailer.createTransport({
     host: environment.email.smtp,
     port: Number(environment.email.port),
     secure: Number(environment.email.port) === 465, // true for 465, false for other ports
     auth: {
-      user: environment.email.user,
+      user: senderAddress,
       pass: environment.email.password,
     },
   });
 
   const info = await transporter.sendMail({
-    from: `"Cityvizor feedback" <${environment.email.user}>`,
+    from: `"Cityvizor feedback" <${senderAddress}>`,
     to: environment.email.address,
     subject: type,
     text: content,
