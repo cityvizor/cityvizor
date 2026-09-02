@@ -9,6 +9,8 @@ import { runTasks } from "./run-tasks";
 import { cronTasks, updateTasks } from "./tasks";
 import { checkImportQueue } from "../worker/index";
 
+let updateRunning = false;
+
 export async function cronInit() {
   await ensureDirs();
 
@@ -32,7 +34,7 @@ export async function cronInit() {
 
   // TODO make cron time for update configurable
   const updateJob = new CronJob({
-    cronTime: "* */10 * * *", // Every 10 minutes
+    cronTime: "0 */10 * * * *", // Every 10 minutes
     start: false, // Setting this to true triggers the job every time a change to code is made in dev mode
     runOnInit: true /* Run the tasks right now */,
     timeZone: "Europe/Prague" /* Time zone of this job. */,
@@ -62,14 +64,24 @@ async function runCron() {
 }
 
 async function runUpdate() {
+  if (updateRunning) {
+    console.log("[CRON] Update job is still running, skipping this run.");
+    return;
+  }
+
+  updateRunning = true;
   console.log("\n[CRON] =============================");
   console.log("[CRON] ##### CRON RUN UPDATE JOB #####");
   console.log("[CRON] =============================");
 
   console.log(`[CRON] Started at ${DateTime.local().toLocaleString()}.\n`);
 
-  await runTasks(updateTasks);
+  try {
+    await runTasks(updateTasks);
 
-  console.log("[CRON] ===================================\n\n");
-  console.log(`[CRON] Finished at ${DateTime.local().toLocaleString()}.\n`);
+    console.log("[CRON] ===================================\n\n");
+    console.log(`[CRON] Finished at ${DateTime.local().toLocaleString()}.\n`);
+  } finally {
+    updateRunning = false;
+  }
 }

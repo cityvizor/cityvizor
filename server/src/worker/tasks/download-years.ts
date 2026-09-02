@@ -27,9 +27,17 @@ export const TaskDownloadYears: CronTask = {
           .where("year", "=", year.year)
           .orderBy("created", "desc");
         if (
+          lastImport?.status === "pending" ||
+          lastImport?.status === "processing"
+        ) {
+          continue;
+        }
+        const lastImportTime = lastImport?.finished || lastImport?.created;
+        if (
           !lastImport ||
-          lastImport.created <
-            new Date(Date.now() - 1000 * 60 * year.importPeriodMinutes)
+          (lastImportTime &&
+            lastImportTime <
+              new Date(Date.now() - 1000 * 60 * year.importPeriodMinutes))
         ) {
           importDir = await Import.createImportDir();
           await downloadAndExtractYear(year.importUrl, importDir);
