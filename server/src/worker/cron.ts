@@ -65,7 +65,7 @@ async function runCron() {
 
 async function runUpdate() {
   if (updateRunning) {
-    console.log("[CRON] Update job is still running, skipping this run.");
+    console.warn("[CRON] Update job is still running, skipping this run.");
     return;
   }
 
