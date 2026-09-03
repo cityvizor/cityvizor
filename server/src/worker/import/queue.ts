@@ -9,6 +9,8 @@ import { importInternetStream } from "./internetstream/importer";
 import { importPbo } from "./pbo/importer";
 import { importLogger } from "./import-logger";
 
+const importTimeoutMinutes = 30;
+
 export async function checkImportQueue() {
   const runningJob = await db<ImportRecord>("app.imports")
     .where({ status: "processing" })
@@ -20,7 +22,7 @@ export async function checkImportQueue() {
       : 0;
 
     // let the previous job run
-    if (startedBeforeMinutes < 1) return;
+    if (startedBeforeMinutes < importTimeoutMinutes) return;
     // clear the old job with timeout
     else {
       console.log("[WORKER] Found a stale job in queue, removing.");
