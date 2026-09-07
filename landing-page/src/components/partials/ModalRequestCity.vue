@@ -46,6 +46,16 @@
           </div>
         </section>
 
+        <section>
+          <label>Vaše pozice vůči obci</label>
+          <input
+            id="position"
+            pattern=".*\S.*"
+            title="Prosím zadejte Vaši pozici vůči obci"
+            required
+          />
+        </section>
+
         <section class="checkbox">
           <input id="subscribe" type="checkbox" />
           <label for="subscribe"

@@ -2,6 +2,10 @@ import express from "express";
 import environment from "../../../environment";
 import schema from "express-jsonschema";
 import nodemailer from "nodemailer";
+import {
+  createRequestCityEmailContent,
+  requestCitySchema,
+} from "./request-city";
 
 const router = express.Router();
 
@@ -16,36 +20,6 @@ const feedbackSchema = {
     },
     email: {
       type: "string",
-      required: true,
-    },
-  },
-};
-
-const requestCitySchema = {
-  type: "object",
-  properties: {
-    city: {
-      type: "string",
-      required: true,
-    },
-    email: {
-      type: "string",
-      required: true,
-    },
-    gdpr: {
-      type: "boolean",
-      required: true,
-    },
-    name: {
-      type: "string",
-      required: true,
-    },
-    psc: {
-      type: "string",
-      required: true,
-    },
-    subscribe: {
-      type: "boolean",
       required: true,
     },
   },
@@ -68,14 +42,7 @@ router.post(
   "/requestcity",
   schema.validate({ body: requestCitySchema }),
   async (req, res) => {
-    const content = `Žádost o zapojení obce
-Obec: ${req.body.city}
-PSČ: ${req.body.psc}
-Email: ${req.body.email}
-Jméno: ${req.body.name}
-GDPR souhlas: ${req.body.gdpr}
-Informace o propojení: ${req.body.subscribe}
-`;
+    const content = createRequestCityEmailContent(req.body);
     await sendToEmail("Zapojení obce", content);
     res.sendStatus(204);
   }
