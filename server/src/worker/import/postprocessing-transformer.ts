@@ -8,6 +8,17 @@ import {
 
 type Row = EventRecord | PaymentRecord | AccountingRecord;
 
+export type ImportValidationIssueCode =
+  | "INVALID_NUMBER_FORMAT"
+  | "INVALID_DATE_FORMAT"
+  | "MISSING_REQUIRED_VALUE";
+
+export interface ImportValidationIssue {
+  code: ImportValidationIssueCode;
+  field: string;
+  message: string;
+}
+
 export class PostprocessingTransformer extends Transform {
   eventIds: number[] = [];
 
@@ -34,68 +45,96 @@ export class PostprocessingTransformer extends Transform {
       this.eventIds.push(chunk.record.id);
     }
 
-    // Data integrity checking
-    let fields: [string, string[]][] = [];
-    if (chunk.type === "event") {
-      fields = [
-        ["id", ["number", "mandatory"]],
-        ["name", ["mandatory"]],
-      ];
-    }
-    if (chunk.type === "accounting") {
-      fields = [
-        ["paragraph", ["number", "mandatory"]],
-        ["item", ["number", "mandatory"]],
-        ["event", ["number"]],
-        ["unit", ["number"]],
-        ["amount", ["number", "mandatory"]],
-      ];
-    }
-    if (chunk.type === "payment") {
-      fields = [
-        ["paragraph", ["number", "mandatory"]],
-        ["item", ["number", "mandatory"]],
-        ["event", ["number"]],
-        ["unit", ["number"]],
-        ["amount", ["number", "mandatory"]],
-        ["date", ["date"]],
-        ["counterpartyId", ["number"]],
-      ];
-    }
-    let err: Error | null = null;
-    fields.forEach(([field, types]) => {
-      types.forEach(type => {
-        if (!tests[`${type}Test`](chunk.record[field])) {
-          // Can't call the callback here, only one callback call is allowed per transform
-          err = invalidField(field, type, chunk.record);
-        }
-      });
-    });
-    callback(err, chunk);
+    const issue = validateImportChunk(chunk);
+    callback(issue ? new Error(issue.message) : null, chunk);
   }
 }
 
+export function validateImportChunk(
+  chunk: Import.ImportChunk
+): ImportValidationIssue | null {
+  // Data integrity checking
+  let fields: [string, string[]][] = [];
+  if (chunk.type === "event") {
+    fields = [
+      ["id", ["number", "mandatory"]],
+      ["name", ["mandatory"]],
+    ];
+  }
+  if (chunk.type === "accounting") {
+    fields = [
+      ["paragraph", ["number", "mandatory"]],
+      ["item", ["number", "mandatory"]],
+      ["event", ["number"]],
+      ["unit", ["number"]],
+      ["amount", ["number", "mandatory"]],
+    ];
+  }
+  if (chunk.type === "payment") {
+    fields = [
+      ["paragraph", ["number", "mandatory"]],
+      ["item", ["number", "mandatory"]],
+      ["event", ["number"]],
+      ["unit", ["number"]],
+      ["amount", ["number", "mandatory"]],
+      ["date", ["date"]],
+      ["counterpartyId", ["number"]],
+    ];
+  }
+  let issue: ImportValidationIssue | null = null;
+  fields.forEach(([field, types]) => {
+    types.forEach(type => {
+      if (!tests[`${type}Test`](chunk.record[field])) {
+        issue = invalidField(field, type, chunk.record);
+      }
+    });
+  });
+  return issue;
+}
+
 const tests = {
-  numberTest: (n?: string | number) => (n ? !isNaN(Number(n)) : true),
-  dateTest: (n?: string | number) =>
-    n
-      ? /^\d{4}-\d{2}-\d{2}$/.test(String(n)) && !isNaN(Date.parse(String(n)))
-      : true,
-  mandatoryTest: (n?: string | number) => String(n)?.length > 0,
+  numberTest: (n?: string | number) =>
+    n == null || n === "" ? true : Number.isFinite(Number(n)),
+  dateTest: (n?: string | number) => (n ? isValidDate(String(n)) : true),
+  mandatoryTest: (n?: string | number) =>
+    n !== undefined && n !== null && String(n).length > 0,
 };
 
-function invalidField(field: string, type: string, row: Row): Error {
+function isValidDate(value: string): boolean {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return (
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day
+  );
+}
+
+function invalidField(
+  field: string,
+  type: string,
+  row: Row
+): ImportValidationIssue {
   if (type === "mandatory") {
-    return new Error(
-      `Field "${field}" is mandatory and is missing.\nRow processed: ${JSON.stringify(
+    return {
+      code: "MISSING_REQUIRED_VALUE",
+      field,
+      message: `Field "${field}" is mandatory and is missing.\nRow processed: ${JSON.stringify(
         row
-      )}`
-    );
+      )}`,
+    };
   } else {
-    return new Error(
-      `Failed to convert field "${field}": ${
+    return {
+      code:
+        type === "date" ? "INVALID_DATE_FORMAT" : "INVALID_NUMBER_FORMAT",
+      field,
+      message: `Failed to convert field "${field}": ${
         row[field]
-      } to ${type}.\nRow processed: ${JSON.stringify(row)}`
-    );
+      } to ${type}.\nRow processed: ${JSON.stringify(row)}`,
+    };
   }
 }

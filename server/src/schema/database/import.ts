@@ -17,6 +17,7 @@ export interface ImportRecord {
   validity?: string;
   append: boolean;
   logs?: string;
+  warningCount: number;
   format: Import.Format;
   importDir: string;
 }

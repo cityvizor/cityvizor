@@ -9,6 +9,8 @@ import { importInternetStream } from "./internetstream/importer";
 import { importPbo } from "./pbo/importer";
 import { importLogger } from "./import-logger";
 
+const importTimeoutMinutes = 30;
+
 export async function checkImportQueue() {
   const runningJob = await db<ImportRecord>("app.imports")
     .where({ status: "processing" })
@@ -20,7 +22,7 @@ export async function checkImportQueue() {
       : 0;
 
     // let the previous job run
-    if (startedBeforeMinutes < 1) return;
+    if (startedBeforeMinutes < importTimeoutMinutes) return;
     // clear the old job with timeout
     else {
       console.log("[WORKER] Found a stale job in queue, removing.");
@@ -76,11 +78,13 @@ export async function checkImportQueue() {
 
   // Any exception catched in this try block will rollback the import transaction
   let error: Error | null = null;
+  let warningCount = 0;
   try {
     if (currentJob.format === "cityvizor") {
       await importCityvizor(options);
     } else if (currentJob.format === "internetstream") {
-      await importInternetStream(options);
+      const result = await importInternetStream(options);
+      warningCount = result.warningCount;
     } else if (
       currentJob.format === "pbo_expected_plan" ||
       currentJob.format === "pbo_real_plan" ||
@@ -122,6 +126,7 @@ export async function checkImportQueue() {
     error: error ? error.message : null,
     finished: DateTime.local().toJSDate(),
     logs: importLogger.getLogs(),
+    warningCount,
   } as Partial<ImportRecord>;
 
   importLogger.clear();
