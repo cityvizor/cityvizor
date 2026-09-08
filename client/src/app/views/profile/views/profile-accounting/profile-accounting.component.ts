@@ -50,6 +50,23 @@ import { ChartDonutComponent } from "../../../../shared/charts/chart-donut/chart
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
+const itemSortOptions = [
+  "number-ascending",
+  "number-descending",
+  "budget-ascending",
+  "budget-descending",
+  "actual-ascending",
+  "actual-descending",
+] as const;
+
+type ItemSort = (typeof itemSortOptions)[number];
+
+const defaultItemSort: ItemSort = "budget-descending";
+
+function isItemSort(value: unknown): value is ItemSort {
+  return itemSortOptions.includes(value as ItemSort);
+}
+
 type AccountingOverview = "cards" | "map" | "bars";
 
 @Component({
@@ -92,6 +109,7 @@ export class ProfileAccountingComponent implements OnInit {
   groupId = new ReplaySubject<string | null>(1);
   eventId = new ReplaySubject<number | null>(1);
   sort = new ReplaySubject<string>(1);
+  itemSort = new ReplaySubject<ItemSort>(1);
 
   // view data
   profile = this.profileService.profile;
@@ -152,6 +170,17 @@ export class ProfileAccountingComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(this.sort);
+    this.route.params
+      .pipe(
+        map(params =>
+          isItemSort(params.itemSort)
+            ? params.itemSort
+            : defaultItemSort,
+        ),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(this.itemSort);
 
     // load budgets based on profile
     this.profile
@@ -165,21 +194,6 @@ export class ProfileAccountingComponent implements OnInit {
         )
           .then(budgets => budgets.sort((a, b) => b.year - a.year))
           .then(budgets => this.budgets.next(budgets));
-      });
-
-    // load group events if passed via url (refreshed page or clicked on a link)
-    this.profile
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(async profile => {
-        const params = this.route.snapshot.params;
-        if (params.rok && params.type && params.skupina) {
-          this.groupEvents = await this.accountingService.getGroupEvents(
-            profile,
-            params.rok,
-            this.typeLocalParams[params.type],
-            params.skupina,
-          );
-        }
       });
 
     // set selected budget on year change
@@ -202,12 +216,12 @@ export class ProfileAccountingComponent implements OnInit {
       });
 
     // download events
-    combineLatest(this.groupId, this.year)
+    combineLatest(this.groupId, this.year, this.type, this.profile)
       .pipe(
-        withLatestFrom(this.sort, this.type, this.profile),
+        withLatestFrom(this.sort, this.itemSort),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(async ([[groupId, year], sort, type, profile]) => {
+      .subscribe(async ([[groupId, year, type, profile], sort, itemSort]) => {
         if (!profile || !year || !type) return;
 
         this.resetEventsLimit();
@@ -223,11 +237,15 @@ export class ProfileAccountingComponent implements OnInit {
           groupId,
         );
         this.sortEvents(sort);
+        this.sortItems(itemSort);
       });
 
     this.sort
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(sort => this.sortEvents(sort));
+    this.itemSort
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(sort => this.sortItems(sort));
 
     combineLatest(this.groups, this.groupId)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -302,6 +320,11 @@ export class ProfileAccountingComponent implements OnInit {
     this.modifyParams({ razeni: sort }, false);
   }
 
+  selectItemSort(sort: ItemSort) {
+    if (!isItemSort(sort)) return;
+    this.modifyParams({ itemSort: sort }, false);
+  }
+
   modifyParams(modificationParams: any, replace: boolean): void {
     const routeParams = Object.assign({}, this.route.snapshot.params);
     delete routeParams.type;
@@ -369,6 +392,37 @@ export class ProfileAccountingComponent implements OnInit {
     }
 
     this.cdRef.detectChanges(); // sorting would not be detected by change detector
+  }
+
+  sortItems(sort: ItemSort) {
+    const [field, direction] = sort.split("-") as [
+      "number" | "budget" | "actual",
+      "ascending" | "descending",
+    ];
+    const multiplier = direction === "ascending" ? 1 : -1;
+
+    for (const event of this.groupEvents) {
+      event.items?.sort((a, b) => {
+        const aValue =
+          field === "number"
+            ? a.id
+            : field === "budget"
+              ? a.budgetAmount
+              : a.amount;
+        const bValue =
+          field === "number"
+            ? b.id
+            : field === "budget"
+              ? b.budgetAmount
+              : b.amount;
+
+        if (aValue == null) return bValue == null ? 0 : 1;
+        if (bValue == null) return -1;
+        return (aValue - bValue) * multiplier;
+      });
+    }
+
+    this.cdRef.detectChanges();
   }
 
   isMoreEvents(): boolean {
