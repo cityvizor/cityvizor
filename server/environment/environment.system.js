@@ -55,7 +55,14 @@ module.exports = {
     jwt: {secret: process.env.JWT_SECRET},
   },
 
+  feedback_form: {
+    // full From header value ('"Cityvizor feedback" <feedback@cityvizor.cz>')
+    email_sender: process.env.FEEDBACK_SENDER,
+    email_recipient: process.env.FEEDBACK_RECIPIENT,
+  },
+
   email: {
+    // address is deprecated and it will be removed. Use feedback_form.email_recipient instead.
     address: process.env.EMAIL_ADDRESS,
     smtp: process.env.EMAIL_SMTP,
     port: process.env.EMAIL_PORT,
