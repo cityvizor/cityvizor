@@ -4,15 +4,21 @@
     <h2>Příspěvkové organizace</h2>
     <div>
       <b-row class="mt-lg-3">
-        <b-col class="mr-3">
+        <b-col cols="12" md class="mr-md-3">
+          <label class="sr-only" for="pbo-name-filter">
+            Hledat organizaci
+          </label>
           <b-form-input
+            id="pbo-name-filter"
             v-model="filter"
             placeholder="Hledejte dle názvu"
             class="mb-3"
           ></b-form-input>
         </b-col>
-        <b-col class="mr-3">
+        <b-col cols="12" md class="mr-md-3">
+          <label class="sr-only" for="pbo-category-filter">Kategorie</label>
           <b-form-select
+            id="pbo-category-filter"
             v-model="selectedCategory"
             :options="categories"
             placeholder="Filtrujte dle kategorie"
@@ -20,8 +26,10 @@
           >
           </b-form-select>
         </b-col>
-        <b-col>
+        <b-col cols="12" md>
+          <label class="sr-only" for="pbo-parent-filter">Zřizovatel</label>
           <b-form-select
+            id="pbo-parent-filter"
             v-model="selectedParent"
             :options="parents"
             placeholder="Filtrujte dle zřizovatele"
@@ -48,7 +56,7 @@
             @click="pendingPopup()"
             >{{ data.value }}</a
           >
-          <a v-else :href="`/${data.item.url}`">{{ data.value }}</a>
+          <a v-else :href="profileUrl(data.item.url)">{{ data.value }}</a>
           <span
             v-if="data.item.hasPayments === true"
             class="ml-2 badge badge-pill badge-success"
@@ -76,6 +84,10 @@ export default {
       type: Array,
       required: true,
     },
+    selectionProfileId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -91,7 +103,13 @@ export default {
       selectedCategory: allCategoriesOption,
       parents: [],
       selectedParent: allParentsOption,
+      filtersReady: false,
     };
+  },
+  watch: {
+    filter: "saveFilters",
+    selectedCategory: "saveFilters",
+    selectedParent: "saveFilters",
   },
   computed: {
     itemsFilteredByCategoryAndParent: function () {
@@ -126,7 +144,8 @@ export default {
 
     this.categories = [
       { text: "Všechny kategorie", value: allCategoriesOption }, // Add default option
-      ...new Map( // Create set of categories
+      ...new Map(
+        // Create set of categories
         this.items.map(pbo => [
           pbo.categoryId,
           {
@@ -151,8 +170,49 @@ export default {
         ])
       ).values(),
     ];
+    this.restoreFilters();
+    this.filtersReady = true;
   },
   methods: {
+    profileUrl(url) {
+      return `/${url};selectionProfile=${this.selectionProfileId}`;
+    },
+    saveFilters() {
+      if (!this.filtersReady) return;
+      try {
+        sessionStorage.setItem(
+          this.filterStorageKey(),
+          JSON.stringify({
+            name: this.filter,
+            categoryId: this.selectedCategory?.id ?? "",
+            parentId: this.selectedParent?.parentId ?? "",
+          })
+        );
+      } catch {
+        // Filtering remains usable when session storage is unavailable.
+      }
+    },
+    restoreFilters() {
+      try {
+        const stored = JSON.parse(
+          sessionStorage.getItem(this.filterStorageKey()) ?? "null"
+        );
+        if (!stored) return;
+
+        this.filter = typeof stored.name === "string" ? stored.name : "";
+        this.selectedCategory =
+          this.categories.find(option => option.value.id === stored.categoryId)
+            ?.value ?? allCategoriesOption;
+        this.selectedParent =
+          this.parents.find(option => option.value.parentId === stored.parentId)
+            ?.value ?? allParentsOption;
+      } catch {
+        // Ignore invalid or unavailable session storage.
+      }
+    },
+    filterStorageKey() {
+      return `cityvizor.profileSelection.${this.selectionProfileId}.filters`;
+    },
     pendingPopup() {
       this.$refs.pendingPopup.pendingPopup();
     },

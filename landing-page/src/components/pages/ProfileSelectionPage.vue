@@ -19,7 +19,7 @@
           <b-col class="city-item-icon-right-margin" cols="1">
             <a
               :target="profile.type == 'external' ? '_blank' : ''"
-              :href="'/' + profile.url"
+              :href="profileUrl(profile.url)"
             >
               <img
                 width="64"
@@ -30,7 +30,7 @@
           <b-col>
             <a
               :target="profile.type == 'external' ? '_blank' : ''"
-              :href="'/' + profile.url"
+              :href="profileUrl(profile.url)"
             >
               <b class="ml-2 type-lg font-weight-bold">{{
                 profile.popupName
@@ -41,9 +41,15 @@
         <Municipalities
           v-if="municipatilies.length > 0"
           :municipatilies="municipatilies"
+          :selection-profile-id="id"
           class="mt-lg-4"
         ></Municipalities>
-        <Pbos v-if="pbos.length > 0" :pbos="pbos" class="mt-lg-4"></Pbos>
+        <Pbos
+          v-if="pbos.length > 0"
+          :pbos="pbos"
+          :selection-profile-id="id"
+          class="mt-lg-4"
+        ></Pbos>
       </div>
     </div>
   </div>
@@ -100,7 +106,11 @@ export default {
         this.loading = false;
       });
   },
-  methods: {},
+  methods: {
+    profileUrl(url) {
+      return `/${url};selectionProfile=${this.id}`;
+    },
+  },
 };
 </script>
 

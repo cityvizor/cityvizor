@@ -11,6 +11,7 @@ import { CollapseDirective } from "ngx-bootstrap/collapse";
 export class HeaderMenuComponent {
   @Input() title: string;
   @Input() backLink: string;
+  @Input() returnLink: string | null = null;
 
   isCollapsed = true;
 

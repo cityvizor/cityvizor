@@ -19,6 +19,12 @@
 
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-lg">
+    @if (returnLink) {
+      <a class="profile-selection-return" [href]="returnLink">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        <span>Zpět na rozcestník</span>
+      </a>
+    }
     <button
       class="navbar-toggler d-lg-none"
       type="button"

@@ -1,7 +1,11 @@
 <div id="entity">
   @if ((profile | async)?.type === "municipality") {
     <div>
-      <header-menu [title]="(profile | async)?.name" backLink="/">
+      <header-menu
+        [title]="(profile | async)?.name"
+        backLink="/"
+        [returnLink]="returnLink"
+      >
         <li class="nav-item">
           <a class="nav-link" routerLink="prehled" routerLinkActive="active"
             >Přehled</a
@@ -67,7 +71,11 @@
       </header-menu>
     </div>
   } @else {
-    <header-menu [title]="(profile | async)?.name" backLink="/">
+    <header-menu
+      [title]="(profile | async)?.name"
+      backLink="/"
+      [returnLink]="returnLink"
+    >
       <li class="nav-item">
         <a class="nav-link" routerLink="prehled" routerLinkActive="active"
           >Přehled</a

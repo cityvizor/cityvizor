@@ -25,7 +25,7 @@
             <a
               v-else
               :target="muni.type == 'external' ? '_blank' : ''"
-              :href="muni.url"
+              :href="profileUrl(muni.url)"
             >
               <img src="@/assets/images/pages/home/city_avatar.svg" />
             </a>
@@ -38,7 +38,7 @@
             >
               <b class="pending">{{ muni.name }}</b>
             </a>
-            <a v-else :href="'/' + muni.url">
+            <a v-else :href="profileUrl(muni.url)">
               <b>{{ muni.name }}</b>
             </a>
           </b-col>
@@ -59,12 +59,19 @@ export default {
       type: Array,
       required: true,
     },
+    selectionProfileId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {};
   },
   mounted() {},
   methods: {
+    profileUrl(url) {
+      return `/${url};selectionProfile=${this.selectionProfileId}`;
+    },
     pendingPopup() {
       this.$refs.pendingPopup.pendingPopup();
     },
