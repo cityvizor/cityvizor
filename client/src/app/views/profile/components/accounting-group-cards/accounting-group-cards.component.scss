@@ -82,18 +82,6 @@
   line-height: 1.35;
 }
 
-.group-card__chevron {
-  flex: 0 0 auto;
-  color: #2581c4;
-  font-size: 30px;
-  line-height: 20px;
-}
-
-.group-card--selected .group-card__chevron {
-  color: #2581c4;
-  transform: rotate(90deg);
-}
-
 .group-card__amount {
   display: block;
   margin-top: 10px;
@@ -298,10 +286,6 @@
   font-size: 14px;
   line-height: 1.25;
   text-overflow: ellipsis;
-}
-
-.group-cards--bars .group-card__chevron {
-  display: none;
 }
 
 .group-card__bar-amounts {

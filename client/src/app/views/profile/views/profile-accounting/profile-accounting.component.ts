@@ -6,7 +6,7 @@ import {
   inject,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { BsModalService } from "ngx-bootstrap/modal";
 import { combineLatest, Subject, BehaviorSubject, ReplaySubject } from "rxjs";
@@ -14,7 +14,6 @@ import {
   map,
   filter,
   distinctUntilChanged,
-  take,
   withLatestFrom,
 } from "rxjs/operators";
 
@@ -45,12 +44,12 @@ import { FormsModule } from "@angular/forms";
 import { ChartBigbangComponent } from "../../../../shared/charts/chart-bigbang/chart-bigbang.component";
 import { GroupSelectComponent } from "../../components/group-select/group-select.component";
 import { AccountingGroupCardsComponent } from "../../components/accounting-group-cards/accounting-group-cards.component";
-import { AsyncPipe, SlicePipe, ViewportScroller } from "@angular/common";
+import { AsyncPipe, DOCUMENT, Location, SlicePipe } from "@angular/common";
 import { ChartDonutComponent } from "../../../../shared/charts/chart-donut/chart-donut.component";
 import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 
-type AccountingOverview = "cards" | "map" | "bars";
+type AccountingOverview = "chart" | "cards" | "map" | "bars";
 
 @Component({
   selector: "profile-accounting",
@@ -82,7 +81,12 @@ export class ProfileAccountingComponent implements OnInit {
   private modalService = inject(BsModalService);
   private cdRef = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
-  private viewportScroller = inject(ViewportScroller);
+  private document = inject(DOCUMENT);
+  private location = inject(Location);
+  private currentRouteParams: Params = {};
+  private groupsRequestId = 0;
+  private groupEventsRequestId = 0;
+  private pendingDetailScrollGroupId: string | null = null;
 
   // type of view (expenditures/income)
   type = new BehaviorSubject<AccountingGroupType | null>(null);
@@ -107,7 +111,7 @@ export class ProfileAccountingComponent implements OnInit {
 
   hoveredGroup: string | null;
   selectedEvent: number | null;
-  accountingOverview: AccountingOverview = "cards";
+  accountingOverview: AccountingOverview = "chart";
 
   eventsLimit: number = 20;
 
@@ -118,12 +122,19 @@ export class ProfileAccountingComponent implements OnInit {
   async ngOnInit() {
     // route params
     this.route.params
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(params => (this.currentRouteParams = { ...params }));
+
+    this.route.params
       .pipe(
         map(params => this.typeLocalParams[params.type] || null),
         distinctUntilChanged(),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(this.type);
+      .subscribe(type => {
+        this.accountingOverview = "chart";
+        this.type.next(type);
+      });
     this.route.params
       .pipe(
         map(params => Number(params.rok) || null),
@@ -167,21 +178,6 @@ export class ProfileAccountingComponent implements OnInit {
           .then(budgets => this.budgets.next(budgets));
       });
 
-    // load group events if passed via url (refreshed page or clicked on a link)
-    this.profile
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(async profile => {
-        const params = this.route.snapshot.params;
-        if (params.rok && params.type && params.skupina) {
-          this.groupEvents = await this.accountingService.getGroupEvents(
-            profile,
-            params.rok,
-            this.typeLocalParams[params.type],
-            params.skupina,
-          );
-        }
-      });
-
     // set selected budget on year change
     combineLatest(this.year, this.budgets)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -197,17 +193,30 @@ export class ProfileAccountingComponent implements OnInit {
     combineLatest(this.profile, this.type, this.year)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(async ([profile, type, year]) => {
+        const requestId = ++this.groupsRequestId;
+
         if (!profile || !type || !year) return;
-        await this.getGroups(profile, type, year);
+
+        const groups = await this.accountingService.getGroups(
+          profile,
+          type,
+          year,
+        );
+
+        if (requestId !== this.groupsRequestId) return;
+
+        groups.sort((a, b) =>
+          a.name && b.name ? a.name.localeCompare(b.name) : 0,
+        );
+        this.groups.next(groups);
       });
 
     // download events
-    combineLatest(this.groupId, this.year)
-      .pipe(
-        withLatestFrom(this.sort, this.type, this.profile),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(async ([[groupId, year], sort, type, profile]) => {
+    combineLatest(this.groupId, this.year, this.type, this.profile)
+      .pipe(withLatestFrom(this.sort), takeUntilDestroyed(this.destroyRef))
+      .subscribe(async ([[groupId, year, type, profile], sort]) => {
+        const requestId = ++this.groupEventsRequestId;
+
         if (!profile || !year || !type) return;
 
         this.resetEventsLimit();
@@ -216,13 +225,22 @@ export class ProfileAccountingComponent implements OnInit {
           this.groupEvents = [];
           return;
         }
-        this.groupEvents = await this.accountingService.getGroupEvents(
+        const groupEvents = await this.accountingService.getGroupEvents(
           profile,
           year,
           type,
           groupId,
         );
+
+        if (requestId !== this.groupEventsRequestId) return;
+
+        this.groupEvents = groupEvents;
         this.sortEvents(sort);
+
+        if (this.pendingDetailScrollGroupId === groupId) {
+          this.pendingDetailScrollGroupId = null;
+          this.scrollSelectedGroupIntoView();
+        }
       });
 
     this.sort
@@ -275,7 +293,14 @@ export class ProfileAccountingComponent implements OnInit {
   selectGroup(groupId: string | null, preserveScroll: boolean = false): void {
     if (groupId === undefined) return;
 
-    if (preserveScroll) this.preserveScrollAfterNextNavigation();
+    this.pendingDetailScrollGroupId = preserveScroll ? groupId : null;
+
+    if (preserveScroll) {
+      this.replaceParamsWithoutNavigation({ skupina: groupId, akce: null });
+      this.groupId.next(groupId);
+      this.eventId.next(null);
+      return;
+    }
 
     this.modifyParams({ skupina: groupId, akce: null }, true);
   }
@@ -288,28 +313,14 @@ export class ProfileAccountingComponent implements OnInit {
     this.modifyParams({ akce: eventId }, false);
   }
 
-  async getGroups(profile: Profile, type: AccountingGroupType, year: number) {
-    const groups = await this.accountingService.getGroups(profile, type, year);
-    groups.sort((a, b) =>
-      a.name && b.name ? a.name.localeCompare(b.name) : 0,
-    );
-    this.groups.next(groups);
-    return groups;
-  }
-
   selectSort(sort: string) {
     if (sort === undefined) return;
     this.modifyParams({ razeni: sort }, false);
   }
 
-  modifyParams(modificationParams: any, replace: boolean): void {
-    const routeParams = Object.assign({}, this.route.snapshot.params);
+  modifyParams(modificationParams: Params, replace: boolean): void {
+    const routeParams = this.applyParamModifications(modificationParams);
     delete routeParams.type;
-
-    Object.entries(modificationParams).forEach(([key, value]) => {
-      if (value !== null) routeParams[key] = value;
-      else delete routeParams[key];
-    });
 
     this.router.navigate(["./", routeParams], {
       relativeTo: this.route,
@@ -391,17 +402,40 @@ export class ProfileAccountingComponent implements OnInit {
     return value != null && !isNaN(value) ? Number(value) : null;
   }
 
-  private preserveScrollAfterNextNavigation(): void {
-    const position = this.viewportScroller.getScrollPosition();
+  private replaceParamsWithoutNavigation(modificationParams: Params): void {
+    const routeParams = this.applyParamModifications(modificationParams);
+    delete routeParams.type;
 
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        take(1),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(() => {
-        setTimeout(() => this.viewportScroller.scrollToPosition(position));
-      });
+    const urlTree = this.router.createUrlTree(["./", routeParams], {
+      relativeTo: this.route,
+    });
+    this.location.replaceState(this.router.serializeUrl(urlTree));
+  }
+
+  private applyParamModifications(modificationParams: Params): Params {
+    const routeParams = { ...this.currentRouteParams };
+
+    Object.entries(modificationParams).forEach(([key, value]) => {
+      if (value !== null) routeParams[key] = value;
+      else delete routeParams[key];
+    });
+
+    this.currentRouteParams = { ...routeParams };
+    return routeParams;
+  }
+
+  private scrollSelectedGroupIntoView(): void {
+    const window = this.document.defaultView;
+    if (!window) return;
+
+    window.requestAnimationFrame(() => {
+      const selectedGroup = this.document.getElementById("selectedGroup");
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)")
+        .matches
+        ? "auto"
+        : "smooth";
+
+      selectedGroup?.scrollIntoView({ behavior, block: "start" });
+    });
   }
 }

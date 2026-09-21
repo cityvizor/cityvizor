@@ -7,7 +7,7 @@
   <!-- BG -->
   <path
     [attr.d]="generateStripePath(500, 500, 265, 400, 0, 1)"
-    fill="#ff9491"
+    [attr.fill]="backgroundColor"
   />
 
   <!-- Expenditures -->
@@ -25,7 +25,7 @@
       "
       stroke-width="30"
       stroke="#fff"
-      fill="#E73431"
+      [attr.fill]="color"
     />
   }
 </svg>

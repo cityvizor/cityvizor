@@ -52,9 +52,6 @@
               [attr.title]="layout !== 'grid' ? group.name : null"
               >{{ group.name }}</strong
             >
-            @if (group.id !== null) {
-              <span class="group-card__chevron" aria-hidden="true">›</span>
-            }
           </span>
 
           @if (layout === "bars") {

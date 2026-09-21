@@ -22,6 +22,7 @@ export class AccountingGroupCardsComponent implements OnChanges {
   @Input() groups: BudgetGroup[] = [];
   @Input() selected: string | null = null;
   @Input() layout: AccountingGroupCardsLayout = "grid";
+  @Input() accountingType: "exp" | "inc" | null = "exp";
 
   @Output() select = new EventEmitter<string | null>();
 
@@ -75,14 +76,22 @@ export class AccountingGroupCardsComponent implements OnChanges {
   }
 
   isOverBudget(group: BudgetGroup): boolean {
-    return group.budgetAmount >= 0 && group.amount > group.budgetAmount;
+    return (
+      this.accountingType === "exp" &&
+      group.budgetAmount >= 0 &&
+      group.amount > group.budgetAmount
+    );
   }
 
   getProgressStatus(group: BudgetGroup): string {
     if (group.budgetAmount === 0 && group.amount > 0)
-      return "Čerpáno bez rozpočtu";
+      return this.accountingType === "inc"
+        ? "Přijato bez rozpočtu"
+        : "Čerpáno bez rozpočtu";
 
-    return "Čerpání nelze vyjádřit procentem";
+    return this.accountingType === "inc"
+      ? "Plnění nelze vyjádřit procentem"
+      : "Čerpání nelze vyjádřit procentem";
   }
 
   getAriaLabel(group: BudgetGroup): string {
@@ -125,8 +134,7 @@ export class AccountingGroupCardsComponent implements OnChanges {
     ];
 
     return (
-      iconMappings.find(([part]) => name.includes(part))?.[1] ||
-      "fa-chart-pie"
+      iconMappings.find(([part]) => name.includes(part))?.[1] || "fa-chart-pie"
     );
   }
 
@@ -149,8 +157,7 @@ export class AccountingGroupCardsComponent implements OnChanges {
     const lowerBound = this.getPercentile(weights, 0.15);
     const upperBound = this.getPercentile(weights, 0.85);
     const logarithmicLowerBound = Math.log1p(lowerBound);
-    const logarithmicRange =
-      Math.log1p(upperBound) - logarithmicLowerBound;
+    const logarithmicRange = Math.log1p(upperBound) - logarithmicLowerBound;
 
     groups.forEach(group => {
       const weight = Math.min(
@@ -197,8 +204,7 @@ export class AccountingGroupCardsComponent implements OnChanges {
     const lowerBound = this.getPercentile(weights, 0.15);
     const upperBound = this.getPercentile(weights, 0.85);
     const logarithmicLowerBound = Math.log1p(lowerBound);
-    const logarithmicRange =
-      Math.log1p(upperBound) - logarithmicLowerBound;
+    const logarithmicRange = Math.log1p(upperBound) - logarithmicLowerBound;
 
     groups.forEach(group => {
       const weight = Math.min(
