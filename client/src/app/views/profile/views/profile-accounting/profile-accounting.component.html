@@ -1,60 +1,48 @@
 <!--<help-modal [topic]="'expenditures'"></help-modal>-->
 
 <div class="container">
-  @if ((type | async) === "exp") {
-    <section class="accounting-cards-view">
-      <div class="accounting-cards-view__budget">
-        <budget-select
-          [budgets]="(budgets | async) || []"
-          [type]="type | async"
-          [ngModel]="budget"
-          (ngModelChange)="selectBudget($event?.year)"
-        />
-      </div>
+  <div class="accounting-overview-controls">
+    <budget-select
+      [budgets]="(budgets | async) || []"
+      [type]="type | async"
+      [ngModel]="budget"
+      (ngModelChange)="selectBudget($event?.year)"
+    />
 
+    <label class="accounting-overview-controls__view">
+      <span>Zobrazení přehledu</span>
+      <select
+        class="form-select"
+        aria-label="Zobrazení přehledu"
+        [ngModel]="accountingOverview"
+        (ngModelChange)="selectAccountingOverview($event)"
+      >
+        <option value="chart">Radiální graf</option>
+        <option value="cards">Karty</option>
+        <option value="map">Rozpočtová mapa</option>
+        <option value="bars">Horizontální graf</option>
+      </select>
+    </label>
+  </div>
+
+  @if (accountingOverview !== "chart") {
+    <section class="accounting-cards-view">
       <div class="accounting-cards-view__toolbar">
         <div class="accounting-cards-view__heading">
           <h2>
             {{
               accountingOverview === "map"
-                ? "Mapa výdajů"
+                ? "Rozpočtová mapa"
                 : accountingOverview === "bars"
-                  ? "Čerpání rozpočtu podle skupin"
-                  : "Výdaje podle skupin"
+                  ? (type | async) === "exp"
+                    ? "Čerpání rozpočtu podle skupin"
+                    : "Plnění rozpočtu podle skupin"
+                  : (type | async) === "exp"
+                    ? "Výdaje podle skupin"
+                    : "Příjmy podle skupin"
             }}
           </h2>
           <p>Vyberte skupinu pro zobrazení podrobností.</p>
-        </div>
-
-        <div
-          class="accounting-cards-view__switch"
-          role="group"
-          aria-label="Zobrazení výdajů"
-        >
-          <button
-            type="button"
-            [class.active]="accountingOverview === 'cards'"
-            [attr.aria-pressed]="accountingOverview === 'cards'"
-            (click)="selectAccountingOverview('cards')"
-          >
-            Karty
-          </button>
-          <button
-            type="button"
-            [class.active]="accountingOverview === 'map'"
-            [attr.aria-pressed]="accountingOverview === 'map'"
-            (click)="selectAccountingOverview('map')"
-          >
-            Mapa výdajů
-          </button>
-          <button
-            type="button"
-            [class.active]="accountingOverview === 'bars'"
-            [attr.aria-pressed]="accountingOverview === 'bars'"
-            (click)="selectAccountingOverview('bars')"
-          >
-            Čerpání rozpočtu
-          </button>
         </div>
       </div>
 
@@ -63,7 +51,7 @@
           <span>Velikost = rozpočet</span>
           <span class="accounting-cards-view__progress-legend">
             <span aria-hidden="true"></span>
-            Plnění rozpočtu
+            {{ (type | async) === "exp" ? "Čerpání" : "Plnění" }} rozpočtu
           </span>
         </div>
       }
@@ -71,6 +59,7 @@
       <accounting-group-cards
         [groups]="(groups | async) || []"
         [selected]="group?.id || null"
+        [accountingType]="type | async"
         [layout]="
           accountingOverview === 'map'
             ? 'map'
@@ -91,12 +80,16 @@
       @if (accountingOverview === "bars") {
         <div
           class="accounting-cards-view__bar-legend"
-          aria-label="Legenda čerpání rozpočtu"
+          [attr.aria-label]="
+            (type | async) === 'exp'
+              ? 'Legenda čerpání rozpočtu'
+              : 'Legenda plnění rozpočtu'
+          "
         >
           <span>
             <span class="accounting-cards-view__bar-swatch" aria-hidden="true">
             </span>
-            Čerpáno
+            {{ (type | async) === "exp" ? "Čerpáno" : "Přijato" }}
           </span>
           <span>
             <span
@@ -116,13 +109,6 @@
         <div class="topTransition"></div>
         <div class="bottomTransition"></div>
       </div>
-
-      <budget-select
-        [budgets]="(budgets | async) || []"
-        [type]="type | async"
-        [ngModel]="budget"
-        (ngModelChange)="selectBudget($event?.year)"
-      />
 
       <div class="row">
         <div class="col-lg-8 offset-lg-2">
@@ -233,7 +219,11 @@
                             event.items &&
                             event.items.length > 1
                           ) {
-                            Ostatní výdaje
+                            {{
+                              (type | async) === "exp"
+                                ? "Ostatní výdaje"
+                                : "Ostatní příjmy"
+                            }}
                           }
                           @if (
                             !item.name &&
@@ -241,7 +231,11 @@
                             event.items &&
                             event.items.length === 1
                           ) {
-                            Celkové výdaje
+                            {{
+                              (type | async) === "exp"
+                                ? "Celkové výdaje"
+                                : "Celkové příjmy"
+                            }}
                           }
                         </td>
                         <td>{{ item.budgetAmount | money: 0 : false }} Kč</td>
@@ -258,13 +252,27 @@
                   <table class="table graftable table-responsive small">
                     <thead>
                       <tr>
-                        <th colspan="3">Stav čerpání rozpočtu</th>
+                        <th colspan="3">
+                          {{
+                            (type | async) === "exp"
+                              ? "Stav čerpání rozpočtu"
+                              : "Stav plnění rozpočtu"
+                          }}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td rowspan="3">
-                          <chart-donut [data]="event" />
+                          <chart-donut
+                            [data]="event"
+                            [color]="
+                              (type | async) === 'exp' ? '#e73431' : '#2581c4'
+                            "
+                            [backgroundColor]="
+                              (type | async) === 'exp' ? '#ff9491' : '#8bcdf4'
+                            "
+                          />
                         </td>
                         <td>{{ "profile.budget" | translate }}</td>
                         <td class="text-end font-number">
@@ -273,7 +281,12 @@
                       </tr>
                       <tr>
                         <td>
-                          <span style="color: #e73431">&#9632;</span>
+                          <span
+                            [style.color]="
+                              (type | async) === 'exp' ? '#e73431' : '#2581c4'
+                            "
+                            >&#9632;</span
+                          >
                           {{ "profile.utilization" | translate }}
                         </td>
                         <td class="text-end font-number">
@@ -283,7 +296,13 @@
                       @if (event.amount <= event.budgetAmount) {
                         <tr>
                           <td>
-                            <span style="color: #ff9491">&#9632;</span> Zbývá
+                            <span
+                              [style.color]="
+                                (type | async) === 'exp' ? '#ff9491' : '#8bcdf4'
+                              "
+                              >&#9632;</span
+                            >
+                            Zbývá
                           </td>
                           <td class="text-end font-number">
                             {{
@@ -297,8 +316,15 @@
                       @if (event.amount > event.budgetAmount) {
                         <tr>
                           <td colspan="3">
-                            <span class="label label-warning font-number"
-                              >Překročeno o
+                            <span
+                              class="font-number"
+                              [class.label]="(type | async) === 'exp'"
+                              [class.label-warning]="(type | async) === 'exp'"
+                              >{{
+                                (type | async) === "exp"
+                                  ? "Překročeno o"
+                                  : "Nad rozpočet o"
+                              }}
                               {{
                                 event.amount - event.budgetAmount
                                   | money: 0 : false
