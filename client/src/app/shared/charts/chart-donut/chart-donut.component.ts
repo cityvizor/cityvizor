@@ -22,6 +22,8 @@ import {
 })
 export class ChartDonutComponent {
   @Input() data: any;
+  @Input() color = "#e73431";
+  @Input() backgroundColor = "#ff9491";
 
   constructor() {}
 
