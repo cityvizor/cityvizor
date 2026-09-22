@@ -86,7 +86,6 @@ export class ProfileAccountingComponent implements OnInit {
   private currentRouteParams: Params = {};
   private groupsRequestId = 0;
   private groupEventsRequestId = 0;
-  private pendingDetailScrollGroupId: string | null = null;
 
   // type of view (expenditures/income)
   type = new BehaviorSubject<AccountingGroupType | null>(null);
@@ -108,6 +107,8 @@ export class ProfileAccountingComponent implements OnInit {
   budget: Budget | null;
   group: BudgetGroup | null;
   groupEvents: BudgetGroupEvent[] = [];
+  groupEventsLoading = false;
+  groupEventsLoadFailed = false;
 
   hoveredGroup: string | null;
   selectedEvent: number | null;
@@ -217,29 +218,42 @@ export class ProfileAccountingComponent implements OnInit {
       .subscribe(async ([[groupId, year, type, profile], sort]) => {
         const requestId = ++this.groupEventsRequestId;
 
-        if (!profile || !year || !type) return;
+        if (!profile || !year || !type) {
+          this.groupEventsLoading = false;
+          return;
+        }
 
         this.resetEventsLimit();
 
         if (!groupId) {
           this.groupEvents = [];
+          this.groupEventsLoading = false;
+          this.groupEventsLoadFailed = false;
           return;
         }
-        const groupEvents = await this.accountingService.getGroupEvents(
-          profile,
-          year,
-          type,
-          groupId,
-        );
 
-        if (requestId !== this.groupEventsRequestId) return;
+        this.groupEvents = [];
+        this.groupEventsLoading = true;
+        this.groupEventsLoadFailed = false;
 
-        this.groupEvents = groupEvents;
-        this.sortEvents(sort);
+        try {
+          const groupEvents = await this.accountingService.getGroupEvents(
+            profile,
+            year,
+            type,
+            groupId,
+          );
 
-        if (this.pendingDetailScrollGroupId === groupId) {
-          this.pendingDetailScrollGroupId = null;
-          this.scrollSelectedGroupIntoView();
+          if (requestId !== this.groupEventsRequestId) return;
+
+          this.groupEvents = groupEvents;
+          this.groupEventsLoading = false;
+          this.sortEvents(sort);
+        } catch {
+          if (requestId !== this.groupEventsRequestId) return;
+
+          this.groupEventsLoading = false;
+          this.groupEventsLoadFailed = true;
         }
       });
 
@@ -293,12 +307,11 @@ export class ProfileAccountingComponent implements OnInit {
   selectGroup(groupId: string | null, preserveScroll: boolean = false): void {
     if (groupId === undefined) return;
 
-    this.pendingDetailScrollGroupId = preserveScroll ? groupId : null;
-
     if (preserveScroll) {
       this.replaceParamsWithoutNavigation({ skupina: groupId, akce: null });
       this.groupId.next(groupId);
       this.eventId.next(null);
+      if (groupId) this.scrollSelectedGroupIntoView();
       return;
     }
 
