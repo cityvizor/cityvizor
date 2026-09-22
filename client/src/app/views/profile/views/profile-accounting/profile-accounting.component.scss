@@ -216,6 +216,16 @@ h4 {
   font-size: 24px;
 }
 
+.selected-group-loading,
+.selected-group-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 120px;
+  margin: 0;
+  color: #555;
+}
+
 .skupina-label .label {
   margin: 1em 0em 0em 0em;
 }

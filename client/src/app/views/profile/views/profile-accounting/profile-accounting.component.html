@@ -137,40 +137,59 @@
     />
   }
 
-  @if (groupEvents.length > 0) {
-    <div id="selectedGroup">
+  @if (group) {
+    <div id="selectedGroup" [attr.aria-busy]="groupEventsLoading">
       <header class="selected-group-heading">
         <h3>{{ group?.name || "Nezařazená skupina" }}</h3>
       </header>
 
-      <form class="filter">
-        <div class="row">
-          <div class="col-8"></div>
-          <div class="col-4 text-end">
-            Řazení:&nbsp;
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn btn-sm btn-secondary"
-                [class.active]="(sort | async) === 'abecedne'"
-                [class.btn-primary]="(sort | async) === 'abecedne'"
-                (click)="selectSort('abecedne')"
-              >
-                Abecedně
-              </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-secondary"
-                [class.active]="(sort | async) === 'nejvetsi'"
-                [class.btn-primary]="(sort | async) === 'nejvetsi'"
-                (click)="selectSort('nejvetsi')"
-              >
-                Největší
-              </button>
+      @if (groupEventsLoading) {
+        <div class="selected-group-loading" role="status" aria-live="polite">
+          <span
+            class="spinner-border spinner-border-sm"
+            aria-hidden="true"
+          ></span>
+          <span>Načítám detail…</span>
+        </div>
+      } @else if (groupEventsLoadFailed) {
+        <p class="selected-group-message" role="alert">
+          Detail skupiny se nepodařilo načíst.
+        </p>
+      } @else if (groupEvents.length === 0) {
+        <p class="selected-group-message">
+          Pro vybranou skupinu nejsou k dispozici podrobnosti.
+        </p>
+      }
+      @if (!groupEventsLoading && groupEvents.length > 0) {
+        <form class="filter">
+          <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4 text-end">
+              Řazení:&nbsp;
+              <div class="btn-group">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-secondary"
+                  [class.active]="(sort | async) === 'abecedne'"
+                  [class.btn-primary]="(sort | async) === 'abecedne'"
+                  (click)="selectSort('abecedne')"
+                >
+                  Abecedně
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-secondary"
+                  [class.active]="(sort | async) === 'nejvetsi'"
+                  [class.btn-primary]="(sort | async) === 'nejvetsi'"
+                  (click)="selectSort('nejvetsi')"
+                >
+                  Největší
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      }
       @for (event of groupEvents | slice: 0 : eventsLimit; track event) {
         <div>
           <div class="row">
