@@ -2,6 +2,8 @@ import { HttpBackend, HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { environment } from "environments/environment";
 
+export const DASHBOARD_FINANCING_TOGGLE = "dashboard-financing-toggle";
+
 @Injectable({ providedIn: "root" })
 export class FeatureFlagsService {
   private http = new HttpClient(inject(HttpBackend));

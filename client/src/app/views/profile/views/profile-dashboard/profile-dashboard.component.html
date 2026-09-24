@@ -279,10 +279,27 @@
       </div>
     </div>
   }
-  <div class="row">
-    <div class="col-12">
+  <div class="row align-items-center">
+    <div class="col">
       <h3>Rozpočty</h3>
     </div>
+    @if (isMunicipality && financingToggleEnabled && hasFinancing) {
+      <div class="col-auto">
+        <div class="form-check form-switch financing-toggle">
+          <input
+            id="include-financing"
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            [checked]="includeFinancing"
+            (change)="setIncludeFinancing($any($event.target).checked)"
+          />
+          <label class="form-check-label" for="include-financing">
+            Zahrnout financování do příjmů
+          </label>
+        </div>
+      </div>
+    }
   </div>
   <div class="row budgets">
     @if (budgetsLoading) {
@@ -364,7 +381,7 @@
                   <td class="font-number">
                     {{ budget.budgetExpenditureAmount | money: 0 : false }} Kč
                   </td>
-                  <td class="font-number">
+                  <td class="font-number" data-testid="budget-income-planned">
                     {{ budget.budgetIncomeAmount | money: 0 : false }} Kč
                   </td>
                 </tr>
@@ -375,7 +392,7 @@
                   <td class="font-number">
                     {{ budget.expenditureAmount | money: 0 : false }} Kč
                   </td>
-                  <td class="font-number">
+                  <td class="font-number" data-testid="budget-income-actual">
                     {{ budget.incomeAmount | money: 0 : false }} Kč
                   </td>
                 </tr>
