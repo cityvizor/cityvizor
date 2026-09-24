@@ -16,6 +16,10 @@ export class Budget implements BudgetAmounts {
 
   incomeAmount: number = 0;
   budgetIncomeAmount: number = 0;
+  incomeWithoutFinancingAmount: number = 0;
+  budgetIncomeWithoutFinancingAmount: number = 0;
+  financingAmount: number = 0;
+  budgetFinancingAmount: number = 0;
   expenditureAmount: number = 0;
   budgetExpenditureAmount: number = 0;
 }
