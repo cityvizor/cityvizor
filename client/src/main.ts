@@ -31,6 +31,7 @@ import { providePrimeNG } from "primeng/config";
 import Lara from "@primeng/themes/lara";
 import { provideRouter, withInMemoryScrolling } from "@angular/router";
 import { AppRoutes } from "app/app.routes";
+import { FeatureFlagsService } from "app/services/feature-flags.service";
 
 // Settings for JWT
 export function tokenGetter(): string {
@@ -70,6 +71,7 @@ bootstrapApplication(AppComponent, {
       const initializerFn = configFactory(inject(ConfigService));
       return initializerFn();
     }),
+    provideAppInitializer(() => inject(FeatureFlagsService).load()),
     httpInterceptorProviders,
     provideHttpClient(withInterceptorsFromDi()),
     providePrimeNG({

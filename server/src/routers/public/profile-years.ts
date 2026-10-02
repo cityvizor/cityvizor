@@ -28,13 +28,25 @@ router.get(
         .sum("a.expenditureAmount as expenditureAmount")
         .sum("a.budgetExpenditureAmount as budgetExpenditureAmount")
         .sum("a.incomeAmount as incomeAmount")
-        .sum("a.budgetIncomeAmount as budgetIncomeAmount");
+        .sum("a.budgetIncomeAmount as budgetIncomeAmount")
+        .sum("a.financingAmount as financingAmount")
+        .sum("a.budgetFinancingAmount as budgetFinancingAmount");
 
-      return res.json(years);
+      return res.json(
+        years.map(year => ({
+          ...year,
+          incomeWithoutFinancingAmount:
+            (year.incomeAmount ?? 0) - (year.financingAmount ?? 0),
+          budgetIncomeWithoutFinancingAmount:
+            (year.budgetIncomeAmount ?? 0) - (year.budgetFinancingAmount ?? 0),
+        }))
+      );
     } else if (sumMode === "visible") {
       const incomeAmounts = await getBaseQuery(req.params.profile)
         .sum("a.incomeAmount as incomeAmount")
         .sum("a.budgetIncomeAmount as budgetIncomeAmount")
+        .sum("a.financingAmount as visibleFinancingAmount")
+        .sum("a.budgetFinancingAmount as visibleBudgetFinancingAmount")
         .innerJoin("codelists as c", {
           "c.id": db.raw("SUBSTRING(a.item::varchar, 1, 2)"),
         })
@@ -48,12 +60,37 @@ router.get(
         })
         .where({ "c.codelist": "paragraph-groups" });
 
-      const years = incomeAmounts.map((year, index) => {
+      const financingAmounts = await getBaseQuery(req.params.profile)
+        .sum("a.financingAmount as financingAmount")
+        .sum("a.budgetFinancingAmount as budgetFinancingAmount");
+
+      const expendituresByYear = new Map(
+        expenditureAmounts.map(year => [year.year, year])
+      );
+      const financingByYear = new Map(
+        financingAmounts.map(year => [year.year, year])
+      );
+
+      const years = incomeAmounts.map(year => {
+        const expenditure = expendituresByYear.get(year.year);
+        const financing = financingByYear.get(year.year);
+        const {
+          visibleFinancingAmount,
+          visibleBudgetFinancingAmount,
+          ...income
+        } = year;
+
         return {
-          ...year,
-          expenditureAmount: expenditureAmounts[index]?.expenditureAmount ?? 0,
-          budgetExpenditureAmount:
-            expenditureAmounts[index]?.budgetExpenditureAmount ?? 0,
+          ...income,
+          incomeWithoutFinancingAmount:
+            (year.incomeAmount ?? 0) - (visibleFinancingAmount ?? 0),
+          budgetIncomeWithoutFinancingAmount:
+            (year.budgetIncomeAmount ?? 0) -
+            (visibleBudgetFinancingAmount ?? 0),
+          financingAmount: financing?.financingAmount ?? 0,
+          budgetFinancingAmount: financing?.budgetFinancingAmount ?? 0,
+          expenditureAmount: expenditure?.expenditureAmount ?? 0,
+          budgetExpenditureAmount: expenditure?.budgetExpenditureAmount ?? 0,
         };
       });
 
