@@ -1,7 +1,11 @@
 import express, { Request } from "express";
 
 import { db } from "../../db";
-import { AccountingRecord } from "../../schema";
+import {
+  isFeatureEnabled,
+  PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE,
+} from "../../feature-flags";
+import { AccountingGroupSummaryRecord, AccountingRecord } from "../../schema";
 
 const router = express.Router({ mergeParams: true });
 
@@ -42,15 +46,35 @@ router.get(
         .status(400)
         .send("Parameter field can only have values paragraph or item.");
 
-    const groups = await db<AccountingRecord>("accounting")
-      .select(db.raw(`SUBSTRING(${field}::varchar, 1, 2) AS id`))
-      .sum("incomeAmount as incomeAmount")
-      .sum("budgetIncomeAmount as budgetIncomeAmount")
-      .sum("expenditureAmount as expenditureAmount")
-      .sum("budgetExpenditureAmount as budgetExpenditureAmount")
-      .where("profileId", req.params.profile)
-      .andWhere("year", req.params.year)
-      .groupBy("id");
+    const usePrecomputedSummaries = await isFeatureEnabled(
+      PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE
+    );
+    const groups = usePrecomputedSummaries
+      ? await db<AccountingGroupSummaryRecord>(
+          "data.accounting_group_summaries as a"
+        )
+          .innerJoin("years as y", function () {
+            this.on("y.profileId", "a.profileId").andOn("y.year", "a.year");
+          })
+          .select(
+            db.raw("NULLIF(a.group_id, '') AS id"),
+            "a.incomeAmount",
+            "a.budgetIncomeAmount",
+            "a.expenditureAmount",
+            "a.budgetExpenditureAmount"
+          )
+          .where("a.profileId", req.params.profile)
+          .andWhere("a.year", req.params.year)
+          .andWhere("a.field", field)
+      : await db<AccountingRecord>("accounting")
+          .select(db.raw(`SUBSTRING(${field}::varchar, 1, 2) AS id`))
+          .sum("incomeAmount as incomeAmount")
+          .sum("budgetIncomeAmount as budgetIncomeAmount")
+          .sum("expenditureAmount as expenditureAmount")
+          .sum("budgetExpenditureAmount as budgetExpenditureAmount")
+          .where("profileId", req.params.profile)
+          .andWhere("year", req.params.year)
+          .groupBy("id");
 
     return res.json(groups);
   }

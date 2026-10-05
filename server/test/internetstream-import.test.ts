@@ -61,6 +61,7 @@ describe("InternetStream import", () => {
     );
 
     expect(result.warningCount).toBe(0);
+    expect(result.accountingChanged).toBe(true);
     expect(accountings.map(record => record.type)).toEqual([
       "ROZ",
       "KDF",

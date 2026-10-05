@@ -1,6 +1,9 @@
 import { db } from "./db";
 import { FeatureFlagRecord } from "./schema";
 
+export const PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE =
+  "precomputed-accounting-summaries";
+
 export async function getFeatureFlags(): Promise<Record<string, boolean>> {
   const flags = await db<FeatureFlagRecord>("app.feature_flags").select(
     "name",
