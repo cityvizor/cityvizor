@@ -41,6 +41,10 @@ export class ImportService {
     return this.generateRequest(profileId, formData, "accounting", isAppend);
   }
 
+  async importGinisKxx(profileId: Profile["id"], formData: FormData) {
+    return this.generateRequest(profileId, formData, "ginis-kxx", false);
+  }
+
   async importPayments(
     profileId: Profile["id"],
     formData: FormData,

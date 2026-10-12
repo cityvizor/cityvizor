@@ -7,6 +7,7 @@ import { ProfileRecord, YearRecord } from "../../schema";
 import { importCityvizor } from "./cityvizor/importer";
 import { importInternetStream } from "./internetstream/importer";
 import { importPbo } from "./pbo/importer";
+import { importGinisKxx } from "./ginis/importer";
 import { importLogger } from "./import-logger";
 
 const importTimeoutMinutes = 30;
@@ -84,6 +85,9 @@ export async function checkImportQueue() {
       await importCityvizor(options);
     } else if (currentJob.format === "internetstream") {
       const result = await importInternetStream(options);
+      warningCount = result.warningCount;
+    } else if (currentJob.format === "ginis_kxx") {
+      const result = await importGinisKxx(options);
       warningCount = result.warningCount;
     } else if (
       currentJob.format === "pbo_expected_plan" ||
