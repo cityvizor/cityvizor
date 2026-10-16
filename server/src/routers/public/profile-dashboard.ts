@@ -55,8 +55,8 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
 
   const categoriesAccounting = db.unionAll(
     categoriesDef.map(category => {
-      if (!usePrecomputedSummaries) {
-        return db("accounting")
+      if (usePrecomputedSummaries) {
+        return db("data.accounting_group_summaries")
           .select(
             "profile_id",
             "year",
@@ -64,10 +64,12 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
             "expenditureAmount",
             "budgetExpenditureAmount"
           )
-          .whereRaw(category.legacyWhere);
+          .where("field", "paragraph")
+          .andWhere("profileId", req.params.profile)
+          .whereIn("groupId", category.groupIds);
       }
 
-      return db("data.accounting_group_summaries")
+      return db("accounting")
         .select(
           "profile_id",
           "year",
@@ -75,9 +77,7 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
           "expenditureAmount",
           "budgetExpenditureAmount"
         )
-        .where("field", "paragraph")
-        .andWhere("profileId", req.params.profile)
-        .whereIn("groupId", category.groupIds);
+        .whereRaw(category.legacyWhere);
     })
   );
 
