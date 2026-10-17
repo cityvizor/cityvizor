@@ -26,13 +26,13 @@ const getCompleteYears = (profileId: string) =>
   db("years as y")
     .select("y.profileId", "y.year", "y.validity")
     .select(
-      db.raw("COALESCE(a.expenditure_amount, 0) AS expenditure_amount"),
+      db.raw("COALESCE(a.actual_expenditure_amount, 0) AS expenditure_amount"),
       db.raw(
         "COALESCE(a.budget_expenditure_amount, 0) AS budget_expenditure_amount"
       ),
-      db.raw("COALESCE(a.income_amount, 0) AS income_amount"),
+      db.raw("COALESCE(a.actual_income_amount, 0) AS income_amount"),
       db.raw("COALESCE(a.budget_income_amount, 0) AS budget_income_amount"),
-      db.raw("COALESCE(a.financing_amount, 0) AS financing_amount"),
+      db.raw("COALESCE(a.actual_financing_amount, 0) AS financing_amount"),
       db.raw(
         "COALESCE(a.budget_financing_amount, 0) AS budget_financing_amount"
       )
@@ -52,12 +52,15 @@ const getVisibleAmounts = (
   const amountColumns =
     field === "item"
       ? [
-          "income_amount",
-          "budget_income_amount",
-          "financing_amount",
-          "budget_financing_amount",
+          ["actual_income_amount", "income_amount"],
+          ["budget_income_amount", "budget_income_amount"],
+          ["actual_financing_amount", "financing_amount"],
+          ["budget_financing_amount", "budget_financing_amount"],
         ]
-      : ["expenditure_amount", "budget_expenditure_amount"];
+      : [
+          ["actual_expenditure_amount", "expenditure_amount"],
+          ["budget_expenditure_amount", "budget_expenditure_amount"],
+        ];
 
   const query = db("years as y")
     .select("y.profileId", "y.year", "y.validity")
@@ -73,10 +76,11 @@ const getVisibleAmounts = (
     .groupBy("y.profileId", "y.year", "y.validity")
     .orderBy("y.year");
 
-  amountColumns.forEach(column => {
+  amountColumns.forEach(([column, alias]) => {
     query.select(
       db.raw(
-        `COALESCE(SUM(a.${column}) FILTER (WHERE c.id IS NOT NULL), 0) AS ${column}`
+        "COALESCE(SUM(??) FILTER (WHERE c.id IS NOT NULL), 0) AS ??",
+        [`a.${column}`, alias]
       )
     );
   });

@@ -61,7 +61,7 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
             "profile_id",
             "year",
             db.raw("? AS category", [category.name]),
-            "expenditureAmount",
+            "actualExpenditureAmount as expenditureAmount",
             "budgetExpenditureAmount"
           )
           .where("field", "paragraph")

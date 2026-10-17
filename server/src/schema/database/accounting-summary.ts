@@ -1,11 +1,11 @@
 export type AccountingSummaryField = "paragraph" | "item";
 
 export interface AccountingSummaryAmounts {
-  incomeAmount: number;
+  actualIncomeAmount: number;
   budgetIncomeAmount: number;
-  expenditureAmount: number;
+  actualExpenditureAmount: number;
   budgetExpenditureAmount: number;
-  financingAmount: number;
+  actualFinancingAmount: number;
   budgetFinancingAmount: number;
 }
 

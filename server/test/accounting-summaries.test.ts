@@ -68,7 +68,7 @@ describe("accounting summaries", () => {
     expect(groupSql).toContain("item >= 8000 AND type = 'ROZ'");
 
     const yearSql = raw.mock.calls[2][0] as string;
-    expect(yearSql).toContain("SUM(financing_amount)");
+    expect(yearSql).toContain("SUM(actual_financing_amount)");
     expect(yearSql).toContain("SUM(budget_financing_amount)");
   });
 });

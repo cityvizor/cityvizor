@@ -4,7 +4,7 @@ const amountColumns = `
   COALESCE(SUM(CASE
     WHEN (item < 5000 OR item >= 8000) AND type <> 'ROZ' THEN amount
     ELSE 0::numeric
-  END), 0) AS income_amount,
+  END), 0) AS actual_income_amount,
   COALESCE(SUM(CASE
     WHEN (item < 5000 OR item >= 8000) AND type = 'ROZ' THEN amount
     ELSE 0::numeric
@@ -13,7 +13,7 @@ const amountColumns = `
     WHEN ((item >= 5000 AND item < 8000) OR
       (paragraph IS NOT NULL AND item IS NULL)) AND type <> 'ROZ' THEN amount
     ELSE 0::numeric
-  END), 0) AS expenditure_amount,
+  END), 0) AS actual_expenditure_amount,
   COALESCE(SUM(CASE
     WHEN ((item >= 5000 AND item < 8000) OR
       (paragraph IS NOT NULL AND item IS NULL)) AND type = 'ROZ' THEN amount
@@ -22,7 +22,7 @@ const amountColumns = `
   COALESCE(SUM(CASE
     WHEN item >= 8000 AND type <> 'ROZ' THEN amount
     ELSE 0::numeric
-  END), 0) AS financing_amount,
+  END), 0) AS actual_financing_amount,
   COALESCE(SUM(CASE
     WHEN item >= 8000 AND type = 'ROZ' THEN amount
     ELSE 0::numeric
@@ -50,11 +50,11 @@ export async function rebuildAccountingSummaries(
           year,
           field,
           group_id,
-          income_amount,
+          actual_income_amount,
           budget_income_amount,
-          expenditure_amount,
+          actual_expenditure_amount,
           budget_expenditure_amount,
-          financing_amount,
+          actual_financing_amount,
           budget_financing_amount,
           computed_at
         )
@@ -81,22 +81,22 @@ export async function rebuildAccountingSummaries(
       INSERT INTO data.accounting_year_summaries (
         profile_id,
         year,
-        income_amount,
+        actual_income_amount,
         budget_income_amount,
-        expenditure_amount,
+        actual_expenditure_amount,
         budget_expenditure_amount,
-        financing_amount,
+        actual_financing_amount,
         budget_financing_amount,
         computed_at
       )
       SELECT
         ?,
         ?,
-        COALESCE(SUM(income_amount), 0),
+        COALESCE(SUM(actual_income_amount), 0),
         COALESCE(SUM(budget_income_amount), 0),
-        COALESCE(SUM(expenditure_amount), 0),
+        COALESCE(SUM(actual_expenditure_amount), 0),
         COALESCE(SUM(budget_expenditure_amount), 0),
-        COALESCE(SUM(financing_amount), 0),
+        COALESCE(SUM(actual_financing_amount), 0),
         COALESCE(SUM(budget_financing_amount), 0),
         CURRENT_TIMESTAMP
       FROM data.accounting_group_summaries

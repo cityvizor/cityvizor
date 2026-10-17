@@ -58,9 +58,9 @@ router.get(
           })
           .select(
             db.raw("NULLIF(a.group_id, '') AS id"),
-            "a.incomeAmount",
+            "a.actualIncomeAmount as incomeAmount",
             "a.budgetIncomeAmount",
-            "a.expenditureAmount",
+            "a.actualExpenditureAmount as expenditureAmount",
             "a.budgetExpenditureAmount"
           )
           .where("a.profileId", req.params.profile)
