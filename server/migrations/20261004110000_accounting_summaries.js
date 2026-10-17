@@ -7,6 +7,8 @@ exports.up = async function (knex) {
       budget_income_amount numeric NOT NULL DEFAULT 0,
       expenditure_amount numeric NOT NULL DEFAULT 0,
       budget_expenditure_amount numeric NOT NULL DEFAULT 0,
+      financing_amount numeric NOT NULL DEFAULT 0,
+      budget_financing_amount numeric NOT NULL DEFAULT 0,
       computed_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
       CONSTRAINT accounting_year_summaries_pkey
         PRIMARY KEY (profile_id, year),
@@ -25,6 +27,8 @@ exports.up = async function (knex) {
       budget_income_amount numeric NOT NULL DEFAULT 0,
       expenditure_amount numeric NOT NULL DEFAULT 0,
       budget_expenditure_amount numeric NOT NULL DEFAULT 0,
+      financing_amount numeric NOT NULL DEFAULT 0,
+      budget_financing_amount numeric NOT NULL DEFAULT 0,
       computed_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
       CONSTRAINT accounting_group_summaries_pkey
         PRIMARY KEY (profile_id, year, field, group_id),
