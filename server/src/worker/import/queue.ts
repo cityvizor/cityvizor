@@ -8,6 +8,7 @@ import { importCityvizor } from "./cityvizor/importer";
 import { importInternetStream } from "./internetstream/importer";
 import { importPbo } from "./pbo/importer";
 import { importLogger } from "./import-logger";
+import { rebuildAccountingSummaries } from "./accounting-summaries";
 
 const importTimeoutMinutes = 30;
 
@@ -80,11 +81,13 @@ export async function checkImportQueue() {
   let error: Error | null = null;
   let warningCount = 0;
   try {
+    let result: Import.Result = { accountingChanged: false };
     if (currentJob.format === "cityvizor") {
-      await importCityvizor(options);
+      result = await importCityvizor(options);
     } else if (currentJob.format === "internetstream") {
-      const result = await importInternetStream(options);
-      warningCount = result.warningCount;
+      const internetStreamResult = await importInternetStream(options);
+      result = internetStreamResult;
+      warningCount = internetStreamResult.warningCount;
     } else if (
       currentJob.format === "pbo_expected_plan" ||
       currentJob.format === "pbo_real_plan" ||
@@ -94,6 +97,16 @@ export async function checkImportQueue() {
     } else {
       throw Error(`Unsupported import type: ${currentJob.format}`);
     }
+
+    if (profile.type === "municipality" && result.accountingChanged) {
+      importLogger.log("Rebuilding accounting summaries.");
+      await rebuildAccountingSummaries(
+        trx,
+        currentJob.profileId,
+        currentJob.year
+      );
+    }
+
     await db<YearRecord>("app.years")
       .where({ profileId: currentJob.profileId, year: currentJob.year })
       .update({ validity: currentJob.validity });
