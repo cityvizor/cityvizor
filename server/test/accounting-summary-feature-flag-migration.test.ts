@@ -1,3 +1,5 @@
+export {};
+
 const migration = require("../migrations/20261004120000_precomputed_accounting_summaries_feature_flag");
 
 function mockKnex() {
