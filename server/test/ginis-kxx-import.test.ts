@@ -9,9 +9,13 @@ import { DatabaseWriter } from "../src/worker/import/db-writer";
 import { importGinisKxx } from "../src/worker/import/ginis/importer";
 import { importLogger } from "../src/worker/import/import-logger";
 import { checkImportQueue } from "../src/worker/import/queue";
+import { rebuildAccountingSummaries } from "../src/worker/import/accounting-summaries";
 import { kxxSource as source } from "./helpers/kxx-source";
 
 jest.mock("../src/db", () => ({ db: jest.fn() }));
+jest.mock("../src/worker/import/accounting-summaries", () => ({
+  rebuildAccountingSummaries: jest.fn().mockResolvedValue(undefined),
+}));
 
 describe("GINIS KXX importer and queue", () => {
   let dir: string;
@@ -65,6 +69,10 @@ describe("GINIS KXX importer and queue", () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
+    jest
+      .mocked(rebuildAccountingSummaries)
+      .mockReset()
+      .mockResolvedValue(undefined);
     dir = await fs.mkdtemp(path.join(os.tmpdir(), "cityvizor-kxx-"));
     accounting = [];
     payments = [];
@@ -111,6 +119,21 @@ describe("GINIS KXX importer and queue", () => {
     expect(importLogger.getLogs()).toBe("");
     expect(transaction.commit).toHaveBeenCalledTimes(1);
     expect(transaction.rollback).not.toHaveBeenCalled();
+    expect(rebuildAccountingSummaries).toHaveBeenCalledTimes(1);
+    expect(rebuildAccountingSummaries).toHaveBeenCalledWith(
+      transaction,
+      45,
+      2026
+    );
+    const rebuildOrder = jest.mocked(rebuildAccountingSummaries).mock
+      .invocationCallOrder[0];
+    expect(rebuildOrder).toBeGreaterThan(
+      jest.mocked(DatabaseWriter.prototype.writePayments).mock
+        .invocationCallOrder[0]
+    );
+    expect(rebuildOrder).toBeLessThan(
+      transaction.commit.mock.invocationCallOrder[0]
+    );
     expect(transaction.mock.calls.map(([table]) => table)).toEqual([
       "data.payments",
       "data.accounting",
@@ -170,6 +193,7 @@ describe("GINIS KXX importer and queue", () => {
     expect(job.error).toContain("invalid metadata or comment line");
     expect(transaction.rollback).toHaveBeenCalledTimes(1);
     expect(transaction.commit).not.toHaveBeenCalled();
+    expect(rebuildAccountingSummaries).not.toHaveBeenCalled();
     expectNoChanges();
   });
 
@@ -191,6 +215,27 @@ describe("GINIS KXX importer and queue", () => {
       error: "Payment write failed",
     });
     expect(accounting).toHaveLength(1);
+    expect(transaction.rollback).toHaveBeenCalledTimes(1);
+    expect(transaction.commit).not.toHaveBeenCalled();
+    expect(rebuildAccountingSummaries).not.toHaveBeenCalled();
+  });
+
+  it("requests rollback when rebuilding summaries fails after a KXX import", async () => {
+    jest
+      .mocked(rebuildAccountingSummaries)
+      .mockRejectedValueOnce(new Error("Summary rebuild failed"));
+    const job = await queuePair();
+    expect(job).toMatchObject({
+      status: "error",
+      error: "Summary rebuild failed",
+    });
+    expect(accounting).toHaveLength(2);
+    expect(payments).toHaveLength(1);
+    expect(rebuildAccountingSummaries).toHaveBeenCalledWith(
+      transaction,
+      45,
+      2026
+    );
     expect(transaction.rollback).toHaveBeenCalledTimes(1);
     expect(transaction.commit).not.toHaveBeenCalled();
   });

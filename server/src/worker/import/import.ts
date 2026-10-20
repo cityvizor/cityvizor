@@ -39,6 +39,10 @@ export namespace Import {
     profileType: ProfileType;
   }
 
+  export interface Result {
+    accountingChanged: boolean;
+  }
+
   export type ImportChunk = PaymentChunk | EventChunk | AccountingChunk;
 
   export class PaymentChunk {

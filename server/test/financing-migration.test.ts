@@ -1,3 +1,5 @@
+export {};
+
 const migration = require("../migrations/20260924090000_financing_amounts");
 
 function mockKnex() {

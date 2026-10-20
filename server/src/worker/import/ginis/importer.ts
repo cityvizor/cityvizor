@@ -34,7 +34,7 @@ async function inputFiles(importDir: string): Promise<string[]> {
 /** Both files use the transaction owned by the import queue. */
 export async function importGinisKxx(
   options: Import.Options
-): Promise<{ warningCount: number }> {
+): Promise<Import.Result & { warningCount: number }> {
   const files = await inputFiles(options.importDir);
   let warningCount = 0;
   let identity: string | undefined;
@@ -148,5 +148,5 @@ export async function importGinisKxx(
     }
   }
   importLogger.log(`KXX import completed with ${warningCount} warnings.`);
-  return { warningCount };
+  return { accountingChanged: true, warningCount };
 }
