@@ -64,12 +64,12 @@ const getVisibleAmounts = (
 
   const query = db("years as y")
     .select("y.profileId", "y.year", "y.validity")
-    .leftJoin("data.accounting_group_summaries as a", function () {
+    .innerJoin("data.accounting_group_summaries as a", function () {
       this.on("a.profileId", "y.profileId")
         .andOn("a.year", "y.year")
         .andOnVal("a.field", field);
     })
-    .leftJoin("codelists as c", function () {
+    .innerJoin("codelists as c", function () {
       this.on("c.id", "a.groupId").andOnVal("c.codelist", codelist);
     })
     .where({ "y.profileId": profileId })
