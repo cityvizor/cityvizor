@@ -22,6 +22,11 @@ export class DataUploadModalComponent {
 
   @Output() close = new EventEmitter<boolean>();
 
+  format: "csv" | "kxx" = "csv";
+  kxxAccountingFile: File | null = null;
+  kxxBudgetFile: File | null = null;
+  uploading = false;
+
   modes = [
     {
       display: "Nahradit stávající data",
@@ -45,7 +50,9 @@ export class DataUploadModalComponent {
     realPlanFileInput: HTMLInputElement,
     aaNamesFileInput: HTMLInputElement,
   ) {
-    const fields: [HTMLInputElement, string, string, string][] = [
+    if (this.uploading || form.invalid) return;
+    const useKxx = !this.isPbo && this.format === "kxx";
+    const allFields: [HTMLInputElement, string, string, string][] = [
       [dataFileInput, "data", "dataFileMode", "Datový soubor nemá"],
       [eventsFileInput, "events", "eventsFileMode", "Číselník nemá"],
       [
@@ -69,11 +76,25 @@ export class DataUploadModalComponent {
         "Číselník analytických účtů nemá",
       ],
     ];
+    const fields = allFields.filter(([, name]) => {
+      if (useKxx) return name === "events";
+      return this.isPbo
+        ? ["payments", "expectedPlan", "realPlan", "aaNames"].includes(name)
+        : ["data", "events", "accounting", "payments"].includes(name);
+    });
     if (!this.year) {
       this.toastService.toast("Nezvolený rok", "notice");
       return;
     }
+    if (useKxx && (!this.kxxAccountingFile || !this.kxxBudgetFile)) {
+      this.toastService.toast(
+        "Vyberte účetní i rozpočtový KXX soubor.",
+        "error",
+      );
+      return;
+    }
     if (
+      !useKxx &&
       !fields
         .map(a => a[0])
         .some((e: HTMLInputElement) => e && e.files && e.files[0])
@@ -83,99 +104,118 @@ export class DataUploadModalComponent {
     }
 
     const v = form.value;
-    const tasks: Promise<String>[] = [];
-
-    // Using for...of here so return actually returns (and doesn't just break, like it does in forEach)
-    for (const [element, name, mode, error] of fields) {
-      const data = new FormData();
-      if (element.files && element.files[0]) {
-        if (v[mode] == "") {
-          this.toastService.toast(`${error} nastavený režim nahrání.`, "error");
-          return;
-        }
-        const file = element.files[0];
-        data.set(name, file, file.name);
-        data.set("year", String(this.year));
-        data.set("validity", v.validity);
-
-        switch (name) {
-          case "payments":
-            tasks.push(
-              this.importService.importPayments(
-                this.profileId,
-                data,
-                v[mode] == "append",
-              ),
-            );
-            break;
-          case "accounting":
-            tasks.push(
-              this.importService.importAccounting(
-                this.profileId,
-                data,
-                v[mode] == "append",
-              ),
-            );
-            break;
-          case "events":
-            tasks.push(
-              this.importService.importEvents(
-                this.profileId,
-                data,
-                v[mode] == "append",
-              ),
-            );
-            break;
-          case "data":
-            tasks.push(
-              this.importService.importData(
-                this.profileId,
-                data,
-                v[mode] == "append",
-              ),
-            );
-            break;
-          case "expectedPlan":
-            tasks.push(
-              this.importService.importExpectedPlan(
-                this.profileId,
-                data,
-                v[mode] == "append",
-              ),
-            );
-            break;
-          case "realPlan":
-            tasks.push(
-              this.importService.importRealPlan(
-                this.profileId,
-                data,
-                v[mode] == "append",
-              ),
-            );
-            break;
-          case "aaNames":
-            tasks.push(
-              this.importService.importAaNames(
-                this.profileId,
-                data,
-                v[mode] == "append",
-              ),
-            );
-        }
+    // Validate every selected file before starting any upload.
+    for (const [element, , mode, error] of fields) {
+      if (element.files?.[0] && !["overwrite", "append"].includes(v[mode])) {
+        this.toastService.toast(`${error} nastavený režim nahrání.`, "error");
+        return;
       }
     }
+    const tasks: Promise<unknown>[] = [];
+    this.uploading = true;
+    try {
+      if (useKxx) {
+        const data = new FormData();
+        data.set("accounting", this.kxxAccountingFile!);
+        data.set("budget", this.kxxBudgetFile!);
+        data.set("year", String(this.year));
+        data.set("validity", v.validity);
+        tasks.push(this.importService.importGinisKxx(this.profileId, data));
+      }
 
-    await Promise.all(tasks)
-      .then(_ => {
-        this.toastService.toast("Data nahrána pro import.", "notice");
-      })
-      .catch(e => {
+      // Using for...of here so return actually returns (and doesn't just break, like it does in forEach)
+      for (const [element, name, mode, error] of fields) {
+        const data = new FormData();
+        if (element.files && element.files[0]) {
+          const file = element.files[0];
+          data.set(name, file, file.name);
+          data.set("year", String(this.year));
+          data.set("validity", v.validity);
+
+          switch (name) {
+            case "payments":
+              tasks.push(
+                this.importService.importPayments(
+                  this.profileId,
+                  data,
+                  v[mode] == "append",
+                ),
+              );
+              break;
+            case "accounting":
+              tasks.push(
+                this.importService.importAccounting(
+                  this.profileId,
+                  data,
+                  v[mode] == "append",
+                ),
+              );
+              break;
+            case "events":
+              tasks.push(
+                this.importService.importEvents(
+                  this.profileId,
+                  data,
+                  v[mode] == "append",
+                ),
+              );
+              break;
+            case "data":
+              tasks.push(
+                this.importService.importData(
+                  this.profileId,
+                  data,
+                  v[mode] == "append",
+                ),
+              );
+              break;
+            case "expectedPlan":
+              tasks.push(
+                this.importService.importExpectedPlan(
+                  this.profileId,
+                  data,
+                  v[mode] == "append",
+                ),
+              );
+              break;
+            case "realPlan":
+              tasks.push(
+                this.importService.importRealPlan(
+                  this.profileId,
+                  data,
+                  v[mode] == "append",
+                ),
+              );
+              break;
+            case "aaNames":
+              tasks.push(
+                this.importService.importAaNames(
+                  this.profileId,
+                  data,
+                  v[mode] == "append",
+                ),
+              );
+          }
+        }
+      }
+
+      const results = await Promise.allSettled(tasks);
+      if (results.some(result => result.status === "rejected")) {
         this.toastService.toast(
-          "Neočekáváná chyba při odesílání dat. Prosím, kontaktujte administrátora.",
+          "Některé soubory se nepodařilo nahrát. Zkontrolujte historii importů před dalším pokusem.",
           "error",
         );
-      });
-
-    this.close.emit(true);
+        return;
+      }
+      this.toastService.toast("Data nahrána pro import.", "notice");
+      this.close.emit(true);
+    } catch {
+      this.toastService.toast(
+        "Nepodařilo se připravit data k nahrání.",
+        "error",
+      );
+    } finally {
+      this.uploading = false;
+    }
   }
 }

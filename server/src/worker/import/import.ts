@@ -24,6 +24,7 @@ export namespace Import {
   export type Format =
     | "cityvizor"
     | "internetstream"
+    | "ginis_kxx"
     | "pbo_expected_plan"
     | "pbo_real_plan"
     | "pbo_aa_names";

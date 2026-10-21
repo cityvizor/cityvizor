@@ -27,6 +27,7 @@ jeho nedokončenou datovou transakci vrátil zpět.
 - Cityvizor import vrátí změnu účetnictví pro `data.csv`, `accounting.csv` a
   `payments.csv`; čistý import `events.csv` souhrny nepřepočítá.
 - InternetStream přepočítá souhrny po každém úspěšném importu.
+- GINIS KXX přepočítá souhrny po zpracování obou souborů, účetnictví i rozpočtu.
 - PBO importy účetní souhrny municipality nevytvářejí.
 - POST replacement i PATCH append vždy znovu sestaví celý dotčený profil a rok.
 

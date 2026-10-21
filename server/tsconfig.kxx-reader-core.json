@@ -1,0 +1,11 @@
+{
+  "extends": "./node_modules/kxx-reader-core/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./node_modules/kxx-reader-core/src",
+    "outDir": "./node_modules/kxx-reader-core/lib",
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["node_modules/kxx-reader-core/src/**/*.ts"],
+  "exclude": ["node_modules/kxx-reader-core/src/**/*.spec.ts"]
+}
