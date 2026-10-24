@@ -14,6 +14,7 @@ import { DateTime } from "luxon";
 import { Import } from "../../worker/import/import";
 import { isPositiveInteger } from "../../utils";
 import { logger } from "../../logger";
+import { Knex } from "knex";
 const router = express.Router();
 
 export const ImportAccountingRouter = router;
@@ -51,6 +52,74 @@ const importFormats: { [key in FileType]: Import.Format } = {
 };
 
 const upload = multer({ dest: config.storage.tmp });
+
+// KXX files are a single annual snapshot, so this endpoint always replaces data.
+router.post(
+  "/profiles/:profile/ginis-kxx",
+  acl("profile-accounting:write"),
+  async (req, res, next) => {
+    if (!isPositiveInteger(req.params.profile) || Number(req.params.profile) === 0) {
+      return res.status(400).send("Invalid profile value.");
+    }
+    if (!await checkToken(Number(req.params.profile), req.user?.tokenCode)) {
+      return res.status(403).send("Invalid token.");
+    }
+    return next();
+  },
+  upload.fields([
+    { name: "accounting", maxCount: 1 },
+    { name: "budget", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    const files = req.files as { [name: string]: Express.Multer.File[] } | undefined;
+    try {
+      await new Promise<void>((resolve, reject) => {
+        schema.validate(importAccountingSchema)(req, res, error => {
+          if (error) reject(error);
+          else resolve();
+        });
+      });
+      const accounting = files?.accounting?.[0];
+      const budget = files?.budget?.[0];
+      if (!accounting || !budget) {
+        return res.status(400).send("Both accounting and budget KXX files are required.");
+      }
+      if ([accounting, budget].some(file => path.extname(file.originalname).toLowerCase() !== ".kxx" || file.size === 0)) {
+        return res.status(400).send("Both inputs must be non-empty .kxx files.");
+      }
+      const year = Number(req.body.year);
+      if (!isPositiveInteger(req.body.year) || year < 1900 || year > 9999) {
+        return res.status(400).send("Invalid year value.");
+      }
+
+      let importDir: string | undefined;
+      let job: ImportRecord;
+      try {
+        importDir = await Import.createImportDir();
+        // Use multipart roles, rather than trusting arbitrary client filenames.
+        await move(accounting.path, path.join(importDir, "ucto.kxx"));
+        await move(budget.path, path.join(importDir, "rozp.kxx"));
+        const directory = importDir;
+        job = await db.transaction(async transaction => {
+          const yearRecord = await ensureYearExists(Number(req.params.profile), year, transaction);
+          return createImportJob("ginis_kxx", directory, yearRecord, false, req.body.validity, req.user?.id, transaction);
+        });
+      } catch (error) {
+        if (importDir) await fs.remove(importDir);
+        throw error;
+      }
+      return res.json(job);
+    } finally {
+      await Promise.all(Object.values(files ?? {}).flat().map(async file => {
+        try {
+          await fs.remove(file.path);
+        } catch (error) {
+          logger.warn(`Unable to clean up KXX upload: ${String(error)}`);
+        }
+      }));
+    }
+  }
+);
 
 // POST requests overwrite the current data.
 // PATCH requests append the new data to the existing data.
@@ -403,13 +472,14 @@ async function checkToken(
 
 async function ensureYearExists(
   profileId: number,
-  yearParam: number
+  yearParam: number,
+  connection: Knex = db
 ): Promise<YearRecord> {
-  let year = await db<YearRecord>("app.years")
+  let year = await connection<YearRecord>("app.years")
     .where({ profileId: profileId, year: yearParam })
     .first();
 
-  year ??= await db<YearRecord>("app.years")
+  year ??= await connection<YearRecord>("app.years")
     .insert(
       {
         profileId: profileId,
@@ -432,7 +502,8 @@ async function createImportJob(
   year: YearRecord,
   isAppend: boolean,
   validity?: string,
-  userId?: number
+  userId?: number,
+  connection: Knex = db
 ): Promise<ImportRecord> {
   // Add import task to database queue (worker checks the table)
   const importData: Partial<ImportRecord> = {
@@ -448,11 +519,11 @@ async function createImportJob(
     importDir,
   };
 
-  const importId = await db<ImportRecord>("app.imports")
+  const importId = await connection<ImportRecord>("app.imports")
     .insert(importData, ["id"])
     .then(result => result[0]?.id);
 
-  const importRecord = await db<ImportRecord>("app.imports")
+  const importRecord = await connection<ImportRecord>("app.imports")
     .where({ id: importId })
     .first();
 

@@ -8,23 +8,18 @@ import { DatabaseWriter } from "../db-writer";
 import { PostprocessingTransformer } from "../postprocessing-transformer";
 import { CityvizorFileType } from "./cityvizor-file-type";
 import { importLogger } from "../import-logger";
+import { identifyCityvizorImportFiles } from "./input-files";
 
-export async function importCityvizor(options: Import.Options) {
+export async function importCityvizor(
+  options: Import.Options
+): Promise<Import.Result> {
   importLogger.log(`Starting import: ${JSON.stringify(options)}}`);
 
   const dirFiles = await fs.readdir(options.importDir);
 
   // identify the usable files in import dir
-  const dataFile = dirFiles.filter(file => file.match(/^.*data.*\.csv/i))[0];
-  const eventsFile = dirFiles.filter(file =>
-    file.match(/^.*events.*\.csv/i)
-  )[0];
-  const paymentsFile = dirFiles.filter(file =>
-    file.match(/^.*payments.*\.csv/i)
-  )[0];
-  const accountingFile = dirFiles.filter(file =>
-    file.match(/^.*accounting.*\.csv/i)
-  )[0];
+  const { dataFile, eventsFile, paymentsFile, accountingFile } =
+    identifyCityvizorImportFiles(dirFiles);
 
   // Drop the records if not appending.
   if (!options.append) {
@@ -86,4 +81,8 @@ export async function importCityvizor(options: Import.Options) {
       new DatabaseWriter(options)
     );
   }
+
+  return {
+    accountingChanged: Boolean(dataFile || paymentsFile || accountingFile),
+  };
 }

@@ -24,6 +24,7 @@ export namespace Import {
   export type Format =
     | "cityvizor"
     | "internetstream"
+    | "ginis_kxx"
     | "pbo_expected_plan"
     | "pbo_real_plan"
     | "pbo_aa_names";
@@ -36,6 +37,10 @@ export namespace Import {
     fileName?: string;
     format: Format;
     profileType: ProfileType;
+  }
+
+  export interface Result {
+    accountingChanged: boolean;
   }
 
   export type ImportChunk = PaymentChunk | EventChunk | AccountingChunk;
