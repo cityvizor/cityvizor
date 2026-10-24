@@ -28,10 +28,13 @@ import { ImportRouter } from "./import";
 import { AdminRouter } from "./admin";
 import { AccountRouter } from "./account";
 import { ExportsRouter } from "./exports";
+import { FeatureFlagsRouter } from "./feature-flags";
 
 router.use("/api/account", AccountRouter);
 
 router.use("/api/admin", AdminRouter);
+
+router.use("/api/public/features", FeatureFlagsRouter);
 
 router.use("/api/public", cache, PublicRouter);
 

@@ -34,7 +34,7 @@ interface ParsedLine {
   };
 }
 
-export interface InternetStreamImportResult {
+export interface InternetStreamImportResult extends Import.Result {
   warningCount: number;
 }
 
@@ -87,7 +87,10 @@ export async function importInternetStream(
     });
   }
 
-  return { warningCount: totalStats.warningCount };
+  return {
+    accountingChanged: true,
+    warningCount: totalStats.warningCount,
+  };
 }
 
 const internetStreamHeaders = [

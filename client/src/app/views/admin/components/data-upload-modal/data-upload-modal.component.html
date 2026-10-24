@@ -1,9 +1,10 @@
 <div class="modal-header">
-  <h4 class="modal-title">Nahrát data z CSV do roku {{ year }}</h4>
+  <h4 class="modal-title">Nahrát data do roku {{ year }}</h4>
   <button
     type="button"
     class="btn-close"
     aria-label="Close"
+    [disabled]="uploading"
     (click)="close.emit(false)"
   ></button>
 </div>
@@ -23,179 +24,234 @@
   "
 >
   <div class="modal-body">
-    <div [hidden]="isPbo" class="mb-4">
-      <label>Datový soubor (rozpočet a faktury v jednom souboru)</label>
-      <input
-        type="file"
-        name="dataFile"
-        accept=".csv"
-        class="form-control novalidate mb-2"
-        ngModel
-        #dataFileInput
-      />
-      <select class="form-select mb-2" name="dataFileMode" ngModel>
-        <option value="" selected disabled hidden>
-          {{ "profile.import.replaceOrAdd" | translate }}
-        </option>
-        @for (mode of modes; track mode) {
-          <option [value]="mode.value">
-            {{ mode.display }}
+    <fieldset [disabled]="uploading">
+      <div [hidden]="isPbo" class="mb-4">
+        <label for="import-format">Formát dat</label>
+        <select
+          id="import-format"
+          name="format"
+          class="form-select"
+          [(ngModel)]="format"
+        >
+          <option value="csv">Cityvizor CSV</option>
+          <option value="kxx">GINIS KXX</option>
+        </select>
+      </div>
+
+      <div [hidden]="isPbo || format !== 'kxx'" class="mb-4">
+        <div class="mb-3">
+          <label for="kxx-accounting">Účetní soubor (.kxx)</label>
+          <input
+            id="kxx-accounting"
+            type="file"
+            accept=".kxx"
+            class="form-control"
+            [disabled]="isPbo || format !== 'kxx'"
+            #kxxAccountingFileInput
+            (change)="
+              kxxAccountingFile = kxxAccountingFileInput.files?.item(0) ?? null
+            "
+          />
+        </div>
+        <div class="mb-3">
+          <label for="kxx-budget">Rozpočtový soubor (.kxx)</label>
+          <input
+            id="kxx-budget"
+            type="file"
+            accept=".kxx"
+            class="form-control"
+            [disabled]="isPbo || format !== 'kxx'"
+            #kxxBudgetFileInput
+            (change)="kxxBudgetFile = kxxBudgetFileInput.files?.item(0) ?? null"
+          />
+        </div>
+        <p class="mb-0">
+          Oba KXX soubory jsou povinné. Import nahradí účetnictví a faktury
+          tohoto roku. Stávající číselník akcí zůstane zachován, pokud
+          nenahrajete nový.
+        </p>
+      </div>
+
+      <div [hidden]="isPbo || format !== 'csv'" class="mb-4">
+        <label>Datový soubor (rozpočet a faktury v jednom souboru)</label>
+        <input
+          type="file"
+          name="dataFile"
+          accept=".csv"
+          class="form-control novalidate mb-2"
+          ngModel
+          #dataFileInput
+        />
+        <select class="form-select mb-2" name="dataFileMode" ngModel>
+          <option value="" selected disabled hidden>
+            {{ "profile.import.replaceOrAdd" | translate }}
           </option>
-        }
-      </select>
-    </div>
+          @for (mode of modes; track mode) {
+            <option [value]="mode.value">
+              {{ mode.display }}
+            </option>
+          }
+        </select>
+      </div>
 
-    <div [hidden]="isPbo" class="mb-4">
-      <label>{{ "profile.budget" | translate }}</label>
-      <input
-        type="file"
-        name="accountingFile"
-        accept=".csv"
-        class="form-control novalidate mb-2"
-        ngModel
-        #accountingFileInput
-      />
-      <select class="form-select mb-2" name="accountingFileMode" ngModel>
-        <option value="" selected disabled hidden>
-          {{ "profile.import.replaceOrAdd" | translate }}
-        </option>
-        @for (mode of modes; track mode) {
-          <option [value]="mode.value">
-            {{ mode.display }}
+      <div [hidden]="isPbo || format !== 'csv'" class="mb-4">
+        <label>{{ "profile.budget" | translate }}</label>
+        <input
+          type="file"
+          name="accountingFile"
+          accept=".csv"
+          class="form-control novalidate mb-2"
+          ngModel
+          #accountingFileInput
+        />
+        <select class="form-select mb-2" name="accountingFileMode" ngModel>
+          <option value="" selected disabled hidden>
+            {{ "profile.import.replaceOrAdd" | translate }}
           </option>
-        }
-      </select>
-    </div>
+          @for (mode of modes; track mode) {
+            <option [value]="mode.value">
+              {{ mode.display }}
+            </option>
+          }
+        </select>
+      </div>
 
-    <div class="mb-4">
-      <label>{{ "profile.payments" | translate }}</label>
-      <input
-        type="file"
-        name="paymentsFile"
-        accept=".csv"
-        class="form-control novalidate mb-2"
-        ngModel
-        #paymentsFileInput
-      />
-      <select class="form-select mb-2" name="paymentsFileMode" ngModel>
-        <option value="" selected disabled hidden>
-          {{ "profile.import.replaceOrAdd" | translate }}
-        </option>
-        @for (mode of modes; track mode) {
-          <option [value]="mode.value">
-            {{ mode.display }}
+      <div [hidden]="!isPbo && format !== 'csv'" class="mb-4">
+        <label>{{ "profile.payments" | translate }}</label>
+        <input
+          type="file"
+          name="paymentsFile"
+          accept=".csv"
+          class="form-control novalidate mb-2"
+          ngModel
+          #paymentsFileInput
+        />
+        <select class="form-select mb-2" name="paymentsFileMode" ngModel>
+          <option value="" selected disabled hidden>
+            {{ "profile.import.replaceOrAdd" | translate }}
           </option>
-        }
-      </select>
-    </div>
+          @for (mode of modes; track mode) {
+            <option [value]="mode.value">
+              {{ mode.display }}
+            </option>
+          }
+        </select>
+      </div>
 
-    <div [hidden]="isPbo" class="mb-4">
-      <label>Číselník</label>
-      <input
-        type="file"
-        name="eventsFile"
-        accept=".csv"
-        class="form-control novalidate mb-2"
-        ngModel
-        #eventsFileInput
-      />
-      <select class="form-select mb-2" name="eventsFileMode" ngModel>
-        <option value="" selected disabled hidden>
-          {{ "profile.import.replaceOrAdd" | translate }}
-        </option>
-        @for (mode of modes; track mode) {
-          <option [value]="mode.value">
-            {{ mode.display }}
+      <div [hidden]="isPbo" class="mb-4">
+        <label>Číselník akcí (.csv)</label>
+        <input
+          type="file"
+          name="eventsFile"
+          accept=".csv"
+          class="form-control novalidate mb-2"
+          ngModel
+          #eventsFileInput
+        />
+        <select class="form-select mb-2" name="eventsFileMode" ngModel>
+          <option value="" selected disabled hidden>
+            {{ "profile.import.replaceOrAdd" | translate }}
           </option>
-        }
-      </select>
-    </div>
+          @for (mode of modes; track mode) {
+            <option [value]="mode.value">
+              {{ mode.display }}
+            </option>
+          }
+        </select>
+      </div>
 
-    <div [hidden]="!isPbo" class="mb-4">
-      <label>Očekávaný plán</label>
-      <input
-        type="file"
-        name="expectedPlanFile"
-        accept=".csv"
-        class="form-control novalidate mb-2"
-        ngModel
-        #expectedPlanFileInput
-      />
-      <select class="form-select mb-2" name="expectedPlanFileMode" ngModel>
-        <option value="" selected disabled hidden>
-          {{ "profile.import.replaceOrAdd" | translate }}
-        </option>
-        @for (mode of modes; track mode) {
-          <option [value]="mode.value">
-            {{ mode.display }}
+      <div [hidden]="!isPbo" class="mb-4">
+        <label>Očekávaný plán</label>
+        <input
+          type="file"
+          name="expectedPlanFile"
+          accept=".csv"
+          class="form-control novalidate mb-2"
+          ngModel
+          #expectedPlanFileInput
+        />
+        <select class="form-select mb-2" name="expectedPlanFileMode" ngModel>
+          <option value="" selected disabled hidden>
+            {{ "profile.import.replaceOrAdd" | translate }}
           </option>
-        }
-      </select>
-    </div>
+          @for (mode of modes; track mode) {
+            <option [value]="mode.value">
+              {{ mode.display }}
+            </option>
+          }
+        </select>
+      </div>
 
-    <div [hidden]="!isPbo" class="mb-4">
-      <label>Reálný plán</label>
-      <input
-        type="file"
-        name="realPlanFile"
-        accept=".csv"
-        class="form-control novalidate mb-2"
-        ngModel
-        #realPlanFileInput
-      />
-      <select class="form-select mb-2" name="realPlanFileMode" ngModel>
-        <option value="" selected disabled hidden>
-          {{ "profile.import.replaceOrAdd" | translate }}
-        </option>
-        @for (mode of modes; track mode) {
-          <option [value]="mode.value">
-            {{ mode.display }}
+      <div [hidden]="!isPbo" class="mb-4">
+        <label>Reálný plán</label>
+        <input
+          type="file"
+          name="realPlanFile"
+          accept=".csv"
+          class="form-control novalidate mb-2"
+          ngModel
+          #realPlanFileInput
+        />
+        <select class="form-select mb-2" name="realPlanFileMode" ngModel>
+          <option value="" selected disabled hidden>
+            {{ "profile.import.replaceOrAdd" | translate }}
           </option>
-        }
-      </select>
-    </div>
+          @for (mode of modes; track mode) {
+            <option [value]="mode.value">
+              {{ mode.display }}
+            </option>
+          }
+        </select>
+      </div>
 
-    <div [hidden]="!isPbo" class="mb-4">
-      <label>Číselník analytických účtů</label>
-      <input
-        type="file"
-        name="aaNamesFile"
-        accept=".csv"
-        class="form-control novalidate"
-        ngModel
-        #aaNamesFileInput
-      />
-      <select class="form-select mb-2" name="aaNamesFileMode" ngModel>
-        <option value="" selected disabled hidden>
-          {{ "profile.import.replaceOrAdd" | translate }}
-        </option>
-        @for (mode of modes; track mode) {
-          <option [value]="mode.value">
-            {{ mode.display }}
+      <div [hidden]="!isPbo" class="mb-4">
+        <label>Číselník analytických účtů</label>
+        <input
+          type="file"
+          name="aaNamesFile"
+          accept=".csv"
+          class="form-control novalidate"
+          ngModel
+          #aaNamesFileInput
+        />
+        <select class="form-select mb-2" name="aaNamesFileMode" ngModel>
+          <option value="" selected disabled hidden>
+            {{ "profile.import.replaceOrAdd" | translate }}
           </option>
-        }
-      </select>
-    </div>
+          @for (mode of modes; track mode) {
+            <option [value]="mode.value">
+              {{ mode.display }}
+            </option>
+          }
+        </select>
+      </div>
 
-    <div class="mb-4">
-      <label>Validita dat</label>
-      <input
-        type="date"
-        name="validity"
-        class="form-control novalidate"
-        ngModel
-        required
-      />
-    </div>
+      <div class="mb-4">
+        <label>Platnost dat</label>
+        <input
+          type="date"
+          name="validity"
+          class="form-control novalidate"
+          ngModel
+          required
+        />
+      </div>
 
-    <div class="modal-footer">
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="!uploadForm.valid"
-      >
-        {{ "common.upload" | translate }}
-      </button>
-    </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="
+            !uploadForm.valid ||
+            uploading ||
+            (!isPbo &&
+              format === 'kxx' &&
+              (!kxxAccountingFile || !kxxBudgetFile))
+          "
+        >
+          {{ "common.upload" | translate }}
+        </button>
+      </div>
+    </fieldset>
   </div>
 </form>

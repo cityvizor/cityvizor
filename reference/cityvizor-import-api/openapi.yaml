@@ -97,6 +97,93 @@ paths:
           The dataFile and eventsFile structure is described at https://cityvizor.github.io/cityvizor/dokumentace/
 
           The zipFile must consist of dataFile, eventsFile (optional) and paymentsFile (optional) files ending _data.csv, _events.csv and _payments.csv respectively.
+  '/api/import/profiles/{profileId}/ginis-kxx':
+    parameters:
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    post:
+      summary: Import a GINIS KXX annual snapshot
+      description: |-
+        Upload both Windows-1250 KXX files in one request. The accounting and
+        budget files are stored as ucto.kxx and rozp.kxx regardless of their
+        original names. Original filenames must end in .kxx (case insensitive)
+        and both files must be non-empty.
+
+        The response is a pending import job. The worker validates and imports
+        both files in one transaction, replacing accounting and payments for
+        the profile and year. PATCH/append is not supported by this endpoint.
+        Existing profile-accounting write permissions and import token
+        revocation checks apply.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [year, accounting, budget]
+              properties:
+                year:
+                  type: string
+                  pattern: '^\d{4}$'
+                  description: Accounting year between 1900 and 9999
+                  example: '2026'
+                validity:
+                  type: string
+                  format: date
+                  example: '2026-08-31'
+                accounting:
+                  type: string
+                  format: binary
+                  description: Accounting KXX export (ucto)
+                budget:
+                  type: string
+                  format: binary
+                  description: Budget KXX export (rozp)
+      responses:
+        '200':
+          description: Import accepted into the queue; processing is asynchronous
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, profileId, year, status, format, append, importDir]
+                properties:
+                  id:
+                    type: integer
+                  profileId:
+                    type: integer
+                  year:
+                    type: integer
+                  status:
+                    type: string
+                    enum: [pending]
+                  format:
+                    type: string
+                    enum: [ginis_kxx]
+                  append:
+                    type: boolean
+                    enum: [false]
+                  importDir:
+                    type: string
+                  validity:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  warningCount:
+                    type: integer
+        '400':
+          description: Invalid metadata, missing/empty KXX file, duplicate file or unexpected multipart field
+        '401':
+          description: Missing profile-accounting write permission
+        '403':
+          description: Import token revoked
+        '500':
+          description: Failed to stage files or create the import job
 components:
   schemas: {}
   securitySchemes:
