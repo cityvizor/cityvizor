@@ -7,6 +7,10 @@ export interface AccountingSummaryAmounts {
   budgetExpenditureAmount: number;
   actualFinancingAmount: number;
   budgetFinancingAmount: number;
+  actualInternalTransferIncomeAmount: number;
+  budgetInternalTransferIncomeAmount: number;
+  actualInternalTransferExpenditureAmount: number;
+  budgetInternalTransferExpenditureAmount: number;
 }
 
 export interface AccountingYearSummaryRecord extends AccountingSummaryAmounts {

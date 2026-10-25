@@ -221,6 +221,30 @@
             <option value="visible">Viditelné kategorie</option>
           </select>
         </div>
+        @if (
+          internalTransfersSettingEnabled && profile?.type === "municipality"
+        ) {
+          <div class="mb-3">
+            <div class="form-check form-switch">
+              <input
+                id="exclude-internal-transfers"
+                name="excludeInternalTransfers"
+                type="checkbox"
+                role="switch"
+                class="form-check-input"
+                [ngModel]="profile?.excludeInternalTransfers ?? false"
+                aria-describedby="exclude-internal-transfers-description"
+              />
+              <label class="form-check-label" for="exclude-internal-transfers">
+                Nezahrnovat převody mezi vlastními účty a fondy do součtů
+              </label>
+            </div>
+            <div id="exclude-internal-transfers-description" class="form-text">
+              Při zapnutí se vlastní převody odečtou z příjmů a výdajů v
+              rozpočtu i skutečnosti.
+            </div>
+          </div>
+        }
         <button
           type="submit"
           class="btn btn-primary"

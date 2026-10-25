@@ -26,7 +26,23 @@ const amountColumns = `
   COALESCE(SUM(CASE
     WHEN item >= 8000 AND type = 'ROZ' THEN amount
     ELSE 0::numeric
-  END), 0) AS budget_financing_amount
+  END), 0) AS budget_financing_amount,
+  COALESCE(SUM(CASE
+    WHEN public.is_internal_transfer(item) AND item < 5000 AND type <> 'ROZ' THEN amount
+    ELSE 0::numeric
+  END), 0) AS actual_internal_transfer_income_amount,
+  COALESCE(SUM(CASE
+    WHEN public.is_internal_transfer(item) AND item < 5000 AND type = 'ROZ' THEN amount
+    ELSE 0::numeric
+  END), 0) AS budget_internal_transfer_income_amount,
+  COALESCE(SUM(CASE
+    WHEN public.is_internal_transfer(item) AND item >= 5000 AND type <> 'ROZ' THEN amount
+    ELSE 0::numeric
+  END), 0) AS actual_internal_transfer_expenditure_amount,
+  COALESCE(SUM(CASE
+    WHEN public.is_internal_transfer(item) AND item >= 5000 AND type = 'ROZ' THEN amount
+    ELSE 0::numeric
+  END), 0) AS budget_internal_transfer_expenditure_amount
 `;
 
 /** Rebuilds all accounting summaries for one profile and year. */
@@ -56,6 +72,10 @@ export async function rebuildAccountingSummaries(
           budget_expenditure_amount,
           actual_financing_amount,
           budget_financing_amount,
+          actual_internal_transfer_income_amount,
+          budget_internal_transfer_income_amount,
+          actual_internal_transfer_expenditure_amount,
+          budget_internal_transfer_expenditure_amount,
           computed_at
         )
         SELECT
@@ -87,6 +107,10 @@ export async function rebuildAccountingSummaries(
         budget_expenditure_amount,
         actual_financing_amount,
         budget_financing_amount,
+        actual_internal_transfer_income_amount,
+        budget_internal_transfer_income_amount,
+        actual_internal_transfer_expenditure_amount,
+        budget_internal_transfer_expenditure_amount,
         computed_at
       )
       SELECT
@@ -98,6 +122,10 @@ export async function rebuildAccountingSummaries(
         COALESCE(SUM(budget_expenditure_amount), 0),
         COALESCE(SUM(actual_financing_amount), 0),
         COALESCE(SUM(budget_financing_amount), 0),
+        COALESCE(SUM(actual_internal_transfer_income_amount), 0),
+        COALESCE(SUM(budget_internal_transfer_income_amount), 0),
+        COALESCE(SUM(actual_internal_transfer_expenditure_amount), 0),
+        COALESCE(SUM(budget_internal_transfer_expenditure_amount), 0),
         CURRENT_TIMESTAMP
       FROM data.accounting_group_summaries
       WHERE profile_id = ? AND year = ? AND field = 'paragraph'

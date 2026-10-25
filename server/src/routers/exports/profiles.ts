@@ -3,6 +3,10 @@ import archiver from "archiver";
 import { Knex } from "knex";
 import CsvStringify from "csv-stringify";
 import { db } from "../../db";
+import {
+  AccountingSources,
+  getAccountingSources,
+} from "../../accounting-sources";
 import config from "../../config";
 
 import {
@@ -18,14 +22,17 @@ const router = express.Router();
 
 export const ExportProfilesRouter = router;
 
-const accountingQuery = (params): Knex.QueryBuilder => {
-  return db<AccountingRecord>("accounting")
+const accountingQuery = (
+  params,
+  sources: AccountingSources
+): Knex.QueryBuilder => {
+  return db<AccountingRecord>(sources.accounting)
     .where("profileId", params.profile)
     .andWhere("year", params.year);
 };
 
-const eventsQuery = (params): Knex.QueryBuilder => {
-  const amounts = db("accounting")
+const eventsQuery = (params, sources: AccountingSources): Knex.QueryBuilder => {
+  const amounts = db(sources.accounting)
     .select("profileId", "year", "event")
     .sum("incomeAmount as incomeAmount")
     .sum("budgetIncomeAmount as budgetIncomeAmount")
@@ -77,14 +84,15 @@ router.get("/", (req, res) => {
   exportQuery(req, res, profiles, "profiles");
 });
 
-router.get("/:profile/years", (req, res) => {
+router.get("/:profile/years", async (req, res) => {
+  const sources = await getAccountingSources(req.params.profile);
   const years = db("years as y")
     .select("y.year", "y.validity")
     .sum("a.expenditureAmount as expenditureAmount")
     .sum("a.budgetExpenditureAmount as budgetExpenditureAmount")
     .sum("a.incomeAmount as incomeAmount")
     .sum("a.budgetIncomeAmount as budgetIncomeAmount")
-    .leftJoin("accounting as a", {
+    .leftJoin(`${sources.accounting} as a`, {
       "a.profileId": "y.profileId",
       "a.year": "y.year",
     })
@@ -94,20 +102,22 @@ router.get("/:profile/years", (req, res) => {
   exportQuery(req, res, years, `profile-${req.params.profile}-years`);
 });
 
-router.get("/:profile/accounting/:year", (req, res) => {
+router.get("/:profile/accounting/:year", async (req, res) => {
+  const sources = await getAccountingSources(req.params.profile);
   exportQuery(
     req,
     res,
-    accountingQuery(req.params),
+    accountingQuery(req.params, sources),
     `profile-${req.params.profile}-accounting`
   );
 });
 
-router.get("/:profile/events/:year", (req, res) => {
+router.get("/:profile/events/:year", async (req, res) => {
+  const sources = await getAccountingSources(req.params.profile);
   exportQuery(
     req,
     res,
-    eventsQuery(req.params),
+    eventsQuery(req.params, sources),
     `profile-${req.params.profile}-events`
   );
 });
@@ -121,7 +131,8 @@ router.get("/:profile/payments/:year", (req, res) => {
   );
 });
 
-router.get("/:profile/all/:year", (req, res) => {
+router.get("/:profile/all/:year", async (req, res) => {
+  const sources = await getAccountingSources(req.params.profile);
   res.writeHead(200, {
     "Content-Type": "application/zip",
     "Content-disposition": `attachment; filename=profile-${req.params.profile}-${req.params.year}.zip`,
@@ -136,7 +147,7 @@ router.get("/:profile/all/:year", (req, res) => {
     [paymentsQuery, "payments.csv"],
   ];
   for (const [query, name] of queries) {
-    const stream = query(req.params).stream();
+    const stream = query(req.params, sources).stream();
     req.on("close", stream.end.bind(stream));
     const csv = CsvStringify({ delimiter: ";", header: true });
     zip.append(stream.pipe(csv), { name });

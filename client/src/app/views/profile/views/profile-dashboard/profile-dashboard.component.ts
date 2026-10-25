@@ -26,6 +26,7 @@ import { AresUrlPipe, IcoPipe } from "../../../../shared/pipes/utils.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 import {
   DASHBOARD_FINANCING_TOGGLE,
+  EXCLUDE_INTERNAL_TRANSFERS,
   FeatureFlagsService,
 } from "app/services/feature-flags.service";
 
@@ -228,6 +229,13 @@ export class ProfileDashboardComponent implements OnInit {
 
   get financingToggleEnabled() {
     return this.featureFlags.isEnabled(DASHBOARD_FINANCING_TOGGLE);
+  }
+
+  get internalTransfersExcluded() {
+    return (
+      this.featureFlags.isEnabled(EXCLUDE_INTERNAL_TRANSFERS) &&
+      this.profile?.excludeInternalTransfers === true
+    );
   }
 
   get hasFinancing() {
