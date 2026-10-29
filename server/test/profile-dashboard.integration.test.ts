@@ -51,6 +51,7 @@ describeWithDatabase("profile dashboard on PostgreSQL", () => {
       "20260924090000_financing_amounts",
       "20261004110000_accounting_summaries",
       "20261004120000_precomputed_accounting_summaries_feature_flag",
+      "20261022090000_exclude_internal_transfers",
     ])
       await require(`../migrations/${migration}`).up(mockDb);
 

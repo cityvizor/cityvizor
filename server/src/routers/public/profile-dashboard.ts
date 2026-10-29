@@ -1,10 +1,7 @@
 import express, { Request } from "express";
 
 import { db } from "../../db";
-import {
-  isFeatureEnabled,
-  PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE,
-} from "../../feature-flags";
+import { getAccountingSources } from "../../accounting-sources";
 
 const router = express.Router({ mergeParams: true });
 
@@ -21,14 +18,13 @@ const categoryGroups = [
 ];
 
 router.get("/", async (req: Request<{ profile: string }>, res) => {
-  const usePrecomputedSummaries = await isFeatureEnabled(
-    PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE
-  );
+  const sources = await getAccountingSources(req.params.profile);
+  const { usePrecomputedSummaries } = sources;
 
-  const categoriesAccounting = db(
+  const categoriesAccounting = (
     usePrecomputedSummaries
-      ? "data.accounting_group_summaries AS a"
-      : "accounting AS a"
+      ? sources.groupSummaries("a")
+      : sources.accounting("a")
   )
     .join("categoryGroups AS c", function () {
       if (usePrecomputedSummaries) {

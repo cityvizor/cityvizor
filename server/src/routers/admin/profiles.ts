@@ -4,6 +4,7 @@ import config from "../../config";
 import multer from "multer";
 import path from "path";
 import axios from "axios";
+import { snakeCase } from "change-case";
 
 import * as fs from "fs-extra";
 
@@ -18,12 +19,59 @@ import {
   S3uploadPublicFile,
 } from "../../s3storage";
 import { logger } from "../../logger";
+import {
+  EXCLUDE_INTERNAL_TRANSFERS_FEATURE,
+  isFeatureEnabled,
+} from "../../feature-flags";
 
 const router = express.Router();
 
 export const AdminProfilesRouter = router;
 
 const upload = multer({ dest: config.storage.tmp });
+
+async function normalizeAndValidateProfileData(
+  data: Record<string, unknown>,
+  profileId?: string
+): Promise<string | null> {
+  // Match Knex's wrapIdentifier before checking protected fields or type.
+  const normalized: Record<string, unknown> = Object.create(null);
+  for (const [key, value] of Object.entries(data)) {
+    const column = snakeCase(key);
+    if (Object.prototype.hasOwnProperty.call(normalized, column)) {
+      return "Duplicate profile field after normalization.";
+    }
+    normalized[column] = value;
+  }
+  for (const key of Object.keys(data)) delete data[key];
+  Object.assign(data, normalized);
+  if (
+    !Object.prototype.hasOwnProperty.call(data, "exclude_internal_transfers")
+  ) {
+    return null;
+  }
+
+  if (typeof data.exclude_internal_transfers !== "boolean") {
+    return "excludeInternalTransfers must be a boolean.";
+  }
+  if (!(await isFeatureEnabled(EXCLUDE_INTERNAL_TRANSFERS_FEATURE))) {
+    return "Internal transfer settings are not enabled.";
+  }
+  const type = Object.prototype.hasOwnProperty.call(data, "type")
+    ? data.type
+    : profileId
+      ? (
+          await db<ProfileRecord>("app.profiles")
+            .where("id", profileId)
+            .first("type")
+        )?.type
+      : undefined;
+  if (type !== "municipality") {
+    return "Internal transfer settings are only available for municipalities.";
+  }
+
+  return null;
+}
 
 router.get("/", acl("profiles:list"), async (req, res) => {
   const profiles = await db<ProfileRecord>("app.profiles").modify(function () {
@@ -36,13 +84,15 @@ router.get("/", acl("profiles:list"), async (req, res) => {
 });
 
 router.post("/", acl("profiles:write"), async (req, res) => {
+  const error = await normalizeAndValidateProfileData(req.body);
+  if (error) return res.status(400).json({ error });
   const id = await db<ProfileRecord>("app.profiles")
     .insert(req.body, ["id"])
     .then(result => result[0].id);
 
   res.location("/profiles/" + id);
 
-  res.sendStatus(201);
+  return res.sendStatus(201);
 });
 
 router.get("/:profile", acl("profiles:read"), async (req, res) => {
@@ -62,9 +112,14 @@ router.get("/:profile", acl("profiles:read"), async (req, res) => {
 });
 
 router.patch("/:profile", acl("profiles:write"), async (req, res) => {
+  const error = await normalizeAndValidateProfileData(
+    req.body,
+    req.params.profile
+  );
+  if (error) return res.status(400).json({ error });
   await db("app.profiles").where({ id: req.params.profile }).update(req.body);
 
-  res.sendStatus(204);
+  return res.sendStatus(204);
 });
 
 router.get("/:profile/avatar", async (req, res) => {

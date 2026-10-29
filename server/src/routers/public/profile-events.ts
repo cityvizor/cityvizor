@@ -1,7 +1,8 @@
 import express, { Request } from "express";
 
 import { db } from "../../db";
-import { EventRecord, AccountingRecord, PaymentRecord } from "../../schema";
+import { getAccountingSources } from "../../accounting-sources";
+import { EventRecord, PaymentRecord } from "../../schema";
 
 const router = express.Router({ mergeParams: true });
 
@@ -10,7 +11,9 @@ export const ProfileEventsRouter = router;
 router.get(
   "/history/:event",
   async (req: Request<{ profile: string; event: string }>, res) => {
-    const amounts = db("accounting")
+    const sources = await getAccountingSources(req.params.profile);
+    const amounts = sources
+      .accounting()
       .select("profileId", "year", "event")
       .sum("incomeAmount as incomeAmount")
       .sum("budgetIncomeAmount as budgetIncomeAmount")
@@ -47,6 +50,7 @@ router.get(
     req: Request<{ profile: string; year: string; event: string }>,
     res
   ) => {
+    const sources = await getAccountingSources(req.params.profile);
     const qInfo = db<EventRecord>("events")
       .select("id", "name")
       .where("profileId", req.params.profile)
@@ -54,7 +58,8 @@ router.get(
       .andWhere("id", req.params.event)
       .first();
 
-    const qTotals = db<AccountingRecord>("accounting")
+    const qTotals = sources
+      .accounting()
       .sum("incomeAmount as incomeAmount")
       .sum("budgetIncomeAmount as budgetIncomeAmount")
       .sum("expenditureAmount as expenditureAmount")
@@ -64,7 +69,8 @@ router.get(
       .andWhere("event", req.params.event)
       .first();
 
-    const qItems = db<AccountingRecord>("accounting")
+    const qItems = sources
+      .accounting()
       .select("item AS id")
       .sum("incomeAmount as incomeAmount")
       .sum("budgetIncomeAmount as budgetIncomeAmount")
@@ -75,7 +81,8 @@ router.get(
       .andWhere("event", req.params.event)
       .groupBy("item");
 
-    const qParagraphs = db<AccountingRecord>("accounting")
+    const qParagraphs = sources
+      .accounting()
       .select("paragraph AS id")
       .sum("incomeAmount as incomeAmount")
       .sum("budgetIncomeAmount as budgetIncomeAmount")

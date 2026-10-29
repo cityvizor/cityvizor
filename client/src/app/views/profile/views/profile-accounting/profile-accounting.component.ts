@@ -18,6 +18,10 @@ import {
 } from "rxjs/operators";
 
 import { DataService } from "app/services/data.service";
+import {
+  EXCLUDE_INTERNAL_TRANSFERS,
+  FeatureFlagsService,
+} from "app/services/feature-flags.service";
 import { CodelistService } from "app/services/codelist.service";
 import { ProfileService } from "app/services/profile.service";
 import {
@@ -72,6 +76,12 @@ type AccountingOverview = "chart" | "cards" | "map" | "bars";
   ],
 })
 export class ProfileAccountingComponent implements OnInit {
+  private featureFlags = inject(FeatureFlagsService);
+
+  get internalTransfersExcluded() {
+    return this.featureFlags.isEnabled(EXCLUDE_INTERNAL_TRANSFERS);
+  }
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private profileService = inject(ProfileService);
