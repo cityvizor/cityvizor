@@ -1,17 +1,20 @@
 import express, { Request } from "express";
 
 import { db } from "../../db";
-import { getAccountingSources } from "../../accounting-sources";
+import {
+  AccountingSource,
+  getAccountingSources,
+} from "../../accounting-sources";
 import { YearRecord } from "../../schema";
 
 const router = express.Router({ mergeParams: true });
 
 export const ProfileYearsRouter = router;
 
-const getLegacyBaseQuery = (profileId: string, accounting: string) =>
+const getLegacyBaseQuery = (profileId: string, accounting: AccountingSource) =>
   db("years as y")
     .select("y.profileId", "y.year", "y.validity")
-    .leftJoin(`${accounting} as a`, {
+    .leftJoin(accounting().as("a"), {
       "a.profileId": "y.profileId",
       "a.year": "y.year",
     })
@@ -19,7 +22,7 @@ const getLegacyBaseQuery = (profileId: string, accounting: string) =>
     .groupBy("y.profileId", "y.year", "y.validity")
     .orderBy("y.year");
 
-const getCompleteYears = (profileId: string, yearSummaries: string) =>
+const getCompleteYears = (profileId: string, yearSummaries: AccountingSource) =>
   db("years as y")
     .select("y.profileId", "y.year", "y.validity")
     .select(
@@ -34,7 +37,7 @@ const getCompleteYears = (profileId: string, yearSummaries: string) =>
         "COALESCE(a.budget_financing_amount, 0) AS budget_financing_amount"
       )
     )
-    .leftJoin(`${yearSummaries} as a`, {
+    .leftJoin(yearSummaries().as("a"), {
       "a.profileId": "y.profileId",
       "a.year": "y.year",
     })
@@ -45,7 +48,7 @@ const getVisibleAmounts = (
   profileId: string,
   field: "paragraph" | "item",
   codelist: "paragraph-groups" | "item-groups",
-  groupSummaries: string
+  groupSummaries: AccountingSource
 ) => {
   const amountColumns =
     field === "item"
@@ -62,7 +65,7 @@ const getVisibleAmounts = (
 
   const query = db("years as y")
     .select("y.profileId", "y.year", "y.validity")
-    .innerJoin(`${groupSummaries} as a`, function () {
+    .innerJoin(groupSummaries().as("a"), function () {
       this.on("a.profileId", "y.profileId")
         .andOn("a.year", "y.year")
         .andOnVal("a.field", field);

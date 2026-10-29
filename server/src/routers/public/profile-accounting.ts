@@ -2,7 +2,6 @@ import express, { Request } from "express";
 
 import { db } from "../../db";
 import { getAccountingSources } from "../../accounting-sources";
-import { AccountingGroupSummaryRecord, AccountingRecord } from "../../schema";
 
 const router = express.Router({ mergeParams: true });
 
@@ -10,7 +9,8 @@ export const ProfileAccountingRouter = router;
 
 router.get("/", async (req: Request<{ id: string }>, res) => {
   const sources = await getAccountingSources(req.params.id);
-  const years = await db<AccountingRecord>(sources.accounting)
+  const years = await sources
+    .accounting()
     .select("year", "type")
     .sum({ amount: "amount" })
     .where("profile_id", req.params.id)
@@ -24,7 +24,8 @@ router.get(
   "/:year",
   async (req: Request<{ profile: string; year: string }>, res) => {
     const sources = await getAccountingSources(req.params.profile);
-    const accounting = await db<AccountingRecord>(sources.accounting)
+    const accounting = await sources
+      .accounting()
       .where("profileId", req.params.profile)
       .andWhere("year", req.params.year);
 
@@ -48,7 +49,8 @@ router.get(
     const sources = await getAccountingSources(req.params.profile);
     const { usePrecomputedSummaries } = sources;
     const groups = usePrecomputedSummaries
-      ? await db<AccountingGroupSummaryRecord>(`${sources.groupSummaries} as a`)
+      ? await sources
+          .groupSummaries("a")
           .innerJoin("years as y", function () {
             this.on("y.profileId", "a.profileId").andOn("y.year", "a.year");
           })
@@ -62,7 +64,8 @@ router.get(
           .where("a.profileId", req.params.profile)
           .andWhere("a.year", req.params.year)
           .andWhere("a.field", field)
-      : await db<AccountingRecord>(sources.accounting)
+      : await sources
+          .accounting()
           .select(db.raw(`SUBSTRING(${field}::varchar, 1, 2) AS id`))
           .sum("incomeAmount as incomeAmount")
           .sum("budgetIncomeAmount as budgetIncomeAmount")
@@ -98,7 +101,8 @@ router.get(
         );
 
     const sources = await getAccountingSources(req.params.profile);
-    const events = await db(`${sources.accounting} AS a`)
+    const events = await sources
+      .accounting("a")
       .leftJoin("events AS e", {
         "e.profileId": "a.profileId",
         "e.year": "a.year",
@@ -123,7 +127,8 @@ router.get(
       };
     });
 
-    const items = await db(`${sources.accounting} AS a`)
+    const items = await sources
+      .accounting("a")
       .leftJoin("events AS e", {
         "e.profileId": "a.profileId",
         "e.year": "a.year",

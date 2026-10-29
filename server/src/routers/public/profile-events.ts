@@ -2,7 +2,7 @@ import express, { Request } from "express";
 
 import { db } from "../../db";
 import { getAccountingSources } from "../../accounting-sources";
-import { EventRecord, AccountingRecord, PaymentRecord } from "../../schema";
+import { EventRecord, PaymentRecord } from "../../schema";
 
 const router = express.Router({ mergeParams: true });
 
@@ -12,7 +12,8 @@ router.get(
   "/history/:event",
   async (req: Request<{ profile: string; event: string }>, res) => {
     const sources = await getAccountingSources(req.params.profile);
-    const amounts = db(sources.accounting)
+    const amounts = sources
+      .accounting()
       .select("profileId", "year", "event")
       .sum("incomeAmount as incomeAmount")
       .sum("budgetIncomeAmount as budgetIncomeAmount")
@@ -57,7 +58,8 @@ router.get(
       .andWhere("id", req.params.event)
       .first();
 
-    const qTotals = db<AccountingRecord>(sources.accounting)
+    const qTotals = sources
+      .accounting()
       .sum("incomeAmount as incomeAmount")
       .sum("budgetIncomeAmount as budgetIncomeAmount")
       .sum("expenditureAmount as expenditureAmount")
@@ -67,7 +69,8 @@ router.get(
       .andWhere("event", req.params.event)
       .first();
 
-    const qItems = db<AccountingRecord>(sources.accounting)
+    const qItems = sources
+      .accounting()
       .select("item AS id")
       .sum("incomeAmount as incomeAmount")
       .sum("budgetIncomeAmount as budgetIncomeAmount")
@@ -78,7 +81,8 @@ router.get(
       .andWhere("event", req.params.event)
       .groupBy("item");
 
-    const qParagraphs = db<AccountingRecord>(sources.accounting)
+    const qParagraphs = sources
+      .accounting()
       .select("paragraph AS id")
       .sum("incomeAmount as incomeAmount")
       .sum("budgetIncomeAmount as budgetIncomeAmount")

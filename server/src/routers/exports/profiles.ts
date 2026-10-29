@@ -9,12 +9,7 @@ import {
 } from "../../accounting-sources";
 import config from "../../config";
 
-import {
-  ProfileRecord,
-  AccountingRecord,
-  PaymentRecord,
-  EventRecord,
-} from "../../schema";
+import { ProfileRecord, PaymentRecord, EventRecord } from "../../schema";
 
 import { exportQuery } from "./tools/export";
 
@@ -26,13 +21,15 @@ const accountingQuery = (
   params,
   sources: AccountingSources
 ): Knex.QueryBuilder => {
-  return db<AccountingRecord>(sources.accounting)
+  return sources
+    .accounting()
     .where("profileId", params.profile)
     .andWhere("year", params.year);
 };
 
 const eventsQuery = (params, sources: AccountingSources): Knex.QueryBuilder => {
-  const amounts = db(sources.accounting)
+  const amounts = sources
+    .accounting()
     .select("profileId", "year", "event")
     .sum("incomeAmount as incomeAmount")
     .sum("budgetIncomeAmount as budgetIncomeAmount")
@@ -92,7 +89,7 @@ router.get("/:profile/years", async (req, res) => {
     .sum("a.budgetExpenditureAmount as budgetExpenditureAmount")
     .sum("a.incomeAmount as incomeAmount")
     .sum("a.budgetIncomeAmount as budgetIncomeAmount")
-    .leftJoin(`${sources.accounting} as a`, {
+    .leftJoin(sources.accounting().as("a"), {
       "a.profileId": "y.profileId",
       "a.year": "y.year",
     })

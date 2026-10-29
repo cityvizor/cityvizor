@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
 import { db } from "../src/db";
+import { ProfileAccountingRouter as Accounting } from "../src/routers/public/profile-accounting";
+import { ProfileDashboardRouter as Dashboard } from "../src/routers/public/profile-dashboard";
 import {
   EXCLUDE_INTERNAL_TRANSFERS_FEATURE as TRANSFERS,
   PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE as SUMMARIES,
@@ -61,6 +63,10 @@ async function request(
       return this;
     },
     json(value: unknown) {
+      this.body = value;
+      return this;
+    },
+    send(value: unknown) {
       this.body = value;
       return this;
     },
@@ -134,7 +140,7 @@ integration("internal transfers on PostgreSQL", () => {
       INSERT INTO app.years (profile_id, year) VALUES (45, 2026);
       INSERT INTO app.feature_flags VALUES ('precomputed-accounting-summaries', false);
       INSERT INTO data.accounting (profile_id, year, paragraph, item, type, amount)
-      SELECT 45, 2026, 6330, item, type, amount
+      SELECT 45, 2026, 2210, item, type, amount
       FROM (VALUES (2111, 100, 300), (5169, 200, 400), (4134, 1000, 1200), (5345, 500, 700))
         AS v(item, actual, budget)
       CROSS JOIN LATERAL (VALUES ('UCT', actual), ('ROZ', budget)) AS a(type, amount);
@@ -146,7 +152,7 @@ integration("internal transfers on PostgreSQL", () => {
       VALUES (45, 2026, 1100, 1500, 700, 1100);
       INSERT INTO data.accounting_group_summaries
         (profile_id, year, field, group_id, actual_income_amount, budget_income_amount, actual_expenditure_amount, budget_expenditure_amount)
-      VALUES (45, 2026, 'paragraph', '63', 1100, 1500, 700, 1100),
+      VALUES (45, 2026, 'paragraph', '22', 1100, 1500, 700, 1100),
         (45, 2026, 'item', '21', 100, 300, 0, 0), (45, 2026, 'item', '51', 0, 0, 200, 400),
         (45, 2026, 'item', '41', 1000, 1200, 0, 0), (45, 2026, 'item', '53', 0, 0, 500, 700);
     `);
@@ -169,6 +175,9 @@ integration("internal transfers on PostgreSQL", () => {
 
   it("defaults to opt-out and backfills all four aggregates, including NULL-only groups", async () => {
     expect((await profile().first()).excludeInternalTransfers).toBe(false);
+    expect(
+      await db("app.feature_flags").where({ name: TRANSFERS }).first()
+    ).toMatchObject({ enabled: false });
     expect(
       await db("data.accounting_year_summaries")
         .where({ profileId: 45 })
@@ -236,7 +245,25 @@ integration("internal transfers on PostgreSQL", () => {
                 budgetExpenditureAmount: 1100,
               }
         );
-        snapshots.push(data);
+        const groups = (
+          await request(Accounting, "/:year/groups/:field", {
+            year: "2026",
+            field: "paragraph",
+          })
+        ).body;
+        const dashboard = (await request(Dashboard, "/")).body;
+        expect(groups).toHaveLength(1);
+        expect(groups[0]).toMatchObject({
+          expenditureAmount: data[0].expenditureAmount,
+          budgetExpenditureAmount: data[0].budgetExpenditureAmount,
+        });
+        expect(
+          dashboard.find(row => row.category === "transportation")
+        ).toMatchObject({
+          amount: data[0].expenditureAmount,
+          budgetAmount: data[0].budgetExpenditureAmount,
+        });
+        snapshots.push({ data, groups, dashboard });
       }
       expect(snapshots[1]).toEqual(snapshots[0]);
     }
@@ -290,14 +317,14 @@ integration("internal transfers on PostgreSQL", () => {
     await flag(TRANSFERS, false);
     await db.transaction(trx => rebuildAccountingSummaries(trx, 45, 2026));
     expect(
-      await db("accounting_year_summaries_without_internal_transfers")
+      await db("data.accounting_year_summaries")
         .where({ profileId: 45 })
         .first()
     ).toMatchObject({
-      actualIncomeAmount: 100,
-      actualExpenditureAmount: 200,
-      budgetIncomeAmount: 300,
-      budgetExpenditureAmount: 400,
+      actualInternalTransferIncomeAmount: 1000,
+      budgetInternalTransferIncomeAmount: 1200,
+      actualInternalTransferExpenditureAmount: 500,
+      budgetInternalTransferExpenditureAmount: 700,
     });
   });
 });

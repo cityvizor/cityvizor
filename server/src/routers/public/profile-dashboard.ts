@@ -52,7 +52,8 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
   const categoriesAccounting = db.unionAll(
     categoriesDef.map(category => {
       if (usePrecomputedSummaries) {
-        return db(sources.groupSummaries)
+        return sources
+          .groupSummaries()
           .select(
             "profile_id",
             "year",
@@ -65,7 +66,8 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
           .whereIn("groupId", category.groupIds);
       }
 
-      return db(sources.accounting)
+      return sources
+        .accounting()
         .select(
           "profile_id",
           "year",

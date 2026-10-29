@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { accountingRules } from "../../accounting-rules";
 
 const amountColumns = `
   COALESCE(SUM(CASE
@@ -28,19 +29,19 @@ const amountColumns = `
     ELSE 0::numeric
   END), 0) AS budget_financing_amount,
   COALESCE(SUM(CASE
-    WHEN public.is_internal_transfer(item) AND item < 5000 AND type <> 'ROZ' THEN amount
+    WHEN item = ANY(?::integer[]) AND type <> 'ROZ' THEN amount
     ELSE 0::numeric
   END), 0) AS actual_internal_transfer_income_amount,
   COALESCE(SUM(CASE
-    WHEN public.is_internal_transfer(item) AND item < 5000 AND type = 'ROZ' THEN amount
+    WHEN item = ANY(?::integer[]) AND type = 'ROZ' THEN amount
     ELSE 0::numeric
   END), 0) AS budget_internal_transfer_income_amount,
   COALESCE(SUM(CASE
-    WHEN public.is_internal_transfer(item) AND item >= 5000 AND type <> 'ROZ' THEN amount
+    WHEN item = ANY(?::integer[]) AND type <> 'ROZ' THEN amount
     ELSE 0::numeric
   END), 0) AS actual_internal_transfer_expenditure_amount,
   COALESCE(SUM(CASE
-    WHEN public.is_internal_transfer(item) AND item >= 5000 AND type = 'ROZ' THEN amount
+    WHEN item = ANY(?::integer[]) AND type = 'ROZ' THEN amount
     ELSE 0::numeric
   END), 0) AS budget_internal_transfer_expenditure_amount
 `;
@@ -92,7 +93,17 @@ export async function rebuildAccountingSummaries(
           year,
           COALESCE(SUBSTRING(??::varchar, 1, 2), '')
       `,
-      [field, field, profileId, year, field]
+      [
+        field,
+        field,
+        accountingRules.internalTransfers.incomeItems,
+        accountingRules.internalTransfers.incomeItems,
+        accountingRules.internalTransfers.expenditureItems,
+        accountingRules.internalTransfers.expenditureItems,
+        profileId,
+        year,
+        field,
+      ]
     );
   }
 
