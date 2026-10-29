@@ -2,19 +2,19 @@ import express, { Request } from "express";
 
 import { db } from "../../db";
 import {
-  isFeatureEnabled,
-  PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE,
-} from "../../feature-flags";
+  AccountingSource,
+  getAccountingSources,
+} from "../../accounting-sources";
 import { YearRecord } from "../../schema";
 
 const router = express.Router({ mergeParams: true });
 
 export const ProfileYearsRouter = router;
 
-const getLegacyBaseQuery = (profileId: string) =>
+const getLegacyBaseQuery = (profileId: string, accounting: AccountingSource) =>
   db("years as y")
     .select("y.profileId", "y.year", "y.validity")
-    .leftJoin("accounting as a", {
+    .leftJoin(accounting().as("a"), {
       "a.profileId": "y.profileId",
       "a.year": "y.year",
     })
@@ -22,7 +22,7 @@ const getLegacyBaseQuery = (profileId: string) =>
     .groupBy("y.profileId", "y.year", "y.validity")
     .orderBy("y.year");
 
-const getCompleteYears = (profileId: string) =>
+const getCompleteYears = (profileId: string, yearSummaries: AccountingSource) =>
   db("years as y")
     .select("y.profileId", "y.year", "y.validity")
     .select(
@@ -37,7 +37,7 @@ const getCompleteYears = (profileId: string) =>
         "COALESCE(a.budget_financing_amount, 0) AS budget_financing_amount"
       )
     )
-    .leftJoin("data.accounting_year_summaries as a", {
+    .leftJoin(yearSummaries().as("a"), {
       "a.profileId": "y.profileId",
       "a.year": "y.year",
     })
@@ -47,7 +47,8 @@ const getCompleteYears = (profileId: string) =>
 const getVisibleAmounts = (
   profileId: string,
   field: "paragraph" | "item",
-  codelist: "paragraph-groups" | "item-groups"
+  codelist: "paragraph-groups" | "item-groups",
+  groupSummaries: AccountingSource
 ) => {
   const amountColumns =
     field === "item"
@@ -64,7 +65,7 @@ const getVisibleAmounts = (
 
   const query = db("years as y")
     .select("y.profileId", "y.year", "y.validity")
-    .innerJoin("data.accounting_group_summaries as a", function () {
+    .innerJoin(groupSummaries().as("a"), function () {
       this.on("a.profileId", "y.profileId")
         .andOn("a.year", "y.year")
         .andOnVal("a.field", field);
@@ -78,10 +79,10 @@ const getVisibleAmounts = (
 
   amountColumns.forEach(([column, alias]) => {
     query.select(
-      db.raw(
-        "COALESCE(SUM(??) FILTER (WHERE c.id IS NOT NULL), 0) AS ??",
-        [`a.${column}`, alias]
-      )
+      db.raw("COALESCE(SUM(??) FILTER (WHERE c.id IS NOT NULL), 0) AS ??", [
+        `a.${column}`,
+        alias,
+      ])
     );
   });
 
@@ -92,13 +93,15 @@ router.get(
   "/",
   async (req: Request<{ profile: string; year: string }>, res) => {
     const sumMode = req.query.sumMode ?? "complete";
-    const usePrecomputedSummaries = await isFeatureEnabled(
-      PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE
-    );
+    const sources = await getAccountingSources(req.params.profile);
+    const { usePrecomputedSummaries } = sources;
 
     if (sumMode === "complete") {
       if (usePrecomputedSummaries) {
-        const years = await getCompleteYears(req.params.profile);
+        const years = await getCompleteYears(
+          req.params.profile,
+          sources.yearSummaries
+        );
 
         return res.json(
           years.map(year => ({
@@ -106,12 +109,16 @@ router.get(
             incomeWithoutFinancingAmount:
               (year.incomeAmount ?? 0) - (year.financingAmount ?? 0),
             budgetIncomeWithoutFinancingAmount:
-              (year.budgetIncomeAmount ?? 0) - (year.budgetFinancingAmount ?? 0),
+              (year.budgetIncomeAmount ?? 0) -
+              (year.budgetFinancingAmount ?? 0),
           }))
         );
       }
 
-      const years = await getLegacyBaseQuery(req.params.profile)
+      const years = await getLegacyBaseQuery(
+        req.params.profile,
+        sources.accounting
+      )
         .sum("a.expenditureAmount as expenditureAmount")
         .sum("a.budgetExpenditureAmount as budgetExpenditureAmount")
         .sum("a.incomeAmount as incomeAmount")
@@ -125,21 +132,26 @@ router.get(
           incomeWithoutFinancingAmount:
             (year.incomeAmount ?? 0) - (year.financingAmount ?? 0),
           budgetIncomeWithoutFinancingAmount:
-            (year.budgetIncomeAmount ?? 0) -
-            (year.budgetFinancingAmount ?? 0),
+            (year.budgetIncomeAmount ?? 0) - (year.budgetFinancingAmount ?? 0),
         }))
       );
     } else if (sumMode === "visible") {
       if (usePrecomputedSummaries) {
         const [incomeAmounts, expenditureAmounts, completeAmounts] =
           await Promise.all([
-            getVisibleAmounts(req.params.profile, "item", "item-groups"),
+            getVisibleAmounts(
+              req.params.profile,
+              "item",
+              "item-groups",
+              sources.groupSummaries
+            ),
             getVisibleAmounts(
               req.params.profile,
               "paragraph",
-              "paragraph-groups"
+              "paragraph-groups",
+              sources.groupSummaries
             ),
-            getCompleteYears(req.params.profile),
+            getCompleteYears(req.params.profile, sources.yearSummaries),
           ]);
 
         const expenditureByYear = new Map(
@@ -168,7 +180,10 @@ router.get(
         return res.json(years);
       }
 
-      const incomeAmounts = await getLegacyBaseQuery(req.params.profile)
+      const incomeAmounts = await getLegacyBaseQuery(
+        req.params.profile,
+        sources.accounting
+      )
         .sum("a.incomeAmount as incomeAmount")
         .sum("a.budgetIncomeAmount as budgetIncomeAmount")
         .sum("a.financingAmount as visibleFinancingAmount")
@@ -178,7 +193,10 @@ router.get(
         })
         .where({ "c.codelist": "item-groups" });
 
-      const expenditureAmounts = await getLegacyBaseQuery(req.params.profile)
+      const expenditureAmounts = await getLegacyBaseQuery(
+        req.params.profile,
+        sources.accounting
+      )
         .sum("a.expenditureAmount as expenditureAmount")
         .sum("a.budgetExpenditureAmount as budgetExpenditureAmount")
         .innerJoin("codelists as c", {
@@ -186,7 +204,10 @@ router.get(
         })
         .where({ "c.codelist": "paragraph-groups" });
 
-      const financingAmounts = await getLegacyBaseQuery(req.params.profile)
+      const financingAmounts = await getLegacyBaseQuery(
+        req.params.profile,
+        sources.accounting
+      )
         .sum("a.financingAmount as financingAmount")
         .sum("a.budgetFinancingAmount as budgetFinancingAmount");
 

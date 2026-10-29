@@ -1,16 +1,14 @@
 import express, { Request } from "express";
 
 import { db } from "../../db";
-import {
-  isFeatureEnabled,
-  PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE,
-} from "../../feature-flags";
+import { getAccountingSources } from "../../accounting-sources";
 
 const router = express.Router({ mergeParams: true });
 
 export const ProfileDashboardRouter = router;
 
 router.get("/", async (req: Request<{ profile: string }>, res) => {
+  const sources = await getAccountingSources(req.params.profile);
   const categoriesDef = [
     {
       name: "transportation",
@@ -43,9 +41,7 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
       legacyWhere: "paragraph >= 6100 AND paragraph <= 6199",
     },
   ];
-  const usePrecomputedSummaries = await isFeatureEnabled(
-    PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE
-  );
+  const { usePrecomputedSummaries } = sources;
 
   const categoriesNames = db.unionAll(
     categoriesDef.map(category => {
@@ -56,7 +52,8 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
   const categoriesAccounting = db.unionAll(
     categoriesDef.map(category => {
       if (usePrecomputedSummaries) {
-        return db("data.accounting_group_summaries")
+        return sources
+          .groupSummaries()
           .select(
             "profile_id",
             "year",
@@ -69,7 +66,8 @@ router.get("/", async (req: Request<{ profile: string }>, res) => {
           .whereIn("groupId", category.groupIds);
       }
 
-      return db("accounting")
+      return sources
+        .accounting()
         .select(
           "profile_id",
           "year",

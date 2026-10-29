@@ -1,6 +1,15 @@
 <!--<help-modal [topic]="'expenditures'"></help-modal>-->
 
 <div class="container">
+  @if (
+    internalTransfersExcluded &&
+    (profile | async)?.type === "municipality" &&
+    (profile | async)?.excludeInternalTransfers
+  ) {
+    <p class="text-muted mt-3">
+      Rozpočet a skutečnost nezahrnují převody mezi vlastními účty a fondy.
+    </p>
+  }
   <div class="accounting-overview-controls">
     <budget-select
       [budgets]="(budgets | async) || []"
