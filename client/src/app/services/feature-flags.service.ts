@@ -3,6 +3,7 @@ import { Injectable, inject } from "@angular/core";
 import { environment } from "environments/environment";
 
 export const DASHBOARD_FINANCING_TOGGLE = "dashboard-financing-toggle";
+export const EXCLUDE_INTERNAL_TRANSFERS = "exclude-internal-transfers";
 
 @Injectable({ providedIn: "root" })
 export class FeatureFlagsService {

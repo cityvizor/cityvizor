@@ -9,6 +9,7 @@ export interface Profile {
 
   status: ProfileStatus;
   sumMode: ProfileSumMode;
+  excludeInternalTransfers: boolean;
   type: ProfileType;
   pboCategoryId?: string | null;
 
