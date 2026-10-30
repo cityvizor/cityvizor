@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { accountingRules } from "../src/accounting-rules";
 
 import { rebuildAccountingSummaries } from "../src/worker/import/accounting-summaries";
 
@@ -28,16 +29,23 @@ describe("accounting summaries", () => {
       year: 2026,
     });
 
+    const { incomeItems, expenditureItems } = accountingRules.internalTransfers;
+    const transferItems = [
+      incomeItems,
+      incomeItems,
+      expenditureItems,
+      expenditureItems,
+    ];
     expect(trx.raw).toHaveBeenCalledTimes(3);
     expect(trx.raw).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining("INSERT INTO data.accounting_group_summaries"),
-      ["paragraph", "paragraph", 12, 2026, "paragraph"]
+      ["paragraph", "paragraph", ...transferItems, 12, 2026, "paragraph"]
     );
     expect(trx.raw).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining("INSERT INTO data.accounting_group_summaries"),
-      ["item", "item", 12, 2026, "item"]
+      ["item", "item", ...transferItems, 12, 2026, "item"]
     );
     expect(trx.raw).toHaveBeenNthCalledWith(
       3,

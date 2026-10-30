@@ -1,18 +1,16 @@
 import express, { Request } from "express";
 
 import { db } from "../../db";
-import {
-  isFeatureEnabled,
-  PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE,
-} from "../../feature-flags";
-import { AccountingGroupSummaryRecord, AccountingRecord } from "../../schema";
+import { getAccountingSources } from "../../accounting-sources";
 
 const router = express.Router({ mergeParams: true });
 
 export const ProfileAccountingRouter = router;
 
 router.get("/", async (req: Request<{ id: string }>, res) => {
-  const years = await db<AccountingRecord>("accounting")
+  const sources = await getAccountingSources(req.params.id);
+  const years = await sources
+    .accounting()
     .select("year", "type")
     .sum({ amount: "amount" })
     .where("profile_id", req.params.id)
@@ -25,7 +23,9 @@ router.get("/", async (req: Request<{ id: string }>, res) => {
 router.get(
   "/:year",
   async (req: Request<{ profile: string; year: string }>, res) => {
-    const accounting = await db<AccountingRecord>("accounting")
+    const sources = await getAccountingSources(req.params.profile);
+    const accounting = await sources
+      .accounting()
       .where("profileId", req.params.profile)
       .andWhere("year", req.params.year);
 
@@ -46,13 +46,11 @@ router.get(
         .status(400)
         .send("Parameter field can only have values paragraph or item.");
 
-    const usePrecomputedSummaries = await isFeatureEnabled(
-      PRECOMPUTED_ACCOUNTING_SUMMARIES_FEATURE
-    );
+    const sources = await getAccountingSources(req.params.profile);
+    const { usePrecomputedSummaries } = sources;
     const groups = usePrecomputedSummaries
-      ? await db<AccountingGroupSummaryRecord>(
-          "data.accounting_group_summaries as a"
-        )
+      ? await sources
+          .groupSummaries("a")
           .innerJoin("years as y", function () {
             this.on("y.profileId", "a.profileId").andOn("y.year", "a.year");
           })
@@ -66,7 +64,8 @@ router.get(
           .where("a.profileId", req.params.profile)
           .andWhere("a.year", req.params.year)
           .andWhere("a.field", field)
-      : await db<AccountingRecord>("accounting")
+      : await sources
+          .accounting()
           .select(db.raw(`SUBSTRING(${field}::varchar, 1, 2) AS id`))
           .sum("incomeAmount as incomeAmount")
           .sum("budgetIncomeAmount as budgetIncomeAmount")
@@ -101,7 +100,9 @@ router.get(
           "Parameter field is mandatory and can only have values paragraph or item."
         );
 
-    const events = await db("accounting AS a")
+    const sources = await getAccountingSources(req.params.profile);
+    const events = await sources
+      .accounting("a")
       .leftJoin("events AS e", {
         "e.profileId": "a.profileId",
         "e.year": "a.year",
@@ -126,7 +127,8 @@ router.get(
       };
     });
 
-    const items = await db("accounting AS a")
+    const items = await sources
+      .accounting("a")
       .leftJoin("events AS e", {
         "e.profileId": "a.profileId",
         "e.year": "a.year",

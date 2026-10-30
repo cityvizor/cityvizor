@@ -8,6 +8,10 @@ import { Router, RouterLink } from "@angular/router";
 import { ConfigService } from "config/config";
 import { ToastService } from "app/services/toast.service";
 import { DataService } from "app/services/data.service";
+import {
+  EXCLUDE_INTERNAL_TRANSFERS,
+  FeatureFlagsService,
+} from "app/services/feature-flags.service";
 import { PboCategory } from "app/schema/pbo-category";
 import { Section } from "app/schema/section";
 import {
@@ -27,6 +31,7 @@ export class AdminProfileSettingsComponent implements OnInit {
   private profileService = inject(ProfileService);
   private adminService = inject(AdminService);
   private dataService = inject(DataService);
+  private featureFlags = inject(FeatureFlagsService);
   private router = inject(Router);
   private toastService = inject(ToastService);
   configService = inject(ConfigService);
@@ -40,6 +45,10 @@ export class AdminProfileSettingsComponent implements OnInit {
   profileIdParentIdMap: Map<number, number | null>;
   sections: Section[];
   loading: Boolean = true;
+
+  get internalTransfersSettingEnabled() {
+    return this.featureFlags.isEnabled(EXCLUDE_INTERNAL_TRANSFERS);
+  }
 
   async ngOnInit() {
     this.profileId = this.profileService.profileId;
@@ -74,7 +83,7 @@ export class AdminProfileSettingsComponent implements OnInit {
   }
 
   async reloadProfile() {
-    this.loadProfile(this.profile.id);
+    await this.loadProfile(this.profile.id);
     this.profileService.setProfile(this.profile);
   }
 
@@ -86,7 +95,7 @@ export class AdminProfileSettingsComponent implements OnInit {
 
     await this.adminService.saveProfile(this.profile.id, data);
 
-    this.reloadProfile();
+    await this.reloadProfile();
 
     this.toastService.toast("Uloženo.", "notice");
   }

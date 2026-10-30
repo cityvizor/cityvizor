@@ -1,6 +1,11 @@
 <div class="container">
   @if (isMunicipality) {
     <div>
+      @if (internalTransfersExcluded) {
+        <p class="text-muted mt-3">
+          Rozpočet a skutečnost nezahrnují převody mezi vlastními účty a fondy.
+        </p>
+      }
       @if (dashboardLoading) {
         <div class="expenditures-placeholder" aria-hidden="true">
           <h3 class="mt-4">Přehled výdajů</h3>
