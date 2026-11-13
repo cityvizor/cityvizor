@@ -5,6 +5,7 @@ import {
   SimpleChanges,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { NgClass } from "@angular/common";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -21,6 +22,7 @@ class ChartHistoryBar {
   selector: "chart-history",
   templateUrl: "chart-history.component.html",
   styleUrls: ["chart-history.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, TranslatePipe, MoneyPipe],
 })
 export class ChartHistoryComponent implements OnChanges {

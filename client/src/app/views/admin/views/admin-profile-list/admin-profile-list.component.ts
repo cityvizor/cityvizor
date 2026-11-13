@@ -1,13 +1,24 @@
-import { Component, OnInit, TemplateRef, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  inject,
+  ChangeDetectionStrategy,
+  signal,
+} from "@angular/core";
 import { Profile, ProfileType } from "app/schema";
 import { ConfigService } from "config/config";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { AuthService } from "../../../../services/auth.service";
-import { TableModule } from "primeng/table";
-import { PrimeTemplate } from "primeng/api";
-import { SelectModule } from "primeng/select";
+import { filterFn_equalsString, injectTable } from "@tanstack/angular-table";
+import {
+  adminTableFeatures,
+  filterText,
+  sortText,
+} from "app/shared/admin-table";
+import { TableColumnComponent } from "app/shared/components/table-column.component";
 import { RouterLink } from "@angular/router";
 
 import {
@@ -18,17 +29,16 @@ import {
 import { TranslatePipe } from "@ngx-translate/core";
 
 interface ProfileWithParentName extends Profile {
-  parentName: String;
+  parentName: string;
 }
 
 @Component({
   selector: "admin-profile-list",
   templateUrl: "./admin-profile-list.component.html",
   styleUrls: ["./admin-profile-list.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
-    TableModule,
-    PrimeTemplate,
-    SelectModule,
+    TableColumnComponent,
     FormsModule,
     RouterLink,
     BsDropdownDirective,
@@ -43,7 +53,20 @@ export class AdminProfileListComponent implements OnInit {
   configService = inject(ConfigService);
   authService = inject(AuthService);
 
-  profilesWithParentName: ProfileWithParentName[] = [];
+  readonly profilesWithParentName = signal<ProfileWithParentName[]>([]);
+  readonly table = injectTable(() => ({
+    features: adminTableFeatures,
+    data: this.profilesWithParentName(),
+    columns: [
+      { accessorKey: "name" },
+      { accessorKey: "type", filterFn: filterFn_equalsString },
+      { accessorKey: "parentName" },
+    ],
+    defaultColumn: { filterFn: filterText, sortFn: sortText },
+    initialState: { sorting: [{ id: "name", desc: false }] },
+    enableSortingRemoval: false,
+    enableMultiSort: false,
+  }));
 
   profileTypes = [
     { value: "municipality", label: "Municipalita" },
@@ -70,8 +93,9 @@ export class AdminProfileListComponent implements OnInit {
       },
       {},
     );
-    this.profilesWithParentName =
-      this.getProfilesWithParentNames(profilesByIds);
+    this.profilesWithParentName.set(
+      this.getProfilesWithParentNames(profilesByIds),
+    );
     this.loading = false;
   }
 
@@ -103,12 +127,6 @@ export class AdminProfileListComponent implements OnInit {
       result.push({ parentName, ...profile });
     }
 
-    result.sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, {
-        numeric: true,
-        sensitivity: "base",
-      }),
-    );
     return result;
   }
 

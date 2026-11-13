@@ -1,4 +1,11 @@
-import { Component, OnInit, TemplateRef, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  inject,
+  ChangeDetectionStrategy,
+  signal,
+} from "@angular/core";
 import { Profile } from "app/schema/profile";
 import { DataService } from "app/services/data.service";
 import { ProfileService } from "app/services/profile.service";
@@ -8,9 +15,13 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { AdminService } from "app/services/admin.service";
 import { NgForm, FormsModule } from "@angular/forms";
 import { map } from "rxjs/operators";
-import { TableModule } from "primeng/table";
-import { PrimeTemplate } from "primeng/api";
-import { SelectModule } from "primeng/select";
+import { filterFn_equalsString, injectTable } from "@tanstack/angular-table";
+import {
+  adminTableFeatures,
+  filterText,
+  sortText,
+} from "app/shared/admin-table";
+import { TableColumnComponent } from "app/shared/components/table-column.component";
 import { RouterLink } from "@angular/router";
 
 import {
@@ -24,10 +35,9 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "admin-profile-subprofiles",
   templateUrl: "./admin-profile-subprofiles.component.html",
   styleUrls: ["./admin-profile-subprofiles.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
-    TableModule,
-    PrimeTemplate,
-    SelectModule,
+    TableColumnComponent,
     FormsModule,
     RouterLink,
     BsDropdownDirective,
@@ -43,7 +53,19 @@ export class AdminProfileSubprofilesComponent implements OnInit {
   configService = inject(ConfigService);
   private modalService = inject(BsModalService);
 
-  subprofiles: Profile[] = [];
+  readonly subprofiles = signal<Profile[]>([]);
+  readonly table = injectTable(() => ({
+    features: adminTableFeatures,
+    data: this.subprofiles(),
+    columns: [
+      { accessorKey: "name" },
+      { accessorKey: "type", filterFn: filterFn_equalsString },
+    ],
+    defaultColumn: { filterFn: filterText, sortFn: sortText },
+    initialState: { sorting: [{ id: "name", desc: false }] },
+    enableSortingRemoval: false,
+    enableMultiSort: false,
+  }));
   profileId: Number;
   profileId$: Observable<Number>;
   currentProfile: Profile;
@@ -67,8 +89,10 @@ export class AdminProfileSubprofilesComponent implements OnInit {
 
   async loadSubprofiles(profileId: Number) {
     this.profileId = profileId;
-    this.subprofiles = (await this.dataService.getProfiles()).filter(
-      profile => profile.parent == profileId,
+    this.subprofiles.set(
+      (await this.dataService.getProfiles()).filter(
+        profile => profile.parent == profileId,
+      ),
     );
   }
 

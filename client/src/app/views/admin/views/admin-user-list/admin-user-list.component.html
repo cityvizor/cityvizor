@@ -3,122 +3,119 @@
     Přidat správce
   </button>
 
-  <p-table [value]="users" [rowHover]="true" sortField="name">
-    <ng-template pTemplate="header">
-      <!-- Column labels + sorting -->
+  <table class="table table-hover" aria-label="Správci">
+    <thead>
       <tr>
-        <th pSortableColumn="name">Jméno <p-sortIcon field="name" /></th>
-        <th pSortableColumn="email">E-mail <p-sortIcon field="email" /></th>
-        <th pSortableColumn="login">Login <p-sortIcon field="login" /></th>
-        <th pSortableColumn="role">Role <p-sortIcon field="role" /></th>
-        <th pSortableColumn="lastLogin">
-          Poslední přihlášení <p-sortIcon field="lastLogin" />
-        </th>
-        <th>
-          <!-- Akce -->
-        </th>
+        <th
+          appTableColumn
+          [column]="table.getColumn('name')"
+          label="Jméno"
+        ></th>
+        <th
+          appTableColumn
+          [column]="table.getColumn('email')"
+          label="E-mail"
+        ></th>
+        <th
+          appTableColumn
+          [column]="table.getColumn('login')"
+          label="Login"
+        ></th>
+        <th appTableColumn [column]="table.getColumn('role')" label="Role"></th>
+        <th
+          appTableColumn
+          [column]="table.getColumn('lastLogin')"
+          label="Poslední přihlášení"
+        ></th>
+        <th></th>
       </tr>
-
-      <!-- Column filters -->
       <tr>
-        <th>
-          <!-- Name -->
-          <p-columnFilter type="text" field="name" matchMode="contains" />
-        </th>
-        <th>
-          <!-- E-mail -->
-          <p-columnFilter type="text" field="email" matchMode="contains" />
-        </th>
-
-        <th>
-          <!-- Login -->
-          <p-columnFilter type="text" field="login" matchMode="contains" />
-        </th>
-        <th>
-          <!-- Role -->
-          <p-columnFilter
-            field="role"
-            matchMode="equals"
-            display="row"
-            [showMenu]="false"
-          >
-            <ng-template
-              pTemplate="filter"
-              let-value
-              let-filter="filterCallback"
-            >
-              <p-select
-                [ngModel]="value"
-                [options]="roles"
-                (onChange)="filter($event.value)"
-                placeholder="Všechny"
+        <th
+          appTableColumn
+          [filterOnly]="true"
+          [column]="table.getColumn('name')"
+          label="Jméno"
+        ></th>
+        <th
+          appTableColumn
+          [filterOnly]="true"
+          [column]="table.getColumn('email')"
+          label="E-mail"
+        ></th>
+        <th
+          appTableColumn
+          [filterOnly]="true"
+          [column]="table.getColumn('login')"
+          label="Login"
+        ></th>
+        <th
+          appTableColumn
+          [filterOnly]="true"
+          [column]="table.getColumn('role')"
+          label="Role"
+          [options]="roles"
+        ></th>
+        <th
+          appTableColumn
+          [filterOnly]="true"
+          [column]="table.getColumn('lastLogin')"
+          label="Poslední přihlášení"
+        ></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data rows -->
+      @for (row of table.getRowModel().rows; track row.id) {
+        @let user = row.original;
+        <tr [routerLink]="'./' + user.id">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.login }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.lastLogin | date: "d. M. y H:mm" }}</td>
+          <td (click)="$event.stopImmediatePropagation()">
+            <div class="btn-group text-nowrap" dropdown>
+              <button
+                id="action-button"
+                dropdownToggle
+                type="button"
+                class="btn btn-sm btn-secondary dropdown-toggle"
+                aria-controls="action-dropdown"
               >
-                <ng-template let-option pTemplate="item">
-                  <div>{{ option.label }}</div>
-                </ng-template>
-              </p-select>
-            </ng-template>
-          </p-columnFilter>
-        </th>
-        <th>
-          <!-- Poslední přihlášení -->
-          <p-columnFilter type="text" field="lastLogin" matchMode="contains" />
-        </th>
-        <th>
-          <!-- Akce -->
-        </th>
-      </tr>
-    </ng-template>
-
-    <!-- Data rows -->
-    <ng-template pTemplate="body" let-user>
-      <tr [routerLink]="'./' + user.id">
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.login }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.lastLogin | date: "d. M. y H:mm" }}</td>
-        <td (click)="$event.stopImmediatePropagation()">
-          <div class="btn-group text-nowrap" dropdown>
-            <button
-              id="action-button"
-              dropdownToggle
-              type="button"
-              class="btn btn-sm btn-secondary dropdown-toggle"
-              aria-controls="action-dropdown"
-            >
-              Akce
-            </button>
-            <ul
-              id="action-dropdown"
-              *dropdownMenu
-              class="dropdown-menu"
-              role="menu"
-              aria-labelledby="button-basic"
-            >
-              <li role="menuitem">
-                <a
-                  class="dropdown-item"
-                  (click)="currentUser = user; openModal(changePasswordModal)"
-                  >Nastavit heslo</a
-                >
-              </li>
-              <li class="divider dropdown-divider"></li>
-              <li role="menuitem">
-                <a
-                  class="dropdown-item"
-                  (click)="currentUser = user; openModal(deleteUserModal)"
-                  ><span class="text-danger">{{
-                    "common.delete" | translate
-                  }}</span></a
-                >
-              </li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+                Akce
+              </button>
+              <ul
+                id="action-dropdown"
+                *dropdownMenu
+                class="dropdown-menu"
+                role="menu"
+                aria-labelledby="button-basic"
+              >
+                <li role="menuitem">
+                  <a
+                    class="dropdown-item"
+                    (click)="currentUser = user; openModal(changePasswordModal)"
+                    >Nastavit heslo</a
+                  >
+                </li>
+                <li class="divider dropdown-divider"></li>
+                <li role="menuitem">
+                  <a
+                    class="dropdown-item"
+                    (click)="currentUser = user; openModal(deleteUserModal)"
+                    ><span class="text-danger">{{
+                      "common.delete" | translate
+                    }}</span></a
+                  >
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
 </div>
 
 <ng-template #createUserModal>

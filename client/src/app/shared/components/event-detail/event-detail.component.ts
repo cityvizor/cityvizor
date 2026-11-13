@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Input,
   Output,
@@ -6,6 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import {
   trigger,
@@ -55,6 +57,7 @@ type CounterpartyOpenable = Counterparty & { open: boolean };
       ),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TabsetComponent,
     TabDirective,
@@ -69,8 +72,11 @@ type CounterpartyOpenable = Counterparty & { open: boolean };
   ],
 })
 export class EventDetailComponent implements OnChanges {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private dataService = inject(DataService);
   private codelistService = inject(CodelistService);
+  private toastService = inject(ToastService);
 
   /* DATA */
   @Input() profile: Profile;
@@ -140,6 +146,8 @@ export class EventDetailComponent implements OnChanges {
       this.itemNames = convertedNames;
       this.paragraphNames = convertedNames;
     }
+
+    this.changeDetectorRef.markForCheck();
   }
 
   async loadEvent(profileId: number, eventId: number, year: number) {
@@ -162,33 +170,6 @@ export class EventDetailComponent implements OnChanges {
     );
 
     this.event = event;
-
-    if (this.isMunicipality) {
-      this.history = await this.dataService.getProfileEventHistory(
-        this.profile.id,
-        this.eventId,
-      );
-    } else {
-      const aa = Number(this.eventId.toString().substring(0, 3));
-      const sa = Number(this.eventId.toString().substring(3));
-      this.history = await this.dataService.getProfileAaHistory(
-        this.profile.id,
-        aa,
-        sa,
-      );
-    }
-
-    this.maxHistoryAmount = this.history.reduce(
-      (acc, cur) =>
-        Math.max(
-          acc,
-          cur.expenditureAmount,
-          cur.incomeAmount,
-          cur.budgetExpenditureAmount,
-          cur.budgetIncomeAmount,
-        ),
-      -Infinity,
-    );
 
     if (this.event.items) {
       this.expenditureItems = this.event.items.filter(
@@ -250,6 +231,43 @@ export class EventDetailComponent implements OnChanges {
         Object.assign(counterparty, { open: false }),
       );
     }
+
+    this.history = [];
+    this.maxHistoryAmount = 0;
+    this.changeDetectorRef.markForCheck();
+
+    try {
+      if (this.isMunicipality) {
+        this.history = await this.dataService.getProfileEventHistory(
+          profileId,
+          eventId,
+        );
+      } else {
+        const aa = Number(eventId.toString().substring(0, 3));
+        const sa = Number(eventId.toString().substring(3));
+        this.history = await this.dataService.getProfileAaHistory(
+          profileId,
+          aa,
+          sa,
+        );
+      }
+
+      this.maxHistoryAmount = this.history.reduce(
+        (acc, cur) =>
+          Math.max(
+            acc,
+            cur.expenditureAmount,
+            cur.incomeAmount,
+            cur.budgetExpenditureAmount,
+            cur.budgetIncomeAmount,
+          ),
+        -Infinity,
+      );
+    } catch {
+      this.toastService.toast("Nepodařilo se načíst historii akce.", "error");
+    }
+
+    this.changeDetectorRef.markForCheck();
   }
 
   openYear(year: number) {

@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   DestroyRef,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router, ActivatedRoute, Params } from "@angular/router";
@@ -62,6 +63,7 @@ type AccountingOverview = "chart" | "cards" | "map" | "bars";
   host: {
     "(window:keydown)": "hotkeys($event)",
   },
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BudgetSelectComponent,
     FormsModule,
@@ -264,6 +266,7 @@ export class ProfileAccountingComponent implements OnInit {
 
           this.groupEventsLoading = false;
           this.groupEventsLoadFailed = true;
+          this.cdRef.markForCheck();
         }
       });
 
@@ -277,6 +280,8 @@ export class ProfileAccountingComponent implements OnInit {
         this.group = groupId
           ? groups.find(group => group.id === groupId) || null
           : null;
+
+        this.cdRef.markForCheck();
       });
 
     this.groups.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(groups => {

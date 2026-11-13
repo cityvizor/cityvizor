@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { Profile } from "app/schema/profile";
 import { EventDetailComponent } from "../event-detail/event-detail.component";
@@ -6,6 +6,7 @@ import { EventDetailComponent } from "../event-detail/event-detail.component";
   selector: "event-detail-modal",
   templateUrl: "./event-detail-modal.component.html",
   styleUrls: ["./event-detail-modal.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [EventDetailComponent],
 })
 export class EventDetailModalComponent {

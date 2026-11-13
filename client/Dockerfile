@@ -1,4 +1,4 @@
-FROM node:22 AS build
+FROM node:26-trixie AS build
 WORKDIR /user/src/app
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -6,7 +6,7 @@ COPY . .
 RUN npm run build
 
 FROM build AS dev
-RUN npm install -g @angular/cli@20.3.3
+RUN npm install -g @angular/cli@22.2.6
 
 EXPOSE 4200
 CMD ./entrypoint.sh

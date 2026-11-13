@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
@@ -6,6 +7,7 @@ import {
   EventEmitter,
   Output,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { DataService } from "app/services/data.service";
 import { AccountingService } from "app/services/accounting.service";
@@ -22,9 +24,12 @@ import { ChartBigbangComponent } from "../../charts/chart-bigbang/chart-bigbang.
   selector: "profile-expenditures-widget",
   templateUrl: "./profile-expenditures-widget.component.html",
   styleUrls: ["./profile-expenditures-widget.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ChartBigbangComponent],
 })
 export class ProfileExpendituresWidgetComponent implements OnChanges {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private dataService = inject(DataService);
   private accountingService = inject(AccountingService);
 
@@ -51,5 +56,7 @@ export class ProfileExpendituresWidgetComponent implements OnChanges {
           outerAmount: group.budgetAmount,
         }) as ChartBigbangDataRow,
     );
+
+    this.changeDetectorRef.markForCheck();
   }
 }

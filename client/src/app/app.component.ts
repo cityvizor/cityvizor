@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Router, RouterOutlet, RouterLink } from "@angular/router";
 import { trigger, style, animate, transition } from "@angular/animations";
 import { setTheme } from "ngx-bootstrap/utils";
@@ -21,6 +26,7 @@ import { TranslateService } from "@ngx-translate/core";
       transition(":leave", animate(250, style({ opacity: 0 }))), // * => void
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterOutlet, RouterLink],
 })
 export class AppComponent implements OnInit {
@@ -31,7 +37,9 @@ export class AppComponent implements OnInit {
   configService = inject(ConfigService);
 
   // array to link toasts from toastService
-  toasts: Array<any>;
+  get toasts() {
+    return this.toastService.toasts;
+  }
 
   version = packageConfig.version;
 
@@ -50,7 +58,6 @@ export class AppComponent implements OnInit {
     // Explicitly configure ngx-bootstrap to use Bootstrap 3, otherwise newer version is used
     setTheme("bs5");
 
-    this.toasts = this.toastService.toasts;
     this.alternativeFooterHtml =
       this.configService.config.alternativePageContent.footerHtml;
     this.tracking = this.configService.config.alternativePageContent.tracking;

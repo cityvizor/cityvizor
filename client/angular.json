@@ -18,11 +18,10 @@
             },
             "index": "src/index.html",
             "tsConfig": "tsconfig.json",
-            "polyfills": ["zone.js", "@angular/localize/init"],
+            "polyfills": ["@angular/localize/init"],
             "assets": ["src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/primeicons/primeicons.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles/styles.scss"
             ],

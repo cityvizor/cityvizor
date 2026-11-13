@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  Input,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Router, ActivatedRoute, Params, RouterLink } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { DataService } from "app/services/data.service";
@@ -16,6 +23,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "date-picker",
   templateUrl: "date-picker.component.html",
   styleUrls: ["date-picker.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BsDropdownDirective,
     BsDropdownToggleDirective,
@@ -25,6 +33,8 @@ import { TranslatePipe } from "@ngx-translate/core";
   ],
 })
 export class DatePickerComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private dataService = inject(DataService);
@@ -68,6 +78,8 @@ export class DatePickerComponent implements OnInit {
           ? Number(params["mesic"])
           : undefined;
         await this.updateDates(profile.id);
+
+        this.changeDetectorRef.markForCheck();
       },
     );
   }

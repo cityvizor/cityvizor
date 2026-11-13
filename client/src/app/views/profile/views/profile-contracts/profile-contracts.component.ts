@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 import { ToastService } from "app/services/toast.service";
 import { DataService } from "app/services/data.service";
@@ -14,9 +21,12 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
   selector: "profile-contracts",
   templateUrl: "profile-contracts.component.html",
   styleUrls: ["profile-contracts.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DatePipe, MoneyPipe],
 })
 export class ProfileContractsComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private profileService = inject(ProfileService);
   private dataService = inject(DataService);
 
@@ -31,6 +41,8 @@ export class ProfileContractsComponent implements OnInit {
     this.profileService.profile.subscribe(profile => {
       this.profile = profile;
       this.loadData(profile.id);
+
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -40,6 +52,8 @@ export class ProfileContractsComponent implements OnInit {
       sort: "-date",
     });
     this.loading = false;
+
+    this.changeDetectorRef.markForCheck();
   }
 
   parseAmount(string: string): [number | null, string | null] {

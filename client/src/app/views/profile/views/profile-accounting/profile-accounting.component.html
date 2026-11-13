@@ -15,7 +15,7 @@
       [budgets]="(budgets | async) || []"
       [type]="type | async"
       [ngModel]="budget"
-      (ngModelChange)="selectBudget($event?.year)"
+      (ngModelChange)="selectBudget($safeNavigationMigration($event?.year))"
     />
 
     <label class="accounting-overview-controls__view">
@@ -125,7 +125,7 @@
             <div class="content">
               <chart-bigbang
                 [data]="chartBigbangData"
-                [selected]="group?.id"
+                [selected]="$safeNavigationMigration(group?.id)"
                 [hovered]="hoveredGroup"
                 (select)="selectGroup($event)"
                 (hover)="setHoveredGroup($event)"
@@ -142,7 +142,7 @@
       [ngModel]="group"
       [hovered]="hoveredGroup"
       (hover)="hoveredGroup = $event.id"
-      (ngModelChange)="selectGroup($event?.id)"
+      (ngModelChange)="selectGroup($safeNavigationMigration($event?.id))"
     />
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 import { CollapseDirective } from "ngx-bootstrap/collapse";
 
@@ -6,6 +6,7 @@ import { CollapseDirective } from "ngx-bootstrap/collapse";
   selector: "header-menu",
   templateUrl: "header-menu.component.html",
   styleUrls: ["header-menu.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CollapseDirective],
 })
 export class HeaderMenuComponent {

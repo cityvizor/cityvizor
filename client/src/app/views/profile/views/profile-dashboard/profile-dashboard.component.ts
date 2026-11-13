@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import {
   Router,
   ActivatedRoute,
@@ -34,6 +40,7 @@ import {
   selector: "profile-dashboard",
   templateUrl: "profile-dashboard.component.html",
   styleUrls: ["profile-dashboard.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ChartHistoryComponent,
     NgClass,
@@ -48,6 +55,8 @@ import {
   ],
 })
 export class ProfileDashboardComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private profileService = inject(ProfileService);
   private dataService = inject(DataService);
   private featureFlags = inject(FeatureFlagsService);
@@ -86,6 +95,8 @@ export class ProfileDashboardComponent implements OnInit {
       this.loadContracts(profile.id);
       this.loadDashboard(profile.id);
       this.loadBudgets(profile.id, profile.sumMode);
+
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -100,6 +111,7 @@ export class ProfileDashboardComponent implements OnInit {
       });
     } finally {
       this.paymentsLoading = false;
+      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -108,6 +120,8 @@ export class ProfileDashboardComponent implements OnInit {
       limit: 5,
       sort: "-date",
     });
+
+    this.changeDetectorRef.markForCheck();
   }
 
   async loadDashboard(profileId: number) {
@@ -123,6 +137,7 @@ export class ProfileDashboardComponent implements OnInit {
       }, new Dashboard());
     } finally {
       this.dashboardLoading = false;
+      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -149,6 +164,7 @@ export class ProfileDashboardComponent implements OnInit {
       this.updateDisplayedBudgets();
     } finally {
       this.budgetsLoading = false;
+      this.changeDetectorRef.markForCheck();
     }
   }
 

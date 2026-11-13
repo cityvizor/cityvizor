@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, inject } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { AdminService } from "app/services/admin.service";
 import { ToastService } from "app/services/toast.service";
 import { FormsModule } from "@angular/forms";
@@ -8,6 +15,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "delete-year-modal",
   templateUrl: "./delete-year-modal.component.html",
   styleUrls: ["./delete-year-modal.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, TranslatePipe],
 })
 export class DeleteYearModalComponent {
