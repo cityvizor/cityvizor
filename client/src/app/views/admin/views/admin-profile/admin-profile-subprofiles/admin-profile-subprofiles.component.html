@@ -1,120 +1,103 @@
 <div>
-  <p-table [value]="subprofiles" [rowHover]="true" sortField="name">
-    <ng-template pTemplate="header">
-      <!-- Column labels + sorting -->
+  <table class="table table-hover" aria-label="Podprofily">
+    <thead>
       <tr>
-        <th pSortableColumn="name" style="min-width: 30em">
-          Název <p-sortIcon field="name" />
-        </th>
-        <th pSortableColumn="type" style="width: 16em">
-          Typ <p-sortIcon field="type" />
-        </th>
-        <th style="width: 10em"></th>
-        <th style="width: 10em"></th>
+        <th
+          appTableColumn
+          [column]="table.getColumn('name')"
+          label="Název"
+          style="min-width: 30em"
+        ></th>
+        <th
+          appTableColumn
+          [column]="table.getColumn('type')"
+          label="Typ"
+          style="width: 16em"
+        ></th>
+        <th></th>
+        <th></th>
       </tr>
-
-      <!-- Column filters -->
       <tr>
-        <th>
-          <!-- Name -->
-          <p-columnFilter type="text" field="name" matchMode="contains" />
-        </th>
-        <th>
-          <!-- Type -->
-          <p-columnFilter
-            field="type"
-            matchMode="equals"
-            display="row"
-            [showMenu]="false"
-          >
-            <ng-template
-              pTemplate="filter"
-              let-value
-              let-filter="filterCallback"
-            >
-              <p-select
-                [ngModel]="value"
-                [options]="profileTypes"
-                (onChange)="filter($event.value)"
-                placeholder="Všechny"
-              >
-                <ng-template let-option pTemplate="item">
-                  <div>{{ option.label }}</div>
-                </ng-template>
-              </p-select>
-            </ng-template>
-          </p-columnFilter>
-        </th>
-        <th>
-          <!-- URL -->
-        </th>
-        <th>
-          <!-- Akce -->
-        </th>
+        <th
+          appTableColumn
+          [filterOnly]="true"
+          [column]="table.getColumn('name')"
+          label="Název"
+        ></th>
+        <th
+          appTableColumn
+          [filterOnly]="true"
+          [column]="table.getColumn('type')"
+          label="Typ"
+          [options]="profileTypes"
+        ></th>
+        <th></th>
+        <th></th>
       </tr>
-    </ng-template>
-
-    <!-- Data rows -->
-    <ng-template pTemplate="body" let-profile>
-      <tr>
-        <td [routerLink]="'../../' + profile.id">
-          <a class="mr-1" style="font-weight: 500">
-            {{ profile.name }}
-          </a>
-          @if (profile.status === "hidden") {
-            <span class="label label-warning">skrytý</span>
-          }
-          @if (profile.status === "pending") {
-            <span class="label label-default">připravovaný</span>
-          }
-          @if (
-            (profile.status === "visible" || profile.status === "pending") &&
-            profile.parent == null &&
-            profile.sectionId == null
-          ) {
-            <span class="label label-danger">nezobrazený</span>
-          }
-        </td>
-        <td [routerLink]="'../../' + profile.id">
-          @switch (profile.type) {
-            @case ("municipality") {
-              <span>Municipalita</span>
+    </thead>
+    <tbody>
+      @for (row of table.getRowModel().rows; track row.id) {
+        @let profile = row.original;
+        <tr>
+          <td [routerLink]="'../../' + profile.id">
+            <a class="mr-1" style="font-weight: 500">
+              {{ profile.name }}
+            </a>
+            @if (profile.status === "hidden") {
+              <span class="label label-warning">skrytý</span>
             }
-            @case ("pbo") {
-              <span>Příspěvkovka</span>
+            @if (profile.status === "pending") {
+              <span class="label label-default">připravovaný</span>
             }
-            @case ("external") {
-              <span>Externí profil</span>
+            @if (
+              (profile.status === "visible" || profile.status === "pending") &&
+              profile.parent == null &&
+              profile.sectionId == null
+            ) {
+              <span class="label label-danger">nezobrazený</span>
             }
-            @case ("empty") {
-              <span>Bez rozpočtu</span>
+          </td>
+          <td [routerLink]="'../../' + profile.id">
+            @switch (profile.type) {
+              @case ("municipality") {
+                <span>Municipalita</span>
+              }
+              @case ("pbo") {
+                <span>Příspěvkovka</span>
+              }
+              @case ("external") {
+                <span>Externí profil</span>
+              }
+              @case ("empty") {
+                <span>Bez rozpočtu</span>
+              }
             }
-          }
-        </td>
-        <td [routerLink]="'/' + profile.url" class="btn btn-secondary">
-          <a>Navštívit profil</a>
-        </td>
-        <td (click)="$event.stopImmediatePropagation()">
-          <div class="btn-group pull-right text-nowrap" dropdown>
-            <a dropdownToggle>Akce <span class="caret"></span></a>
-            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
-              <li>
-                <a
-                  class="dropdown-item"
-                  (click)="
-                    currentProfile = profile; openModal(deleteProfileModal)
-                  "
-                  ><span class="text-danger">{{
-                    "common.delete" | translate
-                  }}</span></a
-                >
-              </li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+          </td>
+          <td [routerLink]="'/' + profile.url" class="btn btn-secondary">
+            <a>Navštívit profil</a>
+          </td>
+          <td (click)="$event.stopImmediatePropagation()">
+            <div class="btn-group pull-right text-nowrap" dropdown>
+              <a dropdownToggle>Akce <span class="caret"></span></a>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    (click)="
+                      currentProfile = profile; openModal(deleteProfileModal)
+                    "
+                    ><span class="text-danger">{{
+                      "common.delete" | translate
+                    }}</span></a
+                  >
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
 </div>
 
 <ng-template #createProfileModal>

@@ -1,10 +1,15 @@
-import { Component, Input /*Output, EventEmitter*/ } from "@angular/core";
+import {
+  Component,
+  Input /*Output, EventEmitter*/,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { BudgetEvent } from "app/schema";
 
 @Component({
   selector: "chart-event-overview",
   templateUrl: "chart-event-overview.component.html",
   styleUrls: ["chart-event-overview.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class ChartEventOverviewComponent {

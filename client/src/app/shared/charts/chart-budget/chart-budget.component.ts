@@ -1,8 +1,15 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 @Component({
   selector: "chart-budget",
   templateUrl: "chart-budget.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class ChartBudgetComponent {

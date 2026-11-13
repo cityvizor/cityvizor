@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { TitleService } from "app/services/title.service";
 import { AuthService } from "../../services/auth.service";
 import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
@@ -8,6 +14,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
   selector: "admin",
   templateUrl: "./admin.component.html",
   styleUrls: ["./admin.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [HeaderMenuComponent, RouterLink, RouterLinkActive, RouterOutlet],
 })
 export class AdminComponent implements OnInit, OnDestroy {

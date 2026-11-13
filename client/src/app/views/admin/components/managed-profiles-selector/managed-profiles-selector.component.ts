@@ -4,6 +4,7 @@ import {
   forwardRef,
   ChangeDetectorRef,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
@@ -27,6 +28,7 @@ interface ProfileSelectionModel {
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class ManagedProfilesSelectorComponent
@@ -103,6 +105,8 @@ export class ManagedProfilesSelectorComponent
   async loadProfiles() {
     this.profiles = await this.adminService.getProfiles();
     this.updateSelectionModels();
+
+    this.cdRef.markForCheck();
   }
 
   userManagesProfile(profileId: number): boolean {

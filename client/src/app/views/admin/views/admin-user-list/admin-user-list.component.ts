@@ -1,11 +1,21 @@
-import { Component, OnInit, TemplateRef, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  inject,
+  ChangeDetectionStrategy,
+  signal,
+} from "@angular/core";
 import { AdminService } from "app/services/admin.service";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { User } from "app/schema";
-import { TableModule } from "primeng/table";
-import { PrimeTemplate } from "primeng/api";
-import { SelectModule } from "primeng/select";
-import { FormsModule } from "@angular/forms";
+import { filterFn_equalsString, injectTable } from "@tanstack/angular-table";
+import {
+  adminTableFeatures,
+  filterText,
+  sortText,
+} from "app/shared/admin-table";
+import { TableColumnComponent } from "app/shared/components/table-column.component";
 import { RouterLink } from "@angular/router";
 import {
   BsDropdownDirective,
@@ -21,11 +31,9 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "admin-user-list",
   templateUrl: "./admin-user-list.component.html",
   styleUrls: ["./admin-user-list.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
-    TableModule,
-    PrimeTemplate,
-    SelectModule,
-    FormsModule,
+    TableColumnComponent,
     RouterLink,
     BsDropdownDirective,
     BsDropdownToggleDirective,
@@ -40,7 +48,22 @@ export class AdminUserListComponent implements OnInit {
   private adminService = inject(AdminService);
   private modalService = inject(BsModalService);
 
-  users: User[];
+  readonly users = signal<User[]>([]);
+  readonly table = injectTable(() => ({
+    features: adminTableFeatures,
+    data: this.users(),
+    columns: [
+      { accessorKey: "name" },
+      { accessorKey: "email" },
+      { accessorKey: "login" },
+      { accessorKey: "role", filterFn: filterFn_equalsString },
+      { accessorKey: "lastLogin" },
+    ],
+    defaultColumn: { filterFn: filterText, sortFn: sortText },
+    initialState: { sorting: [{ id: "name", desc: false }] },
+    enableSortingRemoval: false,
+    enableMultiSort: false,
+  }));
 
   currentUser: User;
 
@@ -59,15 +82,17 @@ export class AdminUserListComponent implements OnInit {
   }
 
   async loadUsers() {
-    this.users = [];
+    this.users.set([]);
     this.loading = true;
     const userData = await this.adminService.getUsers();
-    this.users = userData.map(user => {
-      if (user.role == null || user.role === "") {
-        user.role = "-";
-      }
-      return user;
-    });
+    this.users.set(
+      userData.map(user => {
+        if (user.role == null || user.role === "") {
+          user.role = "-";
+        }
+        return user;
+      }),
+    );
     this.loading = false;
   }
 

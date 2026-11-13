@@ -1,9 +1,10 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
   selector: "help-modal",
   templateUrl: "help-modal.component.html",
   styleUrls: ["help-modal.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class HelpModalComponent {

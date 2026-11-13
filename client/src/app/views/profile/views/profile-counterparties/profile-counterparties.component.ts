@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Profile } from "app/schema";
 import { DataService } from "app/services/data.service";
@@ -16,9 +23,12 @@ import { AresUrlPipe } from "../../../../shared/pipes/utils.pipe";
   selector: "profile-counterparties",
   templateUrl: "profile-counterparties.component.html",
   styleUrls: ["profile-counterparties.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DatePickerComponent, MoneyPipe, AresUrlPipe],
 })
 export class ProfileCounterpartiesComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private profileService = inject(ProfileService);
   private dataService = inject(DataService);
   private modalService = inject(BsModalService);
@@ -44,6 +54,8 @@ export class ProfileCounterpartiesComponent implements OnInit {
       this.year = Number(params["rok"]);
       this.month = params["mesic"] ? Number(params["mesic"]) : undefined;
       this.loadData(profile.id, this.year, this.month);
+
+      this.changeDetectorRef.markForCheck();
     });
   }
   async loadData(profileId: number, year: number, month?: number) {
@@ -65,6 +77,8 @@ export class ProfileCounterpartiesComponent implements OnInit {
     this.loading = true;
     this.counterparties = await this.dataService.getCounterpartiesTop(params);
     this.loading = false;
+
+    this.changeDetectorRef.markForCheck();
   }
 
   selectCounterparty(counterpartyId: number | null): void {

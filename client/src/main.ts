@@ -7,6 +7,7 @@ import {
   importProvidersFrom,
   inject,
   provideAppInitializer,
+  provideZonelessChangeDetection,
 } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
@@ -16,6 +17,7 @@ import { httpInterceptorProviders } from "./app/http-interceptors";
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from "@angular/common/http";
 
 /* App Config */
@@ -23,12 +25,9 @@ import { environment } from "environments/environment";
 import { ConfigService, configFactory } from "./config";
 
 /* Third Party */
-import { ModalModule } from "ngx-bootstrap/modal";
 import { JwtModule } from "@auth0/angular-jwt";
 import { TranslateModule } from "@ngx-translate/core";
 import { provideTranslateHttpLoader } from "@ngx-translate/http-loader";
-import { providePrimeNG } from "primeng/config";
-import Lara from "@primeng/themes/lara";
 import { provideRouter, withInMemoryScrolling } from "@angular/router";
 import { AppRoutes } from "app/app.routes";
 import { FeatureFlagsService } from "app/services/feature-flags.service";
@@ -55,9 +54,9 @@ console.log(`Running CityVizor built for ${environment.name} environment.`);
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideZonelessChangeDetection(),
     importProvidersFrom(
       BrowserModule,
-      ModalModule.forRoot(),
       JwtModule.forRoot(jwtOptions),
       TranslateModule.forRoot({
         fallbackLang: "cs",
@@ -73,12 +72,7 @@ bootstrapApplication(AppComponent, {
     }),
     provideAppInitializer(() => inject(FeatureFlagsService).load()),
     httpInterceptorProviders,
-    provideHttpClient(withInterceptorsFromDi()),
-    providePrimeNG({
-      theme: {
-        preset: Lara,
-      },
-    }),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
     provideAnimations(),
     provideRouter(
       AppRoutes,

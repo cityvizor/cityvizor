@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   Output,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 
 import { BudgetGroup } from "app/schema";
@@ -16,6 +17,7 @@ type AccountingGroupMapSize = "small" | "medium" | "large";
   selector: "accounting-group-cards",
   templateUrl: "./accounting-group-cards.component.html",
   styleUrls: ["./accounting-group-cards.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MoneyPipe],
 })
 export class AccountingGroupCardsComponent implements OnChanges {

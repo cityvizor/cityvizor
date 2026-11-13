@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Observable, combineLatest } from "rxjs";
 import { DataService } from "app/services/data.service";
@@ -15,6 +21,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "profile-invoices",
   templateUrl: "profile-invoices.component.html",
   styleUrls: ["profile-invoices.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     DatePickerComponent,
     DatePipe,
@@ -25,6 +32,8 @@ import { TranslatePipe } from "@ngx-translate/core";
   ],
 })
 export class ProfileInvoicesComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private dataService = inject(DataService);
   private profileService = inject(ProfileService);
   private route = inject(ActivatedRoute);
@@ -49,6 +58,8 @@ export class ProfileInvoicesComponent implements OnInit {
       const year = Number(params["rok"]);
       const month = Number(params["mesic"]);
       if (year) this.loadData(profile.id, year, month);
+
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -73,5 +84,7 @@ export class ProfileInvoicesComponent implements OnInit {
       params,
     );
     this.loading = false;
+
+    this.changeDetectorRef.markForCheck();
   }
 }

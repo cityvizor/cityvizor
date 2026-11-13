@@ -1,7 +1,14 @@
 import { Router } from "@angular/router";
 import { ToastService } from "app/services/toast.service";
 import { AuthService } from "app/services/auth.service";
-import { Component, Output, EventEmitter, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  Output,
+  EventEmitter,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { HeaderMenuComponent } from "../../shared/components/header-menu/header-menu.component";
 
@@ -9,9 +16,12 @@ import { HeaderMenuComponent } from "../../shared/components/header-menu/header-
   selector: "login",
   templateUrl: "login.component.html",
   styleUrls: ["login.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [HeaderMenuComponent, FormsModule],
 })
 export class LoginComponent {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   authService = inject(AuthService);
   private toastService = inject(ToastService);
   private router = inject(Router);
@@ -62,6 +72,7 @@ export class LoginComponent {
       .catch(err => {
         if (err.status === 401) {
           this.wrongPassword = true;
+          this.changeDetectorRef.markForCheck();
         } else {
           this.toastService.toast(
             "Neznámá chyba při přihlášení, prosím kontaktujte správce.",
