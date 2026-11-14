@@ -1,41 +1,49 @@
 # Landing page
 
-## Project setup
+## Instalace
 
-```
-yarn install
-```
+Použij Node.js 26, stejně jako při sestavení a vývoji v Dockeru. Závislosti
+se instalují z verzovaného npm lockfile:
 
-### Compiles and hot-reloads for development
-
-```
-yarn serve
+```sh
+npm ci
 ```
 
-To connect to production server
+## Vývoj
 
-```shell script
-VUE_APP_API_BASE_URL=https://cityvizor/api/v2/service/citysearch VUE_APP_CONTENT_API_BASE_URL=https://cityvizor yarn serve
+```sh
+npm run serve
 ```
 
-### Compiles and minifies for production
+Aplikace běží pod `/landing` a používá relativní API základ `/api`.
+Vývojová proxy v `vue.config.js` míří na `http://server.cityvizor:3000`
+podle konfigurace Docker Compose.
 
-```
-yarn build
-```
+## Produkční sestavení
 
-### Lints and fixes files
-
-```
-yarn lint
+```sh
+npm run build
 ```
 
-### Customize configuration
+## Lint
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### Prod build
-
-```shell script
-VUE_APP_API_BASE_URL=https://cityvizor-api.ceskodigital.net/citysearch VUE_APP_CONTENT_API_BASE_URL=https://cityvizor-api.ceskodigital.net yarn build
+```sh
+npm run lint
 ```
+
+Příkaz standardně také opravuje soubory. Pro kontrolu bez úprav použij
+`npm run lint -- --no-fix`.
+
+## Konfigurace
+
+Viz [dokumentace Vue CLI](https://cli.vuejs.org/config/).
+
+## Docker
+
+```sh
+docker build --target prod -t cityvizor-landing-page .
+```
+
+Produkční obraz obsluhuje statické soubory pomocí nginx. Obsah stránek se
+načítá za běhu z `/landing/cfg/content.json`, nezávisle na Node.js použitém
+pro sestavení. `VUE_PUBLIC_PATH` nastavuje základní cestu při sestavení.
