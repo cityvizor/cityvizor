@@ -35,10 +35,8 @@
     "raw-loader": "^4.0.2",
     "sass": "^1.71.0",
     "sass-loader": "^14.1.1",
+    "typescript": "5.1.6",
     "vue-template-compiler": "^2.6.10"
-  },
-  "resolutions": {
-    "cli-highlight/**/highlight.js": ">=10.4.1"
   },
   "browserslist": [
     "> 1%",
