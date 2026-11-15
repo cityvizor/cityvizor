@@ -1,16 +1,16 @@
-FROM node:20 AS install
+FROM node:26-trixie AS install
 
 WORKDIR /user/src/app
 
-COPY package.json .
-RUN yarn install --all
+COPY package.json package-lock.json ./
+RUN npm ci
 COPY . .
 
 FROM install AS dev
-CMD yarn serve
+CMD ["npm", "run", "serve"]
 
 FROM install AS build
-RUN yarn build
+RUN npm run build
 
 FROM nginx:1.17.8-alpine AS prod
 WORKDIR /usr/share/nginx/html

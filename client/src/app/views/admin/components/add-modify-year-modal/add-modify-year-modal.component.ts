@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
@@ -14,6 +15,7 @@ import { BudgetYear } from "../../../../schema";
   selector: "add-modify-year-modal",
   templateUrl: "./add-modify-year-modal.component.html",
   styleUrls: ["./add-modify-year-modal.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class AddModifyYearModalComponent implements OnInit {

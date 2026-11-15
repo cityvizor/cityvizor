@@ -1,4 +1,12 @@
-import { Component, Input, EventEmitter, Output, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  EventEmitter,
+  Output,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { ProfileType } from "app/schema";
 import { ImportService } from "app/services/import.service";
@@ -10,9 +18,12 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "data-upload-modal",
   templateUrl: "./data-upload-modal.component.html",
   styleUrls: ["./data-upload-modal.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, TranslatePipe],
 })
 export class DataUploadModalComponent {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private importService = inject(ImportService);
   private toastService = inject(ToastService);
 
@@ -216,6 +227,7 @@ export class DataUploadModalComponent {
       );
     } finally {
       this.uploading = false;
+      this.changeDetectorRef.markForCheck();
     }
   }
 }

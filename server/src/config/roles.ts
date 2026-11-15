@@ -67,13 +67,13 @@ export const aclRoles = {
   "profile-admin": {
     can: {
       "profiles:list": true,
-      "profiles:read": true,
+      "profiles:read": req => isManagedProfile(req),
       "profiles:write": req => isManagedProfile(req),
-      "profile-years:list": true,
-      "profile-years:read": true,
+      "profile-years:list": req => isManagedProfile(req),
+      "profile-years:read": req => isManagedProfile(req),
       "profile-years:write": req => isManagedProfile(req),
-      "profile-imports:list": true,
-      "profile-accounting:list": true,
+      "profile-imports:list": req => isManagedProfile(req),
+      "profile-accounting:list": req => isManagedProfile(req),
       "profile-accounting:write": req => isManagedProfile(req),
       "options:read": true,
       "options:write": false,

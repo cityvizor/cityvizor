@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Input,
   Output,
@@ -6,6 +7,7 @@ import {
   OnInit,
   SimpleChanges,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import {
   trigger,
@@ -38,9 +40,12 @@ import { MoneyPipe } from "../../pipes/money.pipe";
       ),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DatePipe, MoneyPipe],
 })
 export class CounterpartyDetailComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private dataService = inject(DataService);
   private route = inject(ActivatedRoute);
 
@@ -77,5 +82,7 @@ export class CounterpartyDetailComponent implements OnInit {
     this.payments.sort((first, second) =>
       Date.parse(first.date) < Date.parse(second.date) ? -1 : 1,
     );
+
+    this.changeDetectorRef.markForCheck();
   }
 }

@@ -26,5 +26,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           workdir: server
-          buildoptions: "--target prod"
+          buildoptions: "--pull --target prod"
           tags: ${{ github.ref_name }}

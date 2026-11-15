@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 import { DataService } from "app/services/data.service";
 
@@ -10,9 +16,12 @@ import { DatePipe } from "@angular/common";
   selector: "profile-noticeboard",
   templateUrl: "profile-noticeboard.component.html",
   styleUrls: ["profile-noticeboard.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DatePipe],
 })
 export class ProfileNoticeboardComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private profileService = inject(ProfileService);
   private dataService = inject(DataService);
 
@@ -31,5 +40,7 @@ export class ProfileNoticeboardComponent implements OnInit {
 
   async loadData(profileId: number) {
     this.noticeBoard = await this.dataService.getProfileNoticeBoard(profileId);
+
+    this.changeDetectorRef.markForCheck();
   }
 }

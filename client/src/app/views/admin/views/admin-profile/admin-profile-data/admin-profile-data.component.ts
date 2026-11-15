@@ -1,4 +1,11 @@
-import { Component, OnInit, TemplateRef, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  TemplateRef,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { ProfileService } from "app/services/profile.service";
 import { map, distinctUntilChanged } from "rxjs/operators";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
@@ -20,6 +27,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "admin-profile-data",
   templateUrl: "./admin-profile-data.component.html",
   styleUrls: ["./admin-profile-data.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BsDropdownDirective,
     BsDropdownToggleDirective,
@@ -33,6 +41,8 @@ import { TranslatePipe } from "@ngx-translate/core";
   ],
 })
 export class AdminProfileDataComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private profileService = inject(ProfileService);
   private adminService = inject(AdminService);
   private modalService = inject(BsModalService);
@@ -77,6 +87,8 @@ export class AdminProfileDataComponent implements OnInit {
     this.loading = false;
 
     this.years.sort((a, b) => a.year - b.year);
+
+    this.changeDetectorRef.markForCheck();
   }
 
   openModal(modal: TemplateRef<any>) {
@@ -110,6 +122,8 @@ export class AdminProfileDataComponent implements OnInit {
       hidden: true,
     });
     year.hidden = true;
+
+    this.changeDetectorRef.markForCheck();
   }
 
   async publishYear(year: BudgetYear) {
@@ -117,6 +131,8 @@ export class AdminProfileDataComponent implements OnInit {
       hidden: false,
     });
     year.hidden = false;
+
+    this.changeDetectorRef.markForCheck();
   }
 
   downloadYear(year: BudgetYear) {

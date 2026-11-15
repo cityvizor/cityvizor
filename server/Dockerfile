@@ -1,4 +1,4 @@
-FROM node:20 AS dev
+FROM node:26-trixie AS dev
 USER root
 WORKDIR /home/node/app
 ENTRYPOINT [ "./entrypoint.sh" ]
@@ -18,5 +18,5 @@ USER node
 # Copy server source code and build it
 COPY --chown=node:node . .
 COPY ./entrypoint.sh /home/node/app/entrypoint.sh
-RUN npm install
+RUN npm ci
 RUN npm run build

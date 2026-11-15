@@ -1,4 +1,4 @@
-import { Injectable, inject } from "@angular/core";
+import { Injectable, inject, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 
@@ -26,13 +26,30 @@ export class AuthService {
   public onLogout = new Subject<void>();
 
   // boolean if user is logged
-  logged: boolean = false;
+  private readonly loggedState = signal(false);
+
+  get logged(): boolean {
+    return this.loggedState();
+  }
+
+  set logged(value: boolean) {
+    this.loggedState.set(value);
+  }
 
   // current token
   token: String | null = null;
 
   // current user (use blank user as default)
-  user: UserToken;
+  private readonly userState = signal<UserToken>({
+    id: 0,
+    login: "",
+    roles: [],
+    managedProfiles: [],
+  });
+
+  get user(): UserToken {
+    return this.userState();
+  }
 
   root = environment.api_root + "/account";
 
@@ -153,7 +170,7 @@ export class AuthService {
   }
 
   setUser(userData: any) {
-    this.user = userData || { role: "guest", managedProfiles: [] };
+    this.userState.set(userData || { role: "guest", managedProfiles: [] });
   }
 
   userHasRole(role: string): boolean {

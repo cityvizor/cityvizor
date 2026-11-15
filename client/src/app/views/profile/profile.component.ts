@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import {
   ActivatedRoute,
   Params,
@@ -21,6 +27,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "profile",
   templateUrl: "profile.component.html",
   styleUrls: ["profile.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     HeaderMenuComponent,
     RouterLink,

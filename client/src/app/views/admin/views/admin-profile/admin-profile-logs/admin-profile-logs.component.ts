@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { ProfileService } from "app/services/profile.service";
 import { AdminService } from "app/services/admin.service";
 import { map } from "rxjs/operators";
@@ -11,9 +17,12 @@ import { DatePipe } from "@angular/common";
   selector: "admin-profile-logs",
   templateUrl: "./admin-profile-logs.component.html",
   styleUrls: ["./admin-profile-logs.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DatePipe],
 })
 export class AdminProfileLogsComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private profileService = inject(ProfileService);
   private adminService = inject(AdminService);
 
@@ -35,5 +44,7 @@ export class AdminProfileLogsComponent implements OnInit {
   async loadImports(profileId) {
     const logs = await this.adminService.getProfileImports(profileId);
     this.logs = logs;
+
+    this.changeDetectorRef.markForCheck();
   }
 }

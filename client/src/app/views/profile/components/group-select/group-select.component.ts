@@ -6,6 +6,7 @@ import {
   EventEmitter,
   forwardRef,
   OnChanges,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { BudgetGroup, Budget } from "app/schema";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
@@ -29,6 +30,7 @@ import { TranslatePipe } from "@ngx-translate/core";
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BsDropdownDirective,
     BsDropdownToggleDirective,

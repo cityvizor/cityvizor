@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, ChangeDetectionStrategy } from "@angular/core";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { CounterpartyDetailComponent } from "../counterparty-detail/counterparty-detail.component";
 
@@ -6,6 +6,7 @@ import { CounterpartyDetailComponent } from "../counterparty-detail/counterparty
   selector: "counterparty-detail-modal",
   templateUrl: "./counterparty-detail-modal.component.html",
   styleUrls: ["./counterparty-detail-modal.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CounterpartyDetailComponent],
 })
 export class CounterpartyDetailModalComponent {

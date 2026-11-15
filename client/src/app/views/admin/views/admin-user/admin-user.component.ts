@@ -1,9 +1,11 @@
 import {
+  ChangeDetectorRef,
   Component,
   OnInit,
   TemplateRef,
   OnDestroy,
   inject,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { map, distinctUntilChanged } from "rxjs/operators";
 import { ActivatedRoute } from "@angular/router";
@@ -19,9 +21,12 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "admin-user",
   templateUrl: "./admin-user.component.html",
   styleUrls: ["./admin-user.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ManagedProfilesSelectorComponent, TranslatePipe],
 })
 export class AdminUserComponent implements OnInit, OnDestroy {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private route = inject(ActivatedRoute);
   private adminService = inject(AdminService);
   private modalService = inject(BsModalService);
@@ -49,6 +54,8 @@ export class AdminUserComponent implements OnInit, OnDestroy {
   async loadUser(userId: number) {
     this.user = await this.adminService.getUser(userId);
     this.managedProfiles = await this.adminService.getUserProfiles(userId);
+
+    this.changeDetectorRef.markForCheck();
   }
 
   async saveUser(form: NgForm) {

@@ -348,10 +348,6 @@ button.list-group-item {
   border-right: 3px solid #2581c4;
 }
 
-body .p-component {
-  font-family: "Roboto", sans-serif;
-}
-
 /* Bootstrap 3 polyfills */
 h1,
 .h1 {
@@ -594,10 +590,6 @@ h6,
 
 .nav-link:hover {
   text-decoration: none !important;
-}
-
-.p-datatable-table-container {
-  overflow: visible !important;
 }
 
 .nav-pills .nav-link.active {

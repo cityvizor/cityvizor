@@ -14,7 +14,8 @@
             <h4>
               <span style="color: #2581c4">
                 <span style="white-space: nowrap">{{
-                  barsIndex[hoverYear]?.budgetAmount | money: 0 : true
+                  $safeNavigationMigration(barsIndex[hoverYear]?.budgetAmount)
+                    | money: 0 : true
                 }}</span>
                 <span class="d-none d-md-inline"> Kč</span>
                 <span class="d-md-none">Kč</span>
@@ -26,7 +27,8 @@
             <h4>
               <span style="color: #e73431">
                 <span style="white-space: nowrap">{{
-                  barsIndex[hoverYear]?.amount | money: 0 : true
+                  $safeNavigationMigration(barsIndex[hoverYear]?.amount)
+                    | money: 0 : true
                 }}</span>
                 <span class="d-none d-md-inline"> Kč</span>
                 <span class="d-md-none">Kč</span>

@@ -12,7 +12,7 @@
             type="radio"
             name="role"
             value="admin"
-            [ngModel]="user?.role"
+            [ngModel]="$safeNavigationMigration(user?.role)"
             id="input_role_admin"
           />&nbsp;<label for="input_role_admin">Administrátor CityVizoru</label>
           <br />
@@ -20,7 +20,7 @@
             type="radio"
             name="role"
             value="profile-admin"
-            [ngModel]="user?.role"
+            [ngModel]="$safeNavigationMigration(user?.role)"
             id="input_role_profile_admin"
             #radioProfileAdmin
           />&nbsp;<label for="input_role_profile_admin"
@@ -39,7 +39,7 @@
           <input
             type="text"
             name="login"
-            [ngModel]="user?.login"
+            [ngModel]="$safeNavigationMigration(user?.login)"
             class="form-control"
           />
         </div>
@@ -48,7 +48,7 @@
           <input
             type="text"
             name="name"
-            [ngModel]="user?.name"
+            [ngModel]="$safeNavigationMigration(user?.name)"
             class="form-control"
           />
         </div>
@@ -57,7 +57,7 @@
           <input
             type="email"
             name="email"
-            [ngModel]="user?.email"
+            [ngModel]="$safeNavigationMigration(user?.email)"
             class="form-control"
           />
         </div>

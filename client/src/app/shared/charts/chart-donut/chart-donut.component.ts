@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import {
   trigger,
   state,
@@ -18,6 +18,7 @@ import {
       ]),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class ChartDonutComponent {
