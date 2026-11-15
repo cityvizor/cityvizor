@@ -1,4 +1,7 @@
-import { Routes } from "@angular/router";
+import { inject } from "@angular/core";
+import { Router, Routes } from "@angular/router";
+import { AuthService } from "app/services/auth.service";
+import { ToastService } from "app/services/toast.service";
 
 export const AdminRoutes: Routes = [
   {
@@ -8,6 +11,21 @@ export const AdminRoutes: Routes = [
     children: [
       {
         path: "profily/:profile",
+        canActivate: [
+          route => {
+            if (
+              inject(AuthService).userManagesProfile(
+                Number(route.params["profile"]),
+              )
+            )
+              return true;
+            inject(ToastService).toast(
+              "K tomuto profilu nemáte přístup.",
+              "error",
+            );
+            return inject(Router).createUrlTree(["/admin/profily"]);
+          },
+        ],
         loadComponent: () =>
           import("./views/admin-profile/admin-profile.component").then(
             m => m.AdminProfileComponent,

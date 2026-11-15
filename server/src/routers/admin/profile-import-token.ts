@@ -45,9 +45,13 @@ router.get(
   }
 );
 
-router.delete("/", async (req: Request<{ profile: string }>, res) => {
-  await db<ProfileRecord>("app.profiles")
-    .where("id", req.params.profile)
-    .increment("tokenCode", 1);
-  res.sendStatus(204);
-});
+router.delete(
+  "/",
+  acl("profile-accounting:write"),
+  async (req: Request<{ profile: string }>, res) => {
+    await db<ProfileRecord>("app.profiles")
+      .where("id", req.params.profile)
+      .increment("tokenCode", 1);
+    res.sendStatus(204);
+  }
+);
