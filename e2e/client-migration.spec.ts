@@ -73,6 +73,38 @@ test("token renewal redraws login and role", async ({ page }) => {
   await expect(usersLink).toHaveCount(0);
 });
 
+test("foreign profile URLs show a warning and return to the profile list", async ({
+  page,
+}) => {
+  await page.addInitScript(
+    (token) => localStorage.setItem("id_token", token),
+    jwt("test", "profile-admin"),
+  );
+  const requests: string[] = [];
+  page.on("request", (request) =>
+    requests.push(new URL(request.url()).pathname),
+  );
+  await page.goto("/admin/profily/5/data");
+  await expect(page).toHaveURL(/\/admin\/profily$/);
+  await expect(
+    page.getByText("K tomuto profilu nemáte přístup."),
+  ).toBeVisible();
+  await page.locator("admin-profile-list a", { hasText: "Beta" }).click();
+  await expect(page).toHaveURL(/\/admin\/profily\/45\/data$/);
+  await expect(page.locator("admin-profile h2")).toHaveText("Beta");
+  await page.evaluate(() => {
+    history.pushState(null, "", "/admin/profily/5/data");
+    dispatchEvent(new PopStateEvent("popstate"));
+  });
+  await expect(page).toHaveURL(/\/admin\/profily$/);
+  await expect(
+    page.getByText("K tomuto profilu nemáte přístup."),
+  ).toBeVisible();
+  expect(
+    requests.some((path) => /^\/api\/admin\/profiles\/5(?:\/|$)/.test(path)),
+  ).toBe(false);
+});
+
 test("event detail survives a failed history request", async ({ page }) => {
   const amounts = {
     expenditureAmount: 100,

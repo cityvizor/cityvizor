@@ -70,7 +70,7 @@ import { Params } from "express-jwt";
   const aclOptions = {
     roles: config.acl.roles,
     defaultRoles: ["guest"],
-    // userRoles: ["user"],
+    userRoles: req => [...(req.user?.roles || [])],
     logConsole: true,
   };
   acl.config(aclOptions);
