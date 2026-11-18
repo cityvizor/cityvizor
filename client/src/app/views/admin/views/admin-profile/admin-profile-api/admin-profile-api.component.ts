@@ -1,4 +1,9 @@
-import { Component, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { AdminService } from "app/services/admin.service";
 import { ProfileService } from "app/services/profile.service";
 import { Profile } from "app/schema";
@@ -10,9 +15,12 @@ import { AsyncPipe } from "@angular/common";
   selector: "admin-profile-api",
   templateUrl: "./admin-profile-api.component.html",
   styleUrls: ["./admin-profile-api.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AsyncPipe],
 })
 export class AdminProfileApiComponent {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private adminService = inject(AdminService);
   private profileService = inject(ProfileService);
   private toastService = inject(ToastService);
@@ -25,6 +33,8 @@ export class AdminProfileApiComponent {
 
   async generateToken(profileId: Profile["id"]) {
     this.token = await this.adminService.generateProfileImportToken(profileId);
+
+    this.changeDetectorRef.markForCheck();
   }
 
   async resetTokens(profileId: Profile["id"]) {

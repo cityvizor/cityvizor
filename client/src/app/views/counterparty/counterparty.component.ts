@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import {
   ActivatedRoute,
   Params,
@@ -16,9 +23,12 @@ import { HeaderMenuComponent } from "../../shared/components/header-menu/header-
   selector: "counterparty",
   templateUrl: "counterparty.component.html",
   styleUrls: ["counterparty.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [HeaderMenuComponent, RouterLink, RouterOutlet],
 })
 export class CounterpartyComponent implements OnInit, OnDestroy {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private dataService = inject(DataService);
   private route = inject(ActivatedRoute);
 
@@ -38,5 +48,7 @@ export class CounterpartyComponent implements OnInit, OnDestroy {
 
   async loadCounterparty(counterpartyId: string) {
     this.counterparty = await this.dataService.getCounterparty(counterpartyId);
+
+    this.changeDetectorRef.markForCheck();
   }
 }

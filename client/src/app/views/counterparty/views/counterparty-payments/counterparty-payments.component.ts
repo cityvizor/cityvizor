@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -10,9 +17,12 @@ import { MoneyPipe } from "../../../../shared/pipes/money.pipe";
   selector: "app-counterparty-payments",
   templateUrl: "./counterparty-payments.component.html",
   styleUrls: ["./counterparty-payments.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DatePipe, MoneyPipe],
 })
 export class CounterpartyPaymentsComponent implements OnInit, OnDestroy {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private dataService = inject(DataService);
   private route = inject(ActivatedRoute);
 
@@ -36,5 +46,7 @@ export class CounterpartyPaymentsComponent implements OnInit, OnDestroy {
   async loadPayments(counterpartyId: string) {
     this.payments =
       await this.dataService.getCounterpartyPayments(counterpartyId);
+
+    this.changeDetectorRef.markForCheck();
   }
 }

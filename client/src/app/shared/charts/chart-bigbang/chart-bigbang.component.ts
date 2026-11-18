@@ -5,6 +5,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 
 export type ChartBigbangData = ChartBigbangDataRow[];
@@ -23,6 +24,7 @@ export interface ChartBigbangOptions {
   selector: "chart-bigbang",
   templateUrl: "chart-bigbang.component.html",
   styleUrls: ["chart-bigbang.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class ChartBigbangComponent implements OnChanges {

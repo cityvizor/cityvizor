@@ -1,4 +1,12 @@
-import { Component, Output, EventEmitter, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  Output,
+  EventEmitter,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { NgForm, FormsModule } from "@angular/forms";
 import { AdminService } from "app/services/admin.service";
 import { ToastService } from "app/services/toast.service";
@@ -10,9 +18,12 @@ import { AsyncPipe } from "@angular/common";
   selector: "create-user-modal",
   templateUrl: "./create-user-modal.component.html",
   styleUrls: ["./create-user-modal.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, AsyncPipe],
 })
 export class CreateUserModalComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private adminService = inject(AdminService);
   private toastService = inject(ToastService);
 
@@ -31,6 +42,8 @@ export class CreateUserModalComponent implements OnInit {
   async checkLogin(login: string) {
     if (login) this.loginExists = await this.adminService.checkLogin(login);
     else this.loginExists = null;
+
+    this.changeDetectorRef.markForCheck();
   }
 
   async createUser(form: NgForm) {

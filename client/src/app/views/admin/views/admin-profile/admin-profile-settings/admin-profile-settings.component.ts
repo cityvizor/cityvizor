@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { ProfileService } from "app/services/profile.service";
 import { Observable } from "rxjs";
 import { Profile, ProfileType } from "app/schema";
@@ -14,10 +20,6 @@ import {
 } from "app/services/feature-flags.service";
 import { PboCategory } from "app/schema/pbo-category";
 import { Section } from "app/schema/section";
-import {
-  ProgressSpinnerModule,
-  ProgressSpinner,
-} from "primeng/progressspinner";
 
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -25,9 +27,12 @@ import { TranslatePipe } from "@ngx-translate/core";
   selector: "admin-profile-settings",
   templateUrl: "./admin-profile-settings.component.html",
   styleUrls: ["./admin-profile-settings.component.scss"],
-  imports: [FormsModule, RouterLink, ProgressSpinner, TranslatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [FormsModule, RouterLink, TranslatePipe],
 })
 export class AdminProfileSettingsComponent implements OnInit {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private profileService = inject(ProfileService);
   private adminService = inject(AdminService);
   private dataService = inject(DataService);
@@ -80,6 +85,8 @@ export class AdminProfileSettingsComponent implements OnInit {
     }
 
     this.updateProfilesValidAsParent();
+
+    this.changeDetectorRef.markForCheck();
   }
 
   async reloadProfile() {

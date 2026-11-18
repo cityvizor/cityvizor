@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 
 /**
  * Service to manage warning toasts
@@ -12,15 +12,23 @@ export class ToastService {
   /**
    * array of toasts
    */
-  toasts: Array<{ text: string; status: string }> = [];
+  private readonly entries = signal<Array<{ text: string; status: string }>>(
+    [],
+  );
+
+  get toasts() {
+    return this.entries();
+  }
 
   /**
    * text:string - text of toast
    * status:string - status type of toast, translates possibly to class
    */
   toast(text: string, status: string): void {
-    this.toasts.push({ text: text, status: status ? status : "notice" });
-
-    setTimeout(() => this.toasts.shift(), 2000);
+    this.entries.update(entries => [
+      ...entries,
+      { text, status: status || "notice" },
+    ]);
+    setTimeout(() => this.entries.update(entries => entries.slice(1)), 2000);
   }
 }

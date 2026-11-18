@@ -62,7 +62,7 @@
     "fs-extra": "^9.1.0",
     "https": "^1.0.0",
     "iconv-lite": "^0.6.3",
-    "jsonwebtoken": "^9.0.1",
+    "jsonwebtoken": "^9.0.3",
     "knex": "^3.1.0",
     "kxx-reader": "1.5.0",
     "kxx-reader-core": "https://github.com/cityvizor/kxx-reader-core/archive/f440a7e420f890257e426028ec8c4b7bc1189a59.tar.gz",
@@ -93,7 +93,7 @@
     "@types/luxon": "^1.27.1",
     "@types/merge-stream": "^1.1.2",
     "@types/multer": "^1.4.5",
-    "@types/node": "^18.11.9",
+    "@types/node": "^26.6.6",
     "@typescript-eslint/eslint-plugin": "^8.61.0",
     "@typescript-eslint/parser": "^8.61.0",
     "eslint": "^8.57.1",
@@ -106,20 +106,19 @@
     "nodemon": "^3.0.1",
     "prettier": "^3.2.5",
     "ts-jest": "^29.4.5",
-    "typescript": "^5.1.6"
+    "typescript": "^5.9.3"
   },
   "resolutions": {
     "debug": "^4.3.4"
   },
   "engines": {
-    "node": ">=12"
+    "node": "^26.13.0"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run fix ; npm run lint"
     }
   },
-  "engineStrict": true,
   "author": "Martin Kopecek <martin.kopecek@smallhill.cz>",
   "license": "GPL-3.0"
 }

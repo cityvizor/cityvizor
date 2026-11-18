@@ -27,7 +27,7 @@
           <label>Typ profilu</label>
           <select
             name="type"
-            [ngModel]="profile?.type"
+            [ngModel]="$safeNavigationMigration(profile?.type)"
             (ngModelChange)="onProfileTypeChange($event)"
             class="form-select"
           >
@@ -42,7 +42,7 @@
             <label>Kategorie příspěvkové organizace</label>
             <select
               name="pboCategoryId"
-              [ngModel]="profile?.pboCategoryId"
+              [ngModel]="$safeNavigationMigration(profile?.pboCategoryId)"
               class="form-select"
             >
               @for (c of pboCategories; track c) {
@@ -61,7 +61,7 @@
           <input
             type="text"
             name="name"
-            [ngModel]="profile?.name"
+            [ngModel]="$safeNavigationMigration(profile?.name)"
             class="form-control"
             required
           />
@@ -71,7 +71,7 @@
           <input
             type="text"
             name="popup_name"
-            [ngModel]="profile?.popupName"
+            [ngModel]="$safeNavigationMigration(profile?.popupName)"
             class="form-control"
           />
         </div>
@@ -84,7 +84,7 @@
             <input
               type="text"
               name="url"
-              [ngModel]="profile?.url"
+              [ngModel]="$safeNavigationMigration(profile?.url)"
               class="form-control"
               required
             />
@@ -95,7 +95,7 @@
           <input
             type="text"
             name="ico"
-            [ngModel]="profile?.ico"
+            [ngModel]="$safeNavigationMigration(profile?.ico)"
             class="form-control"
             #icoInput
           />
@@ -105,7 +105,7 @@
           <input
             type="text"
             name="databox"
-            [ngModel]="profile?.databox"
+            [ngModel]="$safeNavigationMigration(profile?.databox)"
             class="form-control"
             #databoxInput
           />
@@ -118,7 +118,7 @@
               type="number"
               step="0.0000001"
               name="gpsY"
-              [ngModel]="profile?.gpsY"
+              [ngModel]="$safeNavigationMigration(profile?.gpsY)"
               class="form-control"
             />
             <span class="input-group-text">E </span>
@@ -126,7 +126,7 @@
               type="number"
               step="0.0000001"
               name="gpsX"
-              [ngModel]="profile?.gpsX"
+              [ngModel]="$safeNavigationMigration(profile?.gpsX)"
               class="form-control"
             />
           </div>
@@ -136,17 +136,17 @@
           <input
             type="number"
             name="edesky"
-            [ngModel]="profile?.edesky"
+            [ngModel]="$safeNavigationMigration(profile?.edesky)"
             class="form-control"
           />
         </div>
         <div class="mb-2">
           <label>Rodičovský profil</label>
-          @if (profile?.parent !== null) {
+          @if ($safeNavigationMigration(profile?.parent) !== null) {
             <div class="input-group">
               <select
                 name="parent"
-                [ngModel]="profile?.parent"
+                [ngModel]="$safeNavigationMigration(profile?.parent)"
                 class="form-select"
               >
                 <option value="null" [selected]="profile?.parent == null">
@@ -159,7 +159,9 @@
                 }
               </select>
               <span
-                [routerLink]="'../../' + profile?.parent"
+                [routerLink]="
+                  '../../' + $safeNavigationMigration(profile?.parent)
+                "
                 class="input-group-text btn btn-secondary"
                 >Navštívit profil</span
               >
@@ -167,7 +169,7 @@
           } @else {
             <select
               name="parent"
-              [ngModel]="profile?.parent"
+              [ngModel]="$safeNavigationMigration(profile?.parent)"
               class="form-select"
             >
               <option value="null" [selected]="profile?.parent == null">
@@ -183,7 +185,11 @@
         </div>
         <div class="mb-2">
           <label>Viditelnost</label>
-          <select name="status" [ngModel]="profile?.status" class="form-select">
+          <select
+            name="status"
+            [ngModel]="$safeNavigationMigration(profile?.status)"
+            class="form-select"
+          >
             <option value="visible">veřejný</option>
             <option value="hidden">skrytý</option>
             <option value="preview">skrytý pouze na úvodní straně</option>
@@ -194,7 +200,7 @@
           <label>Sekce na hlavní stránce</label>
           <select
             name="sectionId"
-            [ngModel]="profile?.sectionId"
+            [ngModel]="$safeNavigationMigration(profile?.sectionId)"
             class="form-select"
           >
             <option value="null" [selected]="profile?.sectionId == null">
@@ -214,7 +220,7 @@
           <label>Položky zahrnuté do součtů</label>
           <select
             name="sum_mode"
-            [ngModel]="profile?.sumMode"
+            [ngModel]="$safeNavigationMigration(profile?.sumMode)"
             class="form-select"
           >
             <option value="complete">Všechny</option>
@@ -301,6 +307,8 @@
   </div>
 } @else {
   <div layout="row" layout-align="center center" class="zero">
-    <p-progressSpinner />
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Načítání…</span>
+    </div>
   </div>
 }

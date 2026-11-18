@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, inject } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -8,9 +15,12 @@ import { DataService } from "app/services/data.service";
   selector: "counterparty-profiles",
   templateUrl: "counterparty-profiles.component.html",
   styleUrls: ["counterparty-profiles.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class CounterpartyProfilesComponent implements OnInit, OnDestroy {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
   private dataService = inject(DataService);
   private route = inject(ActivatedRoute);
 
@@ -34,5 +44,7 @@ export class CounterpartyProfilesComponent implements OnInit, OnDestroy {
   async loadCounterpartyProfiles(counterpartyId: string) {
     this.budgets =
       await this.dataService.getCounterpartyBudgets(counterpartyId);
+
+    this.changeDetectorRef.markForCheck();
   }
 }

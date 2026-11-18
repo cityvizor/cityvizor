@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  inject,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import {
   ActivatedRoute,
   RouterLinkActive,
@@ -19,6 +24,7 @@ import { AsyncPipe } from "@angular/common";
   selector: "admin-profile",
   templateUrl: "./admin-profile.component.html",
   styleUrls: ["./admin-profile.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe],
 })
 export class AdminProfileComponent implements OnInit {

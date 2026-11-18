@@ -75,6 +75,9 @@ async function normalizeAndValidateProfileData(
 
 router.get("/", acl("profiles:list"), async (req, res) => {
   const profiles = await db<ProfileRecord>("app.profiles").modify(function () {
+    if (!req.user.roles.includes("admin")) {
+      this.whereIn("id", req.user.managedProfiles || []);
+    }
     if (req.query.status) {
       this.where("status", "=", req.query.status);
     }

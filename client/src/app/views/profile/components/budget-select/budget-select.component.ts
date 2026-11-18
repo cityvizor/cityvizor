@@ -5,6 +5,7 @@ import {
   EventEmitter,
   OnChanges,
   forwardRef,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 
 import { Budget } from "app/schema";
@@ -29,6 +30,7 @@ import { TranslatePipe } from "@ngx-translate/core";
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     BsDropdownDirective,
     BsDropdownToggleDirective,
