@@ -11,7 +11,7 @@ RUN npm install -g @angular/cli@22.2.6
 EXPOSE 4200
 CMD ./entrypoint.sh
 
-FROM nginx:1.29.1-alpine AS prod
+FROM nginx:1.30.7-alpine AS prod
 WORKDIR /usr/share/nginx/html
 RUN rm -f /etc/nginx/conf.d/*
 COPY ./nginx /etc/nginx/conf.d/

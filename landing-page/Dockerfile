@@ -12,7 +12,7 @@ CMD ["npm", "run", "serve"]
 FROM install AS build
 RUN npm run build
 
-FROM nginx:1.17.8-alpine AS prod
+FROM nginx:1.30.7-alpine AS prod
 WORKDIR /usr/share/nginx/html
 
 RUN rm -f /etc/nginx/conf.d/*
