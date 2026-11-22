@@ -14,7 +14,7 @@ EXPOSE 49153
 CMD ./entrypoint.sh
 
 
-FROM nginx:1.17.8-alpine AS prod
+FROM nginx:1.30.7-alpine AS prod
 WORKDIR /usr/share/nginx/html
 RUN rm -f /etc/nginx/conf.d/*
 COPY ./nginx /etc/nginx/conf.d/
